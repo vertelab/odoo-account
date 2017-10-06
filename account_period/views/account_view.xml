@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_period_form" model="ir.ui.view">
+            <field name="name">account.period.form</field>
+            <field name="model">account.period</field>
+            <field name="arch" type="xml">
+                <form string="Account Period">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" class="oe_inline"/></h1>
+                        </div>
+                        <group col="4">
+                            <field name="date_start"/>
+                            <field name="date_stop"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_account_period_tree" model="ir.ui.view">
+            <field name="name">account.period.tree</field>
+            <field name="model">account.period</field>
+            <field name="arch" type="xml">
+                <tree string="Account Period" toolbar="1" >
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_account_period_search" model="ir.ui.view">
+            <field name="name">account.period.search</field>
+            <field name="model">account.period</field>
+            <field name="arch" type="xml">
+                <search string="Accounts">
+                    <field name="name" filter_domain="['|', '|', ('name','ilike',self), ('date_start','ilike',self), ('date_stop','ilike',self)]" string="Account"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Name" domain="" context="{'group_by':'name'}"/>
+                        <filter string="Date Start" domain="" context="{'group_by':'date_start'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_account_period_form" model="ir.actions.act_window">
+            <field name="name">Account Period</field>
+            <field name="res_model">account.period</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="account_period.view_account_period_search"/>
+            <field name="view_id" ref="account_period.view_account_period_tree"/>
+        </record>
+
+        <menuitem id="menu_action_account_period_form" action="action_account_period_form" parent="account.menu_finance_entries" sequence="50"/>
+
+    </data>
+</odoo>

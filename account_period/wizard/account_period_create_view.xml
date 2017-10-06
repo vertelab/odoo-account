@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account_period_create_wizard_form" model="ir.ui.view">
+            <field name="name">account.period.create.wizard.form</field>
+            <field name="model">account.period.create.wizard</field>
+            <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="create_period1" string="Create Monthly Periods" type="object" class="oe_highlight"/>
+                    <button name="create_period3" string="Create 3 Months Periods" type="object" class="oe_highlight"/>
+                </header>
+                <group>
+                    <group>
+                        <field name="date_start"/>
+                        <field name="date_stop"/>
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <record id="account_period_create_form" model="ir.actions.act_window">
+            <field name="name">Create Account Period</field>
+            <field name="res_model">account.period.create.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_account_period_create_form" action="account_period_create_form" parent="account.menu_finance_entries" sequence="40"/>
+
+    </data>
+</odoo>
