@@ -20,6 +20,8 @@
 ##############################################################################
 from odoo import api, fields, models, _, exceptions
 from odoo.osv import expression
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from odoo.exceptions import Warning
 
 import logging
@@ -43,7 +45,7 @@ class AccountPeriod(models.Model):
     special = fields.Boolean(string='Opening/Closing Period', help='These periods can overlap.')
     date_start = fields.Date(string='Start of Period', default=default_date_start, required=True)
     date_stop = fields.Date(string='End of Period', default=default_date_stop, required=True)
-    fiscalyear_id = fields.Many2one(string='account.fiscalyear', sring='Fiscal Year', required=True, states={'done':[('readonly',True)]}, select=True)
+    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', required=True, states={'done':[('readonly',True)]}, select=True)
     state = fields.Selection([('draft','Open'), ('done','Closed')], string='Status', readonly=True, copy=False, help='When monthly periods are created. The status is \'Draft\'. At the end of monthly period it is in \'Done\' status.', default='draft')
     company_id = fields.Many2one(comodel_name='res.company', string='Company', default=lambda self: self.env['res.company']._company_default_get('account.account'))
 
@@ -189,8 +191,7 @@ class AccountFiscalyear(models.Model):
 
     @api.multi
     def _check_duration(self):
-        obj_fy = self.browse(self[0])
-        if obj_fy.date_stop < obj_fy.date_start:
+        if self.date_stop < self.date_start:
             return False
         return True
 
@@ -201,6 +202,10 @@ class AccountFiscalyear(models.Model):
     @api.multi
     def create_period3(self):
         return self.create_period(3)
+
+    @api.multi
+    def create_period1(self): #very stupid that I need this!
+        return self.create_period(1)
 
     @api.multi
     def create_period(self, interval=1):
@@ -250,9 +255,8 @@ class AccountFiscalyear(models.Model):
                 return []
         return ids
 
-    @api.multi
+    @api.model
     def name_search(self, name, args=None, operator='ilike', limit=80):
-        self.ensure_one()
         if args is None:
             args = []
         if operator in expression.NEGATIVE_TERM_OPERATORS:
@@ -260,7 +264,7 @@ class AccountFiscalyear(models.Model):
         else:
             domain = ['|', ('code', operator, name), ('name', operator, name)]
         ids = self.search(expression.AND([domain, args]), limit=limit)
-        return self.name_get()
+        return ids.name_get()
 
 
 class AccountMove(models.Model):
