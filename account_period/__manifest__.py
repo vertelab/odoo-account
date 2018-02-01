@@ -34,9 +34,9 @@ Added period for accounting
     'depends' : ['account'],
     'data': [
         'security/ir.model.access.csv',
-        'views/account_view.xml',
         'wizard/account_period_close_view.xml',
         'wizard/account_period_create_view.xml',
+        'views/account_view.xml',
     ],
     'demo': [],
     'qweb': [],
