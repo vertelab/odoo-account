@@ -123,17 +123,15 @@ class AccountPeriod(models.Model):
         self.invalidate_cache()
         return True
 
-    @api.multi
-    def name_search(self, name, args=None, operator='ilike', limit=100):
-        self.ensure_one()
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
         if args is None:
             args = []
         if operator in expression.NEGATIVE_TERM_OPERATORS:
             domain = [('code', operator, name), ('name', operator, name)]
         else:
             domain = ['|', ('code', operator, name), ('name', operator, name)]
-        ids = self.search(expression.AND([domain, args]), limit=limit)
-        return self.name_get()
+        return self.search(expression.AND([domain, args]), limit=limit).name_get()
 
     @api.multi
     def write(self, vals):
