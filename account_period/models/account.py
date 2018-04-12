@@ -269,3 +269,22 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     period_id = fields.Many2one(comodel_name='account.period', string='Period', required=True, states={'posted':[('readonly',True)]})
+
+
+class account_account(models.Model):
+    _inherit = 'account.account'
+
+    @api.multi
+    def get_debit_credit_balance(self, start_period, stop_period):
+        self.ensure_one()
+        lines = self.env['account.move.line'].search([('date' ,'>=', start_period.date_start), ('date' ,'<=', stop_period.date_stop)])
+        return {
+            'debit': sum(lines.mapped('debit')),
+            'credit': sum(lines.mapped('credit')),
+            'balance': sum(lines.mapped('debit')) - sum(lines.mapped('credit')),
+        }
+
+    @api.multi
+    def get_balance(self, start_period, stop_period):
+        self.ensure_one()
+        return self.get_debit_credit_balance(start_period, stop_period).get('balance')
