@@ -275,9 +275,9 @@ class account_account(models.Model):
     _inherit = 'account.account'
 
     @api.multi
-    def get_debit_credit_balance(self, start_period, stop_period):
+    def get_debit_credit_balance(self, period):
         self.ensure_one()
-        lines = self.env['account.move.line'].search([('date' ,'>=', start_period.date_start), ('date' ,'<=', stop_period.date_stop)])
+        lines = self.env['account.move.line'].search([('move_id.period_id' ,'=', period.id), ('account_id', '=', self.id)])
         return {
             'debit': sum(lines.mapped('debit')),
             'credit': sum(lines.mapped('credit')),
@@ -285,6 +285,6 @@ class account_account(models.Model):
         }
 
     @api.multi
-    def get_balance(self, start_period, stop_period):
+    def get_balance(self, period):
         self.ensure_one()
-        return self.get_debit_credit_balance(start_period, stop_period).get('balance')
+        return self.get_debit_credit_balance(period).get('balance')
