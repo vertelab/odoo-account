@@ -34,7 +34,7 @@ class AccountPeriod(models.Model):
 
     @api.model
     def date2period(self, date):
-        return self.env['account.period'].search([('date_start', '<=', date), ('date_stop', '>=', date)])
+        return self.env['account.period'].search([('date_start', '<=', date), ('date_stop', '>=', date), ('special', '=', False)])
 
     @api.model
     def default_date_start(self):
