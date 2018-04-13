@@ -33,6 +33,10 @@ class AccountPeriod(models.Model):
     _order = 'date_start, special desc'
 
     @api.model
+    def date2period(self, date):
+        return self.env['account.period'].search([('date_start', '<=', date), ('date_stop', '>=', date)])
+
+    @api.model
     def default_date_start(self):
         return '%s-01-01' %fields.Date.today()[:4]
 
@@ -268,7 +272,9 @@ class AccountFiscalyear(models.Model):
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    period_id = fields.Many2one(comodel_name='account.period', string='Period', required=True, states={'posted':[('readonly',True)]})
+    def _get_default_period_id(self):
+        return self.env['account.period'].date2period(fields.Date.today())
+    period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id, required=True, states={'posted':[('readonly',True)]})
 
 
 class account_account(models.Model):
@@ -282,11 +288,6 @@ class account_account(models.Model):
         else:
             target_move = [target_move]
         lines = self.env['account.move.line'].search([('move_id.period_id' ,'=', period.id), ('account_id', '=', self.id), ('move_id.state', 'in', target_move)]) # move lines with period_id
-        lines |= self.env['account.move.line'].search([('move_id.date' ,'>=', period.date_start), ('move_id.date' ,'<=', period.date_stop), ('account_id', '=', self.id), ('move_id.state', 'in', target_move)]) # move lines without period_id
-        for m in lines.mapped('move_id'): # check if period_id is correct according to the date
-            if m.period_id:
-                if m.date < m.period_id.date_start or m.date > m.period_id.date_stop:
-                    raise Warning(_('Date of entry "%s" has incorrect period') %m.name)
         return {
             'debit': sum(lines.mapped('debit')),
             'credit': sum(lines.mapped('credit')),
