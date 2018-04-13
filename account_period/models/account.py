@@ -275,9 +275,18 @@ class account_account(models.Model):
     _inherit = 'account.account'
 
     @api.multi
-    def get_debit_credit_balance(self, period):
+    def get_debit_credit_balance(self, period, target_move):
         self.ensure_one()
-        lines = self.env['account.move.line'].search([('move_id.period_id' ,'=', period.id), ('account_id', '=', self.id)])
+        if not target_move or target_move == 'all':
+            target_move = ['draft', 'posted']
+        else:
+            target_move = [target_move]
+        lines = self.env['account.move.line'].search([('move_id.period_id' ,'=', period.id), ('account_id', '=', self.id), ('move_id.state', 'in', target_move)]) # move lines with period_id
+        lines |= self.env['account.move.line'].search([('move_id.date' ,'>=', period.date_start), ('move_id.date' ,'<=', period.date_stop), ('account_id', '=', self.id), ('move_id.state', 'in', target_move)]) # move lines without period_id
+        for m in lines.mapped('move_id'): # check if period_id is correct according to the date
+            if m.period_id:
+                if m.date < m.period_id.date_start or m.date > m.period_id.date_stop:
+                    raise Warning(_('Date of entry "%s" has incorrect period') %m.name)
         return {
             'debit': sum(lines.mapped('debit')),
             'credit': sum(lines.mapped('credit')),
@@ -285,6 +294,6 @@ class account_account(models.Model):
         }
 
     @api.multi
-    def get_balance(self, period):
+    def get_balance(self, period, target_move):
         self.ensure_one()
-        return self.get_debit_credit_balance(period).get('balance')
+        return self.get_debit_credit_balance(period, target_move).get('balance')
