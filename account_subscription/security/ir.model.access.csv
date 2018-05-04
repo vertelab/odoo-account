@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_model,account.model,model_account_model,account.group_account_user,1,1,1,1
+access_account_model_line,account.model.line,model_account_model_line,account.group_account_user,1,1,1,1
+access_account_subscription,account.subscription,model_account_subscription,account.group_account_user,1,1,1,1
+access_account_subscription_line,account.subscription.line,model_account_subscription_line,account.group_account_user,1,1,1,1
+access_account_subscription_manager,account.subscription manager,model_account_subscription,account.group_account_manager,1,0,0,0
+access_account_subscription_line_manager,account.subscription.line manager,model_account_subscription_line,account.group_account_manager,1,0,0,0
