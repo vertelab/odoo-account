@@ -298,3 +298,11 @@ class account_account(models.Model):
     def get_balance(self, period, target_move):
         self.ensure_one()
         return self.get_debit_credit_balance(period, target_move).get('balance')
+
+
+class account_bank_statement(models.Model):
+    _inherit = 'account.bank.statement'
+
+    def _period_id(self):
+        return self.env['account.period'].date2period(self.date or fields.Date.today()).id
+    period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_period_id)
