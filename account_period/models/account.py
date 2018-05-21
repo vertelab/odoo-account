@@ -169,6 +169,15 @@ class AccountPeriod(models.Model):
             return self.search([('date_start', '>=', period_date_start), ('date_stop', '<=', period_date_stop)])
         return self.search([('date_start', '>=', period_date_start), ('date_stop', '<=', period_date_stop), ('special', '=', False)])
 
+    @api.model
+    def get_period_ids(self, period_start, period_stop,speacial=False):
+        if period_stop and period_stop.date_start < period_start.date_start:
+            raise Warning('Stop period must be after start period')
+        if period_stop.date_start == period_start.date_start:
+            return [period_start.id]
+        else:
+            return [r.id for r in self.env['account.period'].search([('date_start', '>=', period_start.date_start), ('date_stop', '<=', period_stop.date_stop), ('special', '=', special)])]
+
 
 class AccountFiscalyear(models.Model):
     _name = 'account.fiscalyear'
@@ -299,6 +308,15 @@ class account_account(models.Model):
         self.ensure_one()
         return self.get_debit_credit_balance(period, target_move).get('balance')
 
+    @api.multi
+    def sum_period(self):
+        self.ensure_one()
+        
+        domain = [('move_id.period_id', 'in', self.env['account.period'].get_period_ids(self._context.get('period_start'), self._context.get('period_stop',self._context.get('period_start')))), ('account_id', '=', self.id)]
+        if self._context.get('target_move') in ['draft', 'posted']:
+            domain.append(('move_id.state', '=', self._context.get('target_move')))
+        
+        return sum([a.balance for a in self.env['account.move.line'].search(domain)])
 
 class account_bank_statement(models.Model):
     _inherit = 'account.bank.statement'
