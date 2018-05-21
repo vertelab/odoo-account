@@ -217,6 +217,23 @@
                 </filter>
             </field>
         </record>
+        
+        
+         <record id="view_account_move_line_filter" model="ir.ui.view">
+            <field name="name">account.move.line.account_period</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="full_reconcile_id"/>
+                </field>
+                <filter context="{'group_by':'date'}" position="after">
+                    <filter string="Move id" context="{'group_by': 'move_id'}"/>
+                    <filter string="Matching id" context="{'group_by': 'full_reconcile_id'}"/>
+                </filter>
+            </field>
+        </record>
+        
 
     </data>
 </odoo>

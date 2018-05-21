@@ -170,7 +170,13 @@ class AccountPeriod(models.Model):
         return self.search([('date_start', '>=', period_date_start), ('date_stop', '<=', period_date_stop), ('special', '=', False)])
 
     @api.model
-    def get_period_ids(self, period_start, period_stop,speacial=False):
+    def get_period_ids(self, period_start, period_stop,special=False):
+        if isinstance(period_start, basestring):
+            period_start = self.env['account.period'].search([('name','=',period_start)],limit=1)
+            period_stop = self.env['account.period'].search([('name','=',period_stop)],limit=1)
+        if isinstance(period_start, int):
+            period_start = self.env['account.period'].browse(period_start)
+            period_stop = self.env['account.period'].browse(period_stop)
         if period_stop and period_stop.date_start < period_start.date_start:
             raise Warning('Stop period must be after start period')
         if period_stop.date_start == period_start.date_start:
