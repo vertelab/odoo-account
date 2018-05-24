@@ -27,6 +27,22 @@ from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
 
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
+
+    def _get_default_period_id(self):
+        return self.env['account.period'].date2period(self.date or fields.Date.today()).id
+
+    period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id)
+
+    @api.multi
+    def action_move_create(self):
+        """ Creates invoice related analytics and financial move lines """
+        res = super(AccountInvoice, self).action_move_create()
+        for inv in self:
+            if inv.period_id and inv.move_id:
+                inv.move_id.period_id = inv.period_id
+        return res
 
 class AccountPeriod(models.Model):
     _name = 'account.period'
@@ -177,9 +193,11 @@ class AccountPeriod(models.Model):
         if isinstance(period_start, int):
             period_start = self.env['account.period'].browse(period_start)
             period_stop = self.env['account.period'].browse(period_stop)
+        if not (period_start and period_stop):
+            return []
         if period_stop and period_stop.date_start < period_start.date_start:
             raise Warning('Stop period must be after start period')
-        if period_stop.date_start == period_start.date_start:
+        if period_stop and period_stop.date_start == period_start.date_start:
             return [period_start.id]
         else:
             return [r.id for r in self.env['account.period'].search([('date_start', '>=', period_start.date_start), ('date_stop', '<=', period_stop.date_stop), ('special', '=', special)])]
@@ -290,7 +308,6 @@ class AccountMove(models.Model):
     def _get_default_period_id(self):
         return self.env['account.period'].date2period(fields.Date.today())
     period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id, required=True, states={'posted':[('readonly',True)]})
-
 
 class account_account(models.Model):
     _inherit = 'account.account'
