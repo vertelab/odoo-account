@@ -19,11 +19,11 @@
 #
 ##############################################################################
 {
-    'name' : 'Account Subuscription',
+    'name' : 'Account Subscription',
     'version' : '1.0',
-    'summary': 'Account Subuscription',
+    'summary': 'Account Subscription',
     'description': """
-Account Subuscription
+Account Subscription
 =====================
     """,
     'category': 'Accounting',

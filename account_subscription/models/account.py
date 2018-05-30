@@ -40,15 +40,14 @@ class account_model(models.Model):
     legend = fields.Text(string='Legend', default=lambda self: _('You can specify year, month and date in the name of the model using the following labels:\n\n%(year)s: To Specify Year \n%(month)s: To Specify Month \n%(date)s: Current Date\n\ne.g. My model on %(date)s'), readonly=True, size=100)
 
     @api.multi
-    def generate(data=None):
+    def generate(self, data=None):
         if data is None:
             data = {}
-        move_ids = []
         entry = {}
         account_move_obj = self.env['account.move']
+        moves = account_move_obj.browse()
         account_move_line_obj = self.env['account.move.line']
         pt_obj = self.env['account.payment.term']
-        period_obj = self.env['account.period']
 
         context = dict(self._context or {})
 
@@ -59,20 +58,18 @@ class account_model(models.Model):
         move_date = context.get('date', fields.Date.today())
         for model in self:
             context.update({'company_id': model.company_id.id})
-            period_ids = period_obj.with_context(context).find(dt=context.get('date', False))
-            period_id = period_ids and period_ids[0] or False
-            context.update({'journal_id': model.journal_id.id,'period_id': period_id})
+            context.update({'journal_id': model.journal_id.id})
             try:
                 entry['name'] = model.name%{'year': move_date[:4], 'month': move_date[5:7], 'date': move_date[:7]}
             except:
                 raise Warning(_('You have a wrong expression "%(...)s" in your model!'))
-            move_id = account_move_obj.create({
+            move = account_move_obj.create({
                 'ref': entry['name'],
-                'period_id': period_id,
                 'journal_id': model.journal_id.id,
-                'date': context.get('date', fields.Date.context_today())
+                'date': context.get('date', fields.Date.context_today(model))
             })
-            move_ids.append(move_id)
+            moves |= move
+            line_vals = []
             for line in model.lines_id:
                 analytic_account_id = False
                 if line.analytic_account_id:
@@ -80,9 +77,8 @@ class account_model(models.Model):
                         raise Warning(_("You have to define an analytic journal on the '%s' journal!") % (model.journal_id.name,))
                     analytic_account_id = line.analytic_account_id.id
                 val = {
-                    'move_id': move_id,
+                    'move_id': move.id,
                     'journal_id': model.journal_id.id,
-                    'period_id': period_id,
                     'analytic_account_id': analytic_account_id
                 }
 
@@ -110,14 +106,16 @@ class account_model(models.Model):
                     'debit': line.debit,
                     'credit': line.credit,
                     'account_id': line.account_id.id,
-                    'move_id': move_id,
                     'partner_id': line.partner_id.id,
-                    'date': context.get('date', fields.Date.context_today()),
+                    'date': context.get('date', fields.Date.context_today(model)),
                     'date_maturity': date_maturity
                 })
-                account_move_line_obj.create(val)
+                line_vals.append((0, 0, val))
+            move.write({
+                'line_ids': line_vals,
+            })
 
-        return move_ids
+        return moves
 
     #~ @api.onchange('journal_id')
     #~ def onchange_journal_id(self):
@@ -225,16 +223,16 @@ class account_subscription_line(models.Model):
     @api.multi
     def move_create(self):
         tocheck = {}
-        all_moves = []
+        all_moves = self.env['account.move'].browse()
         obj_model = self.env['account.model']
         for line in self:
             data = {
                 'date': line.date,
             }
-            move_ids = obj_model.browse(line.subscription_id.model_id.id).generate(data)
+            moves = line.subscription_id.model_id.generate(data)
             tocheck[line.subscription_id.id] = True
-            self.env['account.subscription.line'].browse(line.id).write({'move_id': move_ids[0]})
-            all_moves.extend(move_ids)
+            line.write({'move_id': moves[0].id})
+            all_moves |= moves
         if tocheck:
             self.env['account.subscription'].browse(tocheck.keys()).check()
         return all_moves
