@@ -19,6 +19,8 @@
                     <field name="partner_id"/>
                     <field name="debit"/>
                     <field name="credit"/>
+                    <field name="tax_line_id"/>
+                    <field name="tax_ids" widget="many2many_tags"/>
                     <field name="date_maturity"/>
                 </tree>
             </field>
@@ -37,6 +39,8 @@
                         <field name="debit"/>
                         <field name="credit"/>
                         <field name="quantity"/>
+                        <field name="tax_line_id"/>
+                        <field name="tax_ids" widget="many2many_tags"/>
                         <field name="date_maturity"/>
                     </group>
                 </form>
@@ -170,8 +174,12 @@
                             </group>
                             <group>
                                 <field name="date_start"/>
-                                <field name="period_type"/>
-                                <field name="period_nbr"/>
+                                <label string="Frequency"/>
+                                <div>
+                                    <field name="period_nbr" class="oe_inline"/>
+                                    <label string=" "/>
+                                    <field name="period_type" class="oe_inline"/>
+                                </div>
                                 <field name="period_total"/>
                             </group>
                         </group>
