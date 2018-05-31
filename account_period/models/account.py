@@ -48,23 +48,19 @@ class AccountPeriod(models.Model):
     _name = 'account.period'
     _order = 'date_start, special desc'
 
-    @api.model
-    def date2period(self, date):
-        return self.env['account.period'].search([('date_start', '<=', date), ('date_stop', '>=', date), ('special', '=', False)])
 
     @api.model
     def default_date_start(self):
         return '%s-01-01' %fields.Date.today()[:4]
-
+    date_start = fields.Date(string='Start of Period', default=default_date_start, required=True)
     @api.model
     def default_date_stop(self):
         return '%s-12-31' %fields.Date.today()[:4]
+    date_stop = fields.Date(string='End of Period', default=default_date_stop, required=True)
 
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', size=12)
     special = fields.Boolean(string='Opening/Closing Period', help='These periods can overlap.')
-    date_start = fields.Date(string='Start of Period', default=default_date_start, required=True)
-    date_stop = fields.Date(string='End of Period', default=default_date_stop, required=True)
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', required=True, states={'done':[('readonly',True)]}, select=True)
     state = fields.Selection([('draft','Open'), ('done','Closed')], string='Status', readonly=True, copy=False, help='When monthly periods are created. The status is \'Draft\'. At the end of monthly period it is in \'Done\' status.', default='draft')
     company_id = fields.Many2one(comodel_name='res.company', string='Company', default=lambda self: self.env['res.company']._company_default_get('account.account'))
@@ -112,6 +108,8 @@ class AccountPeriod(models.Model):
         if len(ids)>=step:
             return ids[step-1]
         return False
+
+
 
     @api.returns('self')
     @api.multi
@@ -201,6 +199,31 @@ class AccountPeriod(models.Model):
             return [period_start.id]
         else:
             return [r.id for r in self.env['account.period'].search([('date_start', '>=', period_start.date_start), ('date_stop', '<=', period_stop.date_stop), ('special', '=', special)])]
+
+    @api.model
+    def get_next_periods(self, last_period,length=3,special=False):
+        if isinstance(last_period, basestring):
+            last = self.env['account.period'].search([('name','=',last_period)],limit=1)
+        if isinstance(last_period, int):
+            last = self.env['account.period'].browse(last_period)
+        periods =  self.env['account.period'].search([('date_stop','>',last_period.date_stop)],order='date_stop',limit=length)
+        return (periods[0] if periods else None,periods[length-1] if len(periods)>=length else None)
+
+    @api.model
+    def period2month(self, period,short=True):
+        #TODO quarters and years not starting at 1 / 1
+        mshort = {'01': _('jan'),'02': _('feb'),'03': _('mar'),'04': _('apr'),'05': _('may'),'06': _('jun'),'07': _('jul'),'08': _('aug'),'09': _('sep'),'10': _('oct'),'11': _('nov'),'12': _('dec'),}
+        mlong = {'01': _('january'),'02': _('february'),'03': _('mars'),'04': _('april'),'05': _('may'),'06': _('june'),'07': _('july'),'08': _('august'),'09': _('september'),'10': _('october'),'11': _('november'),'12': _('december'),}
+
+        if isinstance(period, basestring):
+            last = self.env['account.period'].search([('name','=',period)],limit=1)
+        if isinstance(period, int):
+            last = self.env['account.period'].browse(period)
+        return mshort.get(period.name[0:2] if period else None,'') if short else mlong.get(period.name[0:2] if period else None,'')
+
+    @api.model
+    def date2period(self, date):
+        return self.env['account.period'].search([('date_start', '<=', date), ('date_stop', '>=', date), ('special', '=', False)])
 
 
 class AccountFiscalyear(models.Model):
