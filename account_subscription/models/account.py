@@ -40,15 +40,13 @@ class account_model(models.Model):
     legend = fields.Text(string='Legend', default=lambda self: _('You can specify year, month and date in the name of the model using the following labels:\n\n%(year)s: To Specify Year \n%(month)s: To Specify Month \n%(date)s: Current Date\n\ne.g. My model on %(date)s'), readonly=True, size=100)
 
     @api.multi
-    def generate(data=None):
+    def generate(self, data=None):
         if data is None:
             data = {}
-        move_ids = []
-        entry = {}
         account_move_obj = self.env['account.move']
+        moves = account_move_obj.browse()
         account_move_line_obj = self.env['account.move.line']
         pt_obj = self.env['account.payment.term']
-        period_obj = self.env['account.period']
 
         context = dict(self._context or {})
 
@@ -59,20 +57,18 @@ class account_model(models.Model):
         move_date = context.get('date', fields.Date.today())
         for model in self:
             context.update({'company_id': model.company_id.id})
-            period_ids = period_obj.with_context(context).find(dt=context.get('date', False))
-            period_id = period_ids and period_ids[0] or False
-            context.update({'journal_id': model.journal_id.id,'period_id': period_id})
+            context.update({'journal_id': model.journal_id.id})
             try:
-                entry['name'] = model.name%{'year': move_date[:4], 'month': move_date[5:7], 'date': move_date[:7]}
+                ref = data.get('ref', '') % {'year': move_date[:4], 'month': move_date[5:7], 'date': move_date[:7]}
             except:
-                raise Warning(_('You have a wrong expression "%(...)s" in your model!'))
-            move_id = account_move_obj.create({
-                'ref': entry['name'],
-                'period_id': period_id,
+                raise Warning(_('You have a wrong expression "%(...)s" in your reference: ') + data.get('ref', ''))
+            move = account_move_obj.create({
+                'ref': ref,
                 'journal_id': model.journal_id.id,
-                'date': context.get('date', fields.Date.context_today())
+                'date': context.get('date', fields.Date.context_today(model))
             })
-            move_ids.append(move_id)
+            moves |= move
+            line_vals = []
             for line in model.lines_id:
                 analytic_account_id = False
                 if line.analytic_account_id:
@@ -80,9 +76,8 @@ class account_model(models.Model):
                         raise Warning(_("You have to define an analytic journal on the '%s' journal!") % (model.journal_id.name,))
                     analytic_account_id = line.analytic_account_id.id
                 val = {
-                    'move_id': move_id,
+                    'move_id': move.id,
                     'journal_id': model.journal_id.id,
-                    'period_id': period_id,
                     'analytic_account_id': analytic_account_id
                 }
 
@@ -110,14 +105,18 @@ class account_model(models.Model):
                     'debit': line.debit,
                     'credit': line.credit,
                     'account_id': line.account_id.id,
-                    'move_id': move_id,
                     'partner_id': line.partner_id.id,
-                    'date': context.get('date', fields.Date.context_today()),
+                    'tax_line_id': line.tax_line_id and line.tax_line_id.id,
+                    'tax_ids': [(6, 0, [t.id for t in line.tax_ids])],
+                    'date': context.get('date', fields.Date.context_today(model)),
                     'date_maturity': date_maturity
                 })
-                account_move_line_obj.create(val)
+                line_vals.append((0, 0, val))
+            move.write({
+                'line_ids': line_vals,
+            })
 
-        return move_ids
+        return moves
 
     #~ @api.onchange('journal_id')
     #~ def onchange_journal_id(self):
@@ -142,6 +141,8 @@ class account_model_line(models.Model):
     currency_id = fields.Many2one(comodel_name='res.currency', string='Currency')
     partner_id = fields.Many2one(comodel_name='res.partner', string='Partner')
     date_maturity = fields.Selection(selection=[('today','Date of the day'), ('partner','Partner Payment Term')], string='Maturity Date', help='The maturity date of the generated entries for this model. You can choose between the creation date or the creation date of the entries plus the partner payment terms.')
+    tax_line_id = fields.Many2one(comodel_name='account.tax', string='Originator tax')
+    tax_ids = fields.Many2many(comodel_name='account.tax', string='Taxes')
 
     _sql_constraints = [
         ('credit_debit1', 'CHECK (credit*debit=0)',  'Wrong credit or debit value in model, they must be positive!'),
@@ -154,14 +155,18 @@ class account_subscription(models.Model):
     _description = 'Account Subscription'
 
     name = fields.Char(string='Name', required=True)
-    ref = fields.Char(string='Reference')
+    ref = fields.Char(string='Reference', required=True)
     model_id = fields.Many2one(comodel_name='account.model', string='Model', required=True)
     date_start = fields.Date(string='Start Date', default=lambda *a: fields.Date.today(), required=True)
-    period_total = fields.Integer(string='Number of Periods', default=12, required=True)
-    period_nbr = fields.Integer(string='Period', default=1, required=True)
-    period_type = fields.Selection(selection=[('day','days'),('month','month'),('year','year')], string='Period Type', default='month', required=True)
+    period_total = fields.Integer(string='Number of Entries', default=12, required=True, help="The total amount of entries that will be generated.")
+    period_nbr = fields.Integer(string='Period length', default=1, required=True, help="The amount of time between each entry.")
+    period_type = fields.Selection(selection=[('day','days'),('month','month'),('year','year')], string='Period Unit', default='month', required=True, help="The unit of the time between each entry.")
     state = fields.Selection(selection=[('draft','Draft'),('running','Running'),('done','Done')], string='Status', default='draft', required=True, readonly=True, copy=False)
     lines_id = fields.One2many(comodel_name='account.subscription.line', inverse_name='subscription_id', string='Subscription Lines', copy=True)
+
+    @api.onchange('model_id')
+    def onchange_model_id(self):
+        self.ref = self.model_id.name if self.model_id else ''
 
     @api.multi
     def state_draft(self):
@@ -225,16 +230,17 @@ class account_subscription_line(models.Model):
     @api.multi
     def move_create(self):
         tocheck = {}
-        all_moves = []
+        all_moves = self.env['account.move'].browse()
         obj_model = self.env['account.model']
         for line in self:
             data = {
                 'date': line.date,
+                'ref': line.subscription_id.ref,
             }
-            move_ids = obj_model.browse(line.subscription_id.model_id.id).generate(data)
+            moves = line.subscription_id.model_id.generate(data)
             tocheck[line.subscription_id.id] = True
-            self.env['account.subscription.line'].browse(line.id).write({'move_id': move_ids[0]})
-            all_moves.extend(move_ids)
+            line.write({'move_id': moves[0].id})
+            all_moves |= moves
         if tocheck:
             self.env['account.subscription'].browse(tocheck.keys()).check()
         return all_moves

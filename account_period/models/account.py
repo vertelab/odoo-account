@@ -31,9 +31,13 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     def _get_default_period_id(self):
-        return self.env['account.period'].date2period(self.date or fields.Date.today()).id
+        return self.env['account.period'].date2period(self.date_invoice or fields.Date.today()).id
 
     period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id)
+
+    @api.onchange('date_invoice')
+    def onchange_date_set_period(self):
+        self.period_id = self.env['account.period'].date2period(self.date_invoice or fields.Date.today())
 
     @api.multi
     def action_move_create(self):
@@ -46,6 +50,7 @@ class AccountInvoice(models.Model):
 
 class AccountPeriod(models.Model):
     _name = 'account.period'
+    _description = 'Period'
     _order = 'date_start, special desc'
 
 
@@ -329,7 +334,7 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     def _get_default_period_id(self):
-        return self.env['account.period'].date2period(fields.Date.today())
+        return self.env['account.period'].date2period(self.date or fields.Date.today())
     period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id, required=True, states={'posted':[('readonly',True)]})
 
 class account_account(models.Model):
@@ -369,4 +374,33 @@ class account_bank_statement(models.Model):
 
     def _period_id(self):
         return self.env['account.period'].date2period(self.date or fields.Date.today()).id
+
     period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_period_id)
+
+class account_abstract_payment(models.AbstractModel):
+    _inherit = "account.abstract.payment"
+    
+    def _default_period_id(self):
+        return self.env['account.period'].date2period(self.payment_date or fields.Date.today()).id
+
+    payment_period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_default_period_id)
+    
+    @api.onchange('payment_date')
+    def onchange_payment_date_set_period_id(self):
+        self.payment_period_id = self.env['account.period'].date2period(self.payment_date or fields.Date.today())
+
+class account_payment(models.Model):
+    _inherit = "account.payment"
+    
+    def _get_move_vals(self, journal=None):
+        res = super(account_payment, self)._get_move_vals(journal)
+        res['period_id'] = self.payment_period_id and self.payment_period_id.id
+        return res
+
+class account_register_payments(models.TransientModel):
+    _inherit = "account.register.payments"
+    
+    def get_payment_vals(self, journal=None):
+        res = super(account_register_payments, self).get_payment_vals(journal)
+        res['payment_period_id'] = self.payment_period_id and self.payment_period_id.id
+        return res

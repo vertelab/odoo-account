@@ -33,14 +33,19 @@ class account_subscription_generate(models.TransientModel):
     date = fields.Date(string='Generate Entries Before', default=lambda *a: fields.Date.today(), required=True)
 
     @api.multi
-    def action_generate(self, cr, uid, ids, context=None):
+    def action_generate(self):
         act_obj = self.env['ir.actions.act_window']
         sub_line_obj = self.env['account.subscription.line']
-        moves_created=[]
+        moves_created = self.env['account.move'].browse()
         for data in self:
-            line_ids = sub_line_obj.search([('date', '<', data.date), ('move_id', '=', False)])
-            moves = sub_line_obj.move_create(line_ids)
-            moves_created.extend(moves)
+            lines = sub_line_obj.search([('date', '<', self.date), ('move_id', '=', False)])
+            moves_created |= lines.move_create()
+        action = self.env['ir.actions.act_window'].for_xml_id('account', 'action_move_journal_line')
+        action.update({
+            'domain': str([('id', 'in', moves_created._ids)]),
+            'context': {},
+        })
+        return action
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.move',
@@ -48,6 +53,6 @@ class account_subscription_generate(models.TransientModel):
             'view_mode': 'tree',
             'view_id': self.env.ref('account.view_move_tree').id,
             'target': 'current',
-            'domain': str([('id', 'in', moves_created)]),
+            'domain': str([('id', 'in', moves_created._ids)]),
             'context': {},
         }

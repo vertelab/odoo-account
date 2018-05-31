@@ -28,7 +28,7 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem sequence="3" action="action_account_subscription_generate" id="menu_generate_subscription" parent="account.menu_finance_entries" />
+        <menuitem sequence="3" action="action_account_subscription_generate" id="menu_generate_subscription" parent="menu_recurring_entries" />
 
     </data>
 </odoo>

@@ -39,6 +39,7 @@
                 </form>
             </field>
         </record>
+        
         <record id="view_account_fiscalyear_tree" model="ir.ui.view">
             <field name="name">account.fiscalyear.tree</field>
             <field name="model">account.fiscalyear</field>
@@ -51,6 +52,7 @@
                 </tree>
             </field>
         </record>
+        
         <record id="view_account_fiscalyear_search" model="ir.ui.view">
             <field name="name">account.fiscalyear.search</field>
             <field name="model">account.fiscalyear</field>
@@ -66,6 +68,7 @@
                 </search>
             </field>
         </record>
+        
         <record id="action_account_fiscalyear" model="ir.actions.act_window">
             <field name="name">Fiscal Years</field>
             <field name="res_model">account.fiscalyear</field>
@@ -85,6 +88,7 @@
               </p>
             </field>
         </record>
+        
         <menuitem id="next_id_23" name="Periods" parent="account.menu_finance_configuration" sequence="5" />
         <menuitem id="menu_action_account_fiscalyear" action="action_account_fiscalyear" parent="next_id_23"/>
 
@@ -203,6 +207,17 @@
                 </field>
             </field>
         </record>
+        
+        <record id="view_move_tree" model="ir.ui.view">
+            <field name="name">account.move.tree.account_period</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_tree"/>
+            <field name="arch" type="xml">
+                <field name="date" position="before">
+                    <field name="period_id"/>
+                </field>
+            </field>
+        </record>
 
         <record id="view_bank_statement_tree" model="ir.ui.view">
             <field name="name">account.bank.statement.tree.inherited.account_period</field>
@@ -240,7 +255,6 @@
             </field>
         </record>
         
-        
          <record id="view_account_move_line_filter" model="ir.ui.view">
             <field name="name">account.move.line.account_period</field>
             <field name="model">account.move.line</field>
@@ -256,6 +270,27 @@
             </field>
         </record>
         
-
+        <record id="view_account_payment_invoice_form" model="ir.ui.view">
+            <field name="name">account.payment.invoice.form.account_period</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="payment_date" position="after">
+                    <field name="payment_period_id"/>
+                </field>
+            </field>
+        </record>
+        
+        <record id="view_account_payment_from_invoices" model="ir.ui.view">
+            <field name="name">account.register.payments.wizard.account_period</field>
+            <field name="model">account.register.payments</field>
+            <field name="inherit_id" ref="account.view_account_payment_from_invoices"/>
+            <field name="arch" type="xml">
+                <field name="payment_date" position="after">
+                    <field name="payment_period_id"/>
+                </field>
+            </field>
+        </record>
+        
     </data>
 </odoo>
