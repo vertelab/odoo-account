@@ -211,6 +211,8 @@ class AccountPeriod(models.Model):
             last = self.env['account.period'].search([('name','=',last_period)],limit=1)
         if isinstance(last_period, int):
             last = self.env['account.period'].browse(last_period)
+        if not last_period:
+            return (None, None)
         periods =  self.env['account.period'].search([('date_stop','>',last_period.date_stop)],order='date_stop',limit=length)
         return (periods[0] if periods else None,periods[length-1] if len(periods)>=length else None)
 
@@ -221,9 +223,9 @@ class AccountPeriod(models.Model):
         mlong = {'01': _('january'),'02': _('february'),'03': _('mars'),'04': _('april'),'05': _('may'),'06': _('june'),'07': _('july'),'08': _('august'),'09': _('september'),'10': _('october'),'11': _('november'),'12': _('december'),}
 
         if isinstance(period, basestring):
-            last = self.env['account.period'].search([('name','=',period)],limit=1)
+            period = self.env['account.period'].search([('name','=',period)],limit=1)
         if isinstance(period, int):
-            last = self.env['account.period'].browse(period)
+            period = self.env['account.period'].browse(period)
         return mshort.get(period.name[0:2] if period else None,'') if short else mlong.get(period.name[0:2] if period else None,'')
 
     @api.model
@@ -362,11 +364,11 @@ class account_account(models.Model):
     @api.multi
     def sum_period(self):
         self.ensure_one()
-        
+
         domain = [('move_id.period_id', 'in', self.env['account.period'].get_period_ids(self._context.get('period_start'), self._context.get('period_stop',self._context.get('period_start')))), ('account_id', '=', self.id)]
         if self._context.get('target_move') in ['draft', 'posted']:
             domain.append(('move_id.state', '=', self._context.get('target_move')))
-        
+
         return sum([a.balance for a in self.env['account.move.line'].search(domain)])
 
 class account_bank_statement(models.Model):
@@ -379,19 +381,19 @@ class account_bank_statement(models.Model):
 
 class account_abstract_payment(models.AbstractModel):
     _inherit = "account.abstract.payment"
-    
+
     def _default_period_id(self):
         return self.env['account.period'].date2period(self.payment_date or fields.Date.today()).id
 
     payment_period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_default_period_id)
-    
+
     @api.onchange('payment_date')
     def onchange_payment_date_set_period_id(self):
         self.payment_period_id = self.env['account.period'].date2period(self.payment_date or fields.Date.today())
 
 class account_payment(models.Model):
     _inherit = "account.payment"
-    
+
     def _get_move_vals(self, journal=None):
         res = super(account_payment, self)._get_move_vals(journal)
         res['period_id'] = self.payment_period_id and self.payment_period_id.id
@@ -399,7 +401,7 @@ class account_payment(models.Model):
 
 class account_register_payments(models.TransientModel):
     _inherit = "account.register.payments"
-    
+
     def get_payment_vals(self, journal=None):
         res = super(account_register_payments, self).get_payment_vals(journal)
         res['payment_period_id'] = self.payment_period_id and self.payment_period_id.id
