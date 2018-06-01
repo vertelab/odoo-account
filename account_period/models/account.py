@@ -210,15 +210,10 @@ class AccountPeriod(models.Model):
         if isinstance(last_period, basestring):
             last_period = self.env['account.period'].search([('name','=',last_period)],limit=1)
         if isinstance(last_period, int):
-<<<<<<< HEAD
             last_period = self.env['account.period'].browse(last_period)
-=======
-            last = self.env['account.period'].browse(last_period)
         if not last_period:
             return (None, None)
->>>>>>> 59ce9b9abcd9f33b14bf0fd06941e5bbfb615bc2
         periods =  self.env['account.period'].search([('date_stop','>',last_period.date_stop)],order='date_stop',limit=length)
-        _logger.warn('get_netx_period %s | %s %s' % (periods.mapped('name'),last_period.date_stop,length))
         return (periods[0] if periods else None,periods[length-1] if len(periods)>=length else None)
 
     @api.model
@@ -227,11 +222,7 @@ class AccountPeriod(models.Model):
             period = self.env['account.period'].search([('name','=',period)],limit=1)
         if isinstance(period, int):
             period = self.env['account.period'].browse(period)
-<<<<<<< HEAD
         return fields.Date.from_string(period.date_start).strftime("%b" if short else "%B")
-=======
-        return mshort.get(period.name[0:2] if period else None,'') if short else mlong.get(period.name[0:2] if period else None,'')
->>>>>>> 59ce9b9abcd9f33b14bf0fd06941e5bbfb615bc2
 
     @api.model
     def date2period(self, date):
