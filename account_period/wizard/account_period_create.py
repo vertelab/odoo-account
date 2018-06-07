@@ -32,6 +32,10 @@ class AccountPeriodCreate(models.Model):
     _name = 'account.period.create.wizard'
 
     @api.model
+    def default_fy_name(self):
+        return fields.Date.today()[:4]
+
+    @api.model
     def default_date_start(self):
         return '%s-01-01' %fields.Date.today()[:4]
 
@@ -39,6 +43,8 @@ class AccountPeriodCreate(models.Model):
     def default_date_stop(self):
         return '%s-12-31' %fields.Date.today()[:4]
 
+    fy_name = fields.Char(string='Fiscal Year Name', required=True, default=default_fy_name)
+    fy_code = fields.Char(string='Fiscal Year Code', required=True, default=default_fy_name)
     date_start = fields.Date(string='Start of Period', default=default_date_start, required=True)
     date_stop = fields.Date(string='End of Period',  default=default_date_stop, required=True)
     company_id = fields.Many2one(comodel_name='res.company', string='Company', default=lambda self: self.env['res.company']._company_default_get('account.account'))
@@ -54,6 +60,14 @@ class AccountPeriodCreate(models.Model):
     @api.multi
     def create_period(self, interval=1):
         if self.date_stop > self.date_start:
+            fy = self.env['account.fiscalyear'].create({
+                'name': self.fy_name,
+                'code': self.fy_code,
+                'company_id': self.company_id.id,
+                'date_start': self.date_start,
+                'date_stop': self.date_stop,
+                'state': 'draft',
+            })
             ds = datetime.strptime(self.date_start, '%Y-%m-%d')
             periods = []
             while ds.strftime('%Y-%m-%d') < self.date_stop:
@@ -64,6 +78,7 @@ class AccountPeriodCreate(models.Model):
                     'name': ds.strftime('%m/%Y'),
                     'date_start': ds.strftime('%Y-%m-%d'),
                     'date_stop': de.strftime('%Y-%m-%d'),
+                    'fiscalyear_id': fy.id,
                 })
                 periods.append(int(period))
                 ds = ds + relativedelta(months=interval)
