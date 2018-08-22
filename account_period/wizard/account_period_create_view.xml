@@ -33,7 +33,9 @@
             <field name="target">new</field>
         </record>
 
+<!--
         <menuitem id="menu_account_period_create_form" action="account_period_create_form" parent="account.menu_finance_entries" sequence="40"/>
+-->
 
     </data>
 </odoo>
