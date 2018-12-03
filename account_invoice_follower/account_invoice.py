@@ -52,7 +52,7 @@ class account_invoice(models.Model):
 class res_partner(models.Model):
     _inherit = 'res.partner'
     
-    do_not_follow = fields.Boolean(string="Do not follow",help="If checked this address will not be added as a follower when invoice")
+    do_not_follow = fields.Boolean(string="Do not follow",help="If checked this address will not be added as a follower when invoiced (only for type invoice)")
 
 class mail_compose_message(models.Model):
     _inherit = 'mail.compose.message'
