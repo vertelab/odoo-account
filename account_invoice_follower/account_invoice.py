@@ -23,16 +23,31 @@ from openerp import api, models, fields, _
 import logging
 _logger = logging.getLogger(__name__)
 
-class mail_followers(models.Model):
-    _inherit = 'mail.followers'
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
     
-    @api.model
-    @api.returns('self', lambda value: value.id)
-    def create(self, values):
-        if values.get('res_model') in ('sale.order', 'account.invoice'):
-            if self.env['res.partner'].search_read([('id', '=', values['partner_id'])], ['do_not_follow'])[0]['do_not_follow']:
-                return self.browse()
-        return super(mail_followers, self).create(values)
+    @api.multi
+    def message_subscribe(self, partner_ids, subtype_ids=None):
+        partner_ids2 = []
+        for partner in self.env['res.partner'].sudo().search_read([('id', 'in', partner_ids)], ['do_not_follow']):
+            if not partner['do_not_follow']:
+                partner_ids2.append(partner['id'])
+        if not partner_ids2:
+            return True # or False?
+        return super(AccountInvoice, self).message_subscribe(partner_ids, subtype_ids=None)
+
+class SaleOrder(models.Model):
+    _inherit = 'sale.order'
+    
+    @api.multi
+    def message_subscribe(self, partner_ids, subtype_ids=None):
+        partner_ids2 = []
+        for partner in self.env['res.partner'].sudo().search_read([('id', 'in', partner_ids)], ['do_not_follow']):
+            if not partner['do_not_follow']:
+                partner_ids2.append(partner['id'])
+        if not partner_ids2:
+            return True # or False?
+        return super(SaleOrder, self).message_subscribe(partner_ids, subtype_ids=None)
 
 class res_partner(models.Model):
     _inherit = 'res.partner'
