@@ -23,52 +23,18 @@ from openerp import api, models, fields, _
 import logging
 _logger = logging.getLogger(__name__)
 
-
-class account_invoice(models.Model):
-    _inherit = 'account.invoice'
+class mail_followers(models.Model):
+    _inherit = 'mail.followers'
     
-    @api.multi
-    def invoice_validate(self):
-        followers = self.message_follower_ids.filtered(lambda f: not f.do_not_follow)
-        self.message_follower_ids = followers
-        _logger.warn('Invoice_validate Do not follow %s ' %self.message_follower_ids)
-        return super(account_invoice, self).invoice_validate()
-        
-    # ~ @api.multi
-    # ~ def action_move_create(self):
-        # ~ _logger.warn('Action_move_create Do not follow %s ' %self.message_follower_ids)
-        # ~ return super(account_invoice, self).action_move_create()
-        
-    # ~ @api.multi
-    # ~ def action_number(self):
-        # ~ _logger.warn('Action_number Do not follow %s ' %self.message_follower_ids)
-        # ~ return super(account_invoice, self).action_number()
-
-    # ~ @api.multi
-    # ~ def action_date_assign(self):
-        # ~ _logger.warn('Action_date_assign Do not follow %s ' %self.message_follower_ids)
-        # ~ return super(account_invoice, self).action_date_assign()
+    @api.model
+    @api.returns('self', lambda value: value.id)
+    def create(self, values):
+        if values.get('res_model') in ('sale.order', 'account.invoice'):
+            if self.env['res.partner'].search_read([('id', '=', values['partner_id'])], ['do_not_follow'])[0]['do_not_follow']:
+                return self.browse()
+        return super(mail_followers, self).create(values)
 
 class res_partner(models.Model):
     _inherit = 'res.partner'
-    
+
     do_not_follow = fields.Boolean(string="Do not follow",help="If checked this address will not be added as a follower when invoiced (only for type invoice)")
-
-class mail_compose_message(models.Model):
-    _inherit = 'mail.compose.message'
-
-    @api.multi
-    def send_mail(self):
-        context = self._context
-        if context.get('default_model') == 'account.invoice' and \
-                context.get('default_res_id') and context.get('mark_invoice_as_sent'):
-            invoice = self.env['account.invoice'].browse(context['default_res_id'])
-            if invoice and invoice.partner_id.do_not_follow:
-                invoice = invoice.with_context(mail_post_autofollow=False)
-            else:
-                invoice = invoice.with_context(mail_post_autofollow=True)
-            invoice.write({'sent': True})
-            invoice.message_post(body=_("Invoice sent 2"))
-            _logger.warn('Do not follow %s ' %invoice)
-            return self.send_mail() # Override account.invoice send_mail (sequence low)
-        return super(mail_compose_message, self).send_mail()

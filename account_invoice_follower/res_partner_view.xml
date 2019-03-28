@@ -7,7 +7,7 @@
       <field name="model">res.partner</field>
       <field name="inherit_id" ref="base.view_partner_form" />
       <field name="arch" type="xml">
-        <field name="website" position='after'>
+        <field name="active" position='after'>
           <field name="do_not_follow" attrs="{'invisible': [('type', '!=', 'invoice')]}" />
         </field>
         <xpath expr="//form[@string='Contact']/sheet/group[2]/div[@name='div_type']" position="after">
