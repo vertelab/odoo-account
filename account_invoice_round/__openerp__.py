@@ -21,16 +21,13 @@
 {
 'name': 'Account Invoice Round',
 'version': '0.1',
-'summary': '',
+'summary': 'Rounds invoices and creates moves according to.',
 'category': 'account',
 'description': """Rounds invoices and creates moves according to .""",
 'author': 'Vertel AB',
-    'license': 'AGPL-3',
+'license': 'AGPL-3',
 'website': 'http://www.vertel.se',
-'depends': ['account', 'sale'],
-'data': [
-'res_partner_view.xml',
-], 
-'sequence': 1,
+'depends': ['account',],
+'data': ['account_invoice_view.xml'], 
 'installable': True,
 }
