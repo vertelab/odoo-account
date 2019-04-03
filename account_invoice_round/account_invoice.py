@@ -28,32 +28,31 @@ class account_invoice(models.Model):
     _inherit = 'account.invoice'
     
     amount_rounded = fields.Float(string='Rounded', digits=dp.get_precision('Account'),store=True, readonly=True, compute='_compute_amount')
-    
+    do_round = fields.Boolean(string='Do rounding',default=True)
         
-    @api.multi
-    def button_reset_taxes(self):
-        account_invoice_tax = self.env['account.invoice.tax']
-        ctx = dict(self._context)
-        for invoice in self:
-            self._cr.execute("DELETE FROM account_invoice_tax WHERE invoice_id=%s AND manual is False", (invoice.id,))
-            self.invalidate_cache()
-            partner = invoice.partner_id
-            if partner.lang:
-                ctx['lang'] = partner.lang
-            for taxe in account_invoice_tax.compute(invoice.with_context(ctx)).values():
-                account_invoice_tax.create(taxe)
-        # dummy write on self to trigger recomputations
-        return self.with_context(ctx).write({'invoice_line': []})
+    # ~ @api.multi
+    # ~ def button_reset_taxes(self):
+        # ~ account_invoice_tax = self.env['account.invoice.tax']
+        # ~ ctx = dict(self._context)
+        # ~ for invoice in self:
+            # ~ self._cr.execute("DELETE FROM account_invoice_tax WHERE invoice_id=%s AND manual is False", (invoice.id,))
+            # ~ self.invalidate_cache()
+            # ~ partner = invoice.partner_id
+            # ~ if partner.lang:
+                # ~ ctx['lang'] = partner.lang
+            # ~ for taxe in account_invoice_tax.compute(invoice.with_context(ctx)).values():
+                # ~ account_invoice_tax.create(taxe)
+        # ~ # dummy write on self to trigger recomputations
+        # ~ return self.with_context(ctx).write({'invoice_line': []})
         
     @api.one
-    @api.depends('invoice_line.price_subtotal', 'tax_line.amount')
+    @api.depends('invoice_line.price_subtotal', 'tax_line.amount','do_round')
     def _compute_amount(self):
         super(account_invoice,self)._compute_amount()
-        if self.type == 'out_invoice':
+        if self.type == 'out_invoice' and self.do_round:
             self.amount_rounded = round((self.amount_untaxed + self.amount_tax),0) - (self.amount_untaxed + self.amount_tax)
             self.amount_total = self.amount_rounded + self.amount_untaxed + self.amount_tax
-        
-        
+                
     
     @api.multi
     def finalize_invoice_move_lines(self, move_lines):
@@ -66,33 +65,14 @@ class account_invoice(models.Model):
             :return: the (possibly updated) final move_lines to create for this invoice
         """
         move_lines = super(account_invoice,self).finalize_invoice_move_lines(move_lines)
-        if self.amount_rounded:
+        if self.do_round and self.amount_rounded:
             account_round = self.env['account.account'].search([('code','=',self.env['ir.config_parameter'].get_param('account_invoice_round.account_round','3740'))],limit=1)
             if not account_round:
                 raise Warning(_('Account for rounding missing'))
-            account_receivable = self.env['account.account'].search([('type','=','receivable')],limit=1) 
-            if not account_receivable:
-                raise Warning(_('Account for receivable missing'))
-            
-            # ~ move_lines.append((0, 0, {
-                    # ~ 'analytic_account_id': False, 
-                    # ~ 'tax_code_id': False, 
-                    # ~ 'analytic_lines': [], 
-                    # ~ 'tax_amount': 0.0, 
-                    # ~ 'name': _('Rounded amount'), 
-                    # ~ 'ref': False, 
-                    # ~ 'currency_id': False, 
-                    # ~ 'product_id': False, 
-                    # ~ 'date_maturity': False, 
-                    # ~ 'debit': self.amount_rounded if self.amount_rounded > 0.0 else  False, 
-                    # ~ 'credit': self.amount_rounded * -1.0 if self.amount_rounded < 0.0 else  False, 
-                    # ~ 'date': fields.Date.today(), 
-                    # ~ 'amount_currency': 0, 
-                    # ~ 'product_uom_id': False, 
-                    # ~ 'quantity': 1.0, 
-                    # ~ 'partner_id': False, 
-                    # ~ 'account_id': account_receivable.id})) # 
-                    Korrigera 1510 !!!!
+            line_receivable = [d for (x,x,d) in move_lines if d.get('account_id') in self.env['account.account'].search([('type','=','receivable')]).mapped('id')]
+            if line_receivable and len(line_receivable)>0:
+                line_receivable[0]['debit'] += self.amount_rounded
+
             move_lines.append((0, 0, {
                     'analytic_account_id': False, 
                     'tax_code_id': False, 
@@ -103,22 +83,13 @@ class account_invoice(models.Model):
                     'currency_id': False, 
                     'product_id': False, 
                     'date_maturity': False, 
-                    'debit': self.amount_rounded if self.amount_rounded > 0.0 else  False, 
-                    'credit': self.amount_rounded * -1.0 if self.amount_rounded < 0.0 else  False, 
+                    'credit': self.amount_rounded if self.amount_rounded > 0.0 else  False, 
+                    'debit': self.amount_rounded * -1.0 if self.amount_rounded < 0.0 else  False, 
                     'date': fields.Date.today(), 
                     'amount_currency': 0, 
                     'product_uom_id': False, 
                     'quantity': 1.0, 
                     'partner_id': False, 
                     'account_id': account_round.id}))
-        _logger.warn('Move Lines %s' % move_lines)
+        # ~ _logger.warn('Move Lines %s' % [(d['account_id'],d['credit'],d['debit']) for x,x,d in move_lines])
         return move_lines
-        
-      
-
-        
-        
-class account_invoice_line(models.Model):
-    _inherit = 'account.invoice.line'
-    
-    is_rounded = fields.Boolean(string='Rounded', help='This line is for rounding purpuses')

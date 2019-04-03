@@ -7,9 +7,23 @@
       <field name="inherit_id" ref="account.invoice_form" />
       <field name="arch" type="xml">
         <field name="amount_tax" position="after">
-          <field name="amount_rounded" widget="monetary" options="{'currency_field': 'currency_id'}" />
+          <div>
+            <field name="do_round" class="oe_inline" />
+            <label for="amount_rounded" />
+          </div>
+          <field name="amount_rounded" widget="monetary" options="{'currency_field': 'currency_id'}" nolabel="1" class="oe_inline" />
         </field>
       </field>
     </record>
+    <template id="report_invoice_document" inherit_id='account.report_invoice_document'>
+      <xpath expr="//table[1]/tr[1]" position="after">
+        <tr t-if='o.amount_rounded'>
+          <td>Rounded</td>
+          <td class="text-right">
+            <span t-field="o.amount_rounded" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}' />
+          </td>
+        </tr>
+      </xpath>
+    </template>
   </data>
 </openerp>

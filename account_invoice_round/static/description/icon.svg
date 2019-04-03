@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="150"
+   height="150"
+   viewBox="0 0 39.687499 39.687501"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="/run/user/1000/gvfs/sftp:host=tor2/usr/share/odoo-account/account_invoice_round/static/description/icon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.89619809"
+     inkscape:cx="111.19926"
+     inkscape:cy="338.09489"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1983"
+     inkscape:window-height="1128"
+     inkscape:window-x="1745"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     units="px" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-257.31248)">
+    <g
+       id="g841"
+       transform="translate(4.2333335)">
+      <rect
+         y="257.50146"
+         x="-0.37249613"
+         height="39.331192"
+         width="32.598827"
+         id="rect815"
+         style="opacity:1;fill:#e6e6e6;fill-opacity:0.5175202;fill-rule:nonzero;stroke:none;stroke-width:0.16921033;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:2.49826765;stroke-opacity:1;paint-order:fill markers stroke" />
+      <rect
+         y="261.0448"
+         x="17.698589"
+         height="6.3780308"
+         width="12.756062"
+         id="rect817"
+         style="opacity:1;fill:#999999;fill-opacity:0.5175202;fill-rule:nonzero;stroke:none;stroke-width:0.16921033;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:2.49826765;stroke-opacity:1;paint-order:fill markers stroke" />
+      <rect
+         y="271.67487"
+         x="3.8795269"
+         height="18.071087"
+         width="26.220793"
+         id="rect819"
+         style="opacity:1;fill:#999999;fill-opacity:0.5175202;fill-rule:nonzero;stroke:none;stroke-width:0.16921033;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:2.49826765;stroke-opacity:1;paint-order:fill markers stroke" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path823"
+         d="m 30.10032,289.74595 -5.389541,4.39751 -0.138382,-0.13838"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.12401726px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path825"
+         d="m 29.911822,293.72832 v 0 l -5.258499,-3.32116"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.12401726px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <text
+         transform="scale(0.96558062,1.0356463)"
+         id="text829"
+         y="282.92535"
+         x="26.222477"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.45723367px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.23048224px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="stroke-width:0.23048224px"
+           y="282.92535"
+           x="26.222477"
+           id="tspan827"
+           sodipodi:role="line">.31</tspan></text>
+      <text
+         id="text824"
+         y="281.92181"
+         x="7.5923495"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.51541662px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.30102775px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="stroke-width:0.30102775px"
+           y="281.92181"
+           x="7.5923495"
+           id="tspan822"
+           sodipodi:role="line">rounding</tspan></text>
+      <text
+         id="text828"
+         y="278.64545"
+         x="7.844336"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.80963993px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.38730928px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="stroke-width:0.38730928px"
+           y="278.64545"
+           x="7.844336"
+           id="tspan826"
+           sodipodi:role="line">invoice</tspan></text>
+    </g>
+  </g>
+</svg>

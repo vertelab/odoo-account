@@ -23,7 +23,14 @@
 'version': '0.1',
 'summary': 'Rounds invoices and creates moves according to.',
 'category': 'account',
-'description': """Rounds invoices and creates moves according to .""",
+'description': """This modules adds the ability to round the total amount on customer invoices to nearest amount without cents. 
+It's possible to turn off this feature on any single invoice using a checkbox near the rounding amount on the invoice form.
+
+The created Entry and payment order are corrected with the new amount. The difference between total amount and rounded total amount
+are posted on a rounding account. 
+
+The account used for rounding are a system parameter 'account_invoice_round.account_round' and defaults to 3740
+(swedish basplanen).""",
 'author': 'Vertel AB',
 'license': 'AGPL-3',
 'website': 'http://www.vertel.se',
