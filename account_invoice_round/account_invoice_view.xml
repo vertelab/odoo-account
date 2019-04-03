@@ -15,6 +15,7 @@
         </field>
       </field>
     </record>
+<!--
     <template id="report_invoice_document" inherit_id='account.report_invoice_document'>
       <xpath expr="//table[1]/tr[1]" position="after">
         <tr t-if='o.amount_rounded'>
@@ -25,5 +26,6 @@
         </tr>
       </xpath>
     </template>
+-->
   </data>
 </openerp>

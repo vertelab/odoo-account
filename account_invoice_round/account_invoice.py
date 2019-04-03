@@ -93,3 +93,24 @@ class account_invoice(models.Model):
                     'account_id': account_round.id}))
         # ~ _logger.warn('Move Lines %s' % [(d['account_id'],d['credit'],d['debit']) for x,x,d in move_lines])
         return move_lines
+
+class AccountConfigSettings(models.TransientModel):
+    _inherit = 'account.config.settings'
+
+    rounding_account_id = fields.Many2one(
+        related='company_id.tax_calculation_rounding_account_id',
+        comodel='account.account',
+        string='Tax Rounding account',
+        domain=[('type', '<>', 'view')])
+
+    def onchange_company_id(self, cr, uid, ids, company_id, context=None):
+        res = super(AccountConfigSettings, self
+                    ).onchange_company_id(cr, uid, ids,
+                                          company_id, context=context)
+        company = self.pool.get('res.company').browse(cr, uid, company_id,
+                                                      context=context)
+        res['value'][
+            'tax_calculation_rounding'] = company.tax_calculation_rounding
+        res['value']['tax_calculation_rounding_account_id'] = \
+            company.tax_calculation_rounding_account_id.id
+        return res
