@@ -97,20 +97,19 @@ class account_invoice(models.Model):
 class AccountConfigSettings(models.TransientModel):
     _inherit = 'account.config.settings'
 
-    rounding_account_id = fields.Many2one(
-        related='company_id.tax_calculation_rounding_account_id',
-        comodel='account.account',
-        string='Tax Rounding account',
-        domain=[('type', '<>', 'view')])
+    rounding_account_id = fields.Many2one(comodel_name='account.account',
+                            string='Rounding account',domain=[('type', '=', 'other')])
 
-    def onchange_company_id(self, cr, uid, ids, company_id, context=None):
-        res = super(AccountConfigSettings, self
-                    ).onchange_company_id(cr, uid, ids,
-                                          company_id, context=context)
-        company = self.pool.get('res.company').browse(cr, uid, company_id,
-                                                      context=context)
-        res['value'][
-            'tax_calculation_rounding'] = company.tax_calculation_rounding
-        res['value']['tax_calculation_rounding_account_id'] = \
-            company.tax_calculation_rounding_account_id.id
-        return res
+    @api.one
+    def set_account_round(self):
+        self.env['ir.config_parameter'].set_param('account_invoice_round.account_round',(self.rounding_account_id.code if self.rounding_account_id else '3740'), groups=['base.group_system'])
+
+    @api.model
+    def get_default_account_round(self,fields):
+        account_round = self.env['account.account'].search([('code','=',self.env['ir.config_parameter'].get_param('account_invoice_round.account_round','3740'))],limit=1)
+        # ~ raise Warning(account_rou)
+        # ~ return {'rounding_account_id': 123}
+        return {
+            'rounding_account_id': account_round.id if account_round else None,
+        }
+
