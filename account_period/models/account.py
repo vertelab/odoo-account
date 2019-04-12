@@ -213,7 +213,7 @@ class AccountPeriod(models.Model):
             last_period = self.env['account.period'].browse(last_period)
         if not last_period:
             return (None, None)
-        periods =  self.env['account.period'].search([('date_stop','>',last_period.date_stop)],order='date_stop',limit=length)
+        periods =  self.env['account.period'].search([('date_stop','>',last_period.date_stop), ('special', '=', special)],order='date_stop',limit=length)
         return (periods[0] if periods else None,periods[length-1] if len(periods)>=length else None)
 
     @api.model
