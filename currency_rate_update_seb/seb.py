@@ -51,3 +51,45 @@ class SebGetter(CurrencyGetterInterface):
             self.updated_currency[currency] = 123.456
 
         return self.updated_currency, self.log_info
+
+
+#------------------------------------
+# ~ import requests
+# ~ from lxml import html
+# ~ import datetime
+
+# ~ # convert date [d]d/[m]m to yyyy-mm-dd
+# ~ def convert_date(dt):
+    # ~ c_day, c_month = dt.split("/")
+    # ~ now = datetime.datetime.now()
+    # ~ now_month = now.month
+    # ~ now_year = now.year
+    # ~ #test for wrong year
+    # ~ if now_month < int(c_month):
+        # ~ now_year -= 1
+    # ~ return datetime.datetime(now_year,int(c_month),int(c_day)).strftime("%Y-%m-%d")
+
+# ~ def fill_currency_dict(c):
+    # ~ return {'%s'%(c[1].text):{'country':c[0].text, 'buy_rate':float(c[2].text.replace(',','.')), 'sell_rate':float(c[3].text.replace(',','.')), 'date':convert_date(c[4].text)}}
+
+# ~ def get_currencies(url,currencies):
+    # ~ h = requests.get(url)
+    # ~ currency_dict = {}
+    
+    # ~ tree = html.fromstring(h.text)
+
+    # ~ for cur in currencies:
+        # ~ n = tree.xpath("//td[text()='%s']"%(cur))   # <td...>EUR</td>
+        # ~ p = n[0].getparent()                        # <tr>...</tr>
+        # ~ c = p.getchildren()                         # list of td nodes
+        # ~ currency_dict.update(fill_currency_dict(c))
+    
+    # ~ return currency_dict
+    
+
+# ~ currencies = ['EUR','NOK','USD']
+# ~ url = 'https://seb.se/pow/apps/Valutakurser/avista_tot.asp'
+
+# ~ if __name__ == '__main__':
+    # ~ print get_currencies(url,currencies)
+
