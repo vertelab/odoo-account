@@ -19,77 +19,89 @@
 #
 ##############################################################################
 from odoo.addons.currency_rate_update.services.currency_getter_interface import CurrencyGetterInterface
+from odoo.exceptions import UserError
 
 from datetime import datetime
-from lxml import etree
+import requests
+from lxml import html
 
 import logging
 _logger = logging.getLogger(__name__)
 
 
-class SebGetter(CurrencyGetterInterface):
+class SebSellGetter(CurrencyGetterInterface):
     """Implementation of Currency_getter_factory interface
-    for ECB service
+    for SEB service using sell prices
     """
-    code = 'SEB'
-    name = 'SEB'
+    code = 'SEBs'
+    name = 'SEB (sell)'
     supported_currency_array = [
-        "AUD", "BGN", "BRL", "CAD", "CHF", "CNY", "CZK", "DKK", "EUR", "GBP",
-        "HKD", "HRK", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "LTL", "MXN",
-        "MYR", "NOK", "NZD", "PHP", "PLN", "RON", "RUB", "SEK", "SGD", "THB",
-        "TRY", "USD", "ZAR"]
+        'AUD', 'BGN', 'DKK', 'EUR', 'HKD', 'INR', 'IDR', 'ISK', 'JPY', 'CAD',
+        'CNY', 'HRK', 'MYR', 'MAD', 'MXN', 'NOK', 'NZD', 'PLN', 'RUB', 'SAR',
+        'CHF', 'SGD', 'GBP', 'ZAR', 'KRW', 'THB', 'CZK', 'TRY', 'HUF', 'USD']
 
-    def get_updated_currency(self, currency_array, main_currency,
-                             max_delta_days):
+    def get_current_value(self, data):
+        return data['sell_rate']
+    
+    def get_updated_currency(self, currency_array, main_currency, max_delta_days):
         """implementation of abstract method of Curreny_getter_interface"""
-        _logger.warn('\n\ncurrency_array: %s\nmain_currency: %s\nmax_delta_days: %s' % (currency_array, main_currency,
-                             max_delta_days))
+        def convert_date(dt):
+            """Convert date [d]d/[m]m to yyyy-mm-dd"""
+            c_day, c_month = dt.split("/")
+            now = datetime.now()
+            now_month = now.month
+            now_year = now.year
+            # test for wrong year
+            if now_month < int(c_month):
+                now_year -= 1
+            return datetime(now_year, int(c_month), int(c_day))
+        
+        def fill_currency_dict(c):
+            return {
+                c[1].text: {
+                    'country':c[0].text,
+                    'buy_rate':float(c[2].text.replace(',','.')),
+                    'sell_rate':float(c[3].text.replace(',','.')),
+                    'date':convert_date(c[4].text)}}
+        
+        def get_currencies(url, currencies): 
+            try:
+                currency_dict = {}
+                tree = html.fromstring(requests.get(url).text)
+                for cur in currencies:
+                    n = tree.xpath("//td[text()='%s']"%(cur))   # <td...>EUR</td>
+                    p = n[0].getparent()                        # <tr>...</tr>
+                    c = p.getchildren()                         # list of td nodes
+                    currency_dict.update(fill_currency_dict(c))
+                return currency_dict
+            except IOError:
+                raise UserError(
+                    _('Web Service does not exist (%s)!') % url)
+            except:
+                raise
+
+        url = 'https://seb.se/pow/apps/Valutakurser/avista_tot.asp'    
+        
         if main_currency != 'SEK':
-            raise Warning(_("SEB currency rates only support SEK as the main currency!"))
+            msg = _("SEB currency rates only support SEK as the main currency!")
+            self.log_info += "\n WARNING : %s" % msg
+            _logger.warning(msg)
+            return self.updated_currency, self.log_info
         
         for currency in currency_array:
-            self.updated_currency[currency] = 123.456
+            self.validate_cur(currency)
+        for currency, data in get_currencies(url, currency_array).iteritems():
+            self.check_rate_date(data['date'], max_delta_days)
+            self.updated_currency[currency] = 1.0 / self.get_current_value(data)
 
         return self.updated_currency, self.log_info
 
-
-#------------------------------------
-# ~ import requests
-# ~ from lxml import html
-# ~ import datetime
-
-# ~ # convert date [d]d/[m]m to yyyy-mm-dd
-# ~ def convert_date(dt):
-    # ~ c_day, c_month = dt.split("/")
-    # ~ now = datetime.datetime.now()
-    # ~ now_month = now.month
-    # ~ now_year = now.year
-    # ~ #test for wrong year
-    # ~ if now_month < int(c_month):
-        # ~ now_year -= 1
-    # ~ return datetime.datetime(now_year,int(c_month),int(c_day)).strftime("%Y-%m-%d")
-
-# ~ def fill_currency_dict(c):
-    # ~ return {'%s'%(c[1].text):{'country':c[0].text, 'buy_rate':float(c[2].text.replace(',','.')), 'sell_rate':float(c[3].text.replace(',','.')), 'date':convert_date(c[4].text)}}
-
-# ~ def get_currencies(url,currencies):
-    # ~ h = requests.get(url)
-    # ~ currency_dict = {}
+class SebBuyGetter(SebSellGetter):
+    """Implementation of Currency_getter_factory interface
+    for SEB service using buy prices
+    """
+    code = 'SEBb'
+    name = 'SEB (buy)'
     
-    # ~ tree = html.fromstring(h.text)
-
-    # ~ for cur in currencies:
-        # ~ n = tree.xpath("//td[text()='%s']"%(cur))   # <td...>EUR</td>
-        # ~ p = n[0].getparent()                        # <tr>...</tr>
-        # ~ c = p.getchildren()                         # list of td nodes
-        # ~ currency_dict.update(fill_currency_dict(c))
-    
-    # ~ return currency_dict
-    
-
-# ~ currencies = ['EUR','NOK','USD']
-# ~ url = 'https://seb.se/pow/apps/Valutakurser/avista_tot.asp'
-
-# ~ if __name__ == '__main__':
-    # ~ print get_currencies(url,currencies)
-
+    def get_current_value(self, data):
+        return data['buy_rate']
