@@ -22,9 +22,7 @@ from openerp import models, fields
 
 
 class AccountReportOpenInvoicesWizard(models.TransientModel):
-
     """Will launch Open Invoices report and pass required args"""
-
     _inherit = "open.invoices.webkit"
     
     accounts_ids = fields.Many2many(
