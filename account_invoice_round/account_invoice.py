@@ -71,7 +71,10 @@ class account_invoice(models.Model):
                 raise Warning(_('Account for rounding missing'))
             line_receivable = [d for (x,x,d) in move_lines if d.get('account_id') in self.env['account.account'].search([('type','=','receivable')]).mapped('id')]
             if line_receivable and len(line_receivable)>0:
-                line_receivable[0]['debit'] += self.amount_rounded
+                if line_receivable[0]['debit']:
+                    line_receivable[0]['debit'] += self.amount_rounded
+                else:
+                    line_receivable[0]['credit'] -= self.amount_rounded
 
             move_lines.append((0, 0, {
                     'analytic_account_id': False, 
