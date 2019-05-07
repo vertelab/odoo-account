@@ -24,7 +24,7 @@
     'license': 'AGPL-3',
     'author': 'Vertel AB',
     'category': 'Generic Modules/Accounting',
-    'depends': ['report_xls', 'account_financial_report_webkit_extras'],
+    'depends': ['account_financial_report_webkit_xls', 'account_financial_report_webkit_extras'],
     'demo': [],
     'data': [],
     'test': [],
