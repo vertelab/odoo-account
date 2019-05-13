@@ -28,6 +28,7 @@
     'website': 'http://www.vertel.se',
     'images' : [],
     'depends' : ['currency_rate_update'],
+    'external_dependencies': {'python': ['zeep',]}
     'data': [],
     'demo': [],
     'qweb': [],
