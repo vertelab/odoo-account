@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 2019-04-05 ADDING CUSTOM STYLE TO BLOG LOOKING MORE LIKE NEWS -->
+    <template id="blog_post_short" inherit_id="website_blog.blog_post_short">
+        <!-- PROPER FORMATING OF TITEL >> CENTER, TO THE LEFT -->
+        <xpath expr="//div[@class='col-md-12 mb32 mt16 text-center']" position="attributes">
+            <attribute name="class">s_text_block</attribute>
+        </xpath>
+        <!-- MAKING CONTENT LOOKING NEAT AND TIDY! :-) >> CENTER, TO THE LEFT -->
+        <xpath expr="//div[@class='col-md-8 col-md-offset-2']" position="attributes">
+            <attribute name="class">s_text_block</attribute>
+        </xpath>
+        <!-- REMOVE AUTHOUR + PUBLISH DATE + NR. OF VIEWS -->
+        <!-- REMOVE SOCIAL-MEDIA LINKS -->
+        <xpath expr="//div[@class='mb0']" position="attributes">
+            <attribute name="class">mb0 hidden</attribute>
+        </xpath>
+    </template>
+    <!-- blog_post_complete -->
+    <template id="opt_blog_post_complete_read_next" inherit_id="website_blog.opt_blog_post_complete_read_next">
+		<!-- BLOG TITLE >> CENTER, TO THE LEFT -->
+<!--
+        <xpath expr="//div[@class='blog_title']" position="attributes">
+            <attribute name="class">s_text_block</attribute>
+        </xpath>
+-->
+        <!-- REMOVE SOCIAL-MEDIA LINKS -->
+        <xpath expr="//div[@class='o_blog_post_complete o_sharing_links']" position="attributes">
+            <attribute name="class">o_blog_post_complete o_sharing_links hidden</attribute>
+        </xpath>
+
+    </template>
+</odoo>
