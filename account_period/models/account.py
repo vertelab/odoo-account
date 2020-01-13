@@ -362,6 +362,7 @@ class account_account(models.Model):
         self.ensure_one()
 
         domain = [('move_id.period_id', 'in', self.env['account.period'].get_period_ids(self._context.get('period_start'), self._context.get('period_stop',self._context.get('period_start')))), ('account_id', '=', self.id)]
+        _logger.warn('\n\n\n\n\n domain: %s' % domain)
         if self._context.get('target_move') in ['draft', 'posted']:
             domain.append(('move_id.state', '=', self._context.get('target_move')))
 
@@ -399,6 +400,6 @@ class account_register_payments(models.TransientModel):
     _inherit = "account.register.payments"
 
     def get_payment_vals(self, journal=None):
-        res = super(account_register_payments, self).get_payment_vals(journal)
+        res = super(account_register_payments, self).get_payment_vals()
         res['payment_period_id'] = self.payment_period_id and self.payment_period_id.id
         return res
