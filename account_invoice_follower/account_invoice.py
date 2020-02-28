@@ -87,7 +87,7 @@ class SaleOrder(models.Model):
         if not context.get('do_not_follow_override'):
             env = api.Environment(cr, uid, context)
             partner_ids = set()
-            kwargs_partner_ids = kwargs.pop('partner_ids', [])
+            kwargs_partner_ids = kwargs.get('partner_ids', [])
             for partner_id in kwargs_partner_ids:
                 if isinstance(partner_id, (list, tuple)) and partner_id[0] == 4 and len(partner_id) == 2:
                     partner_ids.add(partner_id[1])
@@ -97,14 +97,14 @@ class SaleOrder(models.Model):
                     partner_ids.add(partner_id)
                 else:
                     pass  # we do not manage anything else
-            changed = False
-            i = 0
+            # changed = False
+            # i = 0
             partner_ids2 = set()
             for partner in env['res.partner'].sudo().search_read([('id', 'in', list(partner_ids))], ['do_not_follow']):
                 if not partner['do_not_follow']:
                     partner_ids2.add(partner['id'])
             if partner_ids2 != partner_ids:
-                context['partner_ids'] = list(partner_ids2)
+                kwargs['partner_ids'] = list(partner_ids2)
         return super(SaleOrder, self).message_post(cr, uid, thread_id, body=body, subject=subject, type=type,
                  subtype=subtype, parent_id=parent_id, attachments=attachments, context=context,
                  content_subtype=content_subtype, **kwargs)
@@ -122,11 +122,30 @@ class EmailTemplate(models.Model):
 class MailComposeMessage(models.TransientModel):
     _inherit = 'mail.compose.message'
     
+    # active_test = False. Makes sure the mail can be sent since a non active user cannot get a mail sent to them.
     @api.multi
     def send_mail(self):
         if self.template_id and self.template_id.do_not_follow_override:
-            return super(MailComposeMessage, self.with_context(do_not_follow_override=True)).send_mail()
-        return super(MailComposeMessage, self).send_mail()
+            return super(MailComposeMessage, self.with_context(do_not_follow_override=True, active_test=False)).send_mail()
+        return super(MailComposeMessage, self.with_context(active_test=False)).send_mail()
+
+class ProjectIssue(models.Model):
+    _inherit = 'project.issue'
+
+    """ 
+        Helps a mail of the contact in the project get sent when sending a message in mail thread by setting active_test = False.
+        Passing active_test as a parameter successfully sends a mail to the contact provided in the project
+    """
+    @api.cr_uid_ids_context
+    def message_post(self, cr, uid, thread_id, body='', subject=None, type='notification',
+                 subtype=None, parent_id=False, attachments=None, context=None,
+                 content_subtype='html', **kwargs):
+    
+        context = context or {}
+        context['active_test'] = False
+
+        return super(ProjectIssue,self).message_post(cr,uid,thread_id, body, subject, type,subtype, parent_id, attachments, context,content_subtype, **kwargs)
+
 
 # ~ class mail_mail(models.Model):
     # ~ _inherit = 'mail.mail'
