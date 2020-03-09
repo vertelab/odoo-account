@@ -28,14 +28,13 @@
             <field name="target">new</field>
         </record>
 
-        <record id="action_idea_post_vote_values" model="ir.values">
+        <record id="action_idea_post_vote_values" model="ir.actions.server">
             <field name="model_id" ref="model_account_period" />
             <field name="name">Close a Period</field>
-            <field name="key2">client_action_multi</field>
-            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_account_period_close'))"/>
-            <field name="key">action</field>
-            <field name="model">account.period</field>
+            <field name="state">code</field>
+            <field name="code">action = model.action_account_period_close()</field>
         </record>
+
 
     </data>
 </odoo>
