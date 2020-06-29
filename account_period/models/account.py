@@ -36,11 +36,11 @@ class AccountPeriod(models.Model):
 
     @api.model
     def default_date_start(self):
-        return '%s-01-01' %fields.Date.today()[:4]
+        return '%s-01-01' %fields.Date.today().strftime('%Y')
     date_start = fields.Date(string='Start of Period', default=default_date_start, required=True)
     @api.model
     def default_date_stop(self):
-        return '%s-12-31' %fields.Date.today()[:4]
+        return '%s-12-31' %fields.Date.today().strftime('%Y')
     date_stop = fields.Date(string='End of Period', default=default_date_stop, required=True)
 
     name = fields.Char(string='Name', required=True)
@@ -206,7 +206,7 @@ class AccountPeriod(models.Model):
 
     @api.model
     def date2period(self, date):
-        return self.env['account.period'].search([('date_start', '<=', date), ('date_stop', '>=', date), ('special', '=', False)])
+        return self.env['account.period'].search([('date_start', '<=', date.strftime('%Y-%m-%d'), ('date_stop', '>=', date.strftime('%Y-%m-%d')), ('special', '=', False)])
 
 
 class AccountFiscalyear(models.Model):
@@ -216,11 +216,11 @@ class AccountFiscalyear(models.Model):
 
     @api.model
     def default_date_start(self):
-        return '%s-01-01' %fields.Date.today()[:4]
+        return '%s-01-01' %fields.Date.today().strftime('%Y')
 
     @api.model
     def default_date_stop(self):
-        return '%s-12-31' %fields.Date.today()[:4]
+        return '%s-12-31' %fields.Date.today().strftime('%Y')
 
     name = fields.Char(string='Fiscal Year', required=True)
     code = fields.Char(string='Code', size=6, required=True)
