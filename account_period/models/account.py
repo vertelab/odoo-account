@@ -206,7 +206,7 @@ class AccountPeriod(models.Model):
 
     @api.model
     def date2period(self, date):
-        return self.env['account.period'].search([('date_start', '<=', date.strftime('%Y-%m-%d'), ('date_stop', '>=', date.strftime('%Y-%m-%d')), ('special', '=', False)])
+        return self.env['account.period'].search([('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')), ('special', '=', False)])
 
 
 class AccountFiscalyear(models.Model):
