@@ -251,20 +251,20 @@ class AccountFiscalyear(models.Model):
     @api.multi
     def create_period(self, interval=1):
         for fy in self:
-            ds = datetime.strptime(fy.date_start, '%Y-%m-%d')
+            ds = fy.date_start
             self.env['account.period'].create({
                     'name':  "%s %s" % (_('Opening Period'), ds.strftime('%Y')),
                     'code': ds.strftime('00/%Y'),
-                    'date_start': ds,
-                    'date_stop': ds,
+                    'date_start': ds.strftime('%Y-%m-%d'),
+                    'date_stop': ds.strftime('%Y-%m-%d'),
                     'special': True,
                     'fiscalyear_id': fy.id,
                 })
-            while ds.strftime('%Y-%m-%d') < fy.date_stop:
+            while ds < fy.date_stop:
                 de = ds + relativedelta(months=interval, days=-1)
 
-                if de.strftime('%Y-%m-%d') > fy.date_stop:
-                    de = datetime.strptime(fy.date_stop, '%Y-%m-%d')
+                if de > fy.date_stop:
+                    de = fy.date_stop
 
                 self.env['account.period'].create({
                     'name': ds.strftime('%m/%Y'),
