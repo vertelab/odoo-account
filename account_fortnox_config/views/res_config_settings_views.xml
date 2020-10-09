@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="res_config_settings_view_form" model="ir.ui.view">
+    <field name="name">res.config.settings.view.form.inherit.crm</field>
+    <field name="model">res.config.settings</field>
+    <field name="priority" eval="5" />
+    <field name="inherit_id" ref="base.res_config_settings_view_form" />
+    <field name="arch" type="xml">
+      <xpath expr="//div[hasclass('settings')]" position="inside">
+        <div class="app_settings_block" data-string="membership_invoice_fortnox" string="Fortnox" data-key="membership_invoice_fortnox">
+          <!-- groups="sales_team.group_sale_manager" -->
+          <h2>FortNox</h2>
+          <div class="row mt16 o_settings_container">
+            <div class="col-12 col-lg-6 o_setting_box" id="membership_invoice_fortnox" title="You need an authorization code to use FortNox integration">
+              <div class="o_setting_left_pane" />
+              <div class="o_setting_right_pane">
+                <span class="o_form_label">Authorization sessings</span>
+                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img" />
+                <div class="text-muted">You Need these settings to get an access token</div>
+                <div class="content-group">
+                  <div class="row mt16">
+                    <label for="fortnox_authorization_code" class="col-lg-3 o_light_label" />
+                    <field name="fortnox_authorization_code" />
+                  </div>
+                  <div class="row">
+                    <label for="fortnox_client_secret" class="col-lg-3 o_light_label" />
+                    <field name="fortnox_client_secret" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6 o_setting_box" id="access_code" title="An access code is calculated and fetch from your FortNox-account.">
+              <div class="o_setting_left_pane" />
+              <div class="o_setting_right_pane">
+                <span class="o_form_label">Access Token</span>
+                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img" />
+                <div class="text-muted">Access token is for authorization to your Fortnox account</div>
+                <div class="content-group">
+                  <div class="row">
+                    <label for="fortnox_access_token" class="col-lg-3 o_light_label" />
+                    <field name="fortnox_access_token" />
+                    <div attrs="{'invisible': ['|',('fortnox_client_secret', '=', ''),('fortnox_authorization_code', '=', '')]}">
+                      <button type="object" name="fortnox_get_access_token" string="Get Access Token" icon="fa-arrow-right" class="oe_link" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </xpath>
+    </field>
+  </record>
+  <record id="res_config_settings_view_form_fortnox" model="ir.ui.view">
+    <field name="name">res.config.settings.view.form.inherit.fortnox.account</field>
+    <field name="model">res.config.settings</field>
+    <field name="priority" eval="100" />
+    <field name="inherit_id" ref="account.res_config_settings_view_form" />
+    <field name="arch" type="xml">
+      <xpath expr="//div[@id='send_default']" position="inside">
+        <div class="col-12 col-lg-6 o_setting_box">
+          <div class="o_setting_left_pane">
+            <field name="invoice_fortnox" />
+          </div>
+          <div class="o_setting_right_pane">
+            <label for="invoice_fortnox" />
+            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." />
+          </div>
+        </div>
+      </xpath>
+    </field>
+  </record>
+</odoo>

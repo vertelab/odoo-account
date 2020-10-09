@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<odoo>
+        
+  <record id="view_res_company_form_fortnox" model="ir.ui.view">
+    <field name="name">view.res.company.form.fortnox.inherit</field>
+    <field name="model">res.company</field>
+    <field name="inherit_id" ref="base.view_company_form" />
+    <field name="arch" type="xml">
+      <xpath expr="//group[@name='social_media']" position="after">
+        <div class="app_settings_block" data-string="account_fortnox" string="Fortnox" data-key="account_fortnox">
+          <!-- groups="sales_team.group_sale_manager" -->
+          <h2>FortNox</h2>
+          <div class="row mt16 o_settings_container">
+            <div class="col-12 col-lg-6 o_setting_box" id="account_fortnox" title="You need an authorization code to use FortNox integration">
+              <div class="o_setting_left_pane" />
+              <div class="o_setting_right_pane">
+                <span class="o_form_label">Authorization sessings</span>
+                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img" />
+                <div class="text-muted">You Need these settings to get an access token</div>
+                <div class="content-group">
+                  <div class="row mt16">
+                    <label for="fortnox_authorization_code" class="col-lg-3 o_light_label" />
+                    <field name="fortnox_authorization_code" />
+                  </div>
+                  <div class="row">
+                    <label for="fortnox_client_secret" class="col-lg-3 o_light_label" />
+                    <field name="fortnox_client_secret" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-12 col-lg-6 o_setting_box" id="access_code" title="An access code is calculated and fetch from your FortNox-account.">
+              <div class="o_setting_left_pane" />
+              <div class="o_setting_right_pane">
+                <span class="o_form_label">Access Token</span>
+                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img" />
+                <div class="text-muted">Access token is for authorization to your Fortnox account</div>
+                <div class="content-group">
+                  <div class="row">
+                    <label for="fortnox_access_token" class="col-lg-3 o_light_label" />
+                    <field name="fortnox_access_token" />
+                    <div attrs="{'invisible': ['|',('fortnox_client_secret', '=', ''),('fortnox_authorization_code', '=', '')]}">
+                      <button type="object" name="fortnox_get_access_token" string="Get Access Token" icon="fa-arrow-right" class="oe_link" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </xpath>
+      <form position="inside">
+                <sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="activity_ids" widget="mail_activity"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+        </sheet>          
+      </form>
+    </field>
+  </record>
+    
+</odoo>
