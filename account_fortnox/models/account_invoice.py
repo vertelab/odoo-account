@@ -60,6 +60,8 @@ class account_invoice(models.Model):
             # ~ raise Warning(str(r))
             invoice.ref = r["Invoice"]["CustomerNumber"]
             invoice.reference = r["Invoice"]["DocumentNumber"]
+            if invoice.reference:
+                raise Warning("You have already sent this invoice to Fortnox, will you send again?")
             return r
     
         
