@@ -92,7 +92,7 @@ class res_company(models.Model):
             _logger.warn('Response HTTP Status Code : {status_code}'.format(status_code=r.status_code))
             _logger.warn('Response HTTP Response Body : {content}'.format(content=r.content))
 
-            # ~ raise Warning(r.content)
+            raise Warning(r.content)
             
             if r.status_code in [403]:
                 raise Warning(r.content)

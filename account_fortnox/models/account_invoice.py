@@ -28,14 +28,16 @@ class account_invoice(models.Model):
                 ref = invoice.partner_id.fortnox_update()
             InvoiceRows = []
             for line in invoice.invoice_line_ids:
+                # ~ raise Warning(line.product_id.default_code)
                 InvoiceRows.append(
                         {
                             "AccountNumber": line.account_id.code,
                             "DeliveredQuantity": line.quantity,
                             "Description": line.name,
+                            "ArticleNumber":line.product_id.default_code,
                             "Price":line.price_unit,
                             # ~ "Unit": "st",
-                            # ~ "VAT": int(line.invoice_line_tax_ids.mapped('amount')[0]),
+                            "VAT": int(line.invoice_line_tax_ids.mapped('amount')[0]) if len(line.invoice_line_tax_ids) > 0 else None,
                         })
             r = self.company_id.fortnox_request('post',"https://api.fortnox.se/3/invoices",
                 data={                   
