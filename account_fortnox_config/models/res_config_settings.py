@@ -16,7 +16,7 @@ class ResConfigSettings(models.TransientModel):
     fortnox_authorization_code = fields.Char('Authorization code',config_parameter='fortnox.authorization.code',help="You get this code from your FortNox Account when tou activate Odoo")
     fortnox_client_secret = fields.Char('Client Secret',config_parameter='fortnox.client.secret',help="You get this code from your Odoo representative")
     fortnox_access_token = fields.Char('Access Token',config_parameter='fortnox.access.token',help="With autorization code and client secret you generate this code ones")
-    invoice_fortnox = fields.Boolean(string = "Send to Fortnox", default=True)
+    # ~ invoice_fortnox = fields.Boolean(string = "Send to Fortnox", default=True)
 
     @api.model
     def get_values(self):
