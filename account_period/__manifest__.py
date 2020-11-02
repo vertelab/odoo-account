@@ -31,7 +31,7 @@ Added period for accounting
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
     'images' : [],
-    'depends' : ['account'],
+    'depends' : ['account', 'account_voucher'],
     'data': [
         'security/ir.model.access.csv',
         'wizard/account_period_close_view.xml',

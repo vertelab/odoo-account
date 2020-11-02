@@ -209,7 +209,6 @@
                 </field>
             </field>
         </record>
-
         <record id="view_move_tree" model="ir.ui.view">
             <field name="name">account.move.tree.account_period</field>
             <field name="model">account.move</field>
@@ -220,7 +219,28 @@
                 </field>
             </field>
         </record>
-
+        <!-- 2020-11-02 Adding fields, period_id -->
+        <record id="view_purchase_receipt_form" model="ir.ui.view">
+            <field name="name">account.voucher.form.inherited.account_period</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_purchase_receipt_form"/>
+            <field name="arch" type="xml">
+                <field name="date_due" position="after">
+                    <field name="period_id"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_voucher_tree" model="ir.ui.view">
+            <field name="name">account.voucher.tree.account_period</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_voucher_tree"/>
+            <field name="arch" type="xml">
+                <field name="date" position="before">
+                    <field name="period_id"/>
+                </field>
+            </field>
+        </record>
+        <!-- // -->
         <record id="view_bank_statement_tree" model="ir.ui.view">
             <field name="name">account.bank.statement.tree.inherited.account_period</field>
             <field name="model">account.bank.statement</field>

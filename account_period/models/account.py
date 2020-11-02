@@ -333,7 +333,14 @@ class AccountMove(models.Model):
 
     def _get_default_period_id(self):
         return self.env['account.period'].date2period(self.date or fields.Date.today())
-    period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id, required=True, states={'posted':[('readonly',True)]})
+    period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id, required=True ) #, states={'posted':[('readonly',True)]})
+
+class AccountVoucher(models.Model):
+    _inherit = 'account.voucher'
+
+    def _get_default_period_id(self):
+        return self.env['account.period'].date2period(self.date or fields.Date.today())
+    period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id, required=True ) #, states={'posted':[('readonly',True)]})
 
 class account_account(models.Model):
     _inherit = 'account.account'
