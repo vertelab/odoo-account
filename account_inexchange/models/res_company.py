@@ -112,7 +112,6 @@ class res_company(models.Model):
             _logger.warn('HTTP Request failed %s' % e)
             raise Warning('HTTP Request failed %s' % e)
         _logger.warn('%s Haze Content' % r.content) 
-        # ~ raise Warning('%s Haze Content' % r.content) 
         return r.content
 
 

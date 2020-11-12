@@ -49,9 +49,8 @@ class Partner(models.Model):
 						}
 					})
 			r = json.loads(r)
-			partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"]
-			_logger.warn('Haze %s' % partner.commercial_partner_id.ref )
-			return requests.get(url).json()
+			partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"] 
+			return r  
 #FIXME:make fortnox_update auto-updating.
 	@api.multi
 	def partner_update(self):
@@ -69,7 +68,6 @@ class Partner(models.Model):
 							"Comments": partner.comment,
 							"CountryCode": "SE",
 							"Currency": "SEK",
-							# ~ "CustomerNumber": partner.commercial_partner_id.ref,
 							"Email": partner.email,
 							"Name": partner.commercial_partner_id.name,
 							"OrganisationNumber": partner.commercial_partner_id.company_registry,
@@ -78,7 +76,6 @@ class Partner(models.Model):
 							"Phone2": None,
 							"PriceList": "A",
 							"ShowPriceVATIncluded": False,
-							# ~ "TermsOfPayment": partner.commercial_partner_id.property_payment_term_id.name,
 							"Type": "COMPANY",
 							"VATNumber": partner.commercial_partner_id.vat,
 							"VATType": "SEVAT",
@@ -92,13 +89,6 @@ class Partner(models.Model):
 			r = json.loads(r)
 			# ~ partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"] 
 			_logger.warn('%s Haze ref ref ' % partner.commercial_partner_id.ref)
-			# ~ partner.commercial_partner_id.ref = int(r["Customer"]["CustomerNumber"])
-			# ~ raise Warning(str(r))
-			# ~ partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"]
-			# ~ _logger.warn('%s Haze ref' % partner.commercial_partner_id.ref)
-			# ~ _logger.warn('%s Haze ref' % partner.commercial_partner_id.ref)
-			
-			# ~ raise Warning(partner.commercial_partner_id.ref)
-			return requests.get(url).json()  
+			return r  
 			
 	

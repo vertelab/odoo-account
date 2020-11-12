@@ -1,5 +1,5 @@
 {
-    'name':'Membership Insurance Fortnox',
+    'name':'Membership Insurance',
     'description': 'Fields for administer members in insurance industry',
     'version':'1.0',
     'author':'Vertel AB',

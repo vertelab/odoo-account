@@ -3,9 +3,10 @@
 
 
 {
-    'name': 'Membership Invoice FortNox',
+    'name': 'Membership Invoice FortNox Conf',
     'version': '1.0',
     'category': 'memberhsip',
+    'author':'Vertel AB',
     'description': """
 This module extends the invoicing capabilities for membership-module
     """,
