@@ -1,6 +1,6 @@
 {
-    'name':'Membership Insurance',
-    'description': 'Fields for administer members in insurance industry',
+    'name':'Inexchange Invoice',
+    'description': 'Fields for invoicing through Inexchange',
     'version':'1.0',
     'author':'Vertel AB',
 
@@ -8,7 +8,7 @@
         'views/res_company_view.xml',
     ],
     'category': 'account',
-    'depends': ['crm','membership','l10n_se'],
+    'depends': ['l10n_se'],
     'sequence': 5,
     'application': False,
 }

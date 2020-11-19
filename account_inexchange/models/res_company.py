@@ -30,74 +30,91 @@ _logger = logging.getLogger(__name__)
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
-    invoice_fortnox = fields.Boolean(string = "Send to Fortnox", default=True)
+    invoice_inexchange = fields.Boolean(string = "Send to Inexchange", default=True)
 
 class res_company(models.Model):
     _inherit = ['res.company','mail.thread','mail.activity.mixin']
     _name= 'res.company'
     
-    fortnox_authorization_code = fields.Char(string='Authorization code',help="You get this code from your FortNox Account when tou activate Odoo",store=True)
-    fortnox_client_secret = fields.Char(string='Client Secret',help="You get this code from your Odoo representative",store=True)
-    fortnox_access_token = fields.Char(string='Access Token',help="With autorization code and client secret you generate this code ones",store=True)
+    inexchange_apikey = fields.Char(string='API Key',help="You get this code from your inexchange Account when tou activate Odoo",store=True)
+    inexchange_client_token = fields.Char(string='Client Token',help="You get this code from your Odoo representative",store=True)
     
     
     
     @api.multi
-    def fortnox_get_access_token(self):  
+    def inexchange_request_client_token(self):  
         # ~ self.ensure_one()
-        if not self.fortnox_access_token:
-            if not self.fortnox_authorization_code:
-                raise Warning("You have to set up Authorization_token for FortNox, you get that when you activate Odoo in your FortNox-account")
-            if not self.fortnox_client_secret:
-                raise Warning("You have to set up Client_secret for FortNox, you get that when you activate Odoo in your FortNox-account")
+        if not self.inexchange_client_token:
+            if not self.inexchange_apikey:
+                raise Warning("You have to set up API Key for Inexchange, you get that when you activate Odoo in your inexchange-account")
             try:
-                _logger.warn('Authorization-code %s Client Secret %s Haze' % (self.fortnox_authorization_code,self.fortnox_client_secret))
-
-                r = requests.post(
-                    url="https://api.fortnox.se/3/customers",  
-                    headers = {
-                        "Authorization-Code": self.fortnox_authorization_code,
-                        "Client-Secret": self.fortnox_client_secret,
-                        "Content-Type":"application/json",
-                        "Accept":"application/json",
-                    },
-                )
+                _logger.warn('Apikey %s Haze' % self.inexchange_apikey)
+                url = "https://testapi.inexchange.com/v1/api/clientTokens/create HTTP/1.1"
+                r = self.env.user.company_id.inexchange_request('POST', url,
+                data={
+                "erpId": self.env.user.company_id.id,
+                "validTo": None ,
+                })
+                r = json.loads(r)
+                self.inexchange_client_token = r["token"] 
                 # ~ raise Warning('%s' %r.headers)
                 _logger.warn('Response HTTP Haze Status Code : {status_code}'.format(status_code=r.status_code))
                 _logger.warn('Response HTTP Haze Response Body : {content}'.format(content=r.content))
                 auth_rec = eval(r.content)
-                self.fortnox_access_token = auth_rec.get('Authorization',{}).get('AccessToken')
-                _logger.warn('AccesssToken %s Haze' % self.fortnox_access_token)
-                self.message_post(body=_("New Access Token %s" %self.fortnox_access_token), subject=None, message_type='notification')
+                self.inexchange_access_token = auth_rec.get('APIKey',{}).get('AccessToken')
+                _logger.warn('ClientToken %s Haze' % self.inexchange_client_token)
+                self.message_post(body=_("New Client Token %s" %self.inexchange_client_token), subject=None, message_type='notification')
             except requests.exceptions.RequestException as e:
                 raise Warning('HTTP Request failed %s' % e)
         else:
             
-            raise Warning('Access Token already fetched')
+            raise Warning('Client Token already fetched')
             
             
-    
-    # ~ @api.depends('fortnox_access_token')
+    def company_check_status(self):
+        for partner in self:
+            url = "https://testapi.inexchange.com/v1/api/companies/status/ HTTP/1.1"
+            r = self.env.user.company_id.inexchange_request('GET', url,
+                headers={
+                ClientToken: self.inexchange_client_token,
+                Host: testapi.inexchange.se,
+                Connection: close,
+                Accept: "*/*",
+                })
+            self.company_id.ref = r["companyId"] 
+            
+    def get_company_details(self):
+        self.env.user.company_id.inexchange_request_client_token()
+        for partner in self:
+            url = "https://v1/api/companies/details/%s" %partner.company_id.ref
+            r = self.env.user.company_id.inexchange_request('GET', url,
+                headers={
+                ClientToken: self.inexchange_client_token,
+                Host: testapi.inexchange.se,
+                Accept: "*/*",
+                })
     @api.multi
-    def fortnox_request(self,request_type,url,data=None):
-        # Customer (POST https://api.fortnox.se/3/customers)
+    def inexchange_request(self,request_type,url,data=None):
+        # Company (POST /v1/api/companies/register/ HTTP/1.1)
         headers = {
-            "Access-Token": self.fortnox_access_token,
-            "Client-Secret": self.fortnox_client_secret,
-            "Content-Type":"application/json",
-            "Accept":"application/json",
+            "APIKey": self.env.user.company_id.inexchange_apikey,
+            "ClientToken": self.env.user.company_id.inexchange_client_token if self.env.user.company_id.inexchange_client_token else None,
+            "Content-Type": "application/json",
+            "Host": "testapi.inexchange.se,"
+            "Content-Length": 265,
+            "Expect": "100-continue",
         }
         _logger.warn('%s Haze Request_type' %request_type)
         _logger.warn('%s Haze Headers' %headers)
         _logger.warn('%s %s Haze Url DATA' %(url, data) )
 
         try:
-            if request_type == 'post':
+            if request_type == 'POST':
                 r = requests.post(url=url,headers = headers,data = json.dumps(data))
             if request_type == 'put':
                 r = requests.put(url=url,headers = headers,data = json.dumps(data))
-            if request_type == 'get':
-                r = requests.get(url=url,headers = headers)
+            if request_type == 'GET':
+                r = requests.get(url=url,headers = headers,data = json.dumps(data))
             if request_type == 'delete':
                 r = requests.delete(url=url,headers = headers)
             _logger.warn('Response HTTP Status Code : {status_code}'.format(status_code=r.status_code))
@@ -113,5 +130,33 @@ class res_company(models.Model):
             raise Warning('HTTP Request failed %s' % e)
         _logger.warn('%s Haze Content' % r.content) 
         return r.content
+        
+    def company_setup_request(self):
+        self.env.user.company_id.inexchange_request_client_token()
+        for partner in self:
+            url = "https://v1/api/network/setup"
+            r = self.env.user.company_id.inexchange_request('POST', url,
+                headers = {
+                    Host: testapi.inexchange.se,
+                    Content-Type: application/json,
+                    ClientToken: self.inexchange_client_token,
+                    Accept: "*/*",
+                    Content-Length: 152,
+                },
+                data = {
+                    "operator": {
+                      "name": "Operator Demo"
+                    },
+                    "name":  partner.commercial_partner_id.name,
+                    "OrgNo": partner.commercial_partner_id.company_registry,
+                    "GLN": partner.id_number.name,
+                    "Email": partner.email,
+                    "processes": [
+                      "ReceiveInvoices"
+                    ]
+                })
+            r = json.loads(r)
+            
+        
 
 

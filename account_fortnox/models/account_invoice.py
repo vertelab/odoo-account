@@ -67,7 +67,8 @@ class account_invoice(models.Model):
             _logger.warn('%s Haze Rrr' %r)
             if r.get('ErrorInformation'):
                 invoice._message_log(body='Error Creating Invoice Fortnox %s ' % r['ErrorInformation']['message'], subject='Fortnox Error')
-                raise Warning('%s Haze Error' %invoice.partner_id.name)
+                raise Warning('%s has prolem in its contact information, please check it' %invoice.partner_id.name)
+                _logger.warn('%s Haze Error' %invoice.partner_id.name)
                 break
             else:
                 invoice.ref = r["Invoice"]["CustomerNumber"]

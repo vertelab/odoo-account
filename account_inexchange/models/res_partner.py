@@ -15,77 +15,56 @@ class Partner(models.Model):
 	_inherit = 'res.partner'
 	
 	def partner_create(self):
-		# Customer (PUT https://api.fortnox.se/3/customers)
+		# Company (POST /v1/api/companies/register/ HTTP/1.1)
 		for partner in self:
 			if not partner.commercial_partner_id.ref:
 				# ~ try:
-				url = "https://api.fortnox.se/3/customers"
+				url = "https://testapi.inexchange.com/v1/api/companies/register/ HTTP/1.1"
 				""" r = response """
-				r = self.env.user.company_id.fortnox_request('post', url,
+				r = self.env.user.company_id.inexchange_request('POST', url,
 					data={
-						"Customer": {
-							"Address1": partner.street,
-							"Address2": partner.street2,
-							"City": partner.city,
-							"Comments": partner.comment,
-							"CountryCode": "SE",
-							"Currency": "SEK",
-							# ~ "CustomerNumber": partner.commercial_partner_id.id,
-							"Email": partner.email,
-							"Name": partner.commercial_partner_id.name,
-							"OrganisationNumber": partner.commercial_partner_id.company_registry,
-							"OurReference": partner.commercial_partner_id.user_id.name,
-							"Phone1": partner.commercial_partner_id.phone,
-							"Phone2": None,
-							"PriceList": "A",
-							"ShowPriceVATIncluded": False,
-							# ~ "TermsOfPayment": partner.commercial_partner_id.property_payment_term_id.name,
-							"Type": "COMPANY",
-							"VATNumber": partner.commercial_partner_id.vat,
-							"VATType": "SEVAT",
-							"WWW": partner.commercial_partner_id.website,
-							"YourReference": partner.name,
-							"ZipCode": partner.zip,
-						}
-					})
+					"erpId": partner.commercial_partner_id.id,
+					"orgNo": partner.commercial_partner_id.company_registry,
+					"vatNo": partner.commercial_partner_id.vat,
+					"name": partner.commercial_partner_id.name,
+					"erpProduct": "DEMO Product 1.0",
+					"city": partner.city,
+					"countryCode": "SE",
+					"languageCode": "sv-SE",
+					"email": partner.email,
+					"isVatRegistered": true,
+					"processes": [
+						"SendInvoices",
+						"ReceiveInvoices"
+					]})
 			r = json.loads(r)
-			partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"] 
+			partner.commercial_partner_id.ref = r["companyId"] 
 			return r  
-#FIXME:make fortnox_update auto-updating.
+#FIXME:make inexchange_update auto-updating.
+
 	@api.multi
 	def partner_update(self):
-		# Customer (PUT https://api.fortnox.se/3/customers)
+		# Customer (PUT https://api.inexchange.se/3/customers)
 		for partner in self:
 			if partner.commercial_partner_id.ref:
-				url = "https://api.fortnox.se/3/customers/%s" % partner.commercial_partner_id.ref
+				url = "https://testapi.inexchange.com/v1/api/companies/register/ HTTP/1.1" % partner.commercial_partner_id.ref
 				""" r = response """
-				r = self.env.user.company_id.fortnox_request('put', url,
-					data={
-						"Customer": {
-							"Address1": partner.street,
-							"Address2": partner.street2,
-							"City": partner.city,
-							"Comments": partner.comment,
-							"CountryCode": "SE",
-							"Currency": "SEK",
-							"Email": partner.email,
-							"Name": partner.commercial_partner_id.name,
-							"OrganisationNumber": partner.commercial_partner_id.company_registry,
-							"OurReference": partner.commercial_partner_id.user_id.name,
-							"Phone1": partner.commercial_partner_id.phone,
-							"Phone2": None,
-							"PriceList": "A",
-							"ShowPriceVATIncluded": False,
-							"Type": "COMPANY",
-							"VATNumber": partner.commercial_partner_id.vat,
-							"VATType": "SEVAT",
-							"WWW": partner.commercial_partner_id.website,
-							"YourReference": partner.name,
-							"ZipCode": partner.zip,
-						}
-					})
-					
-			
+				r = self.env.user.company_id.inexchange_request('POST', url,
+					data = {
+					"erpId": partner.commercial_partner_id.id,
+					"orgNo": partner.commercial_partner_id.company_registry,
+					"vatNo": partner.commercial_partner_id.vat,
+					"name": partner.commercial_partner_id.name,
+					"erpProduct": "DEMO Product 1.0",
+					"city": partner.city,
+					"countryCode": "SE",
+					"languageCode": "sv-SE",
+					"email": partner.email,
+					"isVatRegistered": true,
+					"processes": [
+						"SendInvoices",
+						"ReceiveInvoices"
+					]})
 			r = json.loads(r)
 			# ~ partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"] 
 			_logger.warn('%s Haze ref ref ' % partner.commercial_partner_id.ref)
