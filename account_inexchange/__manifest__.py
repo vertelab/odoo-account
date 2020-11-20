@@ -5,6 +5,7 @@
     'author':'Vertel AB',
 
     'data': [
+        'views/res_config_settings_view.xml',
         'views/res_company_view.xml',
     ],
     'category': 'account',
