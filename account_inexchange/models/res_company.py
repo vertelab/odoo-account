@@ -24,6 +24,7 @@ import time
 import re
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 import requests
+from odoo import http
 import json
 import logging
 _logger = logging.getLogger(__name__)
@@ -39,14 +40,7 @@ class res_company(models.Model):
                 if not company.partner_id.ref:
                     url = "https://testapi.inexchange.se/v1/api/companies/register"
                     """ r = response """
-                    r = requests.post(url,
-                        headers = {
-                        "APIKey": self.env['ir.config_parameter'].sudo().get_param('inexchange.apikey'),
-                        "Content-Type": "application/json; charset=utf-8",
-                        "Host": "testapi.inexchange.se",
-                        "Content-Length": "265",
-                        "Expect": "100-continue",
-                        },
+                    r = self.env['res.config.settings'].inexchange_request_api('POST', url,
                         data={
                         "erpId": company.partner_id.id,
                         "orgNo": company.company_registry,
@@ -60,91 +54,76 @@ class res_company(models.Model):
                         "isVatRegistered": True,
                         "processes": [
                             "SendInvoices",
-                            "ReceiveInvoices"
+                            "ReceiveInvoices",
                         ]})
-                # ~ company.partner_id.ref = r['companyId']
-                _logger.warn('Haze %s' %r)
-                # ~ self.env['res.config.settings'].inexchange_request_client_token()
-                # ~ company.company_check_status()
+                    r = json.loads(r)
+                    _logger.warn('%s Haze Company' % r)
+                
+                # ~ company.update_company_info()
+                company.company_check_status()
+                # ~ company.get_company_details()
+                
+                
+            
         except requests.exceptions.RequestException as e:
             _logger.warn('HTTP Request failed %s' % e)
             raise Warning('HTTP Request failed %s' % e)
-        _logger.warn('%s Haze Content' % r) 
-        # ~ r = json.dumps(r)
-        # ~ company.partner_id.ref = r["companyId"] 
-        return r  
+        
+         
+        # ~ return r  
         
     @api.multi
     def update_company_info(self):
         for company in self:
-            if company.partner_id.ref:
-                url = "https://testapi.inexchange.se/v1/api/companies/register"
-                """ r = response """
-                r = requests.post(url,
-                    headers = {
-                        "APIKey": self.env['ir.config_parameter'].sudo().get_param('inexchange.apikey'),
-                        "Content-Type": "application/json; charset=utf-8",
-                        "Host": "testapi.inexchange.se",
-                        "Content-Length": "265",
-                        "Expect": "100-continue",
-                    },
-                    data = {
-                    "erpId": company.partner_id.id,
-                    "orgNo": company.company_registry,
-                    "vatNo": company.vat,
-                    "name": company.name,
-                    "erpProduct": None,
-                    "city": company.city,
-                    "countryCode": "SE",
-                    "languageCode": "sv-SE",
-                    "email": company.email,
-                    "isVatRegistered": True,
-                    "processes": [
-                        "SendInvoices",
-                        "ReceiveInvoices"
-                    ]})
-            r = json.dumps(r)
-            # ~ partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"] 
-            _logger.warn('%s Haze ref ref ' % partner.commercial_partner_id.ref)
-            return r  
+            url = "https://testapi.inexchange.se/v1/api/companies/register"
+            """ r = response """
+            r = self.env['res.config.settings'].inexchange_request_api('POST', url,
+                data={
+                "erpId": company.partner_id.id,
+                "orgNo": company.company_registry,
+                "vatNo": company.vat,
+                "name": company.name,
+                "erpProduct": "DEMO Product 1.0",
+                "city": company.city,
+                "countryCode": "SE",
+                "languageCode": "sv-SE",
+                "email": company.email,
+                "isVatRegistered": True,
+                "processes": [
+                    "SendInvoices",
+                    "ReceiveInvoices",
+                ]})
+            r = json.loads(r)
+            _logger.warn('%s Haze Update' % r)
+            # ~ raise Warning(r.content)
+        company.company_check_status()
+            
+            # ~ return r  
             
     @api.multi
     def company_check_status(self):
+        url = "https://testapi.inexchange.se/v1/api/companies/status"
         for company in self:
-            url = "https://testapi.inexchange.se/v1/api/companies/status"
-            r = requests.get(url,
-                headers={
-                "ClientToken": self.env['res.config.settings'].inexchange_client_token,
-                "Host": "testapi.inexchange.se",
-                "Connection": "close",
-                "Accept": "*/*",
-                })
-            company.partner_id.ref = r["companyId"] 
+            r = self.env['res.config.settings'].inexchange_request_token('GET', url)
+            r = json.loads(r)
+            company.partner_id.ref = r["companyId"]
+            _logger.warn('Haze company ID %s' % company.partner_id.ref)
             
     @api.multi
     def get_company_details(self):
         self.env['res.config.settings'].inexchange_request_client_token()
         for company in self:
-            url = "Host/api/companies/details/%s" %company.partner_id.ref
-            r = requests.get(url,
-                headers={
-                "ClientToken": self.env['ir.config_parameter'].sudo().get_param('inexchange.client.token'),
-                "Host": "testapi.inexchange.se",
-                "Accept": "*/*",
-                })
+            url = "https://testapi.inexchange.se/v1/api/companies/details/%s" %company.partner_id.ref
+            r = self.env['res.config.settings'].inexchange_request_token('GET', url)
+            _logger.warn('Haze company details %s' %r)
+            
     @api.multi
     def company_setup_request(self):
         self.env['res.config.settings'].inexchange_request_client_token()
+        url = "https://testapi.inexchange.se/v1/api/network/setup"
         for company in self:
-            url = "https://testapi.inexchange.se/v1/api/network/setup"
-            r = requests.post(url,
-                headers = {
-                    "Host": "testapi.inexchange.se",
-                    "Content-Type": "application/json",
-                    "ClientToken": self.env['ir.config_parameter'].sudo().get_param('inexchange.client.token'),
-                    "Accept": "*/*",
-                    "Content-Length": "152",
-                },
+            
+            r = self.env['res.config.settings'].inexchange_request_token('POST', url,
                 data = {
                     "operator": {
                       "name": "Operator Demo"
@@ -157,20 +136,13 @@ class res_company(models.Model):
                       "ReceiveInvoices"
                     ]
                 })
-            r = json.dumps(r)
+            r = json.loads(r)
     @api.multi
     def add_identifiers(self):
         self.env['res.config.settings'].inexchange_request_client_token()
         for company in self:
             url = "https://testapi.inexchange.se/v1/api/companies/identifiers"
-            r = requests.post(url,
-                headers = {
-                    "Host": "testapi.inexchange.se",
-                    "Content-Type": "application/json",
-                    "ClientToken": self.env['ir.config_parameter'].sudo().get_param('inexchange.client.token'),
-                    "Accept": "*/*",
-                    "Content-Length": "152",
-                },
+            r = self.env['res.config.settings'].inexchange_request_token('POST',url,
                 data = {
                     "operator": {
                       "name": "Operator Demo"
@@ -183,21 +155,14 @@ class res_company(models.Model):
                       "ReceiveInvoices"
                     ]
                 })
-            r = json.dumps(r)
+            r = json.loads(r)
             
     @api.multi
     def add_users(self):
         self.env['res.config.settings'].inexchange_request_client_token()
         for company in self:
             url = "https://testapi.inexchange.se/v1/api/companies/identifiers"
-            r = requests.post(url,
-                headers = {
-                    "Host": "testapi.inexchange.se",
-                    "Content-Type": "application/json",
-                    "ClientToken": self.env['ir.config_parameter'].sudo().get_param('inexchange.client.token'),
-                    "Accept": "*/*",
-                    "Content-Length": "50",
-                },
+            r = self.env['res.config.settings'].inexchange_request_token('POST', url,
                 data = {
                     "operator": {
                       "name": "Operator Demo"
@@ -210,7 +175,7 @@ class res_company(models.Model):
                       "ReceiveInvoices"
                     ]
                 })
-            r = json.dumps(r)
+            r = json.loads(r)
         
         
     

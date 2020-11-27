@@ -16,36 +16,30 @@ _logger = logging.getLogger(__name__)
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
     
-    def upload_invoice(self):
-        self.env['res.config.settings'].inexchange_request_client_token()
+    def upload_invoice(self,client_token,data):
+        url = "https://testapi.inexchange.se/v1/api/documents"
         for invoice in self:
-            url = "https://testapi.inexchange.se/v1/api/documents"
-            r = requests.post(url,
+            r = self.env['res.config.settings'].inexchange_request_token('POST', url,
                 headers={
                 "ClientToken": self.env['ir.config_parameter'].sudo().get_param('inexchange.client.token'),
                 "Host": "testapi.inexchange.se",
                 "Content-Type": "multipart/form-data; boundary=X-TEST-BOUNDARY",
                 "Accept": "*/*",
-                "Content-Length": "153",
+                "Content-Length": len(data),
                 
                 --X-TEST-BOUNDARY--
                 "Content-Disposition": 'form-data; name="File"; filename="testfile.xml"',
                 "Content-Type": "application/xml",
                 # ~ --X-TEST-BOUNDARY--
                 })
-            r = json.dumps(r)
+            r = json.loads(r)
                 
-    def send_uploaded_invoice(self):
+    def send_uploaded_invoice(self,env,client_token,invoice):
+        
+        url = "https://%s/v1/api/outbound" % self.env['ir.config_parameter'].sudo().get_param('inexchange.test.host') if env == "test" else self.env['ir.config_parameter'].sudo().get_param('inexchange.real.host')
         for invoice in self:
-            url = "https://testapi.inexchange.se/v1/api/outbound"
-            r = requests.post(url,
-                headers={
-                "ClientToken": self.env['ir.config_parameter'].sudo().get_param('inexchange.client.token'),
-                "Host": "testapi.inexchange.se",
-                "Content-Type": "application/json",
-                "Accept": "*/*",
-                "Content-Length": "1387",
-                },
+            data = {}
+            r = self.env['res.config.settings'].inexchange_request_token('POST', url,
                 data={
                 "sendDocumentAs": {
                     "type": "PDF",
@@ -96,49 +90,33 @@ class account_invoice(models.Model):
                     "culture": "sv-SE"
                   }
                 })
-            r = json.dumps(r)
+            r = json.loads(r)
             
     def fetch_invoice(self):
         self.env['res.config.settings'].inexchange_request_client_token()
+        url = "https://testapi.inexchange.se/v1/api/documents/incoming?type=invoice"
         for invoice in self:
-            url = "https://testapi.inexchange.se/v1/api/documents/incoming?type=invoice"
-            r = requests.get(url,
-                headers={
-                "ClientToken": self.env['ir.config_parameter'].sudo().get_param('inexchange.client.token'),
-                "Host": "testapi.inexchange.se",
-                "Accept": "*/*",
-                "Content-Length": "0"
-                })
-            r = json.dumps(r)
+            
+            r = self.env['res.config.settings'].inexchange_request_token('GET', url)
+            r = json.loads(r)
             invoice.name = r['documents']['id']
             
     def download_invoice(self):
         for invoice in self:
             if invoice.name:
                 url = "https://testapi.inexchange.se/v1/api/documents/%s" %invoice.name
-                r = requests.get('GET', url,
-                    headers={
-                    "ClientToken": self.env['res.config.settings'].inexchange_client_token,
-                    "Host": "testapi.inexchange.se",
-                    "Accept": "*/*",
-                    })
-            r = json.dumps(r)
+                r = self.env['res.config.settings'].inexchange_request_token('GET', url)
+            r = json.loads(r)
     @api.multi
     def mark_invoice_as_handled(self):
         for invoice in self:
             if invoice.name:
                 url = "https://testapi.inexchange.se/api/documents/handled" 
-                r = requests.post(url,
-                    headers={
-                    "ClientToken": self.env['ir.config_parameter'].sudo().get_param('inexchange.client.token'),
-                    "Host": "testapi.inexchange.se",
-                    "Content-Type": "application/json",
-                    "Accept": "*/*",
-                    },
+                r = self.env['res.config.settings'].inexchange_request_token('POST',url,
                     data={
                     "documents":[invoice.name]
                     })
-            r = json.dumps(r)
+            r = json.loads(r)
                 
             
             

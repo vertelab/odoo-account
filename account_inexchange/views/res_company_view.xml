@@ -15,6 +15,11 @@
                 <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img" />
                       <button type="object" name="register_company" string="Register My Company" icon="fa-arrow-right" class="oe_link" />
               </div>
+              <div class="o_setting_right_pane">
+                <span class="o_form_label">Update My Company </span>
+                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img" />
+                      <button type="object" name="update_company_info" string="Update My Company" icon="fa-arrow-right" class="oe_link" />
+              </div>
         </div>
       </div>
       <form position="inside">
