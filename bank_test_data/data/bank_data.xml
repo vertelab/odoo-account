@@ -1,0 +1,24 @@
+<odoo>
+    <data noupdate="1">
+        <record id="pg_bank" model="res.bank">
+            <field name="name">PG</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="bg_bank" model="res.bank">
+            <field name="name">BG</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="pg_bank" model="res.partner.bank">
+            <field name="acc_number">901950-6</field>
+            <field name="partner_id" ref="partner_test_data.partner_ben"/>
+        </record>
+
+        <record id="bg_bank" model="res.partner.bank">
+            <field name="acc_number">5113-0581 </field>
+            <field name="partner_id" ref="partner_test_data.partner_drake"/>
+        </record>
+
+    </data>
+</odoo>
