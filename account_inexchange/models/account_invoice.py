@@ -4,6 +4,7 @@
 from odoo import api, fields, models
 from odoo.exceptions import Warning
 import warnings
+import time
 
 from datetime import datetime
 import requests
@@ -16,27 +17,21 @@ _logger = logging.getLogger(__name__)
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
     
-    def upload_invoice(self,client_token,data):
+    def upload_invoice(self):
         url = "https://testapi.inexchange.se/v1/api/documents"
+        # ~ client_token = self.env['res.config.settings'].inexchange_request_client_token()
         for invoice in self:
-            r = self.env['res.config.settings'].inexchange_request_token('POST', url,
-                headers={
-                "ClientToken": self.env['ir.config_parameter'].sudo().get_param('inexchange.client.token'),
-                "Host": "testapi.inexchange.se",
-                "Content-Type": "multipart/form-data; boundary=X-TEST-BOUNDARY",
-                "Accept": "*/*",
-                "Content-Length": len(data),
-                
-                --X-TEST-BOUNDARY--
-                "Content-Disposition": 'form-data; name="File"; filename="testfile.xml"',
-                "Content-Type": "application/xml",
-                # ~ --X-TEST-BOUNDARY--
-                })
+            r = self.env['res.config.settings'].inexchange_invoice_upload('POST', url)
             r = json.loads(r)
+            location = r.items()
+            _logger.warn('Hazelocation %s'%location)
+            # ~ invoice.name = r.location
+            
+            _logger.warn('Haze1+ %s' %invoice.name)
                 
-    def send_uploaded_invoice(self,env,client_token,invoice):
+    def send_uploaded_invoice(self):
         
-        url = "https://%s/v1/api/outbound" % self.env['ir.config_parameter'].sudo().get_param('inexchange.test.host') if env == "test" else self.env['ir.config_parameter'].sudo().get_param('inexchange.real.host')
+        url = "https://testapi.inexchange.se/v1/api/outbound"
         for invoice in self:
             data = {}
             r = self.env['res.config.settings'].inexchange_request_token('POST', url,
@@ -71,7 +66,7 @@ class account_invoice(models.Model):
                     }
                   },
                   "recipientInformation": {
-                    "gln": invoice.partner_id.commercial_partner_id.id_number.name,
+                    "gln": invoice.partner_id.commercial_partner_id.id_numbers.name,
                     "orgNo": invoice.partner_id.commercial_partner_id.company_registry,
                     "vatNo": invoice.partner_id.commercial_partner_id.vat,
                     "name": invoice.partner_id.name,
@@ -91,6 +86,18 @@ class account_invoice(models.Model):
                   }
                 })
             r = json.loads(r)
+            
+            _logger.warn('Haze3 %s' %invoice.name)
+            _logger.warn('Haze2 %s' %r)
+    
+    def invoice_status(self):
+        for invoice in self:
+            url = "%s" % invoice.name
+            r = self.env['res.config.settings'].inexchange_request_token('GET', url)
+            r = json.loads(r)
+            _logger.debug('Haze4 %s' %r)
+            
+            
             
     def fetch_invoice(self):
         self.env['res.config.settings'].inexchange_request_client_token()
@@ -119,7 +126,24 @@ class account_invoice(models.Model):
             r = json.loads(r)
                 
             
-            
+class AccountInvoiceSend(models.TransientModel):
+    _inherit = 'account.invoice.send'
+
+    is_inexchange = fields.Boolean(string='InExchange',default=True)
+    
+    
+    @api.multi
+    def send_and_print_action(self):
+        res = super(AccountInvoiceSend, self).send_and_print_action()
+        if self.is_inexchange:
+            for invoice in self.invoice_ids:
+                # ~ time.sleep(1)
+                # ~ if not invoice.name:
+                # ~ raise Warning(invoice)
+                invoice.upload_invoice()
+                invoice.send_uploaded_invoice()
+                # ~ invoice.invoice_status()
+        return res            
             
             
     

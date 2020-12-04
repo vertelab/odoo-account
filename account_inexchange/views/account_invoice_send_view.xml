@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020 Vertel
+    License AGPL-3.0 or later (http://www.vertel.se).
+-->
+
+
+<odoo>
+    <record id="account_invoice_send_inherit_account_wizard_form_inexchange" model="ir.ui.view" >
+        <field name="name">account.invoice.send.form.inherited.inexchange</field>
+        <field name="model">account.invoice.send</field>
+        <field name="inherit_id" ref="account.account_invoice_send_wizard_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='option_email']" position="replace">
+                <field name="is_email" invisible="1" />
+                <div name="option_inexchange">
+                    <field name="is_inexchange" />
+                    <b><label for="is_inexchange"/></b>
+                </div>
+            </xpath>
+<!--
+            <label for="is_print" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </label>
+            <field name="is_print" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </field>
+            <label for="snailmail_is_letter" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </label>
+            <field name="snailmail_is_letter" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </field>
+-->
+            <footer>
+                <button string="Send Action "
+                    attrs="{'invisible': [('is_inexchange', '=', False)]}"
+                    name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
+<!--
+                <button string="Send" name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
+-->
+            </footer>
+        </field>
+    </record>
+    
+</odoo>

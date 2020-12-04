@@ -64,7 +64,7 @@ class ResConfigSettings(models.TransientModel):
                     "validTo": None ,
                     },)
                 r = json.loads(r)
-                client_token = r['token']
+                client_token = r["token"]
                 _logger.warn('ClientToken %s Haze' % client_token)
                 return client_token
             except requests.exceptions.RequestException as e:
@@ -140,6 +140,42 @@ class ResConfigSettings(models.TransientModel):
             _logger.warn('HTTP Request failed %s' % e)
             raise Warning('HTTP Request failed %s' % e)
         _logger.warn('%s Haze Content 2' % r.content) 
+        return r.content
+        
+    @api.multi
+    def inexchange_invoice_upload(self,request_type,url,data=None):
+        client_token = self.env['res.config.settings'].inexchange_request_client_token()
+        headers = {
+                    "ClientToken": client_token,
+                    "Host": "testapi.inexchange.se",
+                    "Accept": "*/*",
+                    "Content-Disposition": 'form-data; name="File"; filename="testfile.xml"',
+                    "Content-Type": "multipart/form-data; boundary=X-TEST-BOUNDARY",
+                    
+                    "X-TEST-BOUNDARY":json.dumps({
+                    "Content-Disposition": 'form-data; name="File"; filename="testfile.xml"',
+                    "Content-Type": "application/xml",
+                    }),
+                }
+        _logger.warn('%s Hazelocation' %client_token)
+        _logger.warn('%s Haze upload Request_type' %request_type)
+        _logger.warn('%s Haze upload Headers' %headers)
+        _logger.warn('%s %s Haze upload Url DATA' %(url, data) )
+        try:
+            if request_type == 'POST':
+                r = requests.post(url = url,headers = headers)
+            _logger.warn('Response HTTP Status Code : {status_code}'.format(status_code=r.status_code))
+            _logger.warn('Response HTTP Response Body : {content}'.format(content=r.content))
+
+            # ~ raise Warning(r.content)
+            
+            if r.status_code in [403]:
+                raise Warning(r.content)
+            
+        except requests.exceptions.RequestException as e:
+            _logger.warn('HTTP Request failed %s' % e)
+            raise Warning('HTTP Request failed %s' % e)
+        _logger.warn('%s Haze upload Content 2' % r.content) 
         return r.content
         
         

@@ -26,6 +26,7 @@
                   </div>
                 </div>
                 
+<!--
                 <div class="col-12 col-lg-6 o_setting_box" id="client_token" title="An Client Token is calculated and fetch from your inexchange-account.">
                   <div class="o_setting_left_pane" />
                   <div class="o_setting_right_pane">
@@ -43,6 +44,7 @@
                     </div>
                   </div>
                 </div>
+-->
               </div>
             </div>
           </xpath>
