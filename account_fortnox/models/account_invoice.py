@@ -47,7 +47,7 @@ class account_invoice(models.Model):
                 data={                   
                     "Invoice": {
                         "Comments": "",
-                        # ~ "Credit": "false",
+                        # ~ "Credit": True if invoice.type == "out_refund" else False,
                         # ~ "CreditInvoiceReference": 0,
                         "Currency": "SEK",
                         "CustomerName": invoice.partner_id.commercial_partner_id.name,
@@ -71,9 +71,13 @@ class account_invoice(models.Model):
                 _logger.warn('%s Haze Error' %invoice.partner_id.name)
                 break
             else:
+                # ~ if invoice.type != "out_refund":
                 invoice.ref = r["Invoice"]["CustomerNumber"]
                 # ~ invoice.reference = r["Invoice"]["DocumentNumber"]
                 invoice.name = r["Invoice"]["DocumentNumber"]
+                # ~ else:
+                    # ~ invoice.ref = r["Invoice"]["CustomerNumber"]
+                    # ~ invoice.name = r["Invoice"]["CreditInvoiceReference"]
             return r
     
         

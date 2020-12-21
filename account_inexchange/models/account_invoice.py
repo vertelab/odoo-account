@@ -22,16 +22,20 @@ class account_invoice(models.Model):
         # ~ client_token = self.env['res.config.settings'].inexchange_request_client_token()
         for invoice in self:
             r = self.env['res.config.settings'].inexchange_invoice_upload('POST', url)
-            r = json.loads(r)
-            location = r.items()
-            _logger.warn('Hazelocation %s'%location)
+            _logger.warn('HazeR %s' %r)
+            # ~ r = json.loads(js.decode(r))
+            response = requests.get(url)
+            # ~ data= response.json()
+            # ~ location = data['Location']
+            # ~ _logger.warn('Hazedata %s'%response)
             # ~ invoice.name = r.location
-            
+            #It has a location to send back but I can not get it out...
             _logger.warn('Haze1+ %s' %invoice.name)
                 
     def send_uploaded_invoice(self):
-        
-        url = "https://testapi.inexchange.se/v1/api/outbound"
+        #all infomation are in the log, but because of other problems, it can not be upload to inexchange, I have 
+        # to fix boundary first and then get the location string back then this step will be processed.
+        url = "https://testapi.inexchange.se/v1/api/documents/outbound"
         for invoice in self:
             data = {}
             r = self.env['res.config.settings'].inexchange_request_token('POST', url,
@@ -74,7 +78,7 @@ class account_invoice(models.Model):
                     "countryCode": "SE"
                   },
                   "document": {
-                    "documentFormat": "UBL-Invoice-2.1",
+                    "documentFormat": "syntaxbindning",
                     "documentUri": "urn:inexchangedocument:4a149d3d-da2d-4d77-9046-694e4ef7b111",
                     "renderedDocumentFormat": "application/pdf",
                     "renderedDocumentUri": "urn:inexchangedocument:4a149d3d-da2d-4d77-9046-694e4ef7b111",
@@ -142,7 +146,7 @@ class AccountInvoiceSend(models.TransientModel):
                 # ~ raise Warning(invoice)
                 invoice.upload_invoice()
                 invoice.send_uploaded_invoice()
-                # ~ invoice.invoice_status()
+                invoice.invoice_status()
         return res            
             
             

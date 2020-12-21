@@ -119,9 +119,9 @@ class ResConfigSettings(models.TransientModel):
                     "Accept": "*/*",
                     "Content-Length": str(len(data)) if data else None,
                 }
-        _logger.warn('%s Haze Request_type' %request_type)
-        _logger.warn('%s Haze Headers' %headers)
-        _logger.warn('%s %s Haze Url DATA' %(url, data) )
+        # ~ _logger.warn('%s Haze Request_type' %request_type)
+        # ~ _logger.warn('%s Haze Headers' %headers)
+        # ~ _logger.warn('%s %s Haze Url DATA' %(url, data) )
 
         try:
             if request_type == 'POST':
@@ -141,29 +141,38 @@ class ResConfigSettings(models.TransientModel):
             raise Warning('HTTP Request failed %s' % e)
         _logger.warn('%s Haze Content 2' % r.content) 
         return r.content
-        
+    #TODO:how to find a bundary which we can send to Inexchange? Order Number? it depends on us
     @api.multi
     def inexchange_invoice_upload(self,request_type,url,data=None):
         client_token = self.env['res.config.settings'].inexchange_request_client_token()
+        # ~ document_name = self.env['ir.attachment'].res_name
+        # ~ _logger.warn('Hazedocument %s' %document_name)
+        attachments = self.env['ir.attachment'].search([
+            ('res_model', '=', self._name),
+            ('res_id', 'in', self.ids),
+        ])
+        _logger.warn('Hazeattachment %s' %attachments)
+        _logger.warn('%s Hazelocation**' %client_token)
         headers = {
                     "ClientToken": client_token,
                     "Host": "testapi.inexchange.se",
                     "Accept": "*/*",
-                    "Content-Disposition": 'form-data; name="File"; filename="testfile.xml"',
-                    "Content-Type": "multipart/form-data; boundary=X-TEST-BOUNDARY",
+                    "Content-Type": "multipart/form-data; boundary=document_name",
+                    "Content-Length": str(len(data)) if data else None,
                     
-                    "X-TEST-BOUNDARY":json.dumps({
-                    "Content-Disposition": 'form-data; name="File"; filename="testfile.xml"',
+                    "document_name":json.dumps({
+                    "Content-Disposition": 'form-data; name="File"; filename="attachment"',
+                    #filename we have to set as well,
                     "Content-Type": "application/xml",
                     }),
                 }
-        _logger.warn('%s Hazelocation' %client_token)
-        _logger.warn('%s Haze upload Request_type' %request_type)
+        _logger.warn('%s Hazelocation*' %client_token)
+        # ~ _logger.warn('%s Haze upload Request_type' %request_type)
         _logger.warn('%s Haze upload Headers' %headers)
-        _logger.warn('%s %s Haze upload Url DATA' %(url, data) )
+        # ~ _logger.warn('%s %s Haze upload Url DATA' %(url, data) )
         try:
             if request_type == 'POST':
-                r = requests.post(url = url,headers = headers)
+                r = requests.post(url = url,headers = headers,data = json.dumps(data))
             _logger.warn('Response HTTP Status Code : {status_code}'.format(status_code=r.status_code))
             _logger.warn('Response HTTP Response Body : {content}'.format(content=r.content))
 
