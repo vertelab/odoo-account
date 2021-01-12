@@ -79,9 +79,9 @@ class account_invoice(models.Model):
                   },
                   "document": {
                     "documentFormat": "syntaxbindning",
-                    "documentUri": "urn:inexchangedocument:4a149d3d-da2d-4d77-9046-694e4ef7b111",
+                    # ~ "documentUri": "urn:inexchangedocument:4a149d3d-da2d-4d77-9046-694e4ef7b111",
                     "renderedDocumentFormat": "application/pdf",
-                    "renderedDocumentUri": "urn:inexchangedocument:4a149d3d-da2d-4d77-9046-694e4ef7b111",
+                    # ~ "renderedDocumentUri": "urn:inexchangedocument:4a149d3d-da2d-4d77-9046-694e4ef7b111",
                     "attachments": [
                       "urn:inexchangedocument:4a149d3d-da2d-4d77-9046-694e4ef7b111"
                     ],
@@ -89,7 +89,7 @@ class account_invoice(models.Model):
                     "culture": "sv-SE"
                   }
                 })
-            r = json.loads(r)
+            # ~ r = json.loads(r)
             
             _logger.warn('Haze3 %s' %invoice.name)
             _logger.warn('Haze2 %s' %r)

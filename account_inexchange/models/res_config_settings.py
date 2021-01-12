@@ -20,18 +20,24 @@
 ##############################################################################
 
 from odoo import models, fields, api, _
+import binascii
+import os
 import time
 import re
+import base64
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 import requests
 from odoo import http
 import json
 import logging
+from odoo.http import content_disposition, dispatch_rpc, request, \
+    serialize_exception as _serialize_exception, Response
 _logger = logging.getLogger(__name__)
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
     
+    attachment_ids = fields.Many2many('ir.attachment', 'class_id', 'attachment_id', 'Attachments')
     inexchange_apikey = fields.Char(string='API Key',config_parameter='inexchange.apikey',help="You get this code from your inexchange Account when tou activate Odoo",store=True)
     inexchange_client_token = fields.Char(string='Client Token',config_parameter='inexchange.client.token',help="You get this code from your Odoo representative",store=True)
     invoice_inexchange = fields.Boolean(string = "Send to Inexchange", default=True)
@@ -143,49 +149,66 @@ class ResConfigSettings(models.TransientModel):
         return r.content
     #TODO:how to find a bundary which we can send to Inexchange? Order Number? it depends on us
     @api.multi
-    def inexchange_invoice_upload(self,request_type,url,data=None):
+    def inexchange_invoice_upload(self, request_type, url, data=None):
         client_token = self.env['res.config.settings'].inexchange_request_client_token()
+        url = "https://testapi.inexchange.se/v1/api/documents"
+        for attachment in self.attachment_ids:
+            decoded_data = base64.b64decode(attachment)
+            with open(attachment, 'rb') as f:
+                r = requests.post(url, files={attachment: f})
+            _logger.debug('Haze.text %s' %attachment)
         # ~ document_name = self.env['ir.attachment'].res_name
         # ~ _logger.warn('Hazedocument %s' %document_name)
-        attachments = self.env['ir.attachment'].search([
-            ('res_model', '=', self._name),
-            ('res_id', 'in', self.ids),
-        ])
-        _logger.warn('Hazeattachment %s' %attachments)
-        _logger.warn('%s Hazelocation**' %client_token)
-        headers = {
-                    "ClientToken": client_token,
-                    "Host": "testapi.inexchange.se",
-                    "Accept": "*/*",
-                    "Content-Type": "multipart/form-data; boundary=document_name",
-                    "Content-Length": str(len(data)) if data else None,
+        # ~ attachments = self.env['ir.attachment'].create({
+            # ~ 'res_model':self._name,
+            # ~ 'res_id': self.id,
+            # ~ 'datas': base64.b64encode(data),
+            # ~ }
+        # ~ )
+        # ~ attachment = self.env['ir.attachment'].create({
+            # ~ 'res_model': self._name,
+            # ~ 'res_id': self.id,
+            # ~ 'datas': base64.b64encode(data),
+            # ~ 'name': 'UBL-Invoice-2.1.xml',
+            # ~ 'datas_fname': 'UBL-Invoice-2.1.xml',
+        # ~ })
+        # ~ _logger.warn('Hazeattachment %s' %attachment)
+        # ~ _logger.warn('%s Hazelocation**' %client_token)
+        # ~ headers = {
+                    # ~ "ClientToken": client_token,
+                    # ~ "Host": "testapi.inexchange.se",
+                    # ~ "Accept": "*/*",
+                    # ~ "Content-Type": "multipart/form-data; boundary=%s" %boundary,
+                    # ~ "Content-Length": str(len(data)) if data else None,
+                    # ~ "Content-Length": str(len(base64.b64encode(data))) if data else None,
                     
-                    "document_name":json.dumps({
-                    "Content-Disposition": 'form-data; name="File"; filename="attachment"',
-                    #filename we have to set as well,
-                    "Content-Type": "application/xml",
-                    }),
-                }
-        _logger.warn('%s Hazelocation*' %client_token)
+                    # ~ "boundary":{
+                    # ~ "Content-Disposition": 'form-data; name="File"; content_disposition(name))',
+                    # ~ #filename we have to set as well,
+                    # ~ "Content-Type": "application/xml",
+                    # ~ },
+                # ~ }
+        # ~ _logger.warn('%s Hazelocation*' %client_token)
         # ~ _logger.warn('%s Haze upload Request_type' %request_type)
-        _logger.warn('%s Haze upload Headers' %headers)
+        # ~ _logger.warn('%s Haze upload Headers' %headers)
         # ~ _logger.warn('%s %s Haze upload Url DATA' %(url, data) )
-        try:
-            if request_type == 'POST':
-                r = requests.post(url = url,headers = headers,data = json.dumps(data))
-            _logger.warn('Response HTTP Status Code : {status_code}'.format(status_code=r.status_code))
-            _logger.warn('Response HTTP Response Body : {content}'.format(content=r.content))
+        # ~ try:
+            # ~ if request_type == 'POST':
+                # ~ r = requests.post(url = url,headers = headers,data = data)
+                # ~ r = requests.post(url = url,headers = headers,data = base64.b64encode(data))
+            # ~ _logger.warn('Response HTTP Status Code : {status_code}'.format(status_code=r.status_code))
+            # ~ _logger.warn('Response HTTP Response Body : {content}'.format(content=r.content))
 
             # ~ raise Warning(r.content)
             
-            if r.status_code in [403]:
-                raise Warning(r.content)
+            # ~ if r.status_code in [403]:
+                # ~ raise Warning(r.content)
             
-        except requests.exceptions.RequestException as e:
-            _logger.warn('HTTP Request failed %s' % e)
-            raise Warning('HTTP Request failed %s' % e)
-        _logger.warn('%s Haze upload Content 2' % r.content) 
-        return r.content
+        # ~ except requests.exceptions.RequestException as e:
+            # ~ _logger.warn('HTTP Request failed %s' % e)
+            # ~ raise Warning('HTTP Request failed %s' % e)
+        # ~ _logger.warn('%s Haze upload Content 2' % r.content) 
+        # ~ return r.content
         
         
         
