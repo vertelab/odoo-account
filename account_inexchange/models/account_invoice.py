@@ -13,11 +13,13 @@ _logger = logging.getLogger(__name__)
 
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
+    
 
     def upload_invoice(self, data):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='documents')
         client_token = settings.inexchange_request_client_token()
+        _logger.info('client token : %s ' %client_token)
         for invoice in self:
             header = {
                 'ClientToken': client_token,
@@ -34,7 +36,7 @@ class account_invoice(models.Model):
             self, xml_file_ref, pdf_file_ref=None, attachments=None):
         settings = self.env['res.config.settings']
         client_token = settings.inexchange_request_client_token()
-        url = settings.get_url(endpoints='documents/outbound')
+        url = settings.get_url(endpoint='documents/outbound')
 
         for invoice in self:
             header = {
@@ -72,7 +74,7 @@ class account_invoice(models.Model):
                     },
                 "recipientInformation": {
                     "gln": invoice.partner_id.commercial_partner_id.id_numbers.name,  # noqa:E501
-                    "orgNo": invoice.partner_id.commercial_partner_id.company_registry,  # noqa:E501
+                    # ~ "orgNo": invoice.partner_id.commercial_partner_id.company_registry,  # noqa:E501
                     "vatNo": invoice.partner_id.commercial_partner_id.vat,
                     "name": invoice.partner_id.name,
                     "recipientNo": "1",
@@ -84,19 +86,34 @@ class account_invoice(models.Model):
                     "language": "sv-SE",
                     "culture": "sv-SE"
                     }}
+            _logger.info('Uri: %s ' %xml_file_ref)
             if pdf_file_ref:
                 data['document']["renderedDocumentFormat"] = "application/pdf"
                 data['document']["renderedDocumentUri"] = pdf_file_ref
             if attachments:
                 data['document']['attachments'] = attachments
+            data = json.dumps(data)
+            result = requests.post(url, headers=header, data=data)
+            
+            if not result.status_code in (200,):
+                raise Warning('Failed to send invoice')
+            return result
 
-    def invoice_status(self):
+    def invoice_status(self, file_location):
+        settings = self.env['res.config.settings']
+        client_token = settings.inexchange_request_client_token()
         for invoice in self:
-            url = "%s" % invoice.name
-            r = self.env['res.config.settings'].inexchange_request_token(
-                'GET', url)
-            r = json.loads(r)
-            _logger.debug('Haze4 %s' %r)
+            header = {
+                'ClientToken': client_token,
+                'Content-Type': 'application/json',
+                'Accept' : '*/*'}
+            result = requests.get(file_location, headers = header)
+            if not result.status_code in (200,):
+                raise Warning('Failed to send invoice')
+            return result
+
+        
+            
 
     def fetch_invoice(self):
         settings = self.env['res.config.settings']
@@ -136,8 +153,7 @@ class AccountInvoiceSend(models.TransientModel):
             for invoice in self.invoice_ids:
                 xml_string = invoice.generate_ubl_xml_string()
                 result = invoice.upload_invoice(xml_string)
-                return res
-                invoice.send_uploaded_invoice(result)
-                status = invoice.invoice_status()
+                result = invoice.send_uploaded_invoice(result.headers['Location'])
+                status = invoice.invoice_status(result.headers['Location'])
                 _logger.info(status)
         return res
