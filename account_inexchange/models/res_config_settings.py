@@ -19,19 +19,13 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api
-import binascii
-import os
-import time
-import re
-import base64
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-import requests
-from odoo import http
 import json
 import logging
-from odoo.http import content_disposition, dispatch_rpc, request, \
-    serialize_exception as _serialize_exception, Response
+import requests
+
+from odoo import models, fields, api
+from odoo.exceptions import Warning
+
 _logger = logging.getLogger(__name__)
 
 
@@ -46,7 +40,7 @@ class ResConfigSettings(models.TransientModel):
              "activate Odoo",
         store=True)
     inexchange_client_token = fields.Char(
-        string='Client Token',config_parameter='inexchange.client.token',
+        string='Client Token', config_parameter='inexchange.client.token',
         help="You get this code from your Odoo representative",
         store=True)
     invoice_inexchange = fields.Boolean(
@@ -60,6 +54,11 @@ class ResConfigSettings(models.TransientModel):
     @api.multi
     def set_values(self):
         super(ResConfigSettings, self).set_values()
+
+    @api.model
+    def get_url(self, endpoint):
+        base_url = 'https://testapi.inexchange.se/v1/api'
+        return f'{base_url}/{endpoint.lstrip("/")}'
 
     # ~ @api.multi
     def inexchange_request_client_token(self):
@@ -141,19 +140,3 @@ class ResConfigSettings(models.TransientModel):
             _logger.warn('HTTP Request failed %s' % e)
             raise Warning('HTTP Request failed %s' % e)
         return r.content
-
-    # TODO:how to find a bundary which we can send to Inexchange? Order
-    # Number? it depends on us.
-    @api.multi
-    def inexchange_invoice_upload(self, url, data):
-        client_token = self.inexchange_request_client_token()
-        url = "https://testapi.inexchange.se/v1/api/documents"
-        header = {
-            'ClientToken': client_token,
-            'ContentDisposition': 'attachement; filename="invoice.xls"',
-            'host': 'testapi.inexchange.se'
-            }
-        result = requests.post(
-            url, headers=header, files={'file': ('invoice.xls', data, 'application/xml')})
-        raise Warning(result.headers)
-        return result
