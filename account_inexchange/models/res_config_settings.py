@@ -94,7 +94,7 @@ class ResConfigSettings(models.TransientModel):
                     "APIKey": api_key,
                     "Content-Type": "application/json; charset=utf-8",
                     "Host": "testapi.inexchange.se",
-                    "Content-Length": str(len(data)),
+                    "Content-Length": str(len(data)) if data else None,
                     "Expect": "100-continue",
                 }
         try:

@@ -23,11 +23,11 @@ class account_invoice(models.Model):
         for invoice in self:
             header = {
                 'ClientToken': client_token,
-                'ContentDisposition': 'attachement; filename="invoice.xls"',
+                'ContentDisposition': 'attachement; filename="invoice.xml"',
                 }
         result = requests.post(
             url, headers=header, files={
-              'file': ('invoice.xls', data, 'application/xml')})
+              'file': ('invoice.xml', data, 'application/xml')})
         if result.status_code not in (202,):
             raise Warning('Failed to upload invoice')
         return result
@@ -81,7 +81,7 @@ class account_invoice(models.Model):
                     "countryCode": "SE"
                     },
                 "document": {
-                    "documentFormat": "syntaxbindning",
+                    "documentFormat": "bis3",
                     "documentUri": xml_file_ref,
                     "language": "sv-SE",
                     "culture": "sv-SE"
@@ -108,6 +108,7 @@ class account_invoice(models.Model):
                 'Content-Type': 'application/json',
                 'Accept' : '*/*'}
             result = requests.get(file_location, headers = header)
+            _logger.info(result.text)
             if not result.status_code in (200,):
                 raise Warning('Failed to send invoice')
             return result
@@ -118,27 +119,52 @@ class account_invoice(models.Model):
     def fetch_invoice(self):
         settings = self.env['res.config.settings']
         client_token = settings.inexchange_request_client_token()
-        url = settings.get_url('documents/incoming?type=invoice')
-        for invoice in self:
+        url = settings.get_url(endpoint='documents/incoming?type=invoice')
             # Fetch invoice here!
-            _logger.info(client_token + url)
-
-    def download_invoice(self):
-        settings = self.env['res.config.settings']
-        for invoice in self:
-            if invoice.name:
-                url = settings.get_url(f'documents/{invoice.name}')
-                # Download invoice here.
-                _logger.warn(url)
-
+        header = {
+            'ClientToken': client_token,
+            'Accept' : '*/*'}
+        result = requests.get(url, headers = header)
+        _logger.info(result.text)
+        if not result.status_code in (200,):
+            raise Warning('Failed to fetch invoice')
+        return result
+            
+            
     @api.multi
-    def mark_invoice_as_handled(self):
+    def download_invoice(self,file_location):    
         settings = self.env['res.config.settings']
+        client_token = settings.inexchange_request_client_token()
         for invoice in self:
-            if invoice.name:
-                url = settings.get_url('documents/handled')
-                # Mark as handled here
-                _logger.warn(url)
+            if invoice.file_location:
+                header = {
+                'ClientToken': client_token,
+                'Accept' : '*/*'}
+                result = requests.get(file_location, headers = header)
+                _logger.info(result.text)
+                if not result.status_code in (200,):
+                    raise Warning('Failed to download invoice')
+                return result
+
+    # ~ @api.multi
+    # ~ def mark_invoice_as_handled(self):
+        # ~ settings = self.env['res.config.settings']
+        # ~ client_token = settings.inexchange_request_client_token()
+        # ~ for invoice in self:
+            # ~ result = invoice.fetch_invoice()
+            # ~ if result.headers['id']:
+                # ~ url = settings.get_url(endpoint='documents/handled')
+                # ~ header = {
+                # ~ 'ClientToken': client_token,
+                # ~ 'Content-Type': 'application/json',
+                # ~ 'Accept' : "*/*{
+                # ~ "documents" : [result.headers['id']]
+                # ~ }"}
+                # ~ _logger.info(result.text)
+                # ~ if not result.status_code in (200,):
+                    # ~ raise Warning('Failed to mark invoices as handled')
+                # ~ return result
+                
 
 
 class AccountInvoiceSend(models.TransientModel):
