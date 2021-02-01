@@ -33,7 +33,7 @@
             </field>
 -->
             <footer>
-                <button string="Send Action "
+                <button string="Send To Inexchange "
                     attrs="{'invisible': [('is_inexchange', '=', False)]}"
                     name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
 <!--
