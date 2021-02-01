@@ -4,6 +4,8 @@
 import json
 import logging
 import requests
+from datetime import datetime
+import time
 
 from odoo import api, fields, models
 from odoo.exceptions import Warning
@@ -66,16 +68,16 @@ class account_invoice(models.Model):
                             }
                         },
                     "pdf": {
-                        "recipientEmail": invoice.partner_id.email,
-                        "recipientName": invoice.partner_id.name,
-                        "senderEmail": self.env.user.company_id.email,
-                        "senderName": self.env.user.company_id.name
+                        "recipientEmail": invoice.partner_id.commercial_partner_id.email,
+                        "recipientName": invoice.partner_id.commercial_partner_id.name,
+                        "senderEmail": self.env.user.email,
+                        "senderName": self.env.user.name
                         }
                     },
                 "recipientInformation": {
                     "gln": invoice.partner_id.commercial_partner_id.id_numbers.name,  # noqa:E501
                     # ~ "orgNo": invoice.partner_id.commercial_partner_id.company_registry,  # noqa:E501
-                    "vatNo": invoice.partner_id.commercial_partner_id.vat,
+                    "vatNo": invoice.partner_id.vat,
                     "name": invoice.partner_id.name,
                     "recipientNo": "1",
                     "countryCode": "SE"
@@ -87,9 +89,10 @@ class account_invoice(models.Model):
                     "culture": "sv-SE"
                     }}
             _logger.info('Uri: %s ' %xml_file_ref)
-            if pdf_file_ref:
+            # ~ raise Warning(data["recipientInformation"]["gln"])
+            if xml_file_ref:
                 data['document']["renderedDocumentFormat"] = "application/pdf"
-                data['document']["renderedDocumentUri"] = pdf_file_ref
+                data['document']["renderedDocumentUri"] = xml_file_ref
             if attachments:
                 data['document']['attachments'] = attachments
             data = json.dumps(data)
@@ -177,9 +180,15 @@ class AccountInvoiceSend(models.TransientModel):
         res = super(AccountInvoiceSend, self).send_and_print_action()
         if self.is_inexchange:
             for invoice in self.invoice_ids:
-                xml_string = invoice.generate_ubl_xml_string()
+                invoice.name = invoice.reference
+                version = invoice.get_ubl_version()
+                # ~ raise Warning(version)
+                xml_string = invoice.generate_ubl_xml_string(version = version)
+                # ~ raise Warning(xml_string)
+                _logger.info(xml_string)
                 result = invoice.upload_invoice(xml_string)
                 result = invoice.send_uploaded_invoice(result.headers['Location'])
-                status = invoice.invoice_status(result.headers['Location'])
-                _logger.info(status)
+                # ~ status = invoice.invoice_status(result.headers['Location'])
+                # ~ _logger.info(status)
+                # ~ time.sleep(5)
         return res

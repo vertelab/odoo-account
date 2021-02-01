@@ -100,7 +100,7 @@ class ResConfigSettings(models.TransientModel):
         try:
             if request_type == 'POST':
                 r = requests.post(
-                    url=url, headers=headers, data=json.dumps(data))
+                    url=url, headers=headers, data=json.dumps(data),verify=False)
             _logger.warn(f'Response HTTP Status Code : {r.status_code}')
             _logger.warn(f'Response HTTP Response Body : {r.content}')
 
@@ -127,9 +127,9 @@ class ResConfigSettings(models.TransientModel):
 
         try:
             if request_type == 'POST':
-                r = requests.post(url = url,headers = headers,data = json.dumps(data))
+                r = requests.post(url = url,headers = headers,data = json.dumps(data),verify=False)
             if request_type == 'GET':
-                r = requests.get(url = url,headers = headers,data = json.dumps(data))
+                r = requests.get(url = url,headers = headers,data = json.dumps(data),verify=False)
             _logger.warn('Response HTTP Status Code : {status_code}'.format(status_code=r.status_code))
             _logger.warn('Response HTTP Response Body : {content}'.format(content=r.content))
 
