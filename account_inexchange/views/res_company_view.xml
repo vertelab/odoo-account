@@ -41,6 +41,10 @@
     <field name="arch" type="xml">
         <field name="property_account_position_id"  position="after">
             <field name="gln_number_vertel" />
+            <field name="inexchange_company_id" />
+        </field>
+        <field name="vat"  position="after">
+            <field name="company_org_number" />
         </field>
     </field>
   </record>

@@ -46,7 +46,7 @@ class account_invoice(models.Model):
                 'Content-Type': 'application/json'}
             data = {
                 "sendDocumentAs": {
-                    "type": "PDF",
+                    "type": "Electronic",
                     "paper": {
                         "recipientAddress": {
                             "name": invoice.partner_id.name,
@@ -67,16 +67,13 @@ class account_invoice(models.Model):
                             "countryCode": "SE"
                             }
                         },
-                    "pdf": {
-                        "recipientEmail": invoice.partner_id.commercial_partner_id.email,
-                        "recipientName": invoice.partner_id.commercial_partner_id.name,
-                        "senderEmail": self.env.user.email,
-                        "senderName": self.env.user.name
+                    "Electronic": {
+                        "RecipientID": invoice.partner_id.commercial_partner_id.inexchange_company_id
                         }
                     },
                 "recipientInformation": {
-                    "gln": invoice.partner_id.commercial_partner_id.id_numbers.name,  # noqa:E501
-                    # ~ "orgNo": invoice.partner_id.commercial_partner_id.company_registry,  # noqa:E501
+                    "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel,  # noqa:E501
+                    "orgNo": invoice.partner_id.commercial_partner_id.company_registry or False,  # noqa:E501
                     "vatNo": invoice.partner_id.vat,
                     "name": invoice.partner_id.name,
                     "recipientNo": "1",
@@ -189,6 +186,5 @@ class AccountInvoiceSend(models.TransientModel):
                 result = invoice.upload_invoice(xml_string)
                 result = invoice.send_uploaded_invoice(result.headers['Location'])
                 # ~ status = invoice.invoice_status(result.headers['Location'])
-                # ~ _logger.info(status)
                 # ~ time.sleep(5)
         return res

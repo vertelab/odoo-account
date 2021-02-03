@@ -23,16 +23,17 @@ from odoo import models, fields, api, _
 import time
 import re
 from odoo.exceptions import except_orm, Warning, RedirectWarning
-import requests
 from odoo import http
 import json
 import logging
+import requests
+
 _logger = logging.getLogger(__name__)
 
 class res_company(models.Model):
     _inherit = ['res.company','mail.thread','mail.activity.mixin']
     _name= 'res.company'
-    
+
     @api.multi
     def register_company(self):
         try:
@@ -62,16 +63,13 @@ class res_company(models.Model):
                 # ~ company.update_company_info()
                 company.company_check_status()
                 # ~ company.get_company_details()
-                
-                
-            
+
         except requests.exceptions.RequestException as e:
             _logger.warn('HTTP Request failed %s' % e)
             raise Warning('HTTP Request failed %s' % e)
-        
-         
+
         # ~ return r  
-        
+
     @api.multi
     def update_company_info(self):
         for company in self:
@@ -97,9 +95,8 @@ class res_company(models.Model):
             _logger.warn('%s Haze Update' % r)
             # ~ raise Warning(r.content)
         company.company_check_status()
-            
-            # ~ return r  
-            
+        # ~ return r  
+
     @api.multi
     def company_check_status(self):
         url = "https://testapi.inexchange.se/v1/api/companies/status"
@@ -108,7 +105,7 @@ class res_company(models.Model):
             r = json.loads(r)
             company.partner_id.ref = r["companyId"]
             _logger.warn('Haze company ID %s' % company.partner_id.ref)
-            
+
     @api.multi
     def get_company_details(self):
         self.env['res.config.settings'].inexchange_request_client_token()
@@ -116,7 +113,7 @@ class res_company(models.Model):
             url = "https://testapi.inexchange.se/v1/api/companies/details/%s" %company.partner_id.ref
             r = self.env['res.config.settings'].inexchange_request_token('GET', url)
             _logger.warn('Haze company details %s' %r)
-            
+
     @api.multi
     def company_setup_request(self):
         self.env['res.config.settings'].inexchange_request_client_token()
@@ -130,13 +127,14 @@ class res_company(models.Model):
                     },
                     "name":  company.name,
                     "OrgNo": company.company_registry,
-                    "GLN": company.partner_id.id_number.name,
+                    "GLN": company.partner_id.commercial_partner_id.gln_number_vertel,
                     "Email": company.email,
                     "processes": [
                       "ReceiveInvoices"
                     ]
                 })
             r = json.loads(r)
+
     @api.multi
     def add_identifiers(self):
         self.env['res.config.settings'].inexchange_request_client_token()
@@ -149,14 +147,14 @@ class res_company(models.Model):
                     },
                     "name":  company.name,
                     "OrgNo": company.company_registry,
-                    "GLN": company.partner_id.id_number.name,
+                    "GLN": company.partner_id.commercial_partner_id.gln_number_vertel,
                     "Email": company.email,
                     "processes": [
                       "ReceiveInvoices"
                     ]
                 })
             r = json.loads(r)
-            
+
     @api.multi
     def add_users(self):
         self.env['res.config.settings'].inexchange_request_client_token()
@@ -169,24 +167,63 @@ class res_company(models.Model):
                     },
                     "name":  company.name,
                     "OrgNo": company.company_registry,
-                    "GLN": company.partner_id.id_number.name,
+                    "GLN": company.partner_id.commercial_partner_id.gln_number_vertel,
                     "Email": company.email,
                     "processes": [
                       "ReceiveInvoices"
                     ]
                 })
             r = json.loads(r)
-        
-        
+
 class res_partner(models.Model):
     _inherit = 'res.partner'
 
     gln_number_vertel = fields.Char(string = "GLN Number", help = "This is for GLN Number")
-    
+    inexchange_company_id = fields.Char(string = "Inexchange Company ID", help = "This is for Inexchange Company ID")
+    company_org_number = fields.Char(string = "Company Registry", help = "Company Registry")
+
     def merge_gln_number(self):
         for contact in self.env['res.partner'].search([]):
-            _logger.warn(('%s test test ' ) %contact.gln_number)
             if contact.gln_number:
                 contact.gln_number_vertel = contact.gln_number
-            
+                
+    def merge_org_number(self):
+        for contact in self.env['res.partner'].search([]):
+            if contact.org_no:
+                contact.company_org_number = contact.org_no
     
+    @api.one
+    def lookup_buyer_company(self):
+        settings = self.env['res.config.settings']
+        url = settings.get_url(endpoint='buyerparties/lookup')
+        _logger.info('Haze %s' %url)
+        client_token = settings.inexchange_request_client_token()
+        _logger.info('Haze client token : %s ' %client_token)
+        # ~ for partner in self:
+        header = {
+            'Content-Type': 'application/json',
+            'ClientToken': client_token,
+            # ~ 'Content-Length': str(len(data)) if data else None,
+            # ~ 'Accept' : '*/*',
+        }
+        _logger.info('Haze %s'%header)
+        data = {
+            'PartyId': self.commercial_partner_id.gln_number_vertel or False,
+            'Name': self.commercial_partner_id.name,
+        }
+        #_logger.info('Haze %s' %json.dumps(data))
+        result = requests.post(url, headers=header, data=json.dumps(data))
+        for entry in json.loads(result.text)['parties']:
+            if entry.get('orgNo') == self.commercial_partner_id.company_org_number:
+                inexchange_company_id = entry["companyId"]
+                break
+            else:
+                raise Warning('Could not find record for company: ' 
+                              f'{self.commercial_partner_id.name}')
+        _logger.info('Haze %s' %inexchange_company_id)
+        _logger.info('Haze %s' %json.loads(result.text))
+        if result.status_code not in (202, 200):
+            raise Warning('Failed to check partner')
+        
+        # ~ return result
+
