@@ -23,10 +23,11 @@ class account_invoice(models.Model):
         client_token = settings.inexchange_request_client_token()
         _logger.info('client token : %s ' %client_token)
         for invoice in self:
-            header = {
-                'ClientToken': client_token,
-                'ContentDisposition': 'attachement; filename="invoice.xml"',
-                }
+            if invoice.partner_id.commercial_partner_id.gln_number_vertel:
+                header = {
+                    'ClientToken': client_token,
+                    'ContentDisposition': 'attachement; filename="invoice.xml"',
+                    }
         result = requests.post(
             url, headers=header, files={
               'file': ('invoice.xml', data, 'application/xml')})
@@ -41,63 +42,64 @@ class account_invoice(models.Model):
         url = settings.get_url(endpoint='documents/outbound')
 
         for invoice in self:
-            header = {
-                'ClientToken': client_token,
-                'Content-Type': 'application/json'}
-            data = {
-                "sendDocumentAs": {
-                    "type": "Electronic",
-                    "paper": {
-                        "recipientAddress": {
-                            "name": invoice.partner_id.name,
-                            "department": None,
-                            "streetName": invoice.partner_id.street,
-                            "postBox": None,
-                            "postalZone": invoice.partner_id.zip,
-                            "city": invoice.partner_id.city,
-                            "countryCode": "SE"
-                            },
-                        "returnAddress": {
-                            "name": self.env.user.company_id.name,
-                            "department": None,
-                            "streetName": self.env.user.company_id.street,
-                            "postBox": None,
-                            "postalZone": self.env.user.company_id.zip,
-                            "city": self.env.user.company_id.city,
-                            "countryCode": "SE"
+            if invoice.partner_id.commercial_partner_id.gln_number_vertel:
+                header = {
+                    'ClientToken': client_token,
+                    'Content-Type': 'application/json'}
+                data = {
+                    "sendDocumentAs": {
+                        "type": "Electronic",
+                        # ~ "paper": {
+                            # ~ "recipientAddress": {
+                                # ~ "name": invoice.partner_id.name,
+                                # ~ "department": None,
+                                # ~ "streetName": invoice.partner_id.street,
+                                # ~ "postBox": None,
+                                # ~ "postalZone": invoice.partner_id.zip,
+                                # ~ "city": invoice.partner_id.city,
+                                # ~ "countryCode": "SE"
+                                # ~ },
+                            # ~ "returnAddress": {
+                                # ~ "name": self.env.user.company_id.name,
+                                # ~ "department": None,
+                                # ~ "streetName": self.env.user.company_id.street,
+                                # ~ "postBox": None,
+                                # ~ "postalZone": self.env.user.company_id.zip,
+                                # ~ "city": self.env.user.company_id.city,
+                                # ~ "countryCode": "SE"
+                                # ~ }
+                            # ~ },
+                        "Electronic": {
+                            "RecipientID": invoice.partner_id.commercial_partner_id.inexchange_company_id,
                             }
                         },
-                    "Electronic": {
-                        "RecipientID": invoice.partner_id.commercial_partner_id.inexchange_company_id
-                        }
-                    },
-                "recipientInformation": {
-                    "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel,  # noqa:E501
-                    "orgNo": invoice.partner_id.commercial_partner_id.company_registry or False,  # noqa:E501
-                    "vatNo": invoice.partner_id.vat,
-                    "name": invoice.partner_id.name,
-                    "recipientNo": "1",
-                    "countryCode": "SE"
-                    },
-                "document": {
-                    "documentFormat": "bis3",
-                    "documentUri": xml_file_ref,
-                    "language": "sv-SE",
-                    "culture": "sv-SE"
-                    }}
-            _logger.info('Uri: %s ' %xml_file_ref)
-            # ~ raise Warning(data["recipientInformation"]["gln"])
-            if xml_file_ref:
-                data['document']["renderedDocumentFormat"] = "application/pdf"
-                data['document']["renderedDocumentUri"] = xml_file_ref
-            if attachments:
-                data['document']['attachments'] = attachments
-            data = json.dumps(data)
-            result = requests.post(url, headers=header, data=data)
-            
-            if not result.status_code in (200,):
-                raise Warning('Failed to send invoice')
-            return result
+                    "recipientInformation": {
+                        "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel,  # noqa:E501
+                        "orgNo": invoice.partner_id.commercial_partner_id.company_registry or False,  # noqa:E501
+                        "vatNo": invoice.partner_id.vat,
+                        "name": invoice.partner_id.name,
+                        "recipientNo": "1",
+                        "countryCode": "SE"
+                        },
+                    "document": {
+                        "documentFormat": "bis3",
+                        "documentUri": xml_file_ref,
+                        "language": "sv-SE",
+                        "culture": "sv-SE"
+                        }}
+                _logger.info('Uri: %s ' %xml_file_ref)
+                # ~ raise Warning(data["Electronic"]["RecipientID"])
+                if xml_file_ref:
+                    data['document']["renderedDocumentFormat"] = "application/pdf"
+                    data['document']["renderedDocumentUri"] = xml_file_ref
+                if attachments:
+                    data['document']['attachments'] = attachments
+                data = json.dumps(data)
+                result = requests.post(url, headers=header, data=data)
+                
+                if not result.status_code in (200,):
+                    raise Warning('Failed to send invoice')
+                return result
 
     def invoice_status(self, file_location):
         settings = self.env['res.config.settings']
@@ -170,21 +172,48 @@ class account_invoice(models.Model):
 class AccountInvoiceSend(models.TransientModel):
     _inherit = 'account.invoice.send'
 
-    is_inexchange = fields.Boolean(string='InExchange', default=True)
+    is_inexchange = fields.Boolean(string='InExchange')
+    # ~ inexchange_possible = fields.Boolean()
+    
+    # ~ @api.model
+    # ~ def default_get(self, fields):
+        # ~ res = super(AccountInvoiceSend, self).default_get(fields)
+        # ~ res_ids = self._context.get('active_ids')
+        # ~ invoices = self.env['account.invoice'].browse(res_ids)
+        # ~ possible = self._inexchange_possible(invoices)
+        # ~ res.update({
+            # ~ 'is_inexchange': possible,
+            # ~ 'inexchange_possible': possible,
+        # ~ })
+        # ~ return res
+    
+    # ~ @api.model
+    # ~ def _inexchange_possible(self, invoices):
+        # ~ if invoices:
+            # ~ inexchange_possible = True
+            # ~ for invoice in invoices:
+                # ~ possible = False #Gör kontroll
+                # ~ if not possible:
+                    # ~ inexchange_possible = False
+                    # ~ break
+            # ~ self.inexchange_possible = inexchange_possible
+        # ~ else:
+            # ~ self.inexchange_possible = False
 
     @api.multi
     def send_and_print_action(self):
         res = super(AccountInvoiceSend, self).send_and_print_action()
         if self.is_inexchange:
-            for invoice in self.invoice_ids:
-                invoice.name = invoice.reference
-                version = invoice.get_ubl_version()
-                # ~ raise Warning(version)
-                xml_string = invoice.generate_ubl_xml_string(version = version)
-                # ~ raise Warning(xml_string)
-                _logger.info(xml_string)
-                result = invoice.upload_invoice(xml_string)
-                result = invoice.send_uploaded_invoice(result.headers['Location'])
-                # ~ status = invoice.invoice_status(result.headers['Location'])
-                # ~ time.sleep(5)
+            if self.partner_id.commercial_partner_id.gln_number_vertel:
+                for invoice in self.invoice_ids:
+                    invoice.name = invoice.reference
+                    version = invoice.get_ubl_version()
+                    # ~ raise Warning(version)
+                    xml_string = invoice.generate_ubl_xml_string(version = version)
+                    # ~ raise Warning(xml_string)
+                    _logger.info(xml_string)
+                    result = invoice.upload_invoice(xml_string)
+                    result = invoice.send_uploaded_invoice(result.headers['Location'])
+                    # ~ status = invoice.invoice_status(result.headers['Location'])
+                    # ~ time.sleep(5)
         return res

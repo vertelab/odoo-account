@@ -13,7 +13,7 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@name='option_email']" position="replace">
                 <field name="is_email" invisible="1" />
-                <div name="option_inexchange">
+                <div name="option_inexchange" >
                     <field name="is_inexchange" />
                     <b><label for="is_inexchange"/></b>
                 </div>

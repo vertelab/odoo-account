@@ -196,34 +196,32 @@ class res_partner(models.Model):
     def lookup_buyer_company(self):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='buyerparties/lookup')
-        _logger.info('Haze %s' %url)
         client_token = settings.inexchange_request_client_token()
-        _logger.info('Haze client token : %s ' %client_token)
-        # ~ for partner in self:
-        header = {
-            'Content-Type': 'application/json',
-            'ClientToken': client_token,
-            # ~ 'Content-Length': str(len(data)) if data else None,
-            # ~ 'Accept' : '*/*',
-        }
-        _logger.info('Haze %s'%header)
-        data = {
-            'PartyId': self.commercial_partner_id.gln_number_vertel or False,
-            'Name': self.commercial_partner_id.name,
-        }
-        #_logger.info('Haze %s' %json.dumps(data))
-        result = requests.post(url, headers=header, data=json.dumps(data))
-        for entry in json.loads(result.text)['parties']:
-            if entry.get('orgNo') == self.commercial_partner_id.company_org_number:
-                inexchange_company_id = entry["companyId"]
-                break
-            else:
-                raise Warning('Could not find record for company: ' 
-                              f'{self.commercial_partner_id.name}')
-        _logger.info('Haze %s' %inexchange_company_id)
-        _logger.info('Haze %s' %json.loads(result.text))
-        if result.status_code not in (202, 200):
-            raise Warning('Failed to check partner')
+        if self.commercial_partner_id.gln_number_vertel:
+            header = {
+                'Content-Type': 'application/json',
+                'ClientToken': client_token,
+                
+            }
+            data = {
+                'PartyId': self.commercial_partner_id.company_org_number or False,
+                'Name': self.commercial_partner_id.name if not self.commercial_partner_id.parent_id else self.commercial_partner_id.parent_id.name,
+            }
+            # ~ _logger.info('Haze %s' %json.dumps(data))
+            result = requests.post(url, headers=header, data=json.dumps(data))
+            result_party = json.loads(result.text)['parties']
+            for entry in result_party:
+                if entry.get('receiveElectronicInvoiceCapability') =='ReceivingElectronicInvoices':
+                    if entry.get('gln') == self.commercial_partner_id.gln_number_vertel:
+                        self.commercial_partner_id.inexchange_company_id = entry["companyId"]
+                    
+            
+            if not self.inexchange_company_id:
+                raise Warning('%s is not in Inexchange' % self.commercial_partner_id.name)
+            # ~ _logger.info('Haze %s' %json.loads(result.text))
+            if result.status_code not in (200,):
+                raise Warning('Failed to check partner')
+        else:
+            raise Warning('%s has no gln number' %self.commercial_partner_id.name)
         
-        # ~ return result
 
