@@ -192,36 +192,62 @@ class res_partner(models.Model):
             if contact.org_no:
                 contact.company_org_number = contact.org_no
     
+    def merge_invoice_address(self):
+        for contact in self.env['res.partner'].search([]):
+            if contact.type == 'invoice':
+                if contact.name:
+                    contact.company_type = 'company'
+    
     @api.one
     def lookup_buyer_company(self):
+        def match_buyer(entry):
+            org_match = entry.get('orgNo') == self.commercial_partner_id.company_org_number
+            capability = entry.get('receiveElectronicInvoiceCapability') == 'ReceivingElectronicInvoices'
+            return capability and org_match
+            
+            
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='buyerparties/lookup')
         client_token = settings.inexchange_request_client_token()
+        header = {
+            'Content-Type': 'application/json',
+            'ClientToken': client_token,
+            
+        }
+        data = {
+            'PartyId': '115566-4421',
+            # ~ 'PartyId': self.commercial_partner_id.company_org_number or False,
+            # ~ 'Name': self.commercial_partner_id.name if not self.commercial_partner_id.parent_id else self.commercial_partner_id.parent_id.name,
+            # ~ 'Name': 'inexchange',
+            'GLN': self.commercial_partner_id.gln_number_vertel if self.commercial_partner_id.gln_number_vertel else False,
+            'orgNo': self.commercial_partner_id.company_org_number if self.commercial_partner_id.company_org_number else False,
+            'vatNo':    self.commercial_partner_id.vat if self.commercial_partner_id.vat else False
+        }
+        _logger.info('Haze %s' %json.dumps(data))
+        result = requests.post(url, headers=header, data=json.dumps(data))
+        result_party = json.loads(result.text)['parties']
         if self.commercial_partner_id.gln_number_vertel:
-            header = {
-                'Content-Type': 'application/json',
-                'ClientToken': client_token,
-                
-            }
-            data = {
-                'PartyId': self.commercial_partner_id.company_org_number or False,
-                'Name': self.commercial_partner_id.name if not self.commercial_partner_id.parent_id else self.commercial_partner_id.parent_id.name,
-            }
-            # ~ _logger.info('Haze %s' %json.dumps(data))
-            result = requests.post(url, headers=header, data=json.dumps(data))
-            result_party = json.loads(result.text)['parties']
             for entry in result_party:
+                _logger.info('Haze with gln%s' %entry)
                 if entry.get('receiveElectronicInvoiceCapability') =='ReceivingElectronicInvoices':
                     if entry.get('gln') == self.commercial_partner_id.gln_number_vertel:
                         self.commercial_partner_id.inexchange_company_id = entry["companyId"]
-                    
+                        _logger.info('Haze %s' %entry["companyId"])
             
-            if not self.inexchange_company_id:
-                raise Warning('%s is not in Inexchange' % self.commercial_partner_id.name)
-            # ~ _logger.info('Haze %s' %json.loads(result.text))
-            if result.status_code not in (200,):
-                raise Warning('Failed to check partner')
         else:
-            raise Warning('%s has no gln number' %self.commercial_partner_id.name)
+            matches = [x for x in result_party if match_buyer(x)]
+            if len(matches) == 0:
+                raise Warning('Failed to find')
+            elif len(matches) > 1:
+                if not self.commercial_partner_id.inexchange_company_id:
+                    companies = '\n'.join([f"{x['name']} with OrgNo:{x['orgNo']}, GLN: {x['gln']}, VAT:{x['vatNo']},CompanyID: {x['companyId']}" for x in matches])
+                    raise Warning(f'Multiple matches for buyer:\n{companies}, \n Please select the one you would like to copy companyID')
+            elif len(matches) == 1:
+                self.commercial_partner_id.inexchange_company_id = entry["companyId"]
+        if not self.inexchange_company_id:
+            raise Warning('%s is not in Inexchange' % self.commercial_partner_id.name)
+        # ~ _logger.info('Haze %s' %json.loads(result.text))
+        if result.status_code not in (200,):
+            raise Warning('Failed to check partner')
         
 
