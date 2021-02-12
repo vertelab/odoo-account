@@ -23,14 +23,14 @@ class account_invoice(models.Model):
         client_token = settings.inexchange_request_client_token()
         _logger.info('client token : %s ' %client_token)
         for invoice in self:
-            if invoice.partner_id.commercial_partner_id.gln_number_vertel:
-                header = {
-                    'ClientToken': client_token,
-                    'ContentDisposition': 'attachement; filename="invoice.xml"',
-                    }
-        result = requests.post(
-            url, headers=header, files={
-              'file': ('invoice.xml', data, 'application/xml')})
+            
+            header = {
+                'ClientToken': client_token,
+                'ContentDisposition': 'attachement; filename="invoice.xml"',
+                }
+            result = requests.post(
+                url, headers=header, files={
+                  'file': ('invoice.xml', data, 'application/xml')})
         if result.status_code not in (202,):
             raise Warning('Failed to upload invoice')
         return result
@@ -43,19 +43,46 @@ class account_invoice(models.Model):
 
         for invoice in self:
             header = {
-                'ClientToken': client_token,
-                'Content-Type': 'application/json'}
+                    'ClientToken': client_token,
+                    'Content-Type': 'application/json'}
             data = {
                 "sendDocumentAs": {
-                    "type": "Electronic",
-                    "Electronic": {
-                        "RecipientID": invoice.partner_id.commercial_partner_id.inexchange_company_id or False,
-                        }
+                    # ~ "type": "Electronic",
+                    "type": "PDF",
+                    "paper": {
+                        "recipientAddress": {
+                            "name": invoice.partner_id.name,
+                            "department": None,
+                            "streetName": invoice.partner_id.street,
+                            "postBox": None,
+                            "postalZone": invoice.partner_id.zip,
+                            "city": invoice.partner_id.city,
+                            "countryCode": "SE"
+                            },
+                        "returnAddress": {
+                            "name": self.env.user.company_id.name,
+                            "department": None,
+                            "streetName": self.env.user.company_id.street,
+                            "postBox": None,
+                            "postalZone": self.env.user.company_id.zip,
+                            "city": self.env.user.company_id.city,
+                            "countryCode": "SE"
+                            }
                     },
+                    # ~ "Electronic": {
+                        # ~ "RecipientID": invoice.partner_id.commercial_partner_id.inexchange_company_id,
+                        # ~ }
+                "pdf": {
+                    "recipientEmail": invoice.partner_id.commercial_partner_id.email,
+                    "recipientName": invoice.partner_id.commercial_partner_id.name,
+                    "senderEmail": self.env.user.email,
+                    "senderName": self.env.user.name
+                    }
+                },
                 "recipientInformation": {
-                    "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel or False,  # noqa:E501
-                    "orgNo": invoice.partner_id.commercial_partner_id.company_org_number or False,  # noqa:E501
-                    "vatNo": invoice.partner_id.vat or False,
+                    "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel,  # noqa:E501
+                    "orgNo": invoice.partner_id.commercial_partner_id.company_registry or False,  # noqa:E501
+                    "vatNo": invoice.partner_id.vat,
                     "name": invoice.partner_id.name,
                     "recipientNo": "1",
                     "countryCode": "SE"
@@ -76,6 +103,7 @@ class account_invoice(models.Model):
             data = json.dumps(data)
             result = requests.post(url, headers=header, data=data)
             
+        
             if not result.status_code in (200,):
                 raise Warning(f'Failed to send invoice\n Failed with:\n{result.status_code}\n{result.text}')
             return result
@@ -183,16 +211,15 @@ class AccountInvoiceSend(models.TransientModel):
     def send_and_print_action(self):
         res = super(AccountInvoiceSend, self).send_and_print_action()
         if self.is_inexchange:
-            if self.partner_id.commercial_partner_id.gln_number_vertel:
-                for invoice in self.invoice_ids:
-                    invoice.name = invoice.reference
-                    version = invoice.get_ubl_version()
-                    # ~ raise Warning(version)
-                    xml_string = invoice.generate_ubl_xml_string(version = version)
-                    # ~ raise Warning(xml_string)
-                    _logger.info(xml_string)
-                    result = invoice.upload_invoice(xml_string)
-                    result = invoice.send_uploaded_invoice(result.headers['Location'])
-                    # ~ status = invoice.invoice_status(result.headers['Location'])
-                    # ~ time.sleep(5)
+            for invoice in self.invoice_ids:
+                invoice.name = invoice.reference
+                version = invoice.get_ubl_version()
+                # ~ raise Warning(version)
+                xml_string = invoice.generate_ubl_xml_string(version = version)
+                # ~ raise Warning(xml_string)
+                _logger.info(xml_string)
+                result = invoice.upload_invoice(xml_string)
+                result = invoice.send_uploaded_invoice(result.headers['Location'])
+                # ~ status = invoice.invoice_status(result.headers['Location'])
+                # ~ time.sleep(5)
         return res
