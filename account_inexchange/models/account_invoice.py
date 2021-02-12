@@ -134,7 +134,7 @@ class account_invoice(models.Model):
             'ClientToken': client_token,
             'Accept' : '*/*'}
         result = requests.get(url, headers = header)
-        raise Warning(result.text)
+        raise Warning('Invoice has sent to Inexchange')
         _logger.info(result.text)
         if not result.status_code in (200,):
             raise Warning('Failed to fetch invoice')
