@@ -215,13 +215,10 @@ class res_partner(models.Model):
             
         }
         data = {
-            'PartyId': '115566-4421',
-            # ~ 'PartyId': self.commercial_partner_id.company_org_number or False,
-            # ~ 'Name': self.commercial_partner_id.name if not self.commercial_partner_id.parent_id else self.commercial_partner_id.parent_id.name,
-            # ~ 'Name': 'inexchange',
+            'PartyId': self.commercial_partner_id.company_org_number or False,
             'GLN': self.commercial_partner_id.gln_number_vertel if self.commercial_partner_id.gln_number_vertel else False,
             'orgNo': self.commercial_partner_id.company_org_number if self.commercial_partner_id.company_org_number else False,
-            'vatNo':    self.commercial_partner_id.vat if self.commercial_partner_id.vat else False
+            'vatNo': self.commercial_partner_id.vat if self.commercial_partner_id.vat else False
         }
         _logger.info('Haze %s' %json.dumps(data))
         result = requests.post(url, headers=header, data=json.dumps(data))

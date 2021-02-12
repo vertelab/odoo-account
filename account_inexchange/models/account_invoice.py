@@ -42,64 +42,43 @@ class account_invoice(models.Model):
         url = settings.get_url(endpoint='documents/outbound')
 
         for invoice in self:
-            if invoice.partner_id.commercial_partner_id.gln_number_vertel:
-                header = {
-                    'ClientToken': client_token,
-                    'Content-Type': 'application/json'}
-                data = {
-                    "sendDocumentAs": {
-                        "type": "Electronic",
-                        # ~ "paper": {
-                            # ~ "recipientAddress": {
-                                # ~ "name": invoice.partner_id.name,
-                                # ~ "department": None,
-                                # ~ "streetName": invoice.partner_id.street,
-                                # ~ "postBox": None,
-                                # ~ "postalZone": invoice.partner_id.zip,
-                                # ~ "city": invoice.partner_id.city,
-                                # ~ "countryCode": "SE"
-                                # ~ },
-                            # ~ "returnAddress": {
-                                # ~ "name": self.env.user.company_id.name,
-                                # ~ "department": None,
-                                # ~ "streetName": self.env.user.company_id.street,
-                                # ~ "postBox": None,
-                                # ~ "postalZone": self.env.user.company_id.zip,
-                                # ~ "city": self.env.user.company_id.city,
-                                # ~ "countryCode": "SE"
-                                # ~ }
-                            # ~ },
-                        "Electronic": {
-                            "RecipientID": invoice.partner_id.commercial_partner_id.inexchange_company_id,
-                            }
-                        },
-                    "recipientInformation": {
-                        "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel,  # noqa:E501
-                        "orgNo": invoice.partner_id.commercial_partner_id.company_registry or False,  # noqa:E501
-                        "vatNo": invoice.partner_id.vat,
-                        "name": invoice.partner_id.name,
-                        "recipientNo": "1",
-                        "countryCode": "SE"
-                        },
-                    "document": {
-                        "documentFormat": "bis3",
-                        "documentUri": xml_file_ref,
-                        "language": "sv-SE",
-                        "culture": "sv-SE"
-                        }}
-                _logger.info('Uri: %s ' %xml_file_ref)
-                # ~ raise Warning(data["Electronic"]["RecipientID"])
-                if xml_file_ref:
-                    data['document']["renderedDocumentFormat"] = "application/pdf"
-                    data['document']["renderedDocumentUri"] = xml_file_ref
-                if attachments:
-                    data['document']['attachments'] = attachments
-                data = json.dumps(data)
-                result = requests.post(url, headers=header, data=data)
-                
-                if not result.status_code in (200,):
-                    raise Warning('Failed to send invoice')
-                return result
+            header = {
+                'ClientToken': client_token,
+                'Content-Type': 'application/json'}
+            data = {
+                "sendDocumentAs": {
+                    "type": "Electronic",
+                    "Electronic": {
+                        "RecipientID": invoice.partner_id.commercial_partner_id.inexchange_company_id or False,
+                        }
+                    },
+                "recipientInformation": {
+                    "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel or False,  # noqa:E501
+                    "orgNo": invoice.partner_id.commercial_partner_id.company_org_number or False,  # noqa:E501
+                    "vatNo": invoice.partner_id.vat or False,
+                    "name": invoice.partner_id.name,
+                    "recipientNo": "1",
+                    "countryCode": "SE"
+                    },
+                "document": {
+                    "documentFormat": "bis3",
+                    "documentUri": xml_file_ref,
+                    "language": "sv-SE",
+                    "culture": "sv-SE"
+                    }}
+            _logger.info('Uri: %s ' %xml_file_ref)
+            # ~ raise Warning(data["Electronic"]["RecipientID"])
+            if xml_file_ref:
+                data['document']["renderedDocumentFormat"] = "application/pdf"
+                data['document']["renderedDocumentUri"] = xml_file_ref
+            if attachments:
+                data['document']['attachments'] = attachments
+            data = json.dumps(data)
+            result = requests.post(url, headers=header, data=data)
+            
+            if not result.status_code in (200,):
+                raise Warning(f'Failed to send invoice\n Failed with:\n{result.status_code}\n{result.text}')
+            return result
 
     def invoice_status(self, file_location):
         settings = self.env['res.config.settings']
