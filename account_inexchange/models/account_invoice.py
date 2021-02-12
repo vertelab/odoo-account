@@ -81,7 +81,7 @@ class account_invoice(models.Model):
                 },
                 "recipientInformation": {
                     "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel,  # noqa:E501
-                    "orgNo": invoice.partner_id.commercial_partner_id.company_registry or False,  # noqa:E501
+                    "orgNo": invoice.partner_id.commercial_partner_id.company_org_number or False,  # noqa:E501
                     "vatNo": invoice.partner_id.vat,
                     "name": invoice.partner_id.name,
                     "recipientNo": "1",
