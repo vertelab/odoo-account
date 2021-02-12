@@ -220,6 +220,7 @@ class AccountInvoiceSend(models.TransientModel):
                 _logger.info(xml_string)
                 result = invoice.upload_invoice(xml_string)
                 result = invoice.send_uploaded_invoice(result.headers['Location'])
-                # ~ status = invoice.invoice_status(result.headers['Location'])
+                status = invoice.invoice_status(result.headers['Location'])
+                _logger.warn('Haze status %s' %status)
                 # ~ time.sleep(5)
         return res
