@@ -16,6 +16,10 @@ _logger = logging.getLogger(__name__)
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
     
+    inexchange_invoice_url_address = fields.Char(string='Inexchange Invoice UUID', help = "This is for inexchange document ID" )
+    inexchange_invoice_uri_id = fields.Char(string='Inexchange Invoice Id', help = "This is for inexchange invoice ID" )
+    inexchange_invoice_status = fields.Char(string='Inexchange Invoice Status', help = 'This is for inexchange invoice status')
+    inexchange_error_status = fields.Char(string='Inexchange Invoice Error Status', help = 'This is for inexchange invoice status')
 
     def upload_invoice(self, data):
         settings = self.env['res.config.settings']
@@ -93,11 +97,12 @@ class account_invoice(models.Model):
                     "language": "sv-SE",
                     "culture": "sv-SE"
                     }}
-            _logger.info('Uri: %s ' %xml_file_ref)
+            _logger.info('Haze Uri: %s ' %xml_file_ref)
             # ~ raise Warning(data["Electronic"]["RecipientID"])
             if xml_file_ref:
                 data['document']["renderedDocumentFormat"] = "application/pdf"
                 data['document']["renderedDocumentUri"] = xml_file_ref
+                invoice.inexchange_invoice_uri_id = xml_file_ref
             if attachments:
                 data['document']['attachments'] = attachments
             data = json.dumps(data)
@@ -108,19 +113,23 @@ class account_invoice(models.Model):
                 raise Warning(f'Failed to send invoice\n Failed with:\n{result.status_code}\n{result.text}')
             return result
 
-    def invoice_status(self, file_location):
+    def invoice_status(self, xml_file_ref):
         settings = self.env['res.config.settings']
         client_token = settings.inexchange_request_client_token()
-        for invoice in self:
-            header = {
-                'ClientToken': client_token,
-                'Content-Type': 'application/json',
-                'Accept' : '*/*'}
-            result = requests.get(file_location, headers = header)
-            _logger.info(result.text)
-            if not result.status_code in (200,):
-                raise Warning('Failed to send invoice')
-            return result
+        url = settings.get_url(endpoint='documents/outbound/%s' %xml_file_ref)
+        _logger.info('Haze url %s' %url)
+        
+        header = {
+            'ClientToken': client_token,
+            'Content-Type': 'application/json',
+            'Accept' : '*/*'}
+        result = requests.get(url, headers = header)
+        # ~ _logger.info('Haze status 1 %s' %result.text)
+        if not result.status_code in (200,):
+            self.inexchange_error_status = f'Failed to send invoice\n Failed with:\n{result.status_code}\n{result.text}'
+        else:
+            self.inexchange_invoice_status = 'Invoice has send to inexchange.'
+        return result
 
         
             
@@ -134,10 +143,11 @@ class account_invoice(models.Model):
             'ClientToken': client_token,
             'Accept' : '*/*'}
         result = requests.get(url, headers = header)
-        raise Warning('Invoice has sent to Inexchange')
         _logger.info(result.text)
         if not result.status_code in (200,):
             raise Warning('Failed to fetch invoice')
+        else:
+            raise Warning(result.text)
         return result
             
             
@@ -154,6 +164,8 @@ class account_invoice(models.Model):
                 _logger.info(result.text)
                 if not result.status_code in (200,):
                     raise Warning('Failed to download invoice')
+                else:
+                    raise Warning('Inovice has sent to Inexchange')
                 return result
 
     # ~ @api.multi
@@ -220,8 +232,8 @@ class AccountInvoiceSend(models.TransientModel):
                 # ~ raise Warning(xml_string)
                 _logger.info(xml_string)
                 result = invoice.upload_invoice(xml_string)
-                result = invoice.send_uploaded_invoice(result.headers['Location'])
-                status = invoice.invoice_status(result.headers['Location'])
-                _logger.warn('Haze status %s' %status)
-                # ~ time.sleep(5)
+                file_location = result.headers['Location']
+                invoice.inexchange_invoice_url_address = file_location.split(':')[2]
+                _logger.warn('Haze file location %s' %file_location)
+                result = invoice.send_uploaded_invoice(file_location)
         return res
