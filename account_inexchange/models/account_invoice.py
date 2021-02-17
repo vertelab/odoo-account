@@ -113,10 +113,10 @@ class account_invoice(models.Model):
                 raise Warning(f'Failed to send invoice\n Failed with:\n{result.status_code}\n{result.text}')
             return result
 
-    def invoice_status(self, xml_file_ref):
+    def invoice_status(self):
         settings = self.env['res.config.settings']
         client_token = settings.inexchange_request_client_token()
-        url = settings.get_url(endpoint='documents/outbound/%s' %xml_file_ref)
+        url = settings.get_url(endpoint='documents/outbound/%s' %self.inexchange_invoice_url_address)
         _logger.info('Haze url %s' %url)
         
         header = {
@@ -128,7 +128,7 @@ class account_invoice(models.Model):
         if not result.status_code in (200,):
             self.inexchange_error_status = f'Failed to send invoice\n Failed with:\n{result.status_code}\n{result.text}'
         else:
-            self.inexchange_invoice_status = 'Invoice has send to inexchange.'
+            self.inexchange_invoice_status = 'Invoice has send to inexchange sucessfully.'
         return result
 
         
@@ -236,4 +236,5 @@ class AccountInvoiceSend(models.TransientModel):
                 invoice.inexchange_invoice_url_address = file_location.split(':')[2]
                 _logger.warn('Haze file location %s' %file_location)
                 result = invoice.send_uploaded_invoice(file_location)
+                invoice.inexchange_invoice_status = 'Invoice has send to Inexchange.'
         return res
