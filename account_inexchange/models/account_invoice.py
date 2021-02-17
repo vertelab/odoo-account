@@ -167,7 +167,22 @@ class account_invoice(models.Model):
                 else:
                     raise Warning('Inovice has sent to Inexchange')
                 return result
-
+    @api.multi
+    def send_invoice_to_inexchange_action(self):
+        for invoice in self:
+            invoice.name = invoice.reference
+            version = invoice.get_ubl_version()
+            # ~ raise Warning(version)
+            xml_string = invoice.generate_ubl_xml_string(version = version)
+            # ~ raise Warning(xml_string)
+            _logger.info(xml_string)
+            result = invoice.upload_invoice(xml_string)
+            file_location = result.headers['Location']
+            invoice.inexchange_invoice_url_address = file_location.split(':')[2]
+            _logger.warn('Haze file location %s' %file_location)
+            result = invoice.send_uploaded_invoice(file_location)
+            invoice.inexchange_invoice_status = 'Invoice has send to Inexchange.'
+        # ~ return res
     # ~ @api.multi
     # ~ def mark_invoice_as_handled(self):
         # ~ settings = self.env['res.config.settings']
@@ -189,10 +204,10 @@ class account_invoice(models.Model):
                 
 
 
-class AccountInvoiceSend(models.TransientModel):
-    _inherit = 'account.invoice.send'
+# ~ class AccountInvoiceSend(models.TransientModel):
+    # ~ _inherit = 'account.invoice.send'
 
-    is_inexchange = fields.Boolean(string='InExchange')
+    # ~ is_inexchange = fields.Boolean(string='InExchange')
     # ~ inexchange_possible = fields.Boolean()
     
     # ~ @api.model
@@ -220,21 +235,21 @@ class AccountInvoiceSend(models.TransientModel):
         # ~ else:
             # ~ self.inexchange_possible = False
 
-    @api.multi
-    def send_and_print_action(self):
-        res = super(AccountInvoiceSend, self).send_and_print_action()
-        if self.is_inexchange:
-            for invoice in self.invoice_ids:
-                invoice.name = invoice.reference
-                version = invoice.get_ubl_version()
+    # ~ @api.multi
+    # ~ def send_and_print_action(self):
+        # ~ res = super(AccountInvoiceSend, self).send_and_print_action()
+        # ~ if self.is_inexchange:
+            # ~ for invoice in self.invoice_ids:
+                # ~ invoice.name = invoice.reference
+                # ~ version = invoice.get_ubl_version()
                 # ~ raise Warning(version)
-                xml_string = invoice.generate_ubl_xml_string(version = version)
+                # ~ xml_string = invoice.generate_ubl_xml_string(version = version)
                 # ~ raise Warning(xml_string)
-                _logger.info(xml_string)
-                result = invoice.upload_invoice(xml_string)
-                file_location = result.headers['Location']
-                invoice.inexchange_invoice_url_address = file_location.split(':')[2]
-                _logger.warn('Haze file location %s' %file_location)
-                result = invoice.send_uploaded_invoice(file_location)
-                invoice.inexchange_invoice_status = 'Invoice has send to Inexchange.'
-        return res
+                # ~ _logger.info(xml_string)
+                # ~ result = invoice.upload_invoice(xml_string)
+                # ~ file_location = result.headers['Location']
+                # ~ invoice.inexchange_invoice_url_address = file_location.split(':')[2]
+                # ~ _logger.warn('Haze file location %s' %file_location)
+                # ~ result = invoice.send_uploaded_invoice(file_location)
+                # ~ invoice.inexchange_invoice_status = 'Invoice has send to Inexchange.'
+        # ~ return res
