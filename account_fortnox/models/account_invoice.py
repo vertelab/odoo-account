@@ -27,8 +27,6 @@ class account_invoice(models.Model):
                 ref = invoice.partner_id.partner_create()
             if invoice.partner_id.commercial_partner_id.ref:
                 invoice.partner_id.partner_update()
-            # ~ invoice.partner_id.fortnox_update()
-            # ~ invoice.invoice_line_ids.product_id.barcode = invoice.invoice_line_ids.product_id.article_update()
             InvoiceRows = []
             for line in invoice.invoice_line_ids:
                 if line.product_id:

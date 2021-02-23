@@ -14,6 +14,25 @@ _logger = logging.getLogger(__name__)
 class Partner(models.Model):
 	_inherit = 'res.partner'
 	
+	@api.multi
+	def check_fortnox_customer_number(self):
+		url = "https://api.fortnox.se/3/customers"
+		r = self.env.user.company_id.fortnox_request('get', url)
+		r = json.loads(r)
+		pages = int(r['MetaInformation']['@TotalPages']) + 1
+		
+		for partner in self:
+			for page in range(pages):
+				url = "https://api.fortnox.se/3/customers?page=" + str(page)
+				_logger.warn("Haze url %s" % url)
+				r = self.env.user.company_id.fortnox_request('get', url)
+				r  = json.loads(r)
+				customers = r['Customers']
+				for customer in customers:
+					_logger.warn("HAZE: %s - %s" % (customer['Name'], customer['OrganisationNumber']))
+					if partner.commercial_partner_id.company_registry == customer.get('OrganisationNumber', False):
+						partner.commercial_partner_id.ref = customer['CustomerNumber']
+
 	def partner_create(self):
 		# Customer (PUT https://api.fortnox.se/3/customers)
 		for partner in self:
