@@ -35,17 +35,17 @@ class Partner(models.Model):
                 partner = self.env['res.partner'].search([('name', '=', customer_name)])
                 
                 if customer_number == False:
-                    _logger.warn("~ ERROR: %s with org.num %s has no CustomerNumber, skipping ..." % (customer_name, customer_orgnum))
+                    _logger.warn("~ ERROR 1: %s with org.num %s has no CustomerNumber, skipping ..." % (customer_name, customer_orgnum))
                 elif len(partner) > 1:
-                    _logger.warn("~ ERROR: the name %s from fortnox is not unique in odoo db. Recordset = %s" % (customer_name, partner))
+                    _logger.warn("~ ERROR 2: The name %s from fortnox is not unique in odoo db. Recordset = %s" % (customer_name, partner))
                 elif len(partner) == 0:
-                    _logger.warn("~ ERROR: the name %s from fortnox was not found in odoo db" % customer_name)
+                    _logger.warn("~ ERROR 3: The name %s from fortnox was not found in odoo db" % customer_name)
                 else:
                     if partner.ref == customer['CustomerNumber']:
-                        _logger.warn("~ OK: partner.ref is already correct")
+                        _logger.warn("~ OK 1: %s (id: %s) is already correct" % (customer['Name'], partner.id))
                     else:
-                        _logger.warn("~ NICE: %s's (id: %s) internal reference was set to %s" % (customer['Name'], partner.id, customer['CustomerNumber']))
-                        #partner.ref = customer['CustomerNumber']
+                        _logger.warn("~ OK 2: %s's (id: %s) internal reference was set to %s" % (customer['Name'], partner.id, customer['CustomerNumber']))
+                        partner.ref = customer['CustomerNumber']
 
     def partner_create(self):
         # Customer (PUT https://api.fortnox.se/3/customers)
