@@ -86,8 +86,6 @@ class res_company(models.Model):
                 r = requests.get(url=url,headers = headers)
             if request_type == 'delete':
                 r = requests.delete(url=url,headers = headers)
-            _logger.warn('Response HTTP Status Code : {status_code}'.format(status_code=r.status_code))
-            _logger.warn('Response HTTP Response Body : {content}'.format(content=r.content))
 
             if r.status_code in [403]:
                 raise Warning(r.content)
