@@ -12,14 +12,14 @@ import logging
 _logger = logging.getLogger(__name__)
 
 class Partner(models.Model):
-	_inherit = 'res.partner'
-	
+    _inherit = 'res.partner'
+    
     # sets internal reference on all companies and fellowships based on the customer number in Fortnox
-	@api.multi
-	def check_fortnox_customer_number(self):
-		r = self.env.user.company_id.fortnox_request('get', "https://api.fortnox.se/3/customers")
-		r = json.loads(r)
-		pages = int(r['MetaInformation']['@TotalPages']) + 1
+    @api.multi
+    def check_fortnox_customer_number(self):
+        r = self.env.user.company_id.fortnox_request('get', "https://api.fortnox.se/3/customers")
+        r = json.loads(r)
+        pages = int(r['MetaInformation']['@TotalPages']) + 1
 
         for page in range(pages):
             url = "https://api.fortnox.se/3/customers?page=" + str(page)
@@ -32,7 +32,7 @@ class Partner(models.Model):
                 customer_number = customer.get('CustomerNumber', False)
                 customer_name = customer.get('Name', False)
                 
-                partner = self.env['res.partner'].search([('name', '=', customer_name)])
+                partner = self.env['res.partner'].search([('company_type', 'in', ['fellowship','company']), ('name', '=', customer_name)])
                 
                 if customer_number == False:
                     _logger.warn("ERROR: %s with org.num %s has no CustomerNumber, skipping ..." % (customer_name, customer_orgnum))
