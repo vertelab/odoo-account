@@ -32,7 +32,7 @@ class Partner(models.Model):
                 customer_number = customer.get('CustomerNumber', False)
                 customer_name = customer.get('Name', False)
                 
-                partner = self.env['res.partner'].search([('company_type', 'in', ['fellowship','company']), ('name', '=', customer_name)])
+                partner = self.env['res.partner'].search([('name', '=', customer_name)])
                 
                 if customer_number == False:
                     _logger.warn("~ ERROR: %s with org.num %s has no CustomerNumber, skipping ..." % (customer_name, customer_orgnum))
@@ -44,7 +44,7 @@ class Partner(models.Model):
                     if partner.ref == customer['CustomerNumber']:
                         _logger.warn("~ OK: partner.ref is already correct")
                     else:
-                        _logger.warn("~ NICE: partner.ref was set to %s" % customer['CustomerNumber'])
+                        _logger.warn("~ NICE: %s's (id: %s) internal reference was set to %s" % (customer['Name'], partner.id, customer['CustomerNumber']))
                         #partner.ref = customer['CustomerNumber']
 
     def partner_create(self):
