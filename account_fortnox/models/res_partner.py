@@ -16,7 +16,7 @@ class Partner(models.Model):
     
     # sets internal reference on all companies and fellowships based on the customer number in Fortnox
     @api.multi
-    def check_fortnox_customer_number(self):
+    def set_internal_reference(self):
         r = self.env.user.company_id.fortnox_request('get', "https://api.fortnox.se/3/customers")
         r = json.loads(r)
         pages = int(r['MetaInformation']['@TotalPages']) + 1
@@ -35,13 +35,17 @@ class Partner(models.Model):
                 partner = self.env['res.partner'].search([('company_type', 'in', ['fellowship','company']), ('name', '=', customer_name)])
                 
                 if customer_number == False:
-                    _logger.warn("ERROR: %s with org.num %s has no CustomerNumber, skipping ..." % (customer_name, customer_orgnum))
+                    _logger.warn("~ ERROR: %s with org.num %s has no CustomerNumber, skipping ..." % (customer_name, customer_orgnum))
                 elif len(partner) > 1:
-                    _logger.warn("ERROR: the name %s from fortnox is not unique in odoo db. Recordset = %s" % (customer_name, partner))
+                    _logger.warn("~ ERROR: the name %s from fortnox is not unique in odoo db. Recordset = %s" % (customer_name, partner))
                 elif len(partner) == 0:
-                    _logger.warn("ERROR: the name %s from fortnox was not found in odoo db" % customer_name)
+                    _logger.warn("~ ERROR: the name %s from fortnox was not found in odoo db" % customer_name)
                 else:
-                    partner.ref = customer['CustomerNumber']
+                    if partner.ref == customer['CustomerNumber']:
+                        _logger.warn("~ OK: partner.ref is already correct")
+                    else:
+                        _logger.warn("~ NICE: partner.ref was set to %s" % customer['CustomerNumber'])
+                        #partner.ref = customer['CustomerNumber']
 
 	def partner_create(self):
 		# Customer (PUT https://api.fortnox.se/3/customers)
