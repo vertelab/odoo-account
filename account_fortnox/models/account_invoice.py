@@ -16,7 +16,6 @@ _logger = logging.getLogger(__name__)
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
     
-    
     @api.multi
     def fortnox_create(self):
         # Customer (POST https://api.fortnox.se/3/customers)
@@ -60,22 +59,14 @@ class account_invoice(models.Model):
                 })
             
             r = json.loads(r)
-            # ~ if not r["Invoice"]["CustomerNumber"]:
-            # ~ raise Warning(str(r))
-            _logger.warn('%s Haze Rrr' %r)
+
             if r.get('ErrorInformation'):
                 invoice._message_log(body='Error Creating Invoice Fortnox %s ' % r['ErrorInformation']['message'], subject='Fortnox Error')
-                raise Warning('%s has prolem in its contact information, please check it' %invoice.partner_id.name)
-                _logger.warn('%s Haze Error' %invoice.partner_id.name)
+                raise Warning('%s has prolem in its contact information, please check it' % invoice.partner_id.name)
                 break
             else:
-                # ~ if invoice.type != "out_refund":
                 invoice.ref = r["Invoice"]["CustomerNumber"]
-                # ~ invoice.reference = r["Invoice"]["DocumentNumber"]
                 invoice.name = r["Invoice"]["DocumentNumber"]
-                # ~ else:
-                    # ~ invoice.ref = r["Invoice"]["CustomerNumber"]
-                    # ~ invoice.name = r["Invoice"]["CreditInvoiceReference"]
             return r
     
         
