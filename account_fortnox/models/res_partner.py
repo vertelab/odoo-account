@@ -6,40 +6,48 @@ from odoo.exceptions import Warning
 
 import requests
 import json
+import time
 
 import logging
 _logger = logging.getLogger(__name__)
 
-
 class Partner(models.Model):
 	_inherit = 'res.partner'
 	
+    # sets internal reference on all companies and fellowships based on the customer number in Fortnox
 	@api.multi
 	def check_fortnox_customer_number(self):
-		url = "https://api.fortnox.se/3/customers"
-		r = self.env.user.company_id.fortnox_request('get', url)
+		r = self.env.user.company_id.fortnox_request('get', "https://api.fortnox.se/3/customers")
 		r = json.loads(r)
 		pages = int(r['MetaInformation']['@TotalPages']) + 1
-		
-		for partner in self:
-			for page in range(pages):
-				url = "https://api.fortnox.se/3/customers?page=" + str(page)
-				_logger.warn("Haze url %s" % url)
-				r = self.env.user.company_id.fortnox_request('get', url)
-				r  = json.loads(r)
-				customers = r['Customers']
-				for customer in customers:
-					_logger.warn("HAZE: %s - %s" % (customer['Name'], customer['OrganisationNumber']))
-					if partner.commercial_partner_id.company_registry == customer.get('OrganisationNumber', False):
-						partner.commercial_partner_id.ref = customer['CustomerNumber']
+
+        for page in range(pages):
+            url = "https://api.fortnox.se/3/customers?page=" + str(page)
+            r = self.env.user.company_id.fortnox_request('get', url)
+            r  = json.loads(r)
+            time.sleep(0.1)
+            
+            for customer in r['Customers']:
+                customer_orgnum = customer.get('OrganisationNumber', False)
+                customer_number = customer.get('CustomerNumber', False)
+                customer_name = customer.get('Name', False)
+                
+                partner = self.env['res.partner'].search([('name', '=', customer_name)])
+                
+                if customer_number == False:
+                    _logger.warn("ERROR: %s with org.num %s has no CustomerNumber, skipping ..." % (customer_name, customer_orgnum))
+                elif len(partner) > 1:
+                    _logger.warn("ERROR: the name %s from fortnox is not unique in odoo db. Recordset = %s" % (customer_name, partner))
+                elif len(partner) == 0:
+                    _logger.warn("ERROR: the name %s from fortnox was not found in odoo db" % customer_name)
+                else:
+                    partner.ref = customer['CustomerNumber']
 
 	def partner_create(self):
 		# Customer (PUT https://api.fortnox.se/3/customers)
 		for partner in self:
 			if not partner.commercial_partner_id.ref:
-				# ~ try:
 				url = "https://api.fortnox.se/3/customers"
-				""" r = response """
 				r = self.env.user.company_id.fortnox_request('post', url,
 					data={
 						"Customer": {
@@ -67,11 +75,11 @@ class Partner(models.Model):
 							"ZipCode": partner.zip,
 						}
 					})
-			r = json.loads(r)
-			partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"]
-			_logger.warn('Haze %s' % partner.commercial_partner_id.ref )
-			return requests.get(url).json()
-#FIXME:make fortnox_update auto-updating.
+                r = json.loads(r)
+                partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"]
+
+        return requests.get(url).json()
+
 	@api.multi
 	def partner_update(self):
 		# Customer (PUT https://api.fortnox.se/3/customers)
@@ -106,18 +114,5 @@ class Partner(models.Model):
 							"ZipCode": partner.zip,
 						}
 					})
-					
-			
-			r = json.loads(r)
-			# ~ partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"] 
-			_logger.warn('%s Haze ref ref ' % partner.commercial_partner_id.ref)
-			# ~ partner.commercial_partner_id.ref = int(r["Customer"]["CustomerNumber"])
-			# ~ raise Warning(str(r))
-			# ~ partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"]
-			# ~ _logger.warn('%s Haze ref' % partner.commercial_partner_id.ref)
-			# ~ _logger.warn('%s Haze ref' % partner.commercial_partner_id.ref)
-			
-			# ~ raise Warning(partner.commercial_partner_id.ref)
-			return requests.get(url).json()  
-			
-	
+
+        return requests.get(url).json()
