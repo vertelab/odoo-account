@@ -78,8 +78,6 @@ class Partner(models.Model):
                 r = json.loads(r)
                 partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"]
 
-        return requests.get(url).json()
-
 	@api.multi
 	def partner_update(self):
 		# Customer (PUT https://api.fortnox.se/3/customers)
@@ -114,5 +112,3 @@ class Partner(models.Model):
 							"ZipCode": partner.zip,
 						}
 					})
-
-        return requests.get(url).json()

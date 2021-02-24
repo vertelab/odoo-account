@@ -21,9 +21,9 @@ class account_invoice(models.Model):
         # Customer (POST https://api.fortnox.se/3/customers)
         for invoice in self:
             if not invoice.date_due:
-                raise Warning("Please select payment term")
+                raise Warning("ERROR: missing date_due on invoice.")
             if not invoice.partner_id.commercial_partner_id.ref:
-                ref = invoice.partner_id.partner_create()
+                invoice.partner_id.partner_create()
             if invoice.partner_id.commercial_partner_id.ref:
                 invoice.partner_id.partner_update()
             InvoiceRows = []
