@@ -12,9 +12,10 @@ import json
 import logging
 _logger = logging.getLogger(__name__)
 
-
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
+    
+    state = fields.Selection([("draft", "Utkast"), ("open", "Bekräftad"), ("sent", "Skickad"), ("paid", "Betalad"), ("cancel", "Avbruten")], readonly=False)
     
     @api.multi
     def fortnox_create(self):
@@ -63,4 +64,4 @@ class account_invoice(models.Model):
             else:
                 invoice.ref = r["Invoice"]["CustomerNumber"]
                 invoice.name = r["Invoice"]["DocumentNumber"]
-                invoice.state = 'in_payment'
+                invoice.state = 'sent'
