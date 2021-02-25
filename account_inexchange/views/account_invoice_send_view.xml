@@ -6,48 +6,6 @@
 
 
 <odoo>
-<!--
-    <record id="account_invoice_send_inherit_account_wizard_form_inexchange" model="ir.ui.view" >
-        <field name="name">account.invoice.send.form.inherited.inexchange</field>
-        <field name="model">account.invoice.send</field>
-        <field name="inherit_id" ref="account.account_invoice_send_wizard_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[@name='option_email']" position="replace">
-                <field name="is_email" invisible="1" />
-                <div name="option_inexchange" >
-                    <field name="is_inexchange" />
-                    <b><label for="is_inexchange"/></b>
-                </div>
-            </xpath>
--->
-<!--
-            <label for="is_print" position="attributes">
-                <attribute name="attrs">{'invisible': True}</attribute>
-            </label>
-            <field name="is_print" position="attributes">
-                <attribute name="attrs">{'invisible': True}</attribute>
-            </field>
-            <label for="snailmail_is_letter" position="attributes">
-                <attribute name="attrs">{'invisible': True}</attribute>
-            </label>
-            <field name="snailmail_is_letter" position="attributes">
-                <attribute name="attrs">{'invisible': True}</attribute>
-            </field>
--->
-<!--
-            <footer>
-                <button string="Send To Inexchange "
-                    attrs="{'invisible': [('is_inexchange', '=', False)]}"
-                    name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
--->
-<!--
-                <button string="Send" name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
--->
-<!--
-            </footer>
-        </field>
-    </record>
--->
     <record id="invoice_form" model="ir.ui.view">
       <field name="name">account.invoice.form.period</field>
       <field name="model">account.invoice</field>
@@ -58,43 +16,16 @@
                         <group>
                             <group>
                                 <button name="send_invoice_to_inexchange_action" string="Send Invoice To Exchange" type="object" class="oe_highlight mb16" />
-                                <field name="inexchange_invoice_url_address" readonly="1"/>
+                                <field name="inexchange_invoice_url_address" />
                                 <field name="inexchange_invoice_uri_id" readonly="1"/>
-<!--
-                                <field name="inexchange_invoice_xml_document_id" readonly="1"/>
-                                <field name="inexchange_invoice_send_status" invisible="1"/>
--->
-
-<!--
-                                <button name="send_invoice_documents_to_recipient" string="Send To Recipient" type="object" class="oe_highlight mb16 mt16" attrs="{'invisible': [('inexchange_invoice_id','!=',False)]}"/>
--->
-
-<!--
-                                <field name="inexchange_invoice_id" readonly="1"/>
-                                <field name="inexchange_document_status" readonly="1"/>
-                                <field name="inexchange_error_message" readonly="1" attrs="{'invisible': [('inexchange_error_message','=',False)]}"/>
-
-                                <button name="reset_document_state" string="Reset Document State" confirm="Are you sure want to reset document state and send documents again?" type="object" class="oe_highlight mb16 mt16" attrs="{'invisible': [('inexchange_invoice_send_status','=',False)]}"/>
-                                <br/>
--->
-                                <button name="invoice_status" string="Get Invoice Status" type="object" class="oe_highlight mb16" attrs="{'invisible': [('inexchange_invoice_uri_id','=',False)]}"/>
-                                <field name="inexchange_invoice_status" readonly="1"/>
+                                <field name="inexchange_file_count" readonly="1"/>
+                                <field name="is_inexchange_invoice"/>
                                 <field name="inexchange_error_status" attrs="{'invisible': [('inexchange_error_status','=',False)]}" readonly="1"/>
                             </group>
                             <group>
                             </group>
                         </group>
                     </page>
-<!--
-                    <page string="InExchange Log" name="inexchange_log" states="open,in_payment,paid" groups="base.group_no_one">
-                        <field name="account_invoice_inexchange_log_ids">
-                            <tree create="false" edit="false" delete="false">
-                                <field name="date"/>
-                                <field name="xml_data"/>
-                            </tree>
-                        </field>
-                    </page>
--->
             </page>
         </field>
     </record>

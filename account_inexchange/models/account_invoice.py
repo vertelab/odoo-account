@@ -18,23 +18,29 @@ class account_invoice(models.Model):
     
     inexchange_invoice_url_address = fields.Char(string='Inexchange Invoice UUID', help = "This is for inexchange document ID" )
     inexchange_invoice_uri_id = fields.Char(string='Inexchange Invoice Id', help = "This is for inexchange invoice ID" )
-    inexchange_invoice_status = fields.Char(string='Inexchange Invoice Status', help = 'This is for inexchange invoice status')
-    inexchange_error_status = fields.Char(string='Inexchange Invoice Error Status', help = 'This is for inexchange invoice status')
+    inexchange_erp_id = fields.Char(string='Inexchange ERP document ID', help = "This is for inexchange ERP" )
+    # ~ inexchange_invoice_status = fields.Char(string='Inexchange Invoice Status', help = 'This is for inexchange invoice status')
+    inexchange_error_status = fields.Char(string='Inexchange Invoice Error Message', help = 'This is for inexchange invoice Message')
+    error_find = fields.Boolean(string="Inexchange invoice has errors",help = 'This is for inexchange invoice error')
+    is_inexchange_invoice = fields.Boolean(string="Invoice has been sent to Inexchange",help = 'This is for inexchange invoice')
+    inexchange_file_count = fields.Integer(default = 0)
 
     def upload_invoice(self, data):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='documents')
         client_token = settings.inexchange_request_client_token()
         _logger.info('client token : %s ' %client_token)
-        for invoice in self:
-            
-            header = {
-                'ClientToken': client_token,
-                'ContentDisposition': 'attachement; filename="invoice.xml"',
-                }
-            result = requests.post(
-                url, headers=header, files={
-                  'file': ('invoice.xml', data, 'application/xml')})
+        self.inexchange_file_count += 1
+        # ~ for invoice in self:
+        header = {
+            'ClientToken': client_token,
+            'ContentDisposition': 'attachement; filename=%s-%s.xml'%(self.reference.replace('/',''), self.inexchange_file_count),
+            }
+        result = requests.post(
+            url, headers=header, files={
+              'file': (self.reference.replace('/',''), data, 'application/xml')})
+        self.inexchange_invoice_uri_id = str(result.headers['Location'])
+        _logger.info('HaLu %s' %str(result.headers['Location']))
         if result.status_code not in (202,):
             raise Warning('Failed to upload invoice')
         return result
@@ -49,87 +55,157 @@ class account_invoice(models.Model):
             header = {
                     'ClientToken': client_token,
                     'Content-Type': 'application/json'}
-            data = {
-                "sendDocumentAs": {
-                    # ~ "type": "Electronic",
-                    "type": "PDF",
-                    "paper": {
-                        "recipientAddress": {
-                            "name": invoice.partner_id.name,
-                            "department": None,
-                            "streetName": invoice.partner_id.street,
-                            "postBox": None,
-                            "postalZone": invoice.partner_id.zip,
-                            "city": invoice.partner_id.city,
-                            "countryCode": "SE"
-                            },
-                        "returnAddress": {
-                            "name": self.env.user.company_id.name,
-                            "department": None,
-                            "streetName": self.env.user.company_id.street,
-                            "postBox": None,
-                            "postalZone": self.env.user.company_id.zip,
-                            "city": self.env.user.company_id.city,
-                            "countryCode": "SE"
+            if invoice.partner_id.commercial_partner_id.email:
+                data = {
+                    "sendDocumentAs": {
+                        "type": "PDF",
+                        # ~ "paper": {
+                            # ~ "recipientAddress": {
+                                # ~ "name": invoice.partner_id.name,
+                                # ~ "department": None,
+                                # ~ "streetName": invoice.partner_id.street,
+                                # ~ "postBox": None,
+                                # ~ "postalZone": invoice.partner_id.zip,
+                                # ~ "city": invoice.partner_id.city,
+                                # ~ "countryCode": "SE"
+                                # ~ },
+                            # ~ "returnAddress": {
+                                # ~ "name": self.env.user.company_id.name,
+                                # ~ "department": None,
+                                # ~ "streetName": self.env.user.company_id.street,
+                                # ~ "postBox": None,
+                                # ~ "postalZone": self.env.user.company_id.zip,
+                                # ~ "city": self.env.user.company_id.city,
+                                # ~ "countryCode": "SE"
+                                # ~ }
+                        # ~ },
+                    "pdf": {
+                        "recipientEmail": invoice.partner_id.commercial_partner_id.email,
+                        "recipientName": invoice.partner_id.commercial_partner_id.name,
+                        "senderEmail": self.env.user.email,
+                        "senderName": self.env.user.name
+                        }
+                    },
+                    "recipientInformation": {
+                        "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel or False,  # noqa:E501
+                        "orgNo": invoice.partner_id.commercial_partner_id.company_org_number,  # noqa:E501
+                        "vatNo": invoice.partner_id.vat or False,
+                        "name": invoice.partner_id.name,
+                        "recipientNo": "1",
+                        "countryCode": "SE"
+                        },
+                    "document": {
+                        "documentFormat": "bis3",
+                        "documentUri": xml_file_ref,
+                        "language": "sv-SE",
+                        "culture": "sv-SE"
+                        }}
+                _logger.info('Haze Uri: %s ' %xml_file_ref)
+            elif invoice.partner_id.commercial_partner_id.inexchange_company_id:
+                data = {
+                    "sendDocumentAs": {
+                        "type": "Electronic",
+                        "Electronic": {
+                            "RecipientID": invoice.partner_id.commercial_partner_id.inexchange_company_id,
                             }
                     },
-                    # ~ "Electronic": {
-                        # ~ "RecipientID": invoice.partner_id.commercial_partner_id.inexchange_company_id,
-                        # ~ }
-                "pdf": {
-                    "recipientEmail": invoice.partner_id.commercial_partner_id.email,
-                    "recipientName": invoice.partner_id.commercial_partner_id.name,
-                    "senderEmail": self.env.user.email,
-                    "senderName": self.env.user.name
-                    }
-                },
-                "recipientInformation": {
-                    "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel,  # noqa:E501
-                    "orgNo": invoice.partner_id.commercial_partner_id.company_org_number or False,  # noqa:E501
-                    "vatNo": invoice.partner_id.vat,
-                    "name": invoice.partner_id.name,
-                    "recipientNo": "1",
-                    "countryCode": "SE"
-                    },
-                "document": {
-                    "documentFormat": "bis3",
-                    "documentUri": xml_file_ref,
-                    "language": "sv-SE",
-                    "culture": "sv-SE"
-                    }}
-            _logger.info('Haze Uri: %s ' %xml_file_ref)
+                    "recipientInformation": {
+                        "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel or False,  # noqa:E501
+                        "orgNo": invoice.partner_id.commercial_partner_id.company_org_number,  # noqa:E501
+                        "vatNo": invoice.partner_id.vat or False,
+                        "name": invoice.partner_id.name,
+                        "recipientNo": "1",
+                        "countryCode": "SE"
+                        },
+                    "document": {
+                        "documentFormat": "bis3",
+                        "documentUri": xml_file_ref,
+                        "language": "sv-SE",
+                        "culture": "sv-SE"
+                        }}
+                _logger.info('Haze Uri: %s ' %xml_file_ref)
             # ~ raise Warning(data["Electronic"]["RecipientID"])
-            if xml_file_ref:
-                data['document']["renderedDocumentFormat"] = "application/pdf"
-                data['document']["renderedDocumentUri"] = xml_file_ref
-                invoice.inexchange_invoice_uri_id = xml_file_ref
+            data['document']["renderedDocumentFormat"] = "application/pdf"
+            # ~ data['document']["erpDocumentId"] = invoice.inexchange_erp_id
+            # ~ data['document']["renderedUri"] = invoice.inexchange_invoice_uri_id
             if attachments:
                 data['document']['attachments'] = attachments
             data = json.dumps(data)
             result = requests.post(url, headers=header, data=data)
+            # ~ result = json.loads(result.text)
+            _logger.info('HaLu result 1 %s' % str(result.headers))
+            
+            # ~ _logger.info('HaLu result 2 %s' % result)
+            location = result.headers['Location'].split('/')[-1]
+            _logger.info('HaLu result %s' % location)
+            invoice.inexchange_invoice_url_address = location
             
         
-            if not result.status_code in (200,):
-                raise Warning(f'Failed to send invoice\n Failed with:\n{result.status_code}\n{result.text}')
+            if not result.status_code in [200]:
+                raise Warning(f'Failed to send invoice\n Failed with:\n{result.status_code}\n{jsonb.dumps(result.text)}')
+                
             return result
-
-    def invoice_status(self):
+    # ~ @api.one
+    # ~ def inexchange_get_invoice_status(self):
+        # ~ settings = self.env['res.config.settings']
+        # ~ client_token = settings.inexchange_request_client_token()
+        # ~ url = settings.get_url(endpoint='invoices/outbound/%s' %self.inexchange_invoice_url_address)
+        # ~ _logger.info('Haze url %s' %url)
+        
+        # ~ header = {
+            # ~ 'ClientToken': client_token,
+            # ~ 'Content-Type': 'application/json',
+            # ~ 'Accept' : '*/*'}
+        # ~ result = requests.get(url, headers = header)
+        
+        # ~ _logger.info('Haze result %s' %str(result))
+        # ~ _logger.info('Haze header %s' %str(header))
+        # ~ _logger.info('Haze status code %s' %result.status_code)
+        # ~ if not result.status_code in [200,202]:
+            # ~ self.inexchange_error_status = f'Failed to send invoice\n Failed with:\n{result.status_code}\n{json.dumps(result.text)}'
+        # ~ else:
+            # ~ self.inexchange_invoice_status = result
+        # ~ return result
+    @api.model
+    def inexchange_get_all_invoice_status(self):
         settings = self.env['res.config.settings']
         client_token = settings.inexchange_request_client_token()
-        url = settings.get_url(endpoint='documents/outbound/%s' %self.inexchange_invoice_url_address)
+        url = settings.get_url(endpoint='documents/outbound/list' )
         _logger.info('Haze url %s' %url)
-        
         header = {
             'ClientToken': client_token,
             'Content-Type': 'application/json',
-            'Accept' : '*/*'}
-        result = requests.get(url, headers = header)
-        # ~ _logger.info('Haze status 1 %s' %result.text)
-        if not result.status_code in (200,):
-            self.inexchange_error_status = f'Failed to send invoice\n Failed with:\n{result.status_code}\n{result.text}'
-        else:
-            self.inexchange_invoice_status = 'Invoice has send to inexchange sucessfully.'
+            'Accept' : 'application/json'}
+        
+        data = {
+            "take":50,
+            "skip":0,
+            "createdFrom": "%sZ" %str(fields.Datetime().now()+timedelta(days=-1)).replace(' ','T'),
+            "createdTo": "%sZ" %str(fields.Datetime().now()).replace(' ','T'),
+            "updatedAfter": "%sZ" %str(fields.Datetime().now()+timedelta(days=-1)).replace(' ','T'),
+            "documentType": "invoice",
+            "status": "Errors",
+            "includeFileInfo": True,
+            "includeErrorInfo": True
+        }
+
+        result = requests.post(url, headers = header, data = json.dumps(data))
+        result = json.loads(result.text)
+        documents = result['documents']
+        _logger.info('%s Haze document' % documents)
+        for document in documents:
+            inexchange_error_doc_id = document.get('id',False)
+            error = document.get('error', False)
+            invoice_inexchange_id = self.env['account.invoice'].search([('inexchange_invoice_url_address','=',document['id'])], limit=1)
+            _logger.info('Inexchange Error Info %s' % invoice_inexchange_id.inexchange_invoice_url_address)
+            
+            if invoice_inexchange_id:
+                invoice_inexchange_id.error_find = True
+                invoice_inexchange_id.inexchange_error_status = document['error']
+                _logger.info('Inexchange Error Info %s' % invoice_inexchange_id.inexchange_error_status)
+                invoice_inexchange_id.error_find = True
         return result
+
 
         
             
@@ -144,7 +220,7 @@ class account_invoice(models.Model):
             'Accept' : '*/*'}
         result = requests.get(url, headers = header)
         _logger.info(result.text)
-        if not result.status_code in (200,):
+        if not result.status_code in [200]:
             raise Warning('Failed to fetch invoice')
         else:
             raise Warning(result.text)
@@ -164,24 +240,23 @@ class account_invoice(models.Model):
                 _logger.info(result.text)
                 if not result.status_code in (200,):
                     raise Warning('Failed to download invoice')
-                else:
-                    raise Warning('Inovice has sent to Inexchange')
                 return result
     @api.multi
     def send_invoice_to_inexchange_action(self):
         for invoice in self:
-            invoice.name = invoice.reference
-            version = invoice.get_ubl_version()
-            # ~ raise Warning(version)
-            xml_string = invoice.generate_ubl_xml_string(version = version)
-            # ~ raise Warning(xml_string)
-            _logger.info(xml_string)
-            result = invoice.upload_invoice(xml_string)
-            file_location = result.headers['Location']
-            invoice.inexchange_invoice_url_address = file_location.split(':')[2]
-            _logger.warn('Haze file location %s' %file_location)
-            result = invoice.send_uploaded_invoice(file_location)
-            invoice.inexchange_invoice_status = 'Invoice has send to Inexchange.'
+            if not invoice.partner_id.commercial_partner_id.company_org_number:
+                raise Warning('%s does not have organisition number, please fill in it.' %invoice.partner_id.commercial_partner_id.name)
+            elif not invoice.partner_id.commercial_partner_id.email:
+                raise Warning('%s does not have email address, please fill in it.' %invoice.partner_id.commercial_partner_id.name)
+            else:
+                invoice.name = invoice.reference
+                invoice.inexchange_error_status = None
+                version = invoice.get_ubl_version()
+                xml_string = invoice.generate_ubl_xml_string(version = version)
+                _logger.info(xml_string)
+                result = invoice.upload_invoice(xml_string)
+                result = invoice.send_uploaded_invoice(invoice.inexchange_invoice_url_address)
+                invoice.is_inexchange_invoice = True
         # ~ return res
     # ~ @api.multi
     # ~ def mark_invoice_as_handled(self):
@@ -204,52 +279,3 @@ class account_invoice(models.Model):
                 
 
 
-# ~ class AccountInvoiceSend(models.TransientModel):
-    # ~ _inherit = 'account.invoice.send'
-
-    # ~ is_inexchange = fields.Boolean(string='InExchange')
-    # ~ inexchange_possible = fields.Boolean()
-    
-    # ~ @api.model
-    # ~ def default_get(self, fields):
-        # ~ res = super(AccountInvoiceSend, self).default_get(fields)
-        # ~ res_ids = self._context.get('active_ids')
-        # ~ invoices = self.env['account.invoice'].browse(res_ids)
-        # ~ possible = self._inexchange_possible(invoices)
-        # ~ res.update({
-            # ~ 'is_inexchange': possible,
-            # ~ 'inexchange_possible': possible,
-        # ~ })
-        # ~ return res
-    
-    # ~ @api.model
-    # ~ def _inexchange_possible(self, invoices):
-        # ~ if invoices:
-            # ~ inexchange_possible = True
-            # ~ for invoice in invoices:
-                # ~ possible = False #Gör kontroll
-                # ~ if not possible:
-                    # ~ inexchange_possible = False
-                    # ~ break
-            # ~ self.inexchange_possible = inexchange_possible
-        # ~ else:
-            # ~ self.inexchange_possible = False
-
-    # ~ @api.multi
-    # ~ def send_and_print_action(self):
-        # ~ res = super(AccountInvoiceSend, self).send_and_print_action()
-        # ~ if self.is_inexchange:
-            # ~ for invoice in self.invoice_ids:
-                # ~ invoice.name = invoice.reference
-                # ~ version = invoice.get_ubl_version()
-                # ~ raise Warning(version)
-                # ~ xml_string = invoice.generate_ubl_xml_string(version = version)
-                # ~ raise Warning(xml_string)
-                # ~ _logger.info(xml_string)
-                # ~ result = invoice.upload_invoice(xml_string)
-                # ~ file_location = result.headers['Location']
-                # ~ invoice.inexchange_invoice_url_address = file_location.split(':')[2]
-                # ~ _logger.warn('Haze file location %s' %file_location)
-                # ~ result = invoice.send_uploaded_invoice(file_location)
-                # ~ invoice.inexchange_invoice_status = 'Invoice has send to Inexchange.'
-        # ~ return res
