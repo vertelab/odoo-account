@@ -4,7 +4,7 @@
 import json
 import logging
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 
 from odoo import api, fields, models
@@ -29,19 +29,25 @@ class account_invoice(models.Model):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='documents')
         client_token = settings.inexchange_request_client_token()
-        _logger.info('client token : %s ' %client_token)
+        # ~ raise Warning(client_token)
+        _logger.info('Haze client token : %s ' %client_token)
         self.inexchange_file_count += 1
+        # ~ raise Warning(self.partner_id.customer_payment_mode_id.id)
         # ~ for invoice in self:
         header = {
             'ClientToken': client_token,
             'ContentDisposition': 'attachement; filename=%s-%s.xml'%(self.reference.replace('/',''), self.inexchange_file_count),
             }
+        # ~ raise Warning(str(header))
         result = requests.post(
             url, headers=header, files={
-              'file': (self.reference.replace('/',''), data, 'application/xml')})
+              'File': (self.reference.replace('/','') + str(self.inexchange_file_count), data, 'application/xml')})
+        _logger.warning('Haze %s ' %result.status_code)
+        _logger.warn(f'Haze {result.text}')
+        _logger.warn(f'Haze {result.headers}')
         self.inexchange_invoice_uri_id = str(result.headers['Location'])
         _logger.info('HaLu %s' %str(result.headers['Location']))
-        if result.status_code not in (202,):
+        if result.status_code not in [202,200]:
             raise Warning('Failed to upload invoice')
         return result
 
@@ -52,10 +58,11 @@ class account_invoice(models.Model):
         url = settings.get_url(endpoint='documents/outbound')
 
         for invoice in self:
+            
             header = {
                     'ClientToken': client_token,
                     'Content-Type': 'application/json'}
-            if invoice.partner_id.commercial_partner_id.email:
+            if invoice.partner_id.commercial_partner_id.email and not invoice.partner_id.commercial_partner_id.inexchange_company_id and inovice.partner_id.customer_payment_mode_id.id != 1:
                 data = {
                     "sendDocumentAs": {
                         "type": "PDF",
@@ -101,17 +108,17 @@ class account_invoice(models.Model):
                         "culture": "sv-SE"
                         }}
                 _logger.info('Haze Uri: %s ' %xml_file_ref)
-            elif invoice.partner_id.commercial_partner_id.inexchange_company_id:
+            elif invoice.partner_id.inexchange_company_id and invoice.partner_id.customer_payment_mode_id.id == 1:
                 data = {
                     "sendDocumentAs": {
                         "type": "Electronic",
                         "Electronic": {
-                            "RecipientID": invoice.partner_id.commercial_partner_id.inexchange_company_id,
+                            "RecipientID": invoice.partner_id.commercial_partner_id.inexchange_company_id or invoice.partner_id.inexchange_company_id,
                             }
                     },
                     "recipientInformation": {
-                        "gln": invoice.partner_id.commercial_partner_id.gln_number_vertel or False,  # noqa:E501
-                        "orgNo": invoice.partner_id.commercial_partner_id.company_org_number,  # noqa:E501
+                        "gln": invoice.partner_id.gln_number_vertel or False,  # noqa:E501
+                        "orgNo": invoice.partner_id.company_org_number,  # noqa:E501
                         "vatNo": invoice.partner_id.vat or False,
                         "name": invoice.partner_id.name,
                         "recipientNo": "1",
@@ -126,7 +133,6 @@ class account_invoice(models.Model):
                 _logger.info('Haze Uri: %s ' %xml_file_ref)
             # ~ raise Warning(data["Electronic"]["RecipientID"])
             data['document']["renderedDocumentFormat"] = "application/pdf"
-            # ~ data['document']["erpDocumentId"] = invoice.inexchange_erp_id
             # ~ data['document']["renderedUri"] = invoice.inexchange_invoice_uri_id
             if attachments:
                 data['document']['attachments'] = attachments
@@ -244,19 +250,17 @@ class account_invoice(models.Model):
     @api.multi
     def send_invoice_to_inexchange_action(self):
         for invoice in self:
-            if not invoice.partner_id.commercial_partner_id.company_org_number:
-                raise Warning('%s does not have organisition number, please fill in it.' %invoice.partner_id.commercial_partner_id.name)
-            elif not invoice.partner_id.commercial_partner_id.email:
-                raise Warning('%s does not have email address, please fill in it.' %invoice.partner_id.commercial_partner_id.name)
-            else:
+            if invoice.partner_id.inexchange_company_id:
                 invoice.name = invoice.reference
                 invoice.inexchange_error_status = None
                 version = invoice.get_ubl_version()
                 xml_string = invoice.generate_ubl_xml_string(version = version)
                 _logger.info(xml_string)
                 result = invoice.upload_invoice(xml_string)
-                result = invoice.send_uploaded_invoice(invoice.inexchange_invoice_url_address)
+                result = invoice.send_uploaded_invoice(invoice.inexchange_invoice_uri_id)
                 invoice.is_inexchange_invoice = True
+            elif not invoice.partner_id.inexchange_company_id and invoice.partner_id.customer_payment_mode_id.id == 1 :
+                raise Warning('%s does not have an inexchange company Id, therefore they can not accept EDI invoice, please doubble check it.' %(invoice.partner_id.name or invoice.partner_id.commercial_partner_id.name))
         # ~ return res
     # ~ @api.multi
     # ~ def mark_invoice_as_handled(self):

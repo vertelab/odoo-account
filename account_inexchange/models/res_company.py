@@ -36,26 +36,26 @@ class res_company(models.Model):
 
     @api.multi
     def register_company(self):
+        settings = self.env['res.config.settings']
+        url = settings.get_url(endpoint='companies/register')
         try:
             for company in self:
                 if not company.partner_id.ref:
-                    url = "https://testapi.inexchange.se/v1/api/companies/register"
                     """ r = response """
-                    r = self.env['res.config.settings'].inexchange_request_api('POST', url,
+                    r = settings.inexchange_request_api('POST', url,
                         data={
-                        "erpId": company.partner_id.id,
-                        "orgNo": company.company_registry,
-                        "vatNo": company.vat,
-                        "name": company.name,
-                        "erpProduct": "DEMO Product 1.0",
-                        "city": company.city,
-                        "countryCode": "SE",
-                        "languageCode": "sv-SE",
-                        "email": company.email,
-                        "isVatRegistered": True,
-                        "processes": [
-                            "SendInvoices",
-                            "ReceiveInvoices",
+                        "ErpId": company.partner_id.id,
+                        "OrgNo": company.company_registry,
+                        "VatNo": company.vat,
+                        "Name": company.name,
+                        "ErpProduct": "Medical Product 1.0",
+                        "City": company.city,
+                        "CountryCode": "SE",
+                        "LanguageCode": "sv-SE",
+                        "Email": company.email,
+                        "IsVatRegistered": True,
+                        "Processes": [
+                            "SendInvoices"
                         ]})
                     r = json.loads(r)
                     _logger.warn('%s Haze Company' % r)
@@ -72,24 +72,24 @@ class res_company(models.Model):
 
     @api.multi
     def update_company_info(self):
+        settings = self.env['res.config.settings']
+        url = settings.get_url(endpoint='companies/register')
         for company in self:
-            url = "https://testapi.inexchange.se/v1/api/companies/register"
             """ r = response """
-            r = self.env['res.config.settings'].inexchange_request_api('POST', url,
+            r = settings.inexchange_request_api('POST', url,
                 data={
-                "erpId": company.partner_id.id,
-                "orgNo": company.company_registry,
-                "vatNo": company.vat,
-                "name": company.name,
-                "erpProduct": "DEMO Product 1.0",
-                "city": company.city,
-                "countryCode": "SE",
-                "languageCode": "sv-SE",
-                "email": company.email,
-                "isVatRegistered": True,
-                "processes": [
-                    "SendInvoices",
-                    "ReceiveInvoices",
+                "ErpId": company.partner_id.id,
+                "OrgNo": company.company_registry,
+                "VatNo": company.vat,
+                "Name": company.name,
+                "ErpProduct": "DEMO Product 1.0",
+                "City": company.city,
+                "CountryCode": "SE",
+                "LanguageCode": "sv-SE",
+                "Email": company.email,
+                "IsVatRegistered": True,
+                "Processes": [
+                    "SendInvoices"
                 ]})
             r = json.loads(r)
             _logger.warn('%s Haze Update' % r)
@@ -99,28 +99,32 @@ class res_company(models.Model):
 
     @api.multi
     def company_check_status(self):
-        url = "https://testapi.inexchange.se/v1/api/companies/status"
+        settings = self.env['res.config.settings']
+        url = settings.get_url(endpoint='companies/status')
         for company in self:
-            r = self.env['res.config.settings'].inexchange_request_token('GET', url)
+            r = settings.inexchange_request_token('GET', url)
             r = json.loads(r)
-            company.partner_id.ref = r["companyId"]
+            raise Warning(str(r))
+            # ~ company.partner_id.ref = r["CompanyId"]
             _logger.warn('Haze company ID %s' % company.partner_id.ref)
 
     @api.multi
     def get_company_details(self):
-        self.env['res.config.settings'].inexchange_request_client_token()
+        settings = self.env['res.config.settings']
+        url = settings.get_url(endpoint='companies/details/%s' %company.partner_id.ref)
+        settings.inexchange_request_client_token()
         for company in self:
-            url = "https://testapi.inexchange.se/v1/api/companies/details/%s" %company.partner_id.ref
-            r = self.env['res.config.settings'].inexchange_request_token('GET', url)
+            r = settings.inexchange_request_token('GET', url)
             _logger.warn('Haze company details %s' %r)
 
     @api.multi
     def company_setup_request(self):
-        self.env['res.config.settings'].inexchange_request_client_token()
-        url = "https://testapi.inexchange.se/v1/api/network/setup"
+        settings = self.env['res.config.settings']
+        url = settings.get_url(endpoint='network/setup')
+        settings.inexchange_request_client_token()
         for company in self:
             
-            r = self.env['res.config.settings'].inexchange_request_token('POST', url,
+            r = settings.inexchange_request_token('POST', url,
                 data = {
                     "operator": {
                       "name": "Operator Demo"
@@ -137,10 +141,11 @@ class res_company(models.Model):
 
     @api.multi
     def add_identifiers(self):
-        self.env['res.config.settings'].inexchange_request_client_token()
+        settings = self.env['res.config.settings']
+        url = settings.get_url(endpoint='companies/identifiers')
+        settings.inexchange_request_client_token()
         for company in self:
-            url = "https://testapi.inexchange.se/v1/api/companies/identifiers"
-            r = self.env['res.config.settings'].inexchange_request_token('POST',url,
+            r = settings.inexchange_request_token('POST',url,
                 data = {
                     "operator": {
                       "name": "Operator Demo"
@@ -157,10 +162,11 @@ class res_company(models.Model):
 
     @api.multi
     def add_users(self):
-        self.env['res.config.settings'].inexchange_request_client_token()
+        settings = self.env['res.config.settings']
+        url = settings.get_url(endpoint='companies/identifiers')
+        settings.inexchange_request_client_token()
         for company in self:
-            url = "https://testapi.inexchange.se/v1/api/companies/identifiers"
-            r = self.env['res.config.settings'].inexchange_request_token('POST', url,
+            r = settings.inexchange_request_token('POST', url,
                 data = {
                     "operator": {
                       "name": "Operator Demo"
@@ -201,7 +207,7 @@ class res_partner(models.Model):
     @api.one
     def lookup_buyer_company(self):
         def match_buyer(entry):
-            org_match = entry.get('orgNo') == self.commercial_partner_id.company_org_number
+            org_match = entry.get('orgNo') == self.company_org_number
             capability = entry.get('receiveElectronicInvoiceCapability') == 'ReceivingElectronicInvoices'
             return capability and org_match
             
@@ -215,36 +221,54 @@ class res_partner(models.Model):
             
         }
         data = {
-            'PartyId': self.commercial_partner_id.company_org_number or False,
-            'GLN': self.commercial_partner_id.gln_number_vertel if self.commercial_partner_id.gln_number_vertel else False,
-            'orgNo': self.commercial_partner_id.company_org_number if self.commercial_partner_id.company_org_number else False,
-            'vatNo': self.commercial_partner_id.vat if self.commercial_partner_id.vat else False
+            'PartyId': self.company_org_number or False,
+            'GLN': self.gln_number_vertel or False,
+            'orgNo': self.company_org_number or False,
+            'vatNo': self.vat or False
         }
-        _logger.info('Haze %s' %json.dumps(data))
+        _logger.debug(' %s' %json.dumps(data))
         result = requests.post(url, headers=header, data=json.dumps(data))
-        result_party = json.loads(result.text)['parties']
-        if self.commercial_partner_id.gln_number_vertel:
+        # ~ raise Warning(result.text)
+        result_party = json.loads(result.text)["parties"]
+        # ~ raise Warning(str(result_party))
+        _logger.warn('Haze %s' %result_party)
+        # ~ if self.commercial_partner_id.gln_number_vertel:
+            # ~ for entry in result_party:
+                # ~ _logger.info('Haze with gln%s' %entry)
+                # ~ if entry['receiveElectronicInvoiceCapability'] =='ReceivingElectronicInvoices':
+                    # ~ if entry.get('gln') == self.commercial_partner_id.gln_number_vertel:
+                        # ~ self.commercial_partner_id.inexchange_company_id = entry["companyId"]
+                        # ~ _logger.info('Haze %s' %entry["companyId"])
+        if self.gln_number_vertel:
             for entry in result_party:
                 _logger.info('Haze with gln%s' %entry)
-                if entry.get('receiveElectronicInvoiceCapability') =='ReceivingElectronicInvoices':
-                    if entry.get('gln') == self.commercial_partner_id.gln_number_vertel:
-                        self.commercial_partner_id.inexchange_company_id = entry["companyId"]
+                if entry['receiveElectronicInvoiceCapability'] =='ReceivingElectronicInvoices':
+                    if entry.get('gln') == self.gln_number_vertel:
+                        self.inexchange_company_id = entry["companyId"]
                         _logger.info('Haze %s' %entry["companyId"])
+                    
             
         else:
             matches = [x for x in result_party if match_buyer(x)]
             if len(matches) == 0:
+                # ~ return
                 raise Warning('Failed to find')
             elif len(matches) > 1:
-                if not self.commercial_partner_id.inexchange_company_id:
+                if not self.inexchange_company_id:
                     companies = '\n'.join([f"{x['name']} with OrgNo:{x['orgNo']}, GLN: {x['gln']}, VAT:{x['vatNo']},CompanyID: {x['companyId']}" for x in matches])
                     raise Warning(f'Multiple matches for buyer:\n{companies}, \n Please select the one you would like to copy companyID')
             elif len(matches) == 1:
-                self.commercial_partner_id.inexchange_company_id = entry["companyId"]
+                self.inexchange_company_id = entry["companyId"]
         if not self.inexchange_company_id:
-            raise Warning('%s is not in Inexchange' % self.commercial_partner_id.name)
+            # ~ return
+            raise Warning('%s is not in Inexchange or can not accept EDI Invoice' % self.commercial_partner_id.name)
         # ~ _logger.info('Haze %s' %json.loads(result.text))
         if result.status_code not in (200,):
             raise Warning('Failed to check partner')
-        
-
+            
+    # ~ @api.model
+    # ~ def lookup_buyer_companies(self):
+        # ~ for partner in self.env['res.partner'].search([]):
+            # ~ partner.lookup_buyer_company()
+            # ~ time.sleep(0.5)
+            

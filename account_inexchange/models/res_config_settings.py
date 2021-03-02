@@ -133,7 +133,7 @@ class ResConfigSettings(models.TransientModel):
             _logger.warn('Response HTTP Status Code : {status_code}'.format(status_code=r.status_code))
             _logger.warn('Response HTTP Response Body : {content}'.format(content=r.content))
 
-            if r.status_code in [403]:
+            if r.status_code in [403,401]:
                 raise Warning(r.content)
 
         except requests.exceptions.RequestException as e:
