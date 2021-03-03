@@ -271,4 +271,7 @@ class res_partner(models.Model):
         # ~ for partner in self.env['res.partner'].search([]):
             # ~ partner.lookup_buyer_company()
             # ~ time.sleep(0.5)
-            
+
+class Sale_order(models.Model):
+    _inherit='sale.order'
+    customer_payment_mode_id = fields.Many2one(comodel_name="account.payment.mode", string="Payment Mode", related = "partner_id.customer_payment_mode_id", readonly = True)

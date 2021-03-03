@@ -62,7 +62,7 @@ class account_invoice(models.Model):
             header = {
                     'ClientToken': client_token,
                     'Content-Type': 'application/json'}
-            if invoice.partner_id.commercial_partner_id.email and not invoice.partner_id.commercial_partner_id.inexchange_company_id and inovice.partner_id.customer_payment_mode_id.id != 1:
+            if invoice.partner_id.commercial_partner_id.email and not invoice.partner_id.commercial_partner_id.inexchange_company_id and invoice.partner_id.customer_payment_mode_id.id != 1:
                 data = {
                     "sendDocumentAs": {
                         "type": "PDF",

@@ -10,7 +10,7 @@
         'views/account_invoice_send_view.xml',
     ],
     'category': 'account',
-    'depends': ['l10n_se'],
+    'depends': ['l10n_se','sale'],
     'sequence': 5,
     'application': False,
 }
