@@ -31,17 +31,18 @@ class account_invoice(models.Model):
             for line in invoice.invoice_line_ids:
                 if line.product_id:
                     line.product_id.article_update()
-                InvoiceRows.append(
-                        {
-                            "AccountNumber": line.account_id.code,
-                            "DeliveredQuantity": line.quantity,
-                            "Description": line.name,
-                            "ArticleNumber": line.product_id.default_code if line.product_id else None,
-                            "Price":line.price_unit,
-                            "VAT": int(line.invoice_line_tax_ids.mapped('amount')[0]) if len(line.invoice_line_tax_ids) > 0 else None,
-                        })
+                    InvoiceRows.append( 
+                            {
+                                "AccountNumber": line.account_id.code,
+                                "DeliveredQuantity": line.quantity,
+                                "Description": line.name,
+                                "ArticleNumber": line.product_id.default_code if line.product_id else None,
+                                "Price":line.price_unit,
+                                "VAT": int(line.invoice_line_tax_ids.mapped('amount')[0]) if len(line.invoice_line_tax_ids) > 0 else None,
+                            })
+
             r = self.company_id.fortnox_request('post',"https://api.fortnox.se/3/invoices",
-                data={                   
+                data = {
                     "Invoice": {
                         "Comments": "",
                         "Currency": "SEK",
