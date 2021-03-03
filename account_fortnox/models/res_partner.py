@@ -32,9 +32,10 @@ class Partner(models.Model):
                 customer_number = customer.get('CustomerNumber', False)
                 customer_name = customer.get('Name', False)
                 
-                partner = self.env['res.partner'].search([('name', '=', customer_name)])
+                #partner = self.env['res.partner'].search([('name', '=', customer_name)])
+                partner = self.env['res.partner'].search([('company_registry', '=', customer_orgnum)])
                 
-                if customer_number == False:
+                if customer_orgnum == False:
                     _logger.warn("~ ERROR 1: %s with org.num %s has no CustomerNumber, skipping ..." % (customer_name, customer_orgnum))
                 elif len(partner) > 1:
                     _logger.warn("~ ERROR 2: The name %s from fortnox is not unique in odoo db. Recordset = %s" % (customer_name, partner))
