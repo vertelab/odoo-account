@@ -151,27 +151,27 @@ class account_invoice(models.Model):
                 raise Warning(f'Failed to send invoice\n Failed with:\n{result.status_code}\n{jsonb.dumps(result.text)}')
                 
             return result
-    # ~ @api.one
-    # ~ def inexchange_get_invoice_status(self):
-        # ~ settings = self.env['res.config.settings']
-        # ~ client_token = settings.inexchange_request_client_token()
-        # ~ url = settings.get_url(endpoint='invoices/outbound/%s' %self.inexchange_invoice_url_address)
-        # ~ _logger.info('Haze url %s' %url)
+            
+    @api.one
+    def inexchange_get_invoice_status(self):
+        settings = self.env['res.config.settings']
+        client_token = settings.inexchange_request_client_token()
+        url = settings.get_url(endpoint='invoices/outbound/%s' %self.inexchange_invoice_url_address)
+        _logger.info('Haze url %s' %url)
         
-        # ~ header = {
-            # ~ 'ClientToken': client_token,
-            # ~ 'Content-Type': 'application/json',
-            # ~ 'Accept' : '*/*'}
-        # ~ result = requests.get(url, headers = header)
+        header = {
+            'ClientToken': client_token,
+            'Content-Type': 'application/json',
+            'Accept' : '*/*'}
+        result = requests.get(url, headers = header)
         
-        # ~ _logger.info('Haze result %s' %str(result))
-        # ~ _logger.info('Haze header %s' %str(header))
-        # ~ _logger.info('Haze status code %s' %result.status_code)
-        # ~ if not result.status_code in [200,202]:
-            # ~ self.inexchange_error_status = f'Failed to send invoice\n Failed with:\n{result.status_code}\n{json.dumps(result.text)}'
-        # ~ else:
-            # ~ self.inexchange_invoice_status = result
-        # ~ return result
+        self.inexchange_invoice_status = result.content
+        _logger.info('Haze result %s' %str(result))
+        _logger.info('Haze header %s' %str(header))
+        _logger.info('Haze status code %s' %result.status_code)
+        if not result.status_code in [200,202]:
+            raise Warning(f'Failed to send invoice\n Failed with:\n{result.status_code}\n{result.content}')
+            
     @api.model
     def inexchange_get_all_invoice_status(self):
         settings = self.env['res.config.settings']
@@ -213,7 +213,10 @@ class account_invoice(models.Model):
         return result
 
 
-        
+    def reset_inexchange_invoice_error_status(self):
+        for invoice in self:
+            if invoice.inexchange_error_status:
+                invoice.inexchange_error_status = None
             
 
     def fetch_invoice(self):
