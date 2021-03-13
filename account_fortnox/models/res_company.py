@@ -60,7 +60,7 @@ class res_company(models.Model):
                 if r.status_code not in (200, 201, 204):
                     raise UserError(f'FortNox: StatusCode:{r.status_code}, \n'
                                     f'Content:{r.content}')
-                auth_rec = eval(r.content)
+                auth_rec = json.loads(r.content)
                 self.fortnox_access_token = auth_rec.get('Authorization', {}).get('AccessToken')
                 self.message_post(body=_("New Access Token %s" % self.fortnox_access_token), subject=None, message_type='notification')
             except requests.exceptions.RequestException as e:
