@@ -11,10 +11,12 @@ import time
 import logging
 _logger = logging.getLogger(__name__)
 
+
 class Partner(models.Model):
     _inherit = 'res.partner'
-    
-    # sets internal reference on all companies and fellowships based on the customer number in Fortnox
+
+    # sets internal reference on all companies and fellowships based on
+    # the customer number in Fortnox.
     @api.multi
     def set_internal_reference(self):
         r = self.env.user.company_id.fortnox_request('get', "https://api.fortnox.se/3/customers")
@@ -24,36 +26,40 @@ class Partner(models.Model):
         for page in range(pages):
             url = "https://api.fortnox.se/3/customers?page=" + str(page)
             r = self.env.user.company_id.fortnox_request('get', url)
-            r  = json.loads(r)
+            r = json.loads(r)
             time.sleep(0.1)
-            
+
             for customer in r['Customers']:
                 customer_orgnum = customer.get('OrganisationNumber', False)
                 customer_number = customer.get('CustomerNumber', False)
                 customer_name = customer.get('Name', False)
-                
+
                 #partner = self.env['res.partner'].search([('name', '=', customer_name)])
-                partner = self.env['res.partner'].search([('company_registry', '=', customer_orgnum)])
-                
-                if customer_orgnum == False:
-                    _logger.warn("~ ERROR 1: %s with org.num %s has no CustomerNumber, skipping ..." % (customer_name, customer_orgnum))
-                elif len(partner) > 1:
-                    _logger.warn("~ ERROR 2: The name %s from fortnox is not unique in odoo db. Recordset = %s" % (customer_name, partner))
+                partner = self.env['res.partner'].search([('insurance_company_type', '=', 'company'), ('company_registry', '=', customer_orgnum)])
+
+                if customer_orgnum is False:
+                    _logger.warn(f"~ ERROR 1: {customer_name} does not have an "
+                                 "orgnum in Fortnox, skipping ...")
                 elif len(partner) == 0:
-                    _logger.warn("~ ERROR 3: The name %s from fortnox was not found in odoo db" % customer_name)
+                    _logger.warn(f"~ ERROR 3: The orgnum {customer_orgnum} "
+                                 "from fortnox was not found in odoo db")
+                elif len(partner) > 1:
+                    _logger.warn("~ ERROR 2: The orgnum %s from fortnox is not unique in odoo db. Recordset = %s" % (customer_orgnum, partner))
                 else:
-                    if partner.ref == customer['CustomerNumber']:
+                    if partner.ref == customer_number:
                         _logger.warn("~ OK 1: %s (id: %s) is already correct" % (customer['Name'], partner.id))
                     else:
                         _logger.warn("~ OK 2: %s's (id: %s) internal reference was set to %s" % (customer['Name'], partner.id, customer['CustomerNumber']))
-                        partner.ref = customer['CustomerNumber']
+                        partner.ref = customer_number
 
     def partner_create(self):
         # Customer (PUT https://api.fortnox.se/3/customers)
         for partner in self:
             if not partner.commercial_partner_id.ref:
                 url = "https://api.fortnox.se/3/customers"
-                r = self.env.user.company_id.fortnox_request('post', url,
+                r = self.env.user.company_id.fortnox_request(
+                    'post',
+                    url,
                     data={
                         "Customer": {
                             "Address1": partner.street,
@@ -90,7 +96,9 @@ class Partner(models.Model):
             if partner.commercial_partner_id.ref:
                 url = "https://api.fortnox.se/3/customers/%s" % partner.commercial_partner_id.ref
                 """ r = response """
-                r = self.env.user.company_id.fortnox_request('put', url,
+                r = self.env.user.company_id.fortnox_request(
+                    'put',
+                    url,
                     data={
                         "Customer": {
                             "Address1": partner.street,
