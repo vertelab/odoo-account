@@ -92,11 +92,11 @@ class res_company(models.Model):
                 r = requests.delete(url=url, headers=headers)
 
             # if r.status_code in [403]:
+            _logger.info(f'FortNox: retur-record {r.content}')
             if r.status_code not in [200, 201, 204]:
                 raise UserError(r.content)
-            _logger.info(f'FortNox: {r.content}')
         except requests.exceptions.RequestException as e:
-            _logger.warn('HTTP Request failed %s' % e)
+            _logger.warn('FortNox: HTTP Request failed %s' % e)
             raise UserError('HTTP Request failed %s' % e)
 
         return r.content
