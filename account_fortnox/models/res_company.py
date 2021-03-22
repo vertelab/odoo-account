@@ -36,7 +36,7 @@ class res_company(models.Model):
     _inherit = ['res.company', 'mail.thread', 'mail.activity.mixin']
     _name = 'res.company'
 
-    fortnox_authorization_code = fields.Char(string='Authorization code', help="You get this code from your FortNox Account when tou activate Odoo", store=True)
+    fortnox_authorization_code = fields.Char(string='Authorization code', help="You get this code from your FortNox Account when you activate Odoo", store=True)
     fortnox_client_secret = fields.Char(string='Client Secret', help="You get this code from your Odoo representative", store=True)
     fortnox_access_token = fields.Char(string='Access Token', help="With autorization code and client secret you generate this code ones", store=True)
 
@@ -62,14 +62,17 @@ class res_company(models.Model):
                                     f'Content:{r.content}')
                 auth_rec = json.loads(r.content)
                 self.fortnox_access_token = auth_rec.get('Authorization', {}).get('AccessToken')
-                self.message_post(body=_("New Access Token %s" % self.fortnox_access_token), subject=None, message_type='notification')
+                msg = _("New Access Token {token}").format(
+                    self.fortnox_access_token)
+                self.message_post(
+                    body=msg, subject=None, message_type='notification')
             except requests.exceptions.RequestException as e:
                 raise UserError('HTTP Request failed %s' % e)
         else:
             raise UserError('Access Token already fetched')
 
     @api.multi
-    def fortnox_request(self, request_type, url, data=None):
+    def fortnox_request(self, request_type, url, data=None, raise_error=True):
         # Customer (POST https://api.fortnox.se/3/customers)
         headers = {
             "Access-Token": self.fortnox_access_token,
@@ -83,17 +86,18 @@ class res_company(models.Model):
                      f'Data:{data}')
         try:
             if request_type == 'post':
-                r = requests.post(url=url, headers=headers, data=json.dumps(data))
+                r = requests.post(
+                    url=url, headers=headers, data=json.dumps(data))
             if request_type == 'put':
-                r = requests.put(url=url, headers=headers, data=json.dumps(data))
+                r = requests.put(
+                    url=url, headers=headers, data=json.dumps(data))
             if request_type == 'get':
                 r = requests.get(url=url, headers=headers)
             if request_type == 'delete':
                 r = requests.delete(url=url, headers=headers)
 
-            # if r.status_code in [403]:
-            _logger.info(f'FortNox: retur-record {r.content}')
-            if r.status_code not in [200, 201, 204]:
+            _logger.info(f'FortNox: return-record {r.content}')
+            if raise_error and r.status_code not in [200, 201, 204]:
                 raise UserError(r.content)
         except requests.exceptions.RequestException as e:
             _logger.warn('FortNox: HTTP Request failed %s' % e)
