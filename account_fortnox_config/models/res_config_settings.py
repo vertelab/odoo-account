@@ -41,13 +41,12 @@ class ResConfigSettings(models.TransientModel):
                 _logger.warn('Authorization-code %s Client Secret %s' % (Authorization_code,Client_secret))
 
                 r = requests.post(
-                    url="https://api.fortnox.se/3/customers",    
-                    headers = {
+                    url="https://api.fortnox.se/3/customers",
+                    headers={
                         "Authorization-Code": Authorization_code,
                         "Client-Secret": Client_secret,
-                        "Content-Type":"application/json",
-                        "Accept":"application/json",
-                    },
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"},
                 )
                 _logger.warn('Response HTTP Status Code : {status_code}'.format(status_code=r.status_code))
                 _logger.warn('Response HTTP Response Body : {content}'.format(content=r.content))
@@ -58,14 +57,12 @@ class ResConfigSettings(models.TransientModel):
                 _logger.warn('HTTP Request failed %s' % e)
         else:
             _logger.warn('Access Token already fetched')
-            
-            
-            
+
     @api.model
-    def fortnox_request(self,request_type,url,data=None):
+    def fortnox_request(self, request_type, url, data=None, raise_error=True):
         # Customer (POST https://api.fortnox.se/3/customers)
-        Access_token=self.env['ir.config_parameter'].sudo().get_param('fortnox.access.token')
-        Client_secret=self.env['ir.config_parameter'].sudo().get_param('fortnox.client.secret')
+        Access_token = self.env['ir.config_parameter'].sudo().get_param('fortnox.access.token')
+        Client_secret = self.env['ir.config_parameter'].sudo().get_param('fortnox.client.secret')
         headers = {
             "Access-Token": Access_token,
             "Client-Secret": Client_secret,
@@ -75,21 +72,23 @@ class ResConfigSettings(models.TransientModel):
 
         try:
             if request_type == 'post':
-                r = requests.post(url=url,headers = headers,data = json.dumps(data))
+                r = requests.post(
+                    url=url, headers=headers, data=json.dumps(data))
             if request_type == 'put':
-                r = requests.put(url=url,headers = headers,data = json.dumps(data))
+                r = requests.put(
+                    url=url, headers=headers, data=json.dumps(data))
             if request_type == 'get':
-                r = requests.get(url=url,headers = headers)
+                r = requests.get(url=url, headers=headers)
             if request_type == 'delete':
-                r = requests.get(url=url,headers = headers)
-            _logger.warn('Response HTTP Status Code : {status_code}'.format(status_code=r.status_code))
-            _logger.warn('Response HTTP Response Body : {content}'.format(content=r.content))
+                r = requests.get(url=url, headers=headers)
+            _logger.warn(f'Response HTTP Status Code : {r.status_code}')
+            _logger.warn(f'Response HTTP Response Body : {r.content}')
 
             # ~ raise Warning(r.content)
-            
-            if r.status_code in [403]:
+
+            if raise_error and r.status_code in [403]:
                 raise Warning(r.content)
-            
+
         except requests.exceptions.RequestException as e:
             _logger.warn('HTTP Request failed %s' % e)
             raise Warning('HTTP Request failed %s' % e)
