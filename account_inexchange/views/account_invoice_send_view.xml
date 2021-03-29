@@ -47,7 +47,7 @@
         <field name="inherit_id" ref="sale.view_quotation_tree"/>
         <field name="arch" type="xml">
           <field name="state" position="after">
-            <field name="customer_payment_mode_id"/>
+            <field name="payment_mode_id"/>
           </field>
         </field>
     </record>
@@ -58,7 +58,7 @@
         <field name="inherit_id" ref="sale.view_order_tree"/>
         <field name="arch" type="xml">
           <field name="state" position="after">
-            <field name="customer_payment_mode_id"/>
+            <field name="payment_mode_id"/>
           </field>
         </field>
     </record>
@@ -69,7 +69,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
           <field name="partner_id" position="after">
-            <field name="customer_payment_mode_id"/>
+            <field name="payment_mode_id"/>
           </field>
         </field>
     </record>
