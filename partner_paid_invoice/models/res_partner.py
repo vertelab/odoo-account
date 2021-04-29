@@ -49,7 +49,7 @@ class Partner(models.Model):
             partner.total_paid_invoiced = sum(price['total'] for price in price_totals if price['partner_id'] in child_ids)
 
     @api.multi
-    def action_view_partner_invoices(self):
+    def action_view_partner_invoices_paid(self):
         self.ensure_one()
         action = self.env.ref('account.action_invoice_refund_out_tree').read()[0]
         action['domain'] = literal_eval(action['domain'])
