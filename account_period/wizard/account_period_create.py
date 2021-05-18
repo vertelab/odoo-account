@@ -49,15 +49,12 @@ class AccountPeriodCreate(models.Model):
     date_stop = fields.Date(string='End of Period',  default=default_date_stop, required=True)
     company_id = fields.Many2one(comodel_name='res.company', string='Company', default=lambda self: self.env['res.company']._company_default_get('account.account'))
 
-    @api.multi
     def create_period3(self):
         return self.create_period(interval=3)
 
-    @api.multi
     def create_period1(self): # Looks stupid right? But it looks like calling create_period() directly does not work
         return self.create_period(interval=1)
 
-    @api.multi
     def create_period(self, interval=1):
         if self.date_stop > self.date_start:
             fy = self.env['account.fiscalyear'].create({

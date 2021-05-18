@@ -42,7 +42,7 @@
       <field name="name">account.fiscalyear.tree</field>
       <field name="model">account.fiscalyear</field>
       <field name="arch" type="xml">
-        <tree colors="blue:state == 'draft';gray:state == 'done' " string="Fiscalyear">
+        <tree string="Fiscalyear">
           <field name="code" />
           <field name="name" />
           <field name="company_id" groups="base.group_multi_company" />
@@ -72,7 +72,6 @@
     <record id="action_account_fiscalyear" model="ir.actions.act_window">
       <field name="name">Fiscal Years</field>
       <field name="res_model">account.fiscalyear</field>
-      <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">Click to start a new fiscal year.</p>
@@ -126,7 +125,7 @@
       <field name="name">account.period.tree</field>
       <field name="model">account.period</field>
       <field name="arch" type="xml">
-        <tree colors="blue:state == 'draft';gray:state == 'done' " string="Account Period" toolbar="1">
+        <tree string="Account Period">
           <field name="name" />
           <field name="code" />
           <field name="date_start" />
@@ -146,7 +145,7 @@
           <field name="name" filter_domain="['|', '|', '|', ('name','ilike',self), ('code','ilike',self), ('date_start','ilike',self), ('date_stop','ilike',self)]" string="Account" />
           <group expand="0" string="Group By">
             <filter name="name_grp" string="Name" domain="" context="{'group_by':'name'}" />
-            <filter  string="To Close" name="draft" domain="[('state','=','draft')]" icon="terp-dialog-close" />
+            <filter string="To Close" name="draft" domain="[('state','=','draft')]" icon="terp-dialog-close" />
             <filter name="date_start" string="Date Start" domain="" context="{'group_by':'date_start'}" />
           </group>
         </search>
@@ -156,7 +155,6 @@
     <record id="action_account_period_form" model="ir.actions.act_window">
       <field name="name">Account Period</field>
       <field name="res_model">account.period</field>
-      <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="search_view_id" ref="account_period.view_account_period_search" />
       <field name="view_id" ref="account_period.view_account_period_tree" />
@@ -171,26 +169,26 @@
     <!--
          <menuitem id="menu_action_account_period_form" action="action_account_period_form" parent="account.menu_finance_entries" sequence="50"/>
     -->
-    <record id="invoice_form" model="ir.ui.view">
-      <field name="name">account.invoice.form.period</field>
-      <field name="model">account.invoice</field>
-      <field name="inherit_id" ref="account.invoice_form" />
-      <field name="arch" type="xml">
-        <field name="date_invoice" position="after">
-          <field name="period_id" />
-        </field>
-      </field>
-    </record>
-    <record id="invoice_supplier_form" model="ir.ui.view">
-      <field name="name">account.invoice.supplier.form.period</field>
-      <field name="model">account.invoice</field>
-      <field name="inherit_id" ref="account.invoice_supplier_form" />
-      <field name="arch" type="xml">
-        <field name="date_invoice" position="after">
-          <field name="period_id" />
-        </field>
-      </field>
-    </record>
+<!--    <record id="invoice_form" model="ir.ui.view">-->
+<!--      <field name="name">account.invoice.form.period</field>-->
+<!--      <field name="model">account.invoice</field>-->
+<!--      <field name="inherit_id" ref="account.invoice_form" />-->
+<!--      <field name="arch" type="xml">-->
+<!--        <field name="date_invoice" position="after">-->
+<!--          <field name="period_id" />-->
+<!--        </field>-->
+<!--      </field>-->
+<!--    </record>-->
+<!--    <record id="invoice_supplier_form" model="ir.ui.view">-->
+<!--      <field name="name">account.invoice.supplier.form.period</field>-->
+<!--      <field name="model">account.invoice</field>-->
+<!--      <field name="inherit_id" ref="account.invoice_supplier_form" />-->
+<!--      <field name="arch" type="xml">-->
+<!--        <field name="date_invoice" position="after">-->
+<!--          <field name="period_id" />-->
+<!--        </field>-->
+<!--      </field>-->
+<!--    </record>-->
     <record id="view_move_form" model="ir.ui.view">
       <field name="name">account.move.form.inherited.account_period</field>
       <field name="model">account.move</field>
@@ -239,7 +237,7 @@
         <field name="date" position="after">
           <field name="period_id" />
         </field>
-        <filter context="{'group_by': 'date'}" position="after">
+        <filter name="date" position="after">
           <filter name="period_grp" string="Period" context="{'group_by': 'period_id'}" />
         </filter>
       </field>
@@ -252,31 +250,31 @@
         <field name="date" position="after">
           <field name="full_reconcile_id" />
         </field>
-        <filter context="{'group_by':'date'}" position="after">
+        <filter name="date" position="after">
           <filter name='move_id' string="Move id" context="{'group_by': 'move_id'}" />
           <filter name='match_id' string="Matching id" context="{'group_by': 'full_reconcile_id'}" />
         </filter>
       </field>
     </record>
-    <record id="view_account_payment_invoice_form" model="ir.ui.view">
-      <field name="name">account.payment.invoice.form.account_period</field>
-      <field name="model">account.payment</field>
-      <field name="inherit_id" ref="account.view_account_payment_invoice_form" />
-      <field name="arch" type="xml">
-        <field name="payment_date" position="after">
-          <field name="payment_period_id" />
-        </field>
-      </field>
-    </record>
-    <record id="view_account_payment_from_invoices" model="ir.ui.view">
-      <field name="name">account.register.payments.wizard.account_period</field>
-      <field name="model">account.register.payments</field>
-      <field name="inherit_id" ref="account.view_account_payment_from_invoices" />
-      <field name="arch" type="xml">
-        <field name="payment_date" position="after">
-          <field name="payment_period_id" />
-        </field>
-      </field>
-    </record>
+<!--    <record id="view_account_payment_invoice_form" model="ir.ui.view">-->
+<!--      <field name="name">account.payment.invoice.form.account_period</field>-->
+<!--      <field name="model">account.payment</field>-->
+<!--      <field name="inherit_id" ref="account.view_account_payment_invoice_form" />-->
+<!--      <field name="arch" type="xml">-->
+<!--        <field name="payment_date" position="after">-->
+<!--          <field name="payment_period_id" />-->
+<!--        </field>-->
+<!--      </field>-->
+<!--    </record>-->
+<!--    <record id="view_account_payment_from_invoices" model="ir.ui.view">-->
+<!--      <field name="name">account.register.payments.wizard.account_period</field>-->
+<!--      <field name="model">account.register.payments</field>-->
+<!--      <field name="inherit_id" ref="account.view_account_payment_from_invoices" />-->
+<!--      <field name="arch" type="xml">-->
+<!--        <field name="payment_date" position="after">-->
+<!--          <field name="payment_period_id" />-->
+<!--        </field>-->
+<!--      </field>-->
+<!--    </record>-->
   </data>
 </odoo>

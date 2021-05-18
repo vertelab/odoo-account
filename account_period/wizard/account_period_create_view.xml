@@ -28,7 +28,6 @@
         <record id="account_period_create_form" model="ir.actions.act_window">
             <field name="name">Create Account Period</field>
             <field name="res_model">account.period.create.wizard</field>
-            <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>

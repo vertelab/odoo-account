@@ -37,7 +37,6 @@ class account_period_close(models.TransientModel):
 
     sure = fields.Boolean(string='Check this box')
 
-    @api.multi
     def data_save(self):
         """
         This function close period

@@ -56,13 +56,11 @@ class AccountPeriod(models.Model):
         'Period already exist!')
     ]
 
-    @api.multi
     def _check_duration(self):
         if self[0].date_stop < self[0].date_start:
             return False
         return True
 
-    @api.multi
     def _check_year_limit(self):
         for obj_period in self:
             if obj_period.special:
@@ -86,7 +84,6 @@ class AccountPeriod(models.Model):
     ]
 
     @api.returns('self')
-    @api.multi
     def next(self, period, step):
         self.ensure_one()
         ids = self.search([('date_start','>',period.date_start)]).mapped('id')
@@ -97,7 +94,6 @@ class AccountPeriod(models.Model):
 
 
     @api.returns('self')
-    @api.multi
     def find(self, dt=None, context=None):
         self.ensure_one()
         if not dt:
@@ -115,7 +111,6 @@ class AccountPeriod(models.Model):
             raise exceptions.RedirectWarning(msg, action_id, _('Go to the configuration panel'))
         return result
 
-    @api.multi
     def action_draft(self):
         mode = 'draft'
         for period in self:
@@ -136,7 +131,6 @@ class AccountPeriod(models.Model):
             domain = ['|', ('code', operator, name), ('name', operator, name)]
         return self.search(expression.AND([domain, args]), limit=limit).name_get()
 
-    @api.multi
     def write(self, vals):
         if 'company_id' in vals:
             move_lines = self.enb['account.move.line'].search([('period_id', 'in', self.mapped('id'))])
@@ -144,7 +138,6 @@ class AccountPeriod(models.Model):
                 raise Warning(_('This journal already contains items for this period, therefore you cannot modify its company field.'))
         return super(AccountPeriod, self).write(vals)
 
-    @api.multi
     def build_ctx_periods(self, period_from_id, period_to_id):
         self.ensure_one()
         if period_from_id == period_to_id:
@@ -230,7 +223,6 @@ class AccountFiscalyear(models.Model):
     period_ids = fields.One2many(comodel_name='account.period', inverse_name='fiscalyear_id', string='Periods')
     state = fields.Selection([('draft','Open'), ('done','Closed')], string='Status', readonly=True, copy=False, default='draft')
 
-    @api.multi
     def _check_duration(self):
         if self.date_stop < self.date_start:
             return False
@@ -240,15 +232,12 @@ class AccountFiscalyear(models.Model):
         (_check_duration, 'Error!\nThe start date of a fiscal year must precede its end date.', ['date_start','date_stop'])
     ]
 
-    @api.multi
     def create_period3(self):
         return self.create_period(3)
 
-    @api.multi
     def create_period1(self): #very stupid that I need this!
         return self.create_period(1)
 
-    @api.multi
     def create_period(self, interval=1):
         for fy in self:
             ds = fy.date_start
@@ -318,7 +307,6 @@ class AccountMove(models.Model):
 class account_account(models.Model):
     _inherit = 'account.account'
 
-    @api.multi
     def get_debit_credit_balance(self, period, target_move):
         self.ensure_one()
         if not target_move or target_move == 'all':
@@ -332,12 +320,10 @@ class account_account(models.Model):
             'balance': sum(lines.mapped('debit')) - sum(lines.mapped('credit')),
         }
 
-    @api.multi
     def get_balance(self, period, target_move):
         self.ensure_one()
         return self.get_debit_credit_balance(period, target_move).get('balance')
 
-    @api.multi
     def sum_period(self):
         self.ensure_one()
 
@@ -356,52 +342,52 @@ class account_bank_statement(models.Model):
 
     period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_period_id)
 
-class account_abstract_payment(models.AbstractModel):
-    _inherit = "account.abstract.payment"
 
-    def _default_period_id(self):
-        return self.env['account.period'].date2period(self.payment_date or fields.Date.today()).id
-
-    payment_period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_default_period_id)
-
-    @api.onchange('payment_date')
-    def onchange_payment_date_set_period_id(self):
-        self.payment_period_id = self.env['account.period'].date2period(self.payment_date or fields.Date.today())
+# class account_abstract_payment(models.AbstractModel):
+#     _inherit = "account.abstract.payment"
+#
+#     def _default_period_id(self):
+#         return self.env['account.period'].date2period(self.payment_date or fields.Date.today()).id
+#
+#     payment_period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_default_period_id)
+#
+#     @api.onchange('payment_date')
+#     def onchange_payment_date_set_period_id(self):
+#         self.payment_period_id = self.env['account.period'].date2period(self.payment_date or fields.Date.today())
 
 class account_payment(models.Model):
     _inherit = "account.payment"
 
-    def _get_move_vals(self, journal=None):
-        res = super(account_payment, self)._get_move_vals(journal)
-        res['period_id'] = self.payment_period_id and self.payment_period_id.id
-        return res
+    # def _get_move_vals(self, journal=None):
+    #     res = super(account_payment, self)._get_move_vals(journal)
+    #     res['period_id'] = self.payment_period_id and self.payment_period_id.id
+    #     return res
 
-class account_register_payments(models.TransientModel):
-    _inherit = "account.register.payments"
+# class account_register_payments(models.TransientModel):
+#     _inherit = "account.register.payments"
+#
+#     def get_payment_vals(self, journal=None):
+#         res = super(account_register_payments, self).get_payment_vals()
+#         res['payment_period_id'] = self.payment_period_id and self.payment_period_id.id
+#         return res
 
-    def get_payment_vals(self, journal=None):
-        res = super(account_register_payments, self).get_payment_vals()
-        res['payment_period_id'] = self.payment_period_id and self.payment_period_id.id
-        return res
 
-
-class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
-
-    def _get_default_period_id(self):
-        return self.env['account.period'].date2period(self.date_invoice or fields.Date.today()).id
-
-    period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id)
-
-    @api.onchange('date_invoice')
-    def onchange_date_set_period(self):
-        self.period_id = self.env['account.period'].date2period(self.date_invoice or fields.Date.today())
-
-    @api.multi
-    def action_move_create(self):
-        """ Creates invoice related analytics and financial move lines """
-        res = super(AccountInvoice, self).action_move_create()
-        for inv in self:
-            if inv.period_id and inv.move_id:
-                inv.move_id.period_id = inv.period_id
-        return res
+# class AccountInvoice(models.Model):
+#     _inherit = 'account.invoice'
+#
+#     def _get_default_period_id(self):
+#         return self.env['account.period'].date2period(self.date_invoice or fields.Date.today()).id
+#
+#     period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id)
+#
+#     @api.onchange('date_invoice')
+#     def onchange_date_set_period(self):
+#         self.period_id = self.env['account.period'].date2period(self.date_invoice or fields.Date.today())
+#
+#     def action_move_create(self):
+#         """ Creates invoice related analytics and financial move lines """
+#         res = super(AccountInvoice, self).action_move_create()
+#         for inv in self:
+#             if inv.period_id and inv.move_id:
+#                 inv.move_id.period_id = inv.period_id
+#         return res
