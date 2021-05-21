@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="upload_attachement" name="Upload attachement">
+            <t t-call="website.layout">
+                <t t-set="additional_title">Send in a voucher</t>
+                <div id="wrap">
+                    <div class="container">
+                        <h1 class="text-center">Ladda upp kvitto</h1>
+                        <h2 t-if="issue" class="text-center text-muted">
+                            <span t-field="issue.name" />
+                        </h2>
+                        <div class="row">
+                            <section id="forms" class="col-xs-12 col-md-6 col-md-offset-3">
+                                <!-- TODO Multilingual form action support ? -->
+                                <form class="mt32" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                    <div class="alert alert-success" role="alert" t-if="message.get('success')">
+                                        <t t-esc="message.get('success')" />
+                                    </div>
+                                    <div class="alert alert-info" role="alert" t-if="message.get('info')">
+                                        <t t-esc="message.get('info')" />
+                                    </div>
+                                    <div class="alert alert-danger" role="alert" t-if="message.get('danger')">
+                                        <t t-esc="message.get('danger')" />
+                                    </div>
+                                    <div class="alert alert-warning" role="alert" t-if="message.get('warning')">
+                                        <t t-esc="message.get('warning')" />
+                                    </div>
+                                    <!-- Voucher Type -->
+                                    <div t-attf-class="form-group #{message.get('voucher_type') and 'has-error' or ''}">
+                                        <select name="voucher_type" id="voucher_type" class="form-control selectpicker dropup" data-style="btn-primary">
+                                            <t t-foreach="request.env['project.issue'].fields_get(['voucher_type'])['voucher_type']['selection']" t-as="voucher_type">
+                                                <option t-att-value="voucher_type[0]">
+                                                    <t t-raw="voucher_type[1]" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <!-- SUM input-->
+                                    <div t-attf-class="form-group #{message.get('sum') and 'has-error' or ''}">
+                                             <label for="name">Summa, totalt:</label>
+                                        <input type="text" t-att-value="issue and issue.sum or ''" placeholder="Fyll i summan här." class="form-control input-lg" name="vat6" />
+                                    </div>
+                                    <div>
+                                        <p>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p>
+                                         </p>
+                                    </div>
+                                    <!-- VAT input-->
+                                    <div t-attf-class="form-group #{message.get('vat6') and 'has-error' or ''}">
+                                             <label for="name">Vid 6 % moms:</label>
+                                        <input type="text" size="20" t-att-value="issue and issue.vat6 or ''" placeholder="Fyll i summan vid 6 % moms här." class="form-control input-lg" name="vat6" />
+                                    </div>
+                                    <!-- VAT input-->
+                                    <div t-attf-class="form-group #{message.get('vat12') and 'has-error' or ''}">
+                                             <label for="name">Vid 12 % moms:</label>
+                                        <input type="text" t-att-value="issue and issue.vat12 or ''" placeholder="Fyll i summan vid 12 % moms här." class="form-control input-lg" name="vat12" />
+                                    </div>
+                                    <!-- VAT input-->
+                                    <div t-attf-class="form-group #{message.get('vat25') and 'has-error' or ''}">
+                                             <label for="name">Vid 25 % moms:</label>
+                                        <input type="text" t-att-value="issue and issue.vat25 or ''" placeholder="Fyll i summan vid 25 % moms här." class="form-control input-lg" name="vat25" />
+                                    </div>
+                                    <!-- Text input-->
+                                    <!-- Textarea -->
+                                    <div t-attf-class="form-group #{message.get('description') and 'has-error' or ''}">
+                                        <label for="note">Notering:</label>
+                                        <textarea id="note" name="note" placeholder="Kom-i-håg." t-attf-value="#{issue and issue.note or ''}" class="form-control input-lg"><t t-esc="issue and issue.note or ''" /></textarea>
+                                    </div>
+                                    <!-- File Button -->
+                                    <t t-if="issue and attachements">
+                                        <b>Vouchers</b>
+                                        <br />
+                                        <t t-raw="issue" />
+                                        <t t-foreach="attachements" t-as="a">
+                                            <a t-attf-href="/file/#{a.id}" t-field="a.name" />
+                                        </t>
+                                    </t>
+                                    <t t-if="not issue">
+                                        <div t-attf-class="form-group #{message.get('ufile') and 'has-error' or ''}">
+                                                 <label for="name">Kvitto</label>
+                                            <input type="file" name="ufile" placeholder="File to upload pdf/jpg/png" required="True" accept="image/*,text/plain,application/pdf,application/vnd.ms-excel,app" capture="camera" />
+                                            <p class="help-block">File to upload</p>
+                                        </div>
+                                    </t>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-large">Submit</button>
+                                    </div>
+                                </form>
+                            </section>
+                        </div>
+                        <!-- row -->
+                    </div>
+                    <!-- container -->
+                </div>
+                <!-- wrap -->
+            </t>
+        </template>
+    </data>
+</odoo>
