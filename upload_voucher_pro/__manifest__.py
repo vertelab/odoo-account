@@ -42,7 +42,7 @@ Remake 2.0 Extended Upload
     'external_dependencies': {
         'python': ['wand',],
     },
-    'data': ['views/project_issue_view.xml',
+    'data': ['views/voucher_pro_view.xml',
         ],
     'installable': True,
     'application': True,

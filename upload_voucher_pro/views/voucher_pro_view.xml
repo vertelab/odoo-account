@@ -30,9 +30,9 @@
                                     <!-- Voucher Type -->
                                     <div t-attf-class="form-group #{message.get('voucher_type') and 'has-error' or ''}">
                                         <select name="voucher_type" id="voucher_type" class="form-control selectpicker dropup" data-style="btn-primary">
-                                            <t t-foreach="request.env['project.issue'].fields_get(['voucher_type'])['voucher_type']['selection']" t-as="voucher_type">
-                                                <option t-att-value="voucher_type[0]">
-                                                    <t t-raw="voucher_type[1]" />
+                                            <t t-foreach="request.env['account.voucher'].fields_get(['account_type'])['account_type']['selection']" t-as="account_type">
+                                                <option t-att-value="account_type[0]">
+                                                    <t t-raw="account_type[1]" />
                                                 </option>
                                             </t>
                                         </select>
@@ -42,34 +42,26 @@
                                              <label for="name">Summa, totalt:</label>
                                         <input type="text" t-att-value="issue and issue.sum or ''" placeholder="Fyll i summan här." class="form-control input-lg" name="vat6" />
                                     </div>
-                                    <div>
-                                        <p>
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p>
-                                         </p>
-                                    </div>
                                     <!-- VAT input-->
                                     <div t-attf-class="form-group #{message.get('vat6') and 'has-error' or ''}">
                                              <label for="name">Vid 6 % moms:</label>
-                                        <input type="text" size="20" t-att-value="issue and issue.vat6 or ''" placeholder="Fyll i summan vid 6 % moms här." class="form-control input-lg" name="vat6" />
+                                        <input type="text" size="20" t-att-value="vat6 or ''" placeholder="Fyll i summan vid 6 % moms här." class="form-control input-lg" name="vat6" />
                                     </div>
                                     <!-- VAT input-->
                                     <div t-attf-class="form-group #{message.get('vat12') and 'has-error' or ''}">
                                              <label for="name">Vid 12 % moms:</label>
-                                        <input type="text" t-att-value="issue and issue.vat12 or ''" placeholder="Fyll i summan vid 12 % moms här." class="form-control input-lg" name="vat12" />
+                                        <input type="text" t-att-value="vat12 or ''" placeholder="Fyll i summan vid 12 % moms här." class="form-control input-lg" name="vat12" />
                                     </div>
                                     <!-- VAT input-->
                                     <div t-attf-class="form-group #{message.get('vat25') and 'has-error' or ''}">
                                              <label for="name">Vid 25 % moms:</label>
-                                        <input type="text" t-att-value="issue and issue.vat25 or ''" placeholder="Fyll i summan vid 25 % moms här." class="form-control input-lg" name="vat25" />
+                                        <input type="text" t-att-value="vat25 or ''" placeholder="Fyll i summan vid 25 % moms här." class="form-control input-lg" name="vat25" />
                                     </div>
                                     <!-- Text input-->
                                     <!-- Textarea -->
                                     <div t-attf-class="form-group #{message.get('description') and 'has-error' or ''}">
                                         <label for="note">Notering:</label>
-                                        <textarea id="note" name="note" placeholder="Kom-i-håg." t-attf-value="#{issue and issue.note or ''}" class="form-control input-lg"><t t-esc="issue and issue.note or ''" /></textarea>
+                                        <textarea id="note" name="note" placeholder="Kom-i-håg." t-attf-value="#{description or ''}" class="form-control input-lg"><t t-esc="description or ''" /></textarea>
                                     </div>
                                     <!-- File Button -->
                                     <t t-if="issue and attachements">
