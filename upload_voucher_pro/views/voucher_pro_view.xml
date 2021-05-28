@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="upload_attachement" name="Upload attachement">
+        <template id="upload_attachement_pro" name="Upload attachement">
             <t t-call="website.layout">
                 <t t-set="additional_title">Send in a voucher</t>
                 <div id="wrap">
@@ -60,8 +60,8 @@
                                     <!-- Text input-->
                                     <!-- Textarea -->
                                     <div t-attf-class="form-group #{message.get('description') and 'has-error' or ''}">
-                                        <label for="note">Notering:</label>
-                                        <textarea id="note" name="note" placeholder="Kom-i-håg." t-attf-value="#{description or ''}" class="form-control input-lg"><t t-esc="description or ''" /></textarea>
+                                        <label for="description">Notering:</label>
+                                        <textarea id="description" name="description" placeholder="Kom-i-håg." t-attf-value="#{description or ''}" class="form-control input-lg"><t t-esc="description or ''" /></textarea>
                                     </div>
                                     <!-- File Button -->
                                     <t t-if="issue and attachements">

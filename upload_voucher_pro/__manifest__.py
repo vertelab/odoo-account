@@ -39,8 +39,9 @@ Remake 2.0 Extended Upload
 * Notering
     """,
     'depends': ['website', 'project_issue_account', 'attachment_pdf2image'],
+    # ~ 'depends': ['website', 'project_issue_account'],
     'external_dependencies': {
-        'python': ['wand',],
+        'python': ['wand'],
     },
     'data': ['views/voucher_pro_view.xml',
         ],
