@@ -43,7 +43,108 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-def content_disposition_pro(filename):
+
+
+class account_voucher(models.Model):
+    _inherit = 'account.voucher'
+
+    account_type = fields.Selection(selection = [('5400', 'Förbrukningsmateriel'), ('7699', 'Personal / fika')])
+    description = fields.Char(string='Notering', size=64, trim=True, )
+
+class upload_voucher_pro(http.Controller):
+
+    # ~ @http.route(['/file/<model("ir.attachment"):file>',], type='http', auth='user')
+    @http.route('/upload_voucher_pro', type='http', auth='public', website=True)
+    def upload_attachement(self, account=False, **post):
+        message = {}
+        # ~ and post.get('ufile')
+        if request.httprequest.method == 'POST':
+            voucher = request.env['account.voucher'].create({'partner_id': 1084,
+                                                     'pay_now': 'pay_now',
+                                                     'payment_journal_id': 12,
+                                                     'description': post.get('description'),
+                                                     # ~ 'voucher_type': post.get('voucher_type'),
+                                                     })
+            raise Warning('%s' % post)
+            # ~ account = request.env['account.voucher'].search([('code', '=', '5400')])
+            row1 = request.env['account.voucher_line'].create({'voucher_id': voucher.id,
+                                                     'account_id': post.get('account_type'),
+                                                     'payment_journal_id': 1,
+                                                     'account_type': post.get('account_type'),
+                                                     'vat6': post.get('vat6'),
+                                                     'vat12': post.get('vat12'),
+                                                     'vat25': post.get('vat25'),
+                                                     'description': post.get('description'),
+                                                     'project_id': project[0].id if len(project) > 0 else None,
+                                                     'voucher_type': post.get('voucher_type'),
+                                                     })
+                                                     
+            message['success'] = _('Voucher uploaded %s (%s)') % (account.id if account else None, account.id if account else None)
+        else:
+            message['success'] = _('Voucher uploaded %s (%s)') % (account.id if account else None, account.id if account else None)
+        return request.render('upload_voucher_pro.upload_attachement_pro', {'message': message,
+                                                     # ~ 'res_company': request.env['res.company'].browse(1),
+                                                     'partner_id': 1,
+                                                     'account_type': '5400',
+                                                     'vat6': '6',
+                                                     'vat12': '12',
+                                                     'vat25': '25',
+                                                     'description': 'description',
+                                                     # ~ 'website': request.env['res.company'].browse(1),
+                                                     })
+
+
+    # ~ if condition TRUE:
+          # ~ return request.render(module_name.templateID1')  or request.redirect('/')
+    # ~ else:
+         # ~ return request.render('web.login', values)
+
+
+    def upload_attachement_pro(self, account=False, **post):
+        message = {}
+        user = request.env['res.users'].browse(request.env.user.id)
+        voucher_name = None
+
+        _logger.warning('<<<<< 3. VALUES: user = hello world!!')
+        account = request.env['project.account'].create({'partner_id': user.partner_id.id,
+                                                     'pay_now' : 'pay_now',
+                                                     # ~ 'payment_journal_id' : post.get(''),
+                                                     'journal_id' : post.get(''),
+                                                     'account_type': post.get('account_type'),
+                                                     'vat6': post.get('vat6'),
+                                                     'vat12': post.get('vat12'),
+                                                     'vat25': post.get('vat25'),
+                                                     'description': post.get('description'),
+                                                     'project_id': project[0].id if len(project) > 0 else None,
+                                                     'voucher_type': post.get('voucher_type'),
+                                                     })
+
+        _logger.warning('<<<<< 4. VALUES: user = hello world!!')
+        if request.httprequest.method == 'POST':
+            message['success'] = _('Voucher uploaded %s (%s)') % (account.name,issue.id)
+
+        _logger.warning('<<<<< 5. VALUES: user = hello world!!')
+        if request.httprequest.method == 'POST' and post.get('ufile'):
+            message['success'] = _('Voucher uploaded %s (%s)') % (account.name,issue.id)
+
+        _logger.warning('<<<<< 6. VALUES: user = hello world!!')
+
+        _logger.error("('<<<<<  This is a %s and %s and %s, %s" % (type(account),isinstance(account,models.Model),account,request.httprequest.url))
+        # ~ _logger.error("('<<<<<  This is a %s and %s and %s, %s" % (type(issue),isinstance(issue,models.Model),issue,request.httprequest.url))
+        return request.render("upload_voucher_pro.upload_attachement_pro", {
+                # ~ 'issue': False if re.search("upload_voucher",request.httprequest.url) is not None else issue,
+                'message': message,
+                # ~ 'attachements': account and request.env['ir.attachment'].search([('res_model','=','project.account'),('res_id','=',account.id)]) or False,
+            })
+
+
+        @http.route(['/file/<model("ir.attachment"):file>',], type='http', auth='user')
+        def file_download(self, file=False, **kw):
+            return request.make_response(base64.b64decode(file.datas),
+                    [('Content-Type', file.mimetype),
+                     ('Content-Disposition', content_disposition(file.name))])
+
+def content_disposition(filename):
     filename = ustr(filename)
     escaped = urllib2.quote(filename.encode('utf8'))
     browser = request.httprequest.user_agent.browser
@@ -54,88 +155,3 @@ def content_disposition_pro(filename):
         return u"attachment; filename=%s" % filename
     else:
         return "attachment; filename*=UTF-8''%s" % escaped
-
-class account_voucher(models.Model):
-    _inherit = 'account.voucher'
-    _logger.warning('<<<<< 1. VALUES: user = hello world!!')
-
-    account_type = fields.Selection(selection = [('5400', 'Förbrukningsmateriel'), ('7699', 'Personal / fika')])
-    description = fields.Char(string='Notering', size=64, trim=True, )
-
-class upload_voucher_pro(http.Controller):
-    _logger.warning('<<<<< 2. VALUES: user = hello world!!')
-
-    @http.route(['/project/issue/<model("project.issue"):issue>/attachment_pro','/project/issue/new/attachment_pro', '/upload_voucher_pro'], type='http', auth="user", website=True)
-    def upload_attachement_pro(self, issue=False, **post):
-        message = {}
-        user = request.env['res.users'].browse(request.env.user.id)
-        voucher_name = None
-
-        _logger.warning('<<<<< 3. VALUES: user = hello world!!')
-        if request.httprequest.method == 'POST':
-            _logger.warning('<<<<< 33. VALUES: user = hello world!!')
-            try:
-                voucher_name = [txt[1] for txt in request.env['project.issue'].fields_get(['voucher_pro_type'])['voucher_pro_type']['selection'] if txt[0] == post.get('voucher_pro_type')][0]
-                project = request.env['project.project'].search(['&',('partner_id','=',user.partner_id.id),('use_voucher','=',True)])
-                issue = request.env['project.issue'].create({'partner_id': user.partner_id.id,
-                                                             'name': '%s %s' % (voucher_name,post.get('name','')),
-                                                             'description': post.get('description'),
-                                                             'project_id': project[0].id if len(project) > 0 else None,
-                                                             'voucher_type': post.get('voucher_type'),
-                                                             })
-            except Exception as e:
-                message['danger'] = _('Could not create an issue %s') % e
-
-        _logger.warning('<<<<< 4. VALUES: user = hello world!!')
-        if request.httprequest.method == 'POST':
-            _logger.warning('<<<<< 44. VALUES: user = hello world!!')
-            issue.write({'partner_id': user.partner_id.id, 'name':  '%s %s' % (voucher_name,post.get('name','')), 'description': post.get('description')})
-
-        _logger.warning('<<<<< 5. VALUES: user = hello world!!')
-        if request.httprequest.method == 'POST' and post.get('ufile'):
-            _logger.warning('<<<<< 55. VALUES: user = hello world!!')
-            _logger.debug("This is attachement post %s /issue/nn" % (post))
-            blob = post['ufile'].read()
-            attachment = request.env['ir.attachment'].with_context({'convert': 'pdf2image'}).create({
-                    'name': post['ufile'].filename,
-                    'res_name': issue.name,
-                    'res_model': 'project.issue',
-                    'res_id': issue.id,
-                    'datas': base64.encodestring(blob),
-                    'datas_fname': post['ufile'].filename,
-                })
-            if attachment.mimetype == 'application/pdf':
-                attachment.pdf2image(800,1200)
-            elif attachment.mimetype in ['image/jpeg','image/png','image/gif']:
-                orientation = {
-                    'top_left': 0,
-                    'left_top': 0,
-                    'right_top': 90,
-                    'top_right': 90,
-                    'right_bottom': 180,
-                    'bottom_right': 180,
-                    'left_bottom': 270,
-                    'bottom_left': 270,
-                }
-                try:
-                    img = Image(blob=blob)
-                    img.rotate(orientation.get(img.orientation))
-                    attachment.datas = base64.encodestring(img.make_blob(format='jpg'))
-                except:
-                    pass
-            message['success'] = _('Voucher uploaded %s (%s)') % (issue.name,issue.id)
-
-        _logger.warning('<<<<< 6. VALUES: user = hello world!!')
-
-        _logger.error("This is a %s and %s and %s, %s" % (type(issue),isinstance(issue,models.Model),issue,request.httprequest.url))
-        return request.render("upload_voucher_pro.upload_attachement_pro", {
-                'message': message,
-            })
-
-
-    @http.route(['/file/<model("ir.attachment"):file>',], type='http', auth='user')
-    def file_download(self, file=False, **kw):
-        return request.make_response(base64.b64decode(file.datas),
-                [('Content-Type', file.mimetype),
-                 ('Content-Disposition', content_disposition(file.name))])
-

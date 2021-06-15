@@ -7,9 +7,11 @@
                 <div id="wrap">
                     <div class="container">
                         <h1 class="text-center">Ladda upp kvitto</h1>
+<!--
                         <h2 t-if="issue" class="text-center text-muted">
                             <span t-field="issue.name" />
                         </h2>
+-->
                         <div class="row">
                             <section id="forms" class="col-xs-12 col-md-6 col-md-offset-3">
                                 <!-- TODO Multilingual form action support ? -->
@@ -39,22 +41,22 @@
                                     </div>
                                     <!-- SUM input-->
                                     <div t-attf-class="form-group #{message.get('sum') and 'has-error' or ''}">
-                                             <label for="name">Summa, totalt:</label>
-                                        <input type="text" t-att-value="issue and issue.sum or ''" placeholder="Fyll i summan här." class="form-control input-lg" name="vat6" />
+                                             <label for="total_sum">Summa, totalt:</label>
+                                        <input type="text" t-att-value="issue and issue.sum or ''" placeholder="Fyll i summan här." class="form-control input-lg" name="total_sum" />
                                     </div>
                                     <!-- VAT input-->
                                     <div t-attf-class="form-group #{message.get('vat6') and 'has-error' or ''}">
-                                             <label for="name">Vid 6 % moms:</label>
+                                             <label for="vat6">Vid 6 % moms:</label>
                                         <input type="text" size="20" t-att-value="vat6 or ''" placeholder="Fyll i summan vid 6 % moms här." class="form-control input-lg" name="vat6" />
                                     </div>
                                     <!-- VAT input-->
                                     <div t-attf-class="form-group #{message.get('vat12') and 'has-error' or ''}">
-                                             <label for="name">Vid 12 % moms:</label>
+                                             <label for="vat12">Vid 12 % moms:</label>
                                         <input type="text" t-att-value="vat12 or ''" placeholder="Fyll i summan vid 12 % moms här." class="form-control input-lg" name="vat12" />
                                     </div>
                                     <!-- VAT input-->
                                     <div t-attf-class="form-group #{message.get('vat25') and 'has-error' or ''}">
-                                             <label for="name">Vid 25 % moms:</label>
+                                             <label for="vat25">Vid 25 % moms:</label>
                                         <input type="text" t-att-value="vat25 or ''" placeholder="Fyll i summan vid 25 % moms här." class="form-control input-lg" name="vat25" />
                                     </div>
                                     <!-- Text input-->
@@ -64,6 +66,7 @@
                                         <textarea id="description" name="description" placeholder="Kom-i-håg." t-attf-value="#{description or ''}" class="form-control input-lg"><t t-esc="description or ''" /></textarea>
                                     </div>
                                     <!-- File Button -->
+<!--
                                     <t t-if="issue and attachements">
                                         <b>Vouchers</b>
                                         <br />
@@ -74,11 +77,12 @@
                                     </t>
                                     <t t-if="not issue">
                                         <div t-attf-class="form-group #{message.get('ufile') and 'has-error' or ''}">
-                                                 <label for="name">Kvitto</label>
+                                                 <label for="reciept">Kvitto</label>
                                             <input type="file" name="ufile" placeholder="File to upload pdf/jpg/png" required="True" accept="image/*,text/plain,application/pdf,application/vnd.ms-excel,app" capture="camera" />
                                             <p class="help-block">File to upload</p>
                                         </div>
                                     </t>
+-->
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-large">Submit</button>
                                     </div>
