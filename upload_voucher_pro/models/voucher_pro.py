@@ -57,28 +57,79 @@ class upload_voucher_pro(http.Controller):
     @http.route('/upload_voucher_pro', type='http', auth='public', website=True)
     def upload_attachement(self, account=False, **post):
         message = {}
+        voucher = []
         # ~ and post.get('ufile')
+        # ~ 'partner_id': 1084,
+        # ~ 'account_voucher': 12
+        
+        # ~ def voucher_in(self,):
+        # ~ vouchers = []
+        # ~ for issue in self:
+            # ~ record = self.env['account.voucher'].with_context({'default_type': 'purchase', 'type': 'purchase'}).default_get(['journal_id','date','period_id'])
+            # ~ record.update({
+                # ~ 'voucher_type': 'purchase',
+                # ~ 'account_id': issue.partner_id.property_account_receivable_id.id,
+                # ~ 'name': issue.description,
+                # ~ 'reference': issue.name,
+            # ~ })
+            # ~ voucher = self.env['account.voucher'].create(record)
+            # ~ issue._finnish(voucher,_('Supplier voucher created'))
+            # ~ vouchers.append(voucher)
+        # ~ return self._get_views(voucher,'account_voucher.action_purchase_receipt', form='account_voucher.view_purchase_receipt_form')
+        
+        
         if request.httprequest.method == 'POST':
-            voucher = request.env['account.voucher'].create({'partner_id': 1084,
-                                                     'pay_now': 'pay_now',
-                                                     'payment_journal_id': 12,
-                                                     'description': post.get('description'),
-                                                     # ~ 'voucher_type': post.get('voucher_type'),
-                                                     })
+            # ~ voucher = request.env['account.voucher'].create({'partner_id': ['partner_id'].search([('id', '=', u'ICA Nära Brask')]) ,
+                                                     # ~ 'pay_now': 1,
+                                                     # ~ 'account_voucher': 12,
+                                                     # ~ 'description': post.get('description'),
+                                                     ## 'voucher_type': post.get('voucher_type'),
+                                                     # ~ })
+            vals = ">>>>>>>>>>>   vals = 123"
+            # ~ raise Warning('>>>>>>>>>>>> %s' % vals)
+            # ~ https://www.odoo.com/forum/aide-1/how-to-apply-payment-to-invoice-via-xml-rpc-37795
+            partner_id = request.env['partner_id.id'].search([('id', '=', u'ICA')], limit=1)
+
+            if partner_id:
+                vals = {'partner_id': partner_id, 'account_voucher':2}
+                voucher = request.env['account.voucher'].create(vals)
+
+            raise Warning('>>>>>>>>>>>> %s' % vals)
+
+            voucherxx = request.env["account.voucher"].create({
+                   "name": "",
+                   "pay_now": post.get('pay_now'),
+                   "partner_id": self.env["res.partner"].search([("name", "=", "ICA Nära Brask")], limit=1).id,
+                   # ~ "partner_id": self.env["res_partner"].search([("name", "=", "ICA Nära Brask")], limit=1).id,
+                   # ~ "account_id": invoice.partner_id.property_account_receivable.id,
+                   # ~ "period_id": self.env["account.voucher"]._get_period(),
+                   # ~ "partner_id": invoice.partner_id.id,
+                   "type": "receipt"
+                })
+
             raise Warning('%s' % post)
             # ~ account = request.env['account.voucher'].search([('code', '=', '5400')])
-            row1 = request.env['account.voucher_line'].create({'voucher_id': voucher.id,
-                                                     'account_id': post.get('account_type'),
-                                                     'payment_journal_id': 1,
-                                                     'account_type': post.get('account_type'),
-                                                     'vat6': post.get('vat6'),
-                                                     'vat12': post.get('vat12'),
-                                                     'vat25': post.get('vat25'),
-                                                     'description': post.get('description'),
-                                                     'project_id': project[0].id if len(project) > 0 else None,
-                                                     'voucher_type': post.get('voucher_type'),
-                                                     })
-                                                     
+            # ~ row1 = request.env['account.voucher_line'].create({'voucher_id': voucher.id,
+                                                     # ~ 'account_id': post.get('account_type'),
+                                                     # ~ 'payment_journal_id': 1,
+                                                     # ~ 'account_type': post.get('account_type'),
+                                                     # ~ 'vat6': post.get('vat6'),
+                                                     # ~ 'vat12': post.get('vat12'),
+                                                     # ~ 'vat25': post.get('vat25'),
+                                                     # ~ 'description': post.get('description'),
+                                                     # ~ 'project_id': project[0].id if len(project) > 0 else None,
+                                                     # ~ 'voucher_type': post.get('voucher_type'),
+                                                     # ~ })
+            row1 = request.env["account.voucher.line"].create({
+                       "name": "",
+                       "voucher_id": voucher.id,
+                       'account_type': post.get('account_type'),
+                       'description': post.get('description'),
+                       'voucher_type': post.get('voucher_type'),
+                       'project_id': project[0].id if len(project) > 0 else None,
+                    })
+
+
             message['success'] = _('Voucher uploaded %s (%s)') % (account.id if account else None, account.id if account else None)
         else:
             message['success'] = _('Voucher uploaded %s (%s)') % (account.id if account else None, account.id if account else None)
