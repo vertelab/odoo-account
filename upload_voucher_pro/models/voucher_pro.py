@@ -43,13 +43,12 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-
-
 class account_voucher(models.Model):
     _inherit = 'account.voucher'
 
     account_type = fields.Selection(selection = [('5400', 'Förbrukningsmateriel'), ('7699', 'Personal / fika')])
     description = fields.Char(string='Notering', size=64, trim=True, )
+
 
 class upload_voucher_pro(http.Controller):
 
@@ -58,6 +57,7 @@ class upload_voucher_pro(http.Controller):
     def upload_attachement(self, account=False, **post):
         message = {}
         voucher = []
+
         # ~ and post.get('ufile')
         # ~ 'partner_id': 1084,
         # ~ 'account_voucher': 12
@@ -77,62 +77,54 @@ class upload_voucher_pro(http.Controller):
             # ~ vouchers.append(voucher)
         # ~ return self._get_views(voucher,'account_voucher.action_purchase_receipt', form='account_voucher.view_purchase_receipt_form')
         
-        
+        _logger.warning('NILS: %s' % request.httprequest.method)
         if request.httprequest.method == 'POST':
-            # ~ voucher = request.env['account.voucher'].create({'partner_id': ['partner_id'].search([('id', '=', u'ICA Nära Brask')]) ,
-                                                     # ~ 'pay_now': 1,
-                                                     # ~ 'account_voucher': 12,
-                                                     # ~ 'description': post.get('description'),
-                                                     ## 'voucher_type': post.get('voucher_type'),
-                                                     # ~ })
-            vals = ">>>>>>>>>>>   vals = 123"
-            # ~ raise Warning('>>>>>>>>>>>> %s' % vals)
-            # ~ https://www.odoo.com/forum/aide-1/how-to-apply-payment-to-invoice-via-xml-rpc-37795
-            partner_id = request.env['partner_id.id'].search([('id', '=', u'ICA')], limit=1)
+            _logger.warning('NILS: Got here 1')
+            # ~ _logger.warning('NILS: voucher_type : %s' % post.get('voucher_type') )
+            # ~ _logger.warning('NILS: voucher_type : %s' % type(post.get('voucher_type')) )
+            # ~ _logger.warning('NILS: voucher_type : %s' % type(int(post.get('voucher_type'))) )
+            # ~ _logger.warning('NILS: account_type : %s' % post.get('account_type') )
+            # ~ _logger.warning('NILS: account_type : %s' % type(post.get('account_type')) )
 
+            vals = request.env['account.voucher'].with_context({
+                'default_voucher_type': 'purchase',
+                'voucher_type': 'purchase',
+                'default_pay_now': 'pay_now',
+                'pay_now': 'pay_now'}).default_get(['journal_id', 'date',
+                    'currency_id', 'company_id','period_id', 'pay_now', 'payment_journal_id'])
+            _logger.warning('NILS vals = %s' %  vals)
+            account = request.env['account.journal'].browse(12).default_debit_account_id
+            vals['account_id'] = account.id
+            partner_id = request.env['res.partner'].search([('id', '=', 1084)], limit=1)
+            _logger.warning('NILS: Got here 2 %s' % partner_id)
             if partner_id:
-                vals = {'partner_id': partner_id, 'account_voucher':2}
-                voucher = request.env['account.voucher'].create(vals)
+                vals.update({'partner_id': partner_id.id })
+                
+            voucher = request.env['account.voucher'].create(vals)
+            _logger.warning('NILS %s' %  voucher)
+            account = request.env['account.account'].search([('code', '=', post.get('account_type') )], limit=1)
+            
+            for vat, vat_id in (('vat6', 'I6'), ('vat12','I12'), ('vat25','I')):
+                if not post.get(vat):
+                    continue
+                vat_obj = request.env['account.tax'].search([('name', '=', vat_id)], limit=1)
+                line = request.env['account.voucher.line'].create({
+                    'voucher_id': voucher.id,
+                     'name': account.name,
+                     'account_id': account.id,
+                     'quantity': 1.0,
+                     'price_unit': post.get(vat),
+                     'tax_ids': [(6, 0, [vat_obj.id])]
+                     })
 
-            raise Warning('>>>>>>>>>>>> %s' % vals)
+            _logger.warning('NILS: Got here 3')
+    
 
-            voucherxx = request.env["account.voucher"].create({
-                   "name": "",
-                   "pay_now": post.get('pay_now'),
-                   "partner_id": self.env["res.partner"].search([("name", "=", "ICA Nära Brask")], limit=1).id,
-                   # ~ "partner_id": self.env["res_partner"].search([("name", "=", "ICA Nära Brask")], limit=1).id,
-                   # ~ "account_id": invoice.partner_id.property_account_receivable.id,
-                   # ~ "period_id": self.env["account.voucher"]._get_period(),
-                   # ~ "partner_id": invoice.partner_id.id,
-                   "type": "receipt"
-                })
-
-            raise Warning('%s' % post)
-            # ~ account = request.env['account.voucher'].search([('code', '=', '5400')])
-            # ~ row1 = request.env['account.voucher_line'].create({'voucher_id': voucher.id,
-                                                     # ~ 'account_id': post.get('account_type'),
-                                                     # ~ 'payment_journal_id': 1,
-                                                     # ~ 'account_type': post.get('account_type'),
-                                                     # ~ 'vat6': post.get('vat6'),
-                                                     # ~ 'vat12': post.get('vat12'),
-                                                     # ~ 'vat25': post.get('vat25'),
-                                                     # ~ 'description': post.get('description'),
-                                                     # ~ 'project_id': project[0].id if len(project) > 0 else None,
-                                                     # ~ 'voucher_type': post.get('voucher_type'),
-                                                     # ~ })
-            row1 = request.env["account.voucher.line"].create({
-                       "name": "",
-                       "voucher_id": voucher.id,
-                       'account_type': post.get('account_type'),
-                       'description': post.get('description'),
-                       'voucher_type': post.get('voucher_type'),
-                       'project_id': project[0].id if len(project) > 0 else None,
-                    })
-
-
-            message['success'] = _('Voucher uploaded %s (%s)') % (account.id if account else None, account.id if account else None)
+            message['success'] = _('Voucher uploaded %s (%s)') % (voucher.id if voucher else None, account.id if account else None)
         else:
             message['success'] = _('Voucher uploaded %s (%s)') % (account.id if account else None, account.id if account else None)
+ 
+        _logger.warning('<<<<< 2. VALUES: user = render!!')
         return request.render('upload_voucher_pro.upload_attachement_pro', {'message': message,
                                                      # ~ 'res_company': request.env['res.company'].browse(1),
                                                      'partner_id': 1,

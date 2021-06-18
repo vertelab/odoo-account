@@ -31,7 +31,7 @@
                                     </div>
                                     <!-- Voucher Type -->
                                     <div t-attf-class="form-group #{message.get('voucher_type') and 'has-error' or ''}">
-                                        <select name="voucher_type" id="voucher_type" class="form-control selectpicker dropup" data-style="btn-primary">
+                                        <select name="account_type" id="account_type" class="form-control selectpicker dropup" data-style="btn-primary">
                                             <t t-foreach="request.env['account.voucher'].fields_get(['account_type'])['account_type']['selection']" t-as="account_type">
                                                 <option t-att-value="account_type[0]">
                                                     <t t-raw="account_type[1]" />
