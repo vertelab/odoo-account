@@ -18,18 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from odoo import api, fields, models, _
+import logging
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import Warning
 
-import logging
+from odoo import api, fields, models, _
+
 _logger = logging.getLogger(__name__)
 
 
 class AccountPeriodCreate(models.Model):
     _name = 'account.period.create.wizard'
+    _description = "Account Period Create Wizard"
 
     @api.model
     def default_fy_name(self):
@@ -37,24 +39,25 @@ class AccountPeriodCreate(models.Model):
 
     @api.model
     def default_date_start(self):
-        return '%s-01-01' %fields.Date.today()[:4]
+        return '%s-01-01' % fields.Date.today()[:4]
 
     @api.model
     def default_date_stop(self):
-        return '%s-12-31' %fields.Date.today()[:4]
+        return '%s-12-31' % fields.Date.today()[:4]
 
     fy_name = fields.Char(string='Fiscal Year Name', required=True, default=default_fy_name)
     fy_code = fields.Char(string='Fiscal Year Code', required=True, default=default_fy_name)
     date_start = fields.Date(string='Start of Period', default=default_date_start, required=True)
-    date_stop = fields.Date(string='End of Period',  default=default_date_stop, required=True)
-    company_id = fields.Many2one(comodel_name='res.company', string='Company', default=lambda self: self.env['res.company']._company_default_get('account.account'))
+    date_stop = fields.Date(string='End of Period', default=default_date_stop, required=True)
+    company_id = fields.Many2one(comodel_name='res.company', string='Company',
+                                 default=lambda self: self.env['res.company']._company_default_get('account.account'))
 
     @api.multi
     def create_period3(self):
         return self.create_period(interval=3)
 
     @api.multi
-    def create_period1(self): # Looks stupid right? But it looks like calling create_period() directly does not work
+    def create_period1(self):  # Looks stupid right? But it looks like calling create_period() directly does not work
         return self.create_period(interval=1)
 
     @api.multi
