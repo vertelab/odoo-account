@@ -15,7 +15,7 @@
                         or
                         <button string="Cancel" class="oe_link" special="cancel"/>
                     </footer>
-               </form>
+                </form>
             </field>
         </record>
 
@@ -29,7 +29,7 @@
         </record>
 
         <record id="action_idea_post_vote_values" model="ir.actions.server">
-            <field name="model_id" ref="model_account_period" />
+            <field name="model_id" ref="model_account_period"/>
             <field name="name">Close a Period</field>
             <field name="state">code</field>
             <field name="code">action = model.action_account_period_close()</field>

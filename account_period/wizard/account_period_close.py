@@ -18,13 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from odoo import api, fields, models, _
+import logging
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import Warning
 
-import logging
+from odoo import api, fields, models, _
+
 _logger = logging.getLogger(__name__)
 
 
@@ -53,7 +54,8 @@ class account_period_close(models.TransientModel):
         for form in self:
             if form['sure']:
                 for id in self.env.context.get('active_ids', []):
-                    account_move_ids = self.env['account.move'].search([('period_id', '=', id), ('state', '=', "draft")])
+                    account_move_ids = self.env['account.move'].search(
+                        [('period_id', '=', id), ('state', '=', "draft")])
                     if account_move_ids:
                         raise Warning(_('In order to close a period, you must first post related journal entries.'))
 

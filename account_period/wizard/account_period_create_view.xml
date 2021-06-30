@@ -6,22 +6,24 @@
             <field name="name">account.period.create.wizard.form</field>
             <field name="model">account.period.create.wizard</field>
             <field name="arch" type="xml">
-            <form>
-                <header>
-                    <button name="create_period1" string="Create Monthly Periods" type="object" class="oe_highlight"/>
-                    <button name="create_period3" string="Create 3 Months Periods" type="object" class="oe_highlight"/>
-                </header>
-                <group>
+                <form>
+                    <header>
+                        <button name="create_period1" string="Create Monthly Periods" type="object"
+                                class="oe_highlight"/>
+                        <button name="create_period3" string="Create 3 Months Periods" type="object"
+                                class="oe_highlight"/>
+                    </header>
                     <group>
-                        <field name="date_start"/>
-                        <field name="date_stop"/>
-                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_stop"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
                     </group>
-                </group>
-                <footer>
-                    <button string="Cancel" class="oe_link" special="cancel" />
-                </footer>
-            </form>
+                    <footer>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
             </field>
         </record>
 
@@ -33,9 +35,9 @@
             <field name="target">new</field>
         </record>
 
-<!--
-        <menuitem id="menu_account_period_create_form" action="account_period_create_form" parent="account.menu_finance_entries" sequence="40"/>
--->
+        <!--
+                <menuitem id="menu_account_period_create_form" action="account_period_create_form" parent="account.menu_finance_entries" sequence="40"/>
+        -->
 
     </data>
 </odoo>

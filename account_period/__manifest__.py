@@ -19,8 +19,8 @@
 #
 ##############################################################################
 {
-    'name' : 'Account Period',
-    'version' : '1.0',
+    'name': 'Account Period',
+    'version': '1.0',
     'summary': 'Account Period',
     'description': """
 Account Period
@@ -30,8 +30,8 @@ Added period for accounting
     'category': 'Accounting',
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
-    'images' : [],
-    'depends' : ['account'],
+    'images': [],
+    'depends': ['account'],
     'data': [
         'security/ir.model.access.csv',
         'wizard/account_period_close_view.xml',
