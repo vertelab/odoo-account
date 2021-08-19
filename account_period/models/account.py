@@ -163,7 +163,8 @@ class AccountPeriod(models.Model):
 
     @api.model
     def get_period_ids(self, period_start, period_stop,special=False):
-        if isinstance(period_start, basestring):
+        # ~ if isinstance(period_start, basestring):
+        if isinstance(period_start, str):
             period_start = self.env['account.period'].search([('name','=',period_start)],limit=1)
             period_stop = self.env['account.period'].search([('name','=',period_stop)],limit=1)
         if isinstance(period_start, int):
@@ -180,7 +181,8 @@ class AccountPeriod(models.Model):
 
     @api.model
     def get_next_periods(self, last_period,length=3,special=False):
-        if isinstance(last_period, basestring):
+        # ~ if isinstance(last_period, basestring):
+        if isinstance(last_period, str):
             last_period = self.env['account.period'].search([('name','=',last_period)],limit=1)
         if isinstance(last_period, int):
             last_period = self.env['account.period'].browse(last_period)
@@ -191,7 +193,8 @@ class AccountPeriod(models.Model):
 
     @api.model
     def period2month(self, period,short=True):
-        if isinstance(period, basestring):
+        # ~ if isinstance(period, basestring):
+        if isinstance(period, str):
             period = self.env['account.period'].search([('name','=',period)],limit=1)
         if isinstance(period, int):
             period = self.env['account.period'].browse(period)
