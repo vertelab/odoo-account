@@ -306,6 +306,48 @@ class AccountMove(models.Model):
     def _get_default_period_id(self):
         return self.env['account.period'].date2period(self.date or fields.Date.today())
     period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id, required=True, states={'posted':[('readonly',True)]})
+    
+    payment_period_id = fields.Many2one(store=True, comodel_name='account.period', string='Payment Invoice Period', compute="_set_period_from_payment", readonly=True)
+    payment_date = fields.Date(store=True, string='Invoice Payment Date', compute="_set_date_from_payment", readonly=True)
+    payment_move_id = fields.Many2one(store=True,comodel_name='account.move', string='The payment invoice', compute="_set_payment_invoice", readonly=True)
+    
+    @api.depends("payment_move_id.period_id","payment_move_id")
+    def _set_period_from_payment(self):
+        for rec in self:
+            if rec.payment_move_id:
+                rec.payment_period_id = rec.payment_move_id.period_id
+            else:
+                rec.payment_period_id = False
+            
+    @api.depends("payment_move_id.date","payment_move_id")
+    def _set_date_from_payment(self):
+        for rec in self:
+            if rec.payment_move_id:
+                rec.payment_date = rec.payment_move_id.date
+            else:
+                rec.payment_date = False
+    
+    @api.depends("payment_state","state")
+    def _set_payment_invoice(self):
+        for rec in self:
+            if rec.state == 'posted' and rec.is_invoice(include_receipts=True) and rec.payment_state == 'paid':
+                # Used when searching for account_moves using the cash method with mis_builder. Currently it's linking the latest payment account.move so that the mis_instance can search using its period or date.
+                #I'm not sure how to handle multiple payments which is why im only linking the latest one.
+                list_of_payments = rec._get_reconciled_info_JSON_values()
+                latest_payment = self.env[ 'account.move'].search([('id', '=', list_of_payments[0]['move_id'])], limit=1)
+                for payment in list_of_payments:
+                    _logger.warning("jakmar go once")
+                    current_payment = self.env[ 'account.move'].search([('id', '=', payment['move_id'])], limit=1)
+                    if current_payment.period_id.date_stop > latest_payment.period_id.date_stop:
+                        latest_payment = current_payment
+                    rec.payment_move_id = latest_payment
+            else:
+                rec.payment_move_id = False
+                
+
+
+            
+        
 
 class account_account(models.Model):
     _inherit = 'account.account'
@@ -394,3 +436,19 @@ class account_payment(models.Model):
 #             if inv.period_id and inv.move_id:
 #                 inv.move_id.period_id = inv.period_id
 #         return res
+
+# ~ class AccountMove(models.Model):
+    # ~ _inherit = 'account.move'
+    
+    # ~ payment_period_id = fields.Many2one(store=True,comodel_name='account.period', string='The period for the account payment', compute="_get_period_from_payment", readonly=True)
+    # ~ payment_date = fields.Date(store=True, string='The date for the account payment', compute="_get_date_from_payment", readonly=True)
+    
+    # ~ api.depends("payment_id.period")
+    # ~ def _get_period_from_payment(self):
+        # ~ for rec in self:
+            # ~ rec.payment_period_id = rec.payment_id.period_id
+            
+    # ~ api.depends("payment_id.date")
+    # ~ def _get_period_from_payment(self):
+        # ~ for rec in self:
+            # ~ rec.payment_date = rec.payment_id.date
