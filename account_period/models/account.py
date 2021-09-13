@@ -336,7 +336,6 @@ class AccountMove(models.Model):
                 list_of_payments = rec._get_reconciled_info_JSON_values()
                 latest_payment = self.env[ 'account.move'].search([('id', '=', list_of_payments[0]['move_id'])], limit=1)
                 for payment in list_of_payments:
-                    _logger.warning("jakmar go once")
                     current_payment = self.env[ 'account.move'].search([('id', '=', payment['move_id'])], limit=1)
                     if current_payment.period_id.date_stop > latest_payment.period_id.date_stop:
                         latest_payment = current_payment
