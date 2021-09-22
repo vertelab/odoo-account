@@ -24,7 +24,7 @@ import logging
 import requests
 
 from odoo import models, fields, api
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -45,6 +45,8 @@ class ResConfigSettings(models.TransientModel):
         store=True)
     invoice_inexchange = fields.Boolean(
         string="Send to Inexchange", default=True)
+    # Fix me, make it possible to switch between test and nontest
+    #inexchange_testmode = fields.Boolean(string="Test Api", config_parameter="inexchange.testmode", store=True)
 
     @api.model
     def get_values(self):
@@ -57,7 +59,7 @@ class ResConfigSettings(models.TransientModel):
 
     @api.model
     def get_url(self, endpoint):
-        base_url = 'https://testapi.inexchange.se/v1/api'
+        base_url = 'https://api.inexchange.com/v1/api'
         return f'{base_url}/{endpoint.lstrip("/")}'
 
     # ~ @api.multi
@@ -68,11 +70,11 @@ class ResConfigSettings(models.TransientModel):
             api_key = self.env['ir.config_parameter'].sudo().get_param(
                 'inexchange.apikey')
             if not api_key:
-                raise Warning("You have to set up API Key for Inexchange"
-                              ", you get that when you activate Odoo in "
-                              "your inexchange-account")
+                raise UserError("You have to set up API Key for Inexchange"
+                                ", you get that when you activate Odoo in "
+                                "your inexchange-account")
             try:
-                url = "https://testapi.inexchange.se/v1/api/clientTokens/create"
+                url = self.get_url('clientTokens/create')
                 r = self.env['res.config.settings'].inexchange_request_api(
                     'POST', url, data={
                         "erpId": self.env.user.company_id.id,
@@ -82,7 +84,7 @@ class ResConfigSettings(models.TransientModel):
                 self.env['ir.config_parameter'].sudo().set_param(
                     'inexchange.client.token', client_token)
             except requests.exceptions.RequestException as e:
-                raise Warning('HTTP Request failed %s' % e)
+                raise UserError('HTTP Request failed %s' % e)
         return client_token
 
     @api.multi
@@ -105,12 +107,11 @@ class ResConfigSettings(models.TransientModel):
             _logger.warn(f'Response HTTP Response Body : {r.content}')
 
             if r.status_code in [403]:
-                raise Warning(r.content)
+                raise UserError(r.content)
 
         except requests.exceptions.RequestException as e:
             _logger.warn('HTTP Request failed %s' % e)
-            raise Warning('HTTP Request failed %s' % e)
-        _logger.warn('%s Haze Content 1 ' % r.content) 
+            raise UserError('HTTP Request failed %s' % e)
         return r.content
 
     @api.multi
@@ -134,11 +135,11 @@ class ResConfigSettings(models.TransientModel):
             _logger.warn('Response HTTP Response Body : {content}'.format(content=r.content))
 
             if r.status_code in [403,401]:
-                raise Warning(r.content)
+                raise UserError(r.content)
 
         except requests.exceptions.RequestException as e:
             _logger.warn('HTTP Request failed %s' % e)
-            raise Warning('HTTP Request failed %s' % e)
+            raise UserError('HTTP Request failed %s' % e)
         return r.content
         
         

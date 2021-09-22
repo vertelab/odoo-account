@@ -50,9 +50,12 @@ class account_invoice(models.Model):
         result = requests.post(
             url, headers=header, files={
               'File': (filename, data, 'application/xml')})
-        self.inexchange_invoice_uri_id = str(result.headers['Location'])
         if result.status_code not in (202, 200):
-            raise UserError('Failed to upload invoice')
+            raise UserError(f'Failed to upload invoice:\n'
+                            f'Status: {result.status_code}\n'
+                            f'Header: {result.headers}\n'
+                            f'Text: {result.text}')
+        self.inexchange_invoice_uri_id = str(result.headers['Location'])
         return result
 
     def send_uploaded_invoice(
@@ -258,7 +261,7 @@ class account_invoice(models.Model):
     def send_invoice_to_inexchange_action(self):
         for invoice in self:
             if invoice.partner_id.inexchange_company_id:
-                invoice.name = invoice.reference
+                #invoice.name = invoice.reference
                 invoice.inexchange_error_status = None
                 version = invoice.get_ubl_version()
                 xml_string = invoice.generate_ubl_xml_string(version=version)
