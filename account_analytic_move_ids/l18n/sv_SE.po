@@ -1,0 +1,49 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_analytic_move_ids
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20210929\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-03 14:06+0000\n"
+"PO-Revision-Date: 2021-11-03 14:06+0000\n"
+"Last-Translator: Daniel Eriksson <daniel.eriksson@vertel.se>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_analytic_move_ids
+#: model:ir.model.fields,field_description:account_analytic_move_ids.field_account_move_line__analytic_account_ids
+msgid "Analytic Accounts"
+msgstr "Objektkonton"
+
+#. module: account_analytic_move_ids
+#: model:ir.model,name:account_analytic_move_ids.model_account_analytic_default
+msgid "Analytic Distribution"
+msgstr "Objektfördelning"
+
+#. module: account_analytic_move_ids
+#: model:ir.model.fields,field_description:account_analytic_move_ids.field_account_analytic_default__display_name
+#: model:ir.model.fields,field_description:account_analytic_move_ids.field_account_move_line__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: account_analytic_move_ids
+#: model:ir.model.fields,field_description:account_analytic_move_ids.field_account_analytic_default__id
+#: model:ir.model.fields,field_description:account_analytic_move_ids.field_account_move_line__id
+msgid "ID"
+msgstr ""
+
+#. module: account_analytic_move_ids
+#: model:ir.model,name:account_analytic_move_ids.model_account_move_line
+msgid "Journal Item"
+msgstr "Transaktion"
+
+#. module: account_analytic_move_ids
+#: model:ir.model.fields,field_description:account_analytic_move_ids.field_account_analytic_default____last_update
+#: model:ir.model.fields,field_description:account_analytic_move_ids.field_account_move_line____last_update
+msgid "Last Modified on"
+msgstr "Senast redigerad"
