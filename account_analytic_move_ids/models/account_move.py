@@ -27,7 +27,48 @@ class AccountMoveLine(models.Model):
                 if rec:
                     record.analytic_account_ids = [(6, 0, rec.analytic_id.ids)]
 
-    def _prepare_analytic_line(self):
+    def create_analytic_lines(self):
+        """ Create analytic items upon validation of an account.move.line having an analytic account or an analytic distribution.
+        """
+        if self.analytic_account_ids:
+            for analytic_account_id in self.analytic_account_ids:
+                self._create_special_analytic_lines(analytic_account_id)
+        else:
+            self._create_analytic_lines()
+
+    def _create_analytic_lines(self):
+        lines_to_create_analytic_entries = self.env['account.move.line']
+        analytic_line_vals = []
+        for obj_line in self:
+            for tag in obj_line.analytic_tag_ids.filtered('active_analytic_distribution'):
+                for distribution in tag.analytic_distribution_ids:
+                    analytic_line_vals.append(obj_line._prepare_analytic_distribution_line(distribution))
+            if obj_line.analytic_account_id:
+                lines_to_create_analytic_entries |= obj_line
+
+        # create analytic entries in batch
+        if lines_to_create_analytic_entries:
+            analytic_line_vals += lines_to_create_analytic_entries._prepare_analytic_line()
+
+        self.env['account.analytic.line'].create(analytic_line_vals)
+
+    def _create_special_analytic_lines(self, analytic_account_id):
+        lines_to_create_analytic_entries = self.env['account.move.line']
+        analytic_line_vals = []
+        for obj_line in self:
+            for tag in obj_line.analytic_tag_ids.filtered('active_analytic_distribution'):
+                for distribution in tag.analytic_distribution_ids:
+                    analytic_line_vals.append(obj_line._prepare_analytic_distribution_line(distribution))
+            if obj_line.analytic_account_id:
+                lines_to_create_analytic_entries |= obj_line
+
+        # create analytic entries in batch
+        if lines_to_create_analytic_entries:
+            analytic_line_vals += lines_to_create_analytic_entries._prepare_special_analytic_line(analytic_account_id)
+
+        self.env['account.analytic.line'].create(analytic_line_vals)
+
+    def _prepare_special_analytic_line(self, analytic_account_id):
         """ Prepare the values used to create() an account.analytic.line upon validation of an account.move.line having
             an analytic account. This method is intended to be extended in other modules.
             :return list of values to create analytic.line
@@ -40,9 +81,8 @@ class AccountMoveLine(models.Model):
             result.append({
                 'name': default_name,
                 'date': move_line.date,
-                'account_id': move_line.analytic_account_id.id,
-                'group_id': move_line.analytic_account_id.group_id.id,
-                'analytic_account_ids': [(6, 0, self.analytic_account_ids.ids)],
+                'account_id': analytic_account_id.id,
+                'group_id': analytic_account_id.group_id.id,
                 'tag_ids': [(6, 0, move_line._get_analytic_tag_ids())],
                 'unit_amount': move_line.quantity,
                 'product_id': move_line.product_id and move_line.product_id.id or False,
@@ -53,13 +93,6 @@ class AccountMoveLine(models.Model):
                 'move_id': move_line.id,
                 'user_id': move_line.move_id.invoice_user_id.id or self._uid,
                 'partner_id': move_line.partner_id.id,
-                'company_id': move_line.analytic_account_id.company_id.id or move_line.move_id.company_id.id,
+                'company_id': analytic_account_id.company_id.id or move_line.move_id.company_id.id,
             })
         return result
-
-
-class AccountAnalyticLine(models.Model):
-    _inherit = "account.analytic.line"
-
-    analytic_account_ids = fields.Many2many('account.analytic.account', string='Analytic Accounts',
-                                            copy=True, check_company=True)
