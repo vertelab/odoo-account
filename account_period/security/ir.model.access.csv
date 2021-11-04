@@ -3,3 +3,5 @@ access_account_period_manager,account.period.manager,model_account_period,accoun
 access_account_period_user,account.period.user,model_account_period,account.group_account_user,1,0,0,0
 access_account_fiscalyear_manager,account.fiscalyear.manager,model_account_fiscalyear,account.group_account_manager,1,1,1,1
 access_account_fiscalyear_user,account.fiscalyear.user,model_account_fiscalyear,account.group_account_user,1,0,0,0
+access_account_period_create_wizard,access_account_period_create_wizard,model_account_period_create_wizard,base.group_user,1,1,1,1
+access_account_period_close,access_account_period_close,model_account_period_close,base.group_user,1,1,1,1
