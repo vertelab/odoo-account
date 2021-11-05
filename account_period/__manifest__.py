@@ -37,6 +37,7 @@ Added period for accounting
         'wizard/account_period_close_view.xml',
         'wizard/account_period_create_view.xml',
         'views/account_view.xml',
+        'views/onboarding_template.xml',
     ],
     'demo': [],
     'qweb': [],

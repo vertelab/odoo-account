@@ -91,8 +91,6 @@ class AccountPeriod(models.Model):
             return ids[step-1]
         return False
 
-
-
     @api.returns('self')
     def find(self, dt=None, context=None):
         self.ensure_one()
@@ -217,6 +215,12 @@ class AccountFiscalyear(models.Model):
     @api.model
     def default_date_stop(self):
         return '%s-12-31' %fields.Date.today().strftime('%Y')
+
+    @api.model
+    def create(self, vals):
+        res = super(AccountFiscalyear, self).create(vals)
+        self.env.company.sudo().set_onboarding_step_done('account_setup_fy_data_state')
+        return res
 
     name = fields.Char(string='Fiscal Year', required=True)
     code = fields.Char(string='Code', size=6, required=True)
