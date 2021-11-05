@@ -31,9 +31,10 @@ Added extra criteria for account analytics
     'author': 'Vertel AB',
     'website': 'https://www.vertel.se',
     'images': [],
-    'depends': ['analytic', 'account', 'account_analytic_move_ids'],
+    'depends': ['analytic', 'account', 'account_analytic_move_ids', 'hr'],
     'data': [
         'views/account_analytic_default_view.xml',
+        'views/account_move_view.xml',
     ],
     'demo': [],
     'qweb': [],

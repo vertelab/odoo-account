@@ -12,7 +12,7 @@ class AccountAnalyticDefault(models.Model):
     hr_department_id = fields.Many2one('hr.department', string="Employee Department")
 
     @api.model
-    def account_get_ids(self, product_id=None, partner_id=None, account_id=None, user_id=None, date=None, company_id=None):
+    def account_get_ids(self, product_id=None, partner_id=None, account_id=None, user_id=None, date=None, company_id=None, category_id=None, department_id=None):
         domain = []
         if product_id:
             domain += ['|', ('product_id', '=', product_id)]
@@ -29,8 +29,30 @@ class AccountAnalyticDefault(models.Model):
         if user_id:
             domain += ['|', ('user_id', '=', user_id)]
         domain += [('user_id', '=', False)]
+        if category_id:
+            domain += ['|', ('product_category_id', '=', category_id)]
+        domain += [('product_category_id', '=', False)]
+        print("category_id", category_id)
+        if department_id:
+            domain += ['|', ('hr_department_id', '=', department_id)]
+        domain += [('hr_department_id', '=', False)]
         if date:
             domain += ['|', ('date_start', '<=', date), ('date_start', '=', False)]
             domain += ['|', ('date_stop', '>=', date), ('date_stop', '=', False)]
+        return self.search(domain)
 
+    @api.model
+    def account_get_product_category_ids(self, category_id=None):
+        domain = []
+        if category_id:
+            domain += ['|', ('product_category_id', '=', category_id)]
+        domain += [('product_category_id', '=', False)]
+        return self.search(domain)
+
+    @api.model
+    def account_get_hr_department_ids(self, department_id=None):
+        domain = []
+        if department_id:
+            domain += ['|', ('hr_department_id', '=', department_id)]
+        domain += [('hr_department_id', '=', False)]
         return self.search(domain)
