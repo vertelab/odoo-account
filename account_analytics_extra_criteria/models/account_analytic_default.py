@@ -32,27 +32,10 @@ class AccountAnalyticDefault(models.Model):
         if category_id:
             domain += ['|', ('product_category_id', '=', category_id)]
         domain += [('product_category_id', '=', False)]
-        print("category_id", category_id)
         if department_id:
             domain += ['|', ('hr_department_id', '=', department_id)]
         domain += [('hr_department_id', '=', False)]
         if date:
             domain += ['|', ('date_start', '<=', date), ('date_start', '=', False)]
             domain += ['|', ('date_stop', '>=', date), ('date_stop', '=', False)]
-        return self.search(domain)
-
-    @api.model
-    def account_get_product_category_ids(self, category_id=None):
-        domain = []
-        if category_id:
-            domain += ['|', ('product_category_id', '=', category_id)]
-        domain += [('product_category_id', '=', False)]
-        return self.search(domain)
-
-    @api.model
-    def account_get_hr_department_ids(self, department_id=None):
-        domain = []
-        if department_id:
-            domain += ['|', ('hr_department_id', '=', department_id)]
-        domain += [('hr_department_id', '=', False)]
         return self.search(domain)
