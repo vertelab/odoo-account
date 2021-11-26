@@ -44,7 +44,7 @@ class account_period_close(models.TransientModel):
         @param uid: the current user’s ID for security checks,
         @param ids: account period close’s ID or list of IDs
          """
-        journal_period_pool = self.pool.get('account.journal.period')
+        # ~ journal_period_pool = self.pool.get('account.journal.period')
         period_pool = self.pool.get('account.period')
         account_move_obj = self.pool.get('account.move')
 
@@ -56,7 +56,7 @@ class account_period_close(models.TransientModel):
                     if account_move_ids:
                         raise Warning(_('In order to close a period, you must first post related journal entries.'))
 
-                    self.env.cr.execute('update account_journal_period set state=%s where period_id=%s', (mode, id))
+                    # ~ self.env.cr.execute('update account_journal_period set state=%s where period_id=%s', (mode, id))
                     self.env.cr.execute('update account_period set state=%s where id=%s', (mode, id))
                     self.invalidate_cache()
 

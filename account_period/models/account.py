@@ -22,7 +22,7 @@ from odoo import api, fields, models, _, exceptions
 from odoo.osv import expression
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError, ValidationError
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -113,8 +113,7 @@ class AccountPeriod(models.Model):
         mode = 'draft'
         for period in self:
             if period.fiscalyear_id.state == 'done':
-                raise Warning(_('You can not re-open a period which belongs to closed fiscal year'))
-        self.env.cr.execute('update account_journal_period set state=%s where period_id in %s', (mode, tuple(self.mapped('id')),))
+                raise UserError(_('You can not re-open a period which belongs to closed fiscal year'))
         self.env.cr.execute('update account_period set state=%s where id in %s', (mode, tuple(self.mapped('id')),))
         self.invalidate_cache()
         return True
@@ -133,7 +132,7 @@ class AccountPeriod(models.Model):
         if 'company_id' in vals:
             move_lines = self.enb['account.move.line'].search([('period_id', 'in', self.mapped('id'))])
             if move_lines:
-                raise Warning(_('This journal already contains items for this period, therefore you cannot modify its company field.'))
+                raise UserError(_('This journal already contains items for this period, therefore you cannot modify its company field.'))
         return super(AccountPeriod, self).write(vals)
 
     def build_ctx_periods(self, period_from_id, period_to_id):
@@ -147,9 +146,9 @@ class AccountPeriod(models.Model):
         period_date_stop = period_to.date_stop
         company2_id = period_to.company_id.id
         if company1_id != company2_id:
-            raise Warning(_('You should choose the periods that belong to the same company.'))
+            raise UserError(_('You should choose the periods that belong to the same company.'))
         if period_date_start > period_date_stop:
-            raise Warning(_('Start period should precede then end period.'))
+            raise UserError(_('Start period should precede then end period.'))
 
         # /!\ We do not include a criterion on the company_id field below, to allow producing consolidated reports
         # on multiple companies. It will only work when start/end periods are selected and no fiscal year is chosen.
@@ -171,7 +170,7 @@ class AccountPeriod(models.Model):
         if not (period_start and period_stop):
             return []
         if period_stop and period_stop.date_start < period_start.date_start:
-            raise Warning('Stop period must be after start period')
+            raise UserError('Stop period must be after start period')
         if period_stop and period_stop.date_start == period_start.date_start:
             return [period_start.id]
         else:
@@ -306,10 +305,25 @@ class AccountFiscalyear(models.Model):
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
-
+    
+    def validate_open_period(self, values):
+        period_id = self.env['account.period'].browse(values.get('period_id'))
+        if period_id and period_id.state == 'done':
+            raise ValidationError(_("You have tried to create an invoice on a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
+    
+    def write(self, values):
+        self.validate_open_period(values)
+        return super(AccountMove, self).write(values)
+        
+    def create(self, values):
+        self.validate_open_period(values)
+        return  super(AccountMove, self).create(values)
+        
     def _get_default_period_id(self):
         return self.env['account.period'].date2period(self.date or fields.Date.today())
-    period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id, required=True, states={'posted':[('readonly',True)]})
+    period_id = fields.Many2one(
+        comodel_name='account.period', string='Period', default=_get_default_period_id,
+        required=True, states={'posted':[('readonly',True)]}, domain="[('state', '!=', 'done')]")
 
     payment_period_id = fields.Many2one(store=True, comodel_name='account.period', string='Payment Invoice Period', compute="_set_period_from_payment", readonly=True)
     payment_date = fields.Date(store=True, string='Invoice Payment Date', compute="_set_date_from_payment", readonly=True)
