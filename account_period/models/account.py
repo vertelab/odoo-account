@@ -307,16 +307,25 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
     
     def validate_open_period(self, values):
+        _logger.warning(values)
         period_id = self.env['account.period'].browse(values.get('period_id'))
         if period_id and period_id.state == 'done':
             raise ValidationError(_("You have tried to create an invoice on a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
     
     def write(self, values):
-        self.validate_open_period(values)
+        if isinstance(values, list):
+            for i in range(len(values)):
+                self.validate_open_period(values[i])
+        else:
+            self.validate_open_period(values)
         return super(AccountMove, self).write(values)
         
     def create(self, values):
-        self.validate_open_period(values)
+        if isinstance(values, list):
+            for i in range(len(values)):
+                self.validate_open_period(values[i])
+        else:
+            self.validate_open_period(values)
         return  super(AccountMove, self).create(values)
         
     def _get_default_period_id(self):
