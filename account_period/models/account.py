@@ -372,8 +372,15 @@ class AccountMove(models.Model):
                     rec.payment_move_id = False
             else:
                 rec.payment_move_id = False
-
-
+                
+    @api.onchange("invoice_date")
+    def set_period_based_on_invoice_date(self):
+        if self.invoice_date:
+            period_id = self.env['account.period'].date2period(self.invoice_date)
+            if period_id and period_id.state == 'done':
+                raise ValidationError(_("You have tried to create an invoice on a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
+            else:
+                self.period_id = period_id
 
 
 
@@ -429,8 +436,8 @@ class account_bank_statement(models.Model):
 #     def onchange_payment_date_set_period_id(self):
 #         self.payment_period_id = self.env['account.period'].date2period(self.payment_date or fields.Date.today())
 
-class account_payment(models.Model):
-    _inherit = "account.payment"
+# ~ class account_payment(models.Model):
+    # ~ _inherit = "account.payment"
 
     # def _get_move_vals(self, journal=None):
     #     res = super(account_payment, self)._get_move_vals(journal)
