@@ -320,6 +320,7 @@ class AccountMove(models.Model):
             self.validate_open_period(values)
         return super(AccountMove, self).write(values)
         
+    @api.model_create_multi
     def create(self, values):
         if isinstance(values, list):
             for i in range(len(values)):
@@ -329,7 +330,9 @@ class AccountMove(models.Model):
         return  super(AccountMove, self).create(values)
         
     def _get_default_period_id(self):
-        return self.env['account.period'].date2period(self.date or fields.Date.today())
+        _logger.warning(f"HAS CHANGED!??????????{self.invoice_date}")
+        return self.env['account.period'].date2period(self.invoice_date or fields.Date.today())
+        
     period_id = fields.Many2one(
         comodel_name='account.period', string='Period', default=_get_default_period_id,
         required=True, states={'posted':[('readonly',True)]}, domain="[('state', '!=', 'done')]")
@@ -381,6 +384,11 @@ class AccountMove(models.Model):
                 raise ValidationError(_("You have tried to create an invoice on a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
             else:
                 self.period_id = period_id
+                
+    def action_post(self):
+        if self.period_id and self.period_id.state == 'done':
+            raise ValidationError(_("You have tried to validate an invoice on a closed period {self.period_id.name}.\n Please change period or open {self.period_id.name}").format(**locals()))
+        return super(AccountMove, self).action_post()
 
 
 

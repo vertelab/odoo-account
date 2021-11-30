@@ -52,9 +52,9 @@ class account_period_close(models.TransientModel):
         for form in self:
             if form['sure']:
                 for id in self.env.context.get('active_ids', []):
-                    account_move_ids = self.env['account.move'].search([('period_id', '=', id), ('state', '=', "draft")])
-                    if account_move_ids:
-                        raise Warning(_('In order to close a period, you must first post related journal entries.'))
+                    # ~ account_move_ids = self.env['account.move'].search([('period_id', '=', id), ('state', '=', "draft")])
+                    # ~ if account_move_ids:
+                        # ~ raise Warning(_('In order to close a period, you must first post related journal entries.')) # Leave this here, we may want to have this check when we close a period
 
                     # ~ self.env.cr.execute('update account_journal_period set state=%s where period_id=%s', (mode, id))
                     self.env.cr.execute('update account_period set state=%s where id=%s', (mode, id))
