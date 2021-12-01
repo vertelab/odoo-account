@@ -307,7 +307,6 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
     
     def validate_open_period(self, values):
-        _logger.warning(values)
         period_id = self.env['account.period'].browse(values.get('period_id'))
         if period_id and period_id.state == 'done':
             raise ValidationError(_("You have tried to create an invoice on a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
@@ -330,7 +329,6 @@ class AccountMove(models.Model):
         return  super(AccountMove, self).create(values)
         
     def _get_default_period_id(self):
-        _logger.warning(f"HAS CHANGED!??????????{self.invoice_date}")
         return self.env['account.period'].date2period(self.invoice_date or fields.Date.today())
         
     period_id = fields.Many2one(
@@ -417,7 +415,7 @@ class account_account(models.Model):
         self.ensure_one()
 
         domain = [('move_id.period_id', 'in', self.env['account.period'].get_period_ids(self._context.get('period_start'), self._context.get('period_stop',self._context.get('period_start')))), ('account_id', '=', self.id)]
-        _logger.warn('\n\n\n\n\n domain: %s' % domain)
+    
         if self._context.get('target_move') in ['draft', 'posted']:
             domain.append(('move_id.state', '=', self._context.get('target_move')))
 
