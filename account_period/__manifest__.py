@@ -35,9 +35,11 @@ Added period for accounting
     'data': [
         'security/ir.model.access.csv',
         'wizard/account_period_close_view.xml',
+        'wizard/account_fiscalyear_close_view.xml',
         'wizard/account_period_create_view.xml',
         'views/account_view.xml',
         'views/onboarding_template.xml',
+
     ],
     'demo': [],
     'qweb': [],

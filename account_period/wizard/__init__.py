@@ -2,3 +2,4 @@
 from . import account_period_create
 from . import account_period_close
 from . import account_payment_register
+from . import account_fiscalyear_close

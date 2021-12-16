@@ -33,7 +33,6 @@ class AccountPeriod(models.Model):
     _description = 'Period'
     _order = 'date_start, special desc'
 
-
     @api.model
     def default_date_start(self):
         return '%s-01-01' %fields.Date.today().strftime('%Y')
@@ -200,12 +199,22 @@ class AccountPeriod(models.Model):
     @api.model
     def date2period(self, date):
         return self.env['account.period'].search([('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')), ('special', '=', False)])
+    
+    @api.depends("state")
+    def _set_fiscalyear_id_state(self):
+        _logger.warning("account_period running in the 1990s !!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        for record in self:
+            record.fiscalyear_id._set_state()
 
 
 class AccountFiscalyear(models.Model):
     _name = 'account.fiscalyear'
     _description = 'Fiscal Year'
     _order = 'date_start, id'
+    
+    def action_draft(self):
+        for years in self:
+            years.state = "draft"
 
     @api.model
     def default_date_start(self):
@@ -237,7 +246,16 @@ class AccountFiscalyear(models.Model):
     _constraints = [
         (_check_duration, 'Error!\nThe start date of a fiscal year must precede its end date.', ['date_start','date_stop'])
     ]
-
+    
+    def _set_state(self):
+        for record in self:
+            state = "done"
+            for period in self.period_ids:
+                if period.state == "draft":
+                    state = "draft"
+                    break
+            record.state = state
+        
     def create_period3(self):
         return self.create_period(3)
 
@@ -301,6 +319,13 @@ class AccountFiscalyear(models.Model):
             domain = ['|', ('code', operator, name), ('name', operator, name)]
         ids = self.search(expression.AND([domain, args]), limit=limit)
         return ids.name_get()
+        
+        
+    def action_draft(self):
+        mode = 'draft'
+        for  fiscalyear in self:
+            fiscalyear.state = mode
+        return True
 
 
 class AccountMove(models.Model):

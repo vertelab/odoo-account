@@ -47,6 +47,8 @@
           <field name="name" />
           <field name="company_id" groups="base.group_multi_company" />
           <field name="state" />
+            <button name="action_draft" states="done" string="Re-Open Fiscalyear" type="object" groups="account.group_account_manager" />
+          <button string="Close Fiscal Year" name="%(account_period.action_account_fiscalyear_close)d" type="action" class="oe_highlight" states="draft"/>
         </tree>
       </field>
     </record>
