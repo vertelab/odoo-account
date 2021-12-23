@@ -92,10 +92,12 @@ class AccountPeriod(models.Model):
 
     @api.returns('self')
     def find(self, dt=None, context=None):
+        context = context or {}
         self.ensure_one()
         if not dt:
             dt = fields.Date.context_today()
-        args = [('date_start', '<=' ,dt), ('date_stop', '>=', dt), ('company_id', '=', self.env.context.get('company_id', self.env['res.company']._company_default_get('account.account')))]
+        #args = [('date_start', '<=' ,dt), ('date_stop', '>=', dt), ('company_id', '=', self.env.context.get('company_id', self.env['res.company']._company_default_get('account.account').id))] # _company_default_get' on res.company is deprecated and shouldn't be used anymore"
+        args = [('date_start', '<=' ,dt), ('date_stop', '>=', dt), ('company_id', '=', self.env.context.get('company_id', self.env.user.company_id.id))]
         result = []
         if context.get('account_period_prefer_normal', True):
             # look for non-special periods first, and fallback to all if no result is found
@@ -103,7 +105,7 @@ class AccountPeriod(models.Model):
         if not result:
             result = self.search(args)
         if not result:
-            model, action_id = self.env['ir.model.data'].get_object_reference('account', 'action_account_period')
+            model, action_id = self.env['ir.model.data'].get_object_reference('account_period', 'action_account_period_form')
             msg = _('There is no period defined for this date: %s.\nPlease go to Configuration/Periods.') % dt
             raise exceptions.RedirectWarning(msg, action_id, _('Go to the configuration panel'))
         return result
