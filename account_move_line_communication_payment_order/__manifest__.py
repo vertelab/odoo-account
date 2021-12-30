@@ -36,7 +36,7 @@
     'description': """
         This module makes it possible to make account.payment.lines out of account.move.lines whos "res" field is blank.
         The account.payment.lines set their \"communication\" field to account.moves \"res\" field which is a required 
-        field and is always blank. When I know what i should fill the account.move res field with then I will change this module.
+        field and is always blank. When I know what I should fill the account.move res field with then I will change this module.
         """,
     'depends': ['account_payment_order'],
     'data': [
