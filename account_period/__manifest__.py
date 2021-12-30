@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2017 Vertel AB (<http://vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -15,22 +15,29 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
-    'name' : 'Account Period',
-    'version' : '1.0',
-    'summary': 'Account Period',
+    'name': 'Account: Period',
+    'version': '14.0.0.0.1',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'summary': 'Divide the year in 12 months or 4 quarters.',
+    'category': 'Accounting',
+    #'sequence': '1'
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/account/period',
+    'images': ['/static/description/banner.png'], # 560x280 px.
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
 Account Period
 ==============
-Added period for accounting
+Added period for accounting. Either 12 months or 4 quarters.
     """,
-    'category': 'Accounting',
-    'author': 'Vertel AB',
-    'website': 'http://www.vertel.se',
-    'images': [],
     'depends': ['account'],
     'data': [
         'security/ir.model.access.csv',
@@ -39,7 +46,6 @@ Added period for accounting
         'wizard/account_period_create_view.xml',
         'views/account_view.xml',
         'views/onboarding_template.xml',
-
     ],
     'demo': [],
     'qweb': [],
