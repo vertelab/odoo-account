@@ -29,7 +29,7 @@
     #'sequence': '1'
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/account/',
-    'images': ['images/main_screenshot.png']
+    'images': ['images/main_screenshot.png'] ,
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
