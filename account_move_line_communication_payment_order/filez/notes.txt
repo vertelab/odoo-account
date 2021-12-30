@@ -1,4 +1,4 @@
-odoo-account/account_analytic_move_ids -- icons
+odoo-account/account_move_line -- icons
 2021-12-30
 
 Path:
