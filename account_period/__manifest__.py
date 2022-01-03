@@ -27,7 +27,7 @@
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/account/account-period',
+    'website': 'https://vertel.se/apps/odoo-account/account-period',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
