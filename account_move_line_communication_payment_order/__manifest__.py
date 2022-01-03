@@ -27,7 +27,7 @@
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/account/account-move-line',
+    'website': 'https://vertel.se/apps/odoo-account/account-move-line-communication-payment-order',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
