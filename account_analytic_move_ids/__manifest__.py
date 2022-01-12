@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account Analytic Move',
+    'name': 'Account Analytic Move Ids',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': '',
@@ -28,14 +28,14 @@
     'description': '',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/account/',
-    'images': ['images/main_screenshot.png'] ,
+    'website': 'https://vertel.se/apps/odoo-account/account-analytic-move-ids',
+    'images': ['/static/description/banner.png'], # 560x280 px
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-Account Analytic Name
+Account Analytic Move Ids
 ========================================================
 Changes the behaviour of account analaytic move
     """,

@@ -20,14 +20,14 @@
 ##############################################################################
 
 {
-    'name': 'Account: Remove Account Selection...',
+    'name': 'Account: Remove Account Contact Selection',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Remove Account Selection Limitation On Contacts',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/account/remove-account',
+    'website': 'https://vertel.se/apps/odoo-account/account-contact-selection',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
