@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2017 Vertel AB (<http://vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -15,22 +15,30 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
     'name': 'Account Analytic Extra Criteria',
     'version': '14.0.0.0.1',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Account Analytic Extra Criteria',
+    'category': 'Accounting',
+    'description': '',
+    #'sequence': '1'
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-account/account-analytic-extra-criteria',
+    'images': ['/static/description/banner.png'], # 560x280 px.
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
 Account Analytic Extra Criteria
 ========================================================
 Added extra criteria for account analytics
     """,
-    'category': 'Accounting',
-    'author': 'Vertel AB',
-    'website': 'https://www.vertel.se',
-    'images': [],
     'depends': ['analytic', 'account', 'account_analytic_move_ids', 'hr'],
     'data': [
         'views/account_analytic_default_view.xml',
