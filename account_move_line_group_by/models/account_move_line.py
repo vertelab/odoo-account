@@ -86,6 +86,17 @@ class AccountAnalyticAccount(models.Model):
             move_line_records.set_analytic_group_use_in_filter()
         # here you can do accordingly
         return res
+        
+    def name_get(self):
+        res = []
+        for analytic in self:
+            name = analytic.name
+            if analytic.code:
+                name =  name + ' [' + analytic.code + '] ' 
+            if analytic.partner_id.commercial_partner_id.name:
+                name = name + ' - ' + analytic.partner_id.commercial_partner_id.name
+            res.append((analytic.id, name))
+        return res
     
     
     
