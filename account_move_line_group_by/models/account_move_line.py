@@ -21,31 +21,35 @@ import warnings
 import logging
 _logger = logging.getLogger(__name__)
 
-class AccountMoveLine(models.Model):
-    _inherit = "account.move.line"
-    
-    # ~ @api.depends('analytic_account_id','analytic_account_id.group_id','analytic_account_id.group_id.name')
-    # ~ def set_analytic_group_use_in_filter(self):
-        # ~ _logger.warning(f"{self}")
-        # ~ _logger.warning("record !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        # ~ _logger.warning("record !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        # ~ _logger.warning("record !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        # ~ for record in self:
-            # ~ _logger.warning("record !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            # ~ _logger.warning(f"analytic_account_id={record.analytic_account_id}")
-            # ~ _logger.warning(f"analytic_account_id.group_id={record.analytic_account_id.group_id}")
-            # ~ _logger.warning(f"analytic_account_id.group_id.name={record.analytic_account_id.group_id.name}")
-            # ~ _logger.warning("record !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            # ~ record._compute_analytic_group_use_in_filter_default()
-    
+class AccountMove(models.Model):
+    _inherit = "account.move"
     @api.model
     def create(self, values):
-        res = super(AccountMoveLine, self).create(values)
-        for record in self:
+        res = super(AccountMove, self).create(values)
+        _logger.warning("ACCOUNT CREATE")
+        _logger.warning(f"{res}")
+        _logger.warning(f"{res.line_ids}")
+        for record in res.line_ids:
+            _logger.warning(record)
+            _logger.warning(record.analytic_account_id)
+            _logger.warning(record.analytic_account_id.group_id)
             if record.analytic_account_id and record.analytic_account_id.group_id:
                 record.analytic_group_use_in_filter = record.analytic_account_id.group_id.name
         # here you can do accordingly
         return res
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+    
+    
+    # ~ @api.model
+    # ~ def create(self, values):
+        # ~ res = super(AccountMoveLine, self).create(values)
+        # ~ for record in self:
+            # ~ if record.analytic_account_id and record.analytic_account_id.group_id:
+                # ~ record.analytic_group_use_in_filter = record.analytic_account_id.group_id.name
+        # ~ # here you can do accordingly
+        # ~ return res
 
     @api.depends("analytic_account_id","analytic_account_id.group_id","analytic_account_id.group_id.name")
     def set_analytic_group_use_in_filter_depends(self):
