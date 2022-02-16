@@ -41,7 +41,7 @@ class AccountMove(models.Model):
     def set_group_by_field_on_lines(self):
         for record in self:
            for line in record.line_ids:
-               _logger.warning(f"{line=}")
+                _logger.warning(f"{line=}")
                 if line.analytic_account_id and line.analytic_account_id.group_id:
                     line.analytic_group_use_in_filter = line.analytic_account_id.group_id.name
 
