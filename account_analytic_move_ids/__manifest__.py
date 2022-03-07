@@ -41,7 +41,7 @@ Changes the behaviour of account analaytic move
     """,
     'depends': ['analytic', 'account'],
     'data': [
-        'views/account_move_views.xml'
+        # ~ 'views/account_move_views.xml'
     ],
     'demo': [],
     'qweb': [],
