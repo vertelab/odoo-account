@@ -7,9 +7,13 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[@id='invoice_tab']" position="after">
                     <page id="validation_tab" string="Validation Info" name="validation_info">
+                        <group>
                                 <field name="move_tier_validator" string="Faktura Validator"/>
+<!--
                                 <field name= "reviewer_ids" string="Validatorer"/>
                                 <field name="review_ids" string="Validationer"/>
+-->
+                        </group>
                     </page>
                    
                 </xpath>
