@@ -28,13 +28,13 @@ msgstr "Konto"
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_period_form
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_period_tree
 msgid "Account Period"
-msgstr "Kontro Period"
+msgstr "Kontoperiod"
 
 #. module: account_period
 #: code:addons/account_period/models/company.py:0
 #, python-format
 msgid "Accounting Periods"
-msgstr "Bokförings Perioder"
+msgstr "Bokföringsperioder"
 
 #. module: account_period
 #: model_terms:ir.actions.act_window,help:account_period.action_account_period_form
@@ -77,40 +77,40 @@ msgstr "Klicka för att lägga till en räkenskapsperiod."
 #. module: account_period
 #: model_terms:ir.actions.act_window,help:account_period.action_account_fiscalyear
 msgid "Click to start a new fiscal year."
-msgstr "Klicka för att skapa ett nytt Räkenskapsår."
+msgstr "Klicka för att skapa ett nytt räkenskapsår."
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_tree
 msgid "Close Fiscal Year"
-msgstr "Stäng Räkenskapsår"
+msgstr "Stäng räkenskapsår"
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_close
 msgid "Close Fiscalyear"
-msgstr "Stäng Räkenskapsår"
+msgstr "Stäng räkenskapsår"
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_close
 msgid "Close Fiscialyear"
-msgstr "Stäng Räkenskapsår"
+msgstr "Stäng räkenskapsår"
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_period_close
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_period_form
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_period_tree
 msgid "Close Period"
-msgstr "Stäng Period"
+msgstr "Stäng period"
 
 #. module: account_period
 #: model:ir.actions.act_window,name:account_period.action_account_fiscalyear_close
 msgid "Close a Fiscalyear"
-msgstr "Stäng ett Räkenskapsår"
+msgstr "Stäng ett räkenskapsår"
 
 #. module: account_period
 #: model:ir.actions.act_window,name:account_period.action_account_period_close
 #: model:ir.actions.server,name:account_period.action_idea_post_vote_values
 msgid "Close a Period"
-msgstr "Stäng en Period"
+msgstr "Stäng en period"
 
 #. module: account_period
 #: model:ir.model.fields.selection,name:account_period.selection__account_fiscalyear__state__done
@@ -141,18 +141,18 @@ msgstr "Bolag"
 #: model_terms:ir.ui.view,arch_db:account_period.account_period_create_wizard_form
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
 msgid "Create 3 Months Periods"
-msgstr "Skapa 3 Månadsperioder"
+msgstr "Skapa 3-månadsperioder"
 
 #. module: account_period
 #: model:ir.actions.act_window,name:account_period.account_period_create_form
 msgid "Create Account Period"
-msgstr "Skapa Kontoperiod"
+msgstr "Skapa kontoperiod"
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.account_period_create_wizard_form
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
 msgid "Create Monthly Periods"
-msgstr "Skapa Månadsperioder"
+msgstr "Skapa månadsperioder"
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__create_uid
@@ -236,12 +236,12 @@ msgstr "Räkenskapsår"
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__fy_code
 msgid "Fiscal Year Code"
-msgstr "Räkenskapsår kod"
+msgstr "Räkenskapsårets kod"
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__fy_name
 msgid "Fiscal Year Name"
-msgstr "Räkenskapsår Namn"
+msgstr "Räkenskapsårets namn"
 
 #. module: account_period
 #: model:ir.actions.act_window,name:account_period.action_account_fiscalyear
@@ -263,13 +263,13 @@ msgstr "Räkenskapsår"
 #: code:addons/account_period/models/account.py:0
 #, python-format
 msgid "Go to the configuration panel"
-msgstr "Gå till Konfigurations panelen"
+msgstr "Gå till konfigurationspanelen"
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_period_search
 msgid "Group By"
-msgstr "Gruppera Efter"
+msgstr "Gruppera efter"
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_account__id
@@ -290,7 +290,7 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:account_period.field_account_move__payment_date
 #: model:ir.model.fields,field_description:account_period.field_account_payment__payment_date
 msgid "Invoice Payment Date"
-msgstr "Fakturans Betalningsdatum"
+msgstr "Fakturans betalningsdatum"
 
 #. module: account_period
 #: model:ir.model,name:account_period.model_account_move
@@ -309,7 +309,7 @@ msgstr "Verifikat"
 #: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard____last_update
 #: model:ir.model.fields,field_description:account_period.field_res_company____last_update
 msgid "Last Modified on"
-msgstr "Senast redigerad"
+msgstr "Senast redigerad den"
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__write_uid
@@ -318,7 +318,7 @@ msgstr "Senast redigerad"
 #: model:ir.model.fields,field_description:account_period.field_account_period_close__write_uid
 #: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__write_uid
 msgid "Last Updated by"
-msgstr "Senast Uppdaterad av"
+msgstr "Senast uppdaterad av"
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__write_date
@@ -327,12 +327,12 @@ msgstr "Senast Uppdaterad av"
 #: model:ir.model.fields,field_description:account_period.field_account_period_close__write_date
 #: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__write_date
 msgid "Last Updated on"
-msgstr "Senast Uppdaterad den"
+msgstr "Senast uppdaterad den"
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_move_line_filter
 msgid "Matching id"
-msgstr "Matchande id"
+msgstr "Matchnings-id"
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_move_line_filter
@@ -361,14 +361,14 @@ msgstr "Öppningsperiod"
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_period__special
 msgid "Opening/Closing Period"
-msgstr "Öppnings/Stängperiod"
+msgstr "Öppnings-/stängningsperiod"
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_bank_statement_line__payment_period_id
 #: model:ir.model.fields,field_description:account_period.field_account_move__payment_period_id
 #: model:ir.model.fields,field_description:account_period.field_account_payment__payment_period_id
 msgid "Payment Invoice Period"
-msgstr "Betalningsfakturans Period"
+msgstr "Betalningsverifikatets period"
 
 #. module: account_period
 #: model:ir.model,name:account_period.model_account_period
@@ -395,13 +395,13 @@ msgstr "Perioder"
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_tree
 msgid "Re-Open Fiscalyear"
-msgstr "Återöppna Räkenskapsår"
+msgstr "Återöppna räkenskapsår"
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_period_form
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_period_tree
 msgid "Re-Open Period"
-msgstr "Återöppna Period"
+msgstr "Återöppna period"
 
 #. module: account_period
 #: model:ir.model,name:account_period.model_account_payment_register
@@ -411,12 +411,12 @@ msgstr "Registrera betalning"
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
 msgid "Search Fiscalyear"
-msgstr "Sök Räkenskapsår"
+msgstr "Sök räkenskapsår"
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_period_search
 msgid "Search Period"
-msgstr "Sök Period"
+msgstr "Sök period"
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__date_start
@@ -433,7 +433,7 @@ msgstr "Periodstart"
 #: code:addons/account_period/models/account.py:0
 #, python-format
 msgid "Start period should precede then end period."
-msgstr "Periodstart ska komma före periodslut."
+msgstr "Periodstarten måste komma före periodslutet."
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__state
@@ -447,7 +447,7 @@ msgstr "Status"
 #: model:ir.model.fields,field_description:account_period.field_account_move__payment_move_id
 #: model:ir.model.fields,field_description:account_period.field_account_payment__payment_move_id
 msgid "The payment invoice"
-msgstr "Betalningsfakturan"
+msgstr "Betalningsverifikat"
 
 #. module: account_period
 #: code:addons/account_period/models/account.py:0
@@ -483,13 +483,13 @@ msgid ""
 "This journal already contains items for this period, therefore you cannot "
 "modify its company field."
 msgstr ""
-"Denna journalen innehåller redan data för den här perioden, därför kan du "
-"inte modifiera dess bolag fält."
+"Denna journal innehåller redan data för den här perioden, därför kan du "
+"inte modifiera dess bolagsfält."
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_period_search
 msgid "To Close"
-msgstr "Att Stänga"
+msgstr "Att stänga"
 
 #. module: account_period
 #: model:ir.model.fields,help:account_period.field_account_period__state
