@@ -4,6 +4,8 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
+import logging
+_logger = logging.getLogger(__name__)
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
@@ -16,7 +18,7 @@ class AccountMoveLine(models.Model):
     def _compute_analytic_account_ids(self):
         for record in self:
             if not record.exclude_from_invoice_tab or not record.move_id.is_invoice(include_receipts=True):
-                rec = self.env['account.analytic.default'].account_get_ids(
+                rec = self.env['account.analytic.default'].account_get(
                     product_id=record.product_id.id,
                     partner_id=record.partner_id.commercial_partner_id.id or record.move_id.partner_id.commercial_partner_id.id,
                     account_id=record.account_id.id,
@@ -26,6 +28,20 @@ class AccountMoveLine(models.Model):
                 )
                 if rec:
                     record.analytic_account_ids = [(6, 0, rec.analytic_id.ids)]
+    
+    @api.depends('product_id', 'account_id', 'partner_id', 'date')
+    def _compute_analytic_account_id_background_lines(self):
+        for record in self:
+                rec = self.env['account.analytic.default'].account_get(
+                    product_id=record.product_id.id,
+                    partner_id=record.partner_id.commercial_partner_id.id or record.move_id.partner_id.commercial_partner_id.id,
+                    account_id=record.account_id.id,
+                    user_id=record.env.uid,
+                    date=record.date,
+                    company_id=record.move_id.company_id.id
+                )
+                if rec:
+                    record.analytic_account_id = rec.analytic_id
 
     def create_analytic_lines(self):
         """ Create analytic items upon validation of an account.move.line having an analytic account or an analytic distribution.
