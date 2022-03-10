@@ -40,7 +40,7 @@ class AccountMoveLine(models.Model):
 
     
     @api.depends('product_id', 'account_id', 'partner_id', 'date')
-    def _compute_analytic_account(self):
+    def _compute_analytic_account_id(self):
         for record in self:
                 rec = self.env['account.analytic.default'].account_get(
                     product_id=record.product_id.id,
