@@ -5,10 +5,10 @@
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@id='invoice_tab']" position="after">
-                    <page id="validation_tab" string="Validation Info" name="validation_info">
+                <xpath expr="//page[@id='other_tab']" position="before">
+                    <page id="validation_tab" string="Validation Info" name="validation_info"><!--Attestering-->
                         <group>
-                                <field name="move_tier_validator" string="Faktura Validator"/>
+                                <field name="move_tier_validator" string="Move Validator"/>
 <!--
                                 <field name= "reviewer_ids" string="Validatorer"/>
                                 <field name="review_ids" string="Validationer"/>

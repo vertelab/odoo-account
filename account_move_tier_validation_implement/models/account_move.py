@@ -10,6 +10,6 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    move_tier_validator = fields.Many2one('res.users', tracking=True,string='Faktura Validator')
+    move_tier_validator = fields.Many2one('res.users', tracking=True,string='Move Validator') ### attesterare
 
     
