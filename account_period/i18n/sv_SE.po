@@ -4,18 +4,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0-20211230\n"
+"Project-Id-Version: Odoo Server 14.0-20220128\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-26 12:26+0000\n"
-"PO-Revision-Date: 2022-01-26 14:19+0100\n"
+"POT-Creation-Date: 2022-03-11 13:58+0000\n"
+"PO-Revision-Date: 2022-03-11 13:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: sv\n"
-"X-Generator: Poedit 2.3\n"
 
 #. module: account_period
 #: model:ir.model,name:account_period.model_account_account
@@ -34,7 +32,7 @@ msgstr "Kontoperiod"
 #: code:addons/account_period/models/company.py:0
 #, python-format
 msgid "Accounting Periods"
-msgstr "Bokföringsperioder"
+msgstr ""
 
 #. module: account_period
 #: model_terms:ir.actions.act_window,help:account_period.action_account_period_form
@@ -261,9 +259,10 @@ msgstr "Räkenskapsår"
 
 #. module: account_period
 #: code:addons/account_period/models/account.py:0
+#: code:addons/account_period/models/account.py:0
 #, python-format
 msgid "Go to the configuration panel"
-msgstr "Gå till konfigurationspanelen"
+msgstr ""
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
@@ -283,7 +282,7 @@ msgstr "Gruppera efter"
 #: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__id
 #: model:ir.model.fields,field_description:account_period.field_res_company__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_bank_statement_line__payment_date
@@ -309,7 +308,7 @@ msgstr "Verifikat"
 #: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard____last_update
 #: model:ir.model.fields,field_description:account_period.field_res_company____last_update
 msgid "Last Modified on"
-msgstr "Senast redigerad den"
+msgstr "Senast redigerad"
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__write_uid
@@ -364,6 +363,11 @@ msgid "Opening/Closing Period"
 msgstr "Öppnings-/stängningsperiod"
 
 #. module: account_period
+#: model_terms:ir.ui.view,arch_db:account_period.view_move_form
+msgid "Payment"
+msgstr "Betalningar"
+
+#. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_bank_statement_line__payment_period_id
 #: model:ir.model.fields,field_description:account_period.field_account_move__payment_period_id
 #: model:ir.model.fields,field_description:account_period.field_account_payment__payment_period_id
@@ -379,7 +383,7 @@ msgstr "Betalningsverifikatets period"
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
 #: model_terms:ir.ui.view,arch_db:account_period.view_bank_statement_search
 msgid "Period"
-msgstr "Period"
+msgstr ""
 
 #. module: account_period
 #: model:ir.model.constraint,message:account_period.constraint_account_period_name_unique
@@ -440,7 +444,7 @@ msgstr "Periodstarten måste komma före periodslutet."
 #: model:ir.model.fields,field_description:account_period.field_account_period__state
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_bank_statement_line__payment_move_id
@@ -457,8 +461,7 @@ msgid ""
 "Please go to Configuration/Periods and configure a fiscal year."
 msgstr ""
 "Det finns ingen period definierad för det här datumet: %s.\n"
-"Var vänligt och gå till Konfiguration/Perioder och konfigurera ett "
-"räkenskapsår."
+"Var vänligt och gå till Konfiguration/Perioder och konfigurera ett räkenskapsår."
 
 #. module: account_period
 #: code:addons/account_period/models/account.py:0
@@ -468,8 +471,7 @@ msgid ""
 "Please go to Configuration/Periods."
 msgstr ""
 "Det finns ingen period definierad för det här datumet: %s.\n"
-"Var vänligt och gå till Konfiguration/Perioder och konfigurera ett "
-"räkenskapsår."
+"Var vänligt och gå till Konfiguration/Perioder och konfigurera ett räkenskapsår."
 
 #. module: account_period
 #: model:ir.model.fields,help:account_period.field_account_period__special
@@ -483,8 +485,8 @@ msgid ""
 "This journal already contains items for this period, therefore you cannot "
 "modify its company field."
 msgstr ""
-"Denna journal innehåller redan data för den här perioden, därför kan du "
-"inte modifiera dess bolagsfält."
+"Denna journal innehåller redan data för den här perioden, därför kan du inte"
+" modifiera dess bolagsfält."
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_period_search
@@ -507,8 +509,8 @@ msgid ""
 "You can not close fiscalyear with that has a period that is opened, please "
 "close period"
 msgstr ""
-"Det går inte att stänga ett räkenskapsår som har en öppen period, var "
-"vänlig och stäng perioderna"
+"Det går inte att stänga ett räkenskapsår som har en öppen period, var vänlig"
+" och stäng perioderna"
 
 #. module: account_period
 #: code:addons/account_period/models/account.py:0
@@ -518,6 +520,7 @@ msgstr ""
 "Det går inte att återöppna en period som tillhör ett stängt räkenskapsår"
 
 #. module: account_period
+#: code:addons/account_period/models/account.py:0
 #: code:addons/account_period/models/account.py:0
 #, python-format
 msgid ""
@@ -531,8 +534,7 @@ msgstr ""
 #: code:addons/account_period/wizard/account_payment_register.py:0
 #, python-format
 msgid ""
-"You have tried to create an payment on a date during a closed period "
-"{period_id.name}.\n"
+"You have tried to create an payment on a date during a closed period {period_id.name}.\n"
 " Please change the date or open {period_id.name}"
 msgstr ""
 "Du har försökt skapa en betalning i en stängd period {period_id.name}.\n"
@@ -542,8 +544,7 @@ msgstr ""
 #: code:addons/account_period/models/account.py:0
 #, python-format
 msgid ""
-"You have tried to validate an invoice on a closed period {self.period_id."
-"name}.\n"
+"You have tried to validate an invoice on a closed period {self.period_id.name}.\n"
 " Please change period or open {self.period_id.name}"
 msgstr ""
 "Du har försökt validera en faktura i en stängd period {period_id.name}.\n"
