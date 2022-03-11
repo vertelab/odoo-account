@@ -203,10 +203,16 @@
          </xpath>
         <field name="ref" position="after">          
           <field name="payment_state"/>
-          <field name="payment_period_id"/>
-          <field name="payment_date"/>
-          <field name="payment_move_id"/>
         </field>
+        <notebook position="inside">
+			<page id="payment_done_tab" string="Payment" attrs="{'invisible': [('payment_state', '!=', 'paid')]}">
+				<group id="payment_done_group" col="1">
+						<field name="payment_period_id"/>
+						<field name="payment_date"/>
+						<field name="payment_move_id"/>
+				</group>
+			</page>
+        </notebook>
       </field>
     </record>
     <record id="view_move_tree" model="ir.ui.view">
