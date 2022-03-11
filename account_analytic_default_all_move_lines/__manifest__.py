@@ -38,6 +38,9 @@
 Account Analytic Move Default Rules
 ========================================================
 Changes the behaviour of account analaytic default rules
+Analytic Default rules aren't applied on line ids on a account move, so typically tax lines that odoo generates which aren't in the invoice line tab. This module changes that, now Analytic Default rules are applied to these kinds of lines as well
+Have also changed it so that analytic tags aren't removed when calulating analaytic default rules. So it just keeps adding.
+
     """,
     'depends': ['analytic', 'account'],
     'data': [

@@ -52,6 +52,7 @@ class AccountMoveLine(models.Model):
                 )
                 if rec:
                     record.analytic_account_id = rec.analytic_id
-                    record.analytic_tag_ids = rec.analytic_tag_ids
+                    union_record_ids=rec.analytic_tag_ids | record.analytic_tag_ids
+                    record.analytic_tag_ids = union_record_ids
                     
 
