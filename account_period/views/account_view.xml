@@ -198,8 +198,10 @@
       <field name="model">account.move</field>
       <field name="inherit_id" ref="account.view_move_form" />
       <field name="arch" type="xml">
-        <field name="ref" position="after">
-          <field name="period_id" />
+         <xpath expr="//*[@id='header_right_group']//*[hasclass('o_td_label')]" position="before">
+            <field name="period_id" />
+         </xpath>
+        <field name="ref" position="after">          
           <field name="payment_state"/>
           <field name="payment_period_id"/>
           <field name="payment_date"/>
