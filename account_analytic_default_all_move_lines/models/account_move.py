@@ -13,7 +13,7 @@ class AccountMoveLine(models.Model):
     @api.depends('tax_repartition_line_id.invoice_tax_id', 'tax_repartition_line_id.refund_tax_id') #Otherwise the tax lines wont have analytic accounts applied on itself
     def _compute_tax_line_id(self):
             res = super(AccountMoveLine, self)._compute_tax_line_id()
-            self._compute_analytic_account()
+            self._compute_analytic_account_id()
             return res
             
     # ~ @api.depends('product_id', 'account_id', 'partner_id', 'date')
