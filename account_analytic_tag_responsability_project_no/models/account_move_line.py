@@ -59,8 +59,8 @@ class AccountMoveLine(models.Model):
             # ~ _logger.warning(record.area_of_responsibility)
                     
 
-    project_no = fields.Many2one(comodel_name='account.analytic.tag', string='Project Analytic Tag', default=_default_project_tag)
-    area_of_responsibility= fields.Many2one(comodel_name='account.analytic.tag', string='Place Analytic Tag', default=_default_place_tag)
+    project_no = fields.Many2one(comodel_name='account.analytic.tag', string='Project Analytic Tag', default=_default_project_tag, readonly=True)
+    area_of_responsibility= fields.Many2one(comodel_name='account.analytic.tag', string='Place Analytic Tag', default=_default_place_tag, readonly=True)
 
 
 class AccountAnalyticTag(models.Model):

@@ -25,8 +25,8 @@
             <field name="inherit_id" ref="account.view_move_line_form"/>
             <field name="arch" type="xml"> 
                 <xpath expr="//field[@name='analytic_tag_ids']" position="after">
-                    <field name="project_no" attrs="{'readonly':[('parent_state','=','posted')]}"/>
-                    <field name="area_of_responsibility" attrs="{'readonly':[('parent_state','=','posted')]}"/>
+                    <field name="project_no"/>
+                    <field name="area_of_responsibility"/>
                 </xpath>
             </field>
         </record>
