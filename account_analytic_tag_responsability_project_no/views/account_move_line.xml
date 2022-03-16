@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+        <record id="view_move_form_tag_inherit_form" model="ir.ui.view">
+            <field name="name">view.move.form.tag.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml"> 
+            <xpath expr="//notebook/page[@id='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='analytic_tag_ids']" position="after">
+                    <field name="project_no" optional="hide"/>
+                    <field name="area_of_responsibility" optional="hide"/>
+                </xpath>
+                <xpath expr="//notebook/page[@id='aml_tab']/field[@name='line_ids']/tree/field[@name='analytic_tag_ids']" position="after">
+                    <field name="project_no" optional="show"/>
+                    <field name="area_of_responsibility" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        
+<!--
+        move line form
+--> 
+         <record id="view_move_line_form_inherit" model="ir.ui.view">
+            <field name="name">view_move_line_form_inherit_res_proj_no</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="arch" type="xml"> 
+                <xpath expr="//field[@name='analytic_tag_ids']" position="after">
+                    <field name="project_no" attrs="{'readonly':[('parent_state','=','posted')]}"/>
+                    <field name="area_of_responsibility" attrs="{'readonly':[('parent_state','=','posted')]}"/>
+                </xpath>
+            </field>
+        </record>
+        
+<!--
+        move line tree
+-->
+            <record id="view_move_line_tree_inherit" model="ir.ui.view">
+            <field name="name">view_move_line_form_inherit_res_proj_no</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml"> 
+                <xpath expr="//field[@name='analytic_tag_ids']" position="after">
+                    <field name="project_no" optional="hide"/>
+                    <field name="area_of_responsibility" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+
+
