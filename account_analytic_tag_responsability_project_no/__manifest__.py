@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account Analytic Move Ids',
+    'name': 'Account Analytic Tag: Area Of Responsability and Project Number',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': '',
@@ -28,19 +28,22 @@
     'description': '',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account-analytic-move-ids',
-    'images': ['/static/description/banner.png'], # 560x280 px
+    # ~ 'website': 'https://vertel.se/apps/odoo-account/account-analytic-move-ids',
+    # ~ 'images': ['/static/description/banner.png'], # 560x280 px
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-Account Analytic Move Ids
+Account Analytic Tag: Area Of Responsability and Project Number
 ========================================================
+Adds types on a analytic account tag, so that we can set two new fields on a journal line.
+This done so that we can filter on Area of Responsability and Project Number fields. Which are set on an move line if the tags has either set as a type.
     """,
     'depends': ['analytic', 'account'],
     'data': [
-        # ~ 'views/account_move_views.xml'
+        'views/analytic_tag.xml',
+        'views/account_move_line.xml',
     ],
     'demo': [],
     'qweb': [],

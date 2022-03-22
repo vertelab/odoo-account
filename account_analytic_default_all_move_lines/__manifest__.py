@@ -20,23 +20,27 @@
 ##############################################################################
 
 {
-    'name': 'Account Analytic Move Ids',
+    'name': 'Account Default Analytic Move Line Ids',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': '',
     'category': 'Accounting',
-    'description': '',
+    'description': "Analytic Default rules aren't applied on line ids on a account move, so typically tax lines that odoo generates which aren't in the invoice line tab. This module changes that, now Analytic Default rules are applied to these kinds of lines as well",
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account-analytic-move-ids',
+    'website': 'https://vertel.se/apps/odoo-account/account-analytic-default-all-move_lines',
     'images': ['/static/description/banner.png'], # 560x280 px
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-Account Analytic Move Ids
+Account Analytic Move Default Rules
 ========================================================
+Changes the behaviour of account analaytic default rules
+Analytic Default rules aren't applied on line ids on a account move, so typically tax lines that odoo generates which aren't in the invoice line tab. This module changes that, now Analytic Default rules are applied to these kinds of lines as well
+Have also changed it so that analytic tags aren't removed when calulating analaytic default rules. So it just keeps adding.
+
     """,
     'depends': ['analytic', 'account'],
     'data': [

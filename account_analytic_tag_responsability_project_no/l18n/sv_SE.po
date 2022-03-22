@@ -1,0 +1,84 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_analytic_tag_responsability_project_no
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20210312\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-16 12:18+0000\n"
+"PO-Revision-Date: 2022-03-16 13:42+0100\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.3\n"
+"Last-Translator: \n"
+"Language: sv\n"
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model,name:account_analytic_tag_responsability_project_no.model_account_analytic_tag
+msgid "Analytic Tags"
+msgstr "Objektetiketter"
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model.fields.selection,name:account_analytic_tag_responsability_project_no.selection__account_analytic_tag__type_of_tag__area_of_responsibility
+msgid "Area of Responsibility"
+msgstr "Ansvarsområde"
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_analytic_tag__display_name
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_move__display_name
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_move_line__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_analytic_tag__id
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_move__id
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_move_line__id
+msgid "ID"
+msgstr ""
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model,name:account_analytic_tag_responsability_project_no.model_account_move
+msgid "Journal Entry"
+msgstr "Verifikat"
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model,name:account_analytic_tag_responsability_project_no.model_account_move_line
+msgid "Journal Item"
+msgstr "Journalrader"
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_analytic_tag____last_update
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_move____last_update
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_move_line____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model.fields.selection,name:account_analytic_tag_responsability_project_no.selection__account_analytic_tag__type_of_tag__no_type
+msgid "No Type"
+msgstr "Ingen typ"
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_move_line__area_of_responsibility
+msgid "Place Analytic Tag"
+msgstr "Ansvarsområde Objektetikett"
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_move_line__project_no
+msgid "Project Analytic Tag"
+msgstr "Projekt Objektetikett"
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model.fields.selection,name:account_analytic_tag_responsability_project_no.selection__account_analytic_tag__type_of_tag__project_number
+msgid "Project Number"
+msgstr "Projekt Objektetikett"
+
+#. module: account_analytic_tag_responsability_project_no
+#: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_analytic_tag__type_of_tag
+msgid "Tag Type"
+msgstr "Objektetikett type"
