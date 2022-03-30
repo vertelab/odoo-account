@@ -33,9 +33,12 @@ class AccountMoveLine(models.Model):
     
     @api.depends('product_id', 'account_id', 'partner_id', 'date')
     def _compute_analytic_account_id(self):
+        res = super(AccountMoveLine, self)._compute_analytic_account_id()
+        
         _logger.warning("_compute_analytic_account")
         _logger.warning("_compute_analytic_account")
         for record in self:
+            if record.exclude_from_invoice_tab or record.move_id.is_invoice(include_receipts=True):
                 rec = self.env['account.analytic.default'].account_get(
                     product_id=record.product_id.id,
                     partner_id=record.partner_id.commercial_partner_id.id or record.move_id.partner_id.commercial_partner_id.id,
@@ -50,5 +53,7 @@ class AccountMoveLine(models.Model):
                     record.analytic_account_id = rec.analytic_id
                     union_record_ids=rec.analytic_tag_ids | record.analytic_tag_ids
                     record.analytic_tag_ids = union_record_ids
+                    
+        return res
                     
 
