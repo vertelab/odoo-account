@@ -2,11 +2,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models
-from odoo.exceptions import Warning
-
-import requests
-import json
-import time
 
 import logging
 _logger = logging.getLogger(__name__)
