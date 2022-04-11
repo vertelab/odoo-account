@@ -48,7 +48,18 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
     
-    
+    @api.depends('product_id', 'account_id', 'partner_id', 'date')
+    def _compute_analytic_account_id(self):
+        res = super(AccountMoveLine, self)._compute_analytic_account_id()
+        _logger.warning("1_compute_analytic_account")
+        _logger.warning("1_compute_analytic_account")
+        _logger.warning("1_compute_analytic_account")
+        _logger.warning("1_compute_analytic_account")
+        for record in self:
+            if record.analytic_account_id and record.analytic_account_id.group_id:
+                record.analytic_group_use_in_filter = record.analytic_account_id.group_id.name
+        return res
+      
     # ~ @api.model
     # ~ def create(self, values):
         # ~ res = super(AccountMoveLine, self).create(values)

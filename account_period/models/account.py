@@ -333,26 +333,46 @@ class AccountFiscalyear(models.Model):
 class AccountMove(models.Model):
     _inherit = 'account.move'
     
-    def validate_open_period(self, values):
+    def validate_open_period_create(self, values):
         period_id = self.env['account.period'].browse(values.get('period_id'))
         if period_id and period_id.state == 'done':
             raise ValidationError(_("You have tried to create an invoice on a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
+            
+    def validate_open_period_write(self, values):
+        period_id = self.env['account.period'].browse(values.get('period_id'))
+        if period_id and period_id.state == 'done':
+            raise ValidationError(_("You have tried to write to an invoice with a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
     
     def write(self, values):
+        _logger.warning("account move write")
+        _logger.warning("account move write")
+        _logger.warning("account move write")
+        _logger.warning("account move write")
+        
+        _logger.warning(f"{values=}")
         if isinstance(values, list):
             for i in range(len(values)):
-                self.validate_open_period(values[i])
+                self.validate_open_period_write(values[i])
         else:
-            self.validate_open_period(values)
-        return super(AccountMove, self).write(values)
+            self.validate_open_period_write(values)
+            
+        _logger.warning(f"{self}")
+        
+        res = super(AccountMove, self).write(values)
+        
+        _logger.warning(f"{res=}")
+        for record in self:
+            self.validate_open_period_write({"period_id":self.period_id.id})
+            
+        return res
         
     @api.model_create_multi
     def create(self, values):
         if isinstance(values, list):
             for i in range(len(values)):
-                self.validate_open_period(values[i])
+                self.validate_open_period_create(values[i])
         else:
-            self.validate_open_period(values)
+            self.validate_open_period_create(values)
         return  super(AccountMove, self).create(values)
         
     def _get_default_period_id(self):
