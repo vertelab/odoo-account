@@ -9,6 +9,7 @@
                     <page id="validation_tab" string="Validation Info" name="validation_info"><!--Attestering-->
                         <group>
                                 <field name="move_tier_validator" string="Move Validator"/>
+                                <field name="move_tier_validators" string="Move Validators"/>
 <!--
                                 <field name= "reviewer_ids" string="Validatorer"/>
                                 <field name="review_ids" string="Validationer"/>

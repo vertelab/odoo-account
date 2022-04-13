@@ -1,0 +1,27 @@
+<odoo>
+  <data>
+      
+      
+    <record id="view_move_form_inherit" model="ir.ui.view">
+                  <field name="name">view_move_form_inherit</field>
+                  <field name="model">account.move</field>
+                  <field name="inherit_id" ref="account_move_tier_validation.view_move_form"></field>
+                    <field name="arch" type="xml">
+                    <xpath expr="//button[@name='validate_tier']" position="replace">
+                        <field name="user_can_review"/>
+                        
+                        <button
+                            name="validate_tier"
+                            string="Validate"
+                            attrs="{'invisible': [('can_review', '=', False),('user_can_review',=,False)]}"
+                            type="object"
+                            class="oe_inline oe_button btn-success"
+                            icon="fa-thumbs-up"
+                        />
+                    </xpath>
+                  </field>
+    </record>
+    
+            
+  </data>
+</odoo>
