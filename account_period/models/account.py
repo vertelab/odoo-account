@@ -344,27 +344,9 @@ class AccountMove(models.Model):
             raise ValidationError(_("You have tried to write to an invoice with a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
     
     def write(self, values):
-        _logger.warning("account move write")
-        _logger.warning("account move write")
-        _logger.warning("account move write")
-        _logger.warning("account move write")
-        
-        _logger.warning(f"{values=}")
-        if isinstance(values, list):
-            for i in range(len(values)):
-                self.validate_open_period_write(values[i])
-        else:
-            self.validate_open_period_write(values)
-            
-        _logger.warning(f"{self}")
-        
-        res = super(AccountMove, self).write(values)
-        
-        _logger.warning(f"{res=}")
         for record in self:
-            self.validate_open_period_write({"period_id":self.period_id.id})
-            
-        return res
+            record.validate_open_period_write({"period_id": record.period_id.id})
+        return super(AccountMove, self).write(values)
         
     @api.model_create_multi
     def create(self, values):
