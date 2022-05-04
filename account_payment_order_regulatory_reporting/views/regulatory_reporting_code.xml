@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+<!--
+bank.payment.line
+-->
+<!--
+    'regulatory.reporting.code' tree
+-->
+    <record id="view_regulatory_reporting_code_form" model="ir.ui.view">
+      <field name="name">view_regulatory_reporting_code_form</field>
+      <field name="model">regulatory.reporting.code</field>
+      <field name="arch" type="xml">
+           <tree string="Regulatory Reporting Code" delete="0">
+                <field name="heading" string="Heading"/>
+                <field name="code" string="Code"/>
+                <field name="explaination" string="Explaination"/>
+            </tree>
+      </field>
+    </record>
+    
+      <record id="view_regulatory_reporting_code_tree" model="ir.ui.view">
+      <field name="name">view_regulatory_reporting_code_tree</field>
+      <field name="model">regulatory.reporting.code</field>
+      <field name="arch" type="xml">
+            <form string="Regulatory Reporting Code" delete="0">
+                <group>
+                    <field name="heading" string="Heading"/>
+                    <field name="code" string="Code"/>
+                    <field name="explaination" string="Explaination"/>
+                </group>
+            </form>
+      </field>
+    </record>
+    
+    
+    
+    <record id="view_regulatory_reporting_code_search" model="ir.ui.view">
+        <field name="name">view_regulatory_reporting_code_search</field>
+      <field name="model">regulatory.reporting.code</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="heading" string="Heading"/>
+                <field name="code" string="Code"/>
+                <field name="explaination" string="Explaination"/>
+            </search>
+            </field>
+        </record>
+        
+    <record id="action_view_regulatory_reporting_code" model="ir.actions.act_window">
+            <field name="name">Regulatory Reporting Code </field>
+            <field name="res_model">regulatory.reporting.code</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No codes found. Let's create one!
+                </p>
+            </field>
+    </record>
+    
+    
+    <menuitem id="menu_regulatory_reporting_codes_config" name="Regulatory Reporting Code Configuration" parent="account.menu_finance_configuration"/>
+
+    <menuitem name="Regulatory Reporting Codes" id="menu_regulatory_reporting_codes" parent="menu_regulatory_reporting_codes_config"
+            action="action_view_regulatory_reporting_code" sequence="2" />
+    
+    <record id="view_bank_payment_line_inherit_tree" model="ir.ui.view">
+      <field name="name">view_bank_payment_line_inherit_tree</field>
+      <field name="model">bank.payment.line</field>
+      <field name="inherit_id" ref="account_payment_order.bank_payment_line_tree" />
+      <field name="arch" type="xml">
+        <field name="partner_bank_id" position="after">
+                <field name="regulatory_reporting_code"/>
+            </field>
+      </field>
+    </record>
+    
+    
+    <record id="view_bank_payment_line_inherit_form" model="ir.ui.view">
+      <field name="name">view_bank_payment_line_inherit_form</field>
+      <field name="model">bank.payment.line</field>
+      <field name="inherit_id" ref="account_payment_order.bank_payment_line_form" />
+      <field name="arch" type="xml">
+            <field name="partner_bank_id" position="after">
+                <field name="regulatory_reporting_code"/>
+            </field>
+      </field>
+    </record>
+    
+    
+    
+        <record id="view_account_payment_line_inherit_tree" model="ir.ui.view">
+      <field name="name">view_account_payment_line_inherit_tree</field>
+      <field name="model">account.payment.line</field>
+      <field name="inherit_id" ref="account_payment_order.account_payment_line_tree" />
+      <field name="arch" type="xml">
+        <field name="partner_bank_id" position="after">
+                <field name="regulatory_reporting_code"/>
+            </field>
+      </field>
+    </record>
+    
+    
+    <record id="view_bank_payment_line_inherit_form" model="ir.ui.view">
+      <field name="name">view_account_payment_line_inherit_form</field>
+      <field name="model">account.payment.line</field>
+      <field name="inherit_id" ref="account_payment_order.account_payment_line_form" />
+      <field name="arch" type="xml">
+            <field name="partner_bank_id" position="after">
+                <field name="regulatory_reporting_code"/>
+            </field>
+      </field>
+    </record>
+    
+    
+
+
+  </data>
+</odoo>
