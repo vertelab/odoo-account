@@ -10,6 +10,7 @@
                             <field name = "reviewers_validations_required"/>
                             <field name="done_by_all"/>
                             <field name="done_by"/>
+                            
 <!--
                             <field name="done_by_all" attrs="{'invisible': [('reviewers_validations_required','=',True)]}"/>
                             <field name="done_by" attrs="{'invisible': [('reviewers_validations_required','=',False)]}"/>

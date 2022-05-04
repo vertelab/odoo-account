@@ -2,7 +2,7 @@
   <data>
       
       
-    <record id="view_move_form_inherit" model="ir.ui.view">
+    <!--<record id="view_move_form_inherit" model="ir.ui.view">
                   <field name="name">view_move_form_inherit</field>
                   <field name="model">account.move</field>
                   <field name="inherit_id" ref="account_move_tier_validation.view_move_form"></field>
@@ -20,7 +20,21 @@
                         />
                     </xpath>
                   </field>
-    </record>
+    </record>-->
+    
+<!--
+     <record id="view_move_form_validation_inherit" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account_move_tier_validation_implement.view_move_form_validation"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='review_ids']" position="replace">
+                                <field name="review_ids" string="Reviews"/>
+                </xpath>
+            </field>
+        </record>
+-->
+
     
             
   </data>

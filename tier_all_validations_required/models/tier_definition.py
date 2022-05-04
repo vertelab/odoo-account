@@ -21,33 +21,23 @@ class TierDefinition(models.Model):
 class TierValidation(models.AbstractModel):
     _inherit = "tier.validation"
     
+    def _compute_can_review(self):
+        for rec in self:
+            _logger.warning("_compute_can_review" * 100)
+            _logger.warning(f"record {rec}")
+            rec.can_review = rec._get_sequences_to_approve(self.env.user)
+            _logger.warning("AFTER AFTER"*10)
+    
+    ########## 
     def _get_sequences_to_approve(self, user):
+        _logger.warning("_get_sequences_to_approve" * 100)
         ###########Changes
-        _logger.warning("_get_sequences_to_approve")
-        _logger.warning("_get_sequences_to_approve")
-        _logger.warning("_get_sequences_to_approve")
-        _logger.warning("_get_sequences_to_approve")
-        _logger.warning("_get_sequences_to_approve")
-        _logger.warning("_get_sequences_to_approve")
-        _logger.warning("_get_sequences_to_approve")
         all_reviews = self.review_ids.filtered(lambda r: r.status == "pending" or  r.status == "partial_approved")
-        my_reviews = all_reviews.filtered(lambda r: user in r.reviewer_ids)
+        my_reviews = all_reviews.filtered(lambda r: user in r.reviewer_ids and user not in r.done_by_all)
         _logger.warning(f"{my_reviews=}")
         
         #my_reviews = my_reviews.filtered(lambda r: user not in r.reviewer_ids.done_by_all)
-        
-        my_reviews2 = []
-        _logger.warning(f"{my_reviews=}")
-        for review in my_reviews:
-            if user not in review.done_by_all:
-                my_reviews2.append(review)
-        _logger.warning(f"{my_reviews2=}")
-        my_reviews = my_reviews2
-            
-        ###########Changes
-
-        
-        
+        # ~ my_not_done_reviews = my_reviews.filtered(lambda r: user not in r.done_by_all)
         # Include all my_reviews with approve_sequence = False
         sequences = my_reviews.filtered(lambda r: not r.approve_sequence).mapped(
             "sequence"
@@ -60,20 +50,16 @@ class TierValidation(models.AbstractModel):
             if my_sequence <= min_sequence:
                 sequences.append(my_sequence)
         return sequences
-
-
-    
-
-    
+        
     def _validate_tier(self, tiers=False):
         self.ensure_one()
         tier_reviews = tiers or self.review_ids
         user_reviews = tier_reviews.filtered(
-            lambda r: r.status == "pending" and (self.env.user in r.reviewer_ids)
+            lambda r: r.status == "pending" or r.status == "partial_approved"  and (self.env.user in r.reviewer_ids)
         )
             
         for tier in user_reviews:
-            _logger.warning(f"{tier.definition_id}")
+            _logger.warning(f"{tier.definition_id.filtered}")
             _logger.warning(f"{tier.definition_id.reviewers_validations_required}")
             
         multi_reviews = user_reviews.filtered(lambda t: t.reviewers_validations_required == True)
@@ -91,7 +77,7 @@ class TierValidation(models.AbstractModel):
         )
         
         for review in multi_reviews:
-            if review.done_by_all == review.todo_by:
+            if review.reviewer_ids and review.done_by_all and  sorted(review.reviewer_ids.ids) ==  sorted(review.done_by_all.ids):
                 review.status = "approved"
                 review.reviewed_date = fields.Datetime.now()
             else:
@@ -106,23 +92,56 @@ class TierReview(models.Model):
     done_by_all = fields.Many2many(comodel_name="res.users",relation="done_validations" )
     reviewers_validations_required = fields.Boolean(related='definition_id.reviewers_validations_required', readonly=True)
     
+    @api.depends("definition_id.approve_sequence","done_by_all")
+    def _compute_can_review(self):
+        # ~ _logger.warning("_compute_can_review inherit"*100)
+        for record in self:
+            record.can_review = record._can_review_value()
+    
     def _can_review_value(self):
-        _logger.warning(f"{self}")
+        # ~ _logger.warning("_can_review_value inherit" *100)
         if self.status != "pending" and self.status != "partial_approved" :
-            _logger.warning(f"status 1{self.status}")
             return False
         if not self.approve_sequence:
-            _logger.warning(f"approve_sequence 2{self.approve_sequence}")
             return True
+            
+        #Tror det är att vi kollar vilken sequence some borde reviewas nu    
         resource = self.env[self.model].browse(self.res_id)
         reviews = resource.review_ids.filtered(lambda r: r.status == "pending")
+        _logger.warning(f"_can_review_value {reviews=}")
         partial_reviews = resource.review_ids.filtered(lambda r: r.status == "partial_approved")
-        if not reviews and not partial_reviews:
+        _logger.warning(f"_can_review_value {partial_reviews=}")
+        union_reviews = reviews | partial_reviews
+        _logger.warning(f"_can_review_value {union_reviews=}")
+        reviews = union_reviews
+        if not reviews:
             return True
         sequence = min(reviews.mapped("sequence"))
         return self.sequence == sequence
     
     
+    # ~ def _can_review_value(self):
+        # ~ if self.status != "pending":
+            # ~ return False
+        # ~ if not self.approve_sequence:
+            # ~ return True
+        # ~ resource = self.env[self.model].browse(self.res_id)
+        # ~ reviews = resource.review_ids.filtered(lambda r: r.status == "pending")
+        # ~ if not reviews:
+            # ~ return True
+        # ~ sequence = min(reviews.mapped("sequence"))
+        # ~ return self.sequence == sequence
     
+        # ~ def _can_review_value(self):
+        # ~ if self.status != "pending":
+            # ~ return False
+        # ~ if not self.approve_sequence:
+            # ~ return True
+        # ~ resource = self.env[self.model].browse(self.res_id)
+        # ~ reviews = resource.review_ids.filtered(lambda r: r.status == "pending")
+        # ~ if not reviews:
+            # ~ return True
+        # ~ sequence = min(reviews.mapped("sequence"))
+        # ~ return self.sequence == sequence
     
 
