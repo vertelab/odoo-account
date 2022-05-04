@@ -204,7 +204,6 @@ class AccountPeriod(models.Model):
     
     @api.depends("state")
     def _set_fiscalyear_id_state(self):
-        _logger.warning("account_period running in the 1990s !!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         for record in self:
             record.fiscalyear_id._set_state()
 
