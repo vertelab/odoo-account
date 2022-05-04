@@ -23,18 +23,13 @@ class TierValidation(models.AbstractModel):
     
     def _compute_can_review(self):
         for rec in self:
-            _logger.warning("_compute_can_review" * 100)
-            _logger.warning(f"record {rec}")
             rec.can_review = rec._get_sequences_to_approve(self.env.user)
-            _logger.warning("AFTER AFTER"*10)
     
     ########## 
     def _get_sequences_to_approve(self, user):
-        _logger.warning("_get_sequences_to_approve" * 100)
         ###########Changes
         all_reviews = self.review_ids.filtered(lambda r: r.status == "pending" or  r.status == "partial_approved")
         my_reviews = all_reviews.filtered(lambda r: user in r.reviewer_ids and user not in r.done_by_all)
-        _logger.warning(f"{my_reviews=}")
         
         #my_reviews = my_reviews.filtered(lambda r: user not in r.reviewer_ids.done_by_all)
         # ~ my_not_done_reviews = my_reviews.filtered(lambda r: user not in r.done_by_all)
@@ -58,9 +53,9 @@ class TierValidation(models.AbstractModel):
             lambda r: r.status == "pending" or r.status == "partial_approved"  and (self.env.user in r.reviewer_ids)
         )
             
-        for tier in user_reviews:
-            _logger.warning(f"{tier.definition_id.filtered}")
-            _logger.warning(f"{tier.definition_id.reviewers_validations_required}")
+        # ~ for tier in user_reviews:
+            # ~ _logger.warning(f"{tier.definition_id.filtered}")
+            # ~ _logger.warning(f"{tier.definition_id.reviewers_validations_required}")
             
         multi_reviews = user_reviews.filtered(lambda t: t.reviewers_validations_required == True)
         _logger.warning(f"{multi_reviews=}")
@@ -77,13 +72,18 @@ class TierValidation(models.AbstractModel):
         )
         
         for review in multi_reviews:
+            _logger.warning(f"{review}")
+            _logger.warning(f"review.reviewer_ids.ids = {review.reviewer_ids.ids}")
+            _logger.warning(f"sorted(review.reviewer_ids.ids) = {sorted(review.reviewer_ids.ids)}")
+            _logger.warning(f"review.done_by_all.ids = {review.done_by_all.ids}")
+            _logger.warning(f"sorted(review.reviewer_ids.ids) = {sorted(review.done_by_all.ids)}")
             if review.reviewer_ids and review.done_by_all and  sorted(review.reviewer_ids.ids) ==  sorted(review.done_by_all.ids):
                 review.status = "approved"
                 review.reviewed_date = fields.Datetime.now()
             else:
                 review.status = "partial_approved"
-
-        return super(TierValidation, self)._validate_tier(regular_reviews)
+        if regular_reviews:
+            return super(TierValidation, self)._validate_tier(regular_reviews)
 
 class TierReview(models.Model):
     _inherit = "tier.review"
@@ -108,11 +108,8 @@ class TierReview(models.Model):
         #Tror det är att vi kollar vilken sequence some borde reviewas nu    
         resource = self.env[self.model].browse(self.res_id)
         reviews = resource.review_ids.filtered(lambda r: r.status == "pending")
-        _logger.warning(f"_can_review_value {reviews=}")
         partial_reviews = resource.review_ids.filtered(lambda r: r.status == "partial_approved")
-        _logger.warning(f"_can_review_value {partial_reviews=}")
         union_reviews = reviews | partial_reviews
-        _logger.warning(f"_can_review_value {union_reviews=}")
         reviews = union_reviews
         if not reviews:
             return True
