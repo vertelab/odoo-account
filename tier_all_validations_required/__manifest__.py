@@ -34,21 +34,17 @@
     #'sequence': 1,
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-',
-    #'images': ['static/descrition/banner.png'], # 560x280
     'license': 'AGPL-3',
-    'depends': ['base_tier_validation','account_move_tier_validation','account_move_tier_validation_implement'],
-     #"external_dependencies": {
-     #   "bin": ["openssl",], 
-     #   "python": ["acme_tiny", "IPy",],
-     #},
+    'depends': ['base_tier_validation', 'account_move_tier_validation', 'account_move_tier_validation_implement'],
     'data': [
-    'views/tier_definition_view.xml',
-    'views/tier_review_view.xml',
-    'views/account_move_view.xml',
+        'views/tier_definition_view.xml',
+        'views/tier_review_view.xml',
+        'views/account_move_view.xml',
     ],
     'demo': [],
     'application': False,
     'installable': True,    
     'auto_install': False,
+    "qweb": ["static/src/xml/tier_review_template.xml"],
     #"post_init_hook": "post_init_hook",
 }
