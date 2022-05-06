@@ -140,5 +140,8 @@ class TierReview(models.Model):
             # ~ return True
         # ~ sequence = min(reviews.mapped("sequence"))
         # ~ return self.sequence == sequence
+        
+        
+
     
 

@@ -52,11 +52,12 @@ class AccountMoveLine(models.Model):
     def _depends_analytic_tag_ids(self):
         # ~ _logger.warning("_depends_analytic_tag_ids")
         for record in self:
-            # ~ _logger.warning(f"{record=}")
-            record.project_no = record._default_project_tag()
-            # ~ _logger.warning(record.project_no)
-            record.area_of_responsibility = record._default_place_tag()
-            # ~ _logger.warning(record.area_of_responsibility)
+            if record.move_id.period_id.state == "draft":
+                # ~ _logger.warning(f"{record=}")
+                record.project_no = record._default_project_tag()
+                # ~ _logger.warning(record.project_no)
+                record.area_of_responsibility = record._default_place_tag()
+                # ~ _logger.warning(record.area_of_responsibility)
                     
 
     project_no = fields.Many2one(comodel_name='account.analytic.tag', string='Project Analytic Tag', default=_default_project_tag, readonly=True)

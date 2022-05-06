@@ -201,7 +201,7 @@ class AccountPeriod(models.Model):
     @api.model
     def date2period(self, date):
         return self.env['account.period'].search([('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')), ('special', '=', False)])
-    
+
     @api.depends("state")
     def _set_fiscalyear_id_state(self):
         for record in self:
@@ -212,7 +212,7 @@ class AccountFiscalyear(models.Model):
     _name = 'account.fiscalyear'
     _description = 'Fiscal Year'
     _order = 'date_start, id'
-    
+
     def action_draft(self):
         for years in self:
             years.state = "draft"
@@ -247,7 +247,7 @@ class AccountFiscalyear(models.Model):
     _constraints = [
         (_check_duration, 'Error!\nThe start date of a fiscal year must precede its end date.', ['date_start','date_stop'])
     ]
-    
+
     def _set_state(self):
         for record in self:
             state = "done"
@@ -256,7 +256,7 @@ class AccountFiscalyear(models.Model):
                     state = "draft"
                     break
             record.state = state
-        
+
     def create_period3(self):
         return self.create_period(3)
 
@@ -320,8 +320,8 @@ class AccountFiscalyear(models.Model):
             domain = ['|', ('code', operator, name), ('name', operator, name)]
         ids = self.search(expression.AND([domain, args]), limit=limit)
         return ids.name_get()
-        
-        
+
+
     def action_draft(self):
         mode = 'draft'
         for  fiscalyear in self:
@@ -331,22 +331,22 @@ class AccountFiscalyear(models.Model):
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
-    
+
     def validate_open_period_create(self, values):
         period_id = self.env['account.period'].browse(values.get('period_id'))
         if period_id and period_id.state == 'done':
             raise ValidationError(_("You have tried to create an invoice on a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
-            
+
     def validate_open_period_write(self, values):
         period_id = self.env['account.period'].browse(values.get('period_id'))
         if period_id and period_id.state == 'done':
             raise ValidationError(_("You have tried to write to an invoice with a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
-    
+
     def write(self, values):
         for record in self:
             record.validate_open_period_write({"period_id": record.period_id.id})
         return super(AccountMove, self).write(values)
-        
+
     @api.model_create_multi
     def create(self, values):
         if isinstance(values, list):
@@ -355,10 +355,10 @@ class AccountMove(models.Model):
         else:
             self.validate_open_period_create(values)
         return  super(AccountMove, self).create(values)
-        
+
     def _get_default_period_id(self):
-        return self.env['account.period'].date2period(self.invoice_date or fields.Date.today())
-        
+        return self.env['account.period'].date2period(self.invoice_date or fields.Date.today()).id
+
     period_id = fields.Many2one(
         comodel_name='account.period', string='Period', default=_get_default_period_id,
         required=True, states={'posted':[('readonly',True)]}, domain="[('state', '!=', 'done')]")
@@ -401,7 +401,7 @@ class AccountMove(models.Model):
                     rec.payment_move_id = False
             else:
                 rec.payment_move_id = False
-                
+
     @api.onchange("invoice_date")
     def set_period_based_on_invoice_date(self):
         if self.invoice_date:
@@ -410,7 +410,7 @@ class AccountMove(models.Model):
                 raise ValidationError(_("You have tried to create an invoice on a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
             else:
                 self.period_id = period_id
-                
+
     def action_post(self):
         if self.period_id and self.period_id.state == 'done':
             raise ValidationError(_("You have tried to validate an invoice on a closed period {self.period_id.name}.\n Please change period or open {self.period_id.name}").format(**locals()))
@@ -443,7 +443,7 @@ class account_account(models.Model):
         self.ensure_one()
 
         domain = [('move_id.period_id', 'in', self.env['account.period'].get_period_ids(self._context.get('period_start'), self._context.get('period_stop',self._context.get('period_start')))), ('account_id', '=', self.id)]
-    
+
         if self._context.get('target_move') in ['draft', 'posted']:
             domain.append(('move_id.state', '=', self._context.get('target_move')))
 
