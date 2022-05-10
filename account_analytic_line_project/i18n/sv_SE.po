@@ -1,0 +1,66 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_analytic_line_project
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20211230\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-10 08:50+0000\n"
+"PO-Revision-Date: 2022-05-10 08:50+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_analytic_line_project
+#: model:ir.actions.act_window,name:account_analytic_line_project.account_analytic_tree_report
+#: model:ir.ui.menu,name:account_analytic_line_project.account_analytic_tree_report_mi
+msgid "Account analytic tree report"
+msgstr "Objektkontorapport"
+
+#. module: account_analytic_line_project
+#: model:ir.model,name:account_analytic_line_project.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "Objektkontorad"
+
+#. module: account_analytic_line_project
+#: model_terms:ir.ui.view,arch_db:account_analytic_line_project.edit_project
+msgid "Analytic lines"
+msgstr "Objektkontorader"
+
+#. module: account_analytic_line_project
+#: model:ir.model.fields,field_description:account_analytic_line_project.field_account_analytic_line__display_name
+#: model:ir.model.fields,field_description:account_analytic_line_project.field_project_project__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: account_analytic_line_project
+#: model:ir.model.fields,field_description:account_analytic_line_project.field_account_analytic_line__id
+#: model:ir.model.fields,field_description:account_analytic_line_project.field_project_project__id
+msgid "ID"
+msgstr ""
+
+#. module: account_analytic_line_project
+#: model:ir.model.fields,field_description:account_analytic_line_project.field_account_analytic_line____last_update
+#: model:ir.model.fields,field_description:account_analytic_line_project.field_project_project____last_update
+msgid "Last Modified on"
+msgstr "Senast redigerad"
+
+#. module: account_analytic_line_project
+#: model:ir.model,name:account_analytic_line_project.model_project_project
+#: model:ir.model.fields,field_description:account_analytic_line_project.field_account_analytic_line__project_id
+msgid "Project"
+msgstr "Uppdrag"
+
+#. module: account_analytic_line_project
+#: model:ir.model.fields,field_description:account_analytic_line_project.field_project_project__analytic_line_ids
+msgid "Related analytic lines"
+msgstr "Relaterad objektkontorad"
+
+#. module: account_analytic_line_project
+#: model:ir.model.fields,field_description:account_analytic_line_project.field_account_analytic_line__group_id
+msgid "Related group"
+msgstr "Relaterad objektkontogrupp"
