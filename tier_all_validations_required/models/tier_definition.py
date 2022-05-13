@@ -72,11 +72,6 @@ class TierValidation(models.AbstractModel):
         )
         
         for review in multi_reviews:
-            _logger.warning(f"{review}")
-            _logger.warning(f"review.reviewer_ids.ids = {review.reviewer_ids.ids}")
-            _logger.warning(f"sorted(review.reviewer_ids.ids) = {sorted(review.reviewer_ids.ids)}")
-            _logger.warning(f"review.done_by_all.ids = {review.done_by_all.ids}")
-            _logger.warning(f"sorted(review.reviewer_ids.ids) = {sorted(review.done_by_all.ids)}")
             if review.reviewer_ids and review.done_by_all and  sorted(review.reviewer_ids.ids) ==  sorted(review.done_by_all.ids):
                 review.status = "approved"
                 review.reviewed_date = fields.Datetime.now()
