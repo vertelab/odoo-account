@@ -80,6 +80,18 @@ class TierValidation(models.AbstractModel):
         if regular_reviews:
             return super(TierValidation, self)._validate_tier(regular_reviews)
 
+    @api.model
+    def _search_can_review(self, operator, value):
+        domain = [
+            ("review_ids.status", "in", ["pending", "partial_approved"]),
+            ("review_ids.can_review", "=", True),
+            ("review_ids.reviewer_ids", "=", self.env.user.id),
+            ("review_ids.done_by_all", "not in", self.env.user.id)
+        ]
+
+        res_ids = self.search(domain)
+        return [("id", "in", res_ids.ids)]
+
 class TierReview(models.Model):
     _inherit = "tier.review"
     status = fields.Selection(selection_add=[("partial_approved", "Partially approved")], ondelete={'partial_approved': 'set default'})
