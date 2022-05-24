@@ -23,9 +23,11 @@ class AccountPaymentLineCreate(models.TransientModel):
 
     def _get_default_currency(self):
         ''' Get the default currency from either the journal, either the default journal's company. '''
-        params = self._context.get('params')
-        order_id = self.env[params.get('model')].browse(params.get('id'))
-        return order_id.journal_id.currency_id or order_id.journal_id.company_id.currency_id
+        # ~ params = self._context.get('params')
+        # ~ order_id = self.env[params.get('model')].browse(params.get('id'))
+        order_id = self.env['account.payment.order'].browse(self.env.context.get('active_id', False))
+        
+        return order_id.journal_id.currency_id or order_id.journal_id.company_id.currency_id 
 
 
     currency_id = fields.Many2one('res.currency', string='Currency', default=_get_default_currency)

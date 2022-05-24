@@ -1,0 +1,65 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_order_filter_currency
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20220426\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-24 09:11+0000\n"
+"PO-Revision-Date: 2022-05-24 11:20+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: sv\n"
+"X-Generator: Poedit 2.3\n"
+
+#. module: account_payment_order_filter_currency
+#: model_terms:ir.ui.view,arch_db:account_payment_order_filter_currency.account_payment_order_form_extend
+msgid "Create Payment Lines from Journal Items"
+msgstr ""
+
+#. module: account_payment_order_filter_currency
+#: code:addons/account_payment_order_filter_currency/models/account_payment_line_create.py:0
+#, python-format
+msgid "Create Transactions from Move Lines"
+msgstr "Skapa transaktioner från fakturarader"
+
+#. module: account_payment_order_filter_currency
+#: model:ir.model.fields,field_description:account_payment_order_filter_currency.field_account_payment_line_create__currency_id
+#: model_terms:ir.ui.view,arch_db:account_payment_order_filter_currency.view_account_invoice_filter_inherit
+#: model_terms:ir.ui.view,arch_db:account_payment_order_filter_currency.view_account_move_filter_inherit
+#: model_terms:ir.ui.view,arch_db:account_payment_order_filter_currency.view_account_move_line_filter_inherit
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: account_payment_order_filter_currency
+#: model:ir.model.fields,field_description:account_payment_order_filter_currency.field_account_payment_line_create__display_name
+#: model:ir.model.fields,field_description:account_payment_order_filter_currency.field_account_payment_order__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: account_payment_order_filter_currency
+#: model:ir.model.fields,field_description:account_payment_order_filter_currency.field_account_payment_line_create__id
+#: model:ir.model.fields,field_description:account_payment_order_filter_currency.field_account_payment_order__id
+msgid "ID"
+msgstr ""
+
+#. module: account_payment_order_filter_currency
+#: model:ir.model.fields,field_description:account_payment_order_filter_currency.field_account_payment_line_create____last_update
+#: model:ir.model.fields,field_description:account_payment_order_filter_currency.field_account_payment_order____last_update
+msgid "Last Modified on"
+msgstr "Senast modifierad den"
+
+#. module: account_payment_order_filter_currency
+#: model:ir.model,name:account_payment_order_filter_currency.model_account_payment_order
+msgid "Payment Order"
+msgstr "Betalningsorder"
+
+#. module: account_payment_order_filter_currency
+#: model:ir.model,name:account_payment_order_filter_currency.model_account_payment_line_create
+msgid "Wizard to create payment lines"
+msgstr "Guide for att skapa betalningsorder rader"

@@ -20,9 +20,9 @@
 ##############################################################################
 
 {
-    'name': 'Account Payment Line Create',
+    'name': 'Account Payment Filter Currency',
     'version': '14.0.0.0.1',
-    'summary': 'Override Account Payment Line Create',
+    'summary': 'Adds the capability to filter payment order lines based on currency',
     'category': 'Accounting',
     'author': 'Vertel AB',
     'images': ['/static/description/banner.png'], # 560x280 px.
@@ -31,7 +31,8 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-        Override Account Payment Line Create to take currency into consideration
+        There is a new filed on the payment order wizard that is used to find invoice lines.
+	This new field allowes us to find invoice lines for a specific currency.
     """,
     'depends': ['account_payment_order'],
     'data': [
