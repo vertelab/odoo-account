@@ -108,8 +108,20 @@ class AccountPaymentLineCreate(models.TransientModel):
         if paylines:
             move_lines_ids = [payline.move_line_id.id for payline in paylines]
             domain += [("id", "not in", move_lines_ids)]
+        domain += [("move_id.exclude_payment", "=", False)]
         return domain
 
 
 
     
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+
+    exclude_payment = fields.Boolean(string="Exclude Payment")
+
+
+class AccountPaymentLine(models.Model):
+    _inherit = "account.payment.line"
+
+    invoice_date = fields.Date(related="move_line_id.move_id.invoice_date", readonly=True, string="Invoice Date", store=True)
+    ml_maturity_date = fields.Date(related="move_line_id.date_maturity", readonly=True, store=True)
