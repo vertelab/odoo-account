@@ -4,80 +4,57 @@ from odoo.exceptions import ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 
-class AccountMove(models.Model):
-    _inherit = "account.move"
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+    authorized_transaction_ids = fields.Many2many('payment.transaction', compute='_compute_authorized_transaction_ids',string='Authorized Transactions', copy=False, readonly=True)
+
     @api.model
     def create(self, values):
-        res = super(AccountMove, self).create(values)
-        for record in res.line_ids:
+        res = super(SaleOrder, self).create(values)
+        for record in res.order_line:
             if record.analytic_tag_ids:
                 record._depends_analytic_tag_ids()
         return res
 
-class AccountMoveLine(models.Model):
-    _inherit = "account.move.line"
-    
-    @api.depends('product_id', 'account_id', 'partner_id', 'date')
-    def _compute_analytic_tag_ids(self):
-        for record in self:
-            if not record.exclude_from_invoice_tab or not record.move_id.is_invoice(include_receipts=True):
-                rec = self.env['account.analytic.default'].account_get(
-                    product_id=record.product_id.id,
-                    partner_id=record.partner_id.commercial_partner_id.id or record.move_id.partner_id.commercial_partner_id.id,
-                    account_id=record.account_id.id,
-                    user_id=record.env.uid,
-                    date=record.date,
-                    company_id=record.move_id.company_id.id
-                )
-                if rec and rec.analytic_tag_ids:
-                    record.analytic_tag_ids = rec.analytic_tag_ids
+class SaleOrderLine(models.Model):
+    _inherit = "sale.order.line"
          
     def _default_project_tag(self):
-        # ~ _logger.warning("_default_project_tag")
-        # ~ _logger.warning(f"{self=}")
         for tag in self.analytic_tag_ids:
-            # ~ _logger.warning(f"tag.type_of_tag:{tag.type_of_tag}")
             if tag.type_of_tag == "project_number":
-               # ~ _logger.warning("_default_project_tag TRUE")
                return tag
         return False
     
     def _default_place_tag(self):
-        # ~ _logger.warning("_default_place_tag")
-        # ~ _logger.warning(f"{self=}")
         for tag in self.analytic_tag_ids:
-            # ~ _logger.warning(f"tag.type_of_tag:{tag.type_of_tag}")
             if tag.type_of_tag == "area_of_responsibility":
-               # ~ _logger.warning("_default_place_tag TRUE")
-               # ~ _logger.warning(f"place tag id = {tag.id}")
                return tag
         return False
         
         
     def write(self, values):
-        # ~ _logger.warning("AccountMoveLine write")
-        res = super(AccountMoveLine, self).write(values)
+        res = super(SaleOrderLine, self).write(values)
         if values.get('analytic_tag_ids'):
-            # ~ _logger.warning("AccountMoveLine write analytic_tag_ids")
             self._depends_analytic_tag_ids()
         return res
             
         
     @api.depends("analytic_tag_ids")
     def _depends_analytic_tag_ids(self):
-        # ~ _logger.warning("_depends_analytic_tag_ids")
         for record in self:
-            if record.move_id.period_id.state == "draft":
-                # ~ _logger.warning(f"{record=}")
-                record.project_no = record._default_project_tag()
-                # ~ _logger.warning(record.project_no)
-                record.area_of_responsibility = record._default_place_tag()
-                # ~ _logger.warning(record.area_of_responsibility)
+            record.project_no = record._default_project_tag()
+            record.area_of_responsibility = record._default_place_tag()
                     
 
     project_no = fields.Many2one(comodel_name='account.analytic.tag', string='Project Analytic Tag', default=_default_project_tag, readonly=True)
     area_of_responsibility= fields.Many2one(comodel_name='account.analytic.tag', string='Place Analytic Tag', default=_default_place_tag, readonly=True)
 
+
+
+
+# ~ for record in records:
+  # ~ for line in record.order_line:
+    # ~ line._depends_analytic_tag_ids()
                 
     # ~ @api.onchange("analytic_tag_ids")
     # ~ def _compute_place_tag(self):

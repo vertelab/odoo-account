@@ -37,13 +37,14 @@
     'description': """
 Account Analytic Tag: Area Of Responsability and Project Number
 ========================================================
-Adds types on a analytic account tag, so that we can set two new fields on a journal line.
-This done so that we can filter on Area of Responsability and Project Number fields. Which are set on an move line if the tags has either set as a type.
+Adds types on a analytic account tag, so that we can set two new fields on a journal line and a sale Order Line.
+This done so that we can filter on Area of Responsability and Project Number fields. Which are set on an move line and a sale order line if the tags has either set as a type.
     """,
-    'depends': ['analytic', 'account'],
+    'depends': ['analytic', 'account', 'sale'],
     'data': [
         'views/analytic_tag.xml',
         'views/account_move_line.xml',
+        'views/sale_order_line.xml'
     ],
     'demo': [],
     'qweb': [],
