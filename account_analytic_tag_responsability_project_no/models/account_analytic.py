@@ -17,4 +17,6 @@ class AccountAnalyticTag(models.Model):
             move_line_records._depends_analytic_tag_ids()
             sale_order_line_records = self.env['sale.order.line'].search([('analytic_tag_ids','in',record.id)])
             sale_order_line_records._depends_analytic_tag_ids()
+            purchase_order_line_records = self.env['purchase.order.line'].search([('analytic_tag_ids','in',record.id)])
+            purchase_order_line_records._depends_analytic_tag_ids()
         return res
