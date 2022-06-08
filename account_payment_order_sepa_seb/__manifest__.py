@@ -20,31 +20,29 @@
 ##############################################################################
 
 {
-    'name': 'Account Analytic Tag: Area Of Responsability and Project Number',
+    'name': 'Account Payment Order Sepa SEB Swe',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': '',
+    'summary': 'Module that fixes some of the errors that the sepa files triggers for the SEB parser for Swedish payments',
     'category': 'Accounting',
-    'description': '',
     #'sequence': '1'
     'author': 'Vertel AB',
-    # ~ 'website': 'https://vertel.se/apps/odoo-account/account-analytic-move-ids',
-    # ~ 'images': ['/static/description/banner.png'], # 560x280 px
+    'website': 'https://vertel.se/apps',
+    #'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-Account Analytic Tag: Area Of Responsability and Project Number
-========================================================
-Adds types on a analytic account tag, so that we can set two new fields on a journal line and a sale Order Line.
-This done so that we can filter on Area of Responsability and Project Number fields. Which are set on an move line and a sale order line if the tags has either set as a type.
+Fixes
+	Bg accounts fixed format.
+	Fixed some tags.
+
     """,
-    'depends': ['analytic', 'account', 'sale'],
+#External Repo https://github.com/OCA/bank-payment
+    'depends': ['account_banking_pain_base','account_banking_sepa_credit_transfer','account_banking_sepa_direct_debit','account_payment_order'],
     'data': [
-        'views/analytic_tag.xml',
-        'views/account_move_line.xml',
-        'views/sale_order_line.xml'
+        #'views/regulatory_reporting_code.xml',
     ],
     'demo': [],
     'qweb': [],
@@ -52,3 +50,5 @@ This done so that we can filter on Area of Responsability and Project Number fie
     'application': False,
     'auto_install': False,
 }
+
+

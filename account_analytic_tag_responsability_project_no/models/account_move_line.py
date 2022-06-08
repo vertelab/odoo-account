@@ -78,16 +78,6 @@ class AccountMoveLine(models.Model):
     project_no = fields.Many2one(comodel_name='account.analytic.tag', string='Project Analytic Tag', default=_default_project_tag, readonly=True)
     area_of_responsibility= fields.Many2one(comodel_name='account.analytic.tag', string='Place Analytic Tag', default=_default_place_tag, readonly=True)
 
-
-class AccountAnalyticTag(models.Model):
-    _inherit = "account.analytic.tag"
-
-    def write(self, values):
-        res = super(AccountAnalyticTag, self).write(values)
-        for record in self:
-            move_line_records = self.env['account.move.line'].search([('analytic_tag_ids','in',record.id)])
-            move_line_records._depends_analytic_tag_ids()
-        return res
                 
     # ~ @api.onchange("analytic_tag_ids")
     # ~ def _compute_place_tag(self):

@@ -1,0 +1,65 @@
+<odoo>
+    <data>
+        <record id="view_sale_order_form_inherit2" model="ir.ui.view">
+            <field name="name">view_order_form_inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml"> 
+            <xpath expr="//page[@name='order_lines']//tree/field[@name='analytic_tag_ids']" position="after">
+                    <field name="project_no" optional="hide"/>
+                    <field name="area_of_responsibility" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        
+        
+        <record id="view_purchase_order_form_inherit2" model="ir.ui.view">
+            <field name="name">view_order_form_inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml"> 
+            <xpath expr="//page[@name='products']//tree/field[@name='analytic_tag_ids']" position="after">
+                    <field name="project_no" optional="hide"/>
+                    <field name="area_of_responsibility" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        
+<!--
+        move line form
+--> 
+<!--
+         <record id="view_move_line_form_inherit" model="ir.ui.view">
+            <field name="name">view_move_line_form_inherit_res_proj_no</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="arch" type="xml"> 
+                <xpath expr="//field[@name='analytic_tag_ids']" position="after">
+                    <field name="project_no"/>
+                    <field name="area_of_responsibility"/>
+                </xpath>
+            </field>
+        </record>
+-->
+        
+<!--
+        move line tree
+-->
+<!--
+            <record id="view_move_line_tree_inherit" model="ir.ui.view">
+            <field name="name">view_move_line_form_inherit_res_proj_no</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml"> 
+                <xpath expr="//field[@name='analytic_tag_ids']" position="after">
+                    <field name="project_no" optional="hide"/>
+                    <field name="area_of_responsibility" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+-->
+    </data>
+</odoo>
+
+
+

@@ -117,8 +117,13 @@ class AccountPaymentLineCreate(models.TransientModel):
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    exclude_payment = fields.Boolean(string="Exclude Payment")
-
+    exclude_payment = fields.Boolean(string="Exclude Payment", readonly=True)
+    
+    def inverse_exclude_payment(self):
+        context_copy = self.env.context.copy()
+        context_copy.update({'check_move_period_validity':False})
+        self.with_context(context_copy).write({'exclude_payment':not self.exclude_payment})
+        
 
 class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"

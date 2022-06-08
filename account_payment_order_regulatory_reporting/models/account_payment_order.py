@@ -23,22 +23,8 @@ from odoo.osv import expression
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import Warning
-
-import logging
-_logger = logging.getLogger(__name__)
-
-class AccountPaymentOrder(models.Model):
-    _inherit = 'account.payment.order'
-
-
-    # Copyright 2010-2020 Akretion (www.akretion.com)
-# Copyright 2014-2020 Tecnativa - Pedro M. Baeza
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
-
-from lxml import etree
-
-from odoo import _, fields, models
 from odoo.exceptions import UserError
+from lxml import etree
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -238,10 +224,10 @@ class AccountPaymentOrder(models.Model):
                     
                         regulatory_reporting = etree.SubElement(credit_transfer_transaction_info, "RgltryRptg")
                         debit_credit_reporting_indicator = etree.SubElement(regulatory_reporting, "DbtCdtRptgInd")
-                        if self.sepa:
-                            debit_credit_reporting_indicator.text = "SLEV"
-                        else:
-                            debit_credit_reporting_indicator.text = self.charge_bearer
+                        # ~ if self.sepa:
+                        debit_credit_reporting_indicator.text = "DEBT"
+                        # ~ else:
+                            # ~ debit_credit_reporting_indicator.text = self.charge_bearer
                             
                         authority = etree.SubElement(regulatory_reporting, "Authrty")
                         authority_name = etree.SubElement(authority, "Nm")

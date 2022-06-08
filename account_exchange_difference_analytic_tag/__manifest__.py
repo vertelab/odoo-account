@@ -20,31 +20,25 @@
 ##############################################################################
 
 {
-    'name': 'Account Analytic Tag: Area Of Responsability and Project Number',
+    'name': 'Account: Exchange Differance Draft',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': '',
+    'summary': 'Adds the analytic tags from the orignal invoice on the currency differance invoice',
     'category': 'Accounting',
-    'description': '',
     #'sequence': '1'
     'author': 'Vertel AB',
-    # ~ 'website': 'https://vertel.se/apps/odoo-account/account-analytic-move-ids',
-    # ~ 'images': ['/static/description/banner.png'], # 560x280 px
+    'website': 'https://vertel.se/apps/odoo-account/account_exchange_difference_draft',
+    'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-Account Analytic Tag: Area Of Responsability and Project Number
-========================================================
-Adds types on a analytic account tag, so that we can set two new fields on a journal line and a sale Order Line.
-This done so that we can filter on Area of Responsability and Project Number fields. Which are set on an move line and a sale order line if the tags has either set as a type.
+	
     """,
-    'depends': ['analytic', 'account', 'sale'],
+    'depends': ['account'],
     'data': [
-        'views/analytic_tag.xml',
-        'views/account_move_line.xml',
-        'views/sale_order_line.xml'
+        'views/res_config.xml',
     ],
     'demo': [],
     'qweb': [],
@@ -52,3 +46,5 @@ This done so that we can filter on Area of Responsability and Project Number fie
     'application': False,
     'auto_install': False,
 }
+
+
