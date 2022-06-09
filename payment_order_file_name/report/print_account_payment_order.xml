@@ -11,8 +11,6 @@
         <field name="report_file">account_payment_order.print_account_payment_order_main</field>
         <field name="binding_model_id" ref="account_payment_order.model_account_payment_order"/>
         <field name="binding_type">report</field>
-        <field name="attachment_use" eval="True"/>
-        <field name="attachment">'%s.pdf' % (object.name)</field>
         <field name="print_report_name">(object.name)</field>
     </record>
 
