@@ -19,8 +19,8 @@ class AccountMove(models.Model):
         if self.move_type != "entry":
             if len(self.invoice_line_ids.filtered(lambda x: not x.analytic_tag_ids)) > 0:
                 raise ValidationError(_("Kindly select analytic tag for all invoice lines"))
-            if len(self.invoice_line_ids.filtered(lambda x: not x.analytic_account_id)) > 0:
-                raise ValidationError(_("Kindly select add an analytic account for all invoice lines"))
+            # ~ if len(self.invoice_line_ids.filtered(lambda x: not x.analytic_account_id)) > 0:
+                # ~ raise ValidationError(_("Kindly select add an analytic account for all invoice lines"))
         self._post(soft=False)
         return False
 
