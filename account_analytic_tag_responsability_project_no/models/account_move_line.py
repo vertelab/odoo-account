@@ -15,11 +15,14 @@ class AccountMove(models.Model):
                 record._depends_analytic_tag_ids()
         return res
 
-    # ~ def action_post(self):
-        # ~ if len(self.invoice_line_ids.filtered(lambda x: not x.analytic_tag_ids)) > 0:
-            # ~ raise ValidationError(_("Kindly select analytic tag for all line items"))
-        # ~ self._post(soft=False)
-        # ~ return False
+    def action_post(self):
+        if self.move_type != "entry":
+            if len(self.invoice_line_ids.filtered(lambda x: not x.analytic_tag_ids)) > 0:
+                raise ValidationError(_("Kindly select analytic tag for all invoice lines"))
+            if len(self.invoice_line_ids.filtered(lambda x: not x.analytic_account_id)) > 0:
+                raise ValidationError(_("Kindly select add an analytic account for all invoice lines"))
+        self._post(soft=False)
+        return False
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
