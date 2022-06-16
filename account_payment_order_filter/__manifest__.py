@@ -23,7 +23,7 @@
     'name': 'Account: Payment Order Filter',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary':'Adds the capability to filter on currency finding lines for payment order',
+    'summary':'Override prepare_payment_line_vals method so that the communication field gets set with something',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
@@ -34,7 +34,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-	Adds the capability to filter on currency when finding lines for payment order
+	Override prepare_payment_line_vals method so that the communication field gets set with something
         """,
     'depends': ['account_payment_order'],
     'data': [
