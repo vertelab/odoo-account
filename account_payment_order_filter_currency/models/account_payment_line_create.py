@@ -117,8 +117,17 @@ class AccountPaymentLineCreate(models.TransientModel):
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    exclude_payment = fields.Boolean(string="Exclude Payment", readonly=True)
-    
+    exclude_payment = fields.Boolean(string="Exclude Payment", readonly=True, compute='_compute_exclude_payment', inverse='_inverse_exclude_payment')
+
+    @api.depends('partner_id.exclude_from_payment')
+    def _compute_exclude_payment(self):
+        for move in self:
+            move.exclude_payment = move.partner_id.exclude_from_payment
+
+    def _inverse_exclude_payment(self):
+        for move in self:
+            pass
+
     def inverse_exclude_payment(self):
         context_copy = self.env.context.copy()
         context_copy.update({'check_move_period_validity':False})
@@ -129,4 +138,9 @@ class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"
 
     invoice_date = fields.Date(related="move_line_id.move_id.invoice_date", readonly=True, string="Invoice Date", store=True)
+    
     ml_maturity_date = fields.Date(related="move_line_id.date_maturity", readonly=True, store=True)
+
+
+
+    

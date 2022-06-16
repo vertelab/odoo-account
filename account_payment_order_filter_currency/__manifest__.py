@@ -36,7 +36,8 @@
     """,
     'depends': ['account_payment_order'],
     'data': [
-        'views/account_payment_line_create_view.xml'
+        'views/account_payment_line_create_view.xml',
+        'views/res_partner_view.xml',
     ],
     'installable': True,
     'application': False,
