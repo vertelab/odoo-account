@@ -16,11 +16,11 @@ class SaleOrder(models.Model):
                 record._depends_analytic_tag_ids()
         return res
 
-    def action_confirm(self):
-        if len(self.order_line.filtered(lambda x: not x.analytic_tag_ids)) > 0:
-            raise ValidationError(_("Kindly select analytic tag for all line items"))
-        res = super(SaleOrder, self).action_confirm()
-        return res
+    # ~ def action_confirm(self):
+        # ~ if len(self.order_line.filtered(lambda x: not x.analytic_tag_ids)) > 0:
+            # ~ raise ValidationError(_("Kindly select analytic tag for all line items"))
+        # ~ res = super(SaleOrder, self).action_confirm()
+        # ~ return res
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
