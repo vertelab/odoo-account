@@ -128,12 +128,16 @@ class AccountMove(models.Model):
     # ~ exclude_payment = fields.Boolean(string="Exclude Payment", readonly=True, compute='_compute_exclude_payment', inverse='_inverse_exclude_payment')
     @api.depends("exclude_payment","exclude_payment_partner","partner_id.exclude_from_payment")
     def compute_exclude_payment_partner_and_move(self):
-        _logger.warning("compute_exclude_payment_partner_and_move"*100)
+        # ~ _logger.warning("compute_exclude_payment_partner_and_move"*100)
+        context_copy = self.env.context.copy()
+        context_copy.update({'check_move_period_validity':False})
         for move in self:
             if move.partner_id and move.partner_id.exclude_from_payment:
-                move.exclude_payment_partner_and_move = move.partner_id.exclude_from_payment
+                # ~ move.exclude_payment_partner_and_move = move.partner_id.exclude_from_payment
+                move.with_context(context_copy).write({'exclude_payment_partner_and_move':move.partner_id.exclude_from_payment})
             else:
-                move.exclude_payment_partner_and_move = move.exclude_payment
+                # ~ move.exclude_payment_partner_and_move = move.exclude_payment
+                move.with_context(context_copy).write({'exclude_payment_partner_and_move':move.exclude_payment})
     
 
     def inverse_exclude_payment(self):
