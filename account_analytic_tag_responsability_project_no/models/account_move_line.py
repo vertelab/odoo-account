@@ -17,7 +17,7 @@ class AccountMove(models.Model):
 
     def action_post(self):
         if len(self.line_ids.filtered(lambda x: not x.analytic_tag_ids and x.display_type != "line_note" and x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
-            raise ValidationError(_("Kindly select analytic tag for all invoice lines"))
+            raise ValidationError(_("There are lines with an account between 3000 - 9999 that is missing an analytic tag.\n Add an anlytic tag on these lines before confirming."))
         # ~ if len(self.invoice_line_ids.filtered(lambda x: not x.analytic_account_id)) > 0:
             # ~ raise ValidationError(_("Kindly select add an analytic account for all invoice lines"))
         self._post(soft=False)
