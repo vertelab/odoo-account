@@ -1,5 +1,8 @@
 from locale import currency
 from odoo import _, api, fields, models
+import logging
+_logger = logging.getLogger(__name__)
+from odoo.exceptions import UserError
 
 class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
@@ -108,7 +111,8 @@ class AccountPaymentLineCreate(models.TransientModel):
         if paylines:
             move_lines_ids = [payline.move_line_id.id for payline in paylines]
             domain += [("id", "not in", move_lines_ids)]
-        domain += [("move_id.exclude_payment", "=", False)]
+        domain += [("move_id.exclude_payment_partner_and_move", "=", False)]
+        _logger.warning(f"{domain}")
         return domain
 
 
@@ -117,21 +121,28 @@ class AccountPaymentLineCreate(models.TransientModel):
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    exclude_payment = fields.Boolean(string="Exclude Payment", readonly=True, compute='_compute_exclude_payment', inverse='_inverse_exclude_payment')
-
-    @api.depends('partner_id.exclude_from_payment')
-    def _compute_exclude_payment(self):
+    exclude_payment = fields.Boolean(string="Exclude Payment", readonly=True) # On the Account Move
+    exclude_payment_partner = fields.Boolean('Partner Exclude From Payment', related='partner_id.exclude_from_payment', readonly=True) # The partners boolean
+    exclude_payment_partner_and_move = fields.Boolean(string="Exclude Payment", readonly=True) # If partner is True then we use that value
+    
+    # ~ exclude_payment = fields.Boolean(string="Exclude Payment", readonly=True, compute='_compute_exclude_payment', inverse='_inverse_exclude_payment')
+    @api.depends("exclude_payment","exclude_payment_partner","partner_id.exclude_from_payment")
+    def compute_exclude_payment_partner_and_move(self):
+        _logger.warning("compute_exclude_payment_partner_and_move"*100)
         for move in self:
-            move.exclude_payment = move.partner_id.exclude_from_payment
-
-    def _inverse_exclude_payment(self):
-        for move in self:
-            pass
+            if move.partner_id and move.partner_id.exclude_from_payment:
+                move.exclude_payment_partner_and_move = move.partner_id.exclude_from_payment
+            else:
+                move.exclude_payment_partner_and_move = move.exclude_payment
+    
 
     def inverse_exclude_payment(self):
+        if self.partner_id and self.partner_id.exclude_from_payment:
+            raise UserError(_("The Current Vendor is excluded from showing up when making a payement order.\nWhich means that it will override that setting on an Invoice\nYou have to change that on the Vendor first if you want to include this invoice."))
         context_copy = self.env.context.copy()
         context_copy.update({'check_move_period_validity':False})
         self.with_context(context_copy).write({'exclude_payment':not self.exclude_payment})
+        self.compute_exclude_payment_partner_and_move()
         
 
 class AccountPaymentLine(models.Model):
