@@ -9,8 +9,6 @@ class CommentWizard(models.TransientModel):
 
     def add_comment(self):
         self.ensure_one()
-        if not self.comment:
-           self.comment = "yo"
         rec = self.env[self.res_model].browse(self.res_id)
         self.review_ids.write({"comment": self.comment})
         if self.validate_reject == "validate":

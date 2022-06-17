@@ -35,7 +35,9 @@
     """,
     'depends': ['account_payment_order'],
     'data': [
-        'report/print_account_payment_order.xml'
+        'report/print_account_payment_order.xml',
+        'report/account_payment_order.xml',
+
     ],
     'installable': True,
     'application': False,
