@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Currency Exchange Rate',
+    'name': 'Currency Exchange Rate On Invoices',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Currency Exchange Rate',
@@ -34,9 +34,9 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-	Adds an option in settings to have the enchange differance invoice be set to draft
+	Shows the current exchanges rate on an invoice based on either period or invoice date
     """,
-    'depends': ['account'],
+    'depends': ['account','account_period'],
     'data': [
         'views/account_move_view.xml',
     ],
