@@ -11,11 +11,15 @@ class AccountMove(models.Model):
 
     @api.depends('invoice_date', 'company_id')
     def _compute_currency_rate(self):
-        for order in self:            
+        for order in self:
+            if order.period_id and order.period_id.date_start:    
+                relevant_date = order.period_id.date_start
+            else:
+                relevant_date = order.invoice_date
             if not order.company_id:
-                order.currency_rate = order.currency_id.with_context(date=order.invoice_date).rate or 1.0
+                order.currency_rate = order.currency_id.with_context(date=relevant_date).rate or 1.0
                 continue
             elif order.company_id.currency_id and order.currency_id:  # the following crashes if any one is undefined
-                order.currency_rate = self.env['res.currency']._get_conversion_rate(order.currency_id, order.company_id.currency_id, order.company_id, order.invoice_date or fields.Date.context_today(self))
+                order.currency_rate = self.env['res.currency']._get_conversion_rate(order.currency_id, order.company_id.currency_id, order.company_id, relevant_date or fields.Date.context_today(self))
             else:
                 order.currency_rate = 1.0
