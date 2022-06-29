@@ -49,3 +49,4 @@ Changes display_name for account.analytic.account to include the group_id.name
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
