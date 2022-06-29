@@ -3,6 +3,7 @@ odoo-account/account_analytic_name -- icons
 
 Path:
 /static/description/icon.png
+/static/description/banner.png
 
 Icon: landmark
 Icons may be found at: https://fontawesome.com/v5/cheatsheet
