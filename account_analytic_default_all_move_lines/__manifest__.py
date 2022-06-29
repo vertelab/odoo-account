@@ -52,3 +52,4 @@ Have also changed it so that analytic tags aren't removed when calulating analay
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
