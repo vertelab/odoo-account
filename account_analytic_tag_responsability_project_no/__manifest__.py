@@ -51,3 +51,4 @@ This done so that we can filter on Area of Responsability and Project Number fie
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
