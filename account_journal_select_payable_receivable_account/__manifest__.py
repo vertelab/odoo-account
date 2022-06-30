@@ -25,10 +25,10 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds two new fields on a journal so that we can control which Payable Receivable Account odoo uses when it balances an Invoice/Journal Entry',
     'category': 'Accounting',
-    #'sequence': '1'
+    #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_journal-select-payable-receivable-account',
-    #'images': ['/static/description/banner.png'], # 560x280 px.
+    'website': 'https://vertel.se/apps/odoo-account/account_journal_select_payable_receivable_account',
+    'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
