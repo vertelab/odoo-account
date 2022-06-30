@@ -121,12 +121,12 @@ class AccountPaymentOrder(models.Model):
             logger.warning(f"party_agent_bic:{party_agent_bic.text}")
         else:
             # New Comment: Seem like if if we have a ban giro account then we still need the 'Creditor Agent' block which is why i have added or order == "C" and re.match('\d{3,4}-\d{4}', partner_bank.acc_number)): to the if case
-            if order == "B" or (order == "C" and gen_args["payment_method"] == "DD" or order == "C" and re.match('\d{3,4}-\d{4}', partner_bank.acc_number)):
+            if order == "B" or (order == "C" and gen_args["payment_method"] == "DD" or order == "C" and re.match('\d{3,4}-\d{4}$', partner_bank.acc_number)):
                 
                 party_agent = etree.SubElement(parent_node, "%sAgt" % party_type)
                 party_agent_institution = etree.SubElement(party_agent, "FinInstnId")
                 
-                if partner_bank.acc_number and re.match('\d{3,4}-\d{4}', partner_bank.acc_number):        ################################################################################################################### ADDIDTIONS
+                if partner_bank.acc_number and re.match('\d{3,4}-\d{4}$', partner_bank.acc_number):        ################################################################################################################### ADDIDTIONS
                     party_agent_extra_bank_giro1 = etree.SubElement(party_agent_institution, "ClrSysMmbId")
                     party_agent_extra_bank_giro2 = etree.SubElement(party_agent_extra_bank_giro1, "ClrSysId")
                     party_agent_extra_bank_giro3 = etree.SubElement(party_agent_extra_bank_giro2, "Cd")
@@ -162,7 +162,7 @@ class AccountPaymentOrder(models.Model):
             party_account_other = etree.SubElement(party_account_id, "Othr")
             party_account_other_id = etree.SubElement(party_account_other, "Id")
             party_account_other_id.text = partner_bank.sanitized_acc_number
-            if partner_bank.acc_number and re.match('\d{3,4}-\d{4}', partner_bank.acc_number) or partner_bank.acc_type == "bank_giro":
+            if partner_bank.acc_number and re.match('\d{3,4}-\d{4}$', partner_bank.acc_number) or partner_bank.acc_type == "bank_giro":
                 party_account_other_schmenm = etree.SubElement(party_account_other, "SchmeNm")
                 party_account_other_cd = etree.SubElement(party_account_other_schmenm, "Prtry")
                 party_account_other_cd.text = "BGNR"
