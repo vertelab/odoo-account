@@ -13,9 +13,6 @@ class AccountMove(models.Model):
     move_tier_validator = fields.Many2one('res.users', tracking=True,string='Move Validator') ### attesterare
     move_tier_validators = fields.Many2many('res.users', tracking=True,string='Move Validators') ### attesterare
     
-# ~ class AccountMove(models.Model):
-    # ~ _inherit = "res.users"
-    # ~ validation_needed_invoice_id = fields.Many2one('account.move',string='Move Validator') ### attesterare
     
     def _get_under_validation_exceptions(self):
         res = super(AccountMove, self)._get_under_validation_exceptions()
