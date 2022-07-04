@@ -22,16 +22,3 @@
         </record>
     </data>
 </odoo>
-
-<!--
-                <xpath expr="//page[@id='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='analytic_account_id']" position="after">
--->
-<!--
-                    <page id="other_tab" position=after>
-                            <page id="validation_tab" string="Validation Info" name="validation_info">
-                                <field name="move_tier_validator">
-                                <field name= "reviewer_ids"/>
-                                <field name="review_ids"/>
-                            </page>
-                    </page>
--->
