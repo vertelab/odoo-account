@@ -17,3 +17,9 @@ class AccountMove(models.Model):
     # ~ _inherit = "res.users"
     # ~ validation_needed_invoice_id = fields.Many2one('account.move',string='Move Validator') ### attesterare
     
+    def _get_under_validation_exceptions(self):
+        res = super(AccountMove, self)._get_under_validation_exceptions()
+        res.append("exclude_payment")
+        res.append("exclude_payment_partner")
+        res.append("exclude_payment_partner_and_move")
+        return res

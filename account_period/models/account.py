@@ -55,11 +55,7 @@ class AccountPeriod(models.Model):
         'Period already exist!')
     ]
 
-    def _check_duration(self):
-        if self[0].date_stop < self[0].date_start:
-            return False
-        return True
-
+    @api.constrains('date_stop')
     def _check_year_limit(self):
         for obj_period in self:
             if obj_period.special:
@@ -69,18 +65,18 @@ class AccountPeriod(models.Model):
                obj_period.fiscalyear_id.date_stop < obj_period.date_start or \
                obj_period.fiscalyear_id.date_start > obj_period.date_start or \
                obj_period.fiscalyear_id.date_start > obj_period.date_stop:
-                return False
+                raise ValidationError(_('Error!\nThe period is invalid. Either some periods are overlapping or the period\'s dates are not matching the scope of the fiscal year.'))
 
             pids = self.search([('date_stop','>=',obj_period.date_start),('date_start','<=',obj_period.date_stop),('special','=',False),('id','<>',obj_period.id)])
             for period in pids:
                 if period.fiscalyear_id.company_id.id==obj_period.fiscalyear_id.company_id.id:
-                    return False
-        return True
+                    raise ValidationError(_('Error!\nThe period is invalid. Either some periods are overlapping or the period\'s dates are not matching the scope of the fiscal year.'))
 
-    _constraints = [
-        (_check_duration, 'Error!\nThe duration of the Period(s) is/are invalid.', ['date_stop']),
-        (_check_year_limit, 'Error!\nThe period is invalid. Either some periods are overlapping or the period\'s dates are not matching the scope of the fiscal year.', ['date_stop'])
-    ]
+    @api.constrains('date_stop', 'date_start')
+    def _check_duration(self):
+        for account in self:
+            if account.date_stop < account.date_start:
+                raise ValidationError(_('Error!\nThe duration of the Period(s) is/are invalid.'))
 
     @api.returns('self')
     def next(self, period, step):

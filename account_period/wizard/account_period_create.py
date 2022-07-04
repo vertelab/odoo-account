@@ -30,6 +30,7 @@ _logger = logging.getLogger(__name__)
 
 class AccountPeriodCreate(models.Model):
     _name = 'account.period.create.wizard'
+    _description = 'Added period for accounting. Either 12 months or 4 quarters.'
 
     @api.model
     def default_fy_name(self):

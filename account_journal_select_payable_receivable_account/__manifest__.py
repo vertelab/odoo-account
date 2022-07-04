@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,24 +20,34 @@
 ##############################################################################
 
 {
-    'name': 'Account: Admin Rights',
-    'version': '14.0.0.1.0',
+    'name': 'Account: Journal Select Payable Receivable Account',
+    'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Account Admin Rights',
+    'summary': 'Adds two new fields on a journal so that we can control which Payable Receivable Account odoo uses when it balances an Invoice/Journal Entry',
     'category': 'Accounting',
-    'description': 'Account Admin Rights',
-    #'sequence': '1'
+    #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_admin_rights',
+    'website': 'https://vertel.se/apps/odoo-account/account_journal_select_payable_receivable_account',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
+    'description': """
+	Adds two new fields on a journal so that we can control which Payable Receivable Account odoo uses when it balances an Invoice/Journal Entry.
+	Odoo uses the first payable/receivable account it can find using the search method, so if you have more than one you can't control which one is used.
+
+	Payable are used on on everything except Customer Invoice, Customer Credit Note, Sales Receipt.
+	Receivable are used on Customer Invoice, Customer Credit Note, Sales Receipt.
+	
+    """,
     'depends': ['account'],
     'data': [
-        'data/data.xml'
+        'views/journal_view.xml',
     ],
-    'installable': 'True',
+    'demo': [],
+    'qweb': [],
+    'installable': True,
+    'application': False,
+    'auto_install': False,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
