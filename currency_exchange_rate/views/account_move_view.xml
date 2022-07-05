@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='journal_div']/field[@name='currency_id']" position="after">
                     <span class="oe_inline o_form_label ml-3" groups="base.group_multi_currency"> at rate: </span>
-                    <field name="currency_rate" groups="base.group_multi_currency" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="currency_rate" groups="base.group_multi_currency" attrs="{'readonly': [('state', '!=', 'draft')]}" readonly="1"/>
                 </xpath>
             </field>
         </record>
