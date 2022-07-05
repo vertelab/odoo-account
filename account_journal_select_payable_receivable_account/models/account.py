@@ -81,6 +81,7 @@ class AccountMove(models.Model):
                 return self.invoice_date_due or self.invoice_date or today
 
         def _get_payment_terms_account(self, payment_terms_lines):
+            # ~ _logger.warning("do i run1?"*100)
             ''' Get the account from invoice that will be set as receivable / payable account.
             :param self:                    The current account.move record.
             :param payment_terms_lines:     The current payment terms lines.
@@ -89,6 +90,11 @@ class AccountMove(models.Model):
             if payment_terms_lines:
                 # Retrieve account from previous payment terms lines in order to allow the user to set a custom one.
                 return payment_terms_lines[0].account_id
+            elif self.move_type in ('out_invoice', 'out_refund', 'out_receipt') and self.journal_id.receivable_account:
+                # Added two new fields on a journal so that we can control which payable/receivable is used
+                    return self.journal_id.receivable_account
+            elif not self.move_type in ('out_invoice', 'out_refund', 'out_receipt') and self.journal_id.payable_account:
+                    return self.journal_id.payable_account
             elif self.partner_id:
                 # Retrieve account from partner.
                 if self.is_sale_document(include_receipts=True):
@@ -101,13 +107,6 @@ class AccountMove(models.Model):
                     ('company_id', '=', self.company_id.id),
                     ('internal_type', '=', 'receivable' if self.move_type in ('out_invoice', 'out_refund', 'out_receipt') else 'payable'),
                 ]
-                
-                # Added two new fields on a journal so that we can control which payable/receivable is used
-                if self.move_type in ('out_invoice', 'out_refund', 'out_receipt') and self.journal_id.receivable_account:
-                    return self.journal_id.receivable_account
-                if not self.move_type in ('out_invoice', 'out_refund', 'out_receipt') and self.journal_id.payable_account:
-                    return self.journal_id.payable_account
-                
                 # Search new account. #############################################################################################################It takes the first payable/receivable account it can. Which is not ideal
                 return self.env['account.account'].search(domain, limit=1)
 
