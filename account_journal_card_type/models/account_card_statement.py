@@ -13,7 +13,7 @@ class AccountCardStatement(models.Model):
     date = fields.Date()
     account_card_statement_line_ids = fields.One2many('account.card.statement.line', 'account_card_statement_id', string='Card Transaction')
     account_move_id = fields.Many2one('account.move', string='Entry')
-    journal_id = fields.Many2one('account.journal', string='Journal')
+    journal_id = fields.Many2one('account.journal', string='Journal', required=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('posted', 'Posted'),
@@ -22,7 +22,7 @@ class AccountCardStatement(models.Model):
 
     @api.model
     def create(self, vals):
-        _rec_id = self.env[self._name].search([('name', '=', vals.get('name')), ('state', '!=', 'cancelled')], limit=1)
+        _rec_id = self.env[self._name].search([('name', '=', vals.get('name')), ('state', '!=', 'cancelled'), ('journal_id', '=', vals.get('journal_id'))], limit=1)
         if _rec_id:
             raise UserError(_('Bank Statement for this month already exists. You can cancel previous statement and create new one.'))
         return super(AccountCardStatement, self).create(vals)
