@@ -32,7 +32,16 @@
                             <field name="journal_id"/>
                         </group>
                         <group>
-                            <field name="account_card_statement_line_ids"/>
+                            <field name="account_card_statement_line_ids">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="person"/>
+                                    <field name="card_number"/>
+                                    <field name="description"/>
+                                    <field name="amount"/>
+                                    <field name="currency"/>
+                                </tree>
+                            </field>
                         </group>
                    </sheet>
                     <div class="oe_chatter">
