@@ -41,7 +41,6 @@
         'views/account_journal.xml',
         'security/ir.model.access.csv',
         'views/card_statement_view.xml',
-        
     ],
     'demo': [],
     'qweb': [],

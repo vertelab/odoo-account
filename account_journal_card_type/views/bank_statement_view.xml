@@ -11,7 +11,7 @@
                     <field name="date"/>
                     <field name="account_move_id"/>
                     <field name="journal_id"/>
-                <field name="account_card_statement_line_ids"/>
+                    <field name="account_card_statement_line_ids"/>
                 </tree>
             </field>
         </record>
@@ -32,7 +32,16 @@
                             <field name="journal_id"/>
                         </group>
                         <group>
-                            <field name="account_card_statement_line_ids"/>
+                            <field name="account_card_statement_line_ids">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="person"/>
+                                    <field name="card_number"/>
+                                    <field name="description"/>
+                                    <field name="amount"/>
+                                    <field name="currency"/>
+                                </tree>
+                            </field>
                         </group>
                    </sheet>
                     <div class="oe_chatter">
@@ -145,18 +154,17 @@
         </record>
 
                     
-        
-    <record id="action_view_card_statements" model="ir.actions.act_window">
-        <field name="name">Card Transactions </field>
-        <field name="res_model">account.card.statement</field>
-        <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="view_card_statement_search"/>    
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                No Card statement found.
-            </p>
-        </field>
-    </record>   
+        <record id="action_view_card_statements" model="ir.actions.act_window">
+            <field name="name">Card Transactions </field>
+            <field name="res_model">account.card.statement</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_card_statement_search"/>    
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Card statement found.
+                </p>
+            </field>
+        </record>   
         
     </data>
 </odoo>
