@@ -43,7 +43,8 @@ This done so that we can filter on Area of Responsability and Project Number fie
     'data': [
         'views/analytic_tag.xml',
         'views/account_move_line.xml',
-        'views/sale_order_line.xml'
+        'views/sale_order_line.xml',
+        'data/account_filter.xml',
     ],
     'demo': [],
     'qweb': [],
