@@ -17,7 +17,9 @@ class AccountMove(models.Model):
 
     def action_post(self):
         if len(self.line_ids.filtered(lambda x: not x.analytic_tag_ids and x.display_type != "line_note" and x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
-             raise ValidationError(_("There are lines with an account between 3000 - 9999 that is missing an analytic tag.\n Add an anlytic tag on these lines before confirming."))
+            raise ValidationError(_("There are lines with an account between 3000 - 9999 that is missing an analytic tag.\n Add an anlytic tag on these lines before confirming."))
+        # ~ if len(self.invoice_line_ids.filtered(lambda x: not x.analytic_account_id)) > 0:
+            # ~ raise ValidationError(_("Kindly select add an analytic account for all invoice lines"))
         self._post(soft=False)
         return False
 
@@ -67,6 +69,36 @@ class AccountMoveLine(models.Model):
         if values.get('analytic_tag_ids'):
             # ~ _logger.warning("AccountMoveLine write analytic_tag_ids")
             self._depends_analytic_tag_ids()
+        return res
+        
+    @api.model    
+    def _default_project_tag_ids(self,tag_ids):
+        _logger.warning(f"{tag_ids}")
+        tag_recordset = self.env['account.analytic.tag'].browse(tag_ids)
+        _logger.warning(f"jakmar {tag_recordset=}")
+        for tag in tag_recordset:
+            _logger.warning(f"jakmar {tag=}")
+            if tag.type_of_tag == "project_number":
+               return tag.id
+        return False
+    
+    @api.model 
+    def _default_place_tag_ids(self,tag_ids):
+        tag_recordset = self.env['account.analytic.tag'].browse(tag_ids)
+        for tag in tag_recordset:
+            if tag.type_of_tag == "area_of_responsibility":
+               return tag.id
+        return False
+        
+    @api.model_create_multi
+    def create(self, vals_list):
+        for val in vals_list:
+            tag_ids_list = val.get('analytic_tag_ids',False)
+            if tag_ids_list:
+                tag_ids = tag_ids_list[0][2]
+                val['project_no'] = self.env['account.move.line']._default_project_tag_ids(tag_ids)
+                val['area_of_responsibility'] = self.env['account.move.line']._default_place_tag_ids(tag_ids)
+        res = super(AccountMoveLine, self).create(vals_list)
         return res
             
         
