@@ -7,15 +7,17 @@ from functools import lru_cache
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    product_price = fields.Float(string='Product', readonly=True, related="product_id.lst_price", store=True)
+    product_buy_price = fields.Float(string='PS Volume', readonly=True, related="product_id.standard_price", store=True)
+    # ~ product_sell_price = fields.Float(string='PS Volume', readonly=True, related="product_id.lst_price", store=True)
     
 
 
 class AccountInvoiceReport(models.Model):
     _inherit = "account.invoice.report"
 
-    product_price = fields.Float(string='PS Volume', readonly=True, related="product_id.lst_price", store=True)
-
+    product_buy_price = fields.Float(string='PS Volume', readonly=True, related="product_id.standard_price", store=True)
+    # ~ product_sell_price = fields.Float(string='PS Volume', readonly=True, related="product_id.lst_price", store=True)
+    
     @api.model
     def _select(self):
         return '''
@@ -23,7 +25,7 @@ class AccountInvoiceReport(models.Model):
                 line.id,
                 line.move_id,
                 line.product_id,
-                line.product_price * line.quantity AS product_price,
+                line.product_buy_price * line.quantity AS product_buy_price,
                 line.account_id,
                 line.analytic_account_id,
                 line.journal_id,
