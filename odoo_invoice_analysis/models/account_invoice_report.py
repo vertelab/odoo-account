@@ -15,7 +15,7 @@ class AccountMoveLine(models.Model):
 class AccountInvoiceReport(models.Model):
     _inherit = "account.invoice.report"
 
-    product_buy_price = fields.Float(string='PS Volume', readonly=True, related="product_id.standard_price", store=True)
+    product_buy_price = fields.Float(string='PS Volume', readonly=True)
     # ~ product_sell_price = fields.Float(string='PS Volume', readonly=True, related="product_id.lst_price", store=True)
     
     @api.model
