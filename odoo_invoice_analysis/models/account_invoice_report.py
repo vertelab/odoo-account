@@ -2,7 +2,15 @@
 
 from odoo import models, fields, api
 
-from functools import lru_cache
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move"
+
+    amount_total = fields.Monetary(string='Total LOC', store=True, readonly=True,
+        compute='_compute_amount',
+        inverse='_inverse_amount_total')
+
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"

@@ -37,7 +37,8 @@
     """,
     'depends': ['account'],
     'data': [
-        'views/account_invoice_report_view.xml'
+        'views/account_invoice_report_view.xml',
+        'views/account_move_view.xml',
     ],
     'installable': True,
     'application': False,
