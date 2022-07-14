@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="account.view_account_invoice_report_pivot" />
             <field name="arch" type="xml">
                 <field name="price_subtotal" position="after">
-                    <field name="product_price" type="measure"/>
+                    <field name="product_buy_price" type="measure"/>
                 </field>
             </field>
         </record>
