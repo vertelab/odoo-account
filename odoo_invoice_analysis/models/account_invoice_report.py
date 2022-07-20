@@ -4,7 +4,7 @@ from odoo import models, fields, api
 
 
 
-class AccountMoveLine(models.Model):
+class AccountMove(models.Model):
     _inherit = "account.move"
 
     amount_total = fields.Monetary(string='Total LOC', store=True, readonly=True,
