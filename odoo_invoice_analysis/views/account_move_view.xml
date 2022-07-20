@@ -7,7 +7,8 @@
             <field name="inherit_id" ref="account.view_out_invoice_tree" />
             <field name="arch" type="xml">
                 <field name="amount_untaxed_signed" position="before">
-                    <field name="amount_total"/>
+                    <field name="amount_total_loc" optional="show"/>
+                    <field name="amount_total" optional="hide"/>
                 </field>
             </field>
         </record>

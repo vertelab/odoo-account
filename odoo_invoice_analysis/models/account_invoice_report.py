@@ -5,11 +5,18 @@ from odoo import models, fields, api
 
 
 class AccountMove(models.Model):
-    _inherit = "account.move"
+    _inherit = 'account.move'
+    
+    def _compute_amount_loc(self):
+        for move in self:
+            move._compute_amount()
+            move.amount_total_loc = move.amount_total
+        
+    amount_total_loc = fields.Monetary(string='Total LOC', store=True, readonly=True,
+        compute='_compute_amount_loc')
+    
 
-    amount_total = fields.Monetary(string='Total LOC', store=True, readonly=True,
-        compute='_compute_amount',
-        inverse='_inverse_amount_total')
+
 
 
 class AccountMoveLine(models.Model):
@@ -61,3 +68,4 @@ class AccountInvoiceReport(models.Model):
                    0.0) * currency_table.rate                               AS price_average,
                 COALESCE(partner.country_id, commercial_partner.country_id) AS country_id
         '''
+        

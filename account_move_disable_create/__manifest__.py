@@ -34,7 +34,7 @@
     'description': """
 
     """,
-    'depends': ['account', 'account_period', 'sale'],
+    'depends': ['account', 'account_period', 'sale', 'account_payment_partner'],
     'data': [
         'views/account_move_view.xml',
     ],
