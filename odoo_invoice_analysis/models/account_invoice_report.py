@@ -3,6 +3,20 @@
 from odoo import models, fields, api
 
 
+class AccountMoveline(models.Model):
+    _inherit = 'account.move.line'
+    total_weight = fields.Float(string='Total Weight', readonly=True, compute='_compute_total_weight')
+    def _compute_total_weight(self):
+        context_copy = self.env.context.copy()
+        context_copy.update({'check_move_period_validity':False})
+        for record in self:
+            quantity = record.quantity if record.quantity else 0
+            if record.product_id:
+                weight = record.product_id.weight if record.product_id.weight else 0
+            else:
+                weight = 0
+            record.with_context(context_copy).write({'total_weight':weight * quantity})
+    
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
