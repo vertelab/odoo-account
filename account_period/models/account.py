@@ -87,6 +87,14 @@ class AccountPeriod(models.Model):
         return False
 
     @api.returns('self')
+    def prev(self):
+        for period in self:
+            return self.search([('date_start','<',period.date_start)],order='date_start')[-1]
+        return self
+
+
+
+    @api.returns('self')
     def find(self, dt=None, context=None):
         context = context or {}
         self.ensure_one()
