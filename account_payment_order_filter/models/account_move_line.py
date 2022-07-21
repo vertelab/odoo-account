@@ -79,5 +79,4 @@ class AccountMoveLine(models.Model):
             "date": False,
             # date is set when the user confirms the payment order
         }
-        _logger.warning(f"jakmar vals {vals}")
         return vals
