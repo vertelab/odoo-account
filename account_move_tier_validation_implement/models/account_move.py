@@ -19,4 +19,5 @@ class AccountMove(models.Model):
         res.append("exclude_payment")
         res.append("exclude_payment_partner")
         res.append("exclude_payment_partner_and_move")
+        res.append("amount_total_loc")
         return res

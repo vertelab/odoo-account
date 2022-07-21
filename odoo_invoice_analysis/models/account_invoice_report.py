@@ -38,7 +38,7 @@ class AccountMove(models.Model):
         for move in self:
              move.with_context(context_copy).write({'amount_total_loc':move.amount_total})
              
-    amount_total_loc = fields.Monetary(string='Total LOC', store=False, readonly=True,
+    amount_total_loc = fields.Monetary(string='Total LOC', store=True, readonly=True,
         compute='_compute_amount_loc')
     
 
