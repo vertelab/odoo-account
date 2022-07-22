@@ -7,9 +7,8 @@ from odoo.exceptions import ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 
-class ResUsers(models.Model):
-    _inherit = "res.users"
+class ResPartner(models.Model):
+    _inherit = "res.partner"
     company_currency_id = fields.Many2one(string='Company Currency', readonly=True,related='company_id.currency_id')
     allowed_to_validate = fields.Boolean(string='Allowed To Validate')
     max_validation_amount = fields.Monetary(string='Max Validation Amount',currency_field='company_currency_id')
-    
