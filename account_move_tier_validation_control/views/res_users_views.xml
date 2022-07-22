@@ -8,6 +8,7 @@
                 <xpath expr="//page[@name='references']" position="after">
                     <page id="validation_tab" string="Validation Info" name="validation_info"><!--Attestering-->
                         <group>
+                            <field name="company_currency_id" invisible="1"/>
                             <field name="allowed_to_validate"/>
                             <field name="max_validation_amount" attrs="{'invisible': [('allowed_to_validate', '=', False)]}"/>
                         </group>
