@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account move validation implement group',
+    'name': 'Account move validation implement control',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': '',
@@ -35,11 +35,15 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-    Adds a validation group and a domain
+    	Adds two new fields on a user. 
+	1. Is a field to set if they are supposed to show up in the validation fields on an invoice.
+	2. Is how much is that person allowed to validate.
     """,
-    'depends': ['account_move_tier_validation_implement'],
+    'depends': ['account_move_tier_validation_implement','base'],
     'data': [
-        'data/validator_group.xml'
+	'views/res_users_views.xml',
+	'views/account_move_views.xml',
+        #'data/validator_group.xml'
     ],
     'demo': [],
     'qweb': [],

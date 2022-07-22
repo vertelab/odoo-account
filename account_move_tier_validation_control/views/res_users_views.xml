@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        <record id="view_users_form_inherit" model="ir.ui.view">
+            <field name="name">view_users_form_inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='references']" position="after">
+                    <page id="validation_tab" string="Validation Info" name="validation_info"><!--Attestering-->
+                        <group>
+                            <field name="allowed_to_validate"/>
+                            <field name="max_validation_amount" attrs="{'invisible': [('allowed_to_validate', '=', False)]}"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

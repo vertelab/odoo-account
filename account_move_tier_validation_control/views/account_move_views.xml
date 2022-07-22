@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record id="view_move_form_validation_inherit" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account_move_tier_validation_implement.view_move_form_validation"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@id='validation_tab']" position="replace">
+                    <page id="validation_tab" string="Validation Info" name="validation_info"><!--Attestering-->
+                        <group>
+                            <field name="amount_total_signed_absolute" invisible="1"/>
+                            <field name="move_tier_validator" string="Move Validator" domain="[('allowed_to_validate', '=', True),('max_validation_amount', '>=', amount_total_signed_absolute)]"/>
+                            <field name="move_tier_validators" string="Move Validators" domain="[('allowed_to_validate', '=', True),('max_validation_amount', '>=', amount_total_signed_absolute)]">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="login"/>
+                                    <field name="allowed_to_validate"/>
+                                    <field name="max_validation_amount"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
