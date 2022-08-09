@@ -434,6 +434,7 @@ class AccountMove(models.Model):
     def _get_default_period_id(self):
         return self.env['account.period'].date2period(self.invoice_date or fields.Date.today()).id
 
+
     period_id = fields.Many2one(
         comodel_name='account.period', string='Period', default=_get_default_period_id,
         required=True, states={'posted':[('readonly',True)]}, domain="[('state', '!=', 'done')]")
@@ -477,10 +478,10 @@ class AccountMove(models.Model):
             else:
                 rec.payment_move_id = False
 
-    @api.onchange("invoice_date")
-    def set_period_based_on_invoice_date(self):
-        if self.invoice_date:
-            period_id = self.env['account.period'].date2period(self.invoice_date)
+    @api.onchange("date")
+    def set_period_based_on_date(self):
+        if self.date:
+            period_id = self.env['account.period'].date2period(self.date)
             if period_id and period_id.state == 'done':
                 raise ValidationError(_("You have tried to create an invoice on a closed period {period_id.name}.\n Please change period or open {period_id.name}").format(**locals()))
             else:
