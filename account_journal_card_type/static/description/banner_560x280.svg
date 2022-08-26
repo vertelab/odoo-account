@@ -17,7 +17,7 @@
    id="SVGRoot"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
    sodipodi:docname="banner_560x280.svg"
-   inkscape:export-filename="/run/user/1000/gvfs/sftp:host=marina/usr/share/odoo-account/account_journal_selection/static/description/banner.png"
+   inkscape:export-filename="/usr/share/odoo-account/account_journal_card_type/static/description/banner.png"
    inkscape:export-xdpi="92.61972"
    inkscape:export-ydpi="92.61972">
   <defs
@@ -56,15 +56,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="186.12419"
-     inkscape:cy="55.78164"
+     inkscape:cx="271.12419"
+     inkscape:cy="68.78164"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1625"
      inkscape:window-height="773"
-     inkscape:window-x="295"
-     inkscape:window-y="119"
+     inkscape:window-x="221"
+     inkscape:window-y="121"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
@@ -189,7 +189,7 @@
          x="266.89337"
          y="97.537407"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.99999994px"
-         id="tspan846">Journal Selection</tspan></text>
+         id="tspan846">Journal Card Type</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
