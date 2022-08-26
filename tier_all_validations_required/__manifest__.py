@@ -22,7 +22,7 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'All Reviewers Required Validation',
+    'name': 'Account: All Reviewers Required Validation',
     'version': '14.0.0.1.0',
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -33,7 +33,7 @@
     """,
     #'sequence': 1,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-',
+    'website': 'https://vertel.se/apps/odoo-account/tier_all_validations_required/',
     'license': 'AGPL-3',
     'depends': ['base_tier_validation', 'account_move_tier_validation', 'account_move_tier_validation_implement'],
     'data': [
