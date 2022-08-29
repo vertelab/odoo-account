@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <template id="report_invoice_document_inherit_sale_inherit" inherit_id="sale.report_invoice_document_inherit_sale">
+        <t t-if="o.partner_shipping_id and (o.partner_shipping_id != o.partner_id)" position="inside">
+           <span t-field="o.partner_shipping_id.vat" />
+        </t>
+    </template>
+
+</odoo>
+
+
+              
