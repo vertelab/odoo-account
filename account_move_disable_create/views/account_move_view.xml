@@ -8,9 +8,8 @@
             <field name="inherit_id" ref="account_payment_partner.view_move_form"/>
             <field name="arch" type="xml">
                 <field name="payment_mode_id" position="attributes">
-                        <attribute name="options">{'no_create': True}</attribute>
+                    <attribute name="options">{'no_create': True}</attribute>
                 </field>
-
             </field>
         </record>
         
@@ -20,6 +19,10 @@
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
+                 <button name="button_draft" position="attributes">
+                    <attribute name="confirm">Are you sure to set this to draft?</attribute>
+                </button>
+
                 <field name="partner_id" position="attributes">
                     <attribute name="options">{'no_create': True}</attribute>
                 </field>
@@ -33,11 +36,11 @@
                 </field>
                 
                 <xpath expr="//group[@name='sale_info_group']/field[@name='partner_bank_id']" position="attributes">
-                            <attribute name="options">{'no_create': True}</attribute>
+                    <attribute name="options">{'no_create': True}</attribute>
                 </xpath>
                 
                 <xpath expr="//div[@name='journal_div']/field[@name='currency_id']" position="attributes">
-                            <attribute name="options">{'no_create': True}</attribute>
+                    <attribute name="options">{'no_create': True}</attribute>
                 </xpath>
 
 
