@@ -19,7 +19,7 @@ class AccountMove(models.Model):
         for rec in self:
             rec.reviewers = ', '.join(rec.review_ids.mapped('todo_by'))
 
-    reviewers = fields.Char(string="Reviewers", compute=_get_reviewers)
+    reviewers = fields.Char(string="Account Reviewers", compute=_get_reviewers)
 
     def _get_under_validation_exceptions(self):
         res = super(AccountMove, self)._get_under_validation_exceptions()
