@@ -50,7 +50,7 @@ class AccountPeriod(models.Model):
     code = fields.Char(string='Code', size=12)
     special = fields.Boolean(string='Opening/Closing Period', help='These periods can overlap.')
     fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', required=True,
-                                    states={'done': [('readonly', True)]}, index=True, ondelete="cascade")
+                                    states={'done': [('readonly', True)]}, index=True)
     state = fields.Selection([('draft', 'Open'), ('done', 'Closed')], string='Status', readonly=True, copy=False,
                              help='When monthly periods are created. The status is \'Draft\'. At the end of monthly '
                                   'period it is in \'Done\' status.', default='draft')
