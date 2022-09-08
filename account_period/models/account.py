@@ -223,7 +223,7 @@ class AccountPeriod(models.Model):
     def date2period(self, date):
         return self.env['account.period'].search(
             [('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')),
-             ('company_id', '=', self.company_id.id), ('special', '=', False)])
+             ('company_id', '=', self.env.company.id), ('special', '=', False)])
 
     @api.depends("state")
     def _set_fiscalyear_id_state(self):
