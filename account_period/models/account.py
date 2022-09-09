@@ -219,11 +219,24 @@ class AccountPeriod(models.Model):
             period = self.env['account.period'].browse(period)
         return fields.Date.from_string(period.date_start).strftime("%b" if short else "%B")
 
+    #@api.model
+    #def date2period(self, date):
+    #    return self.env['account.period'].search(
+    #        [('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')),
+    #         ('company_id', '=', self.env.company.id), ('special', '=', False)])
+    
     @api.model
     def date2period(self, date):
-        return self.env['account.period'].search(
+        #_logger.warning("date2period"*10)
+        #_logger.warning(f"{date}")
+        #company_id = self.env.context.get('company_id')
+        company_id = self.env.company.id
+        #_logger.warning(f"{company_id=} {company_id2=}")
+        res = self.env['account.period'].search(
             [('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')),
-             ('company_id', '=', self.env.company.id), ('special', '=', False)])
+             ('company_id', '=', company_id), ('special', '=', False)])
+        #_logger.warning(f"{res}")
+        return res
 
     @api.depends("state")
     def _set_fiscalyear_id_state(self):
