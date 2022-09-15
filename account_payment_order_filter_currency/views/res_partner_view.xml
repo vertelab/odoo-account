@@ -13,6 +13,12 @@
             <field name="property_account_payable_id" position="after">
                 <field name="exclude_from_payment"/>
             </field>
+            
+            <page name="accounting_disabled" attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}" groups="account.group_account_invoice,account.group_account_readonly" position="inside">
+              <group>
+                <field name="exclude_from_payment"/>
+              </group>
+            </page>
         </field>
     </record>
 </odoo>
