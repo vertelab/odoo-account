@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-   <template id="report_invoice_document_inherit_sale_inherit" inherit_id="sale.report_invoice_document_inherit_sale">
+    <template id="report_invoice_document_inherit_sale_inherit" inherit_id="sale.report_invoice_document_inherit_sale">
         <t t-set="information_block" position="inside">
-           VAT: <span t-field="o.partner_shipping_id.vat"/>
+          <t t-if="o.fiscal_position_id and o.fiscal_position_id.name != 'Handel inom Sverige'">
+             VAT: <span t-field="o.partner_shipping_id.vat"/>
+          </t>
         </t>
     </template>
+    
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="//t[@t-call='web.external_layout']/div[hasclass('page')]/table[@name='invoice_line_table']" position="attributes">
+            <attribute name="class">table table-condensed o_main_table</attribute>
+        </xpath>
+    </template>
+    
+    <template id="sale_stock_report_invoice_document_inherit" inherit_id="sale_stock.sale_stock_report_invoice_document">
+<!--
+        <t t-set="lot_values" t-value="o._get_invoiced_lot_values()" position="before"/>
+           <div style="page-break-after: always;"><br/></div>
+        </t>
+-->
 
+        <xpath expr="//t[@t-set='lot_values']" position="before">
+            <div style="page-break-after: always;"><br/></div>
+        </xpath>
+    </template>
 </odoo>
 
 

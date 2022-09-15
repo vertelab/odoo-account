@@ -30,9 +30,7 @@ _logger = logging.getLogger(__name__)
 
 class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"
-    #_inherits = {'account.move': 'move_id'}
-    
-    
+
     @api.model_create_multi
     def create(self, vals_list):
         _logger.warning("AccountBankStatementLine CREATE")
@@ -51,9 +49,10 @@ class AccountBankStatementLine(models.Model):
             period = vals['period_id'] = self.env['account.period'].date2period(date).id
             if not period:
                 date_formated = datetime.strftime(date, "%Y-%m-%d")
-                raise UserError(_(f"There is no period for the date {date_formated}, please choose another date or create a period for that date."))
+                raise UserError(_(f"There is no period for the date {date_formated}, please choose another date or "
+                                  f"create a period for that date."))
             _logger.warning(f"{period=}")
-        return super(AccountBankStatementLine,self).create(vals_list)
+        return super(AccountBankStatementLine, self).create(vals_list)
     
     
     

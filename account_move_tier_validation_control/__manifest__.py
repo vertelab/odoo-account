@@ -35,15 +35,15 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-    	Adds two new fields on a user. 
-	1. Is a field to set if they are supposed to show up in the validation fields on an invoice.
-	2. Is how much is that person allowed to validate.
+        Adds two new fields on a user. 
+        1. Is a field to set if they are supposed to show up in the validation fields on an invoice.
+        2. Is how much is that person allowed to validate.
     """,
-    'depends': ['account_move_tier_validation_implement','base'],
+    'depends': ['account_move_tier_validation_implement', 'base'],
     'data': [
-	'views/res_users_views.xml',
-	'views/account_move_views.xml',
-        #'data/validator_group.xml'
+        'views/res_users_views.xml',
+        'views/account_move_views.xml',
+        # 'data/validator_group.xml'
     ],
     'demo': [],
     'qweb': [],
