@@ -4,36 +4,36 @@
             <field name="name">view.move.form.tag.inherit</field>
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_move_form"/>
-            <field name="arch" type="xml"> 
+            <field name="arch" type="xml">
             <xpath expr="//notebook/page[@id='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='analytic_tag_ids']" position="replace">
                     <field name="analytic_tag_ids" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_tags" invisible="1" widget="many2many_tags"/>
-                    <field name="project_no" optional="show"/>
-                    <field name="area_of_responsibility" optional="show"/>
+                    <field name="project_no" optional="show" options="{'no_create': True}"/>
+                    <field name="area_of_responsibility" optional="show" options="{'no_create': True}"/>
                 </xpath>
                 <xpath expr="//notebook/page[@id='aml_tab']/field[@name='line_ids']/tree/field[@name='analytic_tag_ids']" position="replace">
                     <field name="analytic_tag_ids" invisible="1" groups="analytic.group_analytic_tags" widget="many2many_tags" attrs="{'invisible': [('display_type', 'in', ('line_section', 'line_note'))]}"/>
-                    <field name="project_no" optional="show"/>
-                    <field name="area_of_responsibility" optional="show"/>
+                    <field name="project_no" optional="show" options="{'no_create': True}"/>
+                    <field name="area_of_responsibility" optional="show" options="{'no_create': True}"/>
                 </xpath>
             </field>
         </record>
-        
+        <!--  -->
 <!--
         move line form
---> 
+-->
          <record id="view_move_line_form_inherit" model="ir.ui.view">
             <field name="name">view_move_line_form_inherit_res_proj_no</field>
             <field name="model">account.move.line</field>
             <field name="inherit_id" ref="account.view_move_line_form"/>
-            <field name="arch" type="xml"> 
+            <field name="arch" type="xml">
                 <xpath expr="//field[@name='analytic_tag_ids']" position="replace">
                     <field name="analytic_tag_ids" groups="analytic.group_analytic_tags" widget="many2many_tags" invisible="1"/>
-                    <field name="project_no"/>
-                    <field name="area_of_responsibility"/>
+                    <field name="project_no" options="{'no_create': True}"/>
+                    <field name="area_of_responsibility" options="{'no_create': True}"/>
                 </xpath>
             </field>
         </record>
-        
+
 <!--
         move line tree
 -->
@@ -41,11 +41,11 @@
             <field name="name">view_move_line_form_inherit_res_proj_no</field>
             <field name="model">account.move.line</field>
             <field name="inherit_id" ref="account.view_move_line_tree"/>
-            <field name="arch" type="xml"> 
+            <field name="arch" type="xml">
                 <xpath expr="//field[@name='analytic_tag_ids']" position="replace">
                     <field name="analytic_tag_ids" widget="many2many_tags" groups="analytic.group_analytic_tags" invisible="1"/>
-                    <field name="project_no" optional="show"/>
-                    <field name="area_of_responsibility" optional="show"/>
+                    <field name="project_no" optional="show" options="{'no_create': True}"/>
+                    <field name="area_of_responsibility" optional="show" options="{'no_create': True}"/>
                 </xpath>
             </field>
         </record>
