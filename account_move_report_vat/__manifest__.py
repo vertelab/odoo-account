@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Invoice Report',
+    'name': 'Account: Invoice Report',
     'version': '14.0.0.0.1',
     'summary': 'Adds Vat Number To the Invoice Report',
     'category': 'Accounting',
