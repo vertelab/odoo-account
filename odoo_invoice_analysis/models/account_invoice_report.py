@@ -44,13 +44,16 @@ class AccountMove(models.Model):
              # ~ move.with_context(context_copy).write({'amount_total_loc':move.amount_total})
         # ~ return res
         
-    @api.depends(
-        'amount_total')
+    @api.depends('amount_total','amount_total_signed')
     def _compute_amount_loc(self):
         context_copy = self.env.context.copy()
         context_copy.update({'check_move_period_validity':False})
         for move in self:
-             move.with_context(context_copy).write({'amount_total_loc':move.amount_total})
+            if ((move.amount_total_signed >= 0 and move.amount_total >= 0) or
+                (move.amount_total_signed < 0 and move.amount_total < 0)):
+                move.with_context(context_copy).write({'amount_total_loc':move.amount_total})
+            else:
+                move.with_context(context_copy).write({'amount_total_loc':-move.amount_total})
              
     amount_total_loc = fields.Monetary(string='Total LOC', store=True, readonly=True,
         compute='_compute_amount_loc')
