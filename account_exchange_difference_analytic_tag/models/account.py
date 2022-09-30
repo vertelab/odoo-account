@@ -34,7 +34,7 @@ class AccountMoveLine(models.Model):
 
         res = super(AccountMoveLine, self).reconcile()
         _logger.warning(f"{res=}")
-        if res['full_reconcile'].exchange_move_id:
+        if 'full_reconcile' in res and res['full_reconcile'].exchange_move_id:
           account_move = res['full_reconcile'].exchange_move_id
           # ~ _logger.warning(f"{account_move=}")
           account_expense = self.env.company.expense_currency_exchange_account_id
