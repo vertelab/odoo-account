@@ -57,5 +57,6 @@ class AccountMoveLine(models.Model):
             if line.account_id == account_expense or line.account_id == account_income:
                 # ~ _logger.warning("IF CASE")
                 line.write({'analytic_tag_ids':tags})
+          return res
         
       
