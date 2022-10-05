@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account Payment Filter Currency',
+    'name': 'Account: Payment Filter Currency',
     'version': '14.0.0.0.1',
     'summary': 'Adds the capability to filter payment order lines based on currency',
     'category': 'Accounting',
