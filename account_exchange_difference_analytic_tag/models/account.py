@@ -30,8 +30,6 @@ _logger = logging.getLogger(__name__)
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     def reconcile(self):
-        _logger.warning("reconcile"*100)
-
         res = super(AccountMoveLine, self).reconcile()
         _logger.warning(f"{res=}")
         if 'full_reconcile' in res and res['full_reconcile'].exchange_move_id:

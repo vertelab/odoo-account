@@ -45,6 +45,7 @@ This done so that we can filter on Area of Responsability and Project Number fie
         'views/account_move_line.xml',
         'views/sale_order_line.xml',
         'data/account_filter.xml',
+        'data/res_config.xml',
     ],
     'demo': [],
     'qweb': [],
