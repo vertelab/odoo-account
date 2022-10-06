@@ -38,6 +38,11 @@ Account Analytic Tag: Area Of Responsability and Project Number
 ========================================================
 Adds types on a analytic account tag, so that we can set two new fields on a journal line and a sale Order Line.
 This done so that we can filter on Area of Responsability and Project Number fields. Which are set on an move line and a sale order line if the tags has either set as a type.
+This module also adds the requirment for invoice lines with an account code between 3000-9999 to have both an project and area of responsibility tag.
+
+There is a harsher check you can enable/disable in the settings called Harsh Analytic Tag Enforcement.
+This check for if odoo at some point tries to break this rule in the background.
+ 
     """,
     'depends': ['analytic', 'account', 'sale', 'account_period', 'purchase'],
     'data': [
