@@ -36,9 +36,10 @@
     'description': """
     Adds a field on a account move to select validator
     """,
-    'depends': ['account_move_tier_validation', 'base'],
+    'depends': ['account_move_tier_validation', 'base', 'base_tier_validation_report', 'base_tier_validation'],
     'data': [
         'views/account_move_views.xml',
+        'views/tier_review.xml',
     ],
     'demo': [],
     'qweb': [],
