@@ -68,7 +68,6 @@ class TierValidation(models.AbstractModel):
                 "reviewed_date": fields.Datetime.now(),
             }
         )
-        # print(tier_reviews)
         for review in user_reviews:
             rec = self.env[review.model].browse(review.res_id)
             rec._notify_accepted_reviews()
