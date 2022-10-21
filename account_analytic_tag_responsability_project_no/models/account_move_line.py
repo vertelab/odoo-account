@@ -49,7 +49,7 @@ class AccountMoveLine(models.Model):
 
     def reconcile(self):
         res = super(AccountMoveLine, self).reconcile()
-        if "partials" in res:
+        if res and "partials" in res:
             for partial_record in res['partials']:
                 
                 move_with_tags = False
