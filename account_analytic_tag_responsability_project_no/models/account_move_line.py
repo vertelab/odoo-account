@@ -8,8 +8,8 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def action_post(self):
-        if len(self.line_ids.filtered(lambda x: not x.project_no and x.display_type != "line_note" and x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
-            raise ValidationError(_("There are lines with an account between 3000 - 9999 that is missing an project tag.\n Add an project tag on these lines before confirming."))
+        #if len(self.line_ids.filtered(lambda x: not x.project_no and x.display_type != "line_note" and x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
+        #    raise ValidationError(_("There are lines with an account between 3000 - 9999 that is missing an project tag.\n Add an project tag on these lines before confirming."))
             
         if len(self.line_ids.filtered(lambda x: not x.area_of_responsibility and x.display_type != "line_note" and x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
             raise ValidationError(_("There are lines with an account between 3000 - 9999 that is missing an area of responsibility tag.\n Add an area of responsibility tag on these lines before confirming."))
@@ -26,8 +26,8 @@ class AccountMove(models.Model):
         icp = self.env['ir.config_parameter'].sudo()
         harsher_check = icp.get_param('account_analytic_tag_responsability_project_no.hard_invoice_account_check', default=False)
         if harsher_check:
-            if len(self.line_ids.filtered(lambda x: not x.project_no and x.display_type != "line_note" and x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
-                raise ValidationError(_("There are lines with an account between 3000 - 9999 that is missing an project tag.\n Add an project tag on these lines before confirming. \n If this check in in the way you can disable it by going to the settings and disabling Harsh Analytic Tag Enforcement"))
+            #if len(self.line_ids.filtered(lambda x: not x.project_no and x.display_type != "line_note" and x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
+            #    raise ValidationError(_("There are lines with an account between 3000 - 9999 that is missing an project tag.\n Add an project tag on these lines before confirming. \n If this check in in the way you can disable it by going to the settings and disabling Harsh Analytic Tag Enforcement"))
                 
             if len(self.line_ids.filtered(lambda x: not x.area_of_responsibility and x.display_type != "line_note" and x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
                 raise ValidationError(_("There are lines with an account between 3000 - 9999 that is missing an area of responsibility tag.\n Add an area of responsibility tag on these lines before confirming. \n If this check in in the way you can disable it by going to the settings and disabling Harsh Analytic Tag Enforcement"))
