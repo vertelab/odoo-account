@@ -44,7 +44,7 @@ There is a harsher check you can enable/disable in the settings called Harsh Ana
 This check for if odoo at some point tries to break this rule in the background.
  
     """,
-    'depends': ['analytic', 'account', 'sale', 'account_period', 'purchase'],
+    'depends': ['analytic', 'account', 'sale', 'account_period', 'purchase','mis_builder'],
     'data': [
         'views/analytic_tag.xml',
         'views/account_move_line.xml',
