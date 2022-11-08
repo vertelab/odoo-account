@@ -26,8 +26,6 @@ from odoo.exceptions import UserError, ValidationError, Warning
 
 import logging
 
-from telegram import Invoice
-
 _logger = logging.getLogger(__name__)
 
 
