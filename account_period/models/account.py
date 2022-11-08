@@ -22,9 +22,11 @@ from odoo import api, fields, models, _, exceptions
 from odoo.osv import expression
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError, ValidationError, Warning
 
 import logging
+
+from telegram import Invoice
 
 _logger = logging.getLogger(__name__)
 
@@ -555,6 +557,14 @@ class AccountMove(models.Model):
                     **locals()))
         return super(AccountMove, self).action_post()
 
+    def compute_period_date(self):
+        if self.date > self.period_id.date_stop or self.date < self.period_id.date_start:
+            self.invoicing_date_warning = True
+        else:
+            self.invoicing_date_warning = False
+
+    invoicing_date_warning = fields.Boolean(string='A warning', compute=compute_period_date)
+    
 
 class account_account(models.Model):
     _inherit = 'account.account'

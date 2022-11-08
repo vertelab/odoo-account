@@ -201,6 +201,28 @@
          <xpath expr="//*[@id='header_right_group']//*[hasclass('o_td_label')]" position="before">
             <field name="period_id" />
          </xpath>
+         <xpath expr="//field[@name='country_code']" position="after">
+          <field name="invoicing_date_warning" invisible="1"/>
+         </xpath>
+         <xpath expr="(//button[@name='action_post'])[1]" position="attributes">
+          <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'entry'), ('invoicing_date_warning', '=', True)]}</attribute>
+        </xpath>
+        <xpath expr="(//button[@name='action_post'])[2]" position="attributes">
+          <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'out_invoice'), ('invoicing_date_warning', '=', True)]}</attribute>
+        </xpath>
+         <!-- <xpath expr="(//button[@name='action_post'])[1]" position="after">
+          <button name="action_post" string="Post" class="oe_highlight" 
+          type="object" groups="account.group_account_invoice" confirm="The date is outside the period date. Do you want to still want post the invoice?"
+          attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'entry'), ('invoicing_date_warning', '=', False)]}"/>
+        </xpath> -->
+        <xpath expr="(//button[@name='action_post'])[2]" position="after">
+          <button name="action_post" string="Post" class="oe_highlight" 
+          type="object" groups="account.group_account_invoice" confirm="The date is outside the period date. Do you want to still want post the invoice?"
+          attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'entry'), ('invoicing_date_warning', '=', False)]}"/>
+          <button name="action_post" string="Confirm" class="oe_highlight" 
+          type="object" groups="account.group_account_invoice" confirm="The date is outside the period date. Do you want to still want post the invoice?"
+          attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '=', 'entry'), ('invoicing_date_warning', '=', False)]}"/>
+        </xpath>
 <!--
         <field name="ref" position="after">          
           <field name="payment_state"/>
