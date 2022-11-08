@@ -38,7 +38,7 @@
     """,
     'depends': ['account'],
     'data': [
-        'views/res_config.xml',
+        # 'views/res_config.xml',
     ],
     'demo': [],
     'qweb': [],

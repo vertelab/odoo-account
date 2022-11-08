@@ -25,8 +25,9 @@ from dateutil.relativedelta import relativedelta
 from odoo.exceptions import Warning
 from lxml import etree
 from odoo.exceptions import UserError
+import re
 import logging
-_logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class AccountPaymentOrder(models.Model):

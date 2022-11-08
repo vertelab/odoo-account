@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account Payment Order Override',
+    'name': 'Account: Payment Order Override',
     'version': '14.0.0.0.1',
     'summary': 'Override OCA reconciliation module to allow reconcilation while in draft status',
     'category': 'Accounting',

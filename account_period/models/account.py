@@ -476,11 +476,12 @@ class AccountMove(models.Model):
 
     @api.model_create_multi
     def create(self, values):
-        if isinstance(values, list):
-            for i in range(len(values)):
-                self.validate_open_period_create(values[i])
-        else:
-            self.validate_open_period_create(values)
+        if self._context.get('check_move_period_validity', True):
+            if isinstance(values, list):
+                for i in range(len(values)):
+                    self.validate_open_period_create(values[i])
+            else:
+                self.validate_open_period_create(values)
         return super(AccountMove, self).create(values)
 
     def _get_default_period_id(self):

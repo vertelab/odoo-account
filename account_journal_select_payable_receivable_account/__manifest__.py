@@ -23,7 +23,7 @@
     'name': 'Account: Journal Select Payable Receivable Account',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds two new fields on a journal so that we can control which Payable Receivable Account odoo uses when it balances an Invoice/Journal Entry',
+    'summary': 'Adds new fields on a journal.',
     'category': 'Accounting',
     #'sequence': '1',
     'author': 'Vertel AB',
@@ -34,7 +34,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-	Adds two new fields on a journal so that we can control which Payable Receivable Account odoo uses when it balances an Invoice/Journal Entry.
+	Adds two new fields on a journal so that we can control which Payable Receivable Account Odoo uses when it balances an Invoice/Journal Entry.
 	Odoo uses the first payable/receivable account it can find using the search method, so if you have more than one you can't control which one is used.
 
 	Payable are used on on everything except Customer Invoice, Customer Credit Note, Sales Receipt.

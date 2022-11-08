@@ -36,9 +36,9 @@
     'description': """
 	
     """,
-    'depends': ['account'],
+    'depends': ['account','account_analytic_tag_responsability_project_no'],
     'data': [
-        'views/res_config.xml',
+        # 'views/res_config.xml',
     ],
     'demo': [],
     'qweb': [],

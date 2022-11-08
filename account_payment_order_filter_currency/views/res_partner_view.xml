@@ -13,6 +13,13 @@
             <field name="property_account_payable_id" position="after">
                 <field name="exclude_from_payment"/>
             </field>
+
+            <xpath expr="//page[@name='accounting_disabled']/div[1]" position="after">
+                <div>
+                    <p>Payment related settings are managed on <button name="open_commercial_entity" type="object" string="the parent company" class="oe_link"/></p>
+                </div>
+            </xpath>
+
         </field>
     </record>
 </odoo>

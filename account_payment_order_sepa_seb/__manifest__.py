@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account Payment Order Sepa SEB Swe',
+    'name': 'Account: Payment Order Sepa SEB Swe',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Module that fixes some of the errors that the sepa files triggers for the SEB parser for Swedish payments',
