@@ -51,6 +51,7 @@ This check for if odoo at some point tries to break this rule in the background.
         'views/sale_order_line.xml',
         'data/account_filter.xml',
         'data/res_config.xml',
+        'views/mis_form_view.xml',
     ],
     'demo': [],
     'qweb': [],
