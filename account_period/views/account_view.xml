@@ -208,7 +208,7 @@
           <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'entry'), ('invoicing_date_warning', '=', True)]}</attribute>
         </xpath>
         <xpath expr="(//button[@name='action_post'])[2]" position="attributes">
-          <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'out_invoice'), ('invoicing_date_warning', '=', True)]}</attribute>
+          <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '=', 'entry'), ('invoicing_date_warning', '=', True)]}</attribute>
         </xpath>
          <!-- <xpath expr="(//button[@name='action_post'])[1]" position="after">
           <button name="action_post" string="Post" class="oe_highlight" 
