@@ -2,9 +2,9 @@
 <odoo>
     <template id="report_invoice_document_inherit_sale_inherit" inherit_id="sale.report_invoice_document_inherit_sale">
         <t t-set="information_block" position="inside">
-          <t t-if="o.fiscal_position_id and o.fiscal_position_id.name != 'Handel inom Sverige'">
-             VAT: <span t-field="o.partner_shipping_id.vat"/>
-          </t>
+            <t t-if="o.partner_shipping_id and o.company_id.country_id.id != o.partner_shipping_id.country_id.id">
+                VAT: <span t-field="o.partner_shipping_id.vat"/>
+            </t>
         </t>
     </template>
     
