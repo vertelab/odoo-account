@@ -69,8 +69,7 @@ class AccountMoveLine(models.Model):
     project_no = fields.Many2one(comodel_name='account.analytic.tag', string='Project Analytic Tag', readonly=False,
                                  domain="[('type_of_tag', '=', 'project_number')]")
     area_of_responsibility = fields.Many2one(comodel_name='account.analytic.tag', string='Place Analytic Tag',
-                                             readonly=False, domain="[('type_of_tag', '=', 'area_of_responsibility')]",
-                                             required=True)
+                                             readonly=False, domain="[('type_of_tag', '=', 'area_of_responsibility')]")
 
     def reconcile(self):
         res = super(AccountMoveLine, self).reconcile()
