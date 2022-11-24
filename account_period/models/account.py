@@ -536,7 +536,7 @@ class AccountMove(models.Model):
             else:
                 rec.payment_move_id = False
 
-    @api.onchange("date")
+    @api.onchange("date", "invoice_date")
     def set_period_based_on_date(self):
         if self.date:
             period_id = self.env['account.period'].date2period(self.date)
@@ -545,7 +545,7 @@ class AccountMove(models.Model):
                     _("You have tried to create an invoice on a closed period {period_id.name}.\n Please change "
                       "period or open {period_id.name}").format(
                         **locals()))
-            else:
+            elif period_id:
                 self.period_id = period_id
 
     def action_post(self):
@@ -563,7 +563,11 @@ class AccountMove(models.Model):
             self.invoicing_date_warning = False
 
     invoicing_date_warning = fields.Boolean(string='A warning', compute=compute_period_date)
-    
+
+    @api.onchange('invoice_date', 'period_id', 'date')
+    def toogle_invoicing_date_warning(self):
+        self.compute_period_date()
+
 
 class account_account(models.Model):
     _inherit = 'account.account'
