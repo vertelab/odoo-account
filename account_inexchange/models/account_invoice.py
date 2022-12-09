@@ -265,11 +265,10 @@ class account_invoice(models.Model):
                 version = invoice.get_ubl_version()
                 
                 old_comment = invoice.comment 
-                if invoice.inexchange_file_count > 1:
-                     if old_comment:
-                        invoice.comment = "Doc Count: " + str(invoice.inexchange_file_count)+"\n" + old_comment
-                     else: 
-                        invoice.comment = "Doc Count: " + str(invoice.inexchange_file_count)
+                if old_comment:
+                    invoice.comment = "Doc Count: " + str(invoice.inexchange_file_count)+"\n" + old_comment
+                else: 
+                    invoice.comment = "Doc Count: " + str(invoice.inexchange_file_count)
                         
                 xml_string = invoice.generate_ubl_xml_string(version=version)
                 invoice.comment = old_comment
