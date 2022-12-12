@@ -23,21 +23,18 @@ class GeneralLedgerReportWizard(models.TransientModel):
         return res
     
     def _get_account_move_lines_domain(self):
-        _logger.warning("_get_account_move_lines_domain"*100)
         domain = super()._get_account_move_lines_domain()
         # ~ domain = literal_eval(self.domain) if self.domain else []
         if self.project_no:
             domain.append(('project_no','=',self.project_no.id))
         if self.area_of_responsibility:
             domain.append(('area_of_responsibility','=',self.area_of_responsibility.id))
-        _logger.warning(f"{domain=}")
         return domain
         
 
 class GeneralLedgerXslx(models.AbstractModel):
     _inherit = "report.a_f_r.report_general_ledger_xlsx"
     def _get_report_columns(self, report):
-        _logger.warning("_get_report_columns"*100)
         res = [
             {"header": _("Date"), "field": "date", "width": 11},
             {"header": _("Entry"), "field": "entry", "width": 18},
@@ -119,24 +116,198 @@ class GeneralLedgerXslx(models.AbstractModel):
         
 class GeneralLedgerReport(models.AbstractModel):
     _inherit = "report.account_financial_report.general_ledger"
-    def _get_report_values(self, docids, data):
-        #_logger.warning("_get_report_values inherit" *100)
-        res = super()._get_report_values(docids, data)
-        if 'general_ledger' in res:
-            for account in res['general_ledger']:
-                if 'move_lines' in account:
-                    for line in account['move_lines']:
-                        real_line = self.env['account.move.line'].browse(line['id'])
-                        line['project_no'] = real_line.project_no
-                        line['area_of_responsibility'] = real_line.area_of_responsibility
-                        # ~ _logger.warning(f"{line=}")
-                if 'list_partner' in account:
-                    for partner in account['list_partner']:
-                        if 'move_lines' in partner:
-                            for line in partner['move_lines']:
-                                real_line = self.env['account.move.line'].browse(line['id'])
-                                line['project_no'] = real_line.project_no
-                                line['area_of_responsibility'] = real_line.area_of_responsibility
-                        
-                        
+    def _get_period_ml_data(
+            self,
+            account_ids,
+            partner_ids,
+            company_id,
+            foreign_currency,
+            only_posted_moves,
+            date_from,
+            date_to,
+            partners_data,
+            gen_ld_data,
+            partners_ids,
+            analytic_tag_ids,
+            cost_center_ids,
+            extra_domain,
+        ):
+            domain = self._get_period_domain(
+                account_ids,
+                partner_ids,
+                company_id,
+                only_posted_moves,
+                date_to,
+                date_from,
+                analytic_tag_ids,
+                cost_center_ids,
+            )
+            if extra_domain:
+                domain += extra_domain
+            ml_fields = [
+                "id",
+                "name",
+                "date",
+                "move_id",
+                "journal_id",
+                "account_id",
+                "partner_id",
+                "debit",
+                "credit",
+                "balance",
+                "currency_id",
+                "full_reconcile_id",
+                "tax_ids",
+                "analytic_tag_ids",
+                "amount_currency",
+                "ref",
+                "name",
+                "analytic_account_id",
+                "project_no",
+                "area_of_responsibility",
+                
+            ]
+            move_lines = self.env["account.move.line"].search_read(
+                domain=domain, fields=ml_fields
+            )
+            journal_ids = set()
+            full_reconcile_ids = set()
+            taxes_ids = set()
+            tags_ids = set()
+            full_reconcile_data = {}
+            acc_prt_account_ids = self._get_acc_prt_accounts_ids(company_id)
+            for move_line in move_lines:
+                journal_ids.add(move_line["journal_id"][0])
+                for tax_id in move_line["tax_ids"]:
+                    taxes_ids.add(tax_id)
+                for analytic_tag_id in move_line["analytic_tag_ids"]:
+                    tags_ids.add(analytic_tag_id)
+                if move_line["full_reconcile_id"]:
+                    rec_id = move_line["full_reconcile_id"][0]
+                    if rec_id not in full_reconcile_ids:
+                        full_reconcile_data.update(
+                            {
+                                rec_id: {
+                                    "id": rec_id,
+                                    "name": move_line["full_reconcile_id"][1],
+                                }
+                            }
+                        )
+                        full_reconcile_ids.add(rec_id)
+                acc_id = move_line["account_id"][0]
+                ml_id = move_line["id"]
+                if move_line["partner_id"]:
+                    prt_id = move_line["partner_id"][0]
+                    partner_name = move_line["partner_id"][1]
+                if acc_id not in gen_ld_data.keys():
+                    gen_ld_data = self._initialize_account(
+                        gen_ld_data, acc_id, foreign_currency
+                    )
+                if acc_id in acc_prt_account_ids:
+                    if not move_line["partner_id"]:
+                        prt_id = 0
+                        partner_name = "Missing Partner"
+                    partners_ids.append(prt_id)
+                    partners_data.update({prt_id: {"id": prt_id, "name": partner_name}})
+                    if prt_id not in gen_ld_data[acc_id]:
+                        gen_ld_data = self._initialize_partner(
+                            gen_ld_data, acc_id, prt_id, foreign_currency
+                        )
+                    gen_ld_data[acc_id][prt_id][ml_id] = self._get_move_line_data(move_line)
+                    gen_ld_data[acc_id][prt_id]["fin_bal"]["credit"] += move_line["credit"]
+                    gen_ld_data[acc_id][prt_id]["fin_bal"]["debit"] += move_line["debit"]
+                    gen_ld_data[acc_id][prt_id]["fin_bal"]["balance"] += move_line[
+                        "balance"
+                    ]
+                    if foreign_currency:
+                        gen_ld_data[acc_id][prt_id]["fin_bal"]["bal_curr"] += move_line[
+                            "amount_currency"
+                        ]
+                else:
+                    gen_ld_data[acc_id][ml_id] = self._get_move_line_data(move_line)
+                gen_ld_data[acc_id]["fin_bal"]["credit"] += move_line["credit"]
+                gen_ld_data[acc_id]["fin_bal"]["debit"] += move_line["debit"]
+                gen_ld_data[acc_id]["fin_bal"]["balance"] += move_line["balance"]
+                if foreign_currency:
+                    gen_ld_data[acc_id]["fin_bal"]["bal_curr"] += move_line[
+                        "amount_currency"
+                    ]
+            journals_data = self._get_journals_data(list(journal_ids))
+            accounts_data = self._get_accounts_data(gen_ld_data.keys())
+            taxes_data = self._get_taxes_data(list(taxes_ids))
+            tags_data = self._get_tags_data(list(tags_ids))
+            rec_after_date_to_ids = self._get_reconciled_after_date_to_ids(
+                full_reconcile_data.keys(), date_to
+            )
+            return (
+                gen_ld_data,
+                accounts_data,
+                partners_data,
+                journals_data,
+                full_reconcile_data,
+                taxes_data,
+                tags_data,
+                rec_after_date_to_ids,
+            )
+        
+    @api.model
+    def _get_move_line_data(self, move_line):
+        res = super()._get_move_line_data(move_line)
+        if not move_line['project_no']:
+            res['project_no'] = move_line['project_no']
+        else:
+            res['project_no'] = move_line['project_no'][1]
+            
+        if not move_line['area_of_responsibility']:
+            res['area_of_responsibility'] = move_line['area_of_responsibility']
+        else:
+            res['area_of_responsibility'] = move_line['area_of_responsibility'][1]
         return res
+        
+        # ~ move_line_data = {
+            # ~ "id": move_line["id"],
+            # ~ "date": move_line["date"],
+            # ~ "entry": move_line["move_id"][1],
+            # ~ "entry_id": move_line["move_id"][0],
+            # ~ "journal_id": move_line["journal_id"][0],
+            # ~ "account_id": move_line["account_id"][0],
+            # ~ "partner_id": move_line["partner_id"][0]
+            # ~ if move_line["partner_id"]
+            # ~ else False,
+            # ~ "partner_name": move_line["partner_id"][1]
+            # ~ if move_line["partner_id"]
+            # ~ else "",
+            # ~ "ref": "" if not move_line["ref"] else move_line["ref"],
+            # ~ "name": "" if not move_line["name"] else move_line["name"],
+            # ~ "tax_ids": move_line["tax_ids"],
+            # ~ "debit": move_line["debit"],
+            # ~ "credit": move_line["credit"],
+            # ~ "balance": move_line["balance"],
+            # ~ "bal_curr": move_line["amount_currency"],
+            # ~ "rec_id": move_line["full_reconcile_id"][0]
+            # ~ if move_line["full_reconcile_id"]
+            # ~ else False,
+            # ~ "rec_name": move_line["full_reconcile_id"][1]
+            # ~ if move_line["full_reconcile_id"]
+            # ~ else "",
+            # ~ "tag_ids": move_line["analytic_tag_ids"],
+            
+            # ~ "currency_id": move_line["currency_id"],
+            # ~ "analytic_account": move_line["analytic_account_id"][1]
+            # ~ if move_line["analytic_account_id"]
+            # ~ else "",
+            # ~ "analytic_account_id": move_line["analytic_account_id"][0]
+            # ~ if move_line["analytic_account_id"]
+            # ~ else False,
+        # ~ }
+        # ~ if (
+            # ~ move_line_data["ref"] == move_line_data["name"]
+            # ~ or move_line_data["ref"] == ""
+        # ~ ):
+            # ~ ref_label = move_line_data["name"]
+        # ~ elif move_line_data["name"] == "":
+            # ~ ref_label = move_line_data["ref"]
+        # ~ else:
+            # ~ ref_label = move_line_data["ref"] + str(" - ") + move_line_data["name"]
+        # ~ move_line_data.update({"ref_label": ref_label})
+        # ~ return move_line_data

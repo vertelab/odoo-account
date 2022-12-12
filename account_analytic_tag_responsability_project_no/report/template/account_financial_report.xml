@@ -17,7 +17,7 @@
                             <t t-if="line['project_no']">
                             <span>
                                 <t
-                                    t-raw="line['project_no'].name"
+                                    t-raw="line['project_no']"
                                 />
                             </span>
                             </t>
@@ -27,7 +27,7 @@
                             <t t-if="line['area_of_responsibility']">
                                <span>
                                 <t
-                                    t-raw="line['area_of_responsibility'].name"
+                                    t-raw="line['area_of_responsibility']"
                                 />
                             </span>
                             </t>

@@ -255,7 +255,7 @@ msgstr "Projekt"
 #: model_terms:ir.ui.view,arch_db:account_analytic_tag_responsability_project_no.report_general_ledger_ending_cumul
 #: model_terms:ir.ui.view,arch_db:account_analytic_tag_responsability_project_no.report_general_ledger_filters
 msgid "Project Analytic Tag"
-msgstr "Projkt Analytic Tag"
+msgstr "Projekt Analytic Tag"
 
 #. module: account_analytic_tag_responsability_project_no
 #: model:ir.model,name:account_analytic_tag_responsability_project_no.model_purchase_order
