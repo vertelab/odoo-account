@@ -10,6 +10,6 @@ class PurchaseOrder(models.Model):
 
     def button_confirm(self):
         if len(self.order_line.filtered(lambda line: not line.area_of_responsibility and not line.display_type)) > 0:
-            raise ValidationError(_("Kindly select area of responsibility tag for all line items"))
+            raise ValidationError(_("Kindly select a Cost Center tag for all line items"))
         res = super(PurchaseOrder, self).button_confirm()
         return res

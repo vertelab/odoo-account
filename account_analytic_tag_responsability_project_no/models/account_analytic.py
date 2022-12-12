@@ -9,7 +9,7 @@ class AccountAnalyticTag(models.Model):
     _inherit = "account.analytic.tag"
 
     type_of_tag = fields.Selection(
-        [('area_of_responsibility', 'Area of Responsibility'), ('project_number', 'Project Number'),
+        [('area_of_responsibility', 'Cost Center'), ('project_number', 'Project'),
          ('no_type', 'No Type'), ], 'Tag Type', default='no_type')
 
     # ~ def write(self, values):
