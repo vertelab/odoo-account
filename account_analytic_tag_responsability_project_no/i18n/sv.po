@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0-20221104\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-12 10:17+0000\n"
-"PO-Revision-Date: 2022-12-12 11:19+0100\n"
+"PO-Revision-Date: 2022-12-16 16:12+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Konfigurationsinställningar"
 #: model:ir.model.fields.selection,name:account_analytic_tag_responsability_project_no.selection__account_analytic_tag__type_of_tag__area_of_responsibility
 #, python-format
 msgid "Cost Center"
-msgstr "Kostnadsställe"
+msgstr "Cost Center"
 
 #. module: account_analytic_tag_responsability_project_no
 #: code:addons/account_analytic_tag_responsability_project_no/wizard/general_ledger_report_wizard.py:0
@@ -117,12 +117,12 @@ msgstr ""
 #. module: account_analytic_tag_responsability_project_no
 #: model_terms:ir.ui.view,arch_db:account_analytic_tag_responsability_project_no.general_ledger_wizard
 msgid "Filter Cost Center"
-msgstr "Filter Kostnadsställe"
+msgstr "Filter Cost Center"
 
 #. module: account_analytic_tag_responsability_project_no
 #: model_terms:ir.ui.view,arch_db:account_analytic_tag_responsability_project_no.general_ledger_wizard
 msgid "Filter Project"
-msgstr "Filter Projekt"
+msgstr "Filter Project"
 
 #. module: account_analytic_tag_responsability_project_no
 #: model:ir.model,name:account_analytic_tag_responsability_project_no.model_report_account_financial_report_general_ledger
@@ -194,7 +194,7 @@ msgstr "Transaktion"
 #: code:addons/account_analytic_tag_responsability_project_no/models/purchase_order.py:0
 #, python-format
 msgid "Kindly select a Cost Center tag for all line items"
-msgstr "Lägg på en Kostnadsställe tag på alla rader."
+msgstr "Lägg på ett Cost Center på alla rader"
 
 #. module: account_analytic_tag_responsability_project_no
 #: model:ir.model.fields,field_description:account_analytic_tag_responsability_project_no.field_account_analytic_tag____last_update
@@ -249,13 +249,13 @@ msgstr ""
 #: model:ir.model.fields.selection,name:account_analytic_tag_responsability_project_no.selection__account_analytic_tag__type_of_tag__project_number
 #, python-format
 msgid "Project"
-msgstr "Projekt"
+msgstr "Project"
 
 #. module: account_analytic_tag_responsability_project_no
 #: model_terms:ir.ui.view,arch_db:account_analytic_tag_responsability_project_no.report_general_ledger_ending_cumul
 #: model_terms:ir.ui.view,arch_db:account_analytic_tag_responsability_project_no.report_general_ledger_filters
 msgid "Project Analytic Tag"
-msgstr "Projekt Analytic Tag"
+msgstr "Project Analytic Tag"
 
 #. module: account_analytic_tag_responsability_project_no
 #: model:ir.model,name:account_analytic_tag_responsability_project_no.model_purchase_order

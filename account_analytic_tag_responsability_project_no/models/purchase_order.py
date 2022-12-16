@@ -15,7 +15,6 @@ class PurchaseOrder(models.Model):
         return res
         
     def action_create_invoice(self):
-        _logger.warning("create_invoices"*100)
         vals = super().action_create_invoice()
         
         for order in self:
