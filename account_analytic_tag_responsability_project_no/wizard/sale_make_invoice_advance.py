@@ -14,7 +14,6 @@ class SaleAdvancePaymentInv(models.TransientModel):
     _inherit = "sale.advance.payment.inv"
 
     def create_invoices(self):
-        _logger.warning("create_invoices"*100)
         vals = super().create_invoices()
         
         for sale_order in self.env['sale.order'].browse(self._context.get('active_ids', [])):
