@@ -36,6 +36,7 @@ Added period for accounting
         'security/ir.model.access.csv',
         'wizard/account_period_close_view.xml',
         'wizard/account_period_create_view.xml',
+        'wizard/account_fiscalyear_close_view.xml',
         'views/account_view.xml',
     ],
     'demo': [],

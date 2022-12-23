@@ -22,9 +22,10 @@ from odoo import api, fields, models, _
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError, ValidationError
 
 import logging
+
 _logger = logging.getLogger(__name__)
 
 
@@ -32,33 +33,26 @@ class account_period_close(models.TransientModel):
     """
         close period
     """
-    _name = "account.period.close"
-    _description = "period close"
+    _name = "account.fiscalyear.close"
+    _description = "fiscalyear close"
 
     sure = fields.Boolean(string='Check this box')
 
-    @api.multi
     def data_save(self):
         """
-        This function close period
+        This function close fiscalyear
         @param cr: the current row, from the database cursor,
         @param uid: the current user’s ID for security checks,
         @param ids: account period close’s ID or list of IDs
          """
-        journal_period_pool = self.pool.get('account.journal.period')
-        period_pool = self.pool.get('account.period')
-        account_move_obj = self.pool.get('account.move')
-
-        mode = 'done'
         for form in self:
             if form['sure']:
-                for id in self.env.context.get('active_ids', []):
-                    # account_move_ids = self.env['account.move'].search([('period_id', '=', id), ('state', '=', "draft")])
-                    # if account_move_ids:
-                    #     raise Warning(_('In order to close a period, you must first post related journal entries.'))
-
-                    # self.env.cr.execute('update account_journal_period set state=%s where period_id=%s', (mode, id))
-                    self.env.cr.execute('update account_period set state=%s where id=%s', (mode, id))
-                    self.invalidate_cache()
+                for rec in self.env.context.get('active_ids', []):
+                    fis_year = self.env["account.fiscalyear"].browse(rec)
+                    for period in fis_year.period_ids:
+                        if period.state == "draft":
+                            raise UserError(_('You can not close fiscalyear with that has a period that is opened, '
+                                              'please close period'))
+                    fis_year.state = "done"
 
         return {'type': 'ir.actions.act_window_close'}
