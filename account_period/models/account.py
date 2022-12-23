@@ -557,7 +557,7 @@ class AccountMove(models.Model):
         return super(AccountMove, self).action_post()
 
     def compute_period_date(self):
-        if self.date > self.period_id.date_stop or self.date < self.period_id.date_start:
+        if self.period_id.date_stop and (self.date > self.period_id.date_stop or self.date < self.period_id.date_start):
             self.invoicing_date_warning = True
         else:
             self.invoicing_date_warning = False
