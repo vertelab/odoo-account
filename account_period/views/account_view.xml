@@ -31,7 +31,7 @@
                             <field name="date_stop" />
                             <field name="special" />
                             <field name="state"/>
-                            <button name="action_draft" states="done" string="Re-Open Fiscalyear" type="object" groups="account.group_account_manager" />
+                            <button name="action_draft" states="done" string="Re-Open Period" type="object" groups="account.group_account_manager" />
                             <button string="Close Period" name="%(account_period.action_account_period_close)d" type="action" class="oe_highlight" states="draft"/>
                         </tree>
                         <form string="Period">
