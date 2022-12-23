@@ -9,9 +9,9 @@ _logger = logging.getLogger(__name__)
 class MisReportInstance(models.Model):
     _inherit = 'mis.report.instance'
 
-    area_of_responsibility = fields.Many2one("account.analytic.tag", string="Area Of Responsibility",
+    area_of_responsibility = fields.Many2one("account.analytic.tag", string="Cost Center",
                                              domain="[('type_of_tag', '=', 'area_of_responsibility')]")
-    project_no = fields.Many2one("account.analytic.tag", string="Project Number",
+    project_no = fields.Many2one("account.analytic.tag", string="Project",
                                  domain="[('type_of_tag', '=', 'project_number')]")
 
 
