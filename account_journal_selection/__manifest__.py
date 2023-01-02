@@ -34,6 +34,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
+* Remove Account Selection Limitation On Contacts
 
     """,
     'depends': ['account'],
