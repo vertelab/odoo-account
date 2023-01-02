@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account Analytic Line Project',
+    'name': 'Account: Analytic Line Project',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds project to account analytic line',
@@ -28,14 +28,14 @@
     'description': '',
     #'sequence': '1'
     'author': 'Vertel AB',
-#    'website': 'https://vertel.se/apps/odoo-account/account-analytic-move-ids',
+    'website': 'https://vertel.se/apps/odoo-account/account_analytic_line_project',
     'images': ['static/description/banner.png'], # 560x280 px
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-Account Analytic Move Ids
+Account Analytic Line Project
 ========================================================
     """,
     'depends': ['analytic', 'account', 'project'],

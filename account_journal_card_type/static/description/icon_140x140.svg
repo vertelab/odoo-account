@@ -16,7 +16,7 @@
    version="1.1"
    id="SVGRoot"
    sodipodi:docname="icon_140x140.svg"
-   inkscape:export-filename="/run/user/1000/gvfs/sftp:host=marina/usr/share/odoo-account/account_journal_selection/static/description/icon.png"
+   inkscape:export-filename="/usr/share/odoo-account/account_journal_card_type/static/description/icon.png"
    inkscape:export-xdpi="92"
    inkscape:export-ydpi="92"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
@@ -48,7 +48,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="37.2397"
+     inkscape:cx="-217.7603"
      inkscape:cy="-121.74586"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -85,27 +85,27 @@
        style="stroke-width:4.57761192" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.30794716px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="24.681572"
-       y="79.916237"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.05122948px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="70.808151"
+       y="76.828995"
        id="text2035"
        inkscape:export-xdpi="92"
        inkscape:export-ydpi="92"><tspan
          sodipodi:role="line"
-         x="24.681572"
-         y="79.916237"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.65857315px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.99999994px"
+         x="70.808151"
+         y="76.828995"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.53552055px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.99999994px"
          id="tspan832">Account</tspan><tspan
          sodipodi:role="line"
-         x="24.681572"
-         y="99.73391"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.65857315px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.99999994px"
+         x="70.808151"
+         y="100.73186"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.53552055px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.99999994px"
          id="tspan835">Journal</tspan><tspan
          sodipodi:role="line"
-         x="24.681572"
-         y="119.55157"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.65857315px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.99999994px"
-         id="tspan826">Selection</tspan></text>
+         x="70.808151"
+         y="124.63471"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.53552055px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.99999994px"
+         id="tspan826">Card Type</tspan></text>
     <text
        id="text845-2"
        y="43.925255"

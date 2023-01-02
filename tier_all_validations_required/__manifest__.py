@@ -22,18 +22,16 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'All Reviewers Required Validation',
+    'name': 'Account: Tier All Validations Required',
     'version': '14.0.0.1.0',
-    'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.odoo.com""",
-    'category': 'Technical Settings', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
+    'summary': '',
+    'category': 'Accounting',
     'description': """
         Long description of module's purpose
     """,
     #'sequence': 1,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-',
+    'website': 'https://vertel.se/apps/odoo-account/tier_all_validations_required/',
     'license': 'AGPL-3',
     'depends': ['base_tier_validation', 'account_move_tier_validation', 'account_move_tier_validation_implement'],
     'data': [

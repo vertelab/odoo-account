@@ -1,214 +1,112 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
-
+import traceback
 import logging
+
 _logger = logging.getLogger(__name__)
+
 
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    @api.model
-    def create(self, values):
-        res = super(AccountMove, self).create(values)
-        for record in res.line_ids:
-            if record.analytic_tag_ids:
-                record._depends_analytic_tag_ids()
-        return res
-
     def action_post(self):
-        if len(self.line_ids.filtered(lambda x: not x.analytic_tag_ids and x.display_type != "line_note" and x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
-            raise ValidationError(_("There are lines with an account between 3000 - 9999 that is missing an analytic tag.\n Add an anlytic tag on these lines before confirming."))
+        # if len(self.line_ids.filtered(lambda x: not x.project_no and x.display_type != "line_note" and
+        # x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) >
+        # 0: raise ValidationError(_("There are lines with an account between 3000 - 9999 that is missing an project
+        # tag.\n Add an project tag on these lines before confirming."))
+
+        if len(self.line_ids.filtered(
+                lambda x: not x.area_of_responsibility and x.display_type != "line_note" and x.display_type != 'line_section' and int(
+                        x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
+            raise ValidationError(
+                _("There are lines with an account between 3000 - 9999 that is missing an Cost Center "
+                  "tag.\n Add an Cost Center tag on these lines before confirming."))
+
+        return super(AccountMove, self).action_post()
+
         # ~ if len(self.invoice_line_ids.filtered(lambda x: not x.analytic_account_id)) > 0:
-            # ~ raise ValidationError(_("Kindly select add an analytic account for all invoice lines"))
-        self._post(soft=False)
-        return False
+        # ~ raise ValidationError(_("Kindly select add an analytic account for all invoice lines"))
+        # ~ self._post(soft=False)
+        # ~ return False
+
+    def _post(self, soft=True):
+        # # This function is used in the background, so there are places i can't predict where odoo will create an
+        # invoice with lines that are missing project or Cost Center.
+        icp = self.env['ir.config_parameter'].sudo()
+        harsher_check = icp.get_param('account_analytic_tag_responsability_project_no.hard_invoice_account_check',
+                                      default=False)
+        if harsher_check:
+            # if len(self.line_ids.filtered(lambda x: not x.project_no and x.display_type != "line_note" and
+            # x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <=
+            # 9999)) > 0: raise ValidationError(_("There are lines with an account between 3000 - 9999 that is
+            # missing an project tag.\n Add an project tag on these lines before confirming. \n If this check in in
+            # the way you can disable it by going to the settings and disabling Harsh Analytic Tag Enforcement"))
+
+            if len(self.line_ids.filtered(
+                    lambda x: not x.area_of_responsibility and x.display_type != "line_note" and x.display_type != 'line_section' and int(
+                            x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
+                raise ValidationError(
+                    _("There are lines with an account between 3000 - 9999 that is missing an Cost Center "
+                      "tag.\n Add an Cost Center tag on these lines before confirming. \n If this check in "
+                      "in the way you can disable it by going to the settings and disabling Harsh Analytic Tag "
+                      "Enforcement"))
+        else:
+            if len(self.line_ids.filtered(
+                    lambda x: not x.project_no and x.display_type != "line_note" and x.display_type != 'line_section' and int(
+                            x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
+                _logger.warning(f"harsher_check on project tag disabled but triggerd on {self}")
+                _logger.warning("".join(traceback.format_stack()))
+            if len(self.line_ids.filtered(
+                    lambda x: not x.area_of_responsibility and x.display_type != "line_note" and x.display_type != 'line_section' and int(
+                            x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
+                _logger.warning(f"harsher_check on a Cost Center disabled but triggerd on {self}")
+                _logger.warning("".join(traceback.format_stack()))
+        return super(AccountMove, self)._post(soft)
+
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
-    
-    @api.depends('product_id', 'account_id', 'partner_id', 'date')
-    def _compute_analytic_tag_ids(self):
-        for record in self:
-            if not record.exclude_from_invoice_tab or not record.move_id.is_invoice(include_receipts=True):
-                rec = self.env['account.analytic.default'].account_get(
-                    product_id=record.product_id.id,
-                    partner_id=record.partner_id.commercial_partner_id.id or record.move_id.partner_id.commercial_partner_id.id,
-                    account_id=record.account_id.id,
-                    user_id=record.env.uid,
-                    date=record.date,
-                    company_id=record.move_id.company_id.id
-                )
-                if rec and rec.analytic_tag_ids:
-                    record.analytic_tag_ids = rec.analytic_tag_ids
-         
-    def _default_project_tag(self):
-        # ~ _logger.warning("_default_project_tag")
-        # ~ _logger.warning(f"{self=}")
-        for tag in self.analytic_tag_ids:
-            # ~ _logger.warning(f"tag.type_of_tag:{tag.type_of_tag}")
-            if tag.type_of_tag == "project_number":
-               # ~ _logger.warning("_default_project_tag TRUE")
-               return tag
-        return False
-    
-    def _default_place_tag(self):
-        # ~ _logger.warning("_default_place_tag")
-        # ~ _logger.warning(f"{self=}")
-        for tag in self.analytic_tag_ids:
-            # ~ _logger.warning(f"tag.type_of_tag:{tag.type_of_tag}")
-            if tag.type_of_tag == "area_of_responsibility":
-               # ~ _logger.warning("_default_place_tag TRUE")
-               # ~ _logger.warning(f"place tag id = {tag.id}")
-               return tag
-        return False
-        
-        
-    def write(self, values):
-        # ~ _logger.warning("AccountMoveLine write")
-        res = super(AccountMoveLine, self).write(values)
-        if values.get('analytic_tag_ids'):
-            # ~ _logger.warning("AccountMoveLine write analytic_tag_ids")
-            self._depends_analytic_tag_ids()
+    project_no = fields.Many2one(comodel_name='account.analytic.tag', string='Project', readonly=False,
+                                 domain="[('type_of_tag', '=', 'project_number')]")
+    area_of_responsibility = fields.Many2one(comodel_name='account.analytic.tag', string='Cost Center',
+                                             readonly=False, domain="[('type_of_tag', '=', 'area_of_responsibility')]")
+
+    def reconcile(self):
+        res = super(AccountMoveLine, self).reconcile()
+        if res and "partials" in res:
+            for partial_record in res['partials']:
+
+                move_with_tags = False
+                move_without_tags = False
+
+                if partial_record.debit_move_id.move_id.move_type == "entry":
+                    move_with_tags = partial_record.credit_move_id.move_id
+                    move_without_tags = partial_record.debit_move_id.move_id
+
+                if partial_record.credit_move_id.move_id.move_type == "entry":
+                    move_with_tags = partial_record.debit_move_id.move_id
+                    move_without_tags = partial_record.credit_move_id.move_id
+                if move_with_tags and move_without_tags:
+
+                    # ~ if partial_record.debit_move_id.move_id.move_type == "entry" and
+                    # partial_record.credit_move_id.move_id.move_type == "in_invoice":
+                    tags = []
+                    area_of_responsibility = False
+                    project_no = False
+                    for line in move_with_tags.line_ids:
+                        for tag in line.analytic_tag_ids:
+                            tags.append((4, tag.id, 0))
+
+                        if line.project_no:
+                            project_no = line.project_no
+                        if line.area_of_responsibility:
+                            area_of_responsibility = line.area_of_responsibility
+
+                    for line in move_without_tags.line_ids:
+                        if 3000 <= int(line.account_id.code) <= 9999:
+                            if not line.project_no:
+                                line.project_no = project_no
+                            if not line.area_of_responsibility:
+                                line.area_of_responsibility = area_of_responsibility
+                            line.write({'analytic_tag_ids': tags})
         return res
-        
-    @api.model    
-    def _default_project_tag_ids(self,tag_ids):
-        _logger.warning(f"{tag_ids}")
-        tag_recordset = self.env['account.analytic.tag'].browse(tag_ids)
-        _logger.warning(f"jakmar {tag_recordset=}")
-        for tag in tag_recordset:
-            _logger.warning(f"jakmar {tag=}")
-            if tag.type_of_tag == "project_number":
-               return tag.id
-        return False
-    
-    @api.model 
-    def _default_place_tag_ids(self,tag_ids):
-        tag_recordset = self.env['account.analytic.tag'].browse(tag_ids)
-        for tag in tag_recordset:
-            if tag.type_of_tag == "area_of_responsibility":
-               return tag.id
-        return False
-        
-    @api.model_create_multi
-    def create(self, vals_list):
-        for val in vals_list:
-            tag_ids_list = val.get('analytic_tag_ids',False)
-            if tag_ids_list:
-                tag_ids = tag_ids_list[0][2]
-                val['project_no'] = self.env['account.move.line']._default_project_tag_ids(tag_ids)
-                val['area_of_responsibility'] = self.env['account.move.line']._default_place_tag_ids(tag_ids)
-        res = super(AccountMoveLine, self).create(vals_list)
-        return res
-            
-        
-    @api.depends("analytic_tag_ids")
-    def _depends_analytic_tag_ids(self):
-        # ~ _logger.warning("_depends_analytic_tag_ids")
-        for record in self:
-            if record.move_id.period_id.state == "draft":
-                # ~ _logger.warning(f"{record=}")
-                record.project_no = record._default_project_tag()
-                # ~ _logger.warning(record.project_no)
-                record.area_of_responsibility = record._default_place_tag()
-                # ~ _logger.warning(record.area_of_responsibility)
-                    
-
-    project_no = fields.Many2one(comodel_name='account.analytic.tag', string='Project Analytic Tag', default=_default_project_tag, readonly=True)
-    area_of_responsibility= fields.Many2one(comodel_name='account.analytic.tag', string='Place Analytic Tag', default=_default_place_tag, readonly=True)
-
-                
-    # ~ @api.onchange("analytic_tag_ids")
-    # ~ def _compute_place_tag(self):
-        # ~ _logger.warning("_compute_place_tag")
-        # ~ _logger.warning(f"{self=}")
-        # ~ for record in self:
-            # ~ for tag in record.analytic_tag_ids:
-                # ~ _logger.warning(f"tag.type_of_tag:{tag.type_of_tag}")
-                # ~ if tag.type_of_tag == "place_of_responsibility":
-                   # ~ _logger.warning("_compute_place_tag TRUE")
-                   # ~ record.place_of_responsability = tag.id
-                   # ~ break
-            # ~ _logger.warning("Tag Check FALSE")
-            # ~ _logger.warning(record.place_of_responsability)
-            # ~ if not record.place_of_responsability:
-                # ~ _logger.warning("_compute_place_tag FALSE")
-                # ~ record.project_no = False
-                 
-    # ~ @api.onchange("analytic_tag_ids")
-    # ~ def _compute_project_tag(self):
-        # ~ _logger.warning("_compute_project_tag")
-        # ~ _logger.warning(f"{self=}")
-        # ~ for record in self:
-            # ~ for tag in record.analytic_tag_ids:
-                # ~ _logger.warning(f"tag.type_of_tag:{tag.type_of_tag}")
-                # ~ if tag.type_of_tag == "project_number":
-                   # ~ _logger.warning("_compute_project_tag TRUE")
-                   # ~ record.project_no = tag.id
-                   # ~ break
-            # ~ if not record.project_no:
-                # ~ _logger.warning("_compute_project_tag FALSE")
-                # ~ record.project_no = False
-                   
-    # ~ project_no = fields.Many2one(comodel_name='account.analytic.tag', string='Project Analytic Tag', compute='_compute_project_tag')
-    # ~ place_of_responsability = fields.Many2one(comodel_name='account.analytic.tag', string='Place Analytic Tag', compute='_compute_place_tag')
-    
-    # ~ def _compute_project_tag(self):
-        
-    # ~ def _compute_place_tag(self):
-    
-    # ~ analytic_account_ids = fields.Many2many('account.analytic.account', string='Analytic Accounts', readonly=False,
-                                            # ~ index=True, compute="_compute_analytic_account_ids", store=True,
-                                            # ~ check_company=True, copy=True)
-
-    # ~ @api.depends('product_id', 'account_id', 'partner_id', 'date')
-    # ~ def _compute_analytic_account_ids(self):
-        # ~ for record in self:
-            # ~ if not record.exclude_from_invoice_tab or not record.move_id.is_invoice(include_receipts=True):
-                # ~ rec = self.env['account.analytic.default'].account_get_ids(
-                    # ~ product_id=record.product_id.id,
-                    # ~ partner_id=record.partner_id.commercial_partner_id.id or record.move_id.partner_id.commercial_partner_id.id,
-                    # ~ account_id=record.account_id.id,
-                    # ~ user_id=record.env.uid,
-                    # ~ date=record.date,
-                    # ~ company_id=record.move_id.company_id.id
-                # ~ )
-                # ~ if rec:
-                    # ~ record.analytic_account_ids = [(6, 0, rec.analytic_id.ids)]
-
-    # ~ def _prepare_analytic_line(self):
-        # ~ """ Prepare the values used to create() an account.analytic.line upon validation of an account.move.line having
-            # ~ an analytic account. This method is intended to be extended in other modules.
-            # ~ :return list of values to create analytic.line
-            # ~ :rtype list
-        # ~ """
-        # ~ result = []
-        # ~ for move_line in self:
-            # ~ amount = (move_line.credit or 0.0) - (move_line.debit or 0.0)
-            # ~ default_name = move_line.name or (move_line.ref or '/' + ' -- ' + (move_line.partner_id and move_line.partner_id.name or '/'))
-            # ~ result.append({
-                # ~ 'name': default_name,
-                # ~ 'date': move_line.date,
-                # ~ 'account_id': move_line.analytic_account_id.id,
-                # ~ 'group_id': move_line.analytic_account_id.group_id.id,
-                # ~ 'analytic_account_ids': [(6, 0, self.analytic_account_ids.ids)],
-                # ~ 'tag_ids': [(6, 0, move_line._get_analytic_tag_ids())],
-                # ~ 'unit_amount': move_line.quantity,
-                # ~ 'product_id': move_line.product_id and move_line.product_id.id or False,
-                # ~ 'product_uom_id': move_line.product_uom_id and move_line.product_uom_id.id or False,
-                # ~ 'amount': amount,
-                # ~ 'general_account_id': move_line.account_id.id,
-                # ~ 'ref': move_line.ref,
-                # ~ 'move_id': move_line.id,
-                # ~ 'user_id': move_line.move_id.invoice_user_id.id or self._uid,
-                # ~ 'partner_id': move_line.partner_id.id,
-                # ~ 'company_id': move_line.analytic_account_id.company_id.id or move_line.move_id.company_id.id,
-            # ~ })
-        # ~ return result
-
-
-# ~ class AccountAnalyticLine(models.Model):
-    # ~ _inherit = "account.analytic.line"
-
-    # ~ analytic_account_ids = fields.Many2many('account.analytic.account', string='Analytic Accounts',
-                                            # ~ copy=True, check_company=True)

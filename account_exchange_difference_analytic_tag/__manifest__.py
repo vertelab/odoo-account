@@ -20,14 +20,14 @@
 ##############################################################################
 
 {
-    'name': 'Account: Exchange Differance Draft',
+    'name': 'Account: Exchange Differance Analytic Tag',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds the analytic tags from the orignal invoice on the currency differance invoice',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_exchange_difference_draft',
+    'website': 'https://vertel.se/apps/odoo-account/account_exchange_difference_analytic_tag',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
@@ -36,9 +36,9 @@
     'description': """
 	
     """,
-    'depends': ['account'],
+    'depends': ['account','account_analytic_tag_responsability_project_no'],
     'data': [
-        'views/res_config.xml',
+        # 'views/res_config.xml',
     ],
     'demo': [],
     'qweb': [],

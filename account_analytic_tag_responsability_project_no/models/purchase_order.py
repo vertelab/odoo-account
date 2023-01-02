@@ -8,8 +8,20 @@ _logger = logging.getLogger(__name__)
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
-    # ~ def button_confirm(self):
-        # ~ if len(self.order_line.filtered(lambda x: not x.analytic_tag_ids)) > 0:
-            # ~ raise ValidationError(_("Kindly select analytic tag for all line items"))
-        # ~ res = super(PurchaseOrder, self).button_confirm()
-        # ~ return res
+    def button_confirm(self):
+        if len(self.order_line.filtered(lambda line: not line.area_of_responsibility and not line.display_type)) > 0:
+            raise ValidationError(_("Kindly select a Cost Center tag for all line items"))
+        res = super(PurchaseOrder, self).button_confirm()
+        return res
+        
+    def action_create_invoice(self):
+        vals = super().action_create_invoice()
+        
+        for order in self:
+            for invoice in order.invoice_ids:
+                for line in invoice.line_ids:
+                    if line.purchase_line_id:
+                            line.project_no = line.purchase_line_id.project_no
+                            line.area_of_responsibility = line.purchase_line_id.area_of_responsibility
+        
+        return vals

@@ -31,7 +31,7 @@ class AccountPaymentRegister(models.TransientModel):
     
     def action_create_payments(self):
         for record in self:
-            _logger.warning(f"jakmar: {record.payment_date}")
+            #_logger.warning(f"jakmar: {record.payment_date}")
             period_id = record.env['account.period'].date2period(record.payment_date)
             if period_id and period_id.state == 'done':
                 raise ValidationError(_("You have tried to create an payment on a date during a closed period {period_id.name}.\n Please change the date or open {period_id.name}").format(**locals()))
@@ -88,7 +88,7 @@ class AccountPaymentRegister(models.TransientModel):
                 payment_vals_list.append(self._create_payment_vals_from_batch(batch_result))
                 to_reconcile.append(batch_result['lines'])
         
-        _logger.warning(f"CURRENT PRINT{payment_vals_list}")
+        #_logger.warning(f"CURRENT PRINT{payment_vals_list}")
         payments = self.env['account.payment'].create(payment_vals_list)
 
         # If payments are made using a currency different than the source one, ensure the balance match exactly in
