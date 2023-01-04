@@ -494,6 +494,8 @@ class AccountInvoice(models.Model):
                 _("You have tried to post an invoice on a closed period {self.period_id.name}.\n Please change "
                   "period or open {self.period_id.name}").format(
                     **locals()))
-        return super(AccountInvoice, self).action_invoice_open()
+        res = super(AccountInvoice, self).action_invoice_open()
+        self.move_id.period_id = self.period_id.id
+        
 
 
