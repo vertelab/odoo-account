@@ -427,23 +427,19 @@ class account_register_payments(models.TransientModel):
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    # def _get_default_period_id(self):
-    #     return self.env['account.period'].date2period(self.date_invoice or fields.Date.today()).id
-    #
-    # period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_get_default_period_id)
-    #
-    # @api.onchange('date_invoice')
-    # def onchange_date_set_period(self):
-    #     self.period_id = self.env['account.period'].date2period(self.date_invoice or fields.Date.today())
-    #
-    # @api.multi
-    # def action_move_create(self):
-    #     """ Creates invoice related analytics and financial move lines """
-    #     res = super(AccountInvoice, self).action_move_create()
-    #     for inv in self:
-    #         if inv.period_id and inv.move_id:
-    #             inv.move_id.period_id = inv.period_id
-    #     return res
+    
+    @api.onchange('date_invoice')
+    def onchange_date_set_period(self):
+        self.period_id = self.env['account.period'].date2period(self.date_invoice or fields.Date.today())
+    
+    @api.multi
+    def action_move_create(self):
+        """ Creates invoice related analytics and financial move lines """
+        res = super(AccountInvoice, self).action_move_create()
+        for inv in self:
+            if inv.period_id and inv.move_id:
+                inv.move_id.period_id = inv.period_id
+        return res
 
     def validate_open_period_create(self, values):
         period_id = self.env['account.period'].browse(values.get('period_id'))
@@ -494,8 +490,8 @@ class AccountInvoice(models.Model):
                 _("You have tried to post an invoice on a closed period {self.period_id.name}.\n Please change "
                   "period or open {self.period_id.name}").format(
                     **locals()))
-        res = super(AccountInvoice, self).action_invoice_open()
-        self.move_id.period_id = self.period_id.id
+        return super(AccountInvoice, self).action_invoice_open()
+
         
 
 
