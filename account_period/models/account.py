@@ -483,8 +483,9 @@ class AccountMove(models.Model):
 
 
         for v in values: # add period if missing
-            if not 'period_id' in v: 
-                v['period_id'] = self.env['account.period'].date2period(values[0].get('date')).id
+            if not 'period_id' in v:
+                if 'date' in v:
+                    v['period_id'] = self.env['account.period'].date2period(v.get('date')).id 
                 
         if self._context.get('check_move_period_validity', True):
             if isinstance(values, list):
