@@ -46,14 +46,17 @@ This check for if odoo at some point tries to break this rule in the background.
     """,
     'depends': ['analytic', 'account', 'sale', 'account_period', 'purchase','mis_builder', 'account_financial_report'],
     'data': [
+        'security/ir.model.access.csv',
         'views/analytic_tag.xml',
         'views/account_move_line.xml',
+        'views/purchase_order.xml',
         'views/sale_order_line.xml',
         'views/product.xml',
         'data/account_filter.xml',
         'data/res_config.xml',
         'views/mis_form_view.xml',
         'wizard/general_ledger_report_wizard.xml',
+        'wizard/project_cost_wizard_view.xml',
         'report/template/account_financial_report.xml'
     ],
     'demo': [],
