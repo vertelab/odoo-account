@@ -5,10 +5,10 @@
             <field name="model">product.category</field>
             <field name="inherit_id" ref="account.view_category_property_form"/>
             <field name="arch" type="xml"> 
-                    <field name="property_account_expense_categ_id" position="after">
-                        <field name="project_no" options="{'no_create': True}" optional="show"/>
-                        <field name="area_of_responsibility" options="{'no_create': True}" optional="show"/>
-                    </field>
+                <field name="property_account_expense_categ_id" position="after">
+                    <field name="project_no" options="{'no_create': True}" optional="show"/>
+                    <field name="area_of_responsibility" options="{'no_create': True}" optional="show"/>
+                </field>
             </field>
         </record>
     </data>

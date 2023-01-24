@@ -21,7 +21,6 @@ class ProjectAndCostCenter(models.TransientModel):
 
     def action_add_project_and_cost_center(self):
         rec_id = self.env[self.res_model].browse(int(self.res_id))
-        print(self.res_model)
         if self.res_model in ['sale.order', 'purchase.order']:
             for line in rec_id.order_line:
                 line.write({'project_no': self.project_no.id, 'area_of_responsibility': self.area_of_responsibility.id})
