@@ -16,15 +16,9 @@
                     <field name="area_of_responsibility" optional="show" options="{'no_create': True}"/>
                 </xpath>
 
-                <xpath expr="//page[@id='invoice_tab']/group[hasclass('oe_subtotal_footer')]" position="before">
-                    <div class="oe_left">
-                        <button
-                            string="Add Project Cost &amp; Area of Responsibility"
-                            name="action_add_project_and_cost_center_wizard"
-                            type="object"
-                            class="btn btn-primary"
-                        />
-                    </div>
+                <xpath expr="//header/button[last()]" position="after">
+                    <button string="Add Project Cost &amp; Area of Responsibility"
+                            name="action_add_project_and_cost_center_wizard" type="object" class="btn btn-primary"/>
                 </xpath>
             </field>
         </record>

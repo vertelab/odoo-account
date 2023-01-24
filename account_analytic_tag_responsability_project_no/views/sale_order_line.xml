@@ -11,15 +11,13 @@
                     <field name="area_of_responsibility" options="{'no_create': True}" optional="show"/>
                 </xpath>
 
-                <xpath expr="//group[@name='note_group']" position="before">
-                    <div class="oe_left">
-                        <button
-                            string="Add Project Cost &amp; Area of Responsibility"
-                            name="action_add_project_and_cost_center_wizard"
-                            type="object"
-                            class="btn btn-primary"
-                        />
-                    </div>
+                <xpath expr="//header/button[last()]" position="after">
+                    <button
+                        string="Add Project Cost &amp; Area of Responsibility"
+                        name="action_add_project_and_cost_center_wizard"
+                        type="object"
+                        class="btn btn-primary"
+                    />
                 </xpath>
             </field>
         </record>
