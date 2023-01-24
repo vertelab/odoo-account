@@ -25,30 +25,7 @@ class AccountMoveline(models.Model):
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    # ~ @api.depends(
-        # ~ 'line_ids.matched_debit_ids.debit_move_id.move_id.payment_id.is_matched',
-        # ~ 'line_ids.matched_debit_ids.debit_move_id.move_id.line_ids.amount_residual',
-        # ~ 'line_ids.matched_debit_ids.debit_move_id.move_id.line_ids.amount_residual_currency',
-        # ~ 'line_ids.matched_credit_ids.credit_move_id.move_id.payment_id.is_matched',
-        # ~ 'line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual',
-        # ~ 'line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual_currency',
-        # ~ 'line_ids.debit',
-        # ~ 'line_ids.credit',
-        # ~ 'line_ids.currency_id',
-        # ~ 'line_ids.amount_currency',
-        # ~ 'line_ids.amount_residual',
-        # ~ 'line_ids.amount_residual_currency',
-        # ~ 'line_ids.payment_id.state',
-        # ~ 'line_ids.full_reconcile_id')
-    # ~ def _compute_amount(self):
-        # ~ res = super(AccountMove, self)._compute_amount()
-        # ~ context_copy = self.env.context.copy()
-        # ~ context_copy.update({'check_move_period_validity':False})
-        # ~ for move in self:
-             # ~ move.with_context(context_copy).write({'amount_total_loc':move.amount_total})
-        # ~ return res
-
-    @api.depends('amount_total','amount_total_signed')
+    @api.depends('amount_total', 'amount_total_signed')
     def _compute_amount_loc(self):
         context_copy = self.env.context.copy()
         context_copy.update({'check_move_period_validity':False})
@@ -67,7 +44,6 @@ class AccountInvoiceReport(models.Model):
     _inherit = "account.invoice.report"
 
     product_buy_price = fields.Float(string='PS Volume', readonly=True)
-    # ~ product_sell_price = fields.Float(string='PS Volume', readonly=True, related="product_id.lst_price", store=True)
 
     @api.model
     def _select(self):
