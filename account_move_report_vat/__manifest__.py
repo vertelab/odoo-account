@@ -32,8 +32,10 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-          Adds Vat Number To the Invoice Report
+    Adds Vat Number To the Invoice Report
     """,
+    # Any module necessary for this one to work correctly
+
     'depends': ['account','sale'],
     'data': [
         'report/account_move_report.xml',
