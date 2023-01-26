@@ -48,3 +48,4 @@ Fixes issue of period selecting current month even if invoice is in the future
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
