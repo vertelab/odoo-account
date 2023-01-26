@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account: Payment Filter Currency',
+    'name': 'Account: Payment Order Filter Currency',
     'version': '14.0.0.0.1',
     'summary': 'Adds the capability to filter payment order lines based on currency',
     'category': 'Accounting',
@@ -29,11 +29,13 @@
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-account/account_payment_order_filter_currency',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-        There is a new filed on the payment order wizard that is used to find invoice lines.
+    There is a new filed on the payment order wizard that is used to find invoice lines.
 	This new field allowes us to find invoice lines for a specific currency.
     """,
+    # Any module necessary for this one to work correctly
     'depends': ['account_payment_order'],
     'data': [
         'views/account_payment_line_create_view.xml',
@@ -43,3 +45,4 @@
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
