@@ -20,13 +20,14 @@
 ##############################################################################
 
 {
-    'name': 'Account: Invoice Analysis',
+    'name': 'Account: Odoo Invoice Analysis',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Show product price in pivot invoice report',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-account/odoo_invoice_analysis',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
@@ -35,6 +36,8 @@
     'description': """
         Show product price in pivot invoice report
     """,
+    # Any module necessary for this one to work correctly
+
     'depends': ['account'],
     'data': [
         'views/account_invoice_report_view.xml',
@@ -44,3 +47,4 @@
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

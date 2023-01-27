@@ -25,14 +25,16 @@
     'summary': 'Override OCA reconciliation module to allow reconcilation while in draft status',
     'category': 'Accounting',
     'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-account/payment_order_file_name',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-        Account Payment Order Override
+    Account Payment Order Override
     """,
+    # Any module necessary for this one to work correctly
     'depends': ['account_payment_order'],
     'data': [
         'report/print_account_payment_order.xml',
@@ -43,3 +45,4 @@
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

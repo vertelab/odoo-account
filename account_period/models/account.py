@@ -101,6 +101,13 @@ class AccountPeriod(models.Model):
         for period in self:
             return self.search([('date_start', '<', period.date_start)], order='date_start')[-1]
         return self
+    
+    
+    @api.returns('self')
+    def now(self):
+        for period in self:
+            #raise UserError('kalle %s' % period)
+            return period.find()
 
     @api.returns('self')
     def now(self):
@@ -480,12 +487,22 @@ class AccountMove(models.Model):
 
     @api.model_create_multi
     def create(self, values):
+<<<<<<< HEAD
 
 
         for v in values: # add period if missing
             if not 'period_id' in v: 
                 v['period_id'] = self.env['account.period'].date2period(values[0].get('date')).id
                 
+=======
+        for v in values: # add period if missing
+            if not 'period_id' in v:
+                # ~ if 'date' in v:
+                    v['period_id'] = self.env['account.period'].date2period(v.get('date') or v.get('invoice_date') or fields.Date.today()).id
+                    # ~ v['period_id'] = self.env['account.period'].date2period(v.get('date')).id 
+        
+        
+>>>>>>> 1f1db2f99a214220bcec06c0348d3d9aa5cc036a
         if self._context.get('check_move_period_validity', True):
             if isinstance(values, list):
                 for i in range(len(values)):
