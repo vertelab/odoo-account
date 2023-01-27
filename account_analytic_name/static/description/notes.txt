@@ -1,11 +1,11 @@
-odoo-account / account_analytic_name -- icons
+odoo-account / account_analytic_name
 2021-12-30
 
 Path:
 /static/description/icon.png
 /static/description/banner.png
 
-Icon: landmark
+Icon: "coins"
 Icons may be found at: https://fontawesome.com/v5/cheatsheet
 
 

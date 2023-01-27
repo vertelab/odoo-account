@@ -22,10 +22,10 @@
 {
     'name': 'Account: Bank Payment Order Customization',
     'version': '14.0.0.1.0',
-    'summary': """Bank Payment Order Customization""",
+    'summary': 'Bank Payment Order Customization',
     'category': 'Accounting',
     'description': """
-        Bank Payment Order Customization
+    Bank Payment Order Customization.
     """,
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/bank_payment_order_customization/',
@@ -38,3 +38,4 @@
     'installable': True,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
