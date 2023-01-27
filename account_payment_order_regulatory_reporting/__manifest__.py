@@ -27,8 +27,8 @@
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps',
-    #'images': ['/static/description/banner.png'], # 560x280 px.
+    'website': 'https://vertel.se/apps/odoo-account/account_payment_order_regulatory_reporting',
+    'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -43,6 +43,7 @@ This module adds a List of most commonly used Regulatory Reporting codes, which 
 When we make a sale order and try to make bank payment lines then it will require the user to add Regulatory Reporting codes if the value is above 150 000 SEK and if the currency is not SEK, at which point this module will assume that it is an international payment.
 
     """,
+    # Any module necessary for this one to work correctly
     'depends': ['account_banking_pain_base','account_payment_order'],
     'data': [
         'views/regulatory_reporting_code.xml',
@@ -55,5 +56,4 @@ When we make a sale order and try to make bank payment lines then it will requir
     'application': False,
     'auto_install': False,
 }
-
-
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
