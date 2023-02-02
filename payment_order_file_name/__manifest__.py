@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account: Payment Order Override',
+    'name': 'Account: Payment Order File Name',
     'version': '14.0.0.0.1',
     'summary': 'Override OCA reconciliation module to allow reconcilation while in draft status',
     'category': 'Accounting',
@@ -32,7 +32,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-    Account Payment Order Override
+    Account Payment Order File Name
     """,
     # Any module necessary for this one to work correctly
     'depends': ['account_payment_order'],
