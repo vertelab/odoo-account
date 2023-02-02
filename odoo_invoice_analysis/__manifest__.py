@@ -34,7 +34,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-        Show product price in pivot invoice report
+    Show product price in pivot invoice report.
     """,
     # Any module necessary for this one to work correctly
 
