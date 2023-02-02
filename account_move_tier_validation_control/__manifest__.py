@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account: Move Validation Implement Control',
+    'name': 'Account: Move Tier Validation Control',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds two new fields on a user.',
@@ -50,3 +50,4 @@
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
