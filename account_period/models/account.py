@@ -241,7 +241,12 @@ class AccountPeriod(models.Model):
     @api.model
     def date2period(self, date):
         #_logger.warning("date2period"*10)
-        #_logger.warning(f"{date}")
+        #_logger.warning(f"1 {date} {isinstance(date, str)}")
+        if isinstance(date, str):
+            date = datetime.strptime(date, "%Y-%m-%d")
+            #_logger.warning(f"2 {date} {isinstance(date, str)}")
+
+        
         #company_id = self.env.context.get('company_id')
         company_id = self.env.company.id
         #_logger.warning(f"{company_id=} {company_id2=}")
