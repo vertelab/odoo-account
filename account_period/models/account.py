@@ -28,6 +28,8 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+FIELDS = ['move_type','name','partner_id','invoice_date','journal_id','invoice_line_ids','line_ids','company_id','state']
+
 
 class AccountPeriod(models.Model):
     _name = 'account.period'
@@ -475,6 +477,9 @@ class AccountMove(models.Model):
     def write(self, values):
         if self._context.get('check_move_period_validity', True):
             for record in self:
+                # ~ _logger.warn(f'{values=} {self._context=}')
+                if not set(values.keys()).intersection(FIELDS): # Check only when a critical field are in values
+                    continue
                 record.validate_open_period_write({"period_id": record.period_id.id})
         return super(AccountMove, self).write(values)
 
