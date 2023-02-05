@@ -20,20 +20,22 @@
 ##############################################################################
 
 {
-    'name': 'Account: Invoice Report',
+    'name': 'Account: Move Report VAT',
     'version': '14.0.0.0.1',
     'summary': 'Adds Vat Number To the Invoice Report',
     'category': 'Accounting',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_move_disable_create',
+    'website': 'https://vertel.se/apps/odoo-account/account_move_report_vat',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-          Adds Vat Number To the Invoice Report
+    Adds Vat Number To the Invoice Report
     """,
+    # Any module necessary for this one to work correctly
+
     'depends': ['account','sale'],
     'data': [
         'report/account_move_report.xml',
@@ -44,3 +46,4 @@
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -5,7 +5,11 @@ from odoo import models, fields, api
 
 class AccountMoveline(models.Model):
     _inherit = 'account.move.line'
+
     total_weight = fields.Float(string='Total Weight', readonly=True, compute='_compute_total_weight')
+
+    product_buy_price = fields.Float(string='PS Volume', readonly=True, related="product_id.standard_price", store=True)
+
     def _compute_total_weight(self):
         context_copy = self.env.context.copy()
         context_copy.update({'check_move_period_validity':False})
@@ -16,66 +20,31 @@ class AccountMoveline(models.Model):
             else:
                 weight = 0
             record.with_context(context_copy).write({'total_weight':weight * quantity})
-    
+
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
-    
-    # ~ @api.depends(
-        # ~ 'line_ids.matched_debit_ids.debit_move_id.move_id.payment_id.is_matched',
-        # ~ 'line_ids.matched_debit_ids.debit_move_id.move_id.line_ids.amount_residual',
-        # ~ 'line_ids.matched_debit_ids.debit_move_id.move_id.line_ids.amount_residual_currency',
-        # ~ 'line_ids.matched_credit_ids.credit_move_id.move_id.payment_id.is_matched',
-        # ~ 'line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual',
-        # ~ 'line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual_currency',
-        # ~ 'line_ids.debit',
-        # ~ 'line_ids.credit',
-        # ~ 'line_ids.currency_id',
-        # ~ 'line_ids.amount_currency',
-        # ~ 'line_ids.amount_residual',
-        # ~ 'line_ids.amount_residual_currency',
-        # ~ 'line_ids.payment_id.state',
-        # ~ 'line_ids.full_reconcile_id')
-    # ~ def _compute_amount(self):
-        # ~ res = super(AccountMove, self)._compute_amount()
-        # ~ context_copy = self.env.context.copy()
-        # ~ context_copy.update({'check_move_period_validity':False})
-        # ~ for move in self:
-             # ~ move.with_context(context_copy).write({'amount_total_loc':move.amount_total})
-        # ~ return res
-        
-    @api.depends('amount_total','amount_total_signed')
+
+    @api.depends('amount_total', 'amount_total_signed')
     def _compute_amount_loc(self):
         context_copy = self.env.context.copy()
         context_copy.update({'check_move_period_validity':False})
         for move in self:
             if ((move.amount_total_signed >= 0 and move.amount_total >= 0) or
-                (move.amount_total_signed < 0 and move.amount_total < 0)):
-                move.with_context(context_copy).write({'amount_total_loc':move.amount_total})
+                    (move.amount_total_signed < 0 and move.amount_total < 0)):
+                move.with_context(context_copy).write({'amount_total_loc': move.amount_total})
             else:
-                move.with_context(context_copy).write({'amount_total_loc':-move.amount_total})
-             
+                move.with_context(context_copy).write({'amount_total_loc': -move.amount_total})
+
     amount_total_loc = fields.Monetary(string='Total LOC', store=True, readonly=True,
-        compute='_compute_amount_loc')
-    
-
-
-
-
-class AccountMoveLine(models.Model):
-    _inherit = "account.move.line"
-
-    product_buy_price = fields.Float(string='PS Volume', readonly=True, related="product_id.standard_price", store=True)
-    # ~ product_sell_price = fields.Float(string='PS Volume', readonly=True, related="product_id.lst_price", store=True)
-    
+                                       compute='_compute_amount_loc')
 
 
 class AccountInvoiceReport(models.Model):
     _inherit = "account.invoice.report"
 
     product_buy_price = fields.Float(string='PS Volume', readonly=True)
-    # ~ product_sell_price = fields.Float(string='PS Volume', readonly=True, related="product_id.lst_price", store=True)
-    
+
     @api.model
     def _select(self):
         return '''
@@ -111,4 +80,4 @@ class AccountInvoiceReport(models.Model):
                    0.0) * currency_table.rate                               AS price_average,
                 COALESCE(partner.country_id, commercial_partner.country_id) AS country_id
         '''
-        
+

@@ -27,8 +27,8 @@
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    # ~ 'website': 'https://vertel.se/apps/odoo-account/account-analytic-move-ids',
-    # ~ 'images': ['/static/description/banner.png'], # 560x280 px
+    'website': 'https://vertel.se/apps/odoo-account/account_move_tier_validation_implement',
+    'images': ['/static/description/banner.png'], # 560x280 px
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -36,6 +36,7 @@
     'description': """
     Adds a field on a account move to select validator
     """,
+    # Any module necessary for this one to work correctly
     'depends': ['account_move_tier_validation', 'odoo_invoice_analysis', 'base', 'base_tier_validation_report', 'base_tier_validation'],
     'data': [
         'views/account_move_views.xml',
@@ -48,3 +49,4 @@
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

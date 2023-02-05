@@ -25,3 +25,23 @@ class PurchaseOrder(models.Model):
                             line.area_of_responsibility = line.purchase_line_id.area_of_responsibility
         
         return vals
+
+    def action_add_project_and_cost_center_wizard(self):
+        view_id = self.env.ref(
+            'account_analytic_tag_responsability_project_no.choose_project_number_and_cost_center_view_form').id
+
+        name = _('Add Project and Cost Center to Purchase Order Lines')
+
+        return {
+            'name': name,
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'project.cost.center.wizard',
+            'view_id': view_id,
+            'views': [(view_id, 'form')],
+            'target': 'new',
+            'context': {
+                'default_res_id': self.id,
+                'default_res_model': self._name,
+            }
+        }
