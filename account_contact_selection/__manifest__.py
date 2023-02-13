@@ -20,10 +20,10 @@
 ##############################################################################
 
 {
-    'name': 'Account: Remove Account Contact Selection',
+    'name': 'Account: Account Contact Selection',
     'version': '14.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Remove Account Selection Limitation On Contacts',
+    'summary': 'Remove Account Selection Limitation On Contacts.',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
@@ -34,7 +34,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-
+    Remove Account Selection Limitation On Contacts.
     """,
     'depends': ['contacts','account'],
     'data': [
