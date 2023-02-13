@@ -25,7 +25,9 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds new options to groups journal lines by.',
     'category': 'Accounting',
-    'description': 'Adds new options to groups journal lines by.',
+    'description': """
+    Adds new options to groups journal lines by.
+    """,
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_move_line_group_by',
@@ -34,6 +36,8 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account.git',
+    # Any module necessary for this one to work correctly
+
     'depends': ['account'],
     'data': [
         'views/account_move_line_view.xml',
@@ -45,5 +49,5 @@
     'auto_install': False,
     'post_init_hook':'post_init_hook',
 }
-
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
