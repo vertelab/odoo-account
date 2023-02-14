@@ -27,7 +27,7 @@
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_analytic_move_ids',
+    'website': 'https://vertel.se/apps/odoo-account/account_move_tier_validation_control',
     'images': ['/static/description/banner.png'], # 560x280 px
     'license': 'AGPL-3',
     'contributor': '',
