@@ -33,7 +33,7 @@
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
     There is a new filed on the payment order wizard that is used to find invoice lines.
-	This new field allowes us to find invoice lines for a specific currency.
+	This new field allows us to find invoice lines for a specific currency.
     """,
     # Any module necessary for this one to work correctly
     'depends': ['account_payment_order'],
