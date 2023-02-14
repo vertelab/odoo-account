@@ -17,7 +17,7 @@
                 </xpath>
 
                 <xpath expr="//header/button[last()]" position="after">
-                    <button string="Add Project Cost &amp; Area of Responsibility"
+                    <button string="Add Project &amp; Cost Center on all lines"
                             name="action_add_project_and_cost_center_wizard" type="object" class="btn btn-primary"/>
                 </xpath>
             </field>

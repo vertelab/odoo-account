@@ -28,6 +28,8 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+FIELDS = ['move_type','name','partner_id','invoice_date','journal_id','invoice_line_ids','line_ids','company_id','state']
+
 
 class AccountPeriod(models.Model):
     _name = 'account.period'
@@ -101,6 +103,19 @@ class AccountPeriod(models.Model):
         for period in self:
             return self.search([('date_start', '<', period.date_start)], order='date_start')[-1]
         return self
+    
+    
+    @api.returns('self')
+    def now(self):
+        for period in self:
+            #raise UserError('kalle %s' % period)
+            return period.find()
+
+    @api.returns('self')
+    def now(self):
+        for period in self:
+            #raise UserError('kalle %s' % period)
+            return period.find()
 
     @api.returns('self')
     def find(self, dt=None, context=None):
@@ -228,7 +243,12 @@ class AccountPeriod(models.Model):
     @api.model
     def date2period(self, date):
         #_logger.warning("date2period"*10)
-        #_logger.warning(f"{date}")
+        #_logger.warning(f"1 {date} {isinstance(date, str)}")
+        if isinstance(date, str):
+            date = datetime.strptime(date, "%Y-%m-%d")
+            #_logger.warning(f"2 {date} {isinstance(date, str)}")
+
+        
         #company_id = self.env.context.get('company_id')
         company_id = self.env.company.id
         #_logger.warning(f"{company_id=} {company_id2=}")
@@ -469,11 +489,18 @@ class AccountMove(models.Model):
     def write(self, values):
         if self._context.get('check_move_period_validity', True):
             for record in self:
+                # ~ _logger.warn(f'{values=} {self._context=}')
+                if not set(values.keys()).intersection(FIELDS): # Check only when a critical field are in values
+                    continue
                 record.validate_open_period_write({"period_id": record.period_id.id})
         return super(AccountMove, self).write(values)
 
     @api.model_create_multi
     def create(self, values):
+        for v in values: # add period if missing
+            if not 'period_id' in v:
+                v['period_id'] = self.env['account.period'].date2period(v.get('date') or v.get('invoice_date') or fields.Date.today()).id
+
         if self._context.get('check_move_period_validity', True):
             if isinstance(values, list):
                 for i in range(len(values)):
@@ -481,6 +508,7 @@ class AccountMove(models.Model):
             else:
                 self.validate_open_period_create(values)
         return super(AccountMove, self).create(values)
+
 
     def _get_default_period_id(self):
         return self.env['account.period'].date2period(self.invoice_date or fields.Date.today()).id

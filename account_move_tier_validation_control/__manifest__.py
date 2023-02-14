@@ -20,15 +20,15 @@
 ##############################################################################
 
 {
-    'name': 'Account: Move Validation Implement Control',
+    'name': 'Account: Move Tier Validation Control',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds two new fields on a user.',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_analytic_move_ids',
-    # ~ 'images': ['/static/description/banner.png'], # 560x280 px
+    'website': 'https://vertel.se/apps/odoo-account/account_move_tier_validation_control',
+    'images': ['/static/description/banner.png'], # 560x280 px
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -50,3 +50,4 @@
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

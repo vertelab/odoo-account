@@ -23,7 +23,13 @@ class ProjectAndCostCenter(models.TransientModel):
         rec_id = self.env[self.res_model].browse(int(self.res_id))
         if self.res_model in ['sale.order', 'purchase.order']:
             for line in rec_id.order_line:
-                line.write({'project_no': self.project_no.id, 'area_of_responsibility': self.area_of_responsibility.id})
+                if self.project_no:
+                    line.write({'project_no': self.project_no.id})
+                if self.area_of_responsibility:
+                    line.write({'area_of_responsibility': self.area_of_responsibility.id})
         elif self.res_model == 'account.move':
             for line in rec_id.invoice_line_ids:
-                line.write({'project_no': self.project_no.id, 'area_of_responsibility': self.area_of_responsibility.id})
+                if self.project_no:
+                    line.write({'project_no': self.project_no.id})
+                if self.area_of_responsibility:
+                    line.write({'area_of_responsibility': self.area_of_responsibility.id})
