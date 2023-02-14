@@ -27,7 +27,7 @@
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account-journal-selection',
+    'website': 'https://vertel.se/apps/odoo-account/account_journal_selection',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
@@ -47,3 +47,4 @@
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
