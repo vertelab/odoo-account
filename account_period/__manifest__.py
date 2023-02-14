@@ -41,6 +41,7 @@ Added period for accounting. Either 12 months or 4 quarters.
     'depends': ['account'],
     'data': [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'wizard/account_period_close_view.xml',
         'wizard/account_fiscalyear_close_view.xml',
         'wizard/account_period_create_view.xml',
