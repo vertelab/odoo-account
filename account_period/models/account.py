@@ -497,6 +497,15 @@ class AccountInvoice(models.Model):
                   "period or open {self.period_id.name}").format(
                     **locals()))
         return super(AccountInvoice, self).action_invoice_open()
+    
+class account_payment(models.Model):
+    _inherit = "account.payment"
+
+    @api.multi
+    def post(self):
+        context_copy = self.env.context.copy()
+        context_copy.update({'check_move_period_validity': False})
+        super(account_payment, self).with_context(context_copy).post()
 
         
 
