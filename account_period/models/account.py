@@ -332,6 +332,12 @@ class AccountFiscalyear(models.Model):
             domain = ['|', ('code', operator, name), ('name', operator, name)]
         ids = self.search(expression.AND([domain, args]), limit=limit)
         return ids.name_get()
+    
+    def action_draft(self):
+        mode = 'draft'
+        for fiscalyear in self:
+            fiscalyear.state = mode
+        return True
 
 
 class AccountMove(models.Model):
