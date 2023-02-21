@@ -398,7 +398,7 @@ class AccountFiscalyear(models.Model):
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
-
+    
     def _reverse_moves(self, default_values_list=None, cancel=False):
         _logger.warning("_reverse_moves" * 100)
         ''' Reverse a recordset of account.move.
