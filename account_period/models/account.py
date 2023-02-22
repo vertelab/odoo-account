@@ -505,7 +505,10 @@ class account_payment(models.Model):
     def post(self):
         context_copy = self.env.context.copy()
         context_copy.update({'check_move_period_validity': False})
-        return super(account_payment, self).with_context(context_copy).post()
+        self_with_context = self.with_context(context_copy)
+        #res = super(account_payment, self).with_context(context_copy).post()
+        res = super(AccountPayment, self_with_context).post()
+        return res 
 
         
 
