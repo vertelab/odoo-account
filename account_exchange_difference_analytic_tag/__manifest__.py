@@ -25,7 +25,7 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds the analytic tags from the orignal invoice on the currency differance invoice',
     'category': 'Accounting',
-    #'sequence': '1'
+    'sequence': '20',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_exchange_difference_analytic_tag',
     'images': ['/static/description/banner.png'], # 560x280 px.
@@ -36,7 +36,7 @@
     'description': """
 	
     """,
-    'depends': ['account','account_analytic_tag_responsability_project_no'],
+    'depends': ['account_analytic_tag_responsability_project_no','account',],
     'data': [
         # 'views/res_config.xml',
     ],
