@@ -7,10 +7,7 @@ account_analytic_default_all_move_lines | This one makes it so that the default 
 account_analytic_line_project | This one seems weird, adds project to an account.analytic.lines which it already has. Then it adds so that a project can have a list of all account.analytic.line connected to it, which is new.
 account_analytic_move_ids | Adds so that there can be several analytic.account connected to an account.move.line. Instead of the default just one.
 account_analytic_name | Changes display_name for account.analytic.account to include the group_id.name
-account_analytic_tag_responsability_project_no | Adds types on an analytic account tag, so that we can set two new fields on a journal line and  purchase/sale Order Line.
-This is done so that we can filter on Area of Responsibility and Project Number fields. Which are set on a move line and a sale order line if the tag has either set as a type.
-This module also adds the requirement for invoice lines with an account code between 3000-9999 to have both a project and Cost Center tag.
-Also all purchase/sale order lines have to have a project tag.
+account_analytic_tag_responsability_project_no | Adds types on an analytic account tag, so that we can set two new fields on a journal line and  purchase/sale Order Line.This is done so that we can filter on Area of Responsibility and Project Number fields. Which are set on a move line and a sale order line if the tag has either set as a type.This module also adds the requirement for invoice lines with an account code between 3000-9999 to have both a project and Cost Center tag. Also all purchase/sale order lines have to have a project tag.
 account_analytics_extra_criteria |  Adds more criteria for analytic default rules.
 account_contact_selection | Remove Account Selection Limitation On Contacts.
 account_exchange_difference_analytic_tag | Adds the analytic tags from the original invoice to the currency difference invoice.
