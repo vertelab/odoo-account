@@ -25,7 +25,7 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds types on a analytic account tag, so that we can set two new fields on a journal line.',
     'category': 'Accounting',
-    #'sequence': '1'
+    'sequence': '10'
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_analytic_tag_responsability_project_no',
     'images': ['static/description/banner.png'], # 560x280 px
