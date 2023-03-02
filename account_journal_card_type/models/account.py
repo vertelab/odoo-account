@@ -37,8 +37,8 @@ class AccountJournal(models.Model):
                             ondelete={"card": "set default"},
                             )
 
-    card_debit_account = fields.Many2one('account.account', string='Card Debit Account')
-    card_credit_account = fields.Many2one('account.account', string='Card Credit Account')
+    card_debit_account = fields.Many2one('account.account', string='Card Debit Account', domain = "[('deprecated', '=', False),('company_id','=',company_id)]")
+    card_credit_account = fields.Many2one('account.account', string='Card Credit Account', domain = "[('deprecated', '=', False),('company_id','=',company_id)]")
         # ~ domain="[('deprecated', '=', False), ('company_id', '=', company_id),"
                # ~ "'|', ('user_type_id', '=', default_account_type),"
                # ~ "('user_type_id.type', '=', 'other')]")
