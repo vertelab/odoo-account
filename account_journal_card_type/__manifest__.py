@@ -40,6 +40,7 @@
     'data': [
         'views/account_journal.xml',
         'security/ir.model.access.csv',
+        'security/security.xml',
         'views/card_statement_view.xml',
     ],
     'demo': [],

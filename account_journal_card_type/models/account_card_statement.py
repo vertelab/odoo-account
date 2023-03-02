@@ -17,14 +17,14 @@ class AccountCardStatement(models.Model):
     total_card_transaction = fields.Float(compute="compute_total_card_transaction",string="Total Card Transactions", store=True)
     account_card_statement_line_ids = fields.One2many('account.card.statement.line', 'account_card_statement_id',
                                                       string='Card Transaction')
-    account_move_id = fields.Many2one('account.move', string='Entry')
     journal_id = fields.Many2one('account.journal', string='Journal', required=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('posted', 'Posted'),
         ('cancelled', 'Cancelled'),
     ], string='Status', copy=False, index=True, tracking=True, default='draft')
-    
+    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
+
     @api.depends('account_card_statement_line_ids','account_card_statement_line_ids.amount')
     def compute_total_card_transaction(self):
         for record in self:
@@ -76,9 +76,6 @@ class AccountCardStatement(models.Model):
            self.statement_line_credit_repayment_id.account_move_id.action_post()
            self.state = 'posted'
 
-
-
-
     def action_cancel(self):
         if self.account_card_statement_line_ids:
             move_ids = self.account_card_statement_line_ids.mapped('account_move_id').filtered(
@@ -116,12 +113,13 @@ class AccountCardStatement(models.Model):
 class AccountCardStatementLine(models.Model):
     _name = 'account.card.statement.line'
     name = fields.Char()
-    account_card_statement_id = fields.Many2one('account.card.statement', string='Card Transaction', required=False, ondelete="cascade")
+    account_card_statement_id = fields.Many2one('account.card.statement', string='Card Transaction', required=False,
+                                                ondelete="cascade")
     account_move_id = fields.Many2one('account.move', string='Entry', required=True)
     account_move_payment_state = fields.Selection(related='account_move_id.payment_state', string='Payment State')
     date = fields.Date()
     amount = fields.Float()
-    currency = fields.Many2one('res.currency', string='Currency')  ###res.currency
+    currency = fields.Many2one('res.currency', string='Currency')  # res.currency
     original_amount = fields.Float()
     original_currency = fields.Char()
     vat_amount = fields.Float()
@@ -138,3 +136,4 @@ class AccountCardStatementLine(models.Model):
     card_number = fields.Char()
     card_name = fields.Char()
     accounting_status = fields.Char()
+    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
