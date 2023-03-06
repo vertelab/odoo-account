@@ -40,16 +40,33 @@
                             <field name="journal_id"/>
                             <field name="statement_line_credit_repayment_id"/>
                         </group>
-                        <field name="account_card_statement_line_ids">
-                            <tree>
-                                <field name="date"/>
-                                <field name="person"/>
-                                <field name="card_number"/>
-                                <field name="description"/>
-                                <field name="amount"/>
-                                <field name="currency"/>
-                            </tree>
-                        </field>
+                        <notebook>
+                            <page string="Account Card Statement">
+                                <field name="account_card_statement_line_ids">
+                                    <tree>
+                                        <field name="date"/>
+                                        <field name="person"/>
+                                        <field name="card_number"/>
+                                        <field name="description"/>
+                                        <field name="amount"/>
+                                        <field name="currency"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Credit Repayment">
+                                <field name="statement_line_credit_repayment_line_ids">
+                                    <tree>
+                                        <field name="date"/>
+                                        <field name="person"/>
+                                        <field name="card_number"/>
+                                        <field name="description"/>
+                                        <field name="amount"/>
+                                        <field name="currency"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
                        <group class="oe_subtotal_footer oe_right" colspan="2" name="card_total">
                         <div class="oe_subtotal_footer_separator oe_inline">
                             <label for="total_card_transaction"/>
