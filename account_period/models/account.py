@@ -118,14 +118,16 @@ class AccountPeriod(models.Model):
             return period.find()
 
     @api.returns('self')
-    def find(self, dt=None, context=None):
+    def find(self, dt=None, context=None, company_id=False):
+        if not company_id:
+            company_id = self.env.context.get('company_id', self.env.user.company_id.id)
         context = context or {}
         self.ensure_one()
         if not dt:
             dt = fields.Date.context_today()
         # args = [('date_start', '<=' ,dt), ('date_stop', '>=', dt), ('company_id', '=', self.env.context.get('company_id', self.env['res.company']._company_default_get('account.account').id))] # _company_default_get' on res.company is deprecated and shouldn't be used anymore"
         args = [('date_start', '<=', dt), ('date_stop', '>=', dt),
-                ('company_id', '=', self.env.context.get('company_id', self.env.user.company_id.id))]
+                ('company_id', '=', company_id)]
         result = []
         if context.get('account_period_prefer_normal', True):
             # look for non-special periods first, and fallback to all if no result is found
