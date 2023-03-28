@@ -53,13 +53,13 @@ class ResConfigSettings(models.TransientModel):
         res = super(ResConfigSettings, self).get_values()
         return res
 
-    @api.multi
     def set_values(self):
         super(ResConfigSettings, self).set_values()
 
     @api.model
     def get_url(self, endpoint):
-        base_url = 'https://api.inexchange.com/v1/api'
+        #'https://api.inexchange.com/v1/api' when not testing
+        base_url = 'https://testapi.inexchange.com/v1/api'
         return f'{base_url}/{endpoint.lstrip("/")}'
 
     # ~ @api.multi
@@ -87,7 +87,6 @@ class ResConfigSettings(models.TransientModel):
                 raise UserError('HTTP Request failed %s' % e)
         return client_token
 
-    @api.multi
     def inexchange_request_api(self,request_type,url,data=None):
         # Company (POST /v1/api/companies/register/ HTTP/1.1)
         api_key = self.env['ir.config_parameter'].sudo().get_param(
@@ -114,7 +113,6 @@ class ResConfigSettings(models.TransientModel):
             raise UserError('HTTP Request failed %s' % e)
         return r.content
 
-    @api.multi
     def inexchange_request_token(self, request_type, url, data=None):
         # Company (POST /v1/api/companies/register/ HTTP/1.1)
         client_token = self.env['res.config.settings'].inexchange_request_client_token()

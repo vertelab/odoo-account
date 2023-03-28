@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 
 class account_invoice(models.Model):
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
 
     inexchange_invoice_url_address = fields.Char(
         string='Inexchange Invoice UUID',
@@ -165,7 +165,6 @@ class account_invoice(models.Model):
                                 f'{json.dumps(result.text)}')
             return result
 
-    @api.one
     def inexchange_get_invoice_status(self):
         settings = self.env['res.config.settings']
         client_token = settings.inexchange_request_client_token()
@@ -241,7 +240,6 @@ class account_invoice(models.Model):
             raise UserError(result.text)
         return result
 
-    @api.multi
     def download_invoice(self, file_location):
         settings = self.env['res.config.settings']
         client_token = settings.inexchange_request_client_token()
@@ -256,7 +254,6 @@ class account_invoice(models.Model):
                     raise UserError('Failed to download invoice')
                 return result
 
-    @api.multi
     def send_invoice_to_inexchange_action(self):
         for invoice in self:
             if invoice.partner_id.inexchange_company_id:

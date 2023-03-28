@@ -34,7 +34,6 @@ class res_company(models.Model):
     _inherit = ['res.company','mail.thread','mail.activity.mixin']
     _name= 'res.company'
 
-    @api.multi
     def register_company(self):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='companies/register')
@@ -70,7 +69,6 @@ class res_company(models.Model):
 
         # ~ return r  
 
-    @api.multi
     def update_company_info(self):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='companies/register')
@@ -97,7 +95,6 @@ class res_company(models.Model):
         company.company_check_status()
         # ~ return r  
 
-    @api.multi
     def company_check_status(self):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='companies/status')
@@ -108,7 +105,6 @@ class res_company(models.Model):
             # ~ company.partner_id.ref = r["CompanyId"]
             _logger.warn('Haze company ID %s' % company.partner_id.ref)
 
-    @api.multi
     def get_company_details(self):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='companies/details/%s' %company.partner_id.ref)
@@ -117,7 +113,6 @@ class res_company(models.Model):
             r = settings.inexchange_request_token('GET', url)
             _logger.warn('Haze company details %s' %r)
 
-    @api.multi
     def company_setup_request(self):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='network/setup')
@@ -139,7 +134,6 @@ class res_company(models.Model):
                 })
             r = json.loads(r)
 
-    @api.multi
     def add_identifiers(self):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='companies/identifiers')
@@ -160,7 +154,6 @@ class res_company(models.Model):
                 })
             r = json.loads(r)
 
-    @api.multi
     def add_users(self):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='companies/identifiers')
@@ -204,7 +197,6 @@ class res_partner(models.Model):
                 if contact.name:
                     contact.company_type = 'company'
     
-    @api.one
     def lookup_buyer_company(self):
         def match_buyer(entry):
             org_match = entry.get('orgNo') == self.company_org_number

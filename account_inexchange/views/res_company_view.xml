@@ -43,7 +43,7 @@
             <field name="gln_number_vertel" />
             <field name="inexchange_company_id" force_save="1"/>
         </field>
-        <field name="vat"  position="after">
+        <field name="vat" position="after">
             <field name="company_org_number" />
         </field>
     </field>
