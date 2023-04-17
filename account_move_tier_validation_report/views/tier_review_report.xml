@@ -1,0 +1,55 @@
+<odoo>
+    <record model="ir.ui.view" id="tier_review_report_search_inherited">
+    <field name="name">tier.review.report.search.inherited</field>
+    <field name="model">tier.review</field>
+    <field name="inherit_id" ref="base_tier_validation_report.tier_review_report_search"/>
+    <field name="arch" type="xml">
+        <xpath expr="//filter[last()]" position="after">
+            <filter name="group_product" string="Att göra av" domain="[]"
+                    context="{'group_by' : 'todo_by'}"/>
+            <filter name="filter_resource_type" string="Invoices" domain="[('resource_type', '=', 'account.move')]"/>
+        </xpath>
+    </field>
+    </record>
+
+    
+    <record id="move_tier_review_my_action_bottleneck" model="ir.actions.act_window">
+        <field name="name">Bottlenecks</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">tier.review</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{
+            'search_default_pending': True,
+            'search_default_group_product': True,
+            'search_default_filter_resource_type': True
+        }</field>
+        <field name="view_id" ref="base_tier_validation_report.tier_review_report_tree" />
+        <field name="search_view_id" ref="base_tier_validation_report.tier_review_report_search" />
+    
+    </record>
+
+
+    
+    <menuitem
+        id="menu_tier_review_report_bottleneck"
+        parent="base_tier_validation_report.menu_tier_validation_report"
+        action="move_tier_review_my_action_bottleneck"
+        sequence="30"
+    />
+    
+</odoo>
+
+
+
+
+<!--
+        'search_default_pending': True,
+        'group_by': 'todo_by'
+-->
+
+
+
+<!--
+<field name="domain">[('resource_type', '=', 'Journal Entry')]</field>
+<field name="groups_id" eval="[(4, ref('base_tier_validation_report.group_see_all_reviews'))]" />-->
