@@ -38,7 +38,7 @@ Account Bottlenecks
 ==============
 Shows the bottlenecks in validation flow.
     """,
-    'depends': ['account'],
+    'depends': ['account','base_tier_validation_report'],
     'data': [
         #'security/ir.model.access.csv',
         #'security/security.xml',
