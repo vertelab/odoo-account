@@ -31,13 +31,13 @@ class AccountMove(models.Model):
     def create(self, vals):
         res = super().create(vals)
         for record in res:
-            if record.move_tier_validator.max_validation_amount < record.amount_total:
-                raise UserError(f"{record.move_tier_validator.name} is not qualified to handle invoices above {record.move_tier_validator.max_validation_amount}.")
+            if record.move_tier_validator.max_validation_amount < record.amount_total_signed_absolute:
+                raise UserError(f"{record.move_tier_validator.name} is not qualified to handle invoices above {record.move_tier_validator.max_validation_amount} {record.move_tier_validator.company_currency_id}.")
         return res
 
     def write(self, vals):
         res = super().write(vals)
         for record in self:
-            if record.move_tier_validator.max_validation_amount < record.amount_total:
-                raise UserError(f"{record.move_tier_validator.name} is not qualified to handle invoices above {record.move_tier_validator.max_validation_amount}.")
+            if record.move_tier_validator.max_validation_amount < record.amount_total_signed_absolute:
+                raise UserError(f"{record.move_tier_validator.name} is not qualified to handle invoices above {record.move_tier_validator.max_validation_amount} {record.move_tier_validator.company_currency_id}.")
         return res
