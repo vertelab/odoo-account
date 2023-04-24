@@ -44,7 +44,7 @@ When we make a sale order and try to make bank payment lines then it will requir
 
     """,
     # Any module necessary for this one to work correctly
-    'depends': ['account_banking_pain_base','account_payment_order'],
+    'depends': ['account_banking_pain_base','account_payment_order','sale_management'],
     'data': [
         'views/regulatory_reporting_code.xml',
         'data/regulatory_reporting_codes.xml',
