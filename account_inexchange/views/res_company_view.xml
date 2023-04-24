@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<odoo>
+        
+  <record id="view_res_company_form_inexchange" model="ir.ui.view">
+    <field name="name">view.res.company.form.inexchange.inherit</field>
+    <field name="model">res.company</field>
+    <field name="inherit_id" ref="base.view_company_form" />
+    <field name="arch" type="xml">
+      <div class="o_address_format" position="after">
+        <div class="app_settings_block" data-string="account_inexchange" string="inexchange" data-key="account_inexchange">
+          <!-- groups="sales_team.group_sale_manager" -->
+          <div class="o_horizontal_separator">Inexchange</div>
+              <div class="o_setting_right_pane">
+                <span class="o_form_label">Register My Company </span>
+                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img" />
+                      <button type="object" name="register_company" string="Register My Company" icon="fa-arrow-right" class="oe_link" />
+              </div>
+              <div class="o_setting_right_pane">
+                <span class="o_form_label">Update My Company </span>
+                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img" />
+                      <button type="object" name="update_company_info" string="Update My Company" icon="fa-arrow-right" class="oe_link" />
+              </div>
+        </div>
+      </div>
+      <form position="inside">
+                <sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="activity_ids" widget="mail_activity"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+        </sheet>          
+      </form>
+    </field>
+  </record>
+  
+  <record id="view_partner_form" model="ir.ui.view">
+    <field name="name">partner.form.gln.inherited</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form" />
+    <field name="arch" type="xml">
+        <field name="property_account_position_id"  position="after">
+            <field name="gln_number_vertel" />
+            <field name="inexchange_company_id" force_save="1"/>
+        </field>
+        <field name="vat" position="after">
+            <field name="company_org_number" />
+        </field>
+    </field>
+  </record>
+  
+    
+</odoo>

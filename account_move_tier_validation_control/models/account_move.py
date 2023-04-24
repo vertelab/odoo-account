@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError
 
 import logging
 
@@ -25,4 +25,19 @@ class AccountMove(models.Model):
     def _get_under_validation_exceptions(self):
         res = super(AccountMove, self)._get_under_validation_exceptions()
         res.append("amount_total_signed_absolute")
+        return res
+        
+    @api.model
+    def create(self, vals):
+        res = super().create(vals)
+        for record in res:
+            if record.move_tier_validator and record.amount_total_signed_absolute and record.move_tier_validator.max_validation_amount < record.amount_total_signed_absolute:
+                raise UserError(f"{record.move_tier_validator.name} is not qualified to handle invoices above {record.move_tier_validator.max_validation_amount} {record.move_tier_validator.company_currency_id.symbol}.")
+        return res
+
+    def write(self, vals):
+        res = super().write(vals)
+        for record in self:
+            if record.move_tier_validator and record.amount_total_signed_absolute and record.move_tier_validator.max_validation_amount < record.amount_total_signed_absolute:
+                raise UserError(f"{record.move_tier_validator.name} is not qualified to handle invoices above {record.move_tier_validator.max_validation_amount} {record.move_tier_validator.company_currency_id.symbol}.")
         return res

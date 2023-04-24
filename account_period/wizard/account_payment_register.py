@@ -31,8 +31,9 @@ class AccountPaymentRegister(models.TransientModel):
     
     def action_create_payments(self):
         for record in self:
-            #_logger.warning(f"jakmar: {record.payment_date}")
+            _logger.warning(f"jakmar: {record.payment_date}")
             period_id = record.env['account.period'].date2period(record.payment_date)
+            _logger.warning(f"jakmar {period_id}")
             if period_id and period_id.state == 'done':
                 raise ValidationError(_("You have tried to create an payment on a date during a closed period {period_id.name}.\n Please change the date or open {period_id.name}").format(**locals()))
         return super(AccountPaymentRegister, self).action_create_payments()
@@ -40,8 +41,10 @@ class AccountPaymentRegister(models.TransientModel):
         
     def _create_payment_vals_from_wizard(self):
         # OVERRIDE
+        _logger.warning(f"create_payments_from_wizard"*10)
         payment_vals = super()._create_payment_vals_from_wizard()
         payment_vals['period_id'] = self.env['account.period'].date2period(self.payment_date).id
+        _logger.warning(f"{payment_vals=}")
         return payment_vals   
         
     # ~ def _create_payment_vals_from_wizard(self):

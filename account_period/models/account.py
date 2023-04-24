@@ -118,14 +118,16 @@ class AccountPeriod(models.Model):
             return period.find()
 
     @api.returns('self')
-    def find(self, dt=None, context=None):
+    def find(self, dt=None, context=None, company_id=False):
+        if not company_id:
+            company_id = self.env.context.get('company_id', self.env.user.company_id.id)
         context = context or {}
         self.ensure_one()
         if not dt:
             dt = fields.Date.context_today()
         # args = [('date_start', '<=' ,dt), ('date_stop', '>=', dt), ('company_id', '=', self.env.context.get('company_id', self.env['res.company']._company_default_get('account.account').id))] # _company_default_get' on res.company is deprecated and shouldn't be used anymore"
         args = [('date_start', '<=', dt), ('date_stop', '>=', dt),
-                ('company_id', '=', self.env.context.get('company_id', self.env.user.company_id.id))]
+                ('company_id', '=', company_id)]
         result = []
         if context.get('account_period_prefer_normal', True):
             # look for non-special periods first, and fallback to all if no result is found
@@ -160,7 +162,7 @@ class AccountPeriod(models.Model):
 
     def write(self, vals):
         if 'company_id' in vals:
-            move_lines = self.enb['account.move.line'].search([('period_id', 'in', self.mapped('id'))])
+            move_lines = self.env['account.move'].search([('period_id', 'in', self.mapped('id'))])
             if move_lines:
                 raise UserError(
                     _('This journal already contains items for this period, therefore you cannot modify its company '
@@ -242,19 +244,24 @@ class AccountPeriod(models.Model):
     
     @api.model
     def date2period(self, date):
-        #_logger.warning("date2period"*10)
-        #_logger.warning(f"1 {date} {isinstance(date, str)}")
+        _logger.warning("date2period"*10)
+        _logger.warning(f"1 {date} {isinstance(date, str)}")
         if isinstance(date, str):
             date = datetime.strptime(date, "%Y-%m-%d")
             #_logger.warning(f"2 {date} {isinstance(date, str)}")
 
         
-        #company_id = self.env.context.get('company_id')
-        company_id = self.env.company.id
-        #_logger.warning(f"{company_id=} {company_id2=}")
+        company_id = self.env.context.get('company_id') or self.env.company.id
+        company_id2 = self.env.company.id
+        _logger.warning(f"{company_id=} {company_id2=}")
         res = self.env['account.period'].search(
             [('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')),
              ('company_id', '=', company_id), ('special', '=', False)])
+             
+        #if not res
+        #res = self.env['account.period'].search(
+        #    [('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')),
+        #     ('company_id', '=', False), ('special', '=', False)])
         #_logger.warning(f"{res}")
         return res
 
