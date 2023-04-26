@@ -13,17 +13,29 @@ class AccountCardStatement(models.Model):
 
     name = fields.Char()
     date = fields.Date()
+    
+    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.user.company_id.id)
+    
+    company_currency_id = fields.Many2one(related='company_id.currency_id', string='Company Currency', readonly=True)
+
+    total_amount_residual = fields.Monetary(compute='_compute_total_amount_residual',
+                                            string='Total Amount Residual',
+                                            currency_field='company_currency_id')    
+    
     statement_line_credit_repayment_id = fields.Many2one('account.card.statement.line',
                                                          string='Credit Repayment Transaction')
     statement_line_credit_repayment_line_ids = fields.One2many('account.card.statement.line',
                                                                'repayment_account_card_statement_id',
                                                                string='Credit Repayment Transaction Line')
     account_move_id = fields.Many2one('account.move', string='Entry')
-    total_card_transaction = fields.Float(compute="compute_total_card_transaction", string="Total Card Transactions",
-                                          store=True)
+    
+    total_card_transaction = fields.Monetary(compute="compute_total_card_transaction", string="Total Card Transactions",
+                                          store=True, currency_field='company_currency_id')
+    
     account_card_statement_line_ids = fields.One2many('account.card.statement.line', 'account_card_statement_id',
                                                       string='Card Transaction')
     journal_id = fields.Many2one('account.journal', string='Journal', required=True)
+    
     state = fields.Selection([
         ('draft', 'Draft'),
         ('posted', 'Posted'),
@@ -31,6 +43,13 @@ class AccountCardStatement(models.Model):
     ], string='Status', copy=False, index=True, tracking=True, default='draft')
     company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
 
+    
+    @api.depends('statement_line_credit_repayment_line_ids.amount_residual')
+    def _compute_total_amount_residual(self):
+        for statement in self:
+            total_residual = sum(statement.statement_line_credit_repayment_line_ids.mapped('amount_residual'))
+            statement.total_amount_residual = total_residual
+            
     @api.depends('account_card_statement_line_ids', 'account_card_statement_line_ids.amount')
     def compute_total_card_transaction(self):
         for record in self:
@@ -130,6 +149,8 @@ class AccountCardStatementLine(models.Model):
     date = fields.Date()
     amount = fields.Float()
     currency = fields.Many2one('res.currency', string='Currency')  # res.currency
+    company_currency_id = fields.Many2one(related='account_move_id.company_currency_id', string='Company Currency', readonly=True)
+    amount_residual = fields.Monetary(related='account_move_id.amount_residual',string='Amount Residual', currency_field='company_currency_id')
     original_amount = fields.Float()
     original_currency = fields.Char()
     vat_amount = fields.Float()
