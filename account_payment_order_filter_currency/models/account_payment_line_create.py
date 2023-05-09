@@ -123,9 +123,9 @@ class AccountMove(models.Model):
     exclude_payment_partner = fields.Boolean('Partner Exclude From Payment', related='partner_id.exclude_from_payment',
                                              readonly=True)  # The partners boolean
     exclude_payment_partner_and_move = fields.Boolean(string="Exclude Payment",
-                                                      readonly=True)  # If partner is True then we use that value
+                                                      readonly=True, help="This is a test")  # If partner is True then we use that value
 
-    @api.depends("exclude_payment", "exclude_payment_partner", "partner_id.exclude_from_payment")
+    @api.onchange("exclude_payment", "exclude_payment_partner", "partner_id")
     def compute_exclude_payment_partner_and_move(self):
         context_copy = self.env.context.copy()
         context_copy.update({'check_move_period_validity': False})
