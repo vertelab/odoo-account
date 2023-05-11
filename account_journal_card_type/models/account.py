@@ -42,8 +42,57 @@ class AccountJournal(models.Model):
         # ~ domain="[('deprecated', '=', False), ('company_id', '=', company_id),"
                # ~ "'|', ('user_type_id', '=', default_account_type),"
                # ~ "('user_type_id.type', '=', 'other')]")
+               
+    def open_action(self):
+        _logger.warning("-------------------------------INSIDE OPEN ACTION ---------------------------------------")
+        action = super().open_action()
+        if self.type == "card":
+            _logger.error("-------------------------------INSIDE CARD ---------------------------------------")
+            ##Return an action that open account.card.statement which belong to this journal
+            #_logger.error(str(self.open_action_with_context_mynt()))
+            ctx = dict(self.env.context)
+            action = {
+                "type": "ir.actions.act_window",
+                "name": "Card Statement",
+                "res_model": "account.card.statement",
+                "view_mode": "tree,form",
+                "domain": [("journal_id", "=", self.id)],
+                "context": ctx,
+            }
+            return action
+            
+            
+            
+            #return self.open_action_with_context_mynt()
+        return action
     
-
+    # def open_action(self):
+    #     _logger.warning("-------------------------------INSIDE OPEN ACTION ---------------------------------------")
+    #     if self.type == 'card':
+    #         _logger.warning("-------------------------------INSIDE CARD ---------------------------------------")
+    #         return self.open_action_with_context_mynt()
+    #     else:
+    #         return super().open_action()
+        
+    # def open_action(self):
+    #     action = super().open_action()
+    #     _logger.warning("-------------------------------KÖRS DENNA ---------------------------------------")
+    #     if self.type == "card":
+    #         # tree_view = self.env.ref("account_journal_card_type.account_card_statement_tree", raise_if_not_found=False)
+    #         # ctx = dict(self.env.context)
+    #         action = {
+    #             "type": "ir.actions.act_window",
+    #             "name": "Sale Contracts",
+    #             "res_model": "account.card.statement",
+    #             "view_mode": "tree",
+    #              "domain": [("id", "in", self.open_action_with_context_mynt().ids)],
+    #             # "context": ctx,
+    #         }
+    #         return action
+    #         # if tree_view and form_view:
+    #         #     action["views"] = [(tree_view.id, "tree"), (form_view.id, "form")]
+    #     return action
+    
     def open_action_with_context_mynt(self):
         _logger.warning("{open_action_with_context_mynt}" * 10)
         action_name = self.env.context.get('action_name', False)

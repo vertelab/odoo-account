@@ -14,6 +14,7 @@
                     <field name="statement_line_credit_repayment_id"/>
                     <field name="account_card_statement_line_ids"/>
                     <field name="total_card_transaction" optional="show"/>
+                    <field name="total_amount_residual"/>
                     <field name="state" widget='badge' decoration-success="state == 'posted'" decoration-info="state == 'draft'" decoration-danger="state == 'cancelled'" />
                 </tree>
             </field>
@@ -38,6 +39,7 @@
                             <field name="name"/>
                             <field name="date"/>
                             <field name="journal_id"/>
+                            <field name="company_currency_id" invisible="1"/>
                             <field name="statement_line_credit_repayment_id"/>
                         </group>
                         <notebook>
@@ -52,6 +54,12 @@
                                         <field name="currency"/>
                                     </tree>
                                 </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="card_total">
+                                    <div class="oe_subtotal_footer_separator oe_inline">
+                                        <label for="total_card_transaction"/>
+                                    </div>
+                                    <field name="total_card_transaction" nolabel="1" class="oe_subtotal_footer_separator"/>
+                                </group>
                             </page>
                             <page string="Credit Repayment">
                                 <field name="statement_line_credit_repayment_line_ids">
@@ -61,18 +69,25 @@
                                         <field name="card_number"/>
                                         <field name="description"/>
                                         <field name="amount"/>
+                                        <field name="amount_residual"/>
                                         <field name="currency"/>
                                     </tree>
                                 </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="card_total">
+                                    <div class="oe_subtotal_footer_separator oe_inline">
+                                        <label for="total_amount_residual"/>
+                                    </div>
+                                    <field name="total_amount_residual" nolabel="1" class="oe_subtotal_footer_separator"/>
+                                </group>
                             </page>
                         </notebook>
 
-                       <group class="oe_subtotal_footer oe_right" colspan="2" name="card_total">
+                       <!-- <group class="oe_subtotal_footer oe_right" colspan="2" name="card_total">
                         <div class="oe_subtotal_footer_separator oe_inline">
                             <label for="total_card_transaction"/>
                         </div>
                         <field name="total_card_transaction" nolabel="1" class="oe_subtotal_footer_separator"/>
-                    </group>
+                    </group> -->
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
                         <field name="message_ids" widget="mail_thread"/>
