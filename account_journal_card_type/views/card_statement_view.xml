@@ -127,6 +127,7 @@
                         <group>
                             <group>
                                 <field name="account_card_statement_id"/>
+                                <field name="repayment_account_card_statement_id"/>
                                 <field name="account_move_id"/>
                                 <field name="date"/>
                                 <field name="amount"/>
