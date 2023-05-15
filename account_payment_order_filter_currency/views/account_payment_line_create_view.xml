@@ -94,7 +94,7 @@
 <!--
                     <field name="exclude_payment_partner"/>
                     <field name="exclude_payment"/>
--->                 <field name="exclude_payment_partner_and_move"/>
+-->                 <field name="exclude_payment_partner_and_move" force_save="1"/>
                     <button string="Toggle Exclude Payment" class="btn btn-primary" type="object" name="inverse_exclude_payment" />
 <!--
                 <button string="Exclude in payment" class="btn btn-primary" type="object" name="inverse_exclude_payment" attrs="{'invisible': [('exclude_payment', '=', True)]}"/>
