@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020 Vertel
+    License AGPL-3.0 or later (http://www.vertel.se).
+-->
+
+
+<odoo>
+    <record id="account_invoice_send_inherit_account_wizard_form_fortnox" model="ir.ui.view" >
+        <field name="name">account.invoice.send.form.inherited.fortnox</field>
+        <field name="model">account.invoice.send</field>
+        <field name="inherit_id" ref="account.account_invoice_send_wizard_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='option_email']" position="replace">
+                <field name="is_email" invisible="1" />
+                <div name="option_fortnox">
+                    <field name="is_fortnox" />
+                    <b><label for="is_fortnox"/></b>
+                </div>
+            </xpath>
+            <label for="is_print" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </label>
+            <field name="is_print" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </field>
+            <label for="snailmail_is_letter" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </label>
+            <field name="snailmail_is_letter" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </field>
+            <footer>
+<!--
+                <button string="Send "
+                    attrs="{'invisible': [('is_fortnox', '=', False)]}"
+                    name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
+-->
+                <button string="Send" name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
+            </footer>
+        </field>
+    </record>
+
+    <record id="account_invoice_form_inherit" model="ir.ui.view" >
+        <field name="name">account_invoice_form_inherit_fortnox</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_bank_id" position="after">
+                <field name="fortnox_response"/>
+                <field name="fortnox_status"/>
+            </field>
+        </field>
+    </record>
+    
+</odoo>
