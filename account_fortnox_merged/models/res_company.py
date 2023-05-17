@@ -40,7 +40,6 @@ class res_company(models.Model):
     fortnox_client_secret = fields.Char(string='Client Secret', help="You get this code from your Odoo representative", store=True)
     fortnox_access_token = fields.Char(string='Access Token', help="With autorization code and client secret you generate this code ones", store=True)
 
-    @api.multi
     def fortnox_get_access_token(self):
         if not self.fortnox_access_token:
             if not self.fortnox_authorization_code:
@@ -71,7 +70,6 @@ class res_company(models.Model):
         else:
             raise UserError('Access Token already fetched')
 
-    @api.multi
     def fortnox_request(self, request_type, url, data=None, raise_error=True):
         # Customer (POST https://api.fortnox.se/3/customers)
         headers = {

@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 BASE_URL = 'https://api.fortnox.se'
 
 class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
+    _inherit = "account.move"
     fortnox_response = fields.Char(string="Fortnox Response", readonly=True)
     fortnox_status = fields.Char(string="Fortnox Status", readonly=True)
     state = fields.Selection([("draft", "Utkast"), ("open", "Bekräftad"), ("sent", "Skickad"), ("paid", "Betalad"), ("cancel", "Avbruten")], readonly=False)
@@ -42,7 +42,6 @@ class AccountInvoice(models.Model):
                 line.unlink()
         self.state = 'open'
 
-    @api.multi
     def update_invoice_status_fortnox_paid(self, fortnox_values):
         final_pay_date_string = fortnox_values.get('FinalPayDate')
         final_pay_date = datetime.strptime(final_pay_date_string, '%Y-%m-%d').date()
@@ -52,30 +51,31 @@ class AccountInvoice(models.Model):
             raise UserError("No valid Journal found. Create a journal called something containing fortnox and of the type bank.")
         elif len(fortnox_journal) > 1:
             raise UserError("More than one valid journal found for fortnox. Make sure there is only one journal of the type Bank with fortnox in its name.")
-        payment_methods = (self.residual>0) and self.journal_id.inbound_payment_method_ids or self.journal_id.outbound_payment_method_ids
-        payment_register_params = dict(
-            amount = self.residual,
-            communication = self.reference,
-            currency_id = self.currency_id.id,
-            journal_id = fortnox_journal.id,
-            payment_date = final_pay_date if final_pay_date else self.date,
-            payment_method_id = payment_methods and payment_methods[0].id or False,
-            payment_type = self.residual >0 and 'inbound' or 'outbound',
-            partner_id = self.partner_id.id,
-        )
+        for rec in self:
+            payment_methods = (rec.residual>0) and rec.journal_id.inbound_payment_method_ids or rec.journal_id.outbound_payment_method_ids
+            payment_register_params = dict(
+                amount = rec.residual,
+                communication = rec.reference,
+                currency_id = rec.currency_id.id,
+                journal_id = fortnox_journal.id,
+                payment_date = final_pay_date if final_pay_date else rec.date,
+                payment_method_id = payment_methods and payment_methods[0].id or False,
+                payment_type = rec.residual >0 and 'inbound' or 'outbound',
+                partner_id = rec.partner_id.id,
+            )
 
-        payment_id = self.env['account.payment'].with_context(
-            active_model='account.invoice',
-            active_ids=self.id,
-        ).create(payment_register_params)
+            payment_id = self.env['account.payment'].with_context(
+                active_model='account.invoice',
+                active_ids=rec.id,
+            ).create(payment_register_params)
 
-        payment_id._onchange_journal()
-       # _logger.warning(f"before"*10)
-       # _logger.warning(self.env.context)
-       # _logger.warning(self.company_id)
-       # _logger.warning(self.id)
-        action = payment_id.action_validate_invoice_payment()
-       # _logger.warning("after"*10)
+            payment_id._onchange_journal()
+           # _logger.warning(f"before"*10)
+           # _logger.warning(self.env.context)
+           # _logger.warning(self.company_id)
+           # _logger.warning(self.id)
+            action = payment_id.action_validate_invoice_payment()
+           # _logger.warning("after"*10)
 
     def update_invoice_status_fortnox_cron(self):
         """Update invoice status from fortnox."""
@@ -136,7 +136,6 @@ class AccountInvoice(models.Model):
                         # next state.
                         break
 
-    @api.multi
     def fortnox_create(self):
         # Customer (POST https://api.fortnox.se/3/customers)
         for invoice in self:
@@ -188,7 +187,6 @@ class AccountInvoiceSend(models.TransientModel):
     _inherit = 'account.invoice.send'
     is_fortnox = fields.Boolean(string='Fortnox', default=True)
 
-    @api.multi
     def send_and_print_action(self):
         """
         Override normal send_and_print_action with additional

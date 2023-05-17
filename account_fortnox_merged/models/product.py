@@ -47,7 +47,6 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    @api.multi
     def membership_get_amount_qty(self, partner):
         eval_context = {
             'uid': self._uid,
@@ -103,7 +102,6 @@ class ProductProduct(models.Model):
 class res_partner(models.Model):
     _inherit="res.partner"
        
-    @api.multi
     def create_membership_invoice(self, product_id=None, datas=None):
         """ Create Customer Invoice of Membership for partners.
         @param datas: datas has dictionary value which consist Id of Membership product and Cost Amount of Membership.

@@ -17,7 +17,6 @@ class Partner(models.Model):
 
     # sets internal reference on all companies and fellowships based on
     # the customer number in Fortnox.
-    @api.multi
     def set_internal_reference(self):
         r = self.env.user.company_id.fortnox_request('get', "https://api.fortnox.se/3/customers")
         r = json.loads(r)
@@ -89,7 +88,6 @@ class Partner(models.Model):
                 r = json.loads(r)
                 partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"]
 
-    @api.multi
     def partner_update(self):
         # Customer (PUT https://api.fortnox.se/3/customers)
         for partner in self:
