@@ -26,10 +26,14 @@
                     <label for="fortnox_client_secret" class="col-lg-3 o_light_label" />
                     <field name="fortnox_client_secret" />
                   </div>
+                  <div class="row">
+                    <label for="fortnox_client_id" class="col-lg-3 o_light_label" />
+                    <field name="fortnox_client_id" />
+                  </div>
                 </div>
               </div>
             </div>
-            
+
             <div class="col-12 col-lg-6 o_setting_box" id="access_code" title="An access code is calculated and fetch from your FortNox-account.">
               <div class="o_setting_left_pane" />
               <div class="o_setting_right_pane">

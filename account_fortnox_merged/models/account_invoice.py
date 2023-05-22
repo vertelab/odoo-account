@@ -17,7 +17,7 @@ class AccountInvoice(models.Model):
     _inherit = "account.move"
     fortnox_response = fields.Char(string="Fortnox Response", readonly=True)
     fortnox_status = fields.Char(string="Fortnox Status", readonly=True)
-    state = fields.Selection([("draft", "Utkast"), ("open", "Bekräftad"), ("sent", "Skickad"), ("paid", "Betalad"), ("cancel", "Avbruten")], readonly=False)
+    # state = fields.Selection([("draft", "Utkast"), ("open", "Bekräftad"), ("sent", "Skickad"), ("paid", "Betalad"), ("cancel", "Avbruten")], readonly=False)
 
     def remove_zero_cost_lines(self):
         """
@@ -28,7 +28,7 @@ class AccountInvoice(models.Model):
         for line in self.invoice_line_ids:
             if line.price_unit == 0 and line.quantity == 0:
                 line.unlink()
-        self.state = 'open'
+        self.state = 'posted'
 
     def remove_package_products(self):
         """
@@ -40,7 +40,7 @@ class AccountInvoice(models.Model):
         for line in self.invoice_line_ids:
             if len(line.product_id.membership_product_ids) > 0 and line.price_unit == 0 and line.quantity == 0:
                 line.unlink()
-        self.state = 'open'
+        self.state = 'posted'
 
     def update_invoice_status_fortnox_paid(self, fortnox_values):
         final_pay_date_string = fortnox_values.get('FinalPayDate')
@@ -93,10 +93,10 @@ class AccountInvoice(models.Model):
         from_date = datetime.now() - timedelta(days=365)
         # Allow for multi company.
         for company in self.env['res.company'].search([]):
-            for invoice in self.env['account.invoice'].search(
+            for invoice in self.env['account.move'].search(
                     [('company_id', '=', company.id),
                      ('create_date', '>', from_date),
-                     ('state', '!=', 'paid'),
+                     ('payment_state', '!=', 'paid'),
                      ('state', '!=', 'draft'),
                      ('state', '!=', 'cancel'),
                     ]):
@@ -122,10 +122,11 @@ class AccountInvoice(models.Model):
                             #_logger.warning("Look here"*100)
                             #_logger.warning(states[state])
                             #_logger.warning(invoice.state)
-                            if states[state] == 'paid' and invoice.state == 'open':
+                            if states[state] == 'paid' and invoice.state == 'posted':
                                 invoice.update_invoice_status_fortnox_paid(inv)
-                            elif states[state] == 'paid' and invoice.state == 'sent':
-                                invoice.state = 'open'
+                            elif states[state] == 'paid' and invoice.is_move_sent:
+                                invoice.state = 'posted'
+                                #TODO: check which method updates the state instead of setting it yourself. invoice.post something
                                 invoice.update_invoice_status_fortnox_paid(inv)
 
                             invoice.fortnox_response = r
@@ -139,7 +140,7 @@ class AccountInvoice(models.Model):
     def fortnox_create(self):
         # Customer (POST https://api.fortnox.se/3/customers)
         for invoice in self:
-            if not invoice.date_due:
+            if not invoice.invoice_date_due:
                 raise UserError(_("ERROR: missing date_due on invoice."))
             if not invoice.partner_id.commercial_partner_id.ref:
                 invoice.partner_id.partner_create()
@@ -181,7 +182,7 @@ class AccountInvoice(models.Model):
             else:
                 invoice.ref = r["Invoice"]["CustomerNumber"]
                 invoice.name = r["Invoice"]["DocumentNumber"]
-                invoice.state = 'sent'
+                invoice.is_move_sent = True
 
 class AccountInvoiceSend(models.TransientModel):
     _inherit = 'account.invoice.send'

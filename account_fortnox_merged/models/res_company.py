@@ -24,6 +24,7 @@ from odoo.exceptions import UserError
 import requests
 import json
 import logging
+import base64
 _logger = logging.getLogger(__name__)
 
 
@@ -38,7 +39,8 @@ class res_company(models.Model):
 
     fortnox_authorization_code = fields.Char(string='Authorization code', help="You get this code from your FortNox Account when you activate Odoo", store=True)
     fortnox_client_secret = fields.Char(string='Client Secret', help="You get this code from your Odoo representative", store=True)
-    fortnox_access_token = fields.Char(string='Access Token', help="With autorization code and client secret you generate this code ones", store=True)
+    fortnox_access_token = fields.Text(string='Access Token', help="With autorization code and client secret you generate this code ones", store=True)
+    fortnox_client_id = fields.Char(string='Client ID', help="The public ID of the integration", store=True)
 
     def fortnox_get_access_token(self):
         if not self.fortnox_access_token:
@@ -46,25 +48,39 @@ class res_company(models.Model):
                 raise UserError("You have to set up Authorization_token for FortNox, you get that when you activate Odoo in your FortNox-account")
             if not self.fortnox_client_secret:
                 raise UserError("You have to set up Client_secret for FortNox, you get that when you activate Odoo in your FortNox-account")
+            if not self.fortnox_client_secret:
+                raise UserError("You have to supply the client ID of the integration")
             try:
+                credentials_encoded = f"{self.fortnox_client_id}:{self.fortnox_client_secret}".encode("utf-8")
+                credentials_b64encoded = base64.b64encode(credentials_encoded).decode("utf-8")
                 r = requests.post(
-                    url="https://api.fortnox.se/3/customers",
-                    headers={
-                        "Authorization-Code": self.fortnox_authorization_code,
-                        "Client-Secret": self.fortnox_client_secret,
-                        "Content-Type": "application/json",
-                        "Accept": "application/json",
+                    url="https://apps.fortnox.se/oauth-v1/token",
+                    headers = {
+                       # "ClientId": self.fortnox_client_id,
+                       # "ClientSecret": self.fortnox_client_secret,
+                        "Content-Type": "application/x-www-form-urlencoded",
+                       # "Accept": "application/json",
+                        "Authorization": f"Basic {credentials_b64encoded}", 
                     },
+                    data = {
+                       'grant_type': 'authorization_code',
+                       'code': self.fortnox_authorization_code,
+                       'redirect_uri': 'https://1f8e-176-10-242-63.ngrok-free.app'
+                    }
                 )
+                
                 if r.status_code not in (200, 201, 204):
                     raise UserError(f'FortNox: StatusCode:{r.status_code}, \n'
                                     f'Content:{r.content}')
                 auth_rec = json.loads(r.content)
-                self.fortnox_access_token = auth_rec.get('Authorization', {}).get('AccessToken')
-                msg = _("New Access Token {token}").format(
-                    self.fortnox_access_token)
-                self.message_post(
-                    body=msg, subject=None, message_type='notification')
+                _logger.warning(f"{auth_rec=}")
+                _logger.warning(f"{auth_rec.get('access_token')=}")
+                self.fortnox_access_token = auth_rec.get('access_token')
+                _logger.warning(f"{self.fortnox_access_token=}")
+                # msg = _("New Access Token {token}").format(self.fortnox_access_token)
+                    
+                # self.message_post(
+                #     body=msg, subject=None, message_type='notification')
             except requests.exceptions.RequestException as e:
                 raise UserError('HTTP Request failed %s' % e)
         else:
