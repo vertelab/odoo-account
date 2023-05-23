@@ -10,8 +10,8 @@ class SaleOrder(models.Model):
         moves = super()._create_invoices(grouped, final, date)
 
         # Goes through all the created Invoices (account.moves), and finds
-        # the customer in the originating sale order(s), and puts said
-        # customer in the contact field in the account.move
+        #  the customer in the originating sale order(s), and puts said
+        #  customer in the contact field in the account.move
         for move in moves:
             if move.invoice_origin:
                 order_name = move.invoice_origin.split(',')[0]
@@ -21,3 +21,5 @@ class SaleOrder(models.Model):
                         break
                         
         return moves
+
+
