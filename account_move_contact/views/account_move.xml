@@ -8,9 +8,6 @@
             <xpath expr="//group[@id='header_left_group']/div[1]" position="before">
                 <field name="contact_id" />
             </xpath>
-            <xpath expr="//group[@id='header_right_group']/label[@for='journal_id']" position="before">
-                <field name="sale_order_id" />
-            </xpath>
         </field>
     </record>
 
