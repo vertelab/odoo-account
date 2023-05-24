@@ -9,7 +9,6 @@ class SaleAdvancePaymentInv(models.TransientModel):
     _description = "Sales Advance Payment Invoice Contact"
 
     def _prepare_invoice_values(self, order, name, amount, so_line):
-        _logger.error('_prepare_invoice_values'*100)
         vals = super()._prepare_invoice_values(order, name, amount, so_line)
         vals['sale_order_id'] = order.id
         return vals
