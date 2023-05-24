@@ -6,7 +6,7 @@ import logging
 import json
 import time
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import Warning, UserError
 
 _logger = logging.getLogger(__name__)
@@ -108,20 +108,21 @@ class AccountInvoice(models.Model):
                     try:
                         r = company.fortnox_request(
                             'get',
-                            f'{BASE_URL}/3/invoices/?filter={state}&documentnumber={invoice.name}&fromdate={from_date.strftime("%Y-%m-%d")}')
+                            #f'{BASE_URL}/3/invoices/3?filter={state}')
+                            f'{BASE_URL}/3/invoices/?filter={state}&documentnumber={invoice.name}&fromdate={from_date.strftime("%Y-%m-%d")}')                       
                         r = json.loads(r)
                     except:
-                        _logger.error(f'Could not find invoice with name: {invoice.name}')
+                        _logger.error(f': {invoice.name}')
                         _logger.error(r.get('ErrorInformation'))
                         continue
                     
-                    for inv in r.get('Invoices', []):
+                    for inv in r.get('Invoice', []):
                         if invoice.name == inv.get('DocumentNumber'):
-                            #_logger.info(f' {invoice.id} {invoice.name}: {state}')
-                            #_logger.debug(str(invoice.read())) 
-                            #_logger.warning("Look here"*100)
-                            #_logger.warning(states[state])
-                            #_logger.warning(invoice.state)
+                            _logger.info(f' {invoice.id} {invoice.name}: {state}')
+                            _logger.debug(str(invoice.read())) 
+                            _logger.warning("Look here"*100)
+                            _logger.warning(states[state])
+                            _logger.warning(invoice.state)
                             if states[state] == 'paid' and invoice.state == 'posted':
                                 invoice.update_invoice_status_fortnox_paid(inv)
                             elif states[state] == 'paid' and invoice.is_move_sent:
@@ -153,10 +154,10 @@ class AccountInvoice(models.Model):
                     InvoiceRows.append({
                         "AccountNumber": line.account_id.code,
                         "DeliveredQuantity": line.quantity,
-                        "Description": line.name,
+                        "Description": line.name.replace('[','').replace(']','').strip(' '),
                         "ArticleNumber": line.product_id.default_code if line.product_id else None,
                         "Price": line.price_unit,
-                        "VAT": int(line.invoice_line_tax_ids.mapped('amount')[0]) if len(line.invoice_line_tax_ids) > 0 else None,
+                        "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else None,
                      })
 
             r = self.company_id.fortnox_request(
@@ -167,8 +168,8 @@ class AccountInvoice(models.Model):
                     "Currency": "SEK",
                     "CustomerName": invoice.partner_id.commercial_partner_id.name,
                     "CustomerNumber": invoice.partner_id.commercial_partner_id.ref,
-                    "DueDate": invoice.date_due.strftime('%Y-%m-%d'),
-                    "InvoiceDate": invoice.date_invoice.strftime('%Y-%m-%d'),
+                    "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
+                    "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d'),
                     "InvoiceRows": InvoiceRows,
                     "InvoiceType": "INVOICE",
                     "Language": "SV",

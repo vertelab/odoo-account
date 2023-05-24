@@ -54,7 +54,9 @@ class Partner(models.Model):
     def partner_create(self):
         # Customer (PUT https://api.fortnox.se/3/customers)
         for partner in self:
+            _logger.warning(f"{partner=}")
             if not partner.commercial_partner_id.ref:
+                _logger.warning(f"{self.env.user.company_id=}")
                 url = "https://api.fortnox.se/3/customers"
                 r = self.env.user.company_id.fortnox_request(
                     'post',
@@ -62,23 +64,23 @@ class Partner(models.Model):
                     data={
                         "Customer": {
                             "Address1": partner.street,
-                            "Address2": partner.street2,
+                            #"Address2": partner.street2,
                             "City": partner.city,
-                            "Comments": partner.comment,
+                            #"Comments": partner.comment,
                             "CountryCode": "SE",
                             "Currency": "SEK",
                             # ~ "CustomerNumber": partner.commercial_partner_id.id,
                             "Email": partner.email or None,
                             "Name": partner.commercial_partner_id.name,
-                            "OrganisationNumber": partner.commercial_partner_id.company_registry,
-                            "OurReference": partner.commercial_partner_id.user_id.name,
+                            #"OrganisationNumber": partner.commercial_partner_id.company_id.company_registry,
+                            #"OurReference": partner.commercial_partner_id.user_id.name,
                             "Phone1": partner.commercial_partner_id.phone,
                             "Phone2": None,
                             "PriceList": "A",
                             "ShowPriceVATIncluded": False,
                             # ~ "TermsOfPayment": partner.commercial_partner_id.property_payment_term_id.name,
                             "Type": "COMPANY",
-                            "VATNumber": partner.commercial_partner_id.vat,
+                            #"VATNumber": partner.commercial_partner_id.vat,
                             "VATType": "SEVAT",
                             "WWW": partner.commercial_partner_id.website,
                             "YourReference": partner.name,
@@ -100,23 +102,23 @@ class Partner(models.Model):
                     data={
                         "Customer": {
                             "Address1": partner.street,
-                            "Address2": partner.street2,
+                            #"Address2": partner.street2,
                             "City": partner.city,
-                            "Comments": partner.comment,
+                            #"Comments": partner.comment,
                             "CountryCode": "SE",
                             "Currency": "SEK",
                             # ~ "CustomerNumber": partner.commercial_partner_id.ref,
                             "Email": partner.email or None,
                             "Name": partner.commercial_partner_id.name,
-                            "OrganisationNumber": partner.commercial_partner_id.company_registry,
-                            "OurReference": partner.commercial_partner_id.user_id.name,
+                            #"OrganisationNumber": partner.commercial_partner_id.company_registry,
+                            #"OurReference": partner.commercial_partner_id.user_id.name,
                             "Phone1": partner.commercial_partner_id.phone,
                             "Phone2": None,
                             "PriceList": "A",
                             "ShowPriceVATIncluded": False,
                             # ~ "TermsOfPayment": partner.commercial_partner_id.property_payment_term_id.name,
                             "Type": "COMPANY",
-                            "VATNumber": partner.commercial_partner_id.vat,
+                            #"VATNumber": partner.commercial_partner_id.vat,
                             "VATType": "SEVAT",
                             "WWW": partner.commercial_partner_id.website,
                             "YourReference": partner.name,

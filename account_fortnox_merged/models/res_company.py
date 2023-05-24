@@ -48,7 +48,7 @@ class res_company(models.Model):
                 raise UserError("You have to set up Authorization_token for FortNox, you get that when you activate Odoo in your FortNox-account")
             if not self.fortnox_client_secret:
                 raise UserError("You have to set up Client_secret for FortNox, you get that when you activate Odoo in your FortNox-account")
-            if not self.fortnox_client_secret:
+            if not self.fortnox_client_id:
                 raise UserError("You have to supply the client ID of the integration")
             try:
                 credentials_encoded = f"{self.fortnox_client_id}:{self.fortnox_client_secret}".encode("utf-8")
@@ -65,7 +65,7 @@ class res_company(models.Model):
                     data = {
                        'grant_type': 'authorization_code',
                        'code': self.fortnox_authorization_code,
-                       'redirect_uri': 'https://1f8e-176-10-242-63.ngrok-free.app'
+                       'redirect_uri': 'https://vertel.se'
                     }
                 )
                 
@@ -89,11 +89,13 @@ class res_company(models.Model):
     def fortnox_request(self, request_type, url, data=None, raise_error=True):
         # Customer (POST https://api.fortnox.se/3/customers)
         headers = {
-            "Access-Token": self.fortnox_access_token,
-            "Client-Secret": self.fortnox_client_secret,
+            #"Access-Token": self.fortnox_access_token,
+            #"Client-Secret": self.fortnox_client_secret,
             "Content-Type": "application/json",
             "Accept": "application/json",
+            "Authorization": f"Bearer {self.fortnox_access_token}"
         }
+        #_logger.warning(f"{self.fortnox_access_token=}")
         _logger.info(f'FortNox: '
                      f'Request_Type:{request_type}, '
                      f'URL:{url}, '
@@ -110,7 +112,7 @@ class res_company(models.Model):
             if request_type == 'delete':
                 r = requests.delete(url=url, headers=headers)
 
-            _logger.info(f'FortNox: return-record {r.content}')
+            _logger.info(f'FortNox: return-record {r.status_code} {r.content}')
             if raise_error and r.status_code not in [200, 201, 204]:
                 raise UserError(r.content)
         except requests.exceptions.RequestException as e:
@@ -118,3 +120,4 @@ class res_company(models.Model):
             raise UserError('HTTP Request failed %s' % e)
 
         return r.content
+

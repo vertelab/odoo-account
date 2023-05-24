@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from odoo.exceptions import UserError
 from odoo import api, fields, models
 from odoo.exceptions import Warning
 from odoo.tools.safe_eval import safe_eval
@@ -10,6 +11,8 @@ import time
 
 from pytz import timezone
 import logging
+
+import requests
 _logger = logging.getLogger(__name__)
 
 # build dateutil helper, starting with the relevant *lazy* imports
@@ -19,6 +22,7 @@ import dateutil.relativedelta
 import dateutil.rrule
 import dateutil.tz
 import base64
+import json
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
@@ -82,7 +86,7 @@ class ProductProduct(models.Model):
                         url,
                         data={
                             "Article": {
-                                "Description": product.name,
+                                "Description": product.name.replace('[','').replace(']','').strip(' '),
                                 }
                         })
                 except requests.exceptions.RequestException as e:
@@ -93,7 +97,7 @@ class ProductProduct(models.Model):
                     'https://api.fortnox.se/3/articles',
                     data={
                         'Article': {
-                            'Description': product.name,
+                            'Description': product.name.replace('[','').replace(']','').strip(' '),
                             'ArticleNumber': product.default_code,
                         }
                     })
