@@ -648,6 +648,16 @@ class account_bank_statement(models.Model):
         return self.env['account.period'].date2period(self.date or fields.Date.today()).id
 
     period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_period_id)
+    
+    
+    @api.model_create_multi
+    def create(self, values):
+        for val in values:
+            _logger.warning(f"{val=}")
+            if not "period_id" in values:
+                val['period_id'] = self.env['account.period'].date2period(val.get('date') or fields.Date.today()).id
+        res = super(account_bank_statement, self).create(values)
+        return res
 
 # class account_abstract_payment(models.AbstractModel):
 #     _inherit = "account.abstract.payment"

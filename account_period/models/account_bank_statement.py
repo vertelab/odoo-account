@@ -33,7 +33,6 @@ class AccountBankStatementLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        _logger.warning("AccountBankStatementLine CREATE")
         for vals in vals_list:
             statement = self.env['account.bank.statement'].browse(vals['statement_id'])
             if statement.state != 'open' and self._context.get('check_move_validity', True):
