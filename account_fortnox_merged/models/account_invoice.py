@@ -108,8 +108,8 @@ class AccountInvoice(models.Model):
                     try:
                         r = company.fortnox_request(
                             'get',
-                            #f'{BASE_URL}/3/invoices/3?filter={state}')
-                            f'{BASE_URL}/3/invoices/?filter={state}&documentnumber={invoice.name}&fromdate={from_date.strftime("%Y-%m-%d")}')                       
+                            f'{BASE_URL}/3/invoices/{invoice.name}')
+                            #f'{BASE_URL}/3/invoices/?filter={state}&documentnumber={invoice.name}&fromdate={from_date.strftime("%Y-%m-%d")}')                       
                         r = json.loads(r)
                     except:
                         _logger.error(f': {invoice.name}')
@@ -117,18 +117,22 @@ class AccountInvoice(models.Model):
                         continue
                     
                     for inv in r.get('Invoice', []):
-                        if invoice.name == inv.get('DocumentNumber'):
-                            _logger.info(f' {invoice.id} {invoice.name}: {state}')
-                            _logger.debug(str(invoice.read())) 
-                            _logger.warning("Look here"*100)
-                            _logger.warning(states[state])
-                            _logger.warning(invoice.state)
+                        # ~ if invoice.name == inv.get('DocumentNumber'):
+                        _logger.warning(f"{type(inv)} {inv=}")
+                        inv_json = json.loads(inv)
+                        
+                        if invoice.name == inv_json['DocumentNumber']:
+                            # ~ _logger.info(f' {invoice.id} {invoice.name}: {state}')
+                            # ~ _logger.debug(str(invoice.read())) 
+                            # ~ _logger.warning("Look here"*100)
+                            # ~ _logger.warning(states[state])
+                            # ~ _logger.warning(invoice.state)
                             if states[state] == 'paid' and invoice.state == 'posted':
-                                invoice.update_invoice_status_fortnox_paid(inv)
+                                invoice.update_invoice_status_fortnox_paid(inv_json)
                             elif states[state] == 'paid' and invoice.is_move_sent:
                                 invoice.state = 'posted'
                                 #TODO: check which method updates the state instead of setting it yourself. invoice.post something
-                                invoice.update_invoice_status_fortnox_paid(inv)
+                                invoice.update_invoice_status_fortnox_paid(inv_json)
 
                             invoice.fortnox_response = r
                             invoice.fortnox_status = states[state]

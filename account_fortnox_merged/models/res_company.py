@@ -151,9 +151,10 @@ class res_company(models.Model):
         else:
             raise UserError('Access Token already fetched')
             
-    def fortnox_refresh_access_token(self):
+    def fortnox_refresh_access_token_cron(self):
+        company = self.env.user.company_id
         try:
-            credentials_encoded = f"{self.fortnox_client_id}:{self.fortnox_client_secret}".encode("utf-8")
+            credentials_encoded = f"{company.fortnox_client_id}:{company.fortnox_client_secret}".encode("utf-8")
             credentials_b64encoded = base64.b64encode(credentials_encoded).decode("utf-8")
             r = requests.post(
                 url="https://apps.fortnox.se/oauth-v1/token",
@@ -166,7 +167,7 @@ class res_company(models.Model):
                 },
                 data = {
                    'grant_type': 'refresh_token',
-                   'refresh_token': self.fortnox_refresh_token,
+                   'refresh_token': company.fortnox_refresh_token,
                 }
             )
             
@@ -177,8 +178,11 @@ class res_company(models.Model):
                                 f'Content:{r.content}')
             auth_rec = json.loads(r.content)
             _logger.warning(f"{auth_rec=}")
-            self.fortnox_access_token = auth_rec.get('access_token')
-            self.fortnox_refresh_token = auth_rec.get('refresh_token')
+            
+            
+            for company in self.env.user.company_ids:
+                company.fortnox_access_token = auth_rec.get('access_token')
+                company.fortnox_refresh_token = auth_rec.get('refresh_token')
             # msg = _("New Access Token {token}").format(self.fortnox_access_token)
                 
             # self.message_post(

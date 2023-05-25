@@ -52,7 +52,7 @@
                     <label for="fortnox_refresh_token" class="col-lg-3 o_light_label" />
                     <field name="fortnox_refresh_token" />
                     <div attrs="{'invisible': ['|',('fortnox_client_secret', '=', ''),('fortnox_authorization_code', '=', '')]}">
-                      <button type="object" name="fortnox_refresh_access_token" string="Refresh token" icon="fa-arrow-right" class="oe_link" />
+                      <button type="object" name="fortnox_refresh_access_token_cron" string="Refresh token" icon="fa-arrow-right" class="oe_link" />
                     </div>
                   </div>
                 </div>
