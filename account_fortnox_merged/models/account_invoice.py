@@ -52,29 +52,30 @@ class AccountInvoice(models.Model):
         elif len(fortnox_journal) > 1:
             raise UserError("More than one valid journal found for fortnox. Make sure there is only one journal of the type Bank with fortnox in its name.")
         for rec in self:
-            payment_methods = (rec.residual>0) and rec.journal_id.inbound_payment_method_ids or rec.journal_id.outbound_payment_method_ids
+            #payment_methods = (rec.amount_residual>0) and rec.journal_id.inbound_payment_method_ids or rec.journal_id.outbound_payment_method_ids
+            #_logger.warning(f"{rec.journal_id=}")
+            #_logger.warning(f"{payment_methods=}")
             payment_register_params = dict(
-                amount = rec.residual,
-                communication = rec.reference,
+                amount = rec.amount_residual,
+                payment_reference = rec.payment_reference,
                 currency_id = rec.currency_id.id,
                 journal_id = fortnox_journal.id,
-                payment_date = final_pay_date if final_pay_date else rec.date,
-                payment_method_id = payment_methods and payment_methods[0].id or False,
-                payment_type = rec.residual >0 and 'inbound' or 'outbound',
+                date = final_pay_date if final_pay_date else rec.date,
+                #payment_method_id = payment_methods and payment_methods[0].id or False,
+                payment_type = rec.amount_residual >0 and 'inbound' or 'outbound',
                 partner_id = rec.partner_id.id,
             )
 
             payment_id = self.env['account.payment'].with_context(
-                active_model='account.invoice',
+                active_model='account.move',
                 active_ids=rec.id,
             ).create(payment_register_params)
-
             payment_id._onchange_journal()
            # _logger.warning(f"before"*10)
            # _logger.warning(self.env.context)
            # _logger.warning(self.company_id)
            # _logger.warning(self.id)
-            action = payment_id.action_validate_invoice_payment()
+            action = payment_id.action_create_payments()
            # _logger.warning("after"*10)
 
     def update_invoice_status_fortnox_cron(self):
@@ -108,31 +109,28 @@ class AccountInvoice(models.Model):
                     try:
                         r = company.fortnox_request(
                             'get',
-                            f'{BASE_URL}/3/invoices/{invoice.name}')
-                            #f'{BASE_URL}/3/invoices/?filter={state}&documentnumber={invoice.name}&fromdate={from_date.strftime("%Y-%m-%d")}')                       
+                            #f'{BASE_URL}/3/invoices/{invoice.name}')
+                            f'{BASE_URL}/3/invoices/?filter={state}&documentnumber={invoice.name}&fromdate={from_date.strftime("%Y-%m-%d")}')                       
                         r = json.loads(r)
                     except:
                         _logger.error(f': {invoice.name}')
                         _logger.error(r.get('ErrorInformation'))
                         continue
                     
-                    for inv in r.get('Invoice', []):
+                    for inv in r.get('Invoices', []):
                         # ~ if invoice.name == inv.get('DocumentNumber'):
-                        _logger.warning(f"{type(inv)} {inv=}")
-                        inv_json = json.loads(inv)
-                        
-                        if invoice.name == inv_json['DocumentNumber']:
+                        if invoice.name == inv['DocumentNumber']:
                             # ~ _logger.info(f' {invoice.id} {invoice.name}: {state}')
                             # ~ _logger.debug(str(invoice.read())) 
                             # ~ _logger.warning("Look here"*100)
                             # ~ _logger.warning(states[state])
                             # ~ _logger.warning(invoice.state)
                             if states[state] == 'paid' and invoice.state == 'posted':
-                                invoice.update_invoice_status_fortnox_paid(inv_json)
+                                invoice.update_invoice_status_fortnox_paid(inv)
                             elif states[state] == 'paid' and invoice.is_move_sent:
-                                invoice.state = 'posted'
+                                invoice.payment_state = 'paid'
                                 #TODO: check which method updates the state instead of setting it yourself. invoice.post something
-                                invoice.update_invoice_status_fortnox_paid(inv_json)
+                                invoice.update_invoice_status_fortnox_paid(inv)
 
                             invoice.fortnox_response = r
                             invoice.fortnox_status = states[state]
