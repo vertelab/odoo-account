@@ -4,7 +4,7 @@
 from odoo.exceptions import UserError
 from odoo import api, fields, models
 from odoo.exceptions import Warning
-from odoo.tools.safe_eval import safe_eval
+from odoo.tools.safe_eval import safe_eval, wrap_module
 
 import datetime
 import time
@@ -17,10 +17,6 @@ _logger = logging.getLogger(__name__)
 
 # build dateutil helper, starting with the relevant *lazy* imports
 import dateutil
-import dateutil.parser
-import dateutil.relativedelta
-import dateutil.rrule
-import dateutil.tz
 import base64
 import json
 
@@ -39,7 +35,7 @@ class ProductTemplate(models.Model):
 #  - time, datetime, dateutil, timezone: useful Python libraries
 #  - log: log(message, level='info'): logging function to record debug information in ir.logging table
 #  - Warning: Warning Exception to use with raise
-#  - product; memberhsip product
+#  - product; membership product
 #  - partner: partner to invoice
 # To return an amount and qty, assign: \n
 #        amount =  <something>
@@ -52,12 +48,16 @@ class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     def membership_get_amount_qty(self, partner):
+        allowed_time_attributes = ['time', 'sleep', 'strftime']
+        allowed_datetime_attributes = ['time', 'datetime', 'date']
+        allowed_dateutil_attributes = ['parser', 'relativedelta', 'tz']
+
         eval_context = {
             'uid': self._uid,
             'user': self.env.user,
-            'time': time,
-            'datetime': datetime,
-            'dateutil': dateutil,
+            'time': wrap_module(time, allowed_time_attributes),
+            'datetime': wrap_module(datetime, allowed_datetime_attributes),
+            'dateutil': wrap_module(dateutil, allowed_dateutil_attributes),
             'timezone': timezone,
             'b64encode': base64.b64encode,
             'b64decode': base64.b64decode,
@@ -106,31 +106,39 @@ class ProductProduct(models.Model):
 class res_partner(models.Model):
     _inherit="res.partner"
        
-    def create_membership_invoice(self, product_id=None, datas=None):
+    def create_membership_invoice(self, product, amount):
         """ Create Customer Invoice of Membership for partners.
         @param datas: datas has dictionary value which consist Id of Membership product and Cost Amount of Membership.
                       datas = {'membership_product_id': None, 'amount': None}
         """
-        # ~ raise Warning(product_id,datas)
-        invoice_list = super(res_partner,self).create_membership_invoice(product_id=product_id,datas=datas)
+        # ~ raise Warning(product_id,datas) 
+        invoice_list = super(res_partner,self).create_membership_invoice(product=product,amount=amount)
+        _logger.warning(f"{invoice_list=}")
         # Add extra products
-        for invoice in self.env['account.invoice'].browse(invoice_list):
-            for line in invoice.invoice_line_ids:
+        for move in invoice_list:
+            _logger.warning(f"{move=}")
+            _logger.warning(f"{move.invoice_line_ids=}")
+            for line in move.invoice_line_ids:
+                _logger.warning(f"{line=}")
                 # ~ if line.total_days == 0:
                 for member_product in line.product_id.membership_product_ids:
-                    # create a record in cache, apply onchange then revert back to a dictionnary
-                    invoice_line = self.env['account.invoice.line'].new({'product_id': member_product.id,'price_unit': member_product.lst_price,'inovice_id':invoice.id})
-                    #_logger.warn('Haze Sub %s' %invoice_line.price_subtotal)
-                    invoice_line._onchange_product_id()
-                    line_values = invoice_line._convert_to_write({name: invoice_line[name] for name in invoice_line._cache})
+                    _logger.warning(f"{member_product=}")
+                    # create a record in cache, apply onchange then revert back to a dictionary
+                    move_line = self.env['account.move.line'].new({'product_id': member_product.id,'price_unit': member_product.lst_price,'move_id':invoice.id})
+                    move_line._onchange_product_id()
+                    line_values = move_line._convert_to_write({name: move_line[name] for name in move_line._cache})
                     line_values['name'] = member_product.name
                     line_values['account_id'] = member_product.property_account_income_id.id if member_product.property_account_income_id else self.env['account.account'].search([('user_type_id','=',self.env.ref('account.data_account_type_revenue').id)])[0].id 
-                    line.write({'invoice_line_ids': [(0,0,line_values)]})
+                    move.write({'invoice_line_ids': [(0,0,line_values)]})
         # Calculate amount and qty
-        for invoice in self.env['account.invoice'].browse(invoice_list):
-            for line in invoice.invoice_line_ids:
+        for move in invoice_list:
+            _logger.warning(f"2 {move=}")
+            for line in move.invoice_line_ids:
+                _logger.warning(f"2 {line=}")
                 if line.product_id.membership_code:
-                    line.price_unit,line.quantity = line.product_id.membership_get_amount_qty(invoice.partner_id)
+                    _logger.warning(f"inside if before assignment")
+                    line.price_unit,line.quantity = line.product_id.membership_get_amount_qty(move.partner_id.id)
+                    _logger.warning(f"inside if after assignment")
                     #_logger.info('Haze %s' %line.price_unit)
                     #_logger.info('Haze %s' %str(line.product_id.membership_get_amount_qty(invoice.partner_id)))
         return invoice_list

@@ -57,20 +57,21 @@ class AccountInvoice(models.Model):
             #_logger.warning(f"{payment_methods=}")
             payment_register_params = dict(
                 amount = rec.amount_residual,
-                payment_reference = rec.payment_reference,
+                communication = rec.payment_reference,
                 currency_id = rec.currency_id.id,
                 journal_id = fortnox_journal.id,
-                date = final_pay_date if final_pay_date else rec.date,
+                payment_date = final_pay_date if final_pay_date else rec.date,
                 #payment_method_id = payment_methods and payment_methods[0].id or False,
                 payment_type = rec.amount_residual >0 and 'inbound' or 'outbound',
                 partner_id = rec.partner_id.id,
+                partner_bank_id = fortnox_journal.bank_account_id.id,
             )
 
-            payment_id = self.env['account.payment'].with_context(
+            payment_id = self.env['account.payment.register'].with_context(
                 active_model='account.move',
                 active_ids=rec.id,
             ).create(payment_register_params)
-            payment_id._onchange_journal()
+            # ~ payment_id._onchange_journal()
            # _logger.warning(f"before"*10)
            # _logger.warning(self.env.context)
            # _logger.warning(self.company_id)
