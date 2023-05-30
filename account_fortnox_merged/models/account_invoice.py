@@ -157,7 +157,7 @@ class AccountInvoice(models.Model):
                     InvoiceRows.append({
                         "AccountNumber": line.account_id.code,
                         "DeliveredQuantity": line.quantity,
-                        "Description": line.name.replace('[','').replace(']','').strip(' '),
+                        "Description": line.name.split(' ')[1],
                         "ArticleNumber": line.product_id.default_code if line.product_id else None,
                         "Price": line.price_unit,
                         "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else None,
@@ -182,7 +182,7 @@ class AccountInvoice(models.Model):
             r = json.loads(r)
             if r.get('ErrorInformation'):
                 invoice._message_log(body='Error Creating Invoice Fortnox %s ' % r['ErrorInformation']['message'], subject='Fortnox Error')
-                _logger.error('%s has prolem in its contact information, please check it' % invoice.partner_id.name)
+                _logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
             else:
                 invoice.ref = r["Invoice"]["CustomerNumber"]
                 invoice.name = r["Invoice"]["DocumentNumber"]

@@ -25,6 +25,7 @@ import requests
 import json
 import logging
 import base64
+import time
 _logger = logging.getLogger(__name__)
 
 
@@ -170,8 +171,6 @@ class res_company(models.Model):
                    'refresh_token': company.fortnox_refresh_token,
                 }
             )
-            
-#            _logger.warning(f"{credentials_b64encoded=} {self.fortnox_refresh_token=}")
             
             if r.status_code not in (200, 201, 204):
                 raise UserError(f'FortNox: StatusCode:{r.status_code}, \n'

@@ -57,7 +57,7 @@ class ProductProduct(models.Model):
             'user': self.env.user,
             'time': wrap_module(time, allowed_time_attributes),
             'datetime': wrap_module(datetime, allowed_datetime_attributes),
-            'dateutil': wrap_module(dateutil, allowed_dateutil_attributes),
+            'dateutil': wrap_module(dateutil, { mod: getattr(dateutil, mod).__all__ for mod in allowed_dateutil_attributes}),
             'timezone': timezone,
             'b64encode': base64.b64encode,
             'b64decode': base64.b64decode,
@@ -69,7 +69,9 @@ class ProductProduct(models.Model):
 
 
     def article_update(self):
+        _logger.warning(f"inside article_update ")
         for product in self:
+            _logger.warning(f"{product.name=}")
             if not product.default_code:
                 raise UserError('Missing default code for product')
 
@@ -86,7 +88,7 @@ class ProductProduct(models.Model):
                         url,
                         data={
                             "Article": {
-                                "Description": product.name.replace('[','').replace(']','').strip(' '),
+                                "Description": product.name,
                                 }
                         })
                 except requests.exceptions.RequestException as e:
@@ -97,7 +99,7 @@ class ProductProduct(models.Model):
                     'https://api.fortnox.se/3/articles',
                     data={
                         'Article': {
-                            'Description': product.name.replace('[','').replace(']','').strip(' '),
+                            'Description': product.name.split(' ')[1],
                             'ArticleNumber': product.default_code,
                         }
                     })
@@ -124,7 +126,7 @@ class res_partner(models.Model):
                 for member_product in line.product_id.membership_product_ids:
                     _logger.warning(f"{member_product=}")
                     # create a record in cache, apply onchange then revert back to a dictionary
-                    move_line = self.env['account.move.line'].new({'product_id': member_product.id,'price_unit': member_product.lst_price,'move_id':invoice.id})
+                    move_line = self.env['account.move.line'].new({'product_id': member_product.id,'price_unit': member_product.lst_price,'move_id': move.id})
                     move_line._onchange_product_id()
                     line_values = move_line._convert_to_write({name: move_line[name] for name in move_line._cache})
                     line_values['name'] = member_product.name

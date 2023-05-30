@@ -26,7 +26,7 @@ class Partner(models.Model):
             url = "https://api.fortnox.se/3/customers?page=" + str(page)
             r = self.env.user.company_id.fortnox_request('get', url)
             r = json.loads(r)
-            time.sleep(0.1)
+            # time.sleep(0.1)
 
             for customer in r['Customers']:
                 customer_orgnum = customer.get('OrganisationNumber', False)
@@ -54,9 +54,9 @@ class Partner(models.Model):
     def partner_create(self):
         # Customer (PUT https://api.fortnox.se/3/customers)
         for partner in self:
-            _logger.warning(f"{partner=}")
+            _logger.warning(f"CREATING PARTNER {partner=}")
             if not partner.commercial_partner_id.ref:
-                _logger.warning(f"{self.env.user.company_id=}")
+                # _logger.warning(f"{self.env.user.company_id=}")
                 url = "https://api.fortnox.se/3/customers"
                 r = self.env.user.company_id.fortnox_request(
                     'post',
