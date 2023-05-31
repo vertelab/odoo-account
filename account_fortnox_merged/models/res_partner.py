@@ -17,6 +17,9 @@ class Partner(models.Model):
 
     # sets internal reference on all companies and fellowships based on
     # the customer number in Fortnox.
+    # Odoo 14: this method is redundant because company_registry doesnt exist in res.partners anymore.
+    # There is a module to add it back but since Odoo 14 doesnt use res.partners the same way it might not be worth installing.
+    # Furthermore, this method isnt ran anywhere so it might be time wasted to try to make this work.
     def set_internal_reference(self):
         r = self.env.user.company_id.fortnox_request('get', "https://api.fortnox.se/3/customers")
         r = json.loads(r)
@@ -54,7 +57,7 @@ class Partner(models.Model):
     def partner_create(self):
         # Customer (PUT https://api.fortnox.se/3/customers)
         for partner in self:
-            _logger.warning(f"CREATING PARTNER {partner=}")
+            _logger.warning(f"CREATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.ref=}")
             if not partner.commercial_partner_id.ref:
                 # _logger.warning(f"{self.env.user.company_id=}")
                 url = "https://api.fortnox.se/3/customers"
@@ -93,6 +96,7 @@ class Partner(models.Model):
     def partner_update(self):
         # Customer (PUT https://api.fortnox.se/3/customers)
         for partner in self:
+            _logger.warning(f"UPDATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.ref=}")
             if partner.commercial_partner_id.ref:
                 url = "https://api.fortnox.se/3/customers/%s" % partner.commercial_partner_id.ref
                 """ r = response """

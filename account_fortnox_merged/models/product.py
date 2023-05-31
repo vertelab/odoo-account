@@ -99,14 +99,14 @@ class ProductProduct(models.Model):
                     'https://api.fortnox.se/3/articles',
                     data={
                         'Article': {
-                            'Description': product.name.split(' ')[1],
+                            'Description': product.name,
                             'ArticleNumber': product.default_code,
                         }
                     })
             r = json.loads(r)
 
 class res_partner(models.Model):
-    _inherit="res.partner"
+    _inherit = "res.partner"
        
     def create_membership_invoice(self, product, amount):
         """ Create Customer Invoice of Membership for partners.
@@ -115,16 +115,11 @@ class res_partner(models.Model):
         """
         # ~ raise Warning(product_id,datas) 
         invoice_list = super(res_partner,self).create_membership_invoice(product=product,amount=amount)
-        _logger.warning(f"{invoice_list=}")
         # Add extra products
         for move in invoice_list:
-            _logger.warning(f"{move=}")
-            _logger.warning(f"{move.invoice_line_ids=}")
             for line in move.invoice_line_ids:
-                _logger.warning(f"{line=}")
                 # ~ if line.total_days == 0:
                 for member_product in line.product_id.membership_product_ids:
-                    _logger.warning(f"{member_product=}")
                     # create a record in cache, apply onchange then revert back to a dictionary
                     move_line = self.env['account.move.line'].new({'product_id': member_product.id,'price_unit': member_product.lst_price,'move_id': move.id})
                     move_line._onchange_product_id()
@@ -134,13 +129,9 @@ class res_partner(models.Model):
                     move.write({'invoice_line_ids': [(0,0,line_values)]})
         # Calculate amount and qty
         for move in invoice_list:
-            _logger.warning(f"2 {move=}")
             for line in move.invoice_line_ids:
-                _logger.warning(f"2 {line=}")
                 if line.product_id.membership_code:
-                    _logger.warning(f"inside if before assignment")
                     line.price_unit,line.quantity = line.product_id.membership_get_amount_qty(move.partner_id.id)
-                    _logger.warning(f"inside if after assignment")
                     #_logger.info('Haze %s' %line.price_unit)
                     #_logger.info('Haze %s' %str(line.product_id.membership_get_amount_qty(invoice.partner_id)))
         return invoice_list

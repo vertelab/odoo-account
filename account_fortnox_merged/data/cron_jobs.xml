@@ -12,6 +12,7 @@
             <field name="code">model.update_invoice_status_fortnox_cron()</field>
             <field name="state">code</field>
         </record>
+<!--
         
         <record forcecreate="True" id="ir_cron_update_tokens" model="ir.cron">
             <field name="name">Fortnox Update Tokens</field>
@@ -24,6 +25,7 @@
             <field name="code">model.fortnox_refresh_access_token_cron()</field>
             <field name="state">code</field>
         </record>
+-->
         
     </data>
 </odoo>

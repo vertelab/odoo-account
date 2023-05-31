@@ -153,11 +153,12 @@ class AccountInvoice(models.Model):
             InvoiceRows = []
             for line in invoice.invoice_line_ids:
                 if line.product_id:
+                    line_name = line.name.split(' ')[1] if len(line.name.split(' ')) == 2 else line.name.replace('[','').replace(']','').strip(' ')
                     line.product_id.article_update()
                     InvoiceRows.append({
                         "AccountNumber": line.account_id.code,
                         "DeliveredQuantity": line.quantity,
-                        "Description": line.name.split(' ')[1],
+                        "Description": line_name,
                         "ArticleNumber": line.product_id.default_code if line.product_id else None,
                         "Price": line.price_unit,
                         "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else None,
@@ -172,6 +173,7 @@ class AccountInvoice(models.Model):
                     "CustomerName": invoice.partner_id.commercial_partner_id.name,
                     "CustomerNumber": invoice.partner_id.commercial_partner_id.ref,
                     "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
+                    # ~ "DocumentNumber": invoice.name, <-- invoice can only contain numbers apparently
                     "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d'),
                     "InvoiceRows": InvoiceRows,
                     "InvoiceType": "INVOICE",
@@ -184,6 +186,7 @@ class AccountInvoice(models.Model):
                 invoice._message_log(body='Error Creating Invoice Fortnox %s ' % r['ErrorInformation']['message'], subject='Fortnox Error')
                 _logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
             else:
+                _logger.warning(f'REF, NAME {r["Invoice"]["CustomerNumber"]=} {invoice.ref=} {r["Invoice"]["DocumentNumber"]=} {invoice.name=}')
                 invoice.ref = r["Invoice"]["CustomerNumber"]
                 invoice.name = r["Invoice"]["DocumentNumber"]
                 invoice.is_move_sent = True

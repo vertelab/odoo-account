@@ -1,5 +1,5 @@
 {
-    'name':'Account Fortnox',
+    'name':'Odoo - Fortnox Integration',
     'description': 'A combination of several modules to bring an invoice integration with fortnox',
     'version':'1.0',
     'author':'Vertel AB',

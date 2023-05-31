@@ -26,6 +26,7 @@ import json
 import logging
 import base64
 import time
+from datetime import datetime, timedelta
 _logger = logging.getLogger(__name__)
 
 
@@ -42,7 +43,7 @@ class res_company(models.Model):
     fortnox_client_secret = fields.Char(string='Client Secret', help="You get this code from your Odoo representative", store=True)
     fortnox_access_token = fields.Text(string='Access Token', help="With autorization code and client secret you generate this code ones", store=True)
     fortnox_client_id = fields.Char(string='Client ID', help="The public ID of the integration", store=True)
-    fortnox_token_expiration = fields.Char(store=True)
+    fortnox_token_expiration = fields.Datetime("When the token expires", store=True)
     fortnox_refresh_token = fields.Text(store=True)
 
     def fortnox_get_access_token_new(self):
@@ -140,8 +141,15 @@ class res_company(models.Model):
                 auth_rec = json.loads(r.content)
                 _logger.warning(f"{auth_rec=}")
                 # _logger.warning(f"{auth_rec.get('access_token')=}")
-                self.fortnox_access_token = auth_rec.get('access_token')
-                self.fortnox_refresh_token = auth_rec.get('refresh_token')
+                
+                for company in self.env.user.company_ids:
+                    company.fortnox_access_token = auth_rec.get('access_token')
+                    company.fortnox_refresh_token = auth_rec.get('refresh_token')
+                    company.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
+                # ~ self.fortnox_access_token = auth_rec.get('access_token')
+                # ~ self.fortnox_refresh_token = auth_rec.get('refresh_token')
+                # ~ self.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
+                
                 # _logger.warning(f"{self.fortnox_access_token=}")
                 # msg = _("New Access Token {token}").format(self.fortnox_access_token)
                     
@@ -152,7 +160,7 @@ class res_company(models.Model):
         else:
             raise UserError('Access Token already fetched')
             
-    def fortnox_refresh_access_token_cron(self):
+    def fortnox_refresh_access_token(self):
         company = self.env.user.company_id
         try:
             credentials_encoded = f"{company.fortnox_client_id}:{company.fortnox_client_secret}".encode("utf-8")
@@ -182,14 +190,34 @@ class res_company(models.Model):
             for company in self.env.user.company_ids:
                 company.fortnox_access_token = auth_rec.get('access_token')
                 company.fortnox_refresh_token = auth_rec.get('refresh_token')
+                company.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
+                
+            
             # msg = _("New Access Token {token}").format(self.fortnox_access_token)
                 
             # self.message_post(
             #     body=msg, subject=None, message_type='notification')
         except requests.exceptions.RequestException as e:
             raise UserError('HTTP Request failed %s' % e)
+            
+    def is_access_token_expired(self):
+        
+        if self.fortnox_token_expiration == False:
+            return 1
+        elif datetime.now() > self.fortnox_token_expiration:
+            return 2
 
     def fortnox_request(self, request_type, url, data=None, raise_error=True):
+        if self.fortnox_access_token == False:
+            self.fortnox_get_access_token()
+            
+        if self.is_access_token_expired() == 1:
+            _logger.warning("Access token not fetched, fetching.")
+            self.fortnox_get_access_token()
+        elif self.is_access_token_expired() == 2:
+            self.fortnox_refresh_access_token()
+            _logger.warning("Access token ran out, refreshing")
+            
         # Customer (POST https://api.fortnox.se/3/customers)
         headers = {
             #"Access-Token": self.fortnox_access_token,
