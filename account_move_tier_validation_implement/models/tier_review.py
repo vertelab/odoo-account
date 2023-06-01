@@ -22,6 +22,9 @@ class TierReview(models.Model):
             if res_obj.fields_get().get('invoice_date', False):
                 rec.resource_date = res_obj.invoice_date
                 rec.resource_amount = res_obj.amount_total_loc
+            elif res_obj.fields_get().get('invoice_date_due', False):
+                rec.resource_date = res_obj.invoice_date_due
+                rec.resource_amount = res_obj.amount_total_loc
             elif res_obj.fields_get().get('date_order', False):
                 rec.resource_date = res_obj.date_order
                 rec.resource_amount = res_obj.amount_total
