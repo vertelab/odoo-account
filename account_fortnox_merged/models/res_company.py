@@ -256,5 +256,5 @@ class res_company(models.Model):
         return { 
             'type': 'ir.actions.act_url',
             'url': '/fortnox/auth?run_get=True',
-            'target': 'self',
+            'target': 'new',
         }
