@@ -14,7 +14,7 @@
             <div class="col-lg-6 o_setting_box" id="account_fortnox" title="You need an authorization code to use FortNox integration">
               <div class="o_setting_left_pane" />
               <div class="o_setting_right_pane">
-                <span class="o_form_label">Authorization sessings</span>
+                <span class="o_form_label">Authorization settings</span>
                 <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img" />
                 <div class="text-muted">You Need these settings to get an access token</div>
                 <div class="content-group">
@@ -59,10 +59,10 @@
               </div>
             </div> -->
 
-            <div class="col-12 col-lg-6 o_setting_box" id="access_code" title="An access code is calculated and fetch from your FortNox-account.">
+            <div class="col-12 col-lg-6 o_setting_box" id="access_code" title="An access code is calculated and fetched from your FortNox-account.">
               <div class="o_setting_left_pane" />
                 <div class="o_setting_right_pane">
-                  <button name="fortnox_auth" string="Authorize with Fortnox" type="object" class="oe_highlight"/>
+                  <button name="fortnox_auth_open_link" string="Authorize with Fortnox" type="object" class="oe_highlight"/>
               </div>
             </div>
           </div>
