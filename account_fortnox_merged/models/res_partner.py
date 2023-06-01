@@ -32,7 +32,7 @@ class Partner(models.Model):
             # time.sleep(0.1)
 
             for customer in r['Customers']:
-                customer_orgnum = customer.get('OrganisationNumber', False)
+                # ~ customer_orgnum = customer.get('OrganisationNumber', False)
                 customer_number = customer.get('CustomerNumber', False)
                 customer_name = customer.get('Name', False)
 
@@ -129,3 +129,15 @@ class Partner(models.Model):
                             "ZipCode": partner.zip,
                         }
                     })
+                    
+    
+    def partner_get(self):
+        # Customer (PUT https://api.fortnox.se/3/customers)
+        for partner in self:
+            url = "https://api.fortnox.se/3/customers/"
+            """ r = response """
+            r = self.env.user.company_id.fortnox_request(
+                'get',
+                url,
+            )
+            _logger.warning(f"{json.loads(r)=}")

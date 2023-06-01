@@ -255,6 +255,6 @@ class res_company(models.Model):
     def fortnox_auth_open_link(self):
         return { 
             'type': 'ir.actions.act_url',
-            'url': '/fortnox/auth?run_get=True',
+            'url': f'/fortnox/auth?run_get=True&state={self.id}',
             'target': 'new',
         }
