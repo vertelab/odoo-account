@@ -117,6 +117,7 @@ class res_company(models.Model):
             if not self.fortnox_client_id:
                 raise UserError("You have to supply the client ID of the integration")
             try:
+                base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
                 credentials_encoded = f"{self.fortnox_client_id}:{self.fortnox_client_secret}".encode("utf-8")
                 credentials_b64encoded = base64.b64encode(credentials_encoded).decode("utf-8")
                 r = requests.post(
@@ -131,7 +132,7 @@ class res_company(models.Model):
                     data = {
                        'grant_type': 'authorization_code',
                        'code': self.fortnox_authorization_code,
-                       'redirect_uri': 'https://154c-176-10-242-63.ngrok-free.app/fortnox/auth'
+                       'redirect_uri': f"{base_url}/fortnox/auth"
                     }
                 )
                 

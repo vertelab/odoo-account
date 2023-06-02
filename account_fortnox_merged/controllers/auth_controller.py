@@ -9,10 +9,12 @@ class FortnoxController(http.Controller):
     
     @http.route(['/fortnox/auth'], type='http', auth='user')
     def fortnox_auth(self, **kw):
-        if 'run_get' in kw:    
+        base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
+        if 'run_get' in kw:
             response = requests.get('https://apps.fortnox.se/oauth-v1/auth', params={
                 'client_id': 'boiM6S7aHLkl',
-                'redirect_uri': 'https://154c-176-10-242-63.ngrok-free.app/fortnox/auth',
+                # ~ 'redirect_uri': 'https://154c-176-10-242-63.ngrok-free.app/fortnox/auth',
+                'redirect_uri': f"{base_url}/fortnox/auth",
                 'response_type': 'code',
                 'state': kw['state'],
                 'scope': 'invoice article price offer customer bookkeeping'
@@ -28,7 +30,5 @@ class FortnoxController(http.Controller):
                 company.fortnox_authorization_code = auth_code
                 
             http.request.env.user.company_id.fortnox_get_access_token()
-
-            base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
             return redirect(f"{base_url}/web#id={kw['state']}&action=52&model=res.company&view_type=form&cids=1&menu_id=4")
 
