@@ -131,7 +131,7 @@ class res_company(models.Model):
                     data = {
                        'grant_type': 'authorization_code',
                        'code': self.fortnox_authorization_code,
-                       'redirect_uri': 'https://vertel.se'
+                       'redirect_uri': 'https://154c-176-10-242-63.ngrok-free.app/fortnox/auth'
                     }
                 )
                 
@@ -186,7 +186,6 @@ class res_company(models.Model):
             auth_rec = json.loads(r.content)
             _logger.warning(f"{auth_rec=}")
             
-            
             for company in self.env.user.company_ids:
                 company.fortnox_access_token = auth_rec.get('access_token')
                 company.fortnox_refresh_token = auth_rec.get('refresh_token')
@@ -201,23 +200,23 @@ class res_company(models.Model):
             raise UserError('HTTP Request failed %s' % e)
             
     def is_access_token_expired(self):
-        
         if self.fortnox_token_expiration == False:
             return 1
         elif datetime.now() > self.fortnox_token_expiration:
             return 2
 
     def fortnox_request(self, request_type, url, data=None, raise_error=True):
-        if self.fortnox_access_token == False:
-            self.fortnox_get_access_token()
+        # ~ if self.fortnox_access_token == False:
+            # ~ self.fortnox_get_access_token()
             
-        if self.is_access_token_expired() == 1:
+        if self.is_access_token_expired() == 1 or self.fortnox_access_token == False:
             _logger.warning("Access token not fetched, fetching.")
             self.fortnox_get_access_token()
         elif self.is_access_token_expired() == 2:
             self.fortnox_refresh_access_token()
             _logger.warning("Access token ran out, refreshing")
-            
+        else:
+            _logger.warning("ELSE")
         # Customer (POST https://api.fortnox.se/3/customers)
         headers = {
             #"Access-Token": self.fortnox_access_token,

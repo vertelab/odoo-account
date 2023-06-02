@@ -34,7 +34,18 @@ class Partner(models.Model):
             for customer in r['Customers']:
                 # ~ customer_orgnum = customer.get('OrganisationNumber', False)
                 customer_number = customer.get('CustomerNumber', False)
+                
+                customer_address = customer.get('Address1', False)
+                customer_city = customer.get('City', False)
+                customer_email = customer.get('Email', False)
                 customer_name = customer.get('Name', False)
+                customer_phone = customer.get('Phone', False)
+                customer_zip = customer.get('ZipCode', False)
+                fortnox_fields = [customer_address, customer_city, customer_email, customer_name, customer_phone, customer_zip]
+                odoo_fields = ['street', 'city', 'email', 'name', 'phone', 'zip']
+                filter_params = []
+                for number in range(len(fortnox_fields)):
+                    filter_params.append((odoo_fields[number], '=', fortnox_fields[number]))
 
                 #partner = self.env['res.partner'].search([('name', '=', customer_name)])
                 partner = self.env['res.partner'].search([('insurance_company_type', '=', 'company'), ('company_registry', '=', customer_orgnum)])
