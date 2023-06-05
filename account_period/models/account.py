@@ -244,16 +244,12 @@ class AccountPeriod(models.Model):
     
     @api.model
     def date2period(self, date):
-        _logger.warning("date2period"*10)
-        _logger.warning(f"1 {date} {isinstance(date, str)}")
         if isinstance(date, str):
             date = datetime.strptime(date, "%Y-%m-%d")
-            #_logger.warning(f"2 {date} {isinstance(date, str)}")
 
         
         company_id = self.env.context.get('company_id') or self.env.company.id
         company_id2 = self.env.company.id
-        _logger.warning(f"{company_id=} {company_id2=}")
         res = self.env['account.period'].search(
             [('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')),
              ('company_id', '=', company_id), ('special', '=', False)])
@@ -407,7 +403,6 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
     
     def _reverse_moves(self, default_values_list=None, cancel=False):
-        _logger.warning("_reverse_moves" * 100)
         ''' Reverse a recordset of account.move.
         If cancel parameter is true, the reconcilable or liquidity lines
         of each original move will be reconciled with its reverse's.
@@ -445,7 +440,6 @@ class AccountMove(models.Model):
                 move.with_context(move_reverse_cancel=cancel)._reverse_move_vals(default_values, cancel=cancel))
         ###############################
         for move_vals in move_vals_list:
-            _logger.warning(f"{move_vals=}")
             period_id = self.env['account.period'].date2period(move_vals['date'])
             move_vals['period_id'] = period_id.id
         ###############################
@@ -653,7 +647,6 @@ class account_bank_statement(models.Model):
     @api.model_create_multi
     def create(self, values):
         for val in values:
-            _logger.warning(f"{val=}")
             if not "period_id" in values:
                 val['period_id'] = self.env['account.period'].date2period(val.get('date') or fields.Date.today()).id
         res = super(account_bank_statement, self).create(values)

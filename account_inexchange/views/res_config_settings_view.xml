@@ -23,6 +23,16 @@
                         <field name="inexchange_apikey" />
                       </div>
                     </div>
+                    
+                    <span class="o_form_label">API Testing</span>
+                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img" />
+                    <div class="text-muted">Changes api call to test url https://testapi.inexchange.com/v1/api</div>
+                    <div class="content-group">
+                      <div class="row mt16">
+                        <label for="inexchange_testmode" class="col-lg-3 o_light_label" />
+                        <field name="inexchange_testmode" />
+                      </div>
+                    </div>
                   </div>
                 </div>
                 

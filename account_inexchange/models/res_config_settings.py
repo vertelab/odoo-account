@@ -46,7 +46,7 @@ class ResConfigSettings(models.TransientModel):
     invoice_inexchange = fields.Boolean(
         string="Send to Inexchange", default=True)
     # Fix me, make it possible to switch between test and nontest
-    #inexchange_testmode = fields.Boolean(string="Test Api", config_parameter="inexchange.testmode", store=True)
+    inexchange_testmode = fields.Boolean(string="Test Api", config_parameter="inexchange.testmode", store=True)
 
     @api.model
     def get_values(self):
@@ -58,8 +58,15 @@ class ResConfigSettings(models.TransientModel):
 
     @api.model
     def get_url(self, endpoint):
+        #####################################################################################################################################################
         #'https://api.inexchange.com/v1/api' when not testing
         base_url = 'https://testapi.inexchange.com/v1/api'
+        #####################################################################################################################################################
+        
+        test_mode = self.env['ir.config_parameter'].sudo().get_param('inexchange.testmode')
+        if test_mode:
+           base_url = 'https://testapi.inexchange.com/v1/api'
+        
         return f'{base_url}/{endpoint.lstrip("/")}'
 
     # ~ @api.multi
