@@ -19,11 +19,11 @@ class TierReview(models.Model):
     def _compute_resource_data(self):
         for rec in self:
             res_obj = self.env[rec.model].browse(rec.res_id)
-            if res_obj.fields_get().get('invoice_date', False):
-                rec.resource_date = res_obj.invoice_date
-                rec.resource_amount = res_obj.amount_total_loc
-            elif res_obj.fields_get().get('invoice_date_due', False):
+            if res_obj.fields_get().get('invoice_date_due', False):
                 rec.resource_date = res_obj.invoice_date_due
+                rec.resource_amount = res_obj.amount_total_loc
+            elif res_obj.fields_get().get('invoice_date', False):
+                rec.resource_date = res_obj.invoice_date
                 rec.resource_amount = res_obj.amount_total_loc
             elif res_obj.fields_get().get('date_order', False):
                 rec.resource_date = res_obj.date_order
