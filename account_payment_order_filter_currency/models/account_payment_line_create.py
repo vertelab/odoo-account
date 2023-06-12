@@ -125,10 +125,12 @@ class AccountMove(models.Model):
         context_copy.update({'check_move_period_validity': False})
         for move in self:
             if move.partner_id and move.partner_id.exclude_from_payment:
-                move.with_context(context_copy).write(
-                    {'exclude_payment_partner_and_move': move.partner_id.exclude_from_payment})
+                #move.with_context(context_copy).write(
+                #    {'exclude_payment_partner_and_move': move.partner_id.exclude_from_payment})
+                move.exclude_payment_partner_and_move = move.partner_id.exclude_from_payment
             else:
-                move.with_context(context_copy).write({'exclude_payment_partner_and_move': move.exclude_payment})
+                #move.with_context(context_copy).write({'exclude_payment_partner_and_move': move.exclude_payment})
+                move.exclude_payment_partner_and_move = move.exclude_payment
                 
     exclude_payment = fields.Boolean(string="Exclude Payment", readonly=True)  # On the Account Move
     exclude_payment_partner = fields.Boolean('Partner Exclude From Payment', related='partner_id.exclude_from_payment',
