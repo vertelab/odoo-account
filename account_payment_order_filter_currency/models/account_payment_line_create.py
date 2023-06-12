@@ -118,14 +118,8 @@ class AccountPaymentLineCreate(models.TransientModel):
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
-
-    exclude_payment = fields.Boolean(string="Exclude Payment", readonly=True)  # On the Account Move
-    exclude_payment_partner = fields.Boolean('Partner Exclude From Payment', related='partner_id.exclude_from_payment',
-                                             readonly=True)  # The partners boolean
-    exclude_payment_partner_and_move = fields.Boolean(string="Exclude Payment",
-                                                      readonly=True, help="This is a test")  # If partner is True then we use that value
-
-    @api.onchange("exclude_payment", "exclude_payment_partner", "partner_id")
+    
+    @api.depends("exclude_payment", "exclude_payment_partner", "partner_id.exclude_from_payment")
     def compute_exclude_payment_partner_and_move(self):
         context_copy = self.env.context.copy()
         context_copy.update({'check_move_period_validity': False})
@@ -135,6 +129,11 @@ class AccountMove(models.Model):
                     {'exclude_payment_partner_and_move': move.partner_id.exclude_from_payment})
             else:
                 move.with_context(context_copy).write({'exclude_payment_partner_and_move': move.exclude_payment})
+                
+    exclude_payment = fields.Boolean(string="Exclude Payment", readonly=True)  # On the Account Move
+    exclude_payment_partner = fields.Boolean('Partner Exclude From Payment', related='partner_id.exclude_from_payment',
+                                             readonly=True)  # The partners boolean
+    exclude_payment_partner_and_move = fields.Boolean(string="Exclude Payment",readonly=True, help="This is a test",compute='compute_exclude_payment_partner_and_move', store=True)  # If partner is True then we use that value
 
     def inverse_exclude_payment(self):
         if self.partner_id and self.partner_id.exclude_from_payment:
