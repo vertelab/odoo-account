@@ -41,23 +41,26 @@ class Partner(models.Model):
                 customer_name = customer.get('Name', False)
                 customer_phone = customer.get('Phone', False)
                 customer_zip = customer.get('ZipCode', False)
-                fortnox_fields = [customer_address, customer_city, customer_email, customer_name, customer_phone, customer_zip]
-                odoo_fields = ['street', 'city', 'email', 'name', 'phone', 'zip']
+                fortnox_fields = [customer_address, customer_city, customer_email, customer_name, customer_phone, customer_zip, customer_number]
+                odoo_fields = ['street', 'city', 'email', 'name', 'phone', 'zip', 'commercial_partner_id.ref']
                 filter_params = []
                 for number in range(len(fortnox_fields)):
-                    filter_params.append((odoo_fields[number], '=', fortnox_fields[number]))
+                    if not fortnox_fields[number] == False:
+                        filter_params.append((odoo_fields[number], '=', fortnox_fields[number]))
 
+                partner = self.env['res.partner'].search(filter_params)
+                _logger.warning(f"{filter_params=}")
+                _logger.warning(f"{partner=}")
                 #partner = self.env['res.partner'].search([('name', '=', customer_name)])
-                partner = self.env['res.partner'].search([('insurance_company_type', '=', 'company'), ('company_registry', '=', customer_orgnum)])
+                # ~ partner = self.env['res.partner'].search([('insurance_company_type', '=', 'company'), ('company_registry', '=', customer_orgnum)])
 
-                if customer_orgnum is False:
-                    _logger.warn(f"~ ERROR 1: {customer_name} does not have an "
-                                 "orgnum in Fortnox, skipping ...")
-                elif len(partner) == 0:
-                    _logger.warn(f"~ ERROR 3: The orgnum {customer_orgnum} "
-                                 "from fortnox was not found in odoo db")
+                # ~ if customer_orgnum is False:
+                    # ~ _logger.warn(f"~ ERROR 1: {customer_name} does not have an "
+                                 # ~ "orgnum in Fortnox, skipping ...") 
+                if len(partner) == 0:
+                    _logger.warn(f"~ ERROR 3: No customer from fortnox was found in odoo db")
                 elif len(partner) > 1:
-                    _logger.warn("~ ERROR 2: The orgnum %s from fortnox is not unique in odoo db. Recordset = %s" % (customer_orgnum, partner))
+                    _logger.warn("~ ERROR 2: Several customers from fortnox with the same ref found in odoo db. Recordset = %s" % (partner))
                 else:
                     if partner.ref == customer_number:
                         _logger.warn("~ OK 1: %s (id: %s) is already correct" % (customer['Name'], partner.id))

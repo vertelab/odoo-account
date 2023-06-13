@@ -144,12 +144,37 @@ class AccountInvoice(models.Model):
     def fortnox_create(self):
         # Customer (POST https://api.fortnox.se/3/customers)
         for invoice in self:
+            try:
+                r = self.company_id.fortnox_request(
+                    "get",
+                    f"https://api.fortnox.se/3/invoices/{invoice.id}"
+                )
+                r = json.loads(r)
+            except UserError as e:
+                try:
+                    e_json = json.loads(e.args[0].decode('utf-8'))
+                except AttributeError as f:
+                    raise UserError(e)
+                else:
+                    if e_json['ErrorInformation'] and e_json['ErrorInformation']['Code'] == 2000434:
+                        _logger.warning(f"Invoice does not exist in fortnox, creating.")
+                    else:
+                        raise UserError(e)
+            else:
+                invoice.ref = r["Invoice"]["CustomerNumber"]
+                invoice.name = r["Invoice"]["DocumentNumber"]
+                invoice.partner_id.ref = r["Invoice"]["CustomerNumber"]
+                invoice.is_move_sent = True
+                _logger.warning(f"Invoice already created in fortnox, syncing info to Odoo.")
+                continue
+            
             if not invoice.invoice_date_due:
                 raise UserError(_("ERROR: missing date_due on invoice."))
             if not invoice.partner_id.commercial_partner_id.ref:
                 invoice.partner_id.partner_create()
             if invoice.partner_id.commercial_partner_id.ref:
                 invoice.partner_id.partner_update()
+            
             InvoiceRows = []
             for line in invoice.invoice_line_ids:
                 if line.product_id:
@@ -173,7 +198,7 @@ class AccountInvoice(models.Model):
                     "CustomerName": invoice.partner_id.commercial_partner_id.name,
                     "CustomerNumber": invoice.partner_id.commercial_partner_id.ref,
                     "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
-                    # ~ "DocumentNumber": invoice.name, <-- invoice can only contain numbers apparently
+                    "DocumentNumber": invoice.id, #<-- invoice can only contain numbers apparently
                     "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d'),
                     "InvoiceRows": InvoiceRows,
                     "InvoiceType": "INVOICE",
@@ -186,9 +211,9 @@ class AccountInvoice(models.Model):
                 invoice._message_log(body='Error Creating Invoice Fortnox %s ' % r['ErrorInformation']['message'], subject='Fortnox Error')
                 _logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
             else:
-                _logger.warning(f'REF, NAME {r["Invoice"]["CustomerNumber"]=} {invoice.ref=} {r["Invoice"]["DocumentNumber"]=} {invoice.name=}')
+                # ~ _logger.warning(f'REF, NAME {r["Invoice"]["CustomerNumber"]=} {invoice.ref=} {r["Invoice"]["DocumentNumber"]=} {invoice.name=}')
                 invoice.ref = r["Invoice"]["CustomerNumber"]
-                invoice.name = r["Invoice"]["DocumentNumber"]
+                invoice.name = r["Invoice"]["DocumentNumber"] # <-- maybe dont assign an invoice this name? The odoo way of naming invoices is more descriptive, can maybe add the documentnumber to ref. 
                 invoice.is_move_sent = True
 
 class AccountInvoiceSend(models.TransientModel):

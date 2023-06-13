@@ -191,7 +191,7 @@ class res_company(models.Model):
                 company.fortnox_access_token = auth_rec.get('access_token')
                 company.fortnox_refresh_token = auth_rec.get('refresh_token')
                 company.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
-                
+                _logger.warning(f"Refreshing token for {company.id}")
             
             # msg = _("New Access Token {token}").format(self.fortnox_access_token)
                 
