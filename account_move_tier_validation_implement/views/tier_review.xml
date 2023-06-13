@@ -8,6 +8,7 @@
                 <field name="resource_name" position="after">
                     <field name="resource_partner_id"/>
                     <field name="resource_date"/>
+                    <field name="invoice_due_date"/>
                     <field name="resource_currency_id" invisible="1"/>
                     <field name="resource_amount"/>
                 </field>
@@ -22,6 +23,7 @@
                 <field name="requested_by" position="before">
                     <field name="resource_partner_id" optional="show"/>
                     <field name="resource_date" optional="show"/>
+                    <field name="invoice_due_date"  optional="show"/>
                     <field name="resource_currency_id" invisible="1"/>
                     <field name="resource_amount" optional="show"/>
                 </field>
