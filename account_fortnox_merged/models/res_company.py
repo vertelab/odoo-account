@@ -213,9 +213,11 @@ class res_company(models.Model):
         if self.is_access_token_expired() == 1 or self.fortnox_access_token == False:
             _logger.warning("Access token not fetched, fetching.")
             self.fortnox_get_access_token()
+            self.env.cr.commit()
         elif self.is_access_token_expired() == 2:
-            self.fortnox_refresh_access_token()
             _logger.warning("Access token ran out, refreshing")
+            self.fortnox_refresh_access_token()
+            self.env.cr.commit()
         else:
             _logger.warning("ELSE")
         # Customer (POST https://api.fortnox.se/3/customers)

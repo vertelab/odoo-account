@@ -69,9 +69,9 @@ class ProductProduct(models.Model):
 
 
     def article_update(self):
-        _logger.warning(f"inside article_update ")
+        # ~ _logger.warning(f"inside article_update ")
         for product in self:
-            _logger.warning(f"{product.name=}")
+            # ~ _logger.warning(f"{product.name=}")
             if not product.default_code:
                 raise UserError('Missing default code for product')
 
