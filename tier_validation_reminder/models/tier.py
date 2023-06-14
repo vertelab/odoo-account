@@ -1,6 +1,5 @@
 from odoo import models, fields, api, _
 
-
 class ReviewTier(models.Model):
     _inherit = "tier.review"
 
@@ -16,7 +15,10 @@ class ReviewTier(models.Model):
                     'todo_by_email': review_user_id.email,
                     'todo_by_name': review_user_id.name
                 }
-                self.env['mail.template'].browse(template.id).with_context(todo_data).send_mail(review.id)
+                if len(review.next_review) > 1:
+                    next_name = review.next_review.partition(' ')[2]
+                    if review.name == next_name:
+                        self.env['mail.template'].browse(template.id).with_context(todo_data).send_mail(review.id)
 
     def get_base_url(self):
         self.ensure_one()

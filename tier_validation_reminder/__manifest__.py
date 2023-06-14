@@ -23,11 +23,11 @@
 #
 {
     'name': 'Account: Tier Validation Reminder',
-    'version': '14.0.0.1.0',
+    'version': '14.0.0.2.0',
     'summary': '',
     'category': 'Accounting',
     'description': """
-        Sends reminder for all pending tier review
+        Sends reminder to the next person pending a tier review
     """,
     #'sequence': 1,
     'author': 'Vertel AB',
