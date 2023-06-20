@@ -1,12 +1,13 @@
 odoo-account / account_payment_order_filter
-2023-02-14
+2023-06-20
+
 
 Be aware of these!
 [project]/[module]/static/description/banner.png
 [project]/[module]/static/description/icon.png
 
 
-Icon name: "landmark" + "coins"
+Icon: "coins"
 Icons may be found at: https://fontawesome.com/v5/cheatsheet
 
 
@@ -15,7 +16,6 @@ Odoo icon: 140 x 140
 
 HEX
 #930a57
-
 #8105a7
 
 
@@ -34,3 +34,23 @@ Guide:
 6. Write a filename...
 7. Be careful when selecting the filename! It's easy to select the wrong path!
 8. ...of choice and choose "Export".
+
+
+Do it right the first time!
+grep -sR "'name':" */*__.py
+grep -sR "'version':" */*__.py
+grep -sR "'category':" */*__.py
+grep -sR "'summary':" */*__.py
+grep -sR "'description':" */*__.py
+grep -sR "'description':" */*/*__.py -n | grep "40"
+grep -sR "'depends':" */*__.py
+grep -sR "'repository':" */*__.py
+grep -sR "'website':" */*__.py
+ls | wc -l
+grep -sR "'website':" */*__.py | tr "'" " "
+
+Find the latest project to copy / paste:
+grep -r "2023-06-*" odoo-*/*/static/description/notes.txt
+grep -r "2023-*" */static/description/notes.txt
+
+
