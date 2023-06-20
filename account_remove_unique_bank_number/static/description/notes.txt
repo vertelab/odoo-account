@@ -1,4 +1,4 @@
-odoo-account / odoo_invoice_analysis
+odoo-account / account_remove_unique_bank_number
 2023-06-20
 
 
