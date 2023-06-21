@@ -24,14 +24,14 @@
 {
     'name': 'Account: Tier Validation Reminder',
     'version': '14.0.0.2.0',
-    'summary': '',
+    'summary': 'Sends reminder to the next person pending a tier review.',
     'category': 'Accounting',
     'description': """
-        Sends reminder to the next person pending a tier review
+    Sends reminder to the next person pending a tier review.
     """,
     #'sequence': 1,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/tier_all_validations_required/',
+    'website': 'https://vertel.se/apps/odoo-account/tier_validations_reminder/',
     'license': 'AGPL-3',
     'depends': ['base_tier_validation'],
     'data': [
