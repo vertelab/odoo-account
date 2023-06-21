@@ -20,12 +20,12 @@
 ##############################################################################
 
 {
-    'name': 'Account: remove unique bank account constraint.',
+    'name': 'Account: Remove Unique Bank Account Constraint.',
     'version': '14.0.0.0.1',
     'summary': 'Remove unique bank account constraint on partner.',
     'category': 'Accounting',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_move_report_vat',
+    'website': 'https://vertel.se/apps/odoo-account/account_remove_unique_bank_account_constraint/',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
