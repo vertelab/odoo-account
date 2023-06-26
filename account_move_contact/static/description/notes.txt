@@ -1,4 +1,4 @@
-odoo-account / account_move_contract
+odoo-account / account_move_contact
 2023-06-20
 
 
