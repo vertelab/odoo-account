@@ -31,7 +31,7 @@
     """,
     #'sequence': 1,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/tier_validations_reminder/',
+    'website': 'https://vertel.se/apps/odoo-account/tier_validation_reminder/',
     'license': 'AGPL-3',
     'depends': ['base_tier_validation'],
     'data': [
