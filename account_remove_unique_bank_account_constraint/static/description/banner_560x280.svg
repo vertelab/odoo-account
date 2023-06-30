@@ -9,7 +9,7 @@
    id="SVGRoot"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="banner_560x280.svg"
-   inkscape:export-filename="/usr/share/odoo-account/account_move_report_vat/static/description/banner.png"
+   inkscape:export-filename="/usr/share/odoo-account/account_remove_unique_bank_account_constraint/static/description/banner.png"
    inkscape:export-xdpi="92.61972"
    inkscape:export-ydpi="92.61972"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -62,7 +62,7 @@
      showgrid="false"
      inkscape:window-width="1625"
      inkscape:window-height="773"
-     inkscape:window-x="2236"
+     inkscape:window-x="2215"
      inkscape:window-y="161"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0">
@@ -182,7 +182,12 @@
          x="518.73328"
          y="73.199997"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:1px"
-         id="tspan847">Account Move Report VAT</tspan></text>
+         id="tspan847">Account Remove Unique</tspan><tspan
+         sodipodi:role="line"
+         x="518.73328"
+         y="95.537415"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:1px"
+         id="tspan1132">Bank Account Constraint</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
