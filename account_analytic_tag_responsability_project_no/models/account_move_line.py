@@ -8,7 +8,17 @@ _logger = logging.getLogger(__name__)
 
 class AccountMove(models.Model):
     _inherit = "account.move"
-
+     
+    def request_validation(self):
+        if len(self.line_ids.filtered(
+                lambda x: not x.area_of_responsibility and x.display_type != "line_note" and x.display_type != 'line_section' and int(
+                        x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
+            raise ValidationError(
+                _("There are lines with an account between 3000 - 9999 that is missing an Cost Center "
+                  "tag.\n Add an Cost Center tag on these lines before confirming."))
+        
+        return super(AccountMove, self).request_validation()
+     
     def action_post(self):
         # if len(self.line_ids.filtered(lambda x: not x.project_no and x.display_type != "line_note" and
         # x.display_type != 'line_section' and int(x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) >
