@@ -15,7 +15,7 @@ class AccountMove(models.Model):
                         x.account_id.code) >= 3000 and int(x.account_id.code) <= 9999)) > 0:
             raise ValidationError(
                 _("There are lines with an account between 3000 - 9999 that is missing an Cost Center "
-                  "tag.\n Add an Cost Center tag on these lines before confirming."))
+                  "tag.\n Add an Cost Center tag on these lines before requesting a validation."))
         
         return super(AccountMove, self).request_validation()
      
