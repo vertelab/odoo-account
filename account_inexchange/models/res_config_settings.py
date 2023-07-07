@@ -60,7 +60,7 @@ class ResConfigSettings(models.TransientModel):
     def get_url(self, endpoint):
         #####################################################################################################################################################
         #'https://api.inexchange.com/v1/api' when not testing
-        base_url = 'https://testapi.inexchange.com/v1/api'
+        base_url = 'https://api.inexchange.com/v1/api'
         #####################################################################################################################################################
         
         test_mode = self.env['ir.config_parameter'].sudo().get_param('inexchange.testmode')
