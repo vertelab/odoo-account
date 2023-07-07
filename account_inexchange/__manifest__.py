@@ -41,7 +41,7 @@
     'repository': 'https://github.com/vertelab/odoo-account',
     # Any module necessary for this one to work correctly
 
-    'depends': ['l10n_se', 'sale', 'account_payment_sale'],
+    'depends': ['l10n_se', 'sale', 'account_payment_sale','account_invoice_ubl'],
     'data': [
         'views/res_config_settings_view.xml',
         'views/res_company_view.xml',
