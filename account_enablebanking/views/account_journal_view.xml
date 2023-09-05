@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="account_journal_dashboard_kanban_view_inherit" model="ir.ui.view">
+            <field name="name">account.journal.dashboard.kanban.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@t-if=&quot;journal_type == &#39;bank&#39; || journal_type == &#39;cash&#39;&quot;]/div[hasclass('o_kanban_manage_reconciliation')]/div[2]" postion="after" >
+                    <div>
+                        <a role="menuitem" type="object" name="action_sync_transactions_with_enable_banking" context="{'action_name': 'action_view_card_statements', 'search_default_journal': True, 'use_domain':True}" style="color: #4c4c4c;font-size: 1.08333333rem;">Sync Enable Banking</a>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <record id="view_enable_banking_wizard_form" model="ir.ui.view">
+            <field name="name">enable.banking.wizard.form</field>
+            <field name="model">enable.banking.wizard</field>
+            <field name="arch" type="xml">
+                <form create="0" edit="1" delete="0">
+                    <header>
+                        <button string="Proceed" class="oe_highlight" type="object" name="proceed"/>
+                    </header>
+                    <sheet>
+                        <field name="code"/>
+                        <group>
+                            <group>
+                                <field name="journal_id" required="1"/>
+                                <field name="date_from" required="1"/>
+                            </group>
+                            <group>
+                                <field name="account_number"/>
+                                <field name="session_id" invisible="1"/>
+                                <field name="date_to" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
