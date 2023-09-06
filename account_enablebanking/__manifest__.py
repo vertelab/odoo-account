@@ -40,7 +40,8 @@
         'security/ir.model.access.csv',
         'data/ir_config_parameter.xml',
         'views/account_journal_view.xml',
-        'views/enable_banking_wizard_view.xml'
+        'views/enable_banking_wizard_view.xml',
+        'views/res_company_view.xml',
     ],
     'demo': [],
     'qweb': [],

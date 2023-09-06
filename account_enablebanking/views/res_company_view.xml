@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+        <record id="res_company_from_view_inherit" model="ir.ui.view">
+            <field name="name">res.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook[1]" postion="inside">
+                    <page string="Enable Banking" name="enable_baking_settings">
+                        <group>
+                            <button name="authorize_enable_banking" string="Authenticate" class="btn btn-primary"/>
+                            <group>
+                                <field name="enable_banking_api_url"/>
+                                <field name="enable_banking_application_id"/>
+                                <field name="enable_banking_redirect_url"/>
+                                <field name="enable_banking_private_key"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

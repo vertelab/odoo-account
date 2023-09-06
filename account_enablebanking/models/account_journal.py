@@ -59,7 +59,7 @@ class AccountJournal(models.Model):
             "access": {
                 "valid_until": (datetime.now(timezone.utc) + timedelta(days=10)).isoformat()
             },
-            "aspsp": {"name": self.bank_id.name, "country": "FI"},
+            "aspsp": {"name": 'ICABanken', "country": "SE"},
             "state": str(uuid.uuid4()),
             "redirect_url": app.get("redirect_urls")[0],
             "psu_type": "personal",
@@ -73,7 +73,7 @@ class EnableBanking(models.TransientModel):
     _description = "Enable Banking Wizard"
     _rec_name = 'code'
 
-    journal_id = fields.Many2one("account.journal", string="Journal")
+    journal_id = fields.Many2one("account.journal", string="Journal", domain=[("type", "=", "bank")])
     auth_url = fields.Char(string="Auth URL")
     code = fields.Char(string="Code")
     session_id = fields.Char(string="Session ID")
@@ -89,7 +89,7 @@ class EnableBanking(models.TransientModel):
     def _create_session(self, api_url, base_headers):
         session = requests.post(f"{api_url}/sessions", json={"code": self.code}, headers=base_headers)
         if session.status_code == 200:
-            # print(session.json())
+            print(session.json())
             return session.json()
         else:
             print(f"Error response {session.status_code}:", session.text)
@@ -131,8 +131,9 @@ class EnableBanking(models.TransientModel):
         ))
 
         query = {
-            "date_from": self.date_from,
-            "date_to": self.date_to
+            "date_from": (datetime.now(timezone.utc) - timedelta(days=90)).date().isoformat(),
+            # "date_from": self.date_from,
+            # "date_to": self.date_to
         }
         continuation_key = None
         while True:
