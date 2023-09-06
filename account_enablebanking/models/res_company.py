@@ -24,9 +24,11 @@ class ResConfigSettings(models.Model):
         pass
 
     def request_essentials(self):
-        api_url = self.env['ir.config_parameter'].get_param('enablebanking.api_url')
-        private_key = self.env['ir.config_parameter'].get_param('enablebanking.private_key')
-        application_id = self.env['ir.config_parameter'].get_param('enablebanking.application_id')
+        company_id = self.env.user.company_id
+
+        api_url = company_id.enable_banking_api_url
+        private_key = company_id.enable_banking_private_key
+        application_id = company_id.enable_banking_application_id
 
         iat = int(datetime.now().timestamp())
         jwt_body = {
@@ -41,19 +43,20 @@ class ResConfigSettings(models.Model):
             algorithm="RS256",
             headers={"kid": application_id}, )
 
-        base_headers = {"Authorization": f"Bearer {jwt.decode('utf-8')}"}
+        # base_headers = {"Authorization": f"Bearer {jwt.decode('utf-8')}"}
+        base_headers = {"Authorization": f"Bearer {jwt}"}
         return api_url, private_key, application_id, base_headers
 
-    def action_sync_transactions_with_enable_banking(self):
+    def action_sync_transactions_with_enable_banking(self, bank_id):
         api_url, private_key, application_id, base_headers = self.request_essentials()
-        auth_url = self.auth_request(api_url=api_url, base_headers=base_headers)
-        print(auth_url)
+        auth_url = self.auth_request(bank_id, api_url=api_url, base_headers=base_headers)
+        return auth_url
 
-        return {
-            'type': 'ir.actions.act_url',
-            'url': auth_url.get("url"),
-            'target': 'self'
-        }
+        # return {
+        #     'type': 'ir.actions.act_url',
+        #     'url': auth_url.get("url"),
+        #     'target': 'self'
+        # }
 
     def _request_application_details(self, api_url, base_headers):
         # Requesting application details
@@ -62,15 +65,15 @@ class ResConfigSettings(models.Model):
         application_resp = requests.get(f"{api_url}/application", headers=base_headers).json()
         return application_resp
 
-    def auth_request(self, app=None, api_url=None, base_headers=None):
+    def auth_request(self, bank_id=None, app=None, api_url=None, base_headers=None):
         if not app:
             app = self._request_application_details(api_url, base_headers)
-        company_country_code = self.env.user.country_id.code
+
         body = {
             "access": {
                 "valid_until": (datetime.now(timezone.utc) + timedelta(days=10)).isoformat()
             },
-            "aspsp": {"name": self.bank_id.name, "country": "FI"},
+            "aspsp": {"name": bank_id.name, "country": bank_id.country.code},
             "state": str(uuid.uuid4()),
             "redirect_url": app.get("redirect_urls")[0],
             "psu_type": "personal",

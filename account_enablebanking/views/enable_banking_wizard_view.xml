@@ -12,7 +12,8 @@
                         <field name="code"/>
                         <group>
                             <group>
-                                <field name="journal_id" required="1"/>
+                                <field name="bank_id"/>
+                                <field name="journal_id"/>
                                 <field name="date_from" required="1"/>
                             </group>
                             <group>

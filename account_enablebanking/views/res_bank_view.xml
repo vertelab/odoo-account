@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="res_bank_form_view_inherit" model="ir.ui.view">
+            <field name="name">res.bank.form.inherit</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" postion="after">
+                    <header>
+                        <button name="action_authorize_bank" class="btn btn-primary" type="object" string="Authorize Bank"/>
+                    </header>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
