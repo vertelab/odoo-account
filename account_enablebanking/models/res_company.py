@@ -1,11 +1,7 @@
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError, ValidationError
 from datetime import datetime, timezone, timedelta
 import jwt as pyjwt
 import requests
-from pprint import pprint
-from urllib.parse import urlparse, parse_qs
-import werkzeug
 import uuid
 
 
@@ -19,9 +15,6 @@ class ResConfigSettings(models.Model):
     enable_banking_redirect_url = fields.Char("Redirect URL")
 
     enable_banking_private_key = fields.Text("Private Key")
-
-    def enable_baking_settings(self):
-        pass
 
     def request_essentials(self):
         company_id = self.env.user.company_id
@@ -43,20 +36,14 @@ class ResConfigSettings(models.Model):
             algorithm="RS256",
             headers={"kid": application_id}, )
 
-        # base_headers = {"Authorization": f"Bearer {jwt.decode('utf-8')}"}
-        base_headers = {"Authorization": f"Bearer {jwt}"}
+        base_headers = {"Authorization": f"Bearer {jwt.decode('utf-8')}"}
+        # base_headers = {"Authorization": f"Bearer {jwt}"}
         return api_url, private_key, application_id, base_headers
 
     def action_sync_transactions_with_enable_banking(self, bank_id):
         api_url, private_key, application_id, base_headers = self.request_essentials()
         auth_url = self.auth_request(bank_id, api_url=api_url, base_headers=base_headers)
         return auth_url
-
-        # return {
-        #     'type': 'ir.actions.act_url',
-        #     'url': auth_url.get("url"),
-        #     'target': 'self'
-        # }
 
     def _request_application_details(self, api_url, base_headers):
         # Requesting application details

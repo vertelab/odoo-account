@@ -1,9 +1,5 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
-from datetime import datetime, timezone, timedelta
-import jwt as pyjwt
-import requests
-from pprint import pprint
 
 
 class ResBank(models.Model):
@@ -19,3 +15,10 @@ class ResBank(models.Model):
             'url': auth_url.get("url"),
             'target': 'self'
         }
+
+
+class ResPartnerBank(models.Model):
+    _inherit = "res.partner.bank"
+
+    account_uuid = fields.Char(string="Account UUID")
+

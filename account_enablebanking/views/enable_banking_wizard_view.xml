@@ -6,18 +6,16 @@
             <field name="arch" type="xml">
                 <form create="0" edit="1" delete="0">
                     <header>
-                        <button string="Proceed" class="oe_highlight" type="object" name="proceed"/>
+                        <button string="Sync Accounts" class="oe_highlight" type="object" name="sync_accounts"/>
                     </header>
                     <sheet>
                         <field name="code"/>
                         <group>
                             <group>
                                 <field name="bank_id"/>
-                                <field name="journal_id"/>
                                 <field name="date_from" required="1"/>
                             </group>
                             <group>
-                                <field name="account_number"/>
                                 <field name="session_id" invisible="1"/>
                                 <field name="date_to" required="1"/>
                             </group>
