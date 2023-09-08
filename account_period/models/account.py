@@ -622,16 +622,22 @@ class account_account(models.Model):
 
     def sum_period(self):
         self.ensure_one()
-
-        domain = [('move_id.period_id', 'in',
-                   self.env['account.period'].get_period_ids(self._context.get('period_start'),
-                                                             self._context.get('period_stop',
-                                                                               self._context.get('period_start')))),
-                  ('account_id', '=', self.id)]
+        if self._context.get('accounting_method') == "cash":
+             domain = [('move_id.payment_period_id', 'in',
+                       self.env['account.period'].get_period_ids(self._context.get('period_start'),
+                                                                 self._context.get('period_stop',
+                                                                                   self._context.get('period_start')))),
+                      ('account_id', '=', self.id)]
+            
+        else:
+            domain = [('move_id.period_id', 'in',
+                       self.env['account.period'].get_period_ids(self._context.get('period_start'),
+                                                                 self._context.get('period_stop',
+                                                                                   self._context.get('period_start')))),
+                      ('account_id', '=', self.id)]
 
         if self._context.get('target_move') in ['draft', 'posted']:
             domain.append(('move_id.state', '=', self._context.get('target_move')))
-
         return sum([a.balance for a in self.env['account.move.line'].search(domain)])
 
 
