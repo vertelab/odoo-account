@@ -25,7 +25,11 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Account Analytic Name. Change display_name.',
     'category': 'Accounting',
-    'description': '',
+    'description': """
+    Account Analytic Name
+    ========================================================
+    Changes display_name for account.analytic.account to include the group_id.name
+    """,
     #'sequence': '1'
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_analytic_name',
@@ -34,11 +38,6 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': """
-Account Analytic Name
-========================================================
-Changes display_name for account.analytic.account to include the group_id.name
-    """,
     'depends': ['analytic'],
     'data': [
 
