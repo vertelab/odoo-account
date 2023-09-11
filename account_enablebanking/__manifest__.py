@@ -20,12 +20,12 @@
 ##############################################################################
 
 {
-    'name': 'Account: Transactions using enable Banking API',
+    'name': 'Account: enable Banking API',
     'version': '14.0.0.0.1',
-    'summary': 'Retrieves account transactions using Enable Banking API.',
+    'summary': 'Retrieves account Transactions using Enable Banking API.',
     'category': 'Accounting',
     'description': """
-    Retrieves account transactions using Enable Banking API.
+    Retrieves account Transactions using Enable Banking API.
     """,
     'sequence': '20',
     'author': 'Vertel AB',
