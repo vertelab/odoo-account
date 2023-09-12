@@ -20,10 +20,13 @@
 ##############################################################################
 
 {
-    'name': 'Account: Account Transactions using enable Banking API',
+    'name': 'Account: enable Banking API',
     'version': '14.0.0.0.1',
-    'summary': 'Retrieves account transactions using Enable Banking API',
+    'summary': 'Retrieves account Transactions using Enable Banking API.',
     'category': 'Accounting',
+    'description': """
+    Retrieves account Transactions using Enable Banking API.
+    """,
     'sequence': '20',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_enablebanking',
@@ -32,9 +35,6 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': """
-        Retrieves account transactions using Enable Banking API
-    """,
     'depends': ['account', ],
     'data': [
         'security/ir.model.access.csv',
@@ -48,5 +48,4 @@
     'qweb': [],
     'installable': True,
 }
-
 

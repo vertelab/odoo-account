@@ -27,7 +27,6 @@
     'summary': '',
     'category': 'Accounting',
     'description': """
-        Long description of module's purpose
     """,
     #'sequence': 1,
     'author': 'Vertel AB',
