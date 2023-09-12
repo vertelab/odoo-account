@@ -1,5 +1,5 @@
-odoo-account / account_move_contact
-2023-06-20
+odoo-account / account_customer_filter
+2023-09-11
 
 
 Be aware of these!
@@ -50,7 +50,7 @@ ls | wc -l
 grep -sR "'website':" */*__.py | tr "'" " "
 
 Find the latest project to copy / paste:
-grep -r "2023-06-*" odoo-*/*/static/description/notes.txt
+grep -r "2023-09-*" odoo-*/*/static/description/notes.txt
 grep -r "2023-*" */static/description/notes.txt
 
 

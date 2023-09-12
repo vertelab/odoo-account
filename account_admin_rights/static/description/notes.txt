@@ -36,7 +36,7 @@ Guide:
 8. ...of choice and choose "Export".
 
 
-Do it right the first time!
+Check module:
 grep -sR "'name':" */*__.py
 grep -sR "'version':" */*__.py
 grep -sR "'category':" */*__.py
