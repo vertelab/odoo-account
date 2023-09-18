@@ -63,7 +63,7 @@ class ResConfigSettings(models.Model):
             "aspsp": {"name": bank_id.name, "country": bank_id.country.code},
             "state": str(uuid.uuid4()),
             "redirect_url": app.get("redirect_urls")[0],
-            "psu_type": "personal",
+            "psu_type": "business",
         }
         auth_resp = requests.post(f"{api_url}/auth", json=body, headers=base_headers).json()
         return auth_resp
