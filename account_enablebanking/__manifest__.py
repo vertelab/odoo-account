@@ -20,32 +20,32 @@
 ##############################################################################
 
 {
-    'name': 'Account: Analytic Name',
+    'name': 'Account: enable Banking API',
     'version': '14.0.0.0.1',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Account Analytic Name. Change display_name.',
+    'summary': 'Retrieves account Transactions using Enable Banking API.',
     'category': 'Accounting',
     'description': """
-    Account Analytic Name
-    ========================================================
-    Changes display_name for account.analytic.account to include the group_id.name
+    Retrieves account Transactions using Enable Banking API.
     """,
-    #'sequence': '1'
+    'sequence': '20',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_analytic_name',
-    'images': ['static/description/banner.png'], # 560x280 px.
+    'website': 'https://vertel.se/apps/odoo-account/account_enablebanking',
+    'images': ['/static/description/banner.png'],  # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'depends': ['analytic'],
+    'depends': ['account', ],
     'data': [
-
+        'security/ir.model.access.csv',
+        'data/ir_config_parameter.xml',
+        'views/account_journal_view.xml',
+        'views/enable_banking_wizard_view.xml',
+        'views/res_bank_view.xml',
+        'views/res_company_view.xml',
     ],
     'demo': [],
     'qweb': [],
     'installable': True,
-    'application': False,
-    'auto_install': False,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

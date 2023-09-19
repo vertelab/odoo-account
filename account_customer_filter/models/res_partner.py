@@ -9,10 +9,10 @@ class ResPartner(models.Model):
     
     @api.depends('invoice_ids','invoice_ids.state')
     def set_has_confirmed_customer_invoices(self):
-       _logger.warning("set_has_confirmed_customer_invoices"*100)
-       _logger.warning(f"{self=}")
+       #_logger.warning("set_has_confirmed_customer_invoices"*100)
+       #_logger.warning(f"{self=}")
        for record in self:
-           _logger.warning(f"{record.invoice_ids=}")
+           #_logger.warning(f"{record.invoice_ids=}")
            record.has_confirmed_customer_invoices = len(record.invoice_ids.filtered(lambda invoice: invoice.state == 'posted' and invoice.move_type in ['out_invoice','out_refund'])) > 0
            
 
