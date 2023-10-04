@@ -30,9 +30,9 @@ class AccountJournal(models.Model):
         account_uid = self.bank_account_id.account_uuid
         account_balance = requests.get(f"{api_url}/accounts/{account_uid}/balances", headers=base_headers)
         if account_balance.status_code == 200:
-            _logger.info('Enable Banking Balances %s', account_balance.json())
+            _logger.info(f'Enable Banking Balances {account_balance.json()}')
         else:
-            _logger.error(f"Error response {account_balance.status_code}:", account_balance.text)
+            _logger.error(f"Error response {account_balance.status_code}: {account_balance.text}", )
             return False
 
 
@@ -47,14 +47,16 @@ class EnableBankingTransactions(models.TransientModel):
 
     date_to = fields.Date(string="To", default=fields.Date.today)
 
-    def action_sync_transactions(self):
+    def _fetch_transactions(self):
         api_url, private_key, application_id, base_headers = self.env.user.company_id.request_essentials()
         query = {
             # "date_from": (datetime.now(timezone.utc) - timedelta(days=90)).date().isoformat(),
             "date_from": self.date_from,
             "date_to": self.date_to
         }
+
         continuation_key = None
+        transactions = []
         while True:
             if continuation_key:
                 query["continuation_key"] = continuation_key
@@ -63,17 +65,79 @@ class EnableBankingTransactions(models.TransientModel):
                 params=query,
                 headers=base_headers,
             )
+            resp_data = account_transaction.json()
             if account_transaction.status_code == 200:
-                resp_data = account_transaction.json()
-                _logger.info('Enable Banking Transactions %s', resp_data.get("transactions"))
+                # _logger.info('Enable Banking Transactions %s', resp_data.get("transactions"))
+                transactions.extend(resp_data.get("transactions", []))
                 continuation_key = resp_data.get("continuation_key")
                 if not continuation_key:
                     _logger.info("No continuation key. All transactions were fetched")
                     break
                 _logger.info(f"Going to fetch more transactions with continuation key {continuation_key}")
             else:
-                _logger.error(f"Error response {account_transaction.status_code}:", account_transaction.text)
-                raise ValidationError("There is a problem fetching account transaction.")
+                _logger.error(f"Error response {resp_data.get('code')}: {resp_data.get('message')}")
+                raise ValidationError(
+                    f"There is a problem fetching account transaction. "
+                    f"Error response {resp_data.get('code')}: {resp_data.get('message')}"
+                )
+
+        return transactions  # Return the transactions list if needed
+
+    def action_sync_transactions(self):
+        transactions = self._fetch_transactions()
+
+        bank_statement_id = self.env['account.bank.statement'].search([
+            ('name', '=', f"{self.date_from} - {self.date_to}")
+        ])
+
+        if not bank_statement_id:
+            bank_statement_id = self.env['account.bank.statement'].create({
+                'journal_id': self.journal_id.id,
+                'name': f"{self.date_from} - {self.date_to}"
+            })
+
+        for transaction in transactions:
+            partner_id = False
+
+            bank_statement_line_id = self.env['account.bank.statement.line'].search([
+                ('payment_ref', '=', transaction.get('entry_reference'))
+            ])
+            if not bank_statement_line_id:
+                if transaction.get('creditor'):
+                    partner_id = self._sync_partner(transaction.get('creditor')['name']).id
+                if transaction.get('credit_debit_indicator') == 'CRDT':
+                    amount = float(transaction.get('transaction_amount')['amount'])
+                else:
+                    amount = -float(transaction.get('transaction_amount')['amount'])
+
+                currency_id = self.env['res.currency'].search([
+                    ('name', '=', transaction.get('transaction_amount')['currency'])])
+                if currency_id != self.journal_id.currency_id:
+                    raise UserError(_(
+                        f"The Bank Account {self.journal_id.bank_account_id.acc_number} "
+                        f"has transaction with a different currency ({currency_id.name}) to the journal "
+                        f"({self.journal_id.currency_id}). They need to be the same."))
+
+                self.env['account.bank.statement.line'].create({
+                    'date': transaction.get('transaction_date'),
+                    'invoice_date': transaction.get('booking_date'),
+                    'amount': amount,
+                    'narration': transaction.get('remittance_information')[-1],
+                    'transaction_type': transaction.get('credit_debit_indicator'),
+                    'ref': transaction.get('reference_number'),
+                    'partner_id': partner_id,
+                    'payment_ref': transaction.get('entry_reference'),
+                    'statement_id': bank_statement_id.id,
+
+                })
+
+    def _sync_partner(self, partner_name):
+        partner_id = self.env['res.partner'].search([('name', '=', partner_name)], limit=1)
+        if not partner_id:
+            partner_id = self.env['res.partner'].create({
+                'name': partner_name
+            })
+        return partner_id
 
 
 class EnableBanking(models.TransientModel):
@@ -95,12 +159,12 @@ class EnableBanking(models.TransientModel):
     def _create_session(self):
         api_url, private_key, application_id, base_headers = self.env.user.company_id.request_essentials()
         session = requests.post(f"{api_url}/sessions", json={"code": self.code}, headers=base_headers)
+        session_resp = session.json()
         if session.status_code == 200:
-            session_resp = session.json()
             self._sync_bank_accounts(session_resp.get('accounts'))
             return session.json()
         else:
-            _logger.error(f"Error response {session.status_code}:", session.text)
+            _logger.error(f"Error response {session_resp.get('code')}: {session_resp.get('message')}")
             raise ValidationError("There is a problem creating session.")
 
     def _sync_bank_accounts(self, accounts):
@@ -131,12 +195,3 @@ class EnableBanking(models.TransientModel):
                 'name': partner_name
             })
         return partner_id
-
-    def _get_session(self, api_url, base_headers):
-        session = requests.get(f"{api_url}/sessions/{self.session_id}", headers=base_headers)
-        if session.status_code == 200:
-            return session.json()
-        else:
-            _logger.error(f"Error response {session.status_code}:", session.text)
-            return
-
