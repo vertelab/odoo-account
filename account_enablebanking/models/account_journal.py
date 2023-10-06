@@ -150,7 +150,8 @@ class EnableBankingTransactions(models.TransientModel):
                                f"Error response {resp_data.get('code')}: {resp_data.get('message')}")
                 _logger.error(err_message)
                 self._schedule_activity(err_message)
-                raise ValidationError(err_message)
+                break
+                #raise ValidationError(err_message)
 
         return transactions  # Return the transactions list if needed
 
@@ -274,16 +275,16 @@ class EnableBanking(models.TransientModel):
             ], limit=1)
             if partner_bank_id:
                 partner_bank_id.write({
-                    # 'partner_id': self.env.user.company_id.partner_id.id,
-                    'partner_id': self._sync_partner(account.get('name')).id,
+                    #'partner_id': self.env.user.company_id.partner_id.id,
+                    #'partner_id': self._sync_partner(account.get('name')).id,
                     'acc_number': account.get('account_id')['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account.get('uid')
                 })
             else:
                 partner_bank_id = self.env['res.partner.bank'].create({
-                    # 'partner_id': self.env.user.company_id.partner_id.id,
-                    'partner_id': self._sync_partner(account.get('name')).id,
+                    'partner_id': self.env.user.company_id.partner_id.id,
+                    #'partner_id': self._sync_partner(account.get('name')).id,
                     'acc_number': account.get('account_id')['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account.get('uid')
