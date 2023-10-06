@@ -259,7 +259,7 @@ class EnableBanking(models.TransientModel):
         session = requests.post(f"{api_url}/sessions", json={"code": self.code}, headers=base_headers)
         session_resp = session.json()
         if session.status_code == 200:
-            print("==========", session_resp.get('accounts')[0]["uid"])
+            # print("==========", session_resp.get('accounts')[0]["uid"])
             self._sync_bank_accounts(session_resp.get('accounts'))
             return session.json()
         else:
@@ -274,16 +274,16 @@ class EnableBanking(models.TransientModel):
             ], limit=1)
             if partner_bank_id:
                 partner_bank_id.write({
-                    'partner_id': self.env.user.company_id.partner_id.id,
-                    # 'partner_id': self._sync_partner(account.get('name')).id,
+                    # 'partner_id': self.env.user.company_id.partner_id.id,
+                    'partner_id': self._sync_partner(account.get('name')).id,
                     'acc_number': account.get('account_id')['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account.get('uid')
                 })
             else:
                 partner_bank_id = self.env['res.partner.bank'].create({
-                    'partner_id': self.env.user.company_id.partner_id.id,
-                    # 'partner_id': self._sync_partner(account.get('name')).id,
+                    # 'partner_id': self.env.user.company_id.partner_id.id,
+                    'partner_id': self._sync_partner(account.get('name')).id,
                     'acc_number': account.get('account_id')['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account.get('uid')
