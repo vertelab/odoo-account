@@ -61,11 +61,10 @@ class ResConfigSettings(models.Model):
                 "valid_until": (datetime.now(timezone.utc) + timedelta(days=10)).isoformat()
             },
             "aspsp": {"name": bank_id.name, "country": bank_id.country.code},
-            # "aspsp": {"name": "Nordea", "country": "FI"},
             "state": str(uuid.uuid4()),
             "redirect_url": app.get("redirect_urls")[0],
-            "psu_type": "business",
-            # "psu_type": "personal",
+            # "psu_type": "business",
+            "psu_type": "personal",
         }
         auth_resp = requests.post(f"{api_url}/auth", json=body, headers=base_headers).json()
         return auth_resp

@@ -12,7 +12,7 @@
                         <field name="code"/>
                         <group>
                             <group>
-                                <field name="bank_id"/>
+                                <field name="bank_id" required="1"/>
                                 <field name="date_from" required="1"/>
                             </group>
                             <group>
