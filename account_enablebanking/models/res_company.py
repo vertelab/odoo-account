@@ -37,7 +37,7 @@ class ResConfigSettings(models.Model):
             headers={"kid": application_id}, )
         try:
             base_headers = {"Authorization": f"Bearer {jwt.decode('utf-8')}"}
-        except Exception:
+        except AttributeError:
             base_headers = {"Authorization": f"Bearer {jwt}"}
         return api_url, private_key, application_id, base_headers
 

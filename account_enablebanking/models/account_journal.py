@@ -95,7 +95,7 @@ class AccountJournal(models.Model):
                 'account_uuid': journal.bank_account_id.account_uuid,
                 'date_from': date_from,
                 'date_to': date_to,
-            }).action_sync_transactions()
+            }).with_context({'_cron_task': True}).action_sync_transactions()
 
     def _compute_starting_fiscal_year_date(self):
         fiscalyear_last_month = self.env.user.company_id.fiscalyear_last_month
@@ -150,7 +150,8 @@ class EnableBankingTransactions(models.TransientModel):
                                f"Error response {resp_data.get('code')}: {resp_data.get('message')}")
                 _logger.error(err_message)
                 self._schedule_activity(err_message)
-                raise ValidationError(err_message)
+                break
+                #raise ValidationError(err_message)
 
         return transactions  # Return the transactions list if needed
 
@@ -177,7 +178,8 @@ class EnableBankingTransactions(models.TransientModel):
     def action_sync_transactions(self):
         date_name = f"{self.date_from} - {self.date_to}"
         statement_number = '01'
-        transactions = self._sieve_out_existing_transactions(self._fetch_transactions())
+        print(self.env.context)
+        transactions = self._sieve_out_existing_transactions(self.with_context()._fetch_transactions())
 
         bank_statement_id = self.env['account.bank.statement'].search([
             ('journal_id', '=', self.journal_id.id)], order='id desc')
@@ -274,16 +276,16 @@ class EnableBanking(models.TransientModel):
             ], limit=1)
             if partner_bank_id:
                 partner_bank_id.write({
-                    # 'partner_id': self.env.user.company_id.partner_id.id,
-                    'partner_id': self._sync_partner(account.get('name')).id,
+                    #'partner_id': self.env.user.company_id.partner_id.id,
+                    #'partner_id': self._sync_partner(account.get('name')).id,
                     'acc_number': account.get('account_id')['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account.get('uid')
                 })
             else:
                 partner_bank_id = self.env['res.partner.bank'].create({
-                    # 'partner_id': self.env.user.company_id.partner_id.id,
-                    'partner_id': self._sync_partner(account.get('name')).id,
+                    'partner_id': self.env.user.company_id.partner_id.id,
+                    #'partner_id': self._sync_partner(account.get('name')).id,
                     'acc_number': account.get('account_id')['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account.get('uid')
