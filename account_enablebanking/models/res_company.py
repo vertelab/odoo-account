@@ -35,9 +35,10 @@ class ResConfigSettings(models.Model):
             private_key,
             algorithm="RS256",
             headers={"kid": application_id}, )
-
-        base_headers = {"Authorization": f"Bearer {jwt.decode('utf-8')}"}
-        # base_headers = {"Authorization": f"Bearer {jwt}"}
+        try:
+            base_headers = {"Authorization": f"Bearer {jwt.decode('utf-8')}"}
+        except Exception:
+            base_headers = {"Authorization": f"Bearer {jwt}"}
         return api_url, private_key, application_id, base_headers
 
     def action_sync_transactions_with_enable_banking(self, bank_id):

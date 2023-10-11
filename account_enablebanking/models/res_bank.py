@@ -22,3 +22,16 @@ class ResPartnerBank(models.Model):
 
     account_uuid = fields.Char(string="Account UUID")
 
+    def action_create_account_journal(self):
+        journal_id = self.env['account.journal'].search([
+            ('code', '=', self.acc_number[:5])
+        ], limit=1)
+        if not journal_id:
+            self.env['account.journal'].create({
+                'name': self.acc_number[:5],
+                'code': self.acc_number[:5],
+                'type': 'bank',
+                'bank_account_id': self.id,
+                'currency_id': self.currency_id.id
+            })
+

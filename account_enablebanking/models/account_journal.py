@@ -288,7 +288,7 @@ class EnableBanking(models.TransientModel):
                     'bank_id': self.bank_id.id,
                     'account_uuid': account.get('uid')
                 })
-            self._sync_account_journal(partner_bank_id)
+            # self._sync_account_journal(partner_bank_id)
 
     def _sync_account_journal(self, account):
         journal_id = self.env['account.journal'].search([
