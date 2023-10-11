@@ -150,8 +150,11 @@ class EnableBankingTransactions(models.TransientModel):
                                f"Error response {resp_data.get('code')}: {resp_data.get('message')}")
                 _logger.error(err_message)
                 self._schedule_activity(err_message)
-                break
-                #raise ValidationError(err_message)
+
+                if self.env.context.get('_cron_task'):
+                    break
+                else:
+                    raise ValidationError(err_message)
 
         return transactions  # Return the transactions list if needed
 
@@ -178,8 +181,9 @@ class EnableBankingTransactions(models.TransientModel):
     def action_sync_transactions(self):
         date_name = f"{self.date_from} - {self.date_to}"
         statement_number = '01'
-        print(self.env.context)
-        transactions = self._sieve_out_existing_transactions(self.with_context()._fetch_transactions())
+        transactions = self._sieve_out_existing_transactions(
+            self.with_context(self.env.context)._fetch_transactions()
+        )
 
         bank_statement_id = self.env['account.bank.statement'].search([
             ('journal_id', '=', self.journal_id.id)], order='id desc')
@@ -261,7 +265,6 @@ class EnableBanking(models.TransientModel):
         session = requests.post(f"{api_url}/sessions", json={"code": self.code}, headers=base_headers)
         session_resp = session.json()
         if session.status_code == 200:
-            # print("==========", session_resp.get('accounts')[0]["uid"])
             self._sync_bank_accounts(session_resp.get('accounts'))
             return session.json()
         else:
@@ -276,8 +279,6 @@ class EnableBanking(models.TransientModel):
             ], limit=1)
             if partner_bank_id:
                 partner_bank_id.write({
-                    #'partner_id': self.env.user.company_id.partner_id.id,
-                    #'partner_id': self._sync_partner(account.get('name')).id,
                     'acc_number': account.get('account_id')['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account.get('uid')
