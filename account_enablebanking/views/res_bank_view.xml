@@ -18,6 +18,11 @@
             <field name="model">res.partner.bank</field>
             <field name="inherit_id" ref="base.view_partner_bank_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_create_account_journal" class="btn btn-primary" type="object" string="Create Journal"/>
+                    </header>
+                </xpath>
                 <field name="acc_number" position="after">
                     <field name="account_uuid"/>
                 </field>
