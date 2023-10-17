@@ -20,6 +20,30 @@ class AccountPaymentOrder(models.Model):
             "context": self._context,
         }
         return action
+    
+    
+    journal_currency_id = fields.Many2one(
+    "res.currency",compute='_compute_journal_currency', store=True, readonly=True
+    )
+
+    @api.depends("journal_id", "journal_id.currency_id")
+    def _compute_journal_currency(self):
+        for rec in self:
+            if rec.journal_id and rec.journal_id.currency_id:
+               rec.journal_currency_id = rec.journal_id.currency_id.id
+            else:
+               rec.journal_currency_id = rec.company_currency_id.id
+
+
+    amount_total_loc = fields.Monetary(string='Total LOC', currency_field="journal_currency_id", store=True, readonly=True,
+    compute='_compute_amount_loc')
+
+    @api.depends("payment_line_ids", "payment_line_ids.amount_currency")
+    def _compute_amount_loc(self):
+        for rec in self:
+            rec.amount_total_loc = sum(
+                rec.mapped("payment_line_ids.amount_currency") or [0.0]
+            )
 
 
 class AccountPaymentLineCreate(models.TransientModel):

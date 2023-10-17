@@ -40,6 +40,7 @@
     'data': [
         'views/account_payment_line_create_view.xml',
         'views/res_partner_view.xml',
+        'views/payment_order.xml',
     ],
     'installable': True,
     'application': False,
