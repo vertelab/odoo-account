@@ -92,6 +92,15 @@ class AccountMove(models.Model):
                 'default_res_model': self._name,
             }
         }
+        
+    @api.onchange('purchase_vendor_bill_id', 'purchase_id')
+    def _onchange_purchase_auto_complete(self):
+        vals = super()._onchange_purchase_auto_complete()
+        for move in self:
+            for line in move.line_ids:
+                    if line.purchase_line_id:
+                            line.project_no = line.purchase_line_id.project_no
+                            line.area_of_responsibility = line.purchase_line_id.area_of_responsibility
 
 
 class AccountMoveLine(models.Model):
