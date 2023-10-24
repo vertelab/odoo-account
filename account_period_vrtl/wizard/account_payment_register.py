@@ -39,10 +39,10 @@ class AccountPaymentRegister(models.TransientModel):
         return super(AccountPaymentRegister, self).action_create_payments()
         
         
-    def _create_payment_vals_from_wizard(self):
+    def _create_payment_vals_from_wizard(self, batch_result):
         # OVERRIDE
         _logger.warning(f"create_payments_from_wizard"*10)
-        payment_vals = super()._create_payment_vals_from_wizard()
+        payment_vals = super()._create_payment_vals_from_wizard(batch_result)
         payment_vals['period_id'] = self.env['account.period'].date2period(self.payment_date).id
         _logger.warning(f"{payment_vals=}")
         return payment_vals   
@@ -64,7 +64,7 @@ class AccountPaymentRegister(models.TransientModel):
         # ~ }
 
 
-    def _create_payments(self):
+    def _create_payments123123123(self):
         self.ensure_one()
         batches = self._get_batches()
         edit_mode = self.can_edit_wizard and (len(batches[0]['lines']) == 1 or self.group_payment)

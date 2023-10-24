@@ -546,12 +546,22 @@ class AccountMove(models.Model):
 
     @api.depends("payment_state", "state")
     def _set_payment_invoice(self):
+        ###TODO
+        for rec in self:
+           rec.payment_move_id = False
+           return
+           
+        ###TODO FIX SO THAT THE PAYMENT DATES ARE SET
         for rec in self:
             if rec.state == 'posted' and rec.is_invoice(include_receipts=True) and rec.payment_state == 'paid':
                 # Used when searching for account_moves using the cash method with mis_builder. Currently it's
                 # linking the latest payment account.move so that the mis_instance can search using its period or
                 # date. I'm not sure how to handle multiple payments which is why im only linking the latest one.
-                list_of_payments = rec._get_reconciled_info_JSON_values()
+                
+                rec._compute_payments_widget_reconciled_info()
+                list_of_payments = rec.invoice_payments_widget
+                _logger.warning("LOOK HERE"*100)
+                _logger.warning(f"{list_of_payments=}")
                 if list_of_payments:
                     latest_payment = self.env['account.move'].search([('id', '=', list_of_payments[0]['move_id'])],
                                                                      limit=1)
