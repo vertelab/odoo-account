@@ -35,8 +35,8 @@ class AccountBankStatementLine(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             statement = self.env['account.bank.statement'].browse(vals['statement_id'])
-            if statement.state != 'open' and self._context.get('check_move_validity', True):
-                raise UserError(_("You can only create statement line in open bank statements."))
+            #if statement.state != 'open' and self._context.get('check_move_validity', True):
+            #    raise UserError(_("You can only create statement line in open bank statements."))
             if 'date' not in vals:
                 vals['date'] = statement.date
             date = vals['date']
