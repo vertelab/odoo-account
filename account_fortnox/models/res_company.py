@@ -27,21 +27,28 @@ import logging
 import base64
 import time
 from datetime import datetime, timedelta
+
 _logger = logging.getLogger(__name__)
 
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
+
     invoice_fortnox = fields.Boolean(string="Send to Fortnox", default=True)
 
 
-class res_company(models.Model):
+class ResCompany(models.Model):
     _inherit = ['res.company', 'mail.thread', 'mail.activity.mixin']
     _name = 'res.company'
 
-    fortnox_authorization_code = fields.Char(string='Authorization code', help="You get this code from your FortNox Account when you activate Odoo", store=True)
-    fortnox_client_secret = fields.Char(string='Client Secret', help="You get this code from your Odoo representative", store=True)
-    fortnox_access_token = fields.Text(string='Access Token', help="With autorization code and client secret you generate this code ones", store=True)
+    fortnox_authorization_code = fields.Char(string='Authorization code',
+                                             help="You get this code from your FortNox Account when you activate Odoo",
+                                             store=True)
+    fortnox_client_secret = fields.Char(string='Client Secret', help="You get this code from your Odoo representative",
+                                        store=True)
+    fortnox_access_token = fields.Text(string='Access Token',
+                                       help="With autorization code and client secret you generate this code ones",
+                                       store=True)
     fortnox_client_id = fields.Char(string='Client ID', help="The public ID of the integration", store=True)
     fortnox_token_expiration = fields.Datetime("When the token expires", store=True)
     fortnox_refresh_token = fields.Text(store=True)
@@ -49,9 +56,13 @@ class res_company(models.Model):
     def fortnox_get_access_token_new(self):
         if not self.fortnox_access_token:
             if not self.fortnox_authorization_code:
-                raise UserError("You have to set up Authorization_token for FortNox, you get that when you activate Odoo in your FortNox-account")
+                raise UserError(
+                    "You have to set up Authorization_token for FortNox, you get that when you activate Odoo in your "
+                    "FortNox-account")
             if not self.fortnox_client_secret:
-                raise UserError("You have to set up Client_secret for FortNox, you get that when you activate Odoo in your FortNox-account")
+                raise UserError(
+                    "You have to set up Client_secret for FortNox, you get that when you activate Odoo in your "
+                    "FortNox-account")
             if not self.fortnox_client_id:
                 raise UserError("You have to supply the client ID of the integration")
             try:
@@ -59,11 +70,11 @@ class res_company(models.Model):
                 credentials_b64encoded = base64.b64encode(credentials_encoded).decode("utf-8")
                 r = requests.post(
                     url="https://apps.fortnox.se/oauth-v1/token",
-                    headers = {
+                    headers={
                         "Content-Type": "application/x-www-form-urlencoded",
                         "Authorization": f"Basic {credentials_b64encoded}",
                     },
-                    data = {
+                    data={
                         'grant_type': 'authorization_code',
                         'code': self.fortnox_authorization_code,
                         'redirect_uri': 'https://vertel.se'
@@ -88,11 +99,11 @@ class res_company(models.Model):
                     credentials_b64encoded = base64.b64encode(credentials_encoded).decode("utf-8")
                     r = requests.post(
                         url="https://apps.fortnox.se/oauth-v1/token",
-                        headers = {
+                        headers={
                             "Content-Type": "application/x-www-form-urlencoded",
                             "Authorization": f"Basic {credentials_b64encoded}",
                         },
-                        data = {
+                        data={
                             'grant_type': 'refresh_token',
                             'refresh_token': self.fortnox_refresh_token,
                         }
@@ -111,9 +122,13 @@ class res_company(models.Model):
     def fortnox_get_access_token(self):
         if not self.fortnox_access_token:
             if not self.fortnox_authorization_code:
-                raise UserError("You have to set up Authorization_token for FortNox, you get that when you activate Odoo in your FortNox-account")
+                raise UserError(
+                    "You have to set up Authorization_token for FortNox, you get that when you activate Odoo in your "
+                    "FortNox-account")
             if not self.fortnox_client_secret:
-                raise UserError("You have to set up Client_secret for FortNox, you get that when you activate Odoo in your FortNox-account")
+                raise UserError(
+                    "You have to set up Client_secret for FortNox, you get that when you activate Odoo in your "
+                    "FortNox-account")
             if not self.fortnox_client_id:
                 raise UserError("You have to supply the client ID of the integration")
             try:
@@ -122,45 +137,32 @@ class res_company(models.Model):
                 credentials_b64encoded = base64.b64encode(credentials_encoded).decode("utf-8")
                 r = requests.post(
                     url="https://apps.fortnox.se/oauth-v1/token",
-                    headers = {
-                       # "ClientId": self.fortnox_client_id,
-                       # "ClientSecret": self.fortnox_client_secret,
+                    headers={
                         "Content-Type": "application/x-www-form-urlencoded",
-                       # "Accept": "application/json",
-                        "Authorization": f"Basic {credentials_b64encoded}", 
+                        "Authorization": f"Basic {credentials_b64encoded}",
                     },
-                    data = {
-                       'grant_type': 'authorization_code',
-                       'code': self.fortnox_authorization_code,
-                       'redirect_uri': f"{base_url}/fortnox/auth"
+                    data={
+                        'grant_type': 'authorization_code',
+                        'code': self.fortnox_authorization_code,
+                        'redirect_uri': f"{base_url}/fortnox/auth"
                     }
                 )
-                
+
                 if r.status_code not in (200, 201, 204):
                     raise UserError(f'FortNox: StatusCode:{r.status_code}, \n'
                                     f'Content:{r.content}')
                 auth_rec = json.loads(r.content)
                 _logger.warning(f"{auth_rec=}")
-                # _logger.warning(f"{auth_rec.get('access_token')=}")
-                
+
                 for company in self.env.user.company_ids:
                     company.fortnox_access_token = auth_rec.get('access_token')
                     company.fortnox_refresh_token = auth_rec.get('refresh_token')
                     company.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
-                # ~ self.fortnox_access_token = auth_rec.get('access_token')
-                # ~ self.fortnox_refresh_token = auth_rec.get('refresh_token')
-                # ~ self.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
-                
-                # _logger.warning(f"{self.fortnox_access_token=}")
-                # msg = _("New Access Token {token}").format(self.fortnox_access_token)
-                    
-                # self.message_post(
-                #     body=msg, subject=None, message_type='notification')
             except requests.exceptions.RequestException as e:
                 raise UserError('HTTP Request failed %s' % e)
         else:
             raise UserError('Access Token already fetched')
-            
+
     def fortnox_refresh_access_token(self):
         company = self.env.user.company_id
         try:
@@ -168,48 +170,36 @@ class res_company(models.Model):
             credentials_b64encoded = base64.b64encode(credentials_encoded).decode("utf-8")
             r = requests.post(
                 url="https://apps.fortnox.se/oauth-v1/token",
-                headers = {
-                   # "ClientId": self.fortnox_client_id,
-                   # "ClientSecret": self.fortnox_client_secret,
+                headers={
                     "Content-Type": "application/x-www-form-urlencoded",
-                   # "Accept": "application/json",
-                    "Authorization": f"Basic {credentials_b64encoded}", 
+                    "Authorization": f"Basic {credentials_b64encoded}",
                 },
-                data = {
-                   'grant_type': 'refresh_token',
-                   'refresh_token': company.fortnox_refresh_token,
+                data={
+                    'grant_type': 'refresh_token',
+                    'refresh_token': company.fortnox_refresh_token,
                 }
             )
-            
+
             if r.status_code not in (200, 201, 204):
                 raise UserError(f'FortNox: StatusCode:{r.status_code}, \n'
                                 f'Content:{r.content}')
             auth_rec = json.loads(r.content)
-            _logger.warning(f"{auth_rec=}")
-            
+
             for company in self.env.user.company_ids:
                 company.fortnox_access_token = auth_rec.get('access_token')
                 company.fortnox_refresh_token = auth_rec.get('refresh_token')
                 company.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
-                _logger.warning(f"Refreshing token for {company.id}")
-            
-            # msg = _("New Access Token {token}").format(self.fortnox_access_token)
-                
-            # self.message_post(
-            #     body=msg, subject=None, message_type='notification')
+
         except requests.exceptions.RequestException as e:
             raise UserError('HTTP Request failed %s' % e)
-            
+
     def is_access_token_expired(self):
-        if self.fortnox_token_expiration == False:
+        if not self.fortnox_token_expiration:
             return 1
         elif datetime.now() > self.fortnox_token_expiration:
             return 2
 
     def fortnox_request(self, request_type, url, data=None, raise_error=True):
-        # ~ if self.fortnox_access_token == False:
-            # ~ self.fortnox_get_access_token()
-            
         if self.is_access_token_expired() == 1 or self.fortnox_access_token == False:
             _logger.warning("Access token not fetched, fetching.")
             self.fortnox_get_access_token()
@@ -218,44 +208,37 @@ class res_company(models.Model):
             _logger.warning("Access token ran out, refreshing")
             self.fortnox_refresh_access_token()
             self.env.cr.commit()
-        else:
-            _logger.warning("ELSE")
-        # Customer (POST https://api.fortnox.se/3/customers)
+
         headers = {
-            #"Access-Token": self.fortnox_access_token,
-            #"Client-Secret": self.fortnox_client_secret,
             "Content-Type": "application/json",
             "Accept": "application/json",
             "Authorization": f"Bearer {self.fortnox_access_token}"
         }
-        #_logger.warning(f"{self.fortnox_access_token=}")
-        _logger.info(f'FortNox: '
-                     f'Request_Type:{request_type}, '
-                     f'URL:{url}, '
-                     f'Data:{data}')
-        try:
-            if request_type == 'post':
-                r = requests.post(
-                    url=url, headers=headers, data=json.dumps(data))
-            if request_type == 'put':
-                r = requests.put(
-                    url=url, headers=headers, data=json.dumps(data))
-            if request_type == 'get':
-                r = requests.get(url=url, headers=headers)
-            if request_type == 'delete':
-                r = requests.delete(url=url, headers=headers)
 
-            _logger.info(f'FortNox: return-record {r.status_code} {r.content}')
-            if raise_error and r.status_code not in [200, 201, 204]:
-                raise UserError(r.content)
-        except requests.exceptions.RequestException as e:
-            _logger.warn('FortNox: HTTP Request failed %s' % e)
-            raise UserError('HTTP Request failed %s' % e)
+        r = requests.request(request_type, url=url, headers=headers, data=json.dumps(data))
+        # try:
+        #     if request_type == 'post':
+        #         r = requests.post(
+        #             url=url, headers=headers, data=json.dumps(data))
+        #     if request_type == 'put':
+        #         r = requests.put(
+        #             url=url, headers=headers, data=json.dumps(data))
+        #     if request_type == 'get':
+        #         r = requests.get(url=url, headers=headers)
+        #     if request_type == 'delete':
+        #         r = requests.delete(url=url, headers=headers)
+        #
+        #     _logger.info(f'FortNox: return-record {r.status_code} {r.content}')
+        #     if raise_error and r.status_code not in [200, 201, 204]:
+        #         raise UserError(r.content)
+        # except requests.exceptions.RequestException as e:
+        #     _logger.warning('FortNox: HTTP Request failed %s' % e)
+        #     raise UserError('HTTP Request failed %s' % e)
 
-        return r.content
+        return r.json()
 
     def fortnox_auth_open_link(self):
-        return { 
+        return {
             'type': 'ir.actions.act_url',
             'url': f'/fortnox/auth?run_get=True&state={self.id}',
             'target': 'new',
