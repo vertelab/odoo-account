@@ -216,25 +216,6 @@ class ResCompany(models.Model):
         }
 
         r = requests.request(request_type, url=url, headers=headers, data=json.dumps(data))
-        # try:
-        #     if request_type == 'post':
-        #         r = requests.post(
-        #             url=url, headers=headers, data=json.dumps(data))
-        #     if request_type == 'put':
-        #         r = requests.put(
-        #             url=url, headers=headers, data=json.dumps(data))
-        #     if request_type == 'get':
-        #         r = requests.get(url=url, headers=headers)
-        #     if request_type == 'delete':
-        #         r = requests.delete(url=url, headers=headers)
-        #
-        #     _logger.info(f'FortNox: return-record {r.status_code} {r.content}')
-        #     if raise_error and r.status_code not in [200, 201, 204]:
-        #         raise UserError(r.content)
-        # except requests.exceptions.RequestException as e:
-        #     _logger.warning('FortNox: HTTP Request failed %s' % e)
-        #     raise UserError('HTTP Request failed %s' % e)
-
         return r.json()
 
     def fortnox_auth_open_link(self):

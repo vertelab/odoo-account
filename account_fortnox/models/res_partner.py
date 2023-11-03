@@ -16,18 +16,16 @@ class Partner(models.Model):
     _inherit = 'res.partner'
 
     # sets internal reference on all companies and fellowships based on the customer number in Fortnox. Odoo 14: this
-    # method is redundant because company_registry doesnt exist in res.partners anymore. There is a module to add it
-    # back but since Odoo 14 doesnt use res.partners the same way it might not be worth installing. Furthermore,
-    # this method isnt ran anywhere so it might be time wasted to try to make this work.
+    # method is redundant because company_registry doesn't exist in res.partners anymore. There is a module to add it
+    # back but since Odoo 14 doesn't use res.partners the same way it might not be worth installing. Furthermore,
+    # this method isn't ran anywhere so it might be time wasted to try to make this work.
     def set_internal_reference(self):
         r = self.env.user.company_id.fortnox_request('get', "https://api.fortnox.se/3/customers")
-        # r = json.loads(r)
         pages = int(r['MetaInformation']['@TotalPages']) + 1
 
         for page in range(pages):
             url = "https://api.fortnox.se/3/customers?page=" + str(page)
             r = self.env.user.company_id.fortnox_request('get', url)
-            # r = json.loads(r)
 
             for customer in r['Customers']:
                 customer_number = customer.get('CustomerNumber', False)
@@ -67,12 +65,10 @@ class Partner(models.Model):
                         partner.ref = customer_number
 
     def partner_create(self):
-        # Customer (PUT https://api.fortnox.se/3/customers)
         for partner in self:
             _logger.warning(
                 f"CREATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.ref=}")
             if not partner.commercial_partner_id.ref:
-                # _logger.warning(f"{self.env.user.company_id=}")
                 url = "https://api.fortnox.se/3/customers"
                 r = self.env.user.company_id.fortnox_request(
                     'post',
@@ -96,18 +92,15 @@ class Partner(models.Model):
                             "ZipCode": partner.zip,
                         }
                     })
-                # r = json.loads(r)
                 partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"]
 
     def partner_update(self):
-        # Customer (PUT https://api.fortnox.se/3/customers)
         for partner in self:
             _logger.warning(
                 f"UPDATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.ref=}")
             if partner.commercial_partner_id.ref:
                 url = "https://api.fortnox.se/3/customers/%s" % partner.commercial_partner_id.ref
-                """ r = response """
-                r = self.env.user.company_id.fortnox_request(
+                self.env.user.company_id.fortnox_request(
                     'put',
                     url,
                     data={
@@ -131,12 +124,10 @@ class Partner(models.Model):
                     })
 
     def partner_get(self):
-        # Customer (PUT https://api.fortnox.se/3/customers)
         for partner in self:
             url = "https://api.fortnox.se/3/customers/"
             """ r = response """
-            r = self.env.user.company_id.fortnox_request(
+            self.env.user.company_id.fortnox_request(
                 'get',
                 url,
             )
-            # _logger.warning(f"{json.loads(r)=}")

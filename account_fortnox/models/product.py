@@ -69,21 +69,18 @@ class ProductProduct(models.Model):
             'partner': partner,
             'product': self,
         }
-        safe_eval(self.membership_code.strip(), eval_context, mode="exec",
-                  nocopy=True)  # nocopy allows to return 'action'
-        return (eval_context.get('amount', self.list_price), eval_context.get('qty', 1.0))
+        safe_eval(self.membership_code.strip(), eval_context, mode="exec", nocopy=True)
+        return eval_context.get('amount', self.list_price), eval_context.get('qty', 1.0)
 
     def article_update(self):
-        # ~ _logger.warning(f"inside article_update ")
         for product in self:
-            # ~ _logger.warning(f"{product.name=}")
             if not product.default_code:
                 raise UserError('Missing default code for product')
 
             url = "https://api.fortnox.se/3/articles/%s" % product.default_code
             r = self.env.user.company_id.fortnox_request(
                 'get', url, raise_error=False)
-            # r = json.loads(r)
+
             default_code = r.get('Article', {}).get('ArticleNumber')
             if default_code == product.default_code:
                 try:
@@ -99,7 +96,7 @@ class ProductProduct(models.Model):
                 except requests.exceptions.RequestException as e:
                     _logger.exception(f'Request error in article update: {e}')
             else:
-                r = self.env.user.company_id.fortnox_request(
+                self.env.user.company_id.fortnox_request(
                     'post',
                     'https://api.fortnox.se/3/articles',
                     data={
@@ -108,10 +105,9 @@ class ProductProduct(models.Model):
                             'ArticleNumber': product.default_code,
                         }
                     })
-            # r = json.loads(r)
 
 
-class res_partner(models.Model):
+class ResPartner(models.Model):
     _inherit = "res.partner"
 
     def create_membership_invoice(self, product, amount):
@@ -119,12 +115,10 @@ class res_partner(models.Model):
         @param datas: datas has dictionary value which consist Id of Membership product and Cost Amount of Membership.
                       datas = {'membership_product_id': None, 'amount': None}
         """
-        # ~ raise Warning(product_id,datas) 
-        invoice_list = super(res_partner, self).create_membership_invoice(product=product, amount=amount)
+        invoice_list = super(ResPartner, self).create_membership_invoice(product=product, amount=amount)
         # Add extra products
         for move in invoice_list:
             for line in move.invoice_line_ids:
-                # ~ if line.total_days == 0:
                 for member_product in line.product_id.membership_product_ids:
                     # create a record in cache, apply onchange then revert back to a dictionary
                     move_line = self.env['account.move.line'].new(
@@ -142,6 +136,4 @@ class res_partner(models.Model):
             for line in move.invoice_line_ids:
                 if line.product_id.membership_code:
                     line.price_unit, line.quantity = line.product_id.membership_get_amount_qty(move.partner_id.id)
-                    # _logger.info('Haze %s' %line.price_unit)
-                    # _logger.info('Haze %s' %str(line.product_id.membership_get_amount_qty(invoice.partner_id)))
         return invoice_list

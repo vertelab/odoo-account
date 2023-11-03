@@ -41,7 +41,7 @@
     'repository': 'https://github.com/vertelab/odoo-account',
     # Any module necessary for this one to work correctly
 
-    'depends': ['crm','membership','l10n_se'],
+    'depends': ['crm', 'membership', 'l10n_se'],
     'data': [
         'views/res_company_view.xml',
         'views/account_invoice_send_view.xml',
