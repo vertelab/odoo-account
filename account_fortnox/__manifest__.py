@@ -33,21 +33,20 @@
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_fortnox_merged',
-    'images': ['static/description/banner.png'], # 560x280 px.
+    'website': 'https://vertel.se/apps/odoo-account/account_fortnox',
+    'images': ['static/description/banner.png'],  # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     # Any module necessary for this one to work correctly
 
-    'depends': ['crm','membership','l10n_se'],
+    'depends': ['crm', 'membership', 'l10n_se'],
     'data': [
         'views/res_company_view.xml',
         'views/account_invoice_send_view.xml',
         'views/product_views.xml',
         'data/cron_jobs.xml',
-
     ],
     'sequence': 5,
     'application': False,

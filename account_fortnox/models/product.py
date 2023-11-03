@@ -13,6 +13,7 @@ from pytz import timezone
 import logging
 
 import requests
+
 _logger = logging.getLogger(__name__)
 
 # build dateutil helper, starting with the relevant *lazy* imports
@@ -20,14 +21,18 @@ import dateutil
 import base64
 import json
 
+
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    membership_product_ids = fields.Many2many(comodel_name='product.template', relation='membership_product_rel', column1='product_id',column2='member_product_id', string='Membership Products' ,domain="[('membership','=',True), ('type', '=', 'service')]")
-   
+    membership_product_ids = fields.Many2many(comodel_name='product.template', relation='membership_product_rel',
+                                              column1='product_id', column2='member_product_id',
+                                              string='Membership Products',
+                                              domain="[('membership','=',True), ('type', '=', 'service')]")
+
     # Python code
     membership_code = fields.Text(string='Python Code', groups='base.group_system',
-                       default= """# Available variables:
+                                  default="""# Available variables:
 #  - env: Odoo Environment on which the action is triggered
 #  - model: Odoo Model of the record on which the action is triggered; is a void recordset
 #  - record: record on which the action is triggered; may be void
@@ -40,8 +45,7 @@ class ProductTemplate(models.Model):
 # To return an amount and qty, assign: \n
 #        amount =  <something>
 #        qty = <something>\n\n\n\n""",
-                       help="Write Python code that holds advanced calcultations for amount and quatity")
-
+                                  help="Write Python code that holds advanced calcultations for amount and quatity")
 
 
 class ProductProduct(models.Model):
@@ -57,28 +61,26 @@ class ProductProduct(models.Model):
             'user': self.env.user,
             'time': wrap_module(time, allowed_time_attributes),
             'datetime': wrap_module(datetime, allowed_datetime_attributes),
-            'dateutil': wrap_module(dateutil, { mod: getattr(dateutil, mod).__all__ for mod in allowed_dateutil_attributes}),
+            'dateutil': wrap_module(dateutil,
+                                    {mod: getattr(dateutil, mod).__all__ for mod in allowed_dateutil_attributes}),
             'timezone': timezone,
             'b64encode': base64.b64encode,
             'b64decode': base64.b64decode,
             'partner': partner,
             'product': self,
         }
-        safe_eval(self.membership_code.strip(), eval_context, mode="exec", nocopy=True)  # nocopy allows to return 'action'
-        return (eval_context.get('amount',self.list_price),eval_context.get('qty',1.0))
-
+        safe_eval(self.membership_code.strip(), eval_context, mode="exec", nocopy=True)
+        return eval_context.get('amount', self.list_price), eval_context.get('qty', 1.0)
 
     def article_update(self):
-        # ~ _logger.warning(f"inside article_update ")
         for product in self:
-            # ~ _logger.warning(f"{product.name=}")
             if not product.default_code:
                 raise UserError('Missing default code for product')
 
             url = "https://api.fortnox.se/3/articles/%s" % product.default_code
             r = self.env.user.company_id.fortnox_request(
                 'get', url, raise_error=False)
-            r = json.loads(r)
+
             default_code = r.get('Article', {}).get('ArticleNumber')
             if default_code == product.default_code:
                 try:
@@ -89,12 +91,12 @@ class ProductProduct(models.Model):
                         data={
                             "Article": {
                                 "Description": product.name,
-                                }
+                            }
                         })
                 except requests.exceptions.RequestException as e:
                     _logger.exception(f'Request error in article update: {e}')
             else:
-                r = self.env.user.company_id.fortnox_request(
+                self.env.user.company_id.fortnox_request(
                     'post',
                     'https://api.fortnox.se/3/articles',
                     data={
@@ -103,38 +105,35 @@ class ProductProduct(models.Model):
                             'ArticleNumber': product.default_code,
                         }
                     })
-            r = json.loads(r)
 
-class res_partner(models.Model):
+
+class ResPartner(models.Model):
     _inherit = "res.partner"
-       
+
     def create_membership_invoice(self, product, amount):
         """ Create Customer Invoice of Membership for partners.
         @param datas: datas has dictionary value which consist Id of Membership product and Cost Amount of Membership.
                       datas = {'membership_product_id': None, 'amount': None}
         """
-        # ~ raise Warning(product_id,datas) 
-        invoice_list = super(res_partner,self).create_membership_invoice(product=product,amount=amount)
+        invoice_list = super(ResPartner, self).create_membership_invoice(product=product, amount=amount)
         # Add extra products
         for move in invoice_list:
             for line in move.invoice_line_ids:
-                # ~ if line.total_days == 0:
                 for member_product in line.product_id.membership_product_ids:
                     # create a record in cache, apply onchange then revert back to a dictionary
-                    move_line = self.env['account.move.line'].new({'product_id': member_product.id,'price_unit': member_product.lst_price,'move_id': move.id})
+                    move_line = self.env['account.move.line'].new(
+                        {'product_id': member_product.id, 'price_unit': member_product.lst_price, 'move_id': move.id})
                     move_line._onchange_product_id()
                     line_values = move_line._convert_to_write({name: move_line[name] for name in move_line._cache})
                     line_values['name'] = member_product.name
-                    line_values['account_id'] = member_product.property_account_income_id.id if member_product.property_account_income_id else self.env['account.account'].search([('user_type_id','=',self.env.ref('account.data_account_type_revenue').id)])[0].id 
-                    move.write({'invoice_line_ids': [(0,0,line_values)]})
+                    line_values[
+                        'account_id'] = member_product.property_account_income_id.id if member_product.property_account_income_id else \
+                    self.env['account.account'].search(
+                        [('user_type_id', '=', self.env.ref('account.data_account_type_revenue').id)])[0].id
+                    move.write({'invoice_line_ids': [(0, 0, line_values)]})
         # Calculate amount and qty
         for move in invoice_list:
             for line in move.invoice_line_ids:
                 if line.product_id.membership_code:
-                    line.price_unit,line.quantity = line.product_id.membership_get_amount_qty(move.partner_id.id)
-                    #_logger.info('Haze %s' %line.price_unit)
-                    #_logger.info('Haze %s' %str(line.product_id.membership_get_amount_qty(invoice.partner_id)))
+                    line.price_unit, line.quantity = line.product_id.membership_get_amount_qty(move.partner_id.id)
         return invoice_list
-
-
-    
