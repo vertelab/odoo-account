@@ -44,7 +44,6 @@ class AccountInvoice(models.Model):
         self.state = 'posted'
 
     def update_invoice_status_fortnox_paid(self, fortnox_values):
-        print(fortnox_values)
         final_pay_date_string = fortnox_values.get('FinalPayDate')
         final_pay_date = datetime.strptime(final_pay_date_string, '%Y-%m-%d').date()
         fortnox_journal = self.env['account.journal'].search([('name', 'like', 'fortnox'), ('type', '=', 'bank')])
