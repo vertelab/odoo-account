@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+        <record id="account_invoice_form_inherit" model="ir.ui.view" >
+            <field name="name">account_invoice_form_inherit_fortnox</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <button name="preview_invoice" position="after">
+                    <button name="action_invoice_cancel" type="object" string="Cancel"/>
+                </button>
+
+                <xpath expr="//page[@name='other_info']" position="after">
+                    <page string="Fortnox">
+                        <group>
+                            <field name="fortnox_response"/>
+                            <field name="fortnox_status"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_journal_form_inherit" model="ir.ui.view" >
+            <field name="name">account_journal_form_inherit_fortnox</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="refund_sequence" position="after">
+                    <field name="update_posted"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

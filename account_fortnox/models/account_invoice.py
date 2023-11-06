@@ -20,6 +20,21 @@ class AccountInvoice(models.Model):
     fortnox_response = fields.Char(string="Fortnox Response", readonly=True)
     fortnox_status = fields.Char(string="Fortnox Status", readonly=True)
 
+    def action_invoice_cancel(self):
+        self.move_id.button_cancel()
+        fortnox_resp = self.company_id.fortnox_request(
+            "PUT",
+            f"{BASE_URL}/3/invoices/{self.id}/cancel"
+        )
+        print(fortnox_resp)
+        return self.filtered(lambda inv: inv.state != 'cancel').action_cancel()
+
+    # def _cancel_invoice_on_fortnox(self):
+    #     self.company_id.fortnox_request(
+    #         "get",
+    #         f"{BASE_URL}/3/invoices/{self.id}/cancel"
+    #     )
+
     def remove_zero_cost_lines(self):
         """
         SFM does not want products with 0 cost to show on the invoice.
@@ -146,7 +161,7 @@ class AccountInvoice(models.Model):
         invoice.is_move_sent = True
 
     def fortnox_create(self, invoice):
-        if not invoice.invoice_date_due:
+        if not invoice.date_due:
             raise UserError(_("ERROR: missing date_due on invoice."))
         if not invoice.partner_id.commercial_partner_id.ref:
             invoice.partner_id.partner_create()
@@ -169,7 +184,7 @@ class AccountInvoice(models.Model):
                     "Description": line_name,
                     "ArticleNumber": line.product_id.default_code if line.product_id else None,
                     "Price": line.price_unit,
-                    "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else None,
+                    "VAT": int(line.invoice_line_tax_ids.mapped('amount')[0]) if len(line.invoice_line_tax_ids) > 0 else None,
                 })
 
         r = self.company_id.fortnox_request(
@@ -180,9 +195,9 @@ class AccountInvoice(models.Model):
                 "Currency": "SEK",
                 "CustomerName": invoice.partner_id.commercial_partner_id.name,
                 "CustomerNumber": invoice.partner_id.commercial_partner_id.ref,
-                "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
+                "DueDate": invoice.date_due.strftime('%Y-%m-%d'),
                 "DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
-                "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
+                "InvoiceDate": invoice.date_invoice.strftime('%Y-%m-%d') if invoice.date_invoice else fields.Date.today().strftime('%Y-%m-%d'),
                 "InvoiceRows": invoice_lines,
                 "InvoiceType": "INVOICE",
                 "Language": "SV",

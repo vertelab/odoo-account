@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models 
+from odoo import api, fields, models
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 import requests
 import json
@@ -26,12 +26,12 @@ class ResConfigSettings(models.TransientModel):
     @api.multi
     def set_values(self):
         super(ResConfigSettings, self).set_values()
-    
+
     @api.multi
-    def fortnox_get_access_token(self):  
+    def fortnox_get_access_token(self):
         Access_token=self.env['ir.config_parameter'].sudo().get_param('fortnox.access.token')
         if not Access_token:
-            Authorization_code=self.env['ir.config_parameter'].sudo().get_param('fortnox.authorization.code') 
+            Authorization_code=self.env['ir.config_parameter'].sudo().get_param('fortnox.authorization.code')
             if not Authorization_code:
                 raise Warning("You have to set up Authorization_token for FortNox, you get that when you activate Odoo in your FortNox-account")
             Client_secret=self.env['ir.config_parameter'].sudo().get_param('fortnox.client.secret')

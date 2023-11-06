@@ -41,20 +41,6 @@
         </field>
     </record>
 
-    <record id="account_invoice_form_inherit" model="ir.ui.view" >
-        <field name="name">account_invoice_form_inherit_fortnox</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//page[@name='other_info']" position="after">
-                <page string="Fortnox">
-                    <group>
-                        <field name="fortnox_response"/>
-                        <field name="fortnox_status"/>
-                    </group>
-                </page>
-            </xpath>
-        </field>
-    </record>
+
     
 </odoo>
