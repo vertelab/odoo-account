@@ -1,5 +1,11 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_membership_membership_line_partner_manager,membership.membership_line partner_manager,model_membership_membership_line,base.group_partner_manager,1,1,1,1
+access_membership_membership_line,membership.membership_line,model_membership_membership_line,,1,0,0,0
+access_report_membership,report.membership,model_report_membership,base.group_partner_manager,1,0,0,0
+access_membership_membership_line_partner_manager,membership.membership_line partner_manager,model_membership_membership_line,base.group_partner_manager,1,1,1,1
+access_membership_membership_line,membership.membership_line,model_membership_membership_line,,1,0,0,0
+access_report_membership,report.membership,model_report_membership,base.group_partner_manager,1,0,0,0
+access_membership_code,membership.membership_code,model_membership_code,,1,1,1,1
 access_insurance_permission,access_insurance_permission,model_insurance_permission,,1,1,1,1
 access_insurance_license,access_insurance_license,model_insurance_license,,1,1,1,1
 access_insurance_role,access_insurance_role,model_insurance_role,,1,1,1,1
-
