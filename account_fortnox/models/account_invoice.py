@@ -22,18 +22,11 @@ class AccountInvoice(models.Model):
 
     def action_invoice_cancel(self):
         self.move_id.button_cancel()
-        fortnox_resp = self.company_id.fortnox_request(
+        self.company_id.fortnox_request(
             "PUT",
             f"{BASE_URL}/3/invoices/{self.id}/cancel"
         )
-        print(fortnox_resp)
         return self.filtered(lambda inv: inv.state != 'cancel').action_cancel()
-
-    # def _cancel_invoice_on_fortnox(self):
-    #     self.company_id.fortnox_request(
-    #         "get",
-    #         f"{BASE_URL}/3/invoices/{self.id}/cancel"
-    #     )
 
     def remove_zero_cost_lines(self):
         """
