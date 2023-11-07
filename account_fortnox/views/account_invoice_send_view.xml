@@ -3,8 +3,6 @@
     Copyright 2020 Vertel
     License AGPL-3.0 or later (http://www.vertel.se).
 -->
-
-
 <odoo>
     <record id="account_invoice_send_inherit_account_wizard_form_fortnox" model="ir.ui.view" >
         <field name="name">account.invoice.send.form.inherited.fortnox</field>
@@ -31,16 +29,8 @@
                 <attribute name="attrs">{'invisible': True}</attribute>
             </field>
             <footer>
-<!--
-                <button string="Send "
-                    attrs="{'invisible': [('is_fortnox', '=', False)]}"
-                    name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
--->
                 <button string="Send" name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
             </footer>
         </field>
     </record>
-
-
-    
 </odoo>

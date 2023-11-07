@@ -46,7 +46,6 @@
         'views/res_company_view.xml',
         'views/account_invoice_send_view.xml',
         'views/account_invoice_view.xml',
-        'views/product_views.xml',
         'data/cron_jobs.xml',
     ],
     'sequence': 5,
