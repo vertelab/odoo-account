@@ -24,7 +24,7 @@ class FortnoxController(http.Controller):
         elif 'code' in kw:
             _logger.warning(f"{kw=}")
             auth_code = kw['code']
-            company = http.request.env.user.company_id:
+            company = http.request.env.user.company_id
             company.fortnox_access_token = False
             company.fortnox_refresh_token = False
             company.fortnox_authorization_code = auth_code
