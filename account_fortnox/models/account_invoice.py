@@ -129,7 +129,7 @@ class AccountInvoice(models.Model):
     def sync_fortnox(self):
         invoice_id = self.env['account.move'].browse(self.id)
 
-        fortnox_res = self.company_id.fortnox_request(
+        fortnox_res = invoice_id.company_id.fortnox_request(
             "get",
             f"{BASE_URL}/3/invoices/{invoice_id.id}"
         )
@@ -149,9 +149,9 @@ class AccountInvoice(models.Model):
         if not invoice.invoice_date_due:
             raise UserError(_("ERROR: missing date_due on invoice."))
         if not invoice.partner_id.commercial_partner_id.ref:
-            invoice.partner_id.partner_create()
+            invoice.partner_id.partner_create(invoice.company_id)
         if invoice.partner_id.commercial_partner_id.ref:
-            invoice.partner_id.partner_update()
+            invoice.partner_id.partner_update(invoice.company_id)
 
         invoice_lines = []
 
@@ -161,7 +161,7 @@ class AccountInvoice(models.Model):
                     if len(line.name.split(' ')) == 2 \
                     else line.name.replace('[', '').replace(']', '').strip(' ')
 
-                line.product_id.article_update()
+                line.product_id.article_update(invoice.company_id)
 
                 invoice_lines.append({
                     "AccountNumber": line.account_id.code,
@@ -195,6 +195,22 @@ class AccountInvoice(models.Model):
                 body='Error Creating Invoice Fortnox %s ' % r['ErrorInformation']['message'],
                 subject='Fortnox Error'
             )
+            data = {"Invoice": {
+                "Comments": "",
+                "Currency": "SEK",
+                "CustomerName": invoice.partner_id.commercial_partner_id.name,
+                "CustomerNumber": invoice.partner_id.commercial_partner_id.ref,
+                "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
+                "DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
+                "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
+                "InvoiceRows": invoice_lines,
+                "InvoiceType": "INVOICE",
+                "Language": "SV",
+                "Remarks": "",
+            }}
+
+            _logger.warning(f"{data=}")
+            _logger.warning(f"{self.company_id.name=}")
             _logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
         else:
             invoice.ref = r["Invoice"]["CustomerNumber"]
