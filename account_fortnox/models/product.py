@@ -76,7 +76,6 @@ class ProductProduct(models.Model):
         _logger.warning(f"{company_id=}")
         for product in self:
             if not product.default_code:
-                _logger.warning(f"{product=}")
                 res = company_id.fortnox_request(
                     'post',
                     'https://api.fortnox.se/3/articles',

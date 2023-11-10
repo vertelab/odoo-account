@@ -72,7 +72,6 @@ class Partner(models.Model):
                 f"CREATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.ref=}")
             if not partner.commercial_partner_id.ref:
                 url = "https://api.fortnox.se/3/customers"
-                _logger.warning(f"{company_id=}")
                 r = company_id.fortnox_request(
                     'post',
                     url,

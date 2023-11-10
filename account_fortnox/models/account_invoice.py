@@ -49,8 +49,6 @@ class AccountInvoice(models.Model):
 
     def update_invoice_status_fortnox_paid(self, fortnox_values):
         final_pay_date_string = fortnox_values.get('FinalPayDate')
-        _logger.warning("update_invoice_status_fortnox_paid"*100)
-        _logger.warning(f"{fortnox_values=}")
         if not final_pay_date_string:
            final_pay_date_string = fortnox_values.get('OutboundDate')
         final_pay_date = datetime.strptime(final_pay_date_string, '%Y-%m-%d').date()
@@ -82,7 +80,6 @@ class AccountInvoice(models.Model):
             payment_id.action_create_payments()
 
     def _reverse_invoice(self, invoice_id, credit_invoice_ref, company_id):
-        _logger.warning(f"_reverse_invoice"*100)
         # Refund the invoice
         wiz_context = {
             'active_model': 'account.move',
@@ -100,11 +97,7 @@ class AccountInvoice(models.Model):
         refund_invoice.fortnox_response = company_id.fortnox_request(
             "GET", f"{BASE_URL}/3/invoices/{credit_invoice_ref}"
         )
-        #refund_invoice_wiz.reverse_moves()
 
-        #(invoice_id + refund_invoice).line_ids \
-        #    .filtered(lambda line: line.account_id.account_type in ('asset_receivable', 'liability_payable')) \
-        #    .reconcile()
 
     def update_invoice_status_fortnox_cron(self):
         from_date = datetime.now() - timedelta(days=365)
@@ -205,22 +198,6 @@ class AccountInvoice(models.Model):
                 body='Error Creating Invoice Fortnox %s ' % r['ErrorInformation']['message'],
                 subject='Fortnox Error'
             )
-            data = {"Invoice": {
-                "Comments": "",
-                "Currency": "SEK",
-                "CustomerName": invoice.partner_id.commercial_partner_id.name,
-                "CustomerNumber": invoice.partner_id.commercial_partner_id.ref,
-                "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
-                "DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
-                "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
-                "InvoiceRows": invoice_lines,
-                "InvoiceType": "INVOICE",
-                "Language": "SV",
-                "Remarks": "",
-            }}
-
-            _logger.warning(f"{data=}")
-            _logger.warning(f"{self.company_id.name=}")
             _logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
         else:
             invoice.ref = r["Invoice"]["CustomerNumber"]
