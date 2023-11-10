@@ -1,0 +1,18 @@
+<odoo>
+   <data>
+   <record id="view_account_journal_tree_inherit2" model="ir.ui.view">
+        <field name="name">view_account_journal_tree_inherit2</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="fornox_name" string="Fortnox Settings" attrs="{'invisible': [('type', '!=', 'bank')]}">
+                    <group>
+                        <field name="is_fortnox_journal"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+   </data>
+</odoo>

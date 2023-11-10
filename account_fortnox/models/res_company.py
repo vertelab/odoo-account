@@ -154,17 +154,17 @@ class ResCompany(models.Model):
                 auth_rec = json.loads(r.content)
                 _logger.warning(f"{auth_rec=}")
 
-                for company in self.env.user.company_ids:
-                    company.fortnox_access_token = auth_rec.get('access_token')
-                    company.fortnox_refresh_token = auth_rec.get('refresh_token')
-                    company.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
+                
+                self.fortnox_access_token = auth_rec.get('access_token')
+                self.fortnox_refresh_token = auth_rec.get('refresh_token')
+                self.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
             except requests.exceptions.RequestException as e:
                 raise UserError('HTTP Request failed %s' % e)
         else:
             raise UserError('Access Token already fetched')
 
     def fortnox_refresh_access_token(self):
-        company = self.env.user.company_id
+        company = self
         try:
             credentials_encoded = f"{company.fortnox_client_id}:{company.fortnox_client_secret}".encode("utf-8")
             credentials_b64encoded = base64.b64encode(credentials_encoded).decode("utf-8")
@@ -185,10 +185,9 @@ class ResCompany(models.Model):
                                 f'Content:{r.content}')
             auth_rec = json.loads(r.content)
 
-            for company in self.env.user.company_ids:
-                company.fortnox_access_token = auth_rec.get('access_token')
-                company.fortnox_refresh_token = auth_rec.get('refresh_token')
-                company.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
+            company.fortnox_access_token = auth_rec.get('access_token')
+            company.fortnox_refresh_token = auth_rec.get('refresh_token')
+            company.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
 
         except requests.exceptions.RequestException as e:
             raise UserError('HTTP Request failed %s' % e)

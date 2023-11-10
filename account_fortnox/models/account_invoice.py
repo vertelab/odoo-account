@@ -13,6 +13,10 @@ _logger = logging.getLogger(__name__)
 
 BASE_URL = 'https://api.fortnox.se'
 
+class AccountJournal(models.Model):
+    _inherit = "account.journal"
+    is_fortnox_journal = fields.Boolean(string="Is Fortnox Journal")
+
 
 class AccountInvoice(models.Model):
     _inherit = "account.move"
@@ -44,18 +48,19 @@ class AccountInvoice(models.Model):
         self.state = 'posted'
 
     def update_invoice_status_fortnox_paid(self, fortnox_values):
-        print(fortnox_values)
         final_pay_date_string = fortnox_values.get('FinalPayDate')
+        if not final_pay_date_string:
+           final_pay_date_string = fortnox_values.get('OutboundDate')
         final_pay_date = datetime.strptime(final_pay_date_string, '%Y-%m-%d').date()
-        fortnox_journal = self.env['account.journal'].search([('name', 'like', 'fortnox'), ('type', '=', 'bank')])
+        fortnox_journal = self.env['account.journal'].search([('company_id','=',self.company_id.id),('is_fortnox_journal', '=', True), ('type', '=', 'bank')])
 
         if not fortnox_journal:
             raise UserError(
-                "No valid Journal found. Create a journal called something containing fortnox and of the type bank.")
+                "No valid Journal found. Create a journal of type bank with is fortnox journal set to true.")
         elif len(fortnox_journal) > 1:
             raise UserError(
                 "More than one valid journal found for fortnox. Make sure there is only one journal of the type Bank "
-                "with fortnox in its name.")
+                "with is fortnox journal set to true.")
         for rec in self:
             payment_register_params = dict(
                 amount=rec.amount_residual,
@@ -130,7 +135,7 @@ class AccountInvoice(models.Model):
     def sync_fortnox(self):
         invoice_id = self.env['account.move'].browse(self.id)
 
-        fortnox_res = self.company_id.fortnox_request(
+        fortnox_res = invoice_id.company_id.fortnox_request(
             "get",
             f"{BASE_URL}/3/invoices/{invoice_id.id}"
         )
@@ -150,9 +155,9 @@ class AccountInvoice(models.Model):
         if not invoice.invoice_date_due:
             raise UserError(_("ERROR: missing date_due on invoice."))
         if not invoice.partner_id.commercial_partner_id.ref:
-            invoice.partner_id.partner_create()
+            invoice.partner_id.partner_create(invoice.company_id)
         if invoice.partner_id.commercial_partner_id.ref:
-            invoice.partner_id.partner_update()
+            invoice.partner_id.partner_update(invoice.company_id)
 
         invoice_lines = []
 
@@ -162,7 +167,7 @@ class AccountInvoice(models.Model):
                     if len(line.name.split(' ')) == 2 \
                     else line.name.replace('[', '').replace(']', '').strip(' ')
 
-                line.product_id.article_update()
+                line.product_id.article_update(invoice.company_id)
 
                 invoice_lines.append({
                     "AccountNumber": line.account_id.code,
