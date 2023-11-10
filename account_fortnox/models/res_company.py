@@ -120,48 +120,50 @@ class ResCompany(models.Model):
         return
 
     def fortnox_get_access_token(self):
-        if not self.fortnox_access_token:
-            if not self.fortnox_authorization_code:
-                raise UserError(
-                    "You have to set up Authorization_token for FortNox, you get that when you activate Odoo in your "
-                    "FortNox-account")
-            if not self.fortnox_client_secret:
-                raise UserError(
-                    "You have to set up Client_secret for FortNox, you get that when you activate Odoo in your "
-                    "FortNox-account")
-            if not self.fortnox_client_id:
-                raise UserError("You have to supply the client ID of the integration")
-            try:
-                base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
-                credentials_encoded = f"{self.fortnox_client_id}:{self.fortnox_client_secret}".encode("utf-8")
-                credentials_b64encoded = base64.b64encode(credentials_encoded).decode("utf-8")
-                r = requests.post(
-                    url="https://apps.fortnox.se/oauth-v1/token",
-                    headers={
-                        "Content-Type": "application/x-www-form-urlencoded",
-                        "Authorization": f"Basic {credentials_b64encoded}",
-                    },
-                    data={
-                        'grant_type': 'authorization_code',
-                        'code': self.fortnox_authorization_code,
-                        'redirect_uri': f"{base_url}/fortnox/auth"
-                    }
-                )
+        try:
+            if not self.fortnox_access_token:
+                if not self.fortnox_authorization_code:
+                    raise UserError(
+                        "You have to set up Authorization_token for FortNox, you get that when you activate Odoo in your "
+                        "FortNox-account")
+                if not self.fortnox_client_secret:
+                    raise UserError(
+                        "You have to set up Client_secret for FortNox, you get that when you activate Odoo in your "
+                        "FortNox-account")
+                if not self.fortnox_client_id:
+                    raise UserError("You have to supply the client ID of the integration")
+                try:
+                    base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+                    credentials_encoded = f"{self.fortnox_client_id}:{self.fortnox_client_secret}".encode("utf-8")
+                    credentials_b64encoded = base64.b64encode(credentials_encoded).decode("utf-8")
+                    r = requests.post(
+                        url="https://apps.fortnox.se/oauth-v1/token",
+                        headers={
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "Authorization": f"Basic {credentials_b64encoded}",
+                        },
+                        data={
+                            'grant_type': 'authorization_code',
+                            'code': self.fortnox_authorization_code,
+                            'redirect_uri': f"{base_url}/fortnox/auth"
+                        }
+                    )
 
-                if r.status_code not in (200, 201, 204):
-                    raise UserError(f'FortNox: StatusCode:{r.status_code}, \n'
-                                    f'Content:{r.content}')
-                auth_rec = json.loads(r.content)
-                _logger.warning(f"{auth_rec=}")
+                    if r.status_code not in (200, 201, 204):
+                        raise UserError(f'FortNox: StatusCode:{r.status_code}, \n'
+                                        f'Content:{r.content}')
+                    auth_rec = json.loads(r.content)
+                    _logger.warning(f"{auth_rec=}")
 
-                
-                self.fortnox_access_token = auth_rec.get('access_token')
-                self.fortnox_refresh_token = auth_rec.get('refresh_token')
-                self.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
-            except requests.exceptions.RequestException as e:
-                raise UserError('HTTP Request failed %s' % e)
-        else:
-            raise UserError('Access Token already fetched')
+                    self.fortnox_access_token = auth_rec.get('access_token')
+                    self.fortnox_refresh_token = auth_rec.get('refresh_token')
+                    self.fortnox_token_expiration = datetime.now() + timedelta(minutes=59)
+                except requests.exceptions.RequestException as e:
+                    raise UserError('HTTP Request failed %s' % e)
+            else:
+                raise UserError('Access Token already fetched')
+        except Exception as e:
+            _logger.warning(f"{e}")
 
     def fortnox_refresh_access_token(self):
         company = self
