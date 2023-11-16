@@ -23,6 +23,7 @@ class AccountInvoice(models.Model):
 
     fortnox_response = fields.Char(string="Fortnox Response", readonly=True)
     fortnox_status = fields.Char(string="Fortnox Status", readonly=True)
+    is_sent_to_fortnox = fields.Boolean(string="Sent To Fortnox", readonly=True)
 
     def remove_zero_cost_lines(self):
         """
@@ -133,18 +134,19 @@ class AccountInvoice(models.Model):
                 invoice.fortnox_response = fortnox_res
 
     def sync_fortnox(self):
+        self.ensure_one()
         invoice_id = self.env['account.move'].browse(self.id)
-
+        invoice_id.is_sent_to_fortnox = True
         fortnox_res = invoice_id.company_id.fortnox_request(
             "get",
             f"{BASE_URL}/3/invoices/{invoice_id.id}"
         )
-
         if fortnox_invoice := fortnox_res.get('Invoice'):
             self.fortnox_update(invoice_id, fortnox_invoice)
         elif fortnox_res.get('ErrorInformation', {}).get('Code') == 2000434:
             self.fortnox_create(invoice_id)
-
+        else:
+            raise UserError(f"There is an issue with the fortnox connection. Contact administrator ({fortnox_res=})")
     def fortnox_update(self, invoice, fortnox_invoice):
         invoice.ref = fortnox_invoice["CustomerNumber"]
         invoice.name = fortnox_invoice["DocumentNumber"]
