@@ -1,13 +1,27 @@
 <odoo>
-    <template id="account.onboarding_fiscal_year_step">
-        <t t-call="base.onboarding_step">
-            <t t-set="title">Accounting Periods</t>
-            <t t-set="description">Define your fiscal years &amp; tax returns periodicity.</t>
-            <t t-set="btn_text">Configure</t>
-            <t t-set="done_text">Step Completed!</t>
-            <t t-set="method" t-value="'setting_init_fiscal_year_action'" />
-            <t t-set="model" t-value="'res.company'" />
-            <t t-set="state" t-value="state.get('account_setup_fy_data_state')" />
-        </t>
-    </template>
+    <data>
+        <record id="account.onboarding_onboarding_step_fiscal_year" model="onboarding.onboarding.step">
+            <field name="title">Accounting Periods</field>
+            <field name="description">Define your fiscal years &amp; tax returns periodicity.</field>
+            <field name="button_text">Configure</field>
+            <field name="done_text">Step completed!</field>
+            <field name="panel_step_open_action_name">setting_init_fiscal_year_action</field>
+            <field name="step_image" type="base64" file="base/static/img/onboarding_accounting-periods.png"></field>
+            <field name="step_image_filename">onboarding_accounting-periods.png</field>
+            <field name="step_image_alt">Onboarding Accounting Periods</field>
+            <field name="sequence">1</field>
+        </record>
+
+<!--        <template id="account.onboarding_fiscal_year_step">-->
+<!--            <t t-call="base.onboarding_step">-->
+<!--                <t t-set="title">Accounting Periods</t>-->
+<!--                <t t-set="description">Define your fiscal years &amp; tax returns periodicity.</t>-->
+<!--                <t t-set="btn_text">Configure</t>-->
+<!--                <t t-set="done_text">Step Completed!</t>-->
+<!--                <t t-set="method" t-value="'setting_init_fiscal_year_action'" />-->
+<!--                <t t-set="model" t-value="'res.company'" />-->
+<!--                <t t-set="state" t-value="state.get('account_setup_fy_data_state')" />-->
+<!--            </t>-->
+<!--        </template>-->
+    </data>
 </odoo>

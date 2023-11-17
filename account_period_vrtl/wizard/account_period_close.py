@@ -22,7 +22,6 @@ from odoo import api, fields, models, _
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import Warning
 
 import logging
 _logger = logging.getLogger(__name__)

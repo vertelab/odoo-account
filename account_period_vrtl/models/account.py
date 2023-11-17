@@ -22,7 +22,7 @@ from odoo import api, fields, models, _, exceptions
 from odoo.osv import expression
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError, ValidationError, Warning
+from odoo.exceptions import UserError, ValidationError
 
 import logging
 
@@ -51,8 +51,7 @@ class AccountPeriod(models.Model):
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', size=12)
     special = fields.Boolean(string='Opening/Closing Period', help='These periods can overlap.')
-    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', required=True,
-                                    states={'done': [('readonly', True)]}, index=True)
+    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', string='Fiscal Year', required=True, index=True)
     state = fields.Selection([('draft', 'Open'), ('done', 'Closed')], string='Status', readonly=True, copy=False,
                              help='When monthly periods are created. The status is \'Draft\'. At the end of monthly '
                                   'period it is in \'Done\' status.', default='draft')
@@ -284,11 +283,11 @@ class AccountFiscalyear(models.Model):
     def default_date_stop(self):
         return '%s-12-31' % fields.Date.today().strftime('%Y')
 
-    @api.model
-    def create(self, vals):
-        res = super(AccountFiscalyear, self).create(vals)
-        self.env.company.sudo().set_onboarding_step_done('account_setup_fy_data_state')
-        return res
+    # @api.model_create_multi
+    # def create(self, vals):
+    #     res = super(AccountFiscalyear, self).create(vals)
+    #     self.env.company.sudo().set_onboarding_step_done('account_setup_fy_data_state')
+    #     return res
 
     name = fields.Char(string='Fiscal Year', required=True)
     code = fields.Char(string='Code', size=6, required=True)
@@ -305,10 +304,10 @@ class AccountFiscalyear(models.Model):
             return False
         return True
 
-    _constraints = [
-        (_check_duration, 'Error!\nThe start date of a fiscal year must precede its end date.',
-         ['date_start', 'date_stop'])
-    ]
+    @api.constrains
+    def _check_duration(self):
+        if self.date_start > self.date_stop:
+            raise UserError('Error!\nThe start date of a fiscal year must precede its end date.')
 
     def _set_state(self):
         for record in self:
@@ -519,7 +518,7 @@ class AccountMove(models.Model):
 
     period_id = fields.Many2one(
         comodel_name='account.period', string='Period', default=_get_default_period_id,
-        required=True, states={'posted': [('readonly', True)]}, domain=_set_period_domain)
+        required=True, domain=_set_period_domain)
 
     payment_period_id = fields.Many2one(store=True, comodel_name='account.period', string='Payment Invoice Period',
                                         compute="_set_period_from_payment", readonly=True)

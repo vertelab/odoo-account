@@ -8,8 +8,8 @@
             <field name="arch" type="xml">
                 <form string="Fiscal year">
                     <header>
-                        <button name="create_period1" states="draft" string="Create Monthly Periods" type="object" class="oe_highlight" />
-                        <button name="create_period3" states="draft" string="Create 3 Months Periods" type="object" class="oe_highlight" />
+                        <button name="create_period1" invisible="state != 'draft'" string="Create Monthly Periods" type="object" class="oe_highlight" />
+                        <button name="create_period3" invisible="state != 'draft'" string="Create 3 Months Periods" type="object" class="oe_highlight" />
                         <field name="state" widget="statusbar" nolabel="1" />
                     </header>
                     <group>
@@ -47,8 +47,8 @@
                     <field name="name" />
                     <field name="company_id" groups="base.group_multi_company" />
                     <field name="state" />
-                    <button name="action_draft" states="done" string="Re-Open Fiscalyear" type="object" groups="account.group_account_manager" />
-                    <button string="Close Fiscal Year" name="%(account_period_vrtl.action_account_fiscalyear_close)d" type="action" class="oe_highlight" states="draft"/>
+                    <button name="action_draft" invisible="state == 'done'" string="Re-Open Fiscalyear" type="object" groups="account.group_account_manager" />
+                    <button string="Close Fiscal Year" name="%(account_period_vrtl.action_account_fiscalyear_close)d" type="action" class="oe_highlight" invisible="state != 'draft'"/>
                 </tree>
             </field>
         </record>
@@ -97,15 +97,15 @@
             <field name="arch" type="xml">
                 <form string="Account Period">
                     <header>
-                        <button string="Close Period" name="%(account_period_vrtl.action_account_period_close)d" type="action" class="oe_highlight" states="draft" />
-                        <button name="action_draft" states="done" string="Re-Open Period" type="object" groups="account.group_account_manager" />
+                        <button string="Close Period" name="%(account_period_vrtl.action_account_period_close)d" type="action" class="oe_highlight" invisible="state != 'draft'" />
+                        <button name="action_draft" invisible="state == 'done'" string="Re-Open Period" type="object" groups="account.group_account_manager" />
                         <field name="state" widget="statusbar" nolabel="1" />
                     </header>
                     <sheet>
                         <group>
                             <group>
                                 <field name="name" />
-                                <field name="fiscalyear_id" widget="selection" />
+                                <field name="fiscalyear_id" widget="selection" readonly="state == 'done'"/>
                                 <label for="date_start" string="Duration" />
                                 <div>
                                     <field name="date_start" class="oe_inline" nolabel="1" />
@@ -135,8 +135,8 @@
                     <field name="special" />
                     <field name="company_id" groups="base.group_multi_company" />
                     <field name="state" />
-                    <button string="Close Period" name="%(account_period_vrtl.action_account_period_close)d" type="action" class="oe_highlight" states="draft"/>
-                    <button name="action_draft" states="done" string="Re-Open Period" type="object" groups="account.group_account_manager"/>
+                    <button string="Close Period" name="%(account_period_vrtl.action_account_period_close)d" type="action" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_draft" invisible="state == 'done'" string="Re-Open Period" type="object" groups="account.group_account_manager"/>
                 </tree>
             </field>
         </record>
@@ -205,10 +205,12 @@
                     <field name="invoicing_date_warning" invisible="1"/>
                 </xpath>
                 <xpath expr="(//button[@name='action_post'])[1]" position="attributes">
-                    <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'entry'), ('invoicing_date_warning', '=', True)]}</attribute>
+                    <attribute name="invisible">state != 'draft' or auto_post or move_type != 'entry' or invoicing_date_warning</attribute>
+<!--                    <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'entry'), ('invoicing_date_warning', '=', True)]}</attribute>-->
                 </xpath>
                 <xpath expr="(//button[@name='action_post'])[2]" position="attributes">
-                    <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '=', 'entry'), ('invoicing_date_warning', '=', True)]}</attribute>
+                    <attribute name="invisible">state != 'draft' or auto_post or move_type != 'entry' or invoicing_date_warning</attribute>
+<!--                    <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '=', 'entry'), ('invoicing_date_warning', '=', True)]}</attribute>-->
                 </xpath>
                 <!-- <xpath expr="(//button[@name='action_post'])[1]" position="after">
                  <button name="action_post" string="Post" class="oe_highlight"
@@ -218,10 +220,12 @@
                 <xpath expr="(//button[@name='action_post'])[2]" position="after">
                     <button name="action_post" string="Post" class="oe_highlight"
                             type="object" groups="account.group_account_invoice" confirm="The date is outside the period date. Do you want to still want post the invoice?"
-                            attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'entry'), ('invoicing_date_warning', '=', False)]}"/>
+                            invisible="state != 'draft' or auto_post or move_type != 'entry' or not invoicing_date_warning"/>
+<!--                            attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '!=', 'entry'), ('invoicing_date_warning', '=', False)]}"-->
                     <button name="action_post" string="Confirm" class="oe_highlight"
                             type="object" groups="account.group_account_invoice" confirm="The date is outside the period date. Do you want to still want post the invoice?"
-                            attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '=', 'entry'), ('invoicing_date_warning', '=', False)]}"/>
+                            invisible="state != 'draft' or auto_post or move_type != 'entry' or not invoicing_date_warning"/>
+<!--                            attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True), ('move_type', '=', 'entry'), ('invoicing_date_warning', '=', False)]}"/>-->
                 </xpath>
                 <!--
                         <field name="ref" position="after">
@@ -232,7 +236,7 @@
                     <attribute name="invisible">1</attribute>
                 </field>
                 <notebook position="inside">
-                    <page id="payment_done_tab" string="Payment" attrs="{'invisible': [('payment_state', '!=', 'paid')]}">
+                    <page id="payment_done_tab" string="Payment" invisible="payment_state != 'paid'">
                         <group id="payment_done_group" col="1">
                             <field name="payment_period_id"/>
                             <field name="payment_state"/>
@@ -250,7 +254,7 @@
             <field name="inherit_id" ref="account.view_move_tree" />
             <field name="arch" type="xml">
                 <field name="date" position="before">
-                    <field name="period_id" />
+                    <field name="period_id" readonly="state == 'posted'"/>
                 </field>
             </field>
         </record>
