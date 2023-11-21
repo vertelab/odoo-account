@@ -1,0 +1,73 @@
+<odoo>
+    <data>
+        <record id="mis_report_instance_form_inherit" model="ir.ui.view">
+            <field name="name">mis_report_instance_form_inherit</field>
+            <field name="model">mis.report.instance</field>
+            <field name="inherit_id" ref="mis_builder.mis_report_instance_view_form"/>
+            <field name="arch" type="xml">
+                <sheet position="before">
+                    <header>
+                       <button name="do_confirm" string="Confirm" type="object" class="oe_highlight" states="draft" />y
+                       <button name="do_draft" string="Draft" type="object" class="oe_highlight" states="done,confirmed,canceled" />
+                       <button name="do_done" string="Done" type="object" class="oe_highlight" states="confirmed" />
+                       <button name="do_cancel" string="Cancel" type="object" class="oe_highlight" states="confirmed,done" />
+                       <field name="state" widget="statusbar"/>
+                    </header>
+                </sheet>
+                <field name="report_id" position="after">
+                      <field name="user_id"/>
+                </field>
+              </field>
+        </record>
+
+        <record id="mis_report_instance_tree_inherit" model="ir.ui.view">
+            <field name="name">mis_report_instance_tree_inherit</field>
+            <field name="model">mis.report.instance</field>
+            <field name="inherit_id" ref="mis_builder.mis_report_instance_view_tree"/>
+            <field name="arch" type="xml">
+                  <xpath expr="//tree" postion="after">
+                         <field name="user_id"/>
+                         <field name="state"/>
+                  </xpath>           
+              </field>
+        </record>
+        
+        
+        <record id="mis_report_instance_seacrh" model="ir.ui.view">
+            <field name="name">mis.report.instance.search</field>
+            <field name="model">mis.report.instance</field>
+            <field name="arch" type="xml">
+                <search string="Search Mis reports">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="state"/>
+                    <filter string="Draft" name="state" domain="[('state', '=', 'draft')]" />
+                    <filter string="Confirmed" name="state" domain="[('state', '=', 'confirmed')]" />
+                    <filter string="Done" name="state" domain="[('state', '=', 'done')]" />
+                    <filter string="Cancelled" name="state" domain="[('state', '=', 'cancelled')]" />
+                    <filter string="My reports" name="my_reports" domain="[('user_id', '=', uid)]"/>
+                    
+                    
+                    <group expand="0" string="Group By">
+                        <filter string="Name " name="state" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="State " name="state" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Owner " name="state" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Template " name="report_id" domain="[]" context="{'group_by':'report_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+      <record model="ir.actions.act_window" id="mis_builder.mis_report_instance_view_action">
+        <field name="name">MIS Reports</field>
+        <field name="view_id" ref="mis_builder.mis_report_instance_view_tree" />
+        <field name="res_model">mis.report.instance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('temporary', '=', False)]</field>
+        <field name="context">{'search_default_my_reports': 1}</field>
+    </record>
+
+
+
+    </data>
+</odoo>
