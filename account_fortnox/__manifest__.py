@@ -47,6 +47,7 @@
         'views/account_invoice_send_view.xml',
         'views/product_views.xml',
         'views/account_journal.xml',
+        'views/res_partner_view.xml',
         'data/cron_jobs.xml',
 
     ],

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<odoo>
+        <record id="view_partner_form_fortnox" model="ir.ui.view">
+                <field name="name">view_partner_form_fortnox</field>
+                <field name="model">res.partner</field>
+                <field name="inherit_id" ref="base.view_partner_form" />
+                <field name="arch" type="xml">
+                       <span name="address_name" position="before">
+                         <field name="fortnox_ref"/>
+                       </span>
+                </field>
+        </record>
+</odoo>

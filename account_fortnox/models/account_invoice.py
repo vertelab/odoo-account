@@ -150,15 +150,15 @@ class AccountInvoice(models.Model):
     def fortnox_update(self, invoice, fortnox_invoice):
         invoice.ref = fortnox_invoice["CustomerNumber"]
         invoice.name = fortnox_invoice["DocumentNumber"]
-        invoice.partner_id.ref = fortnox_invoice["CustomerNumber"]
+        invoice.partner_id.fortnox_ref = fortnox_invoice["CustomerNumber"]
         invoice.is_move_sent = True
 
     def fortnox_create(self, invoice):
         if not invoice.invoice_date_due:
             raise UserError(_("ERROR: missing date_due on invoice."))
-        if not invoice.partner_id.commercial_partner_id.ref:
+        if not invoice.partner_id.commercial_partner_id.fortnox_ref:
             invoice.partner_id.partner_create(invoice.company_id)
-        if invoice.partner_id.commercial_partner_id.ref:
+        if invoice.partner_id.commercial_partner_id.fortnox_ref:
             invoice.partner_id.partner_update(invoice.company_id)
 
         invoice_lines = []
@@ -187,7 +187,7 @@ class AccountInvoice(models.Model):
                 "Comments": "",
                 "Currency": "SEK",
                 "CustomerName": invoice.partner_id.commercial_partner_id.name,
-                "CustomerNumber": invoice.partner_id.commercial_partner_id.ref,
+                "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
                 "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
                 "DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
                 "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
