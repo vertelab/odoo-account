@@ -109,7 +109,7 @@ class AccountInvoice(models.Model):
             move_id = self.env['account.move'].search([
                 ('company_id', '=', company_id.id),
                 ('create_date', '>', from_date),
-                ('payment_state', 'not in', ['paid','reversed','partially_paid']),
+                ('payment_state', 'not in', ['paid','reversed','partially_paid','in_payment']),
                 ('state', '!=', 'draft'),
                 ('state', '!=', 'cancel'),
                 ('move_type', '=', 'out_invoice')
