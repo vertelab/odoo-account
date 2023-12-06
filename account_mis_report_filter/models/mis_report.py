@@ -13,28 +13,23 @@ _logger = logging.getLogger(__name__)
 
 class MisReportInstance(models.Model):
     _inherit = 'mis.report.instance'
-    state = fields.Selection(
-        selection=[('draft', 'Draft'), ('confirmed', 'Confirmed'), ('done', 'Done'), ('canceled', 'Canceled')],
-        default='draft')
-
+    
+    active = fields.Boolean(default=True)
+    
     @api.model
     def _default_user(self):
         return self.env.context.get('user_id', self.env.user.id)
 
     user_id = fields.Many2one('res.users', 'Responsible', default=_default_user)
+    
+class MisReport(models.Model):
+    _inherit = 'mis.report'
+    
+    active = fields.Boolean(default=True)
+    
+# ~ class MisReportInstance(models.Model):
+    # ~ _inherit = 'mis.report.instance'
+    
+    # ~ active = fields.Boolean(default=True)
 
-    def do_confirm(self):
-        for record in self:
-            record.state = "confirmed"
 
-    def do_draft(self):
-        for record in self:
-            record.state = "draft"
-
-    def do_done(self):
-        for record in self:
-            record.state = "done"
-
-    def do_cancel(self):
-        for record in self:
-            record.state = "canceled"
