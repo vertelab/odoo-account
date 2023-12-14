@@ -189,7 +189,7 @@ class AccountInvoice(models.Model):
                 "CustomerName": invoice.partner_id.commercial_partner_id.name,
                 "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
                 "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
-                "DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
+                #"DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
                 "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
                 "InvoiceRows": invoice_lines,
                 "InvoiceType": "INVOICE",
