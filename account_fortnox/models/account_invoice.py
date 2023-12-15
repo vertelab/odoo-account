@@ -23,6 +23,7 @@ class AccountInvoice(models.Model):
 
     fortnox_response = fields.Char(string="Fortnox Response", readonly=True)
     fortnox_status = fields.Char(string="Fortnox Status", readonly=True)
+    is_sent_to_fortnox = fields.Boolean(string="Sent To Fortnox", readonly=True)
 
     def remove_zero_cost_lines(self):
         """
@@ -108,7 +109,7 @@ class AccountInvoice(models.Model):
             move_id = self.env['account.move'].search([
                 ('company_id', '=', company_id.id),
                 ('create_date', '>', from_date),
-                ('payment_state', 'not in', ['paid','reversed','partially_paid']),
+                ('payment_state', 'not in', ['paid','reversed','partially_paid','in_payment']),
                 ('state', '!=', 'draft'),
                 ('state', '!=', 'cancel'),
                 ('move_type', '=', 'out_invoice')
@@ -133,30 +134,31 @@ class AccountInvoice(models.Model):
                 invoice.fortnox_response = fortnox_res
 
     def sync_fortnox(self):
+        self.ensure_one()
         invoice_id = self.env['account.move'].browse(self.id)
-
+        invoice_id.is_sent_to_fortnox = True
         fortnox_res = invoice_id.company_id.fortnox_request(
             "get",
             f"{BASE_URL}/3/invoices/{invoice_id.id}"
         )
-
         if fortnox_invoice := fortnox_res.get('Invoice'):
             self.fortnox_update(invoice_id, fortnox_invoice)
         elif fortnox_res.get('ErrorInformation', {}).get('Code') == 2000434:
             self.fortnox_create(invoice_id)
-
+        else:
+            raise UserError(f"There is an issue with the fortnox connection. Contact administrator ({fortnox_res=})")
     def fortnox_update(self, invoice, fortnox_invoice):
         invoice.ref = fortnox_invoice["CustomerNumber"]
         invoice.name = fortnox_invoice["DocumentNumber"]
-        invoice.partner_id.ref = fortnox_invoice["CustomerNumber"]
+        invoice.partner_id.fortnox_ref = fortnox_invoice["CustomerNumber"]
         invoice.is_move_sent = True
 
     def fortnox_create(self, invoice):
         if not invoice.invoice_date_due:
             raise UserError(_("ERROR: missing date_due on invoice."))
-        if not invoice.partner_id.commercial_partner_id.ref:
+        if not invoice.partner_id.commercial_partner_id.fortnox_ref:
             invoice.partner_id.partner_create(invoice.company_id)
-        if invoice.partner_id.commercial_partner_id.ref:
+        if invoice.partner_id.commercial_partner_id.fortnox_ref:
             invoice.partner_id.partner_update(invoice.company_id)
 
         invoice_lines = []
@@ -185,9 +187,9 @@ class AccountInvoice(models.Model):
                 "Comments": "",
                 "Currency": "SEK",
                 "CustomerName": invoice.partner_id.commercial_partner_id.name,
-                "CustomerNumber": invoice.partner_id.commercial_partner_id.ref,
+                "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
                 "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
-                "DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
+                #"DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
                 "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
                 "InvoiceRows": invoice_lines,
                 "InvoiceType": "INVOICE",
