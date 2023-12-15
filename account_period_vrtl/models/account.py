@@ -36,11 +36,10 @@ class AccountPeriod(models.Model):
     _description = 'Period'
     _order = 'date_start, special desc'
 
-    @api.model
-    def default_date_start(self):
+    def _default_date_start(self):
         return '%s-01-01' % fields.Date.today().strftime('%Y')
 
-    date_start = fields.Date(string='Start of Period', default=default_date_start, required=True)
+    date_start = fields.Date(string='Start of Period', default=_default_date_start, required=True)
 
     @api.model
     def default_date_stop(self):
@@ -276,15 +275,14 @@ class AccountFiscalyear(models.Model):
         for years in self:
             years.state = "draft"
 
-    @api.model
-    def default_date_start(self):
+    def _default_date_start(self):
+        print("jejje")
         return '%s-01-01' % fields.Date.today().strftime('%Y')
 
-    @api.model
-    def default_date_stop(self):
+    def _default_date_stop(self):
         return '%s-12-31' % fields.Date.today().strftime('%Y')
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         res = super(AccountFiscalyear, self).create(vals)
         self.env.company.sudo().set_onboarding_step_done('account_setup_fy_data_state')
@@ -294,21 +292,17 @@ class AccountFiscalyear(models.Model):
     code = fields.Char(string='Code', size=6, required=True)
     company_id = fields.Many2one(comodel_name='res.company', string='Company', required=True,
                                  default=lambda self: self.env['res.company']._company_default_get('account.account'))
-    date_start = fields.Date(string='Start Date', default=default_date_start, required=True)
-    date_stop = fields.Date(string='End Date', default=default_date_stop, required=True)
+    date_start = fields.Date(string='Start Date', default=_default_date_start, required=True)
+    date_stop = fields.Date(string='End Date', default=_default_date_stop, required=True)
     period_ids = fields.One2many(comodel_name='account.period', inverse_name='fiscalyear_id', string='Periods')
     state = fields.Selection([('draft', 'Open'), ('done', 'Closed')], string='Status', readonly=True, copy=False,
                              default='draft')
 
+    @api.constrains
     def _check_duration(self):
         if self.date_stop < self.date_start:
             return False
-        return True
-
-    _constraints = [
-        (_check_duration, 'Error!\nThe start date of a fiscal year must precede its end date.',
-         ['date_start', 'date_stop'])
-    ]
+        return UserError("Error!\nThe start date of a fiscal year must precede its end date.")
 
     def _set_state(self):
         for record in self:
