@@ -3,7 +3,8 @@ from datetime import datetime, timezone, timedelta
 import jwt as pyjwt
 import requests
 import uuid
-
+import logging
+_logger = logging.getLogger(__name__)
 
 class ResConfigSettings(models.Model):
     _inherit = 'res.company'
@@ -17,7 +18,7 @@ class ResConfigSettings(models.Model):
     enable_banking_private_key = fields.Text("Private Key")
 
     def request_essentials(self):
-        company_id = self.env.user.company_id
+        company_id = self.env.company
 
         api_url = company_id.enable_banking_api_url
         private_key = company_id.enable_banking_private_key
@@ -56,7 +57,7 @@ class ResConfigSettings(models.Model):
     def auth_request(self, bank_id=None, app=None, api_url=None, base_headers=None):
         if not app:
             app = self._request_application_details(api_url, base_headers)
-
+        _logger.warning(f"{bank_id.name=},{bank_id.country} {bank_id.country.code=}")
         body = {
             "access": {
                 "valid_until": (datetime.now(timezone.utc) + timedelta(days=10)).isoformat()
