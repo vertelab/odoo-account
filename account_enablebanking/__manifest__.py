@@ -35,7 +35,7 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'depends': ['account', 'contacts'],
+    'depends': ['account', 'contacts', 'base_setup'],
     'data': [
         'security/ir.model.access.csv',
         'data/ir_config_parameter.xml',
@@ -45,6 +45,7 @@
         'views/enable_banking_wizard_view.xml',
         'views/res_bank_view.xml',
         'views/res_company_view.xml',
+        'views/res_partner_view.xml',
     ],
     'demo': [],
     'qweb': [],

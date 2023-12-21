@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 
 class ResConfigSettings(models.Model):
-    _inherit = 'res.company'
+    _inherit = 'res.partner'
 
     enable_banking_api_url = fields.Char("API URL")
 

@@ -8,7 +8,7 @@ class ResBank(models.Model):
     def action_authorize_bank(self):
         if not self.country:
             raise ValidationError("Set a country for the bank")
-        company_id = self.env.user.company_id
+        company_id = self.env.company
         auth_data = company_id.action_sync_transactions_with_enable_banking(self)
         if auth_data.get('url'):
             return {
