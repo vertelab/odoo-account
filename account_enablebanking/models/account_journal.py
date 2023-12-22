@@ -126,11 +126,8 @@ class EnableBankingTransactions(models.TransientModel):
     date_to = fields.Date(string="To", default=fields.Date.today)
 
     def _fetch_transactions(self):
-        # api_url, private_key, application_id, base_headers = self.env.user.partner_id.request_essentials()
-        # api_url, private_key, application_id, base_headers = self.bank_account_id.bank_id.openbanking_integration_id.request_essentials()
         api_url, private_key, application_id, base_headers = self.journal_id.bank_account_id.bank_id.openbanking_integration_id.request_essentials()
         query = {
-            # "date_from": (datetime.now(timezone.utc) - timedelta(days=90)).date().isoformat(),
             "date_from": self.date_from,
             "date_to": self.date_to
         }
@@ -147,7 +144,6 @@ class EnableBankingTransactions(models.TransientModel):
             )
             resp_data = account_transaction.json()
             if account_transaction.status_code == 200:
-                # _logger.info('Enable Banking Transactions %s', resp_data.get("transactions"))
                 transactions.extend(resp_data.get("transactions", []))
                 continuation_key = resp_data.get("continuation_key")
                 if not continuation_key:
@@ -284,8 +280,6 @@ class EnableBanking(models.TransientModel):
             f"{api_url}/sessions", json={"code": self.code}, headers=base_headers)
 
         session_resp = session.json()
-        ###############
-        _logger.warning(f"{session_resp}")
 
         if session.status_code == 200:
             self._sync_bank_accounts(session_resp.get('accounts'))
@@ -297,8 +291,6 @@ class EnableBanking(models.TransientModel):
 
     def _sync_bank_accounts(self, accounts):
 
-        _logger.warning(f"{accounts=}")
-        _logger.error(f"{self}")
         valid_bank_accounts = list(
             filter(lambda x: x.get('account_id')['iban'], accounts))
         for account in valid_bank_accounts:
@@ -313,14 +305,11 @@ class EnableBanking(models.TransientModel):
                 })
             else:
                 partner_bank_id = self.env['res.partner.bank'].create({
-                    # 'partner_id': self.env.user.company_id.partner_id.id,
                     'partner_id': self.env.user.partner_id.id,
-                    # 'partner_id': self._sync_partner(account.get('name')).id,
                     'acc_number': account.get('account_id')['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account.get('uid')
                 })
-            # self._sync_account_journal(partner_bank_id)
 
     def _sync_account_journal(self, account):
         journal_id = self.env['account.journal'].search([
