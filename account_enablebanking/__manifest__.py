@@ -44,10 +44,11 @@
         'views/account_journal_view.xml',
         'views/enable_banking_wizard_view.xml',
         'views/res_bank_view.xml',
-        'views/res_company_view.xml',
+        # 'views/res_company_view.xml',
+        'views/res_enablebanking_config.xml',
+        'views/res_openbankintegration.xml',
     ],
     'demo': [],
     'qweb': [],
     'installable': True,
 }
-

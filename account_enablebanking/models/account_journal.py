@@ -33,13 +33,15 @@ class AccountJournal(models.Model):
         }
 
     def action_sync_balances_with_enable_banking(self):
-        api_url, private_key, application_id, base_headers = self.env.user.company_id.request_essentials()
+        api_url, private_key, application_id, base_headers = self.partner_id.request_essentials()
         account_uid = self.bank_account_id.account_uuid
-        account_balance = requests.get(f"{api_url}/accounts/{account_uid}/balances", headers=base_headers)
+        account_balance = requests.get(
+            f"{api_url}/accounts/{account_uid}/balances", headers=base_headers)
         if account_balance.status_code == 200:
             _logger.info(f'Enable Banking Balances {account_balance.json()}')
         else:
-            _logger.error(f"Error response {account_balance.status_code}: {account_balance.text}", )
+            _logger.error(
+                f"Error response {account_balance.status_code}: {account_balance.text}", )
             return False
 
     def _valid_journals(self):
@@ -51,8 +53,10 @@ class AccountJournal(models.Model):
         return journal_ids
 
     def _compute_interval(self):
-        interval_type = self.env['ir.config_parameter'].sudo().get_param('enablebanking.interval_type')
-        interval_number = self.env['ir.config_parameter'].sudo().get_param('enablebanking.interval_number')
+        interval_type = self.env['ir.config_parameter'].sudo(
+        ).get_param('enablebanking.interval_type')
+        interval_number = self.env['ir.config_parameter'].sudo(
+        ).get_param('enablebanking.interval_number')
 
         date_from = date.today() - relativedelta(days=1)
         date_to = date.today() - relativedelta(days=1)
@@ -71,18 +75,21 @@ class AccountJournal(models.Model):
             date_to = date.today() - relativedelta(days=int(interval_number))
 
         if interval_type == 'weeks':
-            date_from = (current_date - relativedelta(weekday=MO, weeks=int(interval_number)))
+            date_from = (current_date - relativedelta(weekday=MO,
+                         weeks=int(interval_number)))
             date_to = (date_from + relativedelta(weekday=SU, days=+6))
 
         if interval_type == 'months':
-            date_from = current_date - relativedelta(day=1, months=int(interval_number))
+            date_from = current_date - \
+                relativedelta(day=1, months=int(interval_number))
             date_to = date_from + relativedelta(months=+1, days=-1)
 
         return date_from, date_to
 
     def _cron_sync_transactions(self):
         for journal in self._valid_journals():
-            bank_statement_id = self.env['account.bank.statement'].search([('journal_id', '=', journal.id)])
+            bank_statement_id = self.env['account.bank.statement'].search(
+                [('journal_id', '=', journal.id)])
 
             date_from, date_to = self._compute_interval()
 
@@ -119,7 +126,9 @@ class EnableBankingTransactions(models.TransientModel):
     date_to = fields.Date(string="To", default=fields.Date.today)
 
     def _fetch_transactions(self):
-        api_url, private_key, application_id, base_headers = self.env.user.company_id.request_essentials()
+        # api_url, private_key, application_id, base_headers = self.env.user.partner_id.request_essentials()
+        # api_url, private_key, application_id, base_headers = self.bank_account_id.bank_id.openbanking_integration_id.request_essentials()
+        api_url, private_key, application_id, base_headers = self.journal_id.bank_account_id.bank_id.openbanking_integration_id.request_essentials()
         query = {
             # "date_from": (datetime.now(timezone.utc) - timedelta(days=90)).date().isoformat(),
             "date_from": self.date_from,
@@ -142,9 +151,11 @@ class EnableBankingTransactions(models.TransientModel):
                 transactions.extend(resp_data.get("transactions", []))
                 continuation_key = resp_data.get("continuation_key")
                 if not continuation_key:
-                    _logger.info("No continuation key. All transactions were fetched")
+                    _logger.info(
+                        "No continuation key. All transactions were fetched")
                     break
-                _logger.info(f"Going to fetch more transactions with continuation key {continuation_key}")
+                _logger.info(
+                    f"Going to fetch more transactions with continuation key {continuation_key}")
             else:
                 err_message = (f"There is a problem fetching account transaction. "
                                f"Error response {resp_data.get('code')}: {resp_data.get('message')}")
@@ -173,7 +184,8 @@ class EnableBankingTransactions(models.TransientModel):
         bank_statement_id = self.env['account.bank.statement.line']
         v_transactions = list(
             filter(
-                lambda trans: not bank_statement_id.search([('payment_ref', '=', trans.get('entry_reference'))]),
+                lambda trans: not bank_statement_id.search(
+                    [('payment_ref', '=', trans.get('entry_reference'))]),
                 transactions)
         )
         return v_transactions
@@ -187,10 +199,12 @@ class EnableBankingTransactions(models.TransientModel):
 
         bank_statement_id = self.env['account.bank.statement'].search([
             ('journal_id', '=', self.journal_id.id)], order='id desc')
-        bank_statement_id = bank_statement_id.filtered(lambda statement: search(date_name, statement.name))
+        bank_statement_id = bank_statement_id.filtered(
+            lambda statement: search(date_name, statement.name))
 
         if bank_statement_id:
-            statement_number = "{:02d}".format(int(bank_statement_id[0].name.split('/')[-1]) + 1)
+            statement_number = "{:02d}".format(
+                int(bank_statement_id[0].name.split('/')[-1]) + 1)
 
         if transactions:
             bank_statement_id = self.env['account.bank.statement'].create({
@@ -207,11 +221,14 @@ class EnableBankingTransactions(models.TransientModel):
 
             if not bank_statement_line_id:
                 if transaction.get('creditor'):
-                    partner_id = self._sync_partner(transaction.get('creditor')['name']).id
+                    partner_id = self._sync_partner(
+                        transaction.get('creditor')['name']).id
                 if transaction.get('credit_debit_indicator') == 'CRDT':
-                    amount = float(transaction.get('transaction_amount')['amount'])
+                    amount = float(transaction.get(
+                        'transaction_amount')['amount'])
                 else:
-                    amount = -float(transaction.get('transaction_amount')['amount'])
+                    amount = - \
+                        float(transaction.get('transaction_amount')['amount'])
 
                 currency_id = self.env['res.currency'].search([
                     ('name', '=', transaction.get('transaction_amount')['currency'])])
@@ -236,7 +253,8 @@ class EnableBankingTransactions(models.TransientModel):
 
     def _sync_partner(self, partner_name):
         partner_name = re.sub(r'\s+', ' ', partner_name)
-        partner_id = self.env['res.partner'].search([('name', '=', partner_name)], limit=1)
+        partner_id = self.env['res.partner'].search(
+            [('name', '=', partner_name)], limit=1)
         if not partner_id:
             partner_id = self.env['res.partner'].create({
                 'name': partner_name
@@ -261,18 +279,28 @@ class EnableBanking(models.TransientModel):
         self._create_session()
 
     def _create_session(self):
-        api_url, private_key, application_id, base_headers = self.env.user.company_id.request_essentials()
-        session = requests.post(f"{api_url}/sessions", json={"code": self.code}, headers=base_headers)
+        api_url, private_key, application_id, base_headers = self.bank_id.openbanking_integration_id.request_essentials()
+        session = requests.post(
+            f"{api_url}/sessions", json={"code": self.code}, headers=base_headers)
+
         session_resp = session.json()
+        ###############
+        _logger.warning(f"{session_resp}")
+
         if session.status_code == 200:
             self._sync_bank_accounts(session_resp.get('accounts'))
             return session.json()
         else:
-            _logger.error(f"Error response {session_resp.get('code')}: {session_resp.get('message')}")
+            _logger.error(
+                f"Error response {session_resp.get('code')}: {session_resp.get('message')}")
             raise ValidationError("There is a problem creating session.")
 
     def _sync_bank_accounts(self, accounts):
-        valid_bank_accounts = list(filter(lambda x: x.get('account_id')['iban'], accounts))
+
+        _logger.warning(f"{accounts=}")
+        _logger.error(f"{self}")
+        valid_bank_accounts = list(
+            filter(lambda x: x.get('account_id')['iban'], accounts))
         for account in valid_bank_accounts:
             partner_bank_id = self.env['res.partner.bank'].search([
                 ('acc_number', '=', account.get('account_id')['iban'])
@@ -285,8 +313,9 @@ class EnableBanking(models.TransientModel):
                 })
             else:
                 partner_bank_id = self.env['res.partner.bank'].create({
-                    'partner_id': self.env.user.company_id.partner_id.id,
-                    #'partner_id': self._sync_partner(account.get('name')).id,
+                    # 'partner_id': self.env.user.company_id.partner_id.id,
+                    'partner_id': self.env.user.partner_id.id,
+                    # 'partner_id': self._sync_partner(account.get('name')).id,
                     'acc_number': account.get('account_id')['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account.get('uid')
@@ -308,7 +337,8 @@ class EnableBanking(models.TransientModel):
 
     def _sync_partner(self, partner_name):
         partner_name = re.sub(r'\s+', ' ', partner_name)
-        partner_id = self.env['res.partner'].search([('name', '=', partner_name)], limit=1)
+        partner_id = self.env['res.partner'].search(
+            [('name', '=', partner_name)], limit=1)
         if not partner_id:
             partner_id = self.env['res.partner'].create({
                 'name': partner_name

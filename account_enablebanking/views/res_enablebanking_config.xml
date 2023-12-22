@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+        <record id="res_partner_view_form" model="ir.ui.view">
+            <field name="name">res.partner.view.form.inherit.account</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page name="openbanking" string="Openbanking Notes">
+                        <h2>Enable Banking</h2>
+                        <div class="row mt16 o_settings_container" name="enable_banking_setting_container">
+                            <div class="col-12 col-lg-6 o_setting_box" id="enable_banking" title="Enable Banking">
+                                <group>
+                                    <field name="enable_banking_api_url"/>
+                                    <field name="enable_banking_application_id"/>
+                                    <field name="enable_banking_redirect_url"/>
+                                    <field name="enable_banking_private_key"/>
+                                </group>
+                            </div>
+                        </div>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</odoo>

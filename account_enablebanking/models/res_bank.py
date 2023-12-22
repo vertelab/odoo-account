@@ -5,11 +5,13 @@ from odoo.exceptions import UserError, ValidationError
 class ResBank(models.Model):
     _inherit = "res.bank"
 
+    openbanking_integration_id = fields.Many2one('res.partner')
+
     def action_authorize_bank(self):
         if not self.country:
             raise ValidationError("Set a country for the bank")
-        company_id = self.env.user.company_id
-        auth_data = company_id.action_sync_transactions_with_enable_banking(self)
+        auth_data = self.openbanking_integration_id.action_sync_transactions_with_enable_banking(
+            self)
         if auth_data.get('url'):
             return {
                 'type': 'ir.actions.act_url',
@@ -45,4 +47,3 @@ class ResPartnerBank(models.Model):
                 'bank_account_id': self.id,
                 'currency_id': self.currency_id.id
             })
-
