@@ -39,12 +39,11 @@
     'data': [
         'security/ir.model.access.csv',
         'data/ir_config_parameter.xml',
-        #'views/res_config_view.xml',
+        'views/res_config_view.xml',
         'data/ir_cron.xml',
         'views/account_journal_view.xml',
         'views/enable_banking_wizard_view.xml',
         'views/res_bank_view.xml',
-        #'views/res_company_view.xml',
         'views/res_partner_view.xml',
     ],
     'demo': [],
