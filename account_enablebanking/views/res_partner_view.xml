@@ -6,9 +6,13 @@
             <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
                 <xpath expr="//notebook" postion="inside">
-                    <page string="This is a new page" name="is_this_working">
+                    <page string="Enable Banking" name="enable_baking_settings">
                         <group>
                             <group>
+                                <field name="enable_banking_api_url"/>
+                                <field name="enable_banking_application_id"/>
+                                <field name="enable_banking_redirect_url"/>
+                                <field name="enable_banking_private_key"/>
                             </group>
                         </group>
                     </page>

@@ -5,11 +5,15 @@ from odoo.exceptions import UserError, ValidationError
 class ResBank(models.Model):
     _inherit = "res.bank"
 
+    api_contact_integration = fields.Many2one("res.partner", string="API Contact Integration")
+
     def action_authorize_bank(self):
         if not self.country:
             raise ValidationError("Set a country for the bank")
-        company_id = self.env.company
-        auth_data = company_id.action_sync_transactions_with_enable_banking(self)
+        if not self.api_contact_integration:
+            raise ValidationError("Set a API Contact Integration for the bank")
+        partner_id = self.api_contact_integration
+        auth_data = partner_id.action_sync_transactions_with_enable_banking(self)
         if auth_data.get('url'):
             return {
                 'type': 'ir.actions.act_url',

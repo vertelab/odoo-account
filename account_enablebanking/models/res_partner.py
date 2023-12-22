@@ -20,13 +20,9 @@ class ResConfigSettings(models.Model):
     enable_banking_private_key = fields.Text("Private Key")
 
     def request_essentials(self):
-       # company_id = self.env.company
-        company_id = self.env.company
-        api_url = company_id.enable_banking_api_url
-        private_key = company_id.enable_banking_private_key
-        application_id = company_id.enable_banking_application_id
-       # _logger.warning(f"{self.env.context=}")
-       # _logger.warning(f"{self.env.company=} {company_id=} {api_url=}, {private_key=} {application_id=}")
+        api_url = self.enable_banking_api_url
+        private_key = self.enable_banking_private_key
+        application_id = self.enable_banking_application_id
 
         iat = int(datetime.now().timestamp())
         jwt_body = {

@@ -10,6 +10,9 @@
                         <button name="action_authorize_bank" class="btn btn-primary" type="object" string="Authorize Bank"/>
                     </header>
                 </xpath>
+                <field name="active" position="after">
+                    <field name="api_contact_integration" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                </field >
             </field>
         </record>
 
