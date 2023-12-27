@@ -117,7 +117,7 @@ class AccountInvoice(models.Model):
             for invoice in move_id:
                 fortnox_res = company_id.fortnox_request(
                     "GET",
-                    f"{BASE_URL}/3/invoices/{invoice.id}"
+                    f"{BASE_URL}/3/invoices/{invoice.name}"
                 )
 
                 if fortnox_res.get('ErrorInformation', {}).get('Code'):
