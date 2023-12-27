@@ -124,7 +124,7 @@ class AccountInvoice(models.Model):
                         invoice._reverse_invoice(
                             invoice_id=invoice, credit_invoice_ref=credit_invoice_ref, company_id=company_id
                         )
-                    elif credit_invoice_ref == 0 and invoice.state == 'posted':
+                    elif credit_invoice_ref == 0 and invoice_info.get("FinalPayDate") and invoice.state == 'posted':
                         invoice.update_invoice_status_fortnox_paid(invoice_info)
 
                 invoice.fortnox_response = fortnox_res
