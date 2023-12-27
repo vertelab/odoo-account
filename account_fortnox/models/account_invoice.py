@@ -128,7 +128,7 @@ class AccountInvoice(models.Model):
                         invoice._reverse_invoice(
                             invoice_id=invoice, credit_invoice_ref=credit_invoice_ref, company_id=company_id
                         )
-                    elif credit_invoice_ref == 0 and invoice.state == 'posted':
+                    elif credit_invoice_ref == 0 and invoice_info.get("FinalPayDate") and invoice.state == 'posted':
                         invoice.update_invoice_status_fortnox_paid(invoice_info)
 
                 invoice.fortnox_response = fortnox_res
@@ -143,7 +143,9 @@ class AccountInvoice(models.Model):
         )
         if fortnox_invoice := fortnox_res.get('Invoice'):
             self.fortnox_update(invoice_id, fortnox_invoice)
-        elif fortnox_res.get('ErrorInformation', {}).get('Code') == 2000434:
+        elif fortnox_res.get('ErrorInformation', {}).get('Code') in [2000434,2000762]:
+            self.fortnox_create(invoice_id)
+        elif fortnox_res.get('ErrorInformation', {}).get('code') in [2000434,2000762]:
             self.fortnox_create(invoice_id)
         else:
             raise UserError(f"There is an issue with the fortnox connection. Contact administrator ({fortnox_res=})")
