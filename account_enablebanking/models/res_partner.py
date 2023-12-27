@@ -57,10 +57,8 @@ class ResConfigSettings(models.Model):
         return application_resp
 
     def auth_request(self, bank_id=None, app=None, api_url=None, base_headers=None):
-        _logger.warning(f"{bank_id.name=} {bank_id.country.code=}")
         if not app:
             app = self._request_application_details(api_url, base_headers)
-        #_logger.warning({f"{app=}"})
         body = {
             "access": {
                 "valid_until": (datetime.now(timezone.utc) + timedelta(days=10)).isoformat()

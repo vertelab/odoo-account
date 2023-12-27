@@ -33,7 +33,6 @@ class AccountJournal(models.Model):
         }
 
     def action_sync_balances_with_enable_banking(self):
-        _logger.critical("action_sync_balances_with_enable_banking")
         partner_id = self.bank_id.api_contact_integration
         api_url, private_key, application_id, base_headers = partner_id.request_essentials()
         account_uid = self.bank_account_id.account_uuid
