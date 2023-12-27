@@ -139,7 +139,7 @@ class AccountInvoice(models.Model):
         invoice_id.is_sent_to_fortnox = True
         fortnox_res = invoice_id.company_id.fortnox_request(
             "get",
-            f"{BASE_URL}/3/invoices/{invoice_id.id}"
+            f"{BASE_URL}/3/invoices/{invoice_id.name}"
         )
         if fortnox_invoice := fortnox_res.get('Invoice'):
             self.fortnox_update(invoice_id, fortnox_invoice)
