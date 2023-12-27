@@ -261,7 +261,9 @@ class EnableBanking(models.TransientModel):
     def sync_accounts(self):
         if not self.bank_id:
             raise ValidationError(_("Select a Bank!"))
-        self._create_session()
+        auth_data = self._create_session()
+        return auth_data
+
 
     def _create_session(self):
         _logger.critical("create session")
@@ -271,7 +273,13 @@ class EnableBanking(models.TransientModel):
         session_resp = session.json()
         if session.status_code == 200:
             self._sync_bank_accounts(session_resp.get('accounts'))
-            return session.json()
+            return {
+            'name': _('Return To Bank Account'),
+            'res_model': 'res.partner.bank',
+            'view_mode': 'tree,form',
+            'target': 'current',
+            'type': 'ir.actions.act_window',
+            }
         else:
             _logger.error(f"Error response {session_resp.get('code')}: {session_resp.get('message')}")
             raise ValidationError("There is a problem creating session.")
