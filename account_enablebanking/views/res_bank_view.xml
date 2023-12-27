@@ -11,7 +11,7 @@
                     </header>
                 </xpath>
                 <field name="active" position="after">
-                    <field name="api_contact_integration" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                    <field name="api_contact_integration" options="{&quot;no_open&quot;: True}"/>
                 </field >
             </field>
         </record>

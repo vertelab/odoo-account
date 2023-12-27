@@ -5,8 +5,13 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
+                
+                <field name="vat" position="after">
+                    <field name="is_enable_banking_api"  />
+                </field >
+
                 <xpath expr="//notebook" postion="inside">
-                    <page string="Enable Banking" name="enable_baking_settings">
+                    <page string="Enable Banking" name="enable_baking_settings"  attrs="{'invisible': [('is_enable_banking_api','!=', True)]}">
                         <group>
                             <group>
                                 <field name="enable_banking_api_url"/>
