@@ -66,13 +66,13 @@ class Partner(models.Model):
                         )
                         partner.ref = customer_number
 
-    def partner_create(self):
+    def partner_create(self, company_id):
         for partner in self:
             _logger.warning(
                 f"CREATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.ref=}")
             if not partner.commercial_partner_id.ref:
                 url = "https://api.fortnox.se/3/customers"
-                r = self.env.user.company_id.fortnox_request(
+                r = company_id.fortnox_request(
                     'post',
                     url,
                     data={
@@ -96,13 +96,13 @@ class Partner(models.Model):
                     })
                 partner.commercial_partner_id.ref = r["Customer"]["CustomerNumber"]
 
-    def partner_update(self):
+    def partner_update(self, company_id):
         for partner in self:
             _logger.warning(
                 f"UPDATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.ref=}")
             if partner.commercial_partner_id.ref:
                 url = "https://api.fortnox.se/3/customers/%s" % partner.commercial_partner_id.ref
-                self.env.user.company_id.fortnox_request(
+                company_id.fortnox_request(
                     'put',
                     url,
                     data={
@@ -125,11 +125,11 @@ class Partner(models.Model):
                         }
                     })
 
-    def partner_get(self):
+    def partner_get(self, company_id):
         for partner in self:
             url = "https://api.fortnox.se/3/customers/"
             """ r = response """
-            self.env.user.company_id.fortnox_request(
+            company_id.fortnox_request(
                 'get',
                 url,
             )

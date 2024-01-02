@@ -33,7 +33,8 @@ class AccountJournal(models.Model):
         }
 
     def action_sync_balances_with_enable_banking(self):
-        api_url, private_key, application_id, base_headers = self.env.user.company_id.request_essentials()
+        partner_id = self.bank_id.api_contact_integration
+        api_url, private_key, application_id, base_headers = partner_id.request_essentials()
         account_uid = self.bank_account_id.account_uuid
         account_balance = requests.get(f"{api_url}/accounts/{account_uid}/balances", headers=base_headers)
         if account_balance.status_code == 200:
@@ -98,8 +99,8 @@ class AccountJournal(models.Model):
             }).with_context({'_cron_task': True}).action_sync_transactions()
 
     def _compute_starting_fiscal_year_date(self):
-        fiscalyear_last_month = self.env.user.company_id.fiscalyear_last_month
-        fiscalyear_last_day = self.env.user.company_id.fiscalyear_last_day
+        fiscalyear_last_month = self.env.user.company.fiscalyear_last_month
+        fiscalyear_last_day = self.env.user.company.fiscalyear_last_day
         previous_year = datetime.today().year - 1
         starting_fiscal_year = date(
             previous_year, int(fiscalyear_last_month), fiscalyear_last_day
@@ -119,7 +120,8 @@ class EnableBankingTransactions(models.TransientModel):
     date_to = fields.Date(string="To", default=fields.Date.today)
 
     def _fetch_transactions(self):
-        api_url, private_key, application_id, base_headers = self.env.user.company_id.request_essentials()
+        partner_id = self.journal_id.bank_id.api_contact_integration
+        api_url, private_key, application_id, base_headers = partner_id.request_essentials()
         query = {
             # "date_from": (datetime.now(timezone.utc) - timedelta(days=90)).date().isoformat(),
             "date_from": self.date_from,
@@ -258,15 +260,25 @@ class EnableBanking(models.TransientModel):
     def sync_accounts(self):
         if not self.bank_id:
             raise ValidationError(_("Select a Bank!"))
-        self._create_session()
+        auth_data = self._create_session()
+        return auth_data
+
 
     def _create_session(self):
-        api_url, private_key, application_id, base_headers = self.env.user.company_id.request_essentials()
+        _logger.critical("create session")
+        partner_id = self.bank_id.api_contact_integration
+        api_url, private_key, application_id, base_headers = partner_id.request_essentials()
         session = requests.post(f"{api_url}/sessions", json={"code": self.code}, headers=base_headers)
         session_resp = session.json()
         if session.status_code == 200:
             self._sync_bank_accounts(session_resp.get('accounts'))
-            return session.json()
+            return {
+            'name': _('Return To Bank Account'),
+            'res_model': 'res.partner.bank',
+            'view_mode': 'tree,form',
+            'target': 'current',
+            'type': 'ir.actions.act_window',
+            }
         else:
             _logger.error(f"Error response {session_resp.get('code')}: {session_resp.get('message')}")
             raise ValidationError("There is a problem creating session.")
@@ -285,7 +297,7 @@ class EnableBanking(models.TransientModel):
                 })
             else:
                 partner_bank_id = self.env['res.partner.bank'].create({
-                    'partner_id': self.env.user.company_id.partner_id.id,
+                    'partner_id': self.env.company.id,
                     #'partner_id': self._sync_partner(account.get('name')).id,
                     'acc_number': account.get('account_id')['iban'],
                     'bank_id': self.bank_id.id,
