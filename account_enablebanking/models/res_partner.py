@@ -3,10 +3,15 @@ from datetime import datetime, timezone, timedelta
 import jwt as pyjwt
 import requests
 import uuid
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class ResConfigSettings(models.Model):
-    _inherit = 'res.company'
+    _inherit = 'res.partner'
+
+    is_enable_banking_api = fields.Boolean("Enable Enablebanking API")
 
     enable_banking_api_url = fields.Char("API URL")
 
@@ -17,11 +22,9 @@ class ResConfigSettings(models.Model):
     enable_banking_private_key = fields.Text("Private Key")
 
     def request_essentials(self):
-        company_id = self.env.user.company_id
-
-        api_url = company_id.enable_banking_api_url
-        private_key = company_id.enable_banking_private_key
-        application_id = company_id.enable_banking_application_id
+        api_url = self.enable_banking_api_url
+        private_key = self.enable_banking_private_key
+        application_id = self.enable_banking_application_id
 
         iat = int(datetime.now().timestamp())
         jwt_body = {
@@ -56,7 +59,6 @@ class ResConfigSettings(models.Model):
     def auth_request(self, bank_id=None, app=None, api_url=None, base_headers=None):
         if not app:
             app = self._request_application_details(api_url, base_headers)
-
         body = {
             "access": {
                 "valid_until": (datetime.now(timezone.utc) + timedelta(days=10)).isoformat()

@@ -44,7 +44,7 @@
         'views/account_journal_view.xml',
         'views/enable_banking_wizard_view.xml',
         'views/res_bank_view.xml',
-        'views/res_company_view.xml',
+        'views/res_partner_view.xml',
     ],
     'demo': [],
     'qweb': [],
