@@ -27,14 +27,14 @@ class TierValidation(models.AbstractModel):
             render_context = {"company": company, "partner": next_reviewer_partner_id, "model": rec_obj, "action_id": action_id}
             mail_body = template._render(render_context, engine='ir.qweb', minimal_qcontext=True)
             mail_body = self.env['mail.render.mixin']._replace_local_links(mail_body)
-            #mail = self.env['mail.mail'].sudo().create({
-            #    'subject': _('Validation Requested'),
-            #    'email_from': company.catchall_formatted or company.email_formatted,
-            #    'author_id': self.env.user.partner_id.id,
-            #    'email_to': next_reviewer_partner_id.email,
-            #    'body_html': mail_body,
-            #})
-            #mail.send()
+            mail = self.env['mail.mail'].sudo().create({
+               'subject': _('Validation Requested'),
+               'email_from': company.catchall_formatted or company.email_formatted,
+               'author_id': self.env.user.partner_id.id,
+               'email_to': next_reviewer_partner_id.email,
+               'body_html': mail_body,
+            })
+            mail.send()
 
     def _notify_review_requested(self, tier_reviews):
         subscribe = "message_subscribe"
