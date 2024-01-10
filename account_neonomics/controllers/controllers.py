@@ -1,21 +1,24 @@
 # -*- coding: utf-8 -*-
-# from odoo import http
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+import logging
+
+from odoo import http
+from odoo.http import request
+import werkzeug
+
+_logger = logging.getLogger(__name__)
+
+class NeonomicsController(http.Controller):
+    _return_url = '/account/neonomics/return'
+
+    @http.route([_return_url], type='http', auth='user', methods=['GET'])
+    def neonomics_callback(self, **post):
+        wizard_id = request.env["neonomics.wizard"].sudo().create({
+            'code': post.get('code'),
+        })
+
+        return werkzeug.utils.redirect(
+            f'/web#id={wizard_id.id}&model=neonomics.wizard&view_type=form&menu_id='
+        )
 
 
-# class ScaffoldTest(http.Controller):
-#     @http.route('/scaffold_test/scaffold_test/', auth='public')
-#     def index(self, **kw):
-#         return "Hello, world"
-
-#     @http.route('/scaffold_test/scaffold_test/objects/', auth='public')
-#     def list(self, **kw):
-#         return http.request.render('scaffold_test.listing', {
-#             'root': '/scaffold_test/scaffold_test',
-#             'objects': http.request.env['scaffold_test.scaffold_test'].search([]),
-#         })
-
-#     @http.route('/scaffold_test/scaffold_test/objects/<model("scaffold_test.scaffold_test"):obj>/', auth='public')
-#     def object(self, obj, **kw):
-#         return http.request.render('scaffold_test.object', {
-#             'object': obj
-#         })
