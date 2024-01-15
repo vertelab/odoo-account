@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+        <record id="res_bank_form_view_inherit" model="ir.ui.view">
+            <field name="name">res.bank.form.inherit</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_authorize_bank" class="btn btn-primary" type="object" string="Authorize Bank"/>
+                    </header>
+                </xpath>
+                <field name="active" position="after">
+                    <field name="api_contact_integration" options="{&quot;no_open&quot;: True}"/>
+                </field >
+            </field>
+        </record>
+
+        <record id="res_partner_bank_form_view_inherit" model="ir.ui.view">
+            <field name="name">res.partner.bank.form.inherit</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="base.view_partner_bank_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_create_account_journal" class="btn btn-primary" type="object" string="Create Journal"/>
+                    </header>
+                </xpath>
+                <field name="acc_number" position="after">
+                    <field name="account_uuid"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
