@@ -186,9 +186,12 @@ class EnableBankingTransactions(models.TransientModel):
         transactions = self._sieve_out_existing_transactions(
             self.with_context(self.env.context)._fetch_transactions()
         )
-
+        _logger.warning("look here"*100)
+        _logger.warning(f"{transactions=}")
         bank_statement_id = self.env['account.bank.statement'].search([
             ('journal_id', '=', self.journal_id.id)], order='id desc')
+        _logger.warning(f"{bank_statement_id=}")
+        _logger.warning(f"{date_name=}")
         bank_statement_id = bank_statement_id.filtered(lambda statement: search(date_name, statement.name))
 
         if bank_statement_id:
@@ -224,9 +227,15 @@ class EnableBankingTransactions(models.TransientModel):
                     self._schedule_activity(err_message)
                     raise UserError(_(err_message))
 
+                date = transaction.get('transaction_date')
+                if date == None:
+                    date = transaction.get('booking_date')
+                if date == None:
+                    date = transaction.get('value_date')
+                
                 self.env['account.bank.statement.line'].create({
-                    'date': transaction.get('transaction_date'),
-                    'invoice_date': transaction.get('booking_date'),
+                    'date': date,
+                    'invoice_date': transaction.get('booking_date',transaction.get('value_date')),
                     'amount': amount,
                     'narration': transaction.get('remittance_information')[-1],
                     'transaction_type': transaction.get('credit_debit_indicator'),
