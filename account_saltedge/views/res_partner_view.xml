@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record id="res_partner_form_view_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+
+                <field name="vat" position="after">
+                    <field name="is_saltedge_api" />
+                </field>
+
+                <xpath expr="//notebook" postion="inside">
+                    <page string="Saltedge API" name="saltedge_settings"
+                        attrs="{'invisible': [('is_saltedge_api','!=', True)]}">
+                        <group>
+                            <group>
+                                <field name="saltedge_api_url" />
+                                <field name="saltedge_client_id" />
+                                <field name="saltedge_secret" class="oe_edit_only"/>
+                                <field name="saltedge_redirect_url" />
+                                <field name="saltedge_private_key" class="oe_edit_only"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="saltedge_connection_id" attrs="{'invisible': [('saltedge_connection_id','==', False)]}"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

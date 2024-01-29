@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_saltedge_wizard,saltedge.wizard,model_saltedge_wizard,base.group_user,1,1,1,1
+access_saltedge_transaction_wizard,access_saltedge_transaction_wizard,model_saltedge_transaction_wizard,base.group_user,1,1,1,1
+access_saltedge_transaction_wizard,access_saltedge_transaction_wizard,model_saltedge_transaction_wizard,base.group_user,1,1,1,1
