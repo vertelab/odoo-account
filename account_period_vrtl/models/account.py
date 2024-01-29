@@ -28,7 +28,8 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-FIELDS = ['move_type','name','partner_id','invoice_date','journal_id','invoice_line_ids','line_ids','company_id','state']
+FIELDS = ['move_type', 'name', 'partner_id', 'invoice_date', 'journal_id', 'invoice_line_ids', 'line_ids', 'company_id',
+          'state']
 
 
 class AccountPeriod(models.Model):
@@ -102,18 +103,17 @@ class AccountPeriod(models.Model):
         for period in self:
             return self.search([('date_start', '<', period.date_start)], order='date_start')[-1]
         return self
-    
-    
+
     @api.returns('self')
     def now(self):
         for period in self:
-            #raise UserError('kalle %s' % period)
+            # raise UserError('kalle %s' % period)
             return period.find()
 
     @api.returns('self')
     def now(self):
         for period in self:
-            #raise UserError('kalle %s' % period)
+            # raise UserError('kalle %s' % period)
             return period.find()
 
     @api.returns('self')
@@ -235,29 +235,28 @@ class AccountPeriod(models.Model):
             period = self.env['account.period'].browse(period)
         return fields.Date.from_string(period.date_start).strftime("%b" if short else "%B")
 
-    #@api.model
-    #def date2period(self, date):
+    # @api.model
+    # def date2period(self, date):
     #    return self.env['account.period'].search(
     #        [('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')),
     #         ('company_id', '=', self.env.company.id), ('special', '=', False)])
-    
+
     @api.model
     def date2period(self, date):
         if isinstance(date, str):
             date = datetime.strptime(date, "%Y-%m-%d")
 
-        
         company_id = self.env.context.get('company_id') or self.env.company.id
         company_id2 = self.env.company.id
         res = self.env['account.period'].search(
             [('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')),
              ('company_id', '=', company_id), ('special', '=', False)])
-             
-        #if not res
-        #res = self.env['account.period'].search(
+
+        # if not res
+        # res = self.env['account.period'].search(
         #    [('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')),
         #     ('company_id', '=', False), ('special', '=', False)])
-        #_logger.warning(f"{res}")
+        # _logger.warning(f"{res}")
         return res
 
     @api.depends("state")
@@ -276,7 +275,6 @@ class AccountFiscalyear(models.Model):
             years.state = "draft"
 
     def _default_date_start(self):
-        print("jejje")
         return '%s-01-01' % fields.Date.today().strftime('%Y')
 
     def _default_date_stop(self):
@@ -395,7 +393,7 @@ class AccountFiscalyear(models.Model):
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
-    
+
     def _reverse_moves(self, default_values_list=None, cancel=False):
         ''' Reverse a recordset of account.move.
         If cancel parameter is true, the reconcilable or liquidity lines
@@ -485,16 +483,17 @@ class AccountMove(models.Model):
         if self._context.get('check_move_period_validity', True):
             for record in self:
                 # ~ _logger.warn(f'{values=} {self._context=}')
-                if not set(values.keys()).intersection(FIELDS): # Check only when a critical field are in values
+                if not set(values.keys()).intersection(FIELDS):  # Check only when a critical field are in values
                     continue
                 record.validate_open_period_write({"period_id": record.period_id.id})
         return super(AccountMove, self).write(values)
 
     @api.model_create_multi
     def create(self, values):
-        for v in values: # add period if missing
-            if not 'period_id' in v:
-                v['period_id'] = self.env['account.period'].date2period(v.get('date') or v.get('invoice_date') or fields.Date.today()).id
+        for v in values:  # add period if missing
+            if 'period_id' not in v:
+                v['period_id'] = self.env['account.period'].date2period(
+                    v.get('date') or v.get('invoice_date') or fields.Date.today()).id
 
         if self._context.get('check_move_period_validity', True):
             if isinstance(values, list):
@@ -503,7 +502,6 @@ class AccountMove(models.Model):
             else:
                 self.validate_open_period_create(values)
         return super(AccountMove, self).create(values)
-
 
     def _get_default_period_id(self):
         return self.env['account.period'].date2period(self.invoice_date or fields.Date.today()).id
@@ -542,19 +540,19 @@ class AccountMove(models.Model):
     def _set_payment_invoice(self):
         ###TODO
         for rec in self:
-           rec.payment_move_id = False
-           return
-           
+            rec.payment_move_id = False
+            return
+
         ###TODO FIX SO THAT THE PAYMENT DATES ARE SET
         for rec in self:
             if rec.state == 'posted' and rec.is_invoice(include_receipts=True) and rec.payment_state == 'paid':
                 # Used when searching for account_moves using the cash method with mis_builder. Currently it's
                 # linking the latest payment account.move so that the mis_instance can search using its period or
                 # date. I'm not sure how to handle multiple payments which is why im only linking the latest one.
-                
+
                 rec._compute_payments_widget_reconciled_info()
                 list_of_payments = rec.invoice_payments_widget
-                _logger.warning("LOOK HERE"*100)
+                _logger.warning("LOOK HERE" * 100)
                 _logger.warning(f"{list_of_payments=}")
                 if list_of_payments:
                     latest_payment = self.env['account.move'].search([('id', '=', list_of_payments[0]['move_id'])],
@@ -646,8 +644,7 @@ class account_bank_statement(models.Model):
         return self.env['account.period'].date2period(self.date or fields.Date.today()).id
 
     period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_period_id)
-    
-    
+
     @api.model_create_multi
     def create(self, values):
         for val in values:
