@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="enablebanking_api_url" model="ir.config_parameter">
+            <field name="key">enablebanking.api_url</field>
+            <field name="value">https://api.enablebanking.com</field>
+        </record>
+
+        <record id="enablebanking_application_id" model="ir.config_parameter">
+            <field name="key">enablebanking.application_id</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="enablebanking_redirect_url" model="ir.config_parameter">
+            <field name="key">enablebanking.redirect_url</field>
+            <field name="value">http://localhost:8069/account/enable-banking/return</field>
+        </record>
+
+        <record id="enablebanking_private_key" model="ir.config_parameter">
+            <field name="key">enablebanking.private_key</field>
+            <field name="value"></field>
+        </record>
+    </data>
+</odoo>

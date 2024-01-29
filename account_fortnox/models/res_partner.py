@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models
-from odoo.exceptions import Warning
+from odoo import api, fields, models, _ 
+from odoo.exceptions import Warning,UserError
 
 import requests
 import json
@@ -94,6 +94,8 @@ class Partner(models.Model):
                             "ZipCode": partner.zip,
                         }
                     })
+                if r.get("ErrorInformation",{}).get("code") in [2000357]:
+                   raise UserError(_(f"{partner.name} has an invalid mail {partner.email}"))
                 partner.commercial_partner_id.fortnox_ref = r["Customer"]["CustomerNumber"]
 
     def partner_update(self, company_id):
