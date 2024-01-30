@@ -36,6 +36,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['account', 'contacts', 'base', 'product'],
+    "external_dependencies": {"python": ["jwt"]},
     'data': [
         'security/ir.model.access.csv',
         'data/ir_config_parameter.xml',

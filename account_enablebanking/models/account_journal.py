@@ -138,7 +138,10 @@ class EnableBankingTransactions(models.TransientModel):
                 params=query,
                 headers=base_headers,
             )
+            _logger.info(f"====== account_transaction url endpoint ====== {api_url}/accounts/{self.account_uuid}/transactions")
+            _logger.info(f"====== account_transaction request ====== {account_transaction}")
             resp_data = account_transaction.json()
+            _logger.info(f"====== account_transaction response ====== {resp_data}")
             if account_transaction.status_code == 200:
                 # _logger.info('Enable Banking Transactions %s', resp_data.get("transactions"))
                 transactions.extend(resp_data.get("transactions", []))
@@ -186,7 +189,7 @@ class EnableBankingTransactions(models.TransientModel):
         transactions = self._sieve_out_existing_transactions(
             self.with_context(self.env.context)._fetch_transactions()
         )
-        _logger.warning("look here"*100)
+        _logger.warning("look here" * 100)
         _logger.warning(f"{transactions=}")
         bank_statement_id = self.env['account.bank.statement'].search([
             ('journal_id', '=', self.journal_id.id)], order='id desc')
@@ -227,17 +230,17 @@ class EnableBankingTransactions(models.TransientModel):
                     self._schedule_activity(err_message)
                     raise UserError(_(err_message))
 
-                date = transaction.get('transaction_date')
-                if date == None:
-                    date = transaction.get('booking_date')
-                if date == None:
-                    date = transaction.get('value_date')
-                
+                transaction_date = transaction.get('transaction_date')
+                if not transaction_date:
+                    transaction_date = transaction.get('booking_date')
+                if not transaction_date:
+                    transaction_date = transaction.get('value_date')
+
                 self.env['account.bank.statement.line'].create({
-                    'date': date,
-                    'invoice_date': transaction.get('booking_date',transaction.get('value_date')),
+                    'date': transaction_date,
+                    'invoice_date': transaction.get('booking_date', transaction.get('value_date')),
                     'amount': amount,
-                    'narration': transaction.get('remittance_information')[-1],
+                    'narration': transaction.get('remittance_information') and transaction.get('remittance_information')[-1],
                     'transaction_type': transaction.get('credit_debit_indicator'),
                     'ref': transaction.get('reference_number'),
                     'partner_id': partner_id,
@@ -272,7 +275,6 @@ class EnableBanking(models.TransientModel):
         auth_data = self._create_session()
         return auth_data
 
-
     def _create_session(self):
         _logger.critical("create session")
         partner_id = self.bank_id.api_contact_integration
@@ -282,15 +284,15 @@ class EnableBanking(models.TransientModel):
         if session.status_code == 200:
             self._sync_bank_accounts(session_resp.get('accounts'))
             return {
-            'name': _('Return To Bank Account'),
-            'res_model': 'res.partner.bank',
-            'view_mode': 'tree,form',
-            'target': 'current',
-            'type': 'ir.actions.act_window',
+                'name': _('Return To Bank Account'),
+                'res_model': 'res.partner.bank',
+                'view_mode': 'tree,form',
+                'target': 'current',
+                'type': 'ir.actions.act_window',
             }
         else:
             _logger.error(f"Error response {session_resp.get('code')}: {session_resp.get('message')}")
-            raise ValidationError("There is a problem creating session.")
+            raise ValidationError(f"There is a problem creating session. {session_resp.get('message')}")
 
     def _sync_bank_accounts(self, accounts):
         valid_bank_accounts = list(filter(lambda x: x.get('account_id')['iban'], accounts))
@@ -307,7 +309,7 @@ class EnableBanking(models.TransientModel):
             else:
                 partner_bank_id = self.env['res.partner.bank'].create({
                     'partner_id': self.env.company.id,
-                    #'partner_id': self._sync_partner(account.get('name')).id,
+                    # 'partner_id': self._sync_partner(account.get('name')).id,
                     'acc_number': account.get('account_id')['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account.get('uid')
