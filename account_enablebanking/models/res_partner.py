@@ -61,7 +61,7 @@ class ResConfigSettings(models.Model):
             app = self._request_application_details(api_url, base_headers)
         body = {
             "access": {
-                "valid_until": (datetime.now(timezone.utc) + timedelta(days=90)).isoformat()
+                "valid_until": (datetime.now(timezone.utc) + timedelta(days=10)).isoformat()
             },
             "aspsp": {"name": bank_id.name, "country": bank_id.country.code},
             "state": str(uuid.uuid4()),
