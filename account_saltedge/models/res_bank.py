@@ -5,22 +5,18 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-# class SaltedgeEstablishedSessions(models.Model):
-
-#     _name = "saltedge.connection.id"
-#     saltedge_connection_id = fields.Char("Established Session ID")
-
-
 class ResBank(models.Model):
     
     _inherit = "res.bank"
 
-#    saltedge_connection_ids = fields.One2many("saltedge.connection.id", "saltedge_connection_id", "Established Session IDs")
     api_contact_integration = fields.Many2one("res.partner", string="API Contact Integration")
     saltedge_connection_id = fields.Char("Established Session ID")
+    saltedge_provider_code = fields.Char("Code")
 
     def action_authorize_bank(self):
         
+        if not self.saltedge_provider_code:
+            raise ValidationError("Set a provider code. Can be found on the saltedge developer portal.")
         if not self.country:
             raise ValidationError("Set a country for the bank")
         if not self.api_contact_integration:

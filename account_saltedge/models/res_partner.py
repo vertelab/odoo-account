@@ -41,15 +41,19 @@ class ResPartner(models.Model):
         return signature_as_base64
     
     
-    def create_token(self, customer):
+    def create_token(self, bank_id):
 
         token_url = self.create_url("oauth_providers/create")
+
+        customer = self.saltedge_customer_id
+
+        _logger.error(f"{bank_id.country.code} | {bank_id.saltedge_provider_code}")
 
         payload = json.dumps({ 
                     "data": { 
                         "customer_id": f"{customer}", 
-                        "country_code": "XF", 
-                        "provider_code": "fakebank_oauth_xf",
+                        "country_code": f"{bank_id.country.code}", 
+                        "provider_code": f"{bank_id.saltedge_provider_code}",
                         "return_connection_id": True,
                         "consent": { 
                             "scopes": [ 
@@ -69,6 +73,8 @@ class ResPartner(models.Model):
                     }
                 })
         
+        _logger.error(json.loads(payload))
+
         headers = self.create_headers("POST",url=token_url, payload=payload)
 
         token_response = requests.post(token_url, data=payload, headers=headers)
@@ -111,8 +117,6 @@ class ResPartner(models.Model):
             
 
     def establish_session(self,bank_id):
-
-        customer = self.saltedge_customer_id
     
         response = self.reconnect_token(bank_id)
 
@@ -122,7 +126,7 @@ class ResPartner(models.Model):
 
             _logger.error(f"Error: {json_response['error']['class']} | Message: {json_response['error']['message']}")
         
-            response = self.create_token(customer)
+            response = self.create_token(bank_id)
 
             json_response = response.json()
             

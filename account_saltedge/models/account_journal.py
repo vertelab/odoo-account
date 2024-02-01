@@ -7,7 +7,6 @@ from dateutil.relativedelta import relativedelta, MO, SU
 import calendar
 import re
 import requests, json
-from pprint import pprint
 from re import search
 
 _logger = logging.getLogger(__name__)
