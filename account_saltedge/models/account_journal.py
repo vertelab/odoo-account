@@ -37,7 +37,9 @@ class AccountJournal(models.Model):
         
         partner_id = self.bank_id.api_contact_integration
 
-        balance_url = self.create_url(f"accounts?connection_id={partner_id.saltedge_connection_id}")
+        bank_id = self.bank_id
+
+        balance_url = partner_id.create_url(f"accounts?connection_id={bank_id.saltedge_connection_id}")
 
         headers = partner_id.create_headers("GET",balance_url)
 
@@ -149,15 +151,31 @@ class SaltedgeTransactions(models.TransientModel):
 
         partner_id = self.journal_id.bank_id.api_contact_integration
 
-        transaction_url = partner_id.create_url(f"transactions?connection_id={partner_id.saltedge_connection_id}&account_id={self.account_uuid}")
+        bank_id = self.journal_id.bank_id
+
+        _logger.error(bank_id.saltedge_connection_id)
+
+        transaction_url = partner_id.create_url(f"transactions?connection_id={bank_id.saltedge_connection_id}&account_id={self.account_uuid}")
 
         headers = partner_id.create_headers("GET",transaction_url)
 
-        response = requests.get(headers=headers, url=transaction_url).json()
+        response = requests.get(headers=headers, url=transaction_url)
 
-        _logger.error(response)
+        if response.status_code != 200:
 
-        response = response.get("data")
+            response = response.json()["error"]
+
+            _logger.error(response)
+
+            if "RequestExpired" in response["class"]:
+                                            
+                partner_id.establish_session(bank_id)
+
+                return self._fetch_transactions()
+            
+            raise ValidationError("Failed to fetch transactions")
+
+        response = response.json().get("data")
 
         return response        
 
@@ -183,6 +201,11 @@ class SaltedgeTransactions(models.TransientModel):
             _logger.error(response)
 
             response = response[0].get("names")[0].get("value")
+
+        else:
+
+            response = str(merchant_id)
+            
 
         return response
 
@@ -231,10 +254,10 @@ class SaltedgeTransactions(models.TransientModel):
 
         for transaction in transactions:
 
-            self._create_bank_statement(transaction)
+            self._create_bank_statement(transaction, bank_statement_id)
      
 
-    def _create_bank_statement(self, transaction):
+    def _create_bank_statement(self, transaction, bank_statement_id):
 
         partner_id = False
 
@@ -246,11 +269,11 @@ class SaltedgeTransactions(models.TransientModel):
             
             if transaction.get('extra'):
 
-                creditor = self._get_creditor(transaction.get('extra')["id"])
+                merchant_id = transaction['extra']["id"]
 
-                if len(creditor) != 0:
+                partner_id = self._get_creditor(merchant_id)
 
-                    partner_id = self._sync_partner(creditor).id
+                partner_id = self._sync_partner(partner_id).id
 
             amount = float(transaction.get('amount'))
 
@@ -262,16 +285,16 @@ class SaltedgeTransactions(models.TransientModel):
                                 f"({self.journal_id.currency_id.name}). They need to be the same.")
                 self._schedule_activity(err_message)
                 raise UserError(_(err_message))
-
+            
             self.env['account.bank.statement.line'].create({
                 'date': transaction.get('made_on'),
                 'invoice_date': transaction.get('posting_date'),
                 'amount': amount,
                 'narration': transaction.get('description'),
                 'transaction_type': "DBIT" if float(transaction.get('amount')) < 0 else "CRDT",
-                'ref': transaction.get('extra')["id"],
+                'ref': self.journal_id.bank_account_id.acc_number,
                 'partner_id': partner_id,
-                'payment_ref': transaction.get('extra')["id"],
+                'payment_ref': transaction["id"],
                 'statement_id': bank_statement_id.id,
             })
 
@@ -310,7 +333,9 @@ class Saltedge(models.TransientModel):
 
         partner_id = self.bank_id.api_contact_integration
 
-        account_response = partner_id.get_account()
+        bank_id = self.bank_id
+
+        account_response = partner_id.get_accounts(bank_id)
 
         account_ids = []
 
@@ -336,10 +361,8 @@ class Saltedge(models.TransientModel):
     def _create_session(self):
 
         _logger.critical("create session")
-       
-        partner_id = self.bank_id.api_contact_integration
-       
-        accounts = partner_id.get_account_ids()
+              
+        accounts = self.get_account_ids()
         
         self._sync_bank_accounts(accounts)           
         

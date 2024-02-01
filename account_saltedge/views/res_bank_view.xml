@@ -11,6 +11,10 @@
                     </header>
                 </xpath>
                 <field name="active" position="after">
+                    <!--<field name="saltedge_connection_id" attrs="{'invisible': [('saltedge_connection_id','==', False)]}"/>-->
+                    <field name="saltedge_connection_id"/>
+                </field>
+                <field name="active" position="after">
                     <field name="api_contact_integration" options="{&quot;no_open&quot;: True}"/>
                 </field >
             </field>

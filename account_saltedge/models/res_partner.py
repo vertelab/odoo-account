@@ -11,7 +11,6 @@ _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
 
     _inherit = 'res.partner'
-
     is_saltedge_api = fields.Boolean("Enable Saltedge API")
 
     saltedge_api_url = fields.Char("API URL")
@@ -20,55 +19,26 @@ class ResPartner(models.Model):
 
     saltedge_secret = fields.Char("Secret")
 
+    saltedge_customer_id = fields.Char("Customer ID")
+
     saltedge_redirect_url = fields.Char("Redirect URL")
 
     saltedge_private_key = fields.Text("Private Key")
 
-    saltedge_connection_id = fields.Char("Established Session ID")
 
-    expires_at = str(int(time.time() + 60))
-
-
-    def _create_signature(self,method: str,url: str, data = "", file = ""):
+    def _create_signature(self,method: str,url: str, expires_at: str, data = "", file = ""):
 
         private_key = self.saltedge_private_key.encode("utf-8")
 
         private_key = serialization.load_pem_private_key(private_key, password=None ,backend=default_backend())
 
-        signature_string = f'{self.expires_at}|{method}|{url}|{"" if data == "" else f"{data}"}{"" if file == "" else f"|{file}|"}'
+        signature_string = f'{expires_at}|{method}|{url}|{"" if data == "" else f"{data}"}{"" if file == "" else f"|{file}|"}'
 
         signature = private_key.sign(signature_string.encode("utf-8"), padding.PKCS1v15(), hashes.SHA256())
 
         signature_as_base64 = base64.b64encode(signature).decode("utf-8")
 
         return signature_as_base64
-
-
-    def customer_requests(self):
-
-        customer_ids = []
-
-        customers_url = self.create_url("customers")
-
-        headers = self.create_headers(method="GET",content_type="application/x-www-form-urlencoded",url=customers_url)
-
-        customer_response = requests.get(customers_url, headers=headers)
-        
-        if customer_response.status_code == 200:
-
-            customer_response = json.loads(customer_response.text)["data"]
-
-            for customer in customer_response:
-
-                customer_id = customer["id"]
-
-                customer_ids.append(customer_id)
-
-            return customer_ids
-        
-        _logger.error(customer_response.text)
-
-        raise ValidationError("failed to get customers")
     
     
     def create_token(self, customer):
@@ -106,13 +76,15 @@ class ResPartner(models.Model):
         return token_response
         
 
-    def reconnect_token(self):
+    def reconnect_token(self,bank_id):
 
         token_reconnect_url = self.create_url("oauth_providers/reconnect")
 
+        _logger.error(bank_id.saltedge_connection_id)
+
         payload = json.dumps({ 
                 "data": { 
-                    "connection_id": self.saltedge_connection_id, 
+                    "connection_id":bank_id.saltedge_connection_id, 
                     "consent": { 
                     "scopes": [ 
                         "account_details", 
@@ -124,7 +96,7 @@ class ResPartner(models.Model):
                     "return_to": self.saltedge_redirect_url + "/account/saltedge/return"
                     }, 
                     "include_fake_providers": True,
-                    "return_connection_id": True
+                    "return_connection_id": False
                 } 
                 })
 
@@ -135,64 +107,62 @@ class ResPartner(models.Model):
         return token_reconnect_response
     
 
-    def action_sync_transactions_with_saltedge(self): return self._get_response_values()
+    def action_sync_transactions_with_saltedge(self, bank_id): return self._get_response_values(bank_id)
             
 
-    def establish_session(self):
+    def establish_session(self,bank_id):
 
-        customers = self.customer_requests()
+        customer = self.saltedge_customer_id
+    
+        response = self.reconnect_token(bank_id)
 
-        response = ""
+        json_response = response.json() 
 
-        for customer in customers:
+        if response.status_code != 200:                
+
+            _logger.error(f"Error: {json_response['error']['class']} | Message: {json_response['error']['message']}")
         
-            response = self.reconnect_token()
+            response = self.create_token(customer)
 
-            json_response = response.json() 
-
-            if response.status_code != 200:                
-
-                _logger.error(f"Error: {json_response['error']['class']} | Message: {json_response['error']['message']}")
+            json_response = response.json()
             
-                response = self.create_token(customer)
+            if response.status_code != 200:
 
-                json_response = response.json()
-                
-                if response.status_code != 200:
+                json_response = json_response["error"]
 
-                    json_response = json_response["error"]
+                _logger.error(f"Error: {json_response['class']} | Message: {json_response['message']}")
 
-                    _logger.error(f"Error: {json_response['class']} | Message: {json_response['message']}")
-
-                    raise ValidationError("Failed to create a oauth session on Saltedge.")
+                raise ValidationError("Failed to create a oauth session on Saltedge.")
 
         return response.json()
 
 
-    def _get_response_values(self):
+    def _get_response_values(self,bank_id):
 
-        response = self.establish_session()
+        response = self.establish_session(bank_id)
 
         response = response["data"]
         
         token = response["token"]
 
-        self.saltedge_connection_id = response["connection_id"]
+        bank_id.saltedge_connection_id = response["connection_id"]
 
         return response
     
     
     def create_headers(self, method, url, accept="application/json", content_type = "application/json", payload=""):
 
+        expires_at = str(int(time.time() + 60))
+
         headers= {
             "Accept": accept,
             "Content-type": content_type,
             "App-id": self.saltedge_client_id,
             "Secret": self.saltedge_secret,
-            "Expires-at": self.expires_at
+            "Expires-at": expires_at
         }
 
-        headers["Signature"] = self._create_signature(method,url,payload)
+        headers["Signature"] = self._create_signature(method,url,data=payload,expires_at=expires_at)
 
         return headers
 
@@ -210,9 +180,11 @@ class ResPartner(models.Model):
         return url + url_param
 
 
-    def get_accounts(self):
+    def get_accounts(self,bank_id):
 
-            account_url = self.create_url(f"accounts?connection_id={self.saltedge_connection_id}")
+            _logger.error(bank_id.saltedge_connection_id)
+
+            account_url = self.create_url(f"accounts?connection_id={bank_id.saltedge_connection_id}")
 
             headers = self.create_headers("GET", account_url)
 
@@ -226,9 +198,9 @@ class ResPartner(models.Model):
 
                 if "RequestExpired" in account_response:
                                         
-                    self.establish_session()
+                    self.establish_session(bank_id)
                     
-                    return self.get_accounts()
+                    return self.get_accounts(bank_id)
 
                 raise ValidationError("faild to get accounts")
             

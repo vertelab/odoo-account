@@ -4,11 +4,20 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+
+# class SaltedgeEstablishedSessions(models.Model):
+
+#     _name = "saltedge.connection.id"
+#     saltedge_connection_id = fields.Char("Established Session ID")
+
+
 class ResBank(models.Model):
     
     _inherit = "res.bank"
 
+#    saltedge_connection_ids = fields.One2many("saltedge.connection.id", "saltedge_connection_id", "Established Session IDs")
     api_contact_integration = fields.Many2one("res.partner", string="API Contact Integration")
+    saltedge_connection_id = fields.Char("Established Session ID")
 
     def action_authorize_bank(self):
         
@@ -19,7 +28,7 @@ class ResBank(models.Model):
         
         partner_id = self.api_contact_integration
         
-        auth_data = partner_id.action_sync_transactions_with_saltedge()
+        auth_data = partner_id.action_sync_transactions_with_saltedge(self)
 
         redirect_url = auth_data.get("redirect_url") 
 
