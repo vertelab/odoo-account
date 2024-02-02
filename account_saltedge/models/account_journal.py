@@ -268,7 +268,7 @@ class SaltedgeTransactions(models.TransientModel):
             
             if transaction.get('extra'):
 
-                merchant_id = transaction['extra']["id"]
+                merchant_id = transaction['extra'].get("id")
 
                 partner_id = self._get_creditor(merchant_id)
 
