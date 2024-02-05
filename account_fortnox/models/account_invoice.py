@@ -13,6 +13,7 @@ _logger = logging.getLogger(__name__)
 
 BASE_URL = 'https://api.fortnox.se'
 
+
 class AccountJournal(models.Model):
     _inherit = "account.journal"
     is_fortnox_journal = fields.Boolean(string="Is Fortnox Journal")
@@ -51,9 +52,10 @@ class AccountInvoice(models.Model):
     def update_invoice_status_fortnox_paid(self, fortnox_values):
         final_pay_date_string = fortnox_values.get('FinalPayDate')
         if not final_pay_date_string:
-           final_pay_date_string = fortnox_values.get('OutboundDate')
+            final_pay_date_string = fortnox_values.get('OutboundDate')
         final_pay_date = datetime.strptime(final_pay_date_string, '%Y-%m-%d').date()
-        fortnox_journal = self.env['account.journal'].search([('company_id','=',self.company_id.id),('is_fortnox_journal', '=', True), ('type', '=', 'bank')])
+        fortnox_journal = self.env['account.journal'].search(
+            [('company_id', '=', self.company_id.id), ('is_fortnox_journal', '=', True), ('type', '=', 'bank')])
 
         if not fortnox_journal:
             raise UserError(
@@ -109,7 +111,7 @@ class AccountInvoice(models.Model):
             move_id = self.env['account.move'].search([
                 ('company_id', '=', company_id.id),
                 ('create_date', '>', from_date),
-                ('payment_state', 'not in', ['paid','reversed','partially_paid','in_payment']),
+                ('payment_state', 'not in', ['paid', 'reversed', 'partially_paid', 'in_payment']),
                 ('state', '!=', 'draft'),
                 ('state', '!=', 'cancel'),
                 ('move_type', '=', 'out_invoice')
@@ -143,12 +145,13 @@ class AccountInvoice(models.Model):
         )
         if fortnox_invoice := fortnox_res.get('Invoice'):
             self.fortnox_update(invoice_id, fortnox_invoice)
-        elif fortnox_res.get('ErrorInformation', {}).get('Code') in [2000434,2000762]:
+        elif fortnox_res.get('ErrorInformation', {}).get('Code') in [2000434, 2000762]:
             self.fortnox_create(invoice_id)
-        elif fortnox_res.get('ErrorInformation', {}).get('code') in [2000434,2000762]:
+        elif fortnox_res.get('ErrorInformation', {}).get('code') in [2000434, 2000762]:
             self.fortnox_create(invoice_id)
         else:
             raise UserError(f"There is an issue with the fortnox connection. Contact administrator ({fortnox_res=})")
+
     def fortnox_update(self, invoice, fortnox_invoice):
         invoice.ref = fortnox_invoice["CustomerNumber"]
         invoice.name = fortnox_invoice["DocumentNumber"]
@@ -185,20 +188,10 @@ class AccountInvoice(models.Model):
         r = self.company_id.fortnox_request(
             'POST',
             "https://api.fortnox.se/3/invoices",
-            data={"Invoice": {
-                "Comments": "",
-                "Currency": "SEK",
-                "CustomerName": invoice.partner_id.commercial_partner_id.name,
-                "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
-                "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
-                #"DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
-                "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
-                "InvoiceRows": invoice_lines,
-                "InvoiceType": "INVOICE",
-                "Language": "SV",
-                "Remarks": "",
+            data={
+                "Invoice": self.fortnox_invoice_vals(invoice, invoice_lines)
             }
-        })
+        )
 
         if r.get('ErrorInformation'):
             invoice._message_log(
@@ -210,6 +203,23 @@ class AccountInvoice(models.Model):
             invoice.ref = r["Invoice"]["CustomerNumber"]
             invoice.name = r["Invoice"]["DocumentNumber"]
             invoice.is_move_sent = True
+
+    def fortnox_invoice_vals(self, invoice, invoice_lines):
+        invoice_vals = {
+            "Comments": "",
+            "Currency": "SEK",
+            "CustomerName": invoice.partner_id.commercial_partner_id.name,
+            "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
+            "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
+            # "DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
+            "InvoiceDate": invoice.invoice_date.strftime(
+                '%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
+            "InvoiceRows": invoice_lines,
+            "InvoiceType": "INVOICE",
+            "Language": "SV",
+            "Remarks": "",
+        }
+        return invoice_vals
 
 
 class AccountInvoiceSend(models.TransientModel):
