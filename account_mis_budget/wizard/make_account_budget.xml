@@ -9,8 +9,14 @@
                 <form>
                     <sheet>
                         <group>
+                            <field name="use_last_years_budget"/>
                             <field name="date_type"/>
-                            <field name="account_ids"/>
+                            
+                        </group>
+                        <separator string="" colspan="4" style="border-top: 1px solid grey; margin-top: 10px; margin-bottom: 10px;"/>
+                        <group>
+                            <field name="account_class" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="account_ids" widget="many2many_tags"/>
                         </group>
                         <footer>
                             <button string="Cancel" class="btn-secondary" special="cancel"/>
