@@ -138,7 +138,6 @@ class AccountInvoice(models.Model):
     def sync_fortnox(self):
         self.ensure_one()
         invoice_id = self.env['account.move'].browse(self.id)
-        invoice_id.is_sent_to_fortnox = True
         fortnox_res = invoice_id.company_id.fortnox_request(
             "get",
             f"{BASE_URL}/3/invoices/{invoice_id.name}"
@@ -203,6 +202,7 @@ class AccountInvoice(models.Model):
             invoice.ref = r["Invoice"]["CustomerNumber"]
             invoice.name = r["Invoice"]["DocumentNumber"]
             invoice.is_move_sent = True
+            invoice.is_sent_to_fortnox = True
 
     def fortnox_invoice_vals(self, invoice, invoice_lines):
         invoice_vals = {
