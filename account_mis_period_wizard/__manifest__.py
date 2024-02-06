@@ -22,7 +22,7 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'Make KPI Report',
+    'name': 'MIS Period Wizard',
     'version': '14.0.0.0.0',
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -34,13 +34,10 @@
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-',
     'license': 'AGPL-3',
-    'depends': ['date_range', 'account', 'mis_builder_budget'],
+    'depends': ['account_period_vrtl', 'mis_builder'],
     'data': [
         "security/ir.model.access.csv",
-        "wizard/make_kpi_report.xml",
-        "wizard/make_account_budget.xml",
-        "wizard/get_old_budget.xml",
-        "data/custom_account_classes.xml"
+        "wizard/account_mis_period_wizard.xml"
     ],
     'demo': [],
     'application': False,
