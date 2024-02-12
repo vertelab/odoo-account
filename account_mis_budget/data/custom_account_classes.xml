@@ -1,36 +1,23 @@
 <odoo>
-    <!--<record id="account_class_intäkter" model="custom.account.class">
-        <field name="name">Intäkter</field>
+    <record id="account_class_class_3" model="custom.account.class">
+        <field name="name">Income (class 3)</field>
+        <field name="account_class">3</field>
     </record>
-    <record id="account_class_material_och_varor" model="custom.account.class">
-        <field name="name">Material och varor</field>
+    <record id="account_class_class_4" model="custom.account.class">
+        <field name="name">Goods and material (class 4)</field>
+        <field name="account_class">4</field>
     </record>
-    <record id="account_class_ovriga_kostnader" model="custom.account.class">
-        <field name="name">Övriga konstnader</field>
-    </record>
-    <record id="account_class_personalkostnader" model="custom.account.class">
-        <field name="name">Personalkostnader</field>
-    </record>
-    <record id="account_class_finansiella_intakter_kostnader" model="custom.account.class">
-        <field name="name">Finansiella intäkter/kostnader</field>
-    </record>-->
+    <record id="account_class_class_56" model="custom.account.class">
+        <field name="name">Other Costs (class 5 &amp; 6)</field>
+        <field name="account_class">5,6</field>
 
-    <record id="account_class_class_1" model="custom.account.class">
-        <field name="name">Class 1</field>
     </record>
-    <record id="account_class_class_2" model="custom.account.class">
-        <field name="name">Class 2</field>
+    <record id="account_class_class_7" model="custom.account.class">
+        <field name="name">Personell Costs (class 7)</field>
+        <field name="account_class">7</field>
     </record>
-    <record id="account_class_class_3_4" model="custom.account.class">
-        <field name="name">Class 3 &amp; 4</field>
-    </record>
-    <record id="account_class_class_5" model="custom.account.class">
-        <field name="name">Class 5</field>
-    </record>
-    <record id="account_class_class_6" model="custom.account.class">
-        <field name="name">Class 6</field>
-    </record>
-    <record id="account_class_class_9" model="custom.account.class">
-        <field name="name">Class 9</field>
+    <record id="account_class_class_8" model="custom.account.class">
+        <field name="name">Financial Income and Costs (class 8)</field>
+        <field name="account_class">8</field>
     </record>
 </odoo>

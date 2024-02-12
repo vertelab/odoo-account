@@ -4,11 +4,49 @@ import logging
 import dateutil.relativedelta as relativedelta
 from datetime import datetime
 
+_logger = logging.getLogger(__name__)
+
+class MisBudgetAccount(models.Model):
+    _inherit = "mis.budget.by.account"
+
+    def action_create_income_budget(self):
+        
+        dr = self.env['date.range.type'].search([('name','like','%mon%')])
+        if len(dr) == 0:
+            dr = self.env['date.range.type'].search([])
+       
+        wizard_id = self.env['make.account.budget.wizard'].create({
+            'budget_id': self.id,
+            'date_type': dr[0].id,
+            })
+        return self.env.ref('account_mis_budget.action_make_account_budget').with_context({'res_id': wizard_id.id}).read()[0]
+       
+    
+
 class AccountClass(models.Model):
     _name = "custom.account.class"
     _description = "A custom account class"
 
     name = fields.Char()
+    account_class = fields.Char(string="Account Class",help="Coma separated list of beginning of account code for account classes eg 5,6")
+    
+      #TODO: Maybe use id, instead of a string value of account_class_name, that might modified in the future?
+    def get_account_class(self, use_account_from_year):
+        account_ids = []
+        for ac in self:
+            for ac_begin in [str(code) for code in ac.account_class.split(',') if len(ac.account_class) > 0]:
+                _logger.warning(f"{ac_begin}   ^{ac_begin}")
+                for account in self.env['account.account'].search([('code', 'like', f"{ac_begin}___"),]):
+                    if use_account_from_year:
+                        nbr_use = self.env['account.move.line'].search_count(['&',
+                                ('date','>=', fields.Date.today() - relativedelta.relativedelta(years=1)),
+                                ('account_id', '=', account.id),
+                            ])
+                        if nbr_use > 0:
+                            account_ids.append(account.id)
+                    else:
+                        account_ids.append(account.id)
+        return account_ids
 
 class make_account_budget(models.TransientModel):
     _name = "make.account.budget.wizard"
@@ -16,11 +54,12 @@ class make_account_budget(models.TransientModel):
 
     date_type = fields.Many2one('date.range.type', string='Date type', required=True)
     account_ids = fields.Many2many(comodel_name="account.account",string="Accounts",required=True)
+    budget_id = fields.Many2one(comodel_name="mis.budget.by.account", default=lambda b: b.env.context.get('active_id'))
 
     use_last_years_budget = fields.Boolean(string="Use accounts from last year?", help="If checked in we create lines only for accounts that were used in an account.move.line last year")
     
     #account_class = fields.Selection([('intäkter', 'Intäkter'), ('material och varor', 'Material och varor'),('övriga kostnader', 'Övriga konstnader'), ('personalkostnader', 'Personalkostnader'), ('finansiella intäkter/kostnader','Finansiella intäkter/kostnader')], string="Account Class")
-    account_class = fields.Many2many(comodel_name='custom.account.class', string='Account class')
+    account_class_ids = fields.Many2many(comodel_name='custom.account.class', string='Account class')
 
     def make_report(self):
         
@@ -56,46 +95,14 @@ class make_account_budget(models.TransientModel):
                             'account_id': account.id,
                         })
 
-
-    #TODO: Maybe use id, instead of a string value of account_class_name, that might modified in the future?
-    def get_account_class(self, account_class_name):
-        if account_class_name == 'Class 1':
-            return ['1']
-        elif account_class_name == 'Class 2':
-            return ['2']
-        elif account_class_name == 'Class 3 & 4':
-            return ['3', '4']
-        elif account_class_name == 'Class 5':
-            return ['5']
-        elif account_class_name == 'Class 6':
-            return ['6']
-        elif account_class_name == 'Class 9':
-            return ['9']
-        
-        #Dessa nedanför ska användas när /data/custom_account_classes.xml använder dessa records.
-        """ if account_class_name == 'Intäkter':
-            return ['1']
-        elif account_class_name == 'Material och varor':
-            return ['2']
-        elif account_class_name == 'Övriga konstnader':
-            return ['3', '4']
-        elif account_class_name == 'Personalkostnader':
-            return ['5']
-        elif account_class_name == 'Finansiella intäkter/kostnader':
-            return ['8'] """
-
-    @api.onchange('account_class')
+    @api.onchange('budget_id','account_class_ids')
+    def _onchange_budget_account(self):
+        _logger.warning(f"{self.env.context=}")
+        self.budget_id = self.env['mis.budget.by.account'].browse(self.env.context.get('active_id'))
+    
+    @api.onchange('account_class_ids')
     def _onchange_account_class(self):
-
         ids = []
-
-        for selected_values in self.account_class:
-            for selected_account_class in list(self.get_account_class(selected_values.name)):
-                for account in self.env['account.account'].search([]):
-                    if str(account.code)[0] == selected_account_class:
-                        ids.append(account.id)
-
-        if len(self.account_class) > 0:
-            self.write({'account_ids': [(6, 0, ids)]})
-        else:
-            self.write({'account_ids': [(6, 0, [])]})
+        for account_id in self.account_class_ids.get_account_class(self.use_last_years_budget):
+            ids.append(account_id)    
+        self.write({'account_ids': [(6, 0, ids)]})
