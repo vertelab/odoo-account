@@ -39,7 +39,7 @@
         "security/ir.model.access.csv",
         "wizard/make_kpi_report.xml",
         "wizard/make_account_budget.xml",
-        "wizard/get_old_budget.xml",
+        "wizard/last_years_actuals.xml",
         "data/custom_account_classes.xml"
     ],
     'demo': [],
