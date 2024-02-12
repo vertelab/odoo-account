@@ -17,7 +17,7 @@ class make_account_budget(models.TransientModel):
     date_type = fields.Many2one('date.range.type', string='Date type', required=True)
     account_ids = fields.Many2many(comodel_name="account.account",string="Accounts",required=True)
 
-    use_last_years_budget = fields.Boolean(string="Use last years budget?")
+    use_last_years_budget = fields.Boolean(string="Use accounts from last year?", help="If checked in we create lines only for accounts that were used in an account.move.line last year")
     
     #account_class = fields.Selection([('intäkter', 'Intäkter'), ('material och varor', 'Material och varor'),('övriga kostnader', 'Övriga konstnader'), ('personalkostnader', 'Personalkostnader'), ('finansiella intäkter/kostnader','Finansiella intäkter/kostnader')], string="Account Class")
     account_class = fields.Many2many(comodel_name='custom.account.class', string='Account class')
