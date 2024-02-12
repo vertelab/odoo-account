@@ -34,7 +34,7 @@
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-',
     'license': 'AGPL-3',
-    'depends': ['account_period_vrtl', 'mis_builder'],
+    'depends': ['account_period', 'mis_builder'],
     'data': [
         "security/ir.model.access.csv",
         "wizard/account_mis_period_wizard.xml"

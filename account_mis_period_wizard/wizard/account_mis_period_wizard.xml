@@ -8,7 +8,7 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="period" domain="[('date_start', '&gt;=', context_today().strftime('%Y-01-01')), ('date_stop', '&lt;=', context_today().strftime('%Y-12-31'))]"/> -->
+                            <field name="period" domain="[('date_start', '&gt;=', context_today().strftime('%Y-01-01')), ('date_stop', '&lt;=', context_today().strftime('%Y-12-31'))]"/>
                         </group>
                         <footer>
                             <button string="Cancel" class="btn-secondary" special="cancel"/>

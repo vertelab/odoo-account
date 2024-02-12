@@ -13,7 +13,7 @@ class account_mis_period_wizard(models.TransientModel):
       def make_report(self):
             logging.warning('make_report')
             mis_report = self.env['mis.report.instance'].browse(self._context.get('active_id'))
-
+            logging.warning(f"{self._context=}")
             #TODO: Get the first fiscal year possible in the model account.period
             fiscal_years = self.env['account.period'].search([('special', '=', False)]) #There is an extra element called "Opening Period YYYY" that we dont want
 
@@ -31,7 +31,8 @@ class account_mis_period_wizard(models.TransientModel):
                   #logging.warning(y.date_start)
 
             #TODO : Sort the fiscal year
-
+            logging.warning(f"{mis_report=}")
+            logging.warning(f"{sorted_fiscal_years=}")
             mis_report.write({"comparison_mode":True,
                   "period_ids":[(5, 0, 0),
                   (0,0,{'name': f'Ingående balans ({(datetime(year=self.period.date_start.year, month=12, day=31) - relativedelta.relativedelta(years=1)).year})',
