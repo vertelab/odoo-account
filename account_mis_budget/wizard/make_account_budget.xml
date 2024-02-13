@@ -1,66 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-
- <record id="mis_budget_by_account_form_view" model="ir.ui.view">
-            <field name="name">mis.budget.by.account.create_income_budget</field>
-            <field name="model">mis.budget.by.account</field>
-            <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_form_view" />
-            <field name="arch" type="xml">
-                <header position="inside">
-                <button name="action_create_income_budget" string="Create Income Budget" type="object" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
-                </header>
-</field>
-</record>
-
-        <record id="view_make_account_budget_form" model="ir.ui.view">
-            <field name="name">make.account.budget.wizard</field>
-            <field name="model">make.account.budget.wizard</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <group>
-                            
-                            <field name="budget_id" />
-                            <field name="use_last_years_budget"/>
-                            <field name="date_type"/>
-                            
-                        </group>
-                        <separator string="" colspan="4" style="border-top: 1px solid grey; margin-top: 10px; margin-bottom: 10px;"/>
-                        <group>
-                            <field name="account_class_ids" widget="many2many_tags" options="{'no_create': True}"/>
-                            <field name="account_ids" widget="many2many_tags"/>
-                        </group>
-                        <footer>
-                            
-                            <button string="Create New Income Budget" type="object" class="oe_highlight" name="make_report"/>
-                            <button string="Cancel" class="btn-secondary" special="cancel"/>
-                        </footer>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="action_make_account_budget" model="ir.actions.act_window">
-            <field name="name">Create Income &amp; Loss Budget</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">make.account.budget.wizard</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_make_account_budget_form"/>
-            
-            <field name="target">new</field>
-        </record>
-
-        <record id="action_open_account_budget_wizard" model="ir.actions.server">
-            <field name="name">Create Income &amp; Loss Budget</field>
-            <field name="type">ir.actions.server</field>
-            <field name="model_id" ref="mis_builder_budget.model_mis_budget_by_account"/>
-            <field name="binding_model_id" ref="mis_builder_budget.model_mis_budget_by_account"/>
-            <field name="state">code</field>
-            <field name="code">
-action = env.ref('account_mis_budget.action_make_account_budget').with_context(active_id=record.id).read()[0]
-            </field>
-        </record>
-
-    </data>
+  <data>
+    <record id="mis_budget_by_account_form_view" model="ir.ui.view">
+      <field name="name">mis.budget.by.account.create_income_budget</field>
+      <field name="model">mis.budget.by.account</field>
+      <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_form_view" />
+      <field name="arch" type="xml">
+        <header position="inside">
+          <button name="action_create_income_budget" string="Create Income Budget" type="object" attrs="{'invisible': [('state', '!=', 'draft')]}" />
+        </header>
+      </field>
+    </record>
+    <record id="view_make_account_budget_form" model="ir.ui.view">
+      <field name="name">make.account.budget.wizard</field>
+      <field name="model">make.account.budget.wizard</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="budget_id" />
+              <field name="use_account_from_year" />
+              <field name="percentage_factor" widget="percentage" attrs="{'invisible': [('use_account_from_year', '=', False)]}" />
+              <field name="date_type" />
+            </group>
+            <separator string="" colspan="4" style="border-top: 1px solid grey; margin-top: 10px; margin-bottom: 10px;" />
+            <group>
+              <field name="account_class_ids" widget="many2many_tags" options="{'no_create': True}" />
+              <field name="account_ids" widget="many2many_tags" />
+            </group>
+            <footer>
+              <button string="Create New Income Budget" type="object" class="oe_highlight" name="make_report" />
+              <button string="Cancel" class="btn-secondary" special="cancel" />
+            </footer>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="action_make_account_budget" model="ir.actions.act_window">
+      <field name="name">Create Income &amp; Loss Budget</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">make.account.budget.wizard</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="view_make_account_budget_form" />
+      <field name="target">new</field>
+    </record>
+    <record id="action_open_account_budget_wizard" model="ir.actions.server">
+      <field name="name">Create Income &amp; Loss Budget</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="mis_builder_budget.model_mis_budget_by_account" />
+      <field name="binding_model_id" ref="mis_builder_budget.model_mis_budget_by_account" />
+      <field name="state">code</field>
+      <field name="code">action = env.ref('account_mis_budget.action_make_account_budget').with_context(active_id=record.id).read()[0]</field>
+    </record>
+  </data>
 </odoo>
