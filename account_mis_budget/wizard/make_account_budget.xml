@@ -9,6 +9,9 @@
         <header position="inside">
           <button name="action_create_income_budget" string="Create Income Budget" type="object" attrs="{'invisible': [('state', '!=', 'draft')]}" />
         </header>
+        <field name="allow_items_overlap" position="before">
+          <field name="date_type" />
+        </field>
       </field>
     </record>
     <record id="view_make_account_budget_form" model="ir.ui.view">
@@ -21,7 +24,6 @@
               <field name="budget_id" />
               <field name="use_account_from_year" />
               <field name="percentage_factor" widget="percentage" attrs="{'invisible': [('use_account_from_year', '=', False)]}" />
-              <field name="date_type" />
             </group>
             <separator string="" colspan="4" style="border-top: 1px solid grey; margin-top: 10px; margin-bottom: 10px;" />
             <group>

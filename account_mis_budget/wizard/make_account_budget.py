@@ -8,14 +8,15 @@ _logger = logging.getLogger(__name__)
 
 class MisBudgetAccount(models.Model):
     _inherit = "mis.budget.by.account"
-
+    
+    date_type = fields.Many2one('date.range.type', string='Date type', required=True)
+    
     def action_create_income_budget(self):
         dr = self.env['date.range.type'].search([('name','like','%mon%')])
         if len(dr) == 0:
             dr = self.env['date.range.type'].search([])
         wizard_id = self.env['make.account.budget.wizard'].create({
             'budget_id': self.id,
-            'date_type': dr[0].id,
             })
         return self.env.ref('account_mis_budget.action_make_account_budget').with_context({'res_id': wizard_id.id}).read()[0]
 
@@ -48,7 +49,6 @@ class make_account_budget(models.TransientModel):
     _name = "make.account.budget.wizard"
     _description = "Make account budget"
 
-    date_type = fields.Many2one('date.range.type', string='Date type', required=True)
     account_ids = fields.Many2many(comodel_name="account.account",string="Accounts",required=True)
     budget_id = fields.Many2one(comodel_name="mis.budget.by.account", default=lambda b: b.env.context.get('active_id'))
 
@@ -59,7 +59,7 @@ class make_account_budget(models.TransientModel):
     
     def make_report(self):
         for account in self.account_ids:
-            for date_range in self.date_type.date_range_ids:
+            for date_range in self.budget_id.date_type.date_range_ids:
             #    env['mis.budget.kpi.item'].create({
                 if date_range.date_start > self.budget_id.date_to:
                     break
@@ -90,7 +90,7 @@ class make_account_budget(models.TransientModel):
     @api.onchange('budget_id','account_class_ids','use_account_from_year')
     def _onchange_budget_account(self):
         _logger.warning(f"{self.env.context=}")
-        self.budget_id = self.env['mis.budget.by.account'].browse(self.env.context.get('active_id'))
+        #self.budget_id = self.env['mis.budget.by.account'].browse(self.env.context.get('active_id'))
     
     @api.onchange('account_class_ids')
     def _onchange_account_class(self):
