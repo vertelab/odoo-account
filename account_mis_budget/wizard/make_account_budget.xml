@@ -39,7 +39,7 @@
       </field>
     </record>
     <record id="action_make_account_budget" model="ir.actions.act_window">
-      <field name="name">Create Income &amp; Loss Budget</field>
+      <field name="name">Create Profit &amp; Loss Budget</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">make.account.budget.wizard</field>
       <field name="view_mode">form</field>
@@ -47,7 +47,7 @@
       <field name="target">new</field>
     </record>
     <record id="action_open_account_budget_wizard" model="ir.actions.server">
-      <field name="name">Create Income &amp; Loss Budget</field>
+      <field name="name">Create Profit &amp; Loss Budget</field>
       <field name="type">ir.actions.server</field>
       <field name="model_id" ref="mis_builder_budget.model_mis_budget_by_account" />
       <field name="binding_model_id" ref="mis_builder_budget.model_mis_budget_by_account" />
