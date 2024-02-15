@@ -60,32 +60,31 @@ class make_account_budget(models.TransientModel):
     def make_report(self):
         for account in self.account_ids:
             for date_range in self.budget_id.date_type.date_range_ids:
-            #    env['mis.budget.kpi.item'].create({
-                if date_range.date_start > self.budget_id.date_to:
-                    break
-                budget_item = self.env['mis.budget.by.account.item'].search([('budget_id','=',self.budget_id.id),
-                                                       ('date_range_id','=',date_range.id),
-                                                       ('date_from','=',date_range.date_start),
-                                                       ('date_to','=',date_range.date_end),
-                                                       ('account_id','=',account.id)])
-                if not budget_item:
-                    budget_item = self.env['mis.budget.by.account.item'].create({
-                            'budget_id': self.budget_id.id, 
-                            'date_range_id': date_range.id, 
-                            'date_from': date_range.date_start, 
-                            'date_to': date_range.date_end, 
-                            'account_id': account.id,
-                        })
-                    if self.use_account_from_year:
-                        balance = sum(self.env['account.move.line'].search([
-                            ('account_id','=',account.id),('move_id.state','=','posted'),
-                            ('date','>=',date_range.date_start - relativedelta.relativedelta(years=1)),
-                            ('date','<=',date_range.date_end - relativedelta.relativedelta(years=1))]).mapped('balance'))
-                        logging.warning(balance)
-                        if balance > 0:
-                            budget_item.write({'debit':abs(balance) * self.percentage_factor})
-                        else:
-                            budget_item.write({'credit':abs(balance) * self.percentage_factor})
+                if (date_range.date_start >= self.budget_id.date_from) and (date_range.date_end <= self.budget_id.date_to):                
+                    budget_item = self.env['mis.budget.by.account.item'].search([('budget_id','=',self.budget_id.id),
+                                                           ('date_range_id','=',date_range.id),
+                                                           ('date_from','=',date_range.date_start),
+                                                           ('date_to','=',date_range.date_end),
+                                                           ('account_id','=',account.id)])
+                                                           
+                    if not budget_item: # Do not overwrite a current budget item
+                        budget_item = self.env['mis.budget.by.account.item'].create({
+                                'name': account.name,
+                                'budget_id': self.budget_id.id, 
+                                'date_range_id': date_range.id, 
+                                'date_from': date_range.date_start, 
+                                'date_to': date_range.date_end, 
+                                'account_id': account.id,
+                            })
+                        if self.use_account_from_year: # Use historic data for the budget
+                            balance = sum(self.env['account.move.line'].search([
+                                ('account_id','=',account.id),('move_id.state','=','posted'),
+                                ('date','>=',date_range.date_start - relativedelta.relativedelta(years=1)),
+                                ('date','<=',date_range.date_end - relativedelta.relativedelta(years=1))]).mapped('balance'))
+                            if balance > 0:
+                                budget_item.write({'debit':abs(balance) * self.percentage_factor})
+                            else:
+                                budget_item.write({'credit':abs(balance) * self.percentage_factor})
 
     @api.onchange('budget_id','account_class_ids','use_account_from_year')
     def _onchange_budget_account(self):
