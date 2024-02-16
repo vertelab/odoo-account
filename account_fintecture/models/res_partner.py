@@ -7,25 +7,88 @@ from cryptography.hazmat.primitives.asymmetric import padding
 _logger = logging.getLogger(__name__)
 
 
-class ResConfigSettings(models.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     is_fintecture_api = fields.Boolean("Enable Fintecture API")
-
     fintecture_app_id = fields.Char("Application ID")
-
     fintecture_app_secret = fields.Char("Application Secret")
-
     fintecture_redirect_url = fields.Char("Redirect URL")
-
     fintecture_private_key = fields.Text("Private Key")
-
     fintecture_access_token = fields.Char("Access Token")
-
     fintecture_refresh_token = fields.Char("Refresh Token")
 
 
-    def create_url(self,params):
+    def get_provider_authorization(self,bank_id):
+
+        url_params = f"/ais/v1/provider/{bank_id.provider_code}/authorize?response_type=code&redirect_uri={self.fintecture_redirect_url + '/account/fintecture/return'}&state=1234&model=redirect"
+
+        url = self._create_url(url_params)
+
+        headers = self._create_headers(signature=True,url_params=url_params)
+
+        response = requests.get(url,headers=headers)
+
+        return response.json()
+
+
+    def get_accounts(self,code,customer_id):
+
+        self._oauth_authenticate(code)
+
+        url_params = f"/ais/v1/customer/{customer_id}/accounts"
+
+        url = self._create_url(url_params)
+
+        headers = self._create_headers(authorization=self.fintecture_access_token,signature=True,url_params=url_params)
+
+        response = requests.get(url, headers=headers)
+
+        _logger.error(response.text)
+
+        return response
+    
+    
+    def get_account_transactions(self,customer_id,fintecture_account_id,timespan):
+        
+        self._oauth_authenticate()
+
+        url_params = f"/ais/v1/customer/{customer_id}/accounts/{fintecture_account_id}/transactions?filter[date_to]={timespan['date_to']}&filter[date_from]={timespan['date_from']}"
+
+        formater = requests.utils.quote
+
+        #Fintecture can't handle square brackets
+        url_params = url_params.replace("[",formater("[")).replace("]",formater("]"))
+
+        url = self._create_url(url_params)
+
+        headers = self._create_headers(is_app_id=False,authorization=self.fintecture_access_token,signature=True,url_params=url_params)
+  
+        response = requests.get(url, headers=headers)
+
+        _logger.error(response.text)
+
+        return response
+    
+
+    def get_account(self,customer_id,fintecture_account_id):
+
+        self._oauth_authenticate()
+        
+        url_params = f"/ais/v1/customer/{customer_id}/accounts/{fintecture_account_id}"
+
+        url = self._create_url(url_params)
+
+        headers = self._create_headers(is_app_id=False,authorization=self.fintecture_access_token,signature=True,url_params=url_params)
+
+        response = requests.get(url,headers=headers)
+
+        _logger.error(response.text)
+
+        return response
+    
+
+    def _create_url(self,params):
 
         url = "https://api-sandbox.fintecture.com"
 
@@ -49,22 +112,24 @@ class ResConfigSettings(models.Model):
         return f"Bearer {authorization}"
  
 
-    def create_signing_string(self,method,url_params,date,x_request_id,payload):
+    def _create_signing_string(self,method,url_params,date,x_request_id,payload):
 
         request_target = f"{method} {url_params}"
 
         if payload != "":
 
-            digest = self.create_digest(payload)
+            digest = self._create_digest(payload)
 
-        signing_string = f"(request-target): {request_target}\ndate: {date}" + (f"\ndigest: SHA-256={digest}\nx-request-id: {x_request_id}" if payload != "" else f"\nx-request-id: {x_request_id}")
+        is_digest = "" if payload == "" else f"\ndigest: SHA-256={digest}"
+
+        signing_string = f"(request-target): {request_target}\ndate: {date}{is_digest}\nx-request-id: {x_request_id}"
         
         _logger.error(signing_string)
 
         return signing_string
 
 
-    def create_digest(self,payload):
+    def _create_digest(self,payload):
 
         payload = json.dumps(payload, separators=(',', ':'))
 
@@ -75,30 +140,11 @@ class ResConfigSettings(models.Model):
         return base64_digest.decode("utf-8")
 
 
-    def create_payload_from_url(self,url_params):
+    def _create_signature(self,method, url_params, date, x_request_id, payload=""):
 
-        list_of_params = url_params.split("?")[1].split("&")
+        signing_string = self._create_signing_string(method,url_params,date,x_request_id,payload)
 
-        payload = dict()
-
-        for param in list_of_params:
-
-            param = param.split("=")
-
-            print(f"{param[0]} {param[1]}")
-
-            payload[param[0]] = param[1]
-
-        return 
-
-
-    def create_signature(self,method, url_params, date, x_request_id, payload=""):
-
-        if "?" in url_params:
-
-            payload = self.create_payload_from_url(url_params)
-
-        signing_string = self.create_signing_string(method,url_params,date,x_request_id,payload)
+        _logger.error(signing_string)
 
         private_key = self.fintecture_private_key.encode("utf-8")
 
@@ -108,14 +154,16 @@ class ResConfigSettings(models.Model):
 
         signature_as_base64 = base64.b64encode(signature).decode("utf-8")
 
-        signing_string = signing_string.replace("\n"," ")
+        is_digest = "" if payload == "" else " digest"
 
-        signature_string = f'keyId="{self.fintecture_app_id}",algorithm="rsa-sha256",headers="(request-target) date {"" if payload == "" else "digest"} x-request-id",signature="{signature_as_base64}"'
+        signature_string = f'keyId="{self.fintecture_app_id}",algorithm="rsa-sha256",headers="(request-target) date{is_digest} x-request-id",signature="{signature_as_base64}"'
+
+        _logger.error(signature_string)
 
         return signature_string
 
        
-    def create_headers(self,accept="application/json", content_type="application/x-www-form-urlencoded", is_app_id = True, authorization = None, signature = False, method = "get", url_params = "", payload = ""):
+    def _create_headers(self,accept="application/json", content_type="application/json", is_app_id = True, authorization = None, signature = False, method = "get", url_params = "", payload = ""):
 
         headers = {
             "accept": accept,
@@ -137,29 +185,16 @@ class ResConfigSettings(models.Model):
 
             headers["x-request-id"] = x_request_id
             headers["date"] = date
-            headers["signature"] = self.create_signature(method,url_params,date,x_request_id,payload)
+            headers["signature"] = self._create_signature(method,url_params,date,x_request_id,payload)
 
         return headers
     
 
-    def get_provider_authorization(self,bank_id):
-
-        url_params = f"/ais/v1/provider/{bank_id.provider_code}/authorize?response_type=code&redirect_uri={self.fintecture_redirect_url + '/account/fintecture/return'}&state=1234&model=redirect"
-
-        url = self.create_url(url_params)
-
-        headers = self.create_headers(signature=True,url_params=url_params)
-
-        response = requests.get(url,headers=headers)
-
-        return response.json()
-    
-
-    def oauth_authenticate(self, code=""):
+    def _oauth_authenticate(self, code=""):
 
         if self.fintecture_refresh_token:
 
-            response = self.refresh_access_token()
+            response = self._refresh_access_token()
 
             response_json = response.json()
 
@@ -171,7 +206,7 @@ class ResConfigSettings(models.Model):
 
             _logger.error(f"Error response {response_json['code']}: {response_json['errors'][0]['message']}")
 
-        response = self.get_access_token(code)
+        response = self._get_access_token(code)
 
         response_json = response.json()
 
@@ -182,9 +217,9 @@ class ResConfigSettings(models.Model):
             raise ValidationError("Failed to get a access token")
 
 
-    def get_access_token(self,code):
+    def _get_access_token(self,code):
 
-        url = self.create_url("/oauth/accesstoken")
+        url = self._create_url("/oauth/accesstoken")
 
         payload = {
             "grant_type": "authorization_code",
@@ -192,7 +227,7 @@ class ResConfigSettings(models.Model):
             "code": code
         }
 
-        headers = self.create_headers(is_app_id=False,authorization="basic")
+        headers = self._create_headers(is_app_id=False,authorization="basic",content_type="application/x-www-form-urlencoded")
 
         response = requests.post(url, data=payload, headers=headers)
 
@@ -209,55 +244,18 @@ class ResConfigSettings(models.Model):
         return response
 
 
-    def refresh_access_token(self):
+    def _refresh_access_token(self):
 
-        url = self.create_url("/oauth/refreshtoken")
+        url = self._create_url("/oauth/refreshtoken")
 
         payload = {
             "grant_type": "refresh_token",
             "refresh_token": self.fintecture_refresh_token
         }
 
-        headers = self.create_headers(is_app_id=False,authorization="basic") 
+        headers = self._create_headers(is_app_id=False,authorization="basic",content_type="application/x-www-form-urlencoded") 
 
         response = requests.post(url, data=payload, headers=headers)
-
-        _logger.error(response.text)
-
-        return response
-
-
-    def get_accounts(self,code,customer_id):
-
-        self.get_access_token(code)
-
-        url_params = f"/ais/v1/customer/{customer_id}/accounts"
-
-        url = self.create_url(url_params)
-
-        headers = self.create_headers(authorization=self.fintecture_access_token,signature=True,url_params=url_params)
-
-        response = requests.get(url, headers=headers)
-
-        _logger.error(response.text)
-
-        return response
-    
-    
-    def get_account_transactions(self,customer_id,fintecture_account_id,timespan):
-        
-        self.oauth_authenticate()
-
-        #url_params = f"/ais/v1/customer/{customer_id}/accounts/{fintecture_account_id}/transactions?remove_nulls=true&convert_dates=false&filter[date_from]={timespan['date_from']}&filter[date_to]={timespan['date_to']}"
-        url_params = f"/ais/v1/customer/customer_id/accounts/account_id/transactions?remove_nulls=true&convert_dates=false&filter[date_to]={timespan['date_to']}&filter[date_from]={timespan['date_from']}&raw=false"
-
-        #url_params = f"/ais/v1/customer/{customer_id}/accounts/{fintecture_account_id}/transactions"
-
-        url = self.create_url(url_params)
-
-        headers = self.create_headers(authorization=self.fintecture_access_token,signature=True,url_params=url_params)
-  
-        response = requests.get(url, headers=headers)
 
         _logger.error(response.text)
 

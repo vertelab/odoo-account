@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 class ResBank(models.Model):
     _inherit = "res.bank"
 
-    api_contact_integration = fields.Many2one("res.partner", string="API Contact Integration")
+    api_contact_integration = fields.Many2one("res.partner", string="API Contact Integration", help="This field is for linking api configurations for bank authorization")
     provider_code = fields.Char(string="Fintecture Provider Code", help="A provider code that let the api know which bank to contact")
 
     def action_authorize_bank(self):

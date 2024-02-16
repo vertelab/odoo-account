@@ -35,16 +35,22 @@ class AccountJournal(models.Model):
             'type': 'ir.actions.act_window',
         }
 
+
     def action_sync_balances_with_fintecture(self):
+
         partner_id = self.bank_id.api_contact_integration
-        api_url, private_key, application_id, base_headers = partner_id.request_essentials()
-        account_uid = self.bank_account_id.account_uuid
-        account_balance = requests.get(f"{api_url}/accounts/{account_uid}/balances", headers=base_headers)
-        if account_balance.status_code == 200:
-            _logger.info(f'Fintecture Balances {account_balance.json()}')
+        bank_account_id = self.bank_account_id
+       
+        account_response = partner_id.get_account(bank_account_id.fintecture_customer_id,bank_account_id.fintecture_account_id)
+        
+        account_response_json = account_response.json()
+
+        if account_response.status_code == 200:
+            _logger.info(f"Balance: {account_response_json['balance']} Balance Available: {account_response_json['balance_available']}")
         else:
-            _logger.error(f"Error response {account_balance.status_code}: {account_balance.text}", )
+            _logger.error(f"Error response {account_response.status_code}: {account_response.text}", )
             return False
+
 
     def _valid_journals(self):
         journal_ids = self.env['account.journal'].search([
@@ -53,6 +59,7 @@ class AccountJournal(models.Model):
             ('bank_account_id.account_uuid', '!=', False)
         ])
         return journal_ids
+
 
     def _compute_interval(self):
         interval_type = self.env['ir.config_parameter'].sudo().get_param('fintecture.interval_type')
@@ -84,6 +91,7 @@ class AccountJournal(models.Model):
 
         return date_from, date_to
 
+
     def _cron_sync_transactions(self):
         for journal in self._valid_journals():
             bank_statement_id = self.env['account.bank.statement'].search([('journal_id', '=', journal.id)])
@@ -101,6 +109,7 @@ class AccountJournal(models.Model):
                 'date_to': date_to,
             }).with_context({'_cron_task': True}).action_sync_transactions()
 
+
     def _compute_starting_fiscal_year_date(self):
         fiscalyear_last_month = self.env.user.company.fiscalyear_last_month
         fiscalyear_last_day = self.env.user.company.fiscalyear_last_day
@@ -115,16 +124,12 @@ class FintectureTransactions(models.TransientModel):
     _name = "fintecture.transaction.wizard"
 
     journal_id = fields.Many2one('account.journal', string="Journal")
-
     account_uuid = fields.Char(string="Account UUID")
-
     fintecture_customer_id = fields.Char(string="Fintecture Customer ID")
-
     fintecture_account_id = fields.Char(string="Fintecture Account ID")
-
     date_from = fields.Date(string="From", default=fields.Date.today)
-
     date_to = fields.Date(string="To", default=fields.Date.today)
+
 
     def _fetch_transactions(self):
 
@@ -157,6 +162,7 @@ class FintectureTransactions(models.TransientModel):
                 'res_id': self.journal_id.id,
             })
 
+
     def _sieve_out_existing_transactions(self, transactions):
         bank_statement_id = self.env['account.bank.statement.line']
         v_transactions = list(
@@ -165,6 +171,7 @@ class FintectureTransactions(models.TransientModel):
                 transactions["data"])
         )
         return v_transactions
+
 
     def action_sync_transactions(self):
 
@@ -190,9 +197,7 @@ class FintectureTransactions(models.TransientModel):
         for transaction in transactions:
             
             transaction_id = transaction["id"]
-
             transaction = transaction["attributes"]
-
             partner_id = False
 
             bank_statement_line_id = self.env['account.bank.statement.line'].search([
@@ -234,6 +239,7 @@ class FintectureTransactions(models.TransientModel):
                     'statement_id': bank_statement_id.id,
                 })
 
+
     def _sync_partner(self, partner_name):
         partner_name = re.sub(r'\s+', ' ', partner_name)
         partner_id = self.env['res.partner'].search([('name', '=', partner_name)], limit=1)
@@ -255,6 +261,7 @@ class Fintecture(models.TransientModel):
     session_id = fields.Char(string="Session ID")
     date_from = fields.Date(string="From", default=fields.Date.today)
     date_to = fields.Date(string="To", default=fields.Date.today)
+
 
     def sync_accounts(self):
         if not self.bank_id:
@@ -304,11 +311,16 @@ class Fintecture(models.TransientModel):
                 ('acc_number', '=', account['iban'])
             ], limit=1)
 
+            currency_id = self.env['res.currency'].search([
+                ('name', '=', account['currency'])
+            ], limit=1)
+
             if partner_bank_id:
                 partner_bank_id.write({
                     'acc_number': account['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account['account_id'],
+                    'currency_id': currency_id.id,
                     'fintecture_customer_id': self.fintecture_customer_id,
                     'fintecture_account_id': fintecture_account_id
                 })
@@ -319,6 +331,7 @@ class Fintecture(models.TransientModel):
                     'acc_number': account['iban'],
                     'bank_id': self.bank_id.id,
                     'account_uuid': account['account_id'],
+                    'currency_id': currency_id.id,
                     'fintecture_customer_id': self.fintecture_customer_id,
                     'fintecture_account_id': fintecture_account_id
                 })
@@ -336,6 +349,7 @@ class Fintecture(models.TransientModel):
                 'bank_account_id': account.id,
                 'currency_id': account.currency_id.id
             })
+
 
     def _sync_partner(self, partner_name):
         partner_name = re.sub(r'\s+', ' ', partner_name)

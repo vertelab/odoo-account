@@ -36,16 +36,18 @@
                 <form create="0" edit="1" delete="0">
                     <sheet>
                         <group>
-                            <group>
+                            <group class="oe_inline">
                                 <field name="journal_id" readonly="1"/>
-                                <field name="date_from" required="1"/>
-                            </group>
-                            <group>
-                                <field name="account_uuid" readonly="1" />
                                 <field name="fintecture_customer_id" readonly="1" />
-                                <field name="fintecture_account_id" readonly="1" />
-                                <field name="date_to" required="1"/>
                             </group>
+                            <group class="oe_inline">
+                                <field name="account_uuid" readonly="1" />
+                                <field name="fintecture_account_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="date_from" required="1"/>                                
+                            <field name="date_to" required="1"/>
                         </group>
                     </sheet>
                     <footer>
