@@ -16,6 +16,7 @@
                             <group>
                                 <field name="fintecture_app_id" />
                                 <field name="fintecture_app_secret" class="oe_edit_only" />
+                                <field name="fintecture_base_url"/>
                                 <field name="fintecture_redirect_url"/>
                                 <field name="fintecture_private_key" class="oe_edit_only" />
                             </group>

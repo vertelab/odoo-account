@@ -14,6 +14,7 @@ class ResPartner(models.Model):
     fintecture_app_id = fields.Char("Application ID")
     fintecture_app_secret = fields.Char("Application Secret")
     fintecture_redirect_url = fields.Char("Redirect URL")
+    fintecture_base_url = fields.Char("Base API URL", help="The Base URL that is the same for all API calls")
     fintecture_private_key = fields.Text("Private Key")
     fintecture_access_token = fields.Char("Access Token")
     fintecture_refresh_token = fields.Char("Refresh Token")
@@ -90,7 +91,7 @@ class ResPartner(models.Model):
 
     def _create_url(self,params):
 
-        url = "https://api-sandbox.fintecture.com"
+        url = self.fintecture_base_url
 
         if url[-1] == "/":
 
