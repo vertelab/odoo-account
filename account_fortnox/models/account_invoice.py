@@ -152,7 +152,7 @@ class AccountInvoice(models.Model):
             raise UserError(f"There is an issue with the fortnox connection. Contact administrator ({fortnox_res=})")
 
     def fortnox_update(self, invoice, fortnox_invoice):
-        invoice.ref = fortnox_invoice["CustomerNumber"]
+        #invoice.ref = fortnox_invoice["CustomerNumber"] ??
         invoice.name = fortnox_invoice["DocumentNumber"]
         invoice.partner_id.fortnox_ref = fortnox_invoice["CustomerNumber"]
         invoice.is_move_sent = True
@@ -199,7 +199,7 @@ class AccountInvoice(models.Model):
             )
             _logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
         else:
-            invoice.ref = r["Invoice"]["CustomerNumber"]
+            #invoice.ref = r["Invoice"]["CustomerNumber"] ??
             invoice.name = r["Invoice"]["DocumentNumber"]
             invoice.is_move_sent = True
             invoice.is_sent_to_fortnox = True
