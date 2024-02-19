@@ -100,13 +100,27 @@ class MisBudgetByAnalyticAccountItem(models.Model):
                 rec.credit = 0
                 rec.debit = rec.balance
 
-    @api.depends("date_from", "date_to")
+    @api.depends("date_from", "date_to", 'analytic_account_id')
     def _compute_actual_amount(self):
         for rec in self:
-            if rec.date_from or rec.date_to:
-                rec.actual_amount = 70
+            if (rec.date_from or rec.date_to) and rec.analytic_account_id:
+                count, actual_amount = self._get_analytic_amount(rec.analytic_account_id, rec.date_from, rec.date_to)
+                rec.actual_amount = actual_amount
+                rec.analytic_line_count = count
+            else:
+                rec.actual_amount = 0
+                rec.analytic_line_count = 0
 
     actual_amount = fields.Float(string="Actual Amount", compute=_compute_actual_amount)
+    analytic_line_count = fields.Float(string="Analytic Line Count", compute=_compute_actual_amount)
+
+    def _get_analytic_amount(self, account_id, date_from, date_to):
+        analytic_line_ids = self.env['account.analytic.line'].search([
+            ('date', '>=', date_from),
+            ('date', '<=', date_to),
+            ('account_id', '=', account_id.id),
+        ])
+        return len(analytic_line_ids), sum(analytic_line_ids.mapped('amount'))
 
     def action_read_budget_by_analytic_account(self):
         self.ensure_one()
@@ -117,4 +131,18 @@ class MisBudgetByAnalyticAccountItem(models.Model):
             'view_mode': 'form',
             'res_model': 'mis.budget.by.analytic.account.item',
             'res_id': self.id,
+        }
+
+    def action_view_analytic_account_item(self):
+        self.ensure_one()
+        return {
+            'name': self.name,
+            'type': 'ir.actions.act_window',
+            'view_type': 'tree',
+            'view_mode': 'tree',
+            'res_model': 'account.analytic.line',
+            'domain': [
+                ('account_id', '=', self.analytic_account_id.id),
+                ('date', '>=', self.date_from), ('date', '<=', self.date_to)
+            ]
         }

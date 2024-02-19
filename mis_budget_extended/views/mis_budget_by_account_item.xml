@@ -6,6 +6,7 @@
             <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_item_tree_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[last()]" position="after">
+                    <field name="actual_amount" />
                     <button name="action_read_budget_by_account" type="object" string="View" class="float-end btn-secondary"/>
                 </xpath>
             </field>
@@ -17,6 +18,12 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_account_item" type="object" class="oe_stat_button" icon="fa-list">
+                                <field string="Account Items" name="account_move_line_count" widget="statinfo"/>
+                            </button>
+                        </div>
+
                         <group>
                             <group>
                                 <field name="name" />
@@ -30,6 +37,7 @@
                                 <field name="date_to" />
                                 <field name="debit" />
                                 <field name="credit" />
+                                 <field name="actual_amount" />
                                 <field name="balance" />
                             </group>
                         </group>

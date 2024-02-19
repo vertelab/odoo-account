@@ -17,6 +17,11 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_analytic_account_item" type="object" class="oe_stat_button" icon="fa-list">
+                            <field string="Analytic Items" name="analytic_line_count" widget="statinfo"/>
+                        </button>
+                    </div>
                     <group>
                         <group>
                             <field name="budget_id" invisible="1" />
