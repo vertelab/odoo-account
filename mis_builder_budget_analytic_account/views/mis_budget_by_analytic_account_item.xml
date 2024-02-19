@@ -52,7 +52,7 @@
         <field name="name">mis.budget.by.analytic.account.item.tree (in mis_builder_budget)</field>
         <field name="model">mis.budget.by.analytic.account.item</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree editable="bottom">
                 <field name="budget_id" invisible="1" />
                 <field name="budget_date_from" invisible="1" />
                 <field name="budget_date_to" invisible="1" />
@@ -68,6 +68,7 @@
                 <field name="actual_amount" />
                 <field name="balance" />
                 <field name="state" />
+                <button name="action_read_budget_by_analytic_account" type="object" string="View" class="float-end btn-secondary"/>
             </tree>
         </field>
     </record>

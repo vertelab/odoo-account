@@ -107,3 +107,14 @@ class MisBudgetByAnalyticAccountItem(models.Model):
                 rec.actual_amount = 70
 
     actual_amount = fields.Float(string="Actual Amount", compute=_compute_actual_amount)
+
+    def action_read_budget_by_analytic_account(self):
+        self.ensure_one()
+        return {
+            'name': self.name,
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mis.budget.by.analytic.account.item',
+            'res_id': self.id,
+        }
