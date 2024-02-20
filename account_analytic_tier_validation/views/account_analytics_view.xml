@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+        <record id="view_account_analytic_account_form_extended" model="ir.ui.view">
+            <field name="name">account.analytic.account.form</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="code" position="after">
+                    <field name="reviewer_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_account_analytic_line_form_extended" model="ir.ui.view">
+            <field name="name">account.analytic.line.form</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_line_form"/>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="reviewer_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

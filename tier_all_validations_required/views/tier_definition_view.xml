@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record id="tier_definition_view_tree_inherit" model="ir.ui.view">
+            <field name="name">tier_definition_view_tree_inherit</field>
+            <field name="model">tier.definition</field>
+            <field name="inherit_id" ref="base_tier_validation.tier_definition_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='review_type']" position="after">
+                    <field name="reviewers_validations_required" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="tier_definition_view_form_inherit" model="ir.ui.view">
+            <field name="name">tier_definition_view_form_inherit</field>
+            <field name="model">tier.definition</field>
+            <field name="inherit_id" ref="base_tier_validation.tier_definition_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='review_type']" position="after">
+                    <field name="reviewers_validations_required" />
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

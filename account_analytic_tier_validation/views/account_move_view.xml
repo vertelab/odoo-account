@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="view_account_analytic_account_form" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="analytic_reviewer_ids" widget="many2many_tags"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
