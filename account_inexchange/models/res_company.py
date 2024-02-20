@@ -68,7 +68,7 @@ class res_company(models.Model):
             raise Warning('HTTP Request failed %s' % e)
 
         # ~ return r  
-
+#TODO another thing
     def update_company_info(self):
         settings = self.env['res.config.settings']
         url = settings.get_url(endpoint='companies/register')

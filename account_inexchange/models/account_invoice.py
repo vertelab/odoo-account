@@ -11,6 +11,7 @@ from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
+#TODO kalle
 
 class account_invoice(models.Model):
     _inherit = 'account.move'
@@ -35,6 +36,7 @@ class account_invoice(models.Model):
         string="Invoice has been sent to Inexchange",
         help='This is for inexchange invoice')
     inexchange_file_count = fields.Integer(default=0)
+
 
     def upload_invoice(self, data):
         settings = self.env['res.config.settings']
