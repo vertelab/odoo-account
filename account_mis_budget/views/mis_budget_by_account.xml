@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="model_account_aggregate_action" model="ir.actions.server">
+        <field name="name">Aggregate Account Budget</field>
+        <field name="model_id" ref="mis_builder_budget.model_mis_budget_by_account"/>
+        <field name="binding_model_id" ref="mis_builder_budget.model_mis_budget_by_account"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_aggregate_account_budget()</field>
+    </record>
+
+    <record id="model_budget_aggregate_action" model="ir.actions.server">
+        <field name="name">Aggregate Budget</field>
+        <field name="model_id" ref="mis_builder_budget.model_mis_budget"/>
+        <field name="binding_model_id" ref="mis_builder_budget.model_mis_budget"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_aggregate_budget()</field>
+    </record>
+</odoo>

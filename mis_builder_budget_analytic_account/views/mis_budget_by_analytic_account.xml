@@ -98,4 +98,15 @@
         <field name="sequence" eval="210" />
     </record>
 
+    <record id="model_account_analytic_aggregate_action" model="ir.actions.server">
+        <field name="name">Aggregate Analytic Budget</field>
+        <field name="model_id" ref="mis_builder_budget_analytic_account.model_mis_budget_by_analytic_account"/>
+        <field name="binding_model_id" ref="mis_builder_budget_analytic_account.model_mis_budget_by_analytic_account"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_aggregate_account_analytic()</field>
+    </record>
+
+
+
 </odoo>
