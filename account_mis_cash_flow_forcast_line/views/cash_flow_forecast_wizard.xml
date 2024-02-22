@@ -1,0 +1,47 @@
+<odoo>
+  <data>
+
+    <record id="view_cash_flow_forecast_wizard_form" model="ir.ui.view">
+      <field name="name">cash.flow.forecast.wizard</field>
+      <field name="model">cash.flow.forecast.wizard</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="budget_id" />
+              <field name="use_account_from_year" />
+              <field name="percentage_factor" widget="percentage"
+                attrs="{'invisible': [('use_account_from_year', '=', False)]}" />
+            </group>
+            <separator string="" colspan="4"
+              style="border-top: 1px solid grey; margin-top: 10px; margin-bottom: 10px;" />
+            <group>
+              <field name="account_class_ids" widget="many2many_tags" options="{'no_create': True}" />
+              <field name="account_ids" widget="many2many_tags" />
+            </group>
+            <footer>
+              <button string="Create New Income Budget" type="object" class="oe_highlight"
+                name="action_make_forecast" />
+              <button string="Cancel" class="btn-secondary" special="cancel" />
+            </footer>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+
+    <record id="action_open_account_mis_period_test" model="ir.actions.act_window">
+      <field name="name">Create Forecast</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">cash.flow.forecast.wizard</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="view_cash_flow_forecast_wizard_form" />
+      <field name="target">new</field>
+    </record>
+
+    <menuitem name="Create Forecast" id="test_menu" parent="mis_builder.mis_report_finance_menu"
+      action="action_open_account_mis_period_test" />
+
+
+  </data>
+</odoo>

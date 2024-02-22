@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+account_mis_cash_flow_forcast_line.cash_flow_forecast_wizard,cash_flow_forecast_wizard,account_mis_cash_flow_forcast_line.model_cash_flow_forecast_wizard,base.group_user,1,1,1,1
+access_cash_flow_custom_account_class,access_cash_flow_custom_account_class,model_cash_flow_custom_account_class,base.group_user,1,1,1,1
