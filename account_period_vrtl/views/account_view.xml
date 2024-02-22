@@ -321,14 +321,5 @@
         <!--        </field>-->
         <!--      </field>-->
         <!--    </record>-->
-
-        <record id="action_account_period_config" model="ir.actions.act_window">
-            <field name="name">Settings</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">res.config.settings</field>
-            <field name="view_mode">form</field>
-            <field name="target">inline</field>
-            <field name="context">{'module' : 'account', 'bin_size': False}</field>
-        </record>
     </data>
 </odoo>
