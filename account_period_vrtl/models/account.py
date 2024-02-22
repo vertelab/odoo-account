@@ -134,8 +134,9 @@ class AccountPeriod(models.Model):
         if not result:
             result = self.search(args)
         if not result:
-            model, action_id = self.env['ir.model.data'].get_object_reference('account_period',
-                                                                              'action_account_period_form')
+            model, action_id = self.env['ir.model.data']._xmlid_to_res_model_res_id(
+                'account_period_vrtl.action_account_period_form'
+            )
             msg = _('There is no period defined for this date: %s.\nPlease go to Configuration/Periods.') % dt
             raise exceptions.RedirectWarning(msg, action_id, _('Go to the configuration panel'))
         return result
