@@ -51,8 +51,7 @@ class MisBudgetByAnalyticAccount(models.Model):
                         item_id = analytic_item.copy({'budget_id': budget_id.id})
                     else:
                         item_id.write({
-                            'credit': item_id.credit - analytic_item.debit,
-                            'debit': item_id.debit - analytic_item.credit,
+                            'balance': item_id.balance + analytic_item.balance,
                         })
 
                 body += "<li class='text-info'>%s</li>" % analytic_budget_id.name

@@ -44,7 +44,7 @@ class MisBudgetByAnalyticAccountItem(models.Model):
     account_id = fields.Many2one(
         comodel_name="account.account",
         string="Account",
-        required=True,
+        required=False,
         # TODO domain (company_id)
     )
 

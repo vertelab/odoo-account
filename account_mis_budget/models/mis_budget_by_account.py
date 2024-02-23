@@ -39,8 +39,7 @@ class MisBudgetByAccount(models.Model):
                         item_id = account_item.copy({'budget_id': budget_id.id})
                     else:
                         item_id.write({
-                            'credit': item_id.credit - account_item.debit,
-                            'debit': item_id.debit - account_item.credit,
+                            'balance': item_id.balance + account_item.balance,
                         })
 
                 body += "<li class='text-info'>%s</li>" % account_budget_id.name

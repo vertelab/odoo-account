@@ -36,7 +36,7 @@
     'description': """
         MIS Builder for Analytic Account
     """,
-    'depends': ['account', 'mis_builder', 'mis_builder_budget', 'analytic', 'base', 'hr'],
+    'depends': ['account', 'mis_builder','mis_budget_extended','mis_builder_budget', 'analytic', 'base', 'hr'],
     'data': [
         "security/mis_budget_by_analytic_account.xml",
         "security/mis_budget_by_analytic_account_item.xml",
