@@ -36,11 +36,13 @@
     'website': 'https://vertel.se/apps/odoo-',
     'images': ['static/description/banner.png'], # 560x280
     'license': 'AGPL-3',
-    'depends': ['mis_builder','account','mis_builder_budget'],
+    'depends': ['mis_builder','account','mis_builder_budget', 'mis_builder_cash_flow'],
     'data': [
         'security/ir.model.access.csv',
-        'views/cash_flow_forecast_wizard.xml',
-        'data/custom_account_classes.xml'
+        'data/custom_account_classes.xml',
+        'wizard/cash_flow_forecast_wizard.xml',
+        'views/mis_cash_flow_forecast.xml',
+        'views/mis_cash_flow_forecast_item.xml',
         ],
     'demo': [],
     'application': False,

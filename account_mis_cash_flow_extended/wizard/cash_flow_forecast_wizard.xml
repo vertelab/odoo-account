@@ -9,9 +9,6 @@
           <sheet>
             <group>
               <field name="budget_id" />
-              <field name="use_account_from_year" />
-              <field name="percentage_factor" widget="percentage"
-                attrs="{'invisible': [('use_account_from_year', '=', False)]}" />
             </group>
             <separator string="" colspan="4"
               style="border-top: 1px solid grey; margin-top: 10px; margin-bottom: 10px;" />
@@ -29,9 +26,8 @@
       </field>
     </record>
     
-
-    <record id="action_open_account_mis_period_test" model="ir.actions.act_window">
-      <field name="name">Create Forecast</field>
+    <record id="action_open_cash_flow_forecast_wizard" model="ir.actions.act_window">
+      <field name="name">Action Create Forecast</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">cash.flow.forecast.wizard</field>
       <field name="view_mode">form</field>
@@ -39,8 +35,9 @@
       <field name="target">new</field>
     </record>
 
-    <menuitem name="Create Forecast" id="test_menu" parent="mis_builder.mis_report_finance_menu"
-      action="action_open_account_mis_period_test" />
+    <menuitem name="Create Forecast" id="create_forecast_wizard_menu"
+      parent="mis_builder.mis_report_finance_menu"
+      action="action_open_cash_flow_forecast_wizard" />
 
 
   </data>
