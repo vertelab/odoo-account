@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_move_form_extended">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account_asset_management.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="asset_profile_id" position="before">
+                    <field name="deferred_expense_profile_id"/>
+                </field>
+
+                <field name="asset_profile_id" position="replace">
+                    <field name="asset_profile_id"
+                           attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice', 'in_refund'))]}"
+                           optional="show"
+                           groups="account.group_account_invoice"
+                    />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

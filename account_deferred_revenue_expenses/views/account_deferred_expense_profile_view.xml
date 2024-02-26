@@ -1,0 +1,164 @@
+<odoo>
+    <data>
+        <record id="account_deferred_expense_profile_view_form" model="ir.ui.view">
+            <field name="name">account.deferred.expense.profile.form</field>
+            <field name="model">account.asset.profile</field>
+            <field name="arch" type="xml">
+                <form string="Deferred Expense profile">
+                    <sheet>
+                        <widget
+                            name="web_ribbon"
+                            title="Archived"
+                            bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"
+                        />
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" />
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <label for="salvage_value" />
+                                <div>
+                                    <field
+                                        name="salvage_value"
+                                        class="oe_inline"
+                                        nolabel="1"
+                                    />
+                                    <span
+                                        class="o_form_label oe_inline"
+                                        attrs="{'invisible':[('salvage_type','!=','percent')]}"
+                                    >%</span>
+                                </div>
+                                <field
+                                    name="salvage_type"
+                                    attrs="{'required': [('salvage_value', '!=', 0.0)]}"
+                                />
+                                <field name="company_id" invisible="1" />
+<!--                                <field name="group_ids" widget="many2many_tags" string="Groups"/>-->
+<!--                                <field name="asset_product_item" string="Product Item" />-->
+                                <field name="active" invisible="1" />
+                                <field name="rec_type" invisible="1" />
+                                <field
+                                    name="company_id"
+                                    widget="selection"
+                                    groups="base.group_multi_company"
+                                />
+                            </group>
+                            <group>
+                                <field name="journal_id" />
+                                <field name="account_asset_id" />
+                                <field name="account_depreciation_id" />
+                                <field name="account_expense_depreciation_id" />
+<!--                                <field name="account_plus_value_id" />-->
+<!--                                <field name="account_min_value_id" />-->
+<!--                                <field name="account_residual_value_id" />-->
+                                <field name="allow_reversal" />
+                            </group>
+                            <group string="Depreciation Dates">
+                                <field name="method_time" />
+                                <field
+                                    name="method_number"
+                                    attrs="{'invisible': [('method_time', 'not in', ['number', 'year'])], 'required': [('method_time', 'in', ['number', 'year'])]}"
+                                />
+                                <field name="method_period" />
+                                <field name="days_calc" />
+                                <field
+                                    name="use_leap_years"
+                                    attrs="{'invisible': [('days_calc', '=', True)]}"
+                                />
+                            </group>
+                            <group string="Depreciation Method">
+                                <field name="method" />
+                                <field
+                                    name="method_progress_factor"
+                                    attrs="{'invisible': [('method', 'in', ['linear', 'linear-limit'])], 'required': [('method', 'in', ['degressive', 'degr-linear', 'degr-limit'])]}"
+                                />
+                                <field
+                                    name="prorata"
+                                    attrs="{'readonly':[('method_time','!=','year')]}"
+                                />
+<!--                                <field name="open_asset" />-->
+                            </group>
+                            <group
+                                groups="analytic.group_analytic_accounting"
+                                string="Analytic Information"
+                            >
+                                <field
+                                    name="analytic_distribution"
+                                    widget="analytic_distribution"
+                                />
+                            </group>
+                        </group>
+                        <separator string="Notes" />
+                        <field name="note" />
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="account_deferred_expense_profile_view_tree" model="ir.ui.view">
+            <field name="name">account.deferred.expense.profile.tree</field>
+            <field name="model">account.asset.profile</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="rec_type" invisible="1" />
+                    <field name="method_number" optional="hide" />
+                    <field name="method_period" optional="hide" />
+                    <field name="journal_id" optional="show" />
+                    <field name="account_asset_id" optional="hide" />
+                    <field name="account_depreciation_id" optional="hide" />
+                    <field name="account_expense_depreciation_id" optional="hide" />
+                    <field name="account_plus_value_id" optional="hide" />
+                    <field name="account_min_value_id" optional="hide" />
+                    <field name="method" optional="show" />
+                    <field name="prorata" optional="hide" />
+                    <field
+                        name="company_id"
+                        groups="base.group_multi_company"
+                        optional="show"
+                    />
+                </tree>
+            </field>
+        </record>
+        <record id="account_deferred_expense_profile_view_search" model="ir.ui.view">
+            <field name="name">account.deferred.expense.profile.search</field>
+            <field name="model">account.asset.profile</field>
+            <field name="arch" type="xml">
+                <search string="Search Deferred Expense Profile">
+                    <field name="name" string="Deferred Expense Profile" />
+                    <field name="journal_id" />
+                    <separator />
+                    <filter
+                        string="Archived"
+                        name="inactive"
+                        domain="[('active', '=', False)]"
+                    />
+                    <group name="groupby">
+                        <filter
+                            name="method_groupby"
+                            string="Computation Method"
+                            context="{'group_by': 'method'}"
+                        />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="account_deferred_expense_profile_action" model="ir.actions.act_window">
+            <field name="name">Deferred Expense Profiles</field>
+            <field name="res_model">account.asset.profile</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('account_deferred_expense_profile_view_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('account_deferred_expense_profile_view_form')})]"/>
+            <field name="domain">[('rec_type', '=', 'deferred_expense')]</field>
+            <field name="context">{'default_rec_type': 'deferred_expense'}</field>
+        </record>
+
+        <menuitem id="account_deferred_expense_profile_menu" action="account_deferred_expense_profile_action" parent="account.account_account_menu"/>
+
+    </data>
+</odoo>
