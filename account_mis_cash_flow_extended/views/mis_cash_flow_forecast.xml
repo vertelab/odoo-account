@@ -21,6 +21,6 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem name="Cash Flow Forecast" id="" parent="mis_builder.mis_report_finance_menu"
-        action="action_open_mis_cash_flow_forecast" />
+    <!--<menuitem name="Cash Flow Forecast" id="cash_flow_forecast" parent="mis_builder.mis_report_finance_menu"
+        action="action_open_mis_cash_flow_forecast" />-->
 </odoo>

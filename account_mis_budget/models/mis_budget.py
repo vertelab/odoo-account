@@ -4,6 +4,7 @@ from odoo.exceptions import ValidationError
 
 class MisBudget(models.Model):
     _inherit = "mis.budget"
+    date_type = fields.Many2one('date.range.type', string='Date type', required=True) # Month, Weeks, Every two weeks
 
     def action_aggregate_budget(self):
         active_ids = self.env.context.get('active_ids')

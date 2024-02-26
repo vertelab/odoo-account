@@ -36,7 +36,7 @@
     'website': 'https://vertel.se/apps/odoo-',
     'images': ['static/description/banner.png'], # 560x280
     'license': 'AGPL-3',
-    'depends': ['mis_builder','account','mis_builder_budget', 'mis_builder_cash_flow'],
+    'depends': ['account_mis_budget', 'mis_builder','account','mis_builder_budget', 'mis_builder_cash_flow'],
     'data': [
         'security/ir.model.access.csv',
         'data/custom_account_classes.xml',

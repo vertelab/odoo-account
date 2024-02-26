@@ -4,7 +4,8 @@ from odoo.exceptions import UserError, ValidationError
 
 class MisBudgetByAccount(models.Model):
     _inherit = "mis.budget.by.account"
-
+    
+    date_type = fields.Many2one('date.range.type', string='Date type', required=True) # Month, Weeks, Every two weeks
     def action_aggregate_account_budget(self):
         active_ids = self.env.context.get('active_ids')
         account_budget_ids = self.env['mis.budget.by.account'].browse(active_ids)
