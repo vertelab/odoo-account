@@ -1,5 +1,19 @@
 <odoo>
     <data>
+
+        
+        <record model="ir.ui.view" id="view_asset_profile_extended">
+            <field name="name">view_asset_profile_extended</field>
+            <field name="model">account.asset</field>
+            <field name="inherit_id" ref="account_asset_management.account_asset_view_form"/>
+            <field name="arch" type="xml">
+                <field name="profile_id" position="replace">
+                    <field name="profile_id" domain="[('rec_type', '=', 'asset' )]"/>
+                </field>
+            </field>
+        </record>
+        
+        
         <record model="ir.ui.view" id="account_deferred_expense_form_view">
             <field name="name">account.deferred.expense.form</field>
             <field name="model">account.asset</field>
@@ -104,7 +118,11 @@
                                 </group>
                                 <group string="Other Information">
                                     <group>
-                                        <field name="profile_id" string="Expense Model"/>
+                                        
+<!--
+                                        <field name="profile_id" domain="[('rec_type', '=', 'asset' )]" string="Expense Model"/>
+-->
+                                        <field name="profile_id" domain="[('rec_type', '=', 'deferred_expense' )]" string="Expense Model"/>
                                         <field name="group_ids" widget="many2many_tags" string="Groups"/>
                                     </group>
                                     <group>
@@ -384,12 +402,20 @@
             <field name="context">{'default_rec_type': 'deferred_expense'}</field>
         </record>
 
-        <menuitem id="account_deferred_expense_action_menu" action="account_deferred_expense_action" parent="account.account_account_menu"/>
+        <menuitem id="account_deferred_expense_action_menu" action="account_deferred_expense_action" parent="account.menu_finance_entries_management"/>
 
 
         <record id="account_asset_management.account_asset_action" model="ir.actions.act_window">
             <field name="name">Assets</field>
             <field name="res_model">account.asset</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('rec_type', '=', 'asset')]</field>
+            <field name="context">{'default_rec_type': 'asset'}</field>
+        </record>
+        
+        <record id="account_asset_management.account_asset_profile_action" model="ir.actions.act_window">
+            <field name="name">Asset Profiles</field>
+            <field name="res_model">account.asset.profile</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('rec_type', '=', 'asset')]</field>
             <field name="context">{'default_rec_type': 'asset'}</field>

@@ -6,7 +6,7 @@
             <field name="inherit_id" ref="account_asset_management.view_move_form"/>
             <field name="arch" type="xml">
                 <field name="asset_profile_id" position="before">
-                    <field name="deferred_expense_profile_id"/>
+                    <field name="deferred_expense_profile_id" domain="[('rec_type', '=', 'deferred_expense' )]"/>
                 </field>
 
                 <field name="asset_profile_id" position="replace">
@@ -14,9 +14,14 @@
                            attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice', 'in_refund'))]}"
                            optional="show"
                            groups="account.group_account_invoice"
+                           domain="[('rec_type', '=', 'asset' )]"
                     />
                 </field>
             </field>
         </record>
+        
     </data>
 </odoo>
+
+
+
