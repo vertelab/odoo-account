@@ -13,7 +13,7 @@ class AccountMove(models.Model):
             else:
                 record.analytic_reviewer_ids = False
 
-    analytic_reviewer_ids = fields.Many2many('res.users', string="Cost Place Reviewers", compute=get_reviewers_from_line, store=True)
+    analytic_reviewer_ids = fields.Many2many('res.users', string="Cost Center Reviewers", compute=get_reviewers_from_line, store=True)
 
     def _distribution_account_users(self, analytic_distributions: list):
         # [{'8': 100.0, '15': 20.0}, {'7': 100.0}]
