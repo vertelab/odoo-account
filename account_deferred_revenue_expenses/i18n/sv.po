@@ -7,22 +7,24 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20240225\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-27 06:15+0000\n"
-"PO-Revision-Date: 2024-02-27 06:15+0000\n"
+"PO-Revision-Date: 2024-02-27 07:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
 msgid ""
-"<span class=\"o_form_label oe_inline\" "
-"attrs=\"{'invisible':[('salvage_type','!=','percent')]}\">%</span>"
+"<span class=\"o_form_label oe_inline\" attrs=\"{'invisible':"
+"[('salvage_type','!=','percent')]}\">%</span>"
 msgstr ""
-"<span class=\"o_form_label oe_inline\" "
-"attrs=\"{'invisible':[('salvage_type','!=','percent')]}\">%</span>"
+"<span class=\"o_form_label oe_inline\" attrs=\"{'invisible':"
+"[('salvage_type','!=','percent')]}\">%</span>"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -95,7 +97,7 @@ msgstr "Bekräfta kostnad"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Create Move"
-msgstr "Skapa rörelse"
+msgstr "Skapa verifikat"
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.actions.act_window,name:account_deferred_revenue_expenses.account_deferred_expense_action
@@ -117,12 +119,12 @@ msgstr "Profil för uppskjutna kostnader"
 #: model:ir.actions.act_window,name:account_deferred_revenue_expenses.account_deferred_expense_profile_action
 #: model:ir.ui.menu,name:account_deferred_revenue_expenses.account_deferred_expense_profile_menu
 msgid "Deferred Expense Profiles"
-msgstr "Förutbetalda kostnader Profiler"
+msgstr "Profiler för förutbetalda kostnader"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
 msgid "Deferred Expense profile"
-msgstr "Uppskjuten kostnadsprofil"
+msgstr "Profil för uppskjuten kostnad"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -165,7 +167,7 @@ msgstr "Utkast"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Expense Line"
-msgstr "Kostnadspost"
+msgstr "Kostnadsrad"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -175,7 +177,7 @@ msgstr "Kostnadsmodell"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Expense Name"
-msgstr "Kostnad Namn"
+msgstr "Kostnadsnamn"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
@@ -196,7 +198,7 @@ msgstr "Grupper"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "History"
-msgstr "Historia"
+msgstr "Historik"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -206,17 +208,17 @@ msgstr "Init"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Journal Entries"
-msgstr "Journalanteckningar"
+msgstr "Verifikat"
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model,name:account_deferred_revenue_expenses.model_account_move
 msgid "Journal Entry"
-msgstr "Journalanteckning"
+msgstr "Verifikat"
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model,name:account_deferred_revenue_expenses.model_account_move_line
 msgid "Journal Item"
-msgstr "Tidningsartikel"
+msgstr "Transaktion"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_tree
@@ -248,7 +250,7 @@ msgstr "Ta bort"
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_tree
 msgid "Remove Date"
-msgstr "Ta bort datum"
+msgstr "Borttagningsdatum"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
@@ -258,7 +260,7 @@ msgstr "Borttagen"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Running"
-msgstr "Löpning"
+msgstr "Pågår"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_search
@@ -268,7 +270,7 @@ msgstr "Sök profil för uppskjutna kostnader"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Set to Draft"
-msgstr "Ställ in för utkast"
+msgstr "Sätt till utkast"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -302,7 +304,7 @@ msgstr "Typ"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "View Move"
-msgstr "Visa flytt"
+msgstr "Visa verifikat"
 
 #. module: account_deferred_revenue_expenses
 #. odoo-python
