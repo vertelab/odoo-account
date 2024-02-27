@@ -225,10 +225,11 @@ class EnableBankingTransactions(models.TransientModel):
                     raise UserError(_(err_message))
 
                 self.env['account.bank.statement.line'].create({
-                    'date': transaction.get('transaction_date'),
+                    'date': transaction.get('transaction_date') or transaction.get('booking_date'),
                     'invoice_date': transaction.get('booking_date'),
                     'amount': amount,
-                    'narration': transaction.get('remittance_information')[-1],
+                    'narration': transaction.get(
+                        'remittance_information', [])[-1] if transaction.get('remittance_information', []) else False,
                     'transaction_type': transaction.get('credit_debit_indicator'),
                     'ref': transaction.get('reference_number'),
                     'partner_id': partner_id,
