@@ -73,6 +73,36 @@ class AccountMove(models.Model):
                 move.message_post(body=message)
         return ret_val
 
+    def button_view_deferred_expenses(self):
+        view_tree_id = self.env.ref('account_deferred_revenue_expenses.account_deferred_expense_view_tree')
+        view_form_id = self.env.ref('account_deferred_revenue_expenses.account_deferred_expense_form_view')
+
+        if res_id := self.env['account.asset'].search([('code', '=', self.name), ('rec_type', '=', 'deferred_expense')]):
+            return {
+                'name': _('Deferred Expense'),
+                'res_model': 'account.asset',
+                'view_mode': 'form',
+                # 'view_id': view_form_id.id,
+                'views': [(view_form_id.id, 'form')],
+                'type': 'ir.actions.act_window',
+                'res_id': res_id.id
+
+            }
+
+    def button_view_assets(self):
+        if res_id := self.env['account.asset'].search([('code', '=', self.name), ('rec_type', '=', 'asset')]):
+            return {
+                'name': _('Assets'),
+                'res_model': 'account.asset',
+                'view_mode': 'form',
+                'context': {
+                    'default_rec_type': 'asset',
+                },
+                # 'domain': [('rec_type', '=', 'asset')],
+                'type': 'ir.actions.act_window',
+                'res_id': res_id.id
+            }
+
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
