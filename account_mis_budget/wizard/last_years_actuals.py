@@ -3,8 +3,8 @@ from odoo.exceptions import ValidationError
 import logging
 import dateutil.relativedelta as relativedelta
 
-class get_old_budget(models.TransientModel):
-    _name = "get.old.budget.wizard"
+class LastYearsActuals(models.TransientModel):
+    _name = "last.years.actuals"
     _description = "Retrieving the past budgets"
     
     #date_type = fields.Many2one('date.range.type', string='Date type', required=True) # Month, Weeks, Every two weeks
@@ -12,6 +12,7 @@ class get_old_budget(models.TransientModel):
 
     def modify_budget(self):
         active_ids = self._context.get('active_ids', [])
+        logging.warning(f"{self._context=}")
 
         # Log the value of active_ids to debug
         logging.warning(f'active_ids: {active_ids}')

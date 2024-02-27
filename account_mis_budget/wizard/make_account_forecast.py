@@ -11,17 +11,17 @@ class MisBudgetAccount(models.Model):
     
     date_type = fields.Many2one('date.range.type', string='Date type', required=True)
     
-    def action_create_income_budget(self):
+    def make_account_forecast(self):
         dr = self.env['date.range.type'].search([('name','like','%mon%')])
         if len(dr) == 0:
             dr = self.env['date.range.type'].search([])
         wizard_id = self.env['make.account.budget.wizard'].create({
             'budget_id': self.id,
             })
-        return self.env.ref('account_mis_budget.action_make_account_budget').with_context({'res_id': wizard_id.id}).read()[0]
+        return self.env.ref('account_mis_budget.action_make_account_forecast').with_context({'res_id': wizard_id.id}).read()[0]
 
 class AccountClass(models.Model):
-    _name = "custom.account.class"
+    _name = "custom.account.forecast"
     _description = "A custom account class"
 
     name = fields.Char()
@@ -46,16 +46,19 @@ class AccountClass(models.Model):
         return account_ids
 
 class make_account_budget(models.TransientModel):
-    _name = "make.account.budget.wizard"
+    _name = "make.account.forecast.wizard"
     _description = "Make account budget"
 
     account_ids = fields.Many2many(comodel_name="account.account",string="Accounts",required=True)
     budget_id = fields.Many2one(comodel_name="mis.budget.by.account", default=lambda b: b.env.context.get('active_id'))
 
-    use_account_from_year = fields.Boolean(string="Use accounts from last year?", help="If checked in we create lines only for accounts that were used in an account.move.line last year")
+    use_account_from_year = fields.Boolean(string="Use accounts period?", help="If checked in we create lines only for accounts that were used in an account.move.line during period")
+    use_contract = fields.Boolean(string="Use contracts for forecast?", help="If checked in we use contracts during period, if and for other account we are using budget")
+    use_first_period = fields.Boolean(string="Distribute first period linear", help="If checked in we use first period and distribute during the whole period")
     
-    account_class_ids = fields.Many2many(comodel_name='custom.account.class', string='Account class')
+    account_class_ids = fields.Many2many(comodel_name='custom.account.forecast', string='Account class')
     percentage_factor = fields.Float(string='Percentage Factor')
+    
     
     def make_report(self):
         for account in self.account_ids:
