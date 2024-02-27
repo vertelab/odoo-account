@@ -1,0 +1,101 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_mis_period_wizard
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0-20240225\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-27 06:16+0000\n"
+"PO-Revision-Date: 2024-02-27 06:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_mis_period_wizard
+#: model_terms:ir.ui.view,arch_db:account_mis_period_wizard.view_account_mis_period_wizard_form
+msgid "--&gt;"
+msgstr "--&gt;"
+
+#. module: account_mis_period_wizard
+#: model_terms:ir.ui.view,arch_db:account_mis_period_wizard.view_account_mis_period_wizard_form
+msgid "Cancel"
+msgstr "Avbryt"
+
+#. module: account_mis_period_wizard
+#: model:ir.actions.server,name:account_mis_period_wizard.action_account_mis_period_wizard
+msgid "Choose Period"
+msgstr "Välj period"
+
+#. module: account_mis_period_wizard
+#: model:ir.model.fields,field_description:account_mis_period_wizard.field_account_mis_period_wizard__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: account_mis_period_wizard
+#: model:ir.model.fields,field_description:account_mis_period_wizard.field_account_mis_period_wizard__create_date
+msgid "Created on"
+msgstr "Skapad på"
+
+#. module: account_mis_period_wizard
+#: model:ir.model.fields,field_description:account_mis_period_wizard.field_account_mis_period_wizard__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: account_mis_period_wizard
+#: model:ir.model.fields,field_description:account_mis_period_wizard.field_mis_report_instance__date_from
+msgid "From"
+msgstr "Från"
+
+#. module: account_mis_period_wizard
+#: model:ir.model,name:account_mis_period_wizard.model_account_mis_period_wizard
+msgid "Helping with creating periods, for report use."
+msgstr "Hjälp med att skapa perioder, för rapportanvändning."
+
+#. module: account_mis_period_wizard
+#: model:ir.model.fields,field_description:account_mis_period_wizard.field_account_mis_period_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_mis_period_wizard
+#: model:ir.model.fields,field_description:account_mis_period_wizard.field_account_mis_period_wizard____last_update
+msgid "Last Modified on"
+msgstr "Senast ändrad den"
+
+#. module: account_mis_period_wizard
+#: model:ir.model.fields,field_description:account_mis_period_wizard.field_account_mis_period_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: account_mis_period_wizard
+#: model:ir.model.fields,field_description:account_mis_period_wizard.field_account_mis_period_wizard__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad den"
+
+#. module: account_mis_period_wizard
+#: model:ir.model,name:account_mis_period_wizard.model_mis_report_instance
+msgid "MIS Report Instance"
+msgstr "Instans för MIS-rapport"
+
+#. module: account_mis_period_wizard
+#: model:ir.actions.act_window,name:account_mis_period_wizard.action_open_account_mis_period
+msgid "Make Account Mis Period"
+msgstr "Skapa konto Missperiod"
+
+#. module: account_mis_period_wizard
+#: model_terms:ir.ui.view,arch_db:account_mis_period_wizard.view_account_mis_period_wizard_form
+msgid "Make Report"
+msgstr "Skapa rapport"
+
+#. module: account_mis_period_wizard
+#: model:ir.model.fields,field_description:account_mis_period_wizard.field_account_mis_period_wizard__period
+msgid "Period"
+msgstr "Period"
+
+#. module: account_mis_period_wizard
+#: model:ir.model.fields,field_description:account_mis_period_wizard.field_mis_report_instance__date_to
+msgid "To"
+msgstr "Till"

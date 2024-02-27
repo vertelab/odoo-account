@@ -1,246 +1,414 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* membership_insurance
+# 	* account_fortnox
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0-20191002\n"
+"Project-Id-Version: Odoo Server 16.0-20240225\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-13 16:39+0000\n"
-"PO-Revision-Date: 2020-06-13 16:54+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2024-02-27 06:19+0000\n"
+"PO-Revision-Date: 2024-02-27 06:19+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: sv_SE\n"
-"X-Generator: Poedit 2.0.6\n"
 
-#. module: membership_insurance
-#: model_terms:ir.ui.view,arch_db:membership_insurance.view_partners_form_crm_insurance
-msgid "10 or 12 digital"
-msgstr "10 eller 12 siffror"
-
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__is_accommodator
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__is_accommodator
-#: model_terms:ir.ui.view,arch_db:membership_insurance.res_partner_view_search_inherit_taxid
-msgid "Accommodator"
-msgstr "Förmedlare"
-
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__count_accommodator
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__count_accommodator
-msgid "Accommodators"
-msgstr "Förmedlare"
-
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_member__active
-msgid "Active"
-msgstr "Aktiv"
-
-#. module: membership_insurance
-#. openerp-web
-#: code:addons/membership_insurance/static/src/js/blog_backend.js:120
-#: code:addons/membership_insurance/static/src/js/blog_frontend.js:60
-#, python-format
-msgid "An error occured with this latest posts block. If the problem persists, please consider deleting it and adding a new one"
+#. module: account_fortnox
+#: model_terms:ir.ui.view,arch_db:account_fortnox.res_config_settings_view_form_fortnox
+msgid ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
+"specific.\"/>"
 msgstr ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"De värden som anges här är "
+"företagsspecifika.\"/>"
 
-#. module: membership_insurance
-#: model_terms:ir.ui.view,arch_db:membership_insurance.res_partner_view_search_inherit_taxid
-msgid "City"
-msgstr "Stad"
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__fortnox_access_token
+msgid "Access Token"
+msgstr "Token för åtkomst"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__count_company
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__count_company
-msgid "Company"
-msgstr "Bolag"
+#. module: account_fortnox
+#: model:ir.model,name:account_fortnox.model_account_invoice_send
+msgid "Account Invoice Send"
+msgstr "Skicka kontofaktura"
 
-#. module: membership_insurance
-#: model:ir.model,name:membership_insurance.model_res_partner
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__message_needaction
+msgid "Action Needed"
+msgstr "Åtgärder som krävs"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__activity_ids
+msgid "Activities"
+msgstr "Verksamhet"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Aktivitet Undantag Dekoration"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__activity_state
+msgid "Activity State"
+msgstr "Aktivitetsstatus"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikon för aktivitetstyp"
+
+#. module: account_fortnox
+#. odoo-javascript
+#: code:addons/account_fortnox/static/src/js/blog_backend.js:0
+#: code:addons/account_fortnox/static/src/js/blog_frontend.js:0
+#, python-format
+msgid ""
+"An error occured with this latest posts block. If the problem persists, "
+"please consider deleting it and adding a new one"
+msgstr ""
+"Ett fel uppstod med detta senaste inläggsblock. Om problemet kvarstår kan du"
+" överväga att ta bort det och lägga till ett nytt"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__message_attachment_count
+msgid "Attachment Count"
+msgstr "Antal bilagor"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__fortnox_authorization_code
+msgid "Authorization code"
+msgstr "Kod för auktorisering"
+
+#. module: account_fortnox
+#: model_terms:ir.ui.view,arch_db:account_fortnox.view_res_company_form_fortnox
+msgid "Authorize with Fortnox"
+msgstr "Auktorisera med Fortnox"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__fortnox_client_id
+msgid "Client ID"
+msgstr "Kund-ID"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__fortnox_client_secret
+msgid "Client Secret"
+msgstr "Hemlig kund"
+
+#. module: account_fortnox
+#: model:ir.model,name:account_fortnox.model_res_company
+msgid "Companies"
+msgstr "Företag"
+
+#. module: account_fortnox
+#: model:ir.model,name:account_fortnox.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfigurationsinställningar"
+
+#. module: account_fortnox
+#: model:ir.model,name:account_fortnox.model_res_partner
 msgid "Contact"
 msgstr "Kontakt"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_license__create_uid
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_permission__create_uid
-#: model:ir.model.fields,field_description:membership_insurance.field_res_member__create_uid
-msgid "Created by"
-msgstr ""
+#. module: account_fortnox
+#. odoo-python
+#: code:addons/account_fortnox/models/account_invoice.py:0
+#, python-format
+msgid "ERROR: missing date_due on invoice."
+msgstr "ERROR: saknar date_due på fakturan."
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_license__create_date
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_permission__create_date
-#: model:ir.model.fields,field_description:membership_insurance.field_res_member__create_date
-msgid "Created on"
-msgstr ""
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__message_follower_ids
+msgid "Followers"
+msgstr "Följare"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_license__display_name
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_permission__display_name
-#: model:ir.model.fields,field_description:membership_insurance.field_res_member__display_name
-msgid "Display Name"
-msgstr "Visningsnamn"
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Följare (Partners)"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__is_fellowship
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__is_fellowship
-#: model_terms:ir.ui.view,arch_db:membership_insurance.res_partner_view_search_inherit_taxid
-msgid "Fellowship"
-msgstr "Sammanslutning"
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Font awesome-ikon, t.ex. fa-tasks"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__url_financial_supervisory
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__url_financial_supervisory
-msgid "Finansinspektionen"
-msgstr ""
+#. module: account_fortnox
+#: model_terms:ir.ui.view,arch_db:account_fortnox.view_res_company_form_fortnox
+msgid "FortNox Integration"
+msgstr "Integration med FortNox"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_license__id
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_permission__id
-#: model:ir.model.fields,field_description:membership_insurance.field_res_member__id
-msgid "ID"
-msgstr ""
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_account_invoice_send__is_fortnox
+msgid "Fortnox"
+msgstr "Fortnox"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__liability_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__liability_insurance
-msgid "Insurance License"
-msgstr "Försäkringslicens"
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_partner__fortnox_ref
+#: model:ir.model.fields,field_description:account_fortnox.field_res_users__fortnox_ref
+msgid "Fortnox Customer ID"
+msgstr "Fortnox kund-ID"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__liability_insurance_permission
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__liability_insurance_permission
-msgid "Insurance Permission"
-msgstr "Försäkringstillstånd"
+#. module: account_fortnox
+#: model_terms:ir.ui.view,arch_db:account_fortnox.account_invoice_form_inherit
+msgid "Fortnox Info"
+msgstr "Fortnox Info"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_license____last_update
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_permission____last_update
-#: model:ir.model.fields,field_description:membership_insurance.field_res_member____last_update
-msgid "Last Modified on"
-msgstr ""
+#. module: account_fortnox
+#: model:ir.actions.server,name:account_fortnox.ir_cron_update_invoice_status_fortnox_ir_actions_server
+#: model:ir.cron,cron_name:account_fortnox.ir_cron_update_invoice_status_fortnox
+msgid "Fortnox Invoice Status"
+msgstr "Fortnox Fakturastatus"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_license__write_uid
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_permission__write_uid
-#: model:ir.model.fields,field_description:membership_insurance.field_res_member__write_uid
-msgid "Last Updated by"
-msgstr ""
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__fortnox_refresh_token
+msgid "Fortnox Refresh Token"
+msgstr "Fortnox uppdateringstoken"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_license__write_date
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_permission__write_date
-#: model:ir.model.fields,field_description:membership_insurance.field_res_member__write_date
-msgid "Last Updated on"
-msgstr ""
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_account_bank_statement_line__fortnox_response
+#: model:ir.model.fields,field_description:account_fortnox.field_account_move__fortnox_response
+#: model:ir.model.fields,field_description:account_fortnox.field_account_payment__fortnox_response
+msgid "Fortnox Response"
+msgstr "Fortnox svar"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__count_life_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__count_life_insurance
-msgid "Life Insurance"
-msgstr "Livförsäkring"
+#. module: account_fortnox
+#: model_terms:ir.ui.view,arch_db:account_fortnox.view_account_journal_tree_inherit2
+msgid "Fortnox Settings"
+msgstr "Fortnox inställningar"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__count_life_protperty_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__count_life_protperty_insurance
-msgid "Life/Property Insurance"
-msgstr "Liv/sak-försäkring"
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_account_bank_statement_line__fortnox_status
+#: model:ir.model.fields,field_description:account_fortnox.field_account_move__fortnox_status
+#: model:ir.model.fields,field_description:account_fortnox.field_account_payment__fortnox_status
+msgid "Fortnox Status"
+msgstr "Fortnox Status"
 
-#. module: membership_insurance
-#: model:ir.model,name:membership_insurance.model_res_member
-msgid "Member"
-msgstr "Medlem"
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__has_message
+msgid "Has Message"
+msgstr "Har meddelande"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__membership_ids
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__membership_ids
-msgid "Membership ID"
-msgstr "Medlemsid"
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__activity_exception_icon
+msgid "Icon"
+msgstr "Ikon"
 
-#. module: membership_insurance
-#: model_terms:ir.ui.view,arch_db:membership_insurance.view_partners_form_crm_insurance
-msgid "MembershipID"
-msgstr "Medlemsid"
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikon för att indikera en undantagsaktivitet."
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_license__name
-#: model:ir.model.fields,field_description:membership_insurance.field_insurance_permission__name
-msgid "Name"
-msgstr "Namn"
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Om markerat, kräver nya meddelanden din uppmärksamhet."
 
-#. module: membership_insurance
-#. openerp-web
-#: code:addons/membership_insurance/static/src/js/blog_backend.js:105
-#: code:addons/membership_insurance/static/src/js/blog_frontend.js:45
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__message_has_error
+#: model:ir.model.fields,help:account_fortnox.field_res_company__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Om markerat får vissa meddelanden ett leveransfel."
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__message_is_follower
+msgid "Is Follower"
+msgstr "Är följare"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_account_journal__is_fortnox_journal
+msgid "Is Fortnox Journal"
+msgstr "Är Fortnox Journal"
+
+#. module: account_fortnox
+#: model:ir.model,name:account_fortnox.model_account_journal
+msgid "Journal"
+msgstr "Tidskrift"
+
+#. module: account_fortnox
+#: model:ir.model,name:account_fortnox.model_account_move
+msgid "Journal Entry"
+msgstr "Journalanteckning"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Huvudanslutning"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_product_product__membership_product_ids
+#: model:ir.model.fields,field_description:account_fortnox.field_product_template__membership_product_ids
+msgid "Membership Products"
+msgstr "Produkter för medlemskap"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__message_has_error
+msgid "Message Delivery error"
+msgstr "Fel vid leverans av meddelande"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__message_ids
+msgid "Messages"
+msgstr "Meddelanden"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Min tidsfrist för aktiviteter"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Nästa aktivitet i kalendern"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Tidsfrist för nästa aktivitet"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__activity_summary
+msgid "Next Activity Summary"
+msgstr "Sammanfattning av nästa aktivitet"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__activity_type_id
+msgid "Next Activity Type"
+msgstr "Nästa typ av aktivitet"
+
+#. module: account_fortnox
+#. odoo-javascript
+#: code:addons/account_fortnox/static/src/js/blog_backend.js:0
+#: code:addons/account_fortnox/static/src/js/blog_frontend.js:0
 #, python-format
 msgid "No blog post was found. Make sure your posts are published."
+msgstr "Inget blogginlägg hittades. Se till att dina inlägg publiceras."
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Antal åtgärder"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__message_has_error_counter
+msgid "Number of errors"
+msgstr "Antal fel"
+
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Antal meddelanden som kräver åtgärd"
+
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Antal meddelanden med leveransfel"
+
+#. module: account_fortnox
+#: model:ir.model,name:account_fortnox.model_product_template
+msgid "Product"
+msgstr "Produkt"
+
+#. module: account_fortnox
+#: model:ir.model,name:account_fortnox.model_product_product
+msgid "Product Variant"
+msgstr "Produktvariant"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_product_product__membership_code
+#: model:ir.model.fields,field_description:account_fortnox.field_product_template__membership_code
+msgid "Python Code"
+msgstr "Python-kod"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__activity_user_id
+msgid "Responsible User"
+msgstr "Ansvarig användare"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Fel vid leverans av SMS"
+
+#. module: account_fortnox
+#: model_terms:ir.ui.view,arch_db:account_fortnox.account_invoice_send_inherit_account_wizard_form_fortnox
+msgid "Send"
+msgstr "Skicka"
+
+#. module: account_fortnox
+#: model_terms:ir.ui.view,arch_db:account_fortnox.account_invoice_form_inherit
+msgid "Send To Fortnox"
+msgstr "Skicka till Fortnox"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_config_settings__invoice_fortnox
+msgid "Send to Fortnox"
+msgstr "Skicka till Fortnox"
+
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_account_bank_statement_line__is_sent_to_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_account_move__is_sent_to_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_account_payment__is_sent_to_fortnox
+msgid "Sent To Fortnox"
+msgstr "Skickad till Fortnox"
+
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
 msgstr ""
+"Status baserad på aktiviteter\n"
+"Försenad: Förfallodatumet har redan passerats\n"
+"Idag: Aktivitetsdatum är idag\n"
+"Planerad: Framtida aktiviteter."
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__org_prn
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__org_prn
-msgid "Org/Person Number"
-msgstr "Org/personnummer"
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__fortnox_client_id
+msgid "The public ID of the integration"
+msgstr "Det offentliga ID:t för integrationen"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_member__partner_id
-msgid "Partner"
-msgstr "Partner"
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ av undantagsaktivitet som registreras."
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__personnumber
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__personnumber
-#: model_terms:ir.ui.view,arch_db:membership_insurance.res_partner_view_search_inherit_taxid
-msgid "Person Number"
-msgstr "Peronsnummer"
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__website_message_ids
+msgid "Website Messages"
+msgstr "Meddelanden från webbplatsen"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__count_property_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__count_property_insurance
-msgid "Property Insurance"
-msgstr "Sakförsäkring"
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__website_message_ids
+msgid "Website communication history"
+msgstr "Historik för kommunikation på webbplatsen"
 
-#. module: membership_insurance
-#: model:ir.model.fields,field_description:membership_insurance.field_res_partner__vat
-#: model:ir.model.fields,field_description:membership_insurance.field_res_users__vat
-#: model_terms:ir.ui.view,arch_db:membership_insurance.res_partner_view_search_inherit_taxid
-msgid "Tax ID"
-msgstr "Momsregistreringsnummer"
+#. module: account_fortnox
+#: model:ir.model.fields,field_description:account_fortnox.field_res_company__fortnox_token_expiration
+msgid "When the token expires"
+msgstr "När token upphör att gälla"
 
-#. module: membership_insurance
-#: model:ir.model.fields,help:membership_insurance.field_res_partner__vat
-#: model:ir.model.fields,help:membership_insurance.field_res_users__vat
-msgid "The Tax Identification Number. Complete it if the contact is subjected to government taxes. Used in some legal statements."
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__fortnox_access_token
+msgid "With autorization code and client secret you generate this code ones"
+msgstr "Med auktoriseringskod och klienthemlighet genererar du dessa koder"
+
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_product_product__membership_code
+#: model:ir.model.fields,help:account_fortnox.field_product_template__membership_code
+msgid ""
+"Write Python code that holds advanced calcultations for amount and quatity"
 msgstr ""
+"Skriv Python-kod som innehåller avancerade beräkningar för mängd och kvot"
 
-#. module: membership_insurance
-#: model:ir.model.fields,help:membership_insurance.field_res_partner__is_accommodator
-#: model:ir.model.fields,help:membership_insurance.field_res_users__is_accommodator
-msgid "This is an accommodator"
-msgstr "Detta är en förmedlare"
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__fortnox_authorization_code
+msgid "You get this code from your FortNox Account when you activate Odoo"
+msgstr "Du får denna kod från ditt FortNox-konto när du aktiverar Odoo"
 
-#. module: membership_insurance
-#: model:ir.model.fields,help:membership_insurance.field_res_partner__is_fellowship
-#: model:ir.model.fields,help:membership_insurance.field_res_users__is_fellowship
-msgid "This is fellowship of companies."
-msgstr "Detta är en sammanslutning av företag"
-
-#. module: membership_insurance
-#: model:ir.model.fields,help:membership_insurance.field_res_partner__personnumber
-#: model:ir.model.fields,help:membership_insurance.field_res_users__personnumber
-msgid "This is person number"
-msgstr "Detta är ett personnummer"
-
-#. module: membership_insurance
-#: model:ir.model,name:membership_insurance.model_insurance_license
-msgid "insurance.license"
-msgstr ""
-
-#. module: membership_insurance
-#: model:ir.model,name:membership_insurance.model_insurance_permission
-msgid "insurance.permission"
-msgstr ""
+#. module: account_fortnox
+#: model:ir.model.fields,help:account_fortnox.field_res_company__fortnox_client_secret
+msgid "You get this code from your Odoo representative"
+msgstr "Du får denna kod från din Odoo-representant"

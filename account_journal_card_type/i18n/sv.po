@@ -1,0 +1,517 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_journal_card_type
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0-20240225\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-27 06:16+0000\n"
+"PO-Revision-Date: 2024-02-27 06:37+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 3.0.1\n"
+
+#. module: account_journal_card_type
+#. odoo-python
+#: code:addons/account_journal_card_type/models/account.py:0
+#, python-format
+msgid "%(action)s for journal %(journal)s"
+msgstr "%(action)s för journal %(journal)s"
+
+#. module: account_journal_card_type
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_journal_dashboard_kanban_view_inherit
+msgid "<span role=\"separator\">View</span>"
+msgstr "<span roll=\"separator\">Visa</span>"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__account
+msgid "Account"
+msgstr "Konto"
+
+#. module: account_journal_card_type
+#: model:ir.model,name:account_journal_card_type.model_account_card_statement
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_card_statement_form
+msgid "Account Card Statement"
+msgstr "Kontokortsutdrag"
+
+#. module: account_journal_card_type
+#: model:ir.model,name:account_journal_card_type.model_account_card_statement_line
+msgid "Account Card Statement Line"
+msgstr "Kontokort Utdragsrad"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__accounting_status
+msgid "Accounting Status"
+msgstr "Status för redovisning"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_needaction
+msgid "Action Needed"
+msgstr "Åtgärder som krävs"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__amount
+msgid "Amount"
+msgstr "Belopp"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__amount_residual
+msgid "Amount Residual"
+msgstr "Belopp Återstående"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_attachment_count
+msgid "Attachment Count"
+msgstr "Antal bilagor"
+
+#. module: account_journal_card_type
+#. odoo-python
+#: code:addons/account_journal_card_type/models/account_card_statement.py:0
+#, python-format
+msgid ""
+"Bank Statement for this month already exists. You can cancel previous "
+"statement and create new one."
+msgstr ""
+"Kontoutdrag för denna månad finns redan. Du kan annullera det tidigare "
+"kontoutdraget och skapa ett nytt."
+
+#. module: account_journal_card_type
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_card_statement_form
+msgid "Cancel"
+msgstr "Avbryt"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields.selection,name:account_journal_card_type.selection__account_card_statement__state__cancelled
+msgid "Cancelled"
+msgstr "Avbokad"
+
+#. module: account_journal_card_type
+#. odoo-python
+#: code:addons/account_journal_card_type/models/account_move.py:0
+#, python-format
+msgid "Cannot create a purchase document in a non purchase journal"
+msgstr "Kan inte skapa ett inköpsdokument i en icke inköpsjournal"
+
+#. module: account_journal_card_type
+#. odoo-python
+#: code:addons/account_journal_card_type/models/account_move.py:0
+#, python-format
+msgid "Cannot create a sale document in a non sale journal"
+msgstr "Kan inte skapa ett försäljningsdokument i en icke försäljningsjournal"
+
+#. module: account_journal_card_type
+#. odoo-python
+#: code:addons/account_journal_card_type/models/account.py:0
+#, python-format
+msgid ""
+"Cannot create an invoice of type %(move_type)s with a journal having "
+"%(journal_type)s as type."
+msgstr ""
+"Kan inte skapa en faktura av typen %(move_type)s med en verifikation som "
+"har %(journal_type)s som typ."
+
+#. module: account_journal_card_type
+#: model:ir.model.fields.selection,name:account_journal_card_type.selection__account_journal__type__card
+msgid "Card"
+msgstr "Kort"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_journal__card_credit_account
+msgid "Card Credit Account"
+msgstr "Kort Kredit Konto"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_journal__card_debit_account
+msgid "Card Debit Account"
+msgstr "Kort Debet Konto"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__card_name
+msgid "Card Name"
+msgstr "Kortets namn"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__card_number
+msgid "Card Number"
+msgstr "Kortnummer"
+
+#. module: account_journal_card_type
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.view_account_journal_tree_inherit2
+msgid "Card Settings"
+msgstr "Kortinställningar"
+
+#. module: account_journal_card_type
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.view_card_statement_search
+msgid "Card Statement"
+msgstr "Kortutdrag"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__account_card_statement_line_ids
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__account_card_statement_id
+msgid "Card Transaction"
+msgstr "Korttransaktion"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__repayment_account_card_statement_id
+msgid "Card Transaction - RePayment"
+msgstr "Korttransaktion - Återbetalning"
+
+#. module: account_journal_card_type
+#: model:ir.actions.act_window,name:account_journal_card_type.action_view_card_statements
+msgid "Card Transactions "
+msgstr "Korttransaktioner "
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__category
+msgid "Category"
+msgstr "Kategori"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__comment
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_card_statement_line_form_view
+msgid "Comment"
+msgstr "Hur man"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__company_id
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__company_id
+msgid "Company"
+msgstr "Företag"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__company_currency_id
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__company_currency_id
+msgid "Company Currency"
+msgstr "Företagets valuta"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__create_uid
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__create_date
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__create_date
+msgid "Created on"
+msgstr "Skapad på"
+
+#. module: account_journal_card_type
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_card_statement_form
+msgid "Credit Repayment"
+msgstr "Återbetalning av kredit"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__statement_line_credit_repayment_id
+msgid "Credit Repayment Transaction"
+msgstr "Transaktion för återbetalning av kredit"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__statement_line_credit_repayment_line_ids
+msgid "Credit Repayment Transaction Line"
+msgstr "Kredit Återbetalning Transaktionslinje"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__currency
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_card_statement_line_form_view
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__date
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__date
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.view_card_statement_search
+msgid "Date"
+msgstr "Datum"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__description
+msgid "Description"
+msgstr "Beskrivning"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__display_name
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields.selection,name:account_journal_card_type.selection__account_card_statement__state__draft
+msgid "Draft"
+msgstr "Utkast"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__account_move_id
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__account_move_id
+msgid "Entry"
+msgstr "Verifikat"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__filename
+msgid "Filename"
+msgstr "Filnamn"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_follower_ids
+msgid "Followers"
+msgstr "Följare"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Följare (Partners)"
+
+#. module: account_journal_card_type
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.view_card_statement_search
+msgid "Group By"
+msgstr "Gruppera på"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__has_message
+msgid "Has Message"
+msgstr "Har meddelande"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__id
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,help:account_journal_card_type.field_account_card_statement__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Om markerat, kräver nya meddelanden din uppmärksamhet."
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,help:account_journal_card_type.field_account_card_statement__message_has_error
+#: model:ir.model.fields,help:account_journal_card_type.field_account_card_statement__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Om markerat får vissa meddelanden ett leveransfel."
+
+#. module: account_journal_card_type
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_journal_dashboard_kanban_view_inherit
+msgid "Import card Statement"
+msgstr "Importkort Utlåtande"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_is_follower
+msgid "Is Follower"
+msgstr "Är följare"
+
+#. module: account_journal_card_type
+#: model:ir.model,name:account_journal_card_type.model_account_journal
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__journal_id
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.view_card_statement_search
+msgid "Journal"
+msgstr "Tidskrift"
+
+#. module: account_journal_card_type
+#. odoo-python
+#: code:addons/account_journal_card_type/models/account_card_statement.py:0
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_card_statement_form
+#, python-format
+msgid "Journal Entries"
+msgstr "Journalanteckningar"
+
+#. module: account_journal_card_type
+#: model:ir.model,name:account_journal_card_type.model_account_move
+msgid "Journal Entry"
+msgstr "Journalanteckning"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement____last_update
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line____last_update
+msgid "Last Modified on"
+msgstr "Senast ändrad den"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__write_uid
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__write_date
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad den"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Huvudanslutning"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_has_error
+msgid "Message Delivery error"
+msgstr "Fel vid leverans av meddelande"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_ids
+msgid "Messages"
+msgstr "Meddelanden"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__name
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__name
+msgid "Name"
+msgstr "Namn"
+
+#. module: account_journal_card_type
+#: model_terms:ir.actions.act_window,help:account_journal_card_type.action_view_card_statements
+msgid "No Card statement found."
+msgstr "Inget kortutdrag hittades."
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Antal åtgärder"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_has_error_counter
+msgid "Number of errors"
+msgstr "Antal fel"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,help:account_journal_card_type.field_account_card_statement__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Antal meddelanden som kräver åtgärd"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,help:account_journal_card_type.field_account_card_statement__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Antal meddelanden med leveransfel"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__original_amount
+msgid "Original Amount"
+msgstr "Ursprungligt belopp"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__original_currency
+msgid "Original Currency"
+msgstr "Ursprunglig valuta"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__account_move_payment_state
+msgid "Payment State"
+msgstr "Betalningsstatus"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__person
+msgid "Person"
+msgstr "Person"
+
+#. module: account_journal_card_type
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_card_statement_form
+msgid "Post"
+msgstr "Bokför"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields.selection,name:account_journal_card_type.selection__account_card_statement__state__posted
+msgid "Posted"
+msgstr "Bokförd"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__reverse_vat
+msgid "Reverse Vat"
+msgstr "Omvänd skatt"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Fel vid leverans av SMS"
+
+#. module: account_journal_card_type
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.view_card_statement_search
+msgid "Search Card Statements"
+msgstr "Sök i kortutdrag"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,help:account_journal_card_type.field_account_journal__type
+msgid ""
+"Select 'Sale' for customer invoices journals.\n"
+"Select 'Purchase' for vendor bills journals.\n"
+"Select 'Cash' or 'Bank' for journals that are used in customer or vendor "
+"payments.\n"
+"Select 'General' for miscellaneous operations journals."
+msgstr ""
+"Välj \"Försäljning\" för journaler med kundfakturor.\n"
+"Välj \"Inköp\" för journaler med leverantörsfakturor.\n"
+"Välj \"Kontant\" eller \"Bank\" för journaler som används vid kund- eller "
+"leverantörsbetalningar.\n"
+"Välj \"Allmänt\" för diverse verksamhetsjournaler."
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__settlement_status
+msgid "Settlement Status"
+msgstr "Status för avveckling"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__state
+msgid "Status"
+msgstr "Status"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__team
+msgid "Team"
+msgstr "Team"
+
+#. module: account_journal_card_type
+#. odoo-python
+#: code:addons/account_journal_card_type/models/account.py:0
+#, python-format
+msgid ""
+"The chosen journal has a type that is not compatible with your invoice "
+"type. Sales operations should go to 'sale' journals, and purchase "
+"operations to 'purchase' ones."
+msgstr ""
+"Den valda journalen har en typ som inte är kompatibel med din fakturatyp. "
+"Försäljningstransaktioner ska gå till \"försäljning\"-journaler och "
+"inköpstransaktioner till \"inköp\"-journaler."
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__total_amount_residual
+msgid "Total Amount Residual"
+msgstr "Totalt belopp Återstående"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__total_card_transaction
+msgid "Total Card Transactions"
+msgstr "Summa korttransaktioner"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_journal__type
+msgid "Type"
+msgstr "Typ"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__vat_amount
+msgid "Vat Amount"
+msgstr "Momsbelopp"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__vat_rate
+msgid "Vat Rate"
+msgstr "Moms"
+
+#. module: account_journal_card_type
+#: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_journal_dashboard_kanban_view_inherit
+msgid "View Card Transactions"
+msgstr "Visa korttransaktioner"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__website_message_ids
+msgid "Website Messages"
+msgstr "Meddelanden från webbplatsen"
+
+#. module: account_journal_card_type
+#: model:ir.model.fields,help:account_journal_card_type.field_account_card_statement__website_message_ids
+msgid "Website communication history"
+msgstr "Historik för kommunikation på webbplatsen"

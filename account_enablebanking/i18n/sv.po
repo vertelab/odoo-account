@@ -1,0 +1,289 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_enablebanking
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0-20240225\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-27 06:16+0000\n"
+"PO-Revision-Date: 2024-02-27 06:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_enablebanking
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Schedule Interval</span>"
+msgstr "<span class=\"o_form_label\">Intervall för schemaläggning</span>"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_bank__api_contact_integration
+msgid "API Contact Integration"
+msgstr "Integration av API-kontakter"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_partner__enable_banking_api_url
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_users__enable_banking_api_url
+msgid "API URL"
+msgstr "API URL"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_account_setup_bank_manual_config__account_uuid
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__account_uuid
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_partner_bank__account_uuid
+msgid "Account UUID"
+msgstr "Konto UUID"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_partner__enable_banking_application_id
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_users__enable_banking_application_id
+msgid "Application ID"
+msgstr "Applikations-ID"
+
+#. module: account_enablebanking
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.res_bank_form_view_inherit
+msgid "Authorize Bank"
+msgstr "Godkänna bank"
+
+#. module: account_enablebanking
+#: model:ir.model,name:account_enablebanking.model_res_bank
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__bank_id
+msgid "Bank"
+msgstr "Bank"
+
+#. module: account_enablebanking
+#: model:ir.model,name:account_enablebanking.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Bankkonton"
+
+#. module: account_enablebanking
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.view_enable_banking_transaction_wizard_form
+msgid "Cancel"
+msgstr "Avbryt"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__code
+msgid "Code"
+msgstr "Kod"
+
+#. module: account_enablebanking
+#: model:ir.model,name:account_enablebanking.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfigurationsinställningar"
+
+#. module: account_enablebanking
+#: model:ir.model,name:account_enablebanking.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: account_enablebanking
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.res_partner_bank_form_view_inherit
+msgid "Create Journal"
+msgstr "Skapa dagbok"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__create_uid
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__create_date
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__create_date
+msgid "Created on"
+msgstr "Skapad på"
+
+#. module: account_enablebanking
+#: model:ir.model.fields.selection,name:account_enablebanking.selection__res_config_settings__interval_type__days
+msgid "Days"
+msgstr "Dagar"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__display_name
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: account_enablebanking
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.res_partner_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.view_account_journal_form
+msgid "Enable Banking"
+msgstr "Aktivera bankverksamhet"
+
+#. module: account_enablebanking
+#. odoo-python
+#: code:addons/account_enablebanking/models/account_journal.py:0
+#, python-format
+msgid "Enable Banking Transaction"
+msgstr "Aktivera banktransaktion"
+
+#. module: account_enablebanking
+#: model:ir.model,name:account_enablebanking.model_enable_banking_wizard
+msgid "Enable Banking Wizard"
+msgstr "Aktivera guiden för bankärenden"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_partner__is_enable_banking_api
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_users__is_enable_banking_api
+msgid "Enable Enablebanking API"
+msgstr "Aktivera Enablebanking API"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__date_from
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__date_from
+msgid "From"
+msgstr "Från"
+
+#. module: account_enablebanking
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.view_account_journal_form
+msgid "Gatekeeper"
+msgstr "Grindvakt"
+
+#. module: account_enablebanking
+#: model:ir.model.fields.selection,name:account_enablebanking.selection__res_config_settings__interval_type__hours
+msgid "Hours"
+msgstr "Timmar"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__id
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_config_settings__interval_number
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.res_config_settings_view_form
+msgid "Interval Number"
+msgstr "Intervall Antal"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_config_settings__interval_type
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.res_config_settings_view_form
+msgid "Interval Type"
+msgstr "Typ av intervall"
+
+#. module: account_enablebanking
+#: model:ir.model,name:account_enablebanking.model_account_journal
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__journal_id
+msgid "Journal"
+msgstr "Tidskrift"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard____last_update
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard____last_update
+msgid "Last Modified on"
+msgstr "Senast ändrad den"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__write_uid
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__write_date
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad den"
+
+#. module: account_enablebanking
+#: model:ir.model.fields.selection,name:account_enablebanking.selection__res_config_settings__interval_type__minutes
+msgid "Minutes"
+msgstr "Protokoll"
+
+#. module: account_enablebanking
+#: model:ir.model.fields.selection,name:account_enablebanking.selection__res_config_settings__interval_type__months
+msgid "Months"
+msgstr "månader"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_partner__enable_banking_private_key
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_users__enable_banking_private_key
+msgid "Private Key"
+msgstr "Privat nyckel"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_partner__enable_banking_redirect_url
+#: model:ir.model.fields,field_description:account_enablebanking.field_res_users__enable_banking_redirect_url
+msgid "Redirect URL"
+msgstr "Omdirigera URL"
+
+#. module: account_enablebanking
+#. odoo-python
+#: code:addons/account_enablebanking/models/account_journal.py:0
+#, python-format
+msgid "Return To Bank Account"
+msgstr "Återgå till bankkonto"
+
+#. module: account_enablebanking
+#. odoo-python
+#: code:addons/account_enablebanking/models/account_journal.py:0
+#, python-format
+msgid "Select a Bank!"
+msgstr "Välj en bank!"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__session_id
+msgid "Session ID"
+msgstr "ID för session"
+
+#. module: account_enablebanking
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.res_config_settings_view_form
+msgid "Set internal number and type for enable banking to sync transactions"
+msgstr ""
+"Ange internt nummer och typ för att banken ska kunna synkronisera "
+"transaktioner"
+
+#. module: account_enablebanking
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.view_enable_banking_wizard_form
+msgid "Sync Accounts"
+msgstr "Synkronisera konton"
+
+#. module: account_enablebanking
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.account_journal_dashboard_kanban_view_inherit
+msgid "Sync Balances"
+msgstr "Synkronisera balanser"
+
+#. module: account_enablebanking
+#: model:ir.actions.server,name:account_enablebanking.enable_banking_transaction_sync_ir_actions_server
+#: model:ir.cron,cron_name:account_enablebanking.enable_banking_transaction_sync
+msgid "Sync Enable Banking Transactions"
+msgstr "Synkronisera aktivera banktransaktioner"
+
+#. module: account_enablebanking
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.account_journal_dashboard_kanban_view_inherit
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.view_enable_banking_transaction_wizard_form
+msgid "Sync Transactions"
+msgstr "Synkronisera transaktioner"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__date_to
+#: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__date_to
+msgid "To"
+msgstr "Till"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,field_description:account_enablebanking.field_account_journal__notify_user_id
+msgid "User to Notify"
+msgstr "Användare att meddela"
+
+#. module: account_enablebanking
+#: model:ir.model.fields,help:account_enablebanking.field_account_journal__notify_user_id
+#: model_terms:ir.ui.view,arch_db:account_enablebanking.view_account_journal_form
+msgid "User to notify when transaction sync fails"
+msgstr "Användare ska meddelas när transaktionssynkronisering misslyckas"
+
+#. module: account_enablebanking
+#: model:ir.model.fields.selection,name:account_enablebanking.selection__res_config_settings__interval_type__weeks
+msgid "Weeks"
+msgstr "Veckor"
+
+#. module: account_enablebanking
+#: model:ir.model,name:account_enablebanking.model_enable_banking_transaction_wizard
+msgid "enable.banking.transaction.wizard"
+msgstr "aktivera.bank.transaktion.guiden"
