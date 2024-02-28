@@ -2,41 +2,42 @@
 <odoo>
     <data>
 
-        <record id="view_get_old_budget_form" model="ir.ui.view">
-            <field name="name">get.old.budget.wizard</field>
-            <field name="model">get.old.budget.wizard</field>
+        <record id="view_last_years_actuals" model="ir.ui.view">
+            <field name="name">last_years_actuals</field>
+            <field name="model">last.years.actuals</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <group>
-                            <field name="percentage_factor"/>
+                            <field name="percentage_factor" widget="percentage"/>
                         </group>
                         <footer>
                             <button string="Cancel" class="btn-secondary" special="cancel"/>
-                            <button string="Do something" type="object" class="oe_highlight" name="modify_budget"/>
+                            <button string="Calculate" type="object" class="oe_highlight" name="modify_budget"/>
                         </footer>
                     </sheet>
                 </form>
             </field>
         </record>
 
-        <record id="action_get_old_budget" model="ir.actions.act_window">
+        <record id="action_last_years_actuals" model="ir.actions.act_window">
             <field name="name">Get Old Budget</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">get.old.budget.wizard</field>
+            <field name="res_model">last.years.actuals</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_get_old_budget_form"/>
+            <field name="view_id" ref="view_last_years_actuals"/>
             <field name="target">new</field>
         </record>
 
-        <record id="action_get_old_budget_wizard" model="ir.actions.server">
-            <field name="name">Get Old Budget</field>
+        <record id="action_server_last_years_actuals" model="ir.actions.server">
+            <field name="name">Last Years Actuals</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="mis_builder_budget.model_mis_budget_by_account_item"/>
             <field name="binding_model_id" ref="mis_builder_budget.model_mis_budget_by_account_item"/>
             <field name="state">code</field>
             <field name="code">
-action = env.ref('account_mis_budget.action_get_old_budget').read()[0]
+action = env.ref('account_mis_budget.action_last_years_actuals').read()[0]
+action["context"] = {"active_ids":records.ids}
             </field>
         </record>
 

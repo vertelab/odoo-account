@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <record id="mis_budget_by_account_form_view" model="ir.ui.view">
-      <field name="name">mis.budget.by.account.create_income_budget</field>
+    <record id="mis_budget_by_account_form_view_forecast" model="ir.ui.view">
+      <field name="name">mis.budget.by.account.create_forcast</field>
       <field name="model">mis.budget.by.account</field>
       <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_form_view" />
       <field name="arch" type="xml">
         <header position="inside">
-          <button name="action_create_income_budget" string="Create Profit &amp; Loss Budget" type="object" attrs="{'invisible': [('state', '!=', 'draft')]}" />
+          <button name="make_account_forecast" string="Create Forecast" type="object" attrs="{'invisible': [('state', '!=', 'draft')]}" />
         </header>
-        <field name="allow_items_overlap" position="before">
-          <field name="date_type" />
-        </field>
       </field>
     </record>
-    <record id="view_make_account_budget_form" model="ir.ui.view">
-      <field name="name">make.account.budget.wizard</field>
-      <field name="model">make.account.budget.wizard</field>
+    <record id="view_make_account_forecast_form" model="ir.ui.view">
+      <field name="name">make.account.forecast.wizard</field>
+      <field name="model">make.account.forecast.wizard</field>
       <field name="arch" type="xml">
         <form>
           <sheet>
             <group>
               <field name="budget_id" />
               <field name="use_account_from_year" />
+              <field name="use_contract" />
+              <field name="use_first_period" />
               <field name="percentage_factor" widget="percentage" attrs="{'invisible': [('use_account_from_year', '=', False)]}" />
             </group>
             <separator string="" colspan="4" style="border-top: 1px solid grey; margin-top: 10px; margin-bottom: 10px;" />
@@ -38,17 +37,17 @@
         </form>
       </field>
     </record>
-    <record id="action_make_account_budget" model="ir.actions.act_window">
-      <field name="name">Create Profit &amp; Loss Budget</field>
+    <record id="action_make_account_forecast" model="ir.actions.act_window">
+      <field name="name">Create Forecast - combining actuals and calculations</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">make.account.budget.wizard</field>
+      <field name="res_model">make.account.forecast.wizard</field>
       <field name="view_mode">form</field>
-      <field name="view_id" ref="view_make_account_budget_form" />
+      <field name="view_id" ref="view_make_account_forecast_form" />
       <field name="target">new</field>
     </record>
 <!--
-    <record id="action_open_account_budget_wizard" model="ir.actions.server">
-      <field name="name">Create Profit &amp; Loss Budget</field>
+    <record id="action_open_account_forecast_wizard" model="ir.actions.server">
+      <field name="name">Create Forecast</field>
       <field name="type">ir.actions.server</field>
       <field name="model_id" ref="mis_builder_budget.model_mis_budget_by_account" />
       <field name="binding_model_id" ref="mis_builder_budget.model_mis_budget_by_account" />

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20240225\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-27 06:19+0000\n"
-"PO-Revision-Date: 2024-02-27 06:30+0000\n"
+"PO-Revision-Date: 2024-02-27 21:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -25,7 +25,8 @@ msgid "A warning"
 msgstr "En varning"
 
 #. module: account_period_vrtl
-#: model:ir.model,name:account_period_vrtl.model_account_account model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_search
+#: model:ir.model,name:account_period_vrtl.model_account_account
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_search
 msgid "Account"
 msgstr "Konto"
 
@@ -99,7 +100,7 @@ msgstr "Klicka för att starta ett nytt räkenskapsår."
 #. module: account_period_vrtl
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_tree
 msgid "Close Fiscal Year"
-msgstr "Avsluta räkenskapsåret"
+msgstr "Stäng räkenskapsåret"
 
 #. module: account_period_vrtl
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_close

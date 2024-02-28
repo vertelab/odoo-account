@@ -39,9 +39,10 @@
         "security/ir.model.access.csv",
         "wizard/make_kpi_report.xml",
         "wizard/make_account_budget.xml",
-        "wizard/get_old_budget.xml",
+        "wizard/make_account_forecast.xml",
+        "wizard/last_years_actuals.xml",
         "data/custom_account_classes.xml",
-        "views/mis_budget_by_account.xml"
+        "views/mis_budget_by_account.xml",
     ],
     'demo': [],
     'application': False,
