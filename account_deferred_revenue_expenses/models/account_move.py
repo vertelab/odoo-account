@@ -45,7 +45,7 @@ class AccountMove(models.Model):
                         _("Asset name must be set in the label of the line.")
                     )
                 if aml.asset_id:
-                    asset.rec_type = aml.asset_profile_id.rec_type or aml.deferred_expense_profile_id.rec_type
+                    aml.asset_id.rec_type = aml.asset_profile_id.rec_type or aml.deferred_expense_profile_id.rec_type
                     continue
                 asset_form = Form(
                     self.env["account.asset"]
