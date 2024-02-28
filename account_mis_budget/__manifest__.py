@@ -23,7 +23,7 @@
 #
 {
     'name': 'Make KPI Report',
-    'version': '14.0.0.0.0',
+    'version': '16.0.0.0.0',
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
         subtitle on modules listing or apps.odoo.com""",
@@ -41,7 +41,8 @@
         "wizard/make_account_budget.xml",
         "wizard/make_account_forecast.xml",
         "wizard/last_years_actuals.xml",
-        "data/custom_account_classes.xml"
+        "data/custom_account_classes.xml",
+        "views/mis_budget_by_account.xml",
     ],
     'demo': [],
     'application': False,
