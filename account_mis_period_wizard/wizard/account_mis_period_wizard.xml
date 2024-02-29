@@ -35,7 +35,8 @@
             <field name="binding_model_id" ref="mis_builder.model_mis_report_instance"/>
             <field name="state">code</field>
             <field name="code">
-                action = env.ref('account_mis_period_wizard.action_open_account_mis_period').read()[0]
+action = env.ref('account_mis_period_wizard.action_open_account_mis_period').read()[0]
+action.update({'context': env.context})
             </field>
         </record>
 
