@@ -20,7 +20,8 @@ class AccountMisPeriodWizard(models.TransientModel):
 
         sorted_fiscal_years = fiscal_years.sorted(lambda period: period.date_start)
 
-        manual_date = datetime(year=self.period.date_start.year, month=12, day=31) - relativedelta.relativedelta(years=1)
+        manual_date = datetime(year=self.period.date_start.year, month=12, day=31) - relativedelta.relativedelta(
+            years=1)
 
         # TODO : Sort the fiscal year
         mis_report.write({
