@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20240225\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-27 06:15+0000\n"
-"PO-Revision-Date: 2024-02-27 21:21+0000\n"
+"PO-Revision-Date: 2024-02-29 09:25+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -29,7 +29,7 @@ msgstr ""
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Add an internal note here..."
-msgstr "Lägg till en intern notering här..."
+msgstr "Lägg till en intern anteckning här..."
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
@@ -76,7 +76,7 @@ msgstr "Tillgångsprofil"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Close"
-msgstr "Nära"
+msgstr "Stänga"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_search
@@ -107,13 +107,13 @@ msgstr "Skapa verifikat"
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Deferred Expense"
-msgstr "Uppskjuten kostnad"
+msgstr "Periodisering"
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_move_line__deferred_expense_profile_id
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_search
 msgid "Deferred Expense Profile"
-msgstr "Profil för periodicerade kostnader"
+msgstr "Profil för periodiserade kostnader"
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.actions.act_window,name:account_deferred_revenue_expenses.account_deferred_expense_profile_action
@@ -140,12 +140,12 @@ msgstr "Periodiserade intäkter"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Delete/Reverse Move"
-msgstr "Radera/verifikat"
+msgstr "Radera/omvänd verifikat"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Depreciation Board"
-msgstr "Periodiseringspanel"
+msgstr "Avskrivningspanel"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -229,7 +229,7 @@ msgstr "Namn"
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
 msgid "Notes"
-msgstr "Noter"
+msgstr "Anteckningar"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -288,7 +288,7 @@ msgstr "Status"
 #: code:addons/account_deferred_revenue_expenses/models/account_move.py:0
 #, python-format
 msgid "This invoice created the asset(s): %s"
-msgstr "Denna faktura skapade tillgången/tillgångarna: %s"
+msgstr "Denna faktura skapade tillgången(arna): %s"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -314,8 +314,8 @@ msgid ""
 "You are not allowed to link an accounting entry to an asset.\n"
 "You should generate such entries from the asset."
 msgstr ""
-"Det är inte tillåtet att koppla en bokföringspost till en tillgång.\n"
-"Du bör generera sådana poster från tillgången."
+"Det är inte tillåtet att koppla ett bokfört verifikat till en tillgång.\n"
+"Du bör generera sådana verifikat från tillgången."
 
 #. module: account_deferred_revenue_expenses
 #. odoo-python
@@ -324,5 +324,5 @@ msgstr ""
 msgid ""
 "You cannot change an accounting item linked to an asset depreciation line."
 msgstr ""
-"Du kan inte ändra en bokföringspost som är kopplad till en avskrivningsrad "
-"för tillgångar."
+"Du kan inte ändra ett bokfört verifikat som är kopplad till en "
+"avskrivningsrad för tillgångar."
