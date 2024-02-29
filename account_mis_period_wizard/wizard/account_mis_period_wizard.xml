@@ -8,7 +8,7 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="period" domain="[('date_start', '&gt;=', context_today().strftime('%Y-01-01')), ('date_stop', '&lt;=', context_today().strftime('%Y-12-31'))]"/> -->
+                            <field name="period" domain="[('date_start', '&gt;=', context_today().strftime('%Y-01-01')), ('date_stop', '&lt;=', context_today().strftime('%Y-12-31'))]"/>
                         </group>
                         <footer>
                             <button string="Cancel" class="btn-secondary" special="cancel"/>
@@ -33,6 +33,7 @@
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="mis_builder.model_mis_report_instance"/>
             <field name="binding_model_id" ref="mis_builder.model_mis_report_instance"/>
+            <field name="binding_view_types">form</field>
             <field name="state">code</field>
             <field name="code">
                 action = env.ref('account_mis_period_wizard.action_open_account_mis_period').read()[0]
