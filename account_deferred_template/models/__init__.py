@@ -1,1 +1,1 @@
-text
+from . import deferred_template
