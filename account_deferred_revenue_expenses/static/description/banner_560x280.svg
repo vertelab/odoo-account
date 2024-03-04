@@ -9,7 +9,7 @@
    id="SVGRoot"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="banner_560x280.svg"
-   inkscape:export-filename="/usr/share/odoo-account/account_fortnox/static/description/banner.png"
+   inkscape:export-filename="/run/user/1000/gvfs/sftp:host=linnea/usr/share/odoo-account/account_deferred_revenue_expenses/static/description/banner.png"
    inkscape:export-xdpi="92.61972"
    inkscape:export-ydpi="92.61972"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -62,8 +62,8 @@
      showgrid="false"
      inkscape:window-width="1625"
      inkscape:window-height="773"
-     inkscape:window-x="295"
-     inkscape:window-y="98"
+     inkscape:window-x="899"
+     inkscape:window-y="53"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0">
     <inkscape:grid
@@ -173,16 +173,22 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="516.94635"
-       y="65.199997"
+       x="516.73328"
+       y="73.199997"
        id="text2035"
-       inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan
+       inkscape:export-xdpi="92.61972"
+       inkscape:export-ydpi="92.61972"
+       inkscape:export-filename="/run/user/1000/gvfs/sftp:host=linnea/usr/share/odoo-account/account_deferred_revenue_expenses/static/description/banner.png"><tspan
          sodipodi:role="line"
-         x="516.94635"
-         y="65.199997"
+         x="516.73328"
+         y="73.199997"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:1px"
-         id="tspan11377">Account  Fortnox</tspan></text>
+         id="tspan832">Account Defferred</tspan><tspan
+         sodipodi:role="line"
+         x="516.73328"
+         y="95.537415"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:1px"
+         id="tspan847">Revenue Expenses</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -196,13 +202,13 @@
          id="flowPara850" /></flowRoot>
     <text
        id="text845"
-       y="-105.16514"
-       x="423.47272"
+       y="-127.9683"
+       x="104.67096"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:31.134px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:0;stroke:none;stroke-width:1"
        xml:space="preserve"><tspan
          style="fill:#000000;fill-opacity:1;stroke-width:1"
-         y="-105.16514"
-         x="423.47272"
+         y="-127.9683"
+         x="104.67096"
          id="tspan843"
          sodipodi:role="line"></tspan></text>
     <text
