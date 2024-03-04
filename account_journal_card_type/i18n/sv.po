@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20240225\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-27 06:16+0000\n"
-"PO-Revision-Date: 2024-03-04 16:03+0100\n"
+"PO-Revision-Date: 2024-03-04 16:53+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -38,7 +38,7 @@ msgstr "Konto"
 #: model:ir.model,name:account_journal_card_type.model_account_card_statement
 #: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_card_statement_form
 msgid "Account Card Statement"
-msgstr "Kontokortsutdrag"
+msgstr "Kontokort utdrag"
 
 #. module: account_journal_card_type
 #: model:ir.model,name:account_journal_card_type.model_account_card_statement_line
@@ -63,7 +63,7 @@ msgstr "Belopp"
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__amount_residual
 msgid "Amount Residual"
-msgstr "Belopp Återstående"
+msgstr "Återstående belopp"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_attachment_count
@@ -297,7 +297,7 @@ msgstr "Om markerat får vissa meddelanden ett leveransfel."
 #. module: account_journal_card_type
 #: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_journal_dashboard_kanban_view_inherit
 msgid "Import card Statement"
-msgstr "Importkort Utlåtande"
+msgstr "Importkort utlåtande"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_is_follower
@@ -309,7 +309,7 @@ msgstr "Är följare"
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__journal_id
 #: model_terms:ir.ui.view,arch_db:account_journal_card_type.view_card_statement_search
 msgid "Journal"
-msgstr "Tidskrift"
+msgstr "Journal"
 
 #. module: account_journal_card_type
 #. odoo-python
@@ -317,12 +317,12 @@ msgstr "Tidskrift"
 #: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_card_statement_form
 #, python-format
 msgid "Journal Entries"
-msgstr "Journalanteckningar"
+msgstr "Verifikat"
 
 #. module: account_journal_card_type
 #: model:ir.model,name:account_journal_card_type.model_account_move
 msgid "Journal Entry"
-msgstr "Journalanteckning"
+msgstr "Verifikat"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement____last_update
