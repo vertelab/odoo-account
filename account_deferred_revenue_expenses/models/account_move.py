@@ -103,11 +103,10 @@ class AccountMove(models.Model):
                 'res_id': res_id.id
             }
 
-
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    deferred_expense_profile_id = fields.Many2one('account.asset.profile', string="Deferred Expense Profile",
+    deferred_expense_profile_id = fields.Many2one('account.asset.profile', string="Accural",
                                                   domain=[('rec_type', '=', 'deferred_expense')])
 
     asset_profile_id = fields.Many2one(comodel_name="account.asset.profile", string="Asset Profile", store=True,
@@ -162,3 +161,12 @@ class AccountMoveLine(models.Model):
                 aml.write({"quantity": 1, "name": "{} {}".format(name, 1)})
                 for i in range(1, int(qty)):
                     aml.copy({"name": "{} {}".format(name, i + 1)})
+
+    
+    @api.onchange('product_id')
+    def _compute_deferred_expense(self):
+        # ~ _logger.warning("_compute_deferred_expense"*100)
+        for line in self:
+            if not line.product_id or line.display_type in ('line_section', 'line_note'):
+                continue
+            line.deferred_expense_profile_id= line.product_id.deferred_expense_profile_id.id

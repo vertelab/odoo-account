@@ -6,65 +6,41 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20240304\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-04 15:22+0000\n"
-"PO-Revision-Date: 2024-03-04 16:34+0100\n"
+"POT-Creation-Date: 2024-03-04 15:18+0000\n"
+"PO-Revision-Date: 2024-03-04 15:18+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 3.0.1\n"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
 msgid ""
-"<span class=\"o_form_label oe_inline\" attrs=\"{'invisible':"
-"[('salvage_type','!=','percent')]}\">%</span>"
+"<span class=\"o_form_label oe_inline\" "
+"attrs=\"{'invisible':[('salvage_type','!=','percent')]}\">%</span>"
 msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_view_move_form_extended
 msgid "<span class=\"o_stat_text\">Assets</span>"
-msgstr "<span class=\"o_stat_text\">Tillgångar</span>"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_view_move_form_extended
 msgid "<span class=\"o_stat_text\">Deferred Expenses</span>"
-msgstr "<span class=\"o_stat_text\">Uppskjutna kostnader</span>"
-
-#. module: account_deferred_revenue_expenses
-#: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_product_product__deferred_expense_profile_id
-msgid "Accrual Template"
-msgstr "Periodiseringsmall"
-
-#. module: account_deferred_revenue_expenses
-#: model:ir.model.fields.selection,name:account_deferred_revenue_expenses.selection__account_asset__rec_type__deferred_expense
-#: model:ir.model.fields.selection,name:account_deferred_revenue_expenses.selection__account_asset_profile__rec_type__deferred_expense
-msgid "Accrued Expense"
-msgstr "Periodiserade kostnader"
-
-#. module: account_deferred_revenue_expenses
-#: model:ir.model.fields.selection,name:account_deferred_revenue_expenses.selection__account_asset__rec_type__deferred_income
-#: model:ir.model.fields.selection,name:account_deferred_revenue_expenses.selection__account_asset_profile__rec_type__deferred_income
-msgid "Accrued Income"
-msgstr "Periodicerade intäkter"
-
-#. module: account_deferred_revenue_expenses
-#: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_move_line__deferred_expense_profile_id
-msgid "Accural"
-msgstr "Periodisering"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Add an internal note here..."
-msgstr "Lägg till en intern anteckning här..."
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
 msgid "Analytic Information"
-msgstr "Objektinformation"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -72,280 +48,294 @@ msgstr "Objektinformation"
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_search
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Archived"
-msgstr "Arkiverad"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Are you sure ?"
-msgstr "Är du säker?"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model,name:account_deferred_revenue_expenses.model_account_asset
 #: model:ir.model.fields.selection,name:account_deferred_revenue_expenses.selection__account_asset__rec_type__asset
 #: model:ir.model.fields.selection,name:account_deferred_revenue_expenses.selection__account_asset_profile__rec_type__asset
 msgid "Asset"
-msgstr "Tillgång"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_move_line__asset_profile_id
 msgid "Asset Profile"
-msgstr "Tillgångsprofil"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #. odoo-python
 #: code:addons/account_deferred_revenue_expenses/models/account_move.py:0
 #, python-format
 msgid "Asset name must be set in the label of the line."
-msgstr "Tillgångsnamnet måste anges i etiketten på raden."
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model,name:account_deferred_revenue_expenses.model_account_asset_profile
 msgid "Asset profile"
-msgstr "Tillgångsprofil"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #. odoo-python
 #: code:addons/account_deferred_revenue_expenses/models/account_move.py:0
 #, python-format
 msgid "Assets"
-msgstr "Tillgångar"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Close"
-msgstr "Stänga"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_search
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Computation Method"
-msgstr "Beräkningsmetod"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Compute"
-msgstr "Beräkna"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Confirm Expense"
-msgstr "Bekräfta kostnad"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Create Move"
-msgstr "Skapa verifikat"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #. odoo-python
 #: code:addons/account_deferred_revenue_expenses/models/account_move.py:0
 #: model:ir.actions.act_window,name:account_deferred_revenue_expenses.account_deferred_expense_action
+#: model:ir.model.fields.selection,name:account_deferred_revenue_expenses.selection__account_asset__rec_type__deferred_expense
+#: model:ir.model.fields.selection,name:account_deferred_revenue_expenses.selection__account_asset_profile__rec_type__deferred_expense
 #: model:ir.ui.menu,name:account_deferred_revenue_expenses.account_deferred_expense_action_menu
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 #, python-format
 msgid "Deferred Expense"
-msgstr "Periodisering"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
+#: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_move_line__deferred_expense_profile_id
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_search
 msgid "Deferred Expense Profile"
-msgstr "Profil för periodiserade kostnader"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.actions.act_window,name:account_deferred_revenue_expenses.account_deferred_expense_profile_action
 #: model:ir.ui.menu,name:account_deferred_revenue_expenses.account_deferred_expense_profile_menu
 msgid "Deferred Expense Profiles"
-msgstr "Profiler för periodiserade kostnader"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
 msgid "Deferred Expense profile"
-msgstr "Profil för periodiserad kostnad"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Deferred Expense removal."
-msgstr "Uppskjuten kostnadsföring."
+msgstr ""
+
+#. module: account_deferred_revenue_expenses
+#: model:ir.model.fields.selection,name:account_deferred_revenue_expenses.selection__account_asset__rec_type__deferred_income
+#: model:ir.model.fields.selection,name:account_deferred_revenue_expenses.selection__account_asset_profile__rec_type__deferred_income
+msgid "Deferred Income"
+msgstr ""
+
+#. module: account_deferred_revenue_expenses
+#: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_product_product__deferred_expense_profile_id
+msgid "Deferred expense profile"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Delete/Reverse Move"
-msgstr "Raderat/omvändt verifikat"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Depreciation Board"
-msgstr "Avskrivningspanel"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
 msgid "Depreciation Dates"
-msgstr "Avskrivningsdatum"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
 msgid "Depreciation Method"
-msgstr "Avskrivningsmetod"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Draft"
-msgstr "Utkast"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Expense Line"
-msgstr "Kostnadsrad"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Expense Model"
-msgstr "Kostnadsmodell"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Expense Name"
-msgstr "Kostnadsnamn"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_tree
 msgid "Expense Profile"
-msgstr "Kostnadsprofil"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "General"
-msgstr "Allmänt"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Groups"
-msgstr "Grupper"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "History"
-msgstr "Historik"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Init"
-msgstr "Init"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Journal Entries"
-msgstr "Verifikat"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model,name:account_deferred_revenue_expenses.model_account_move
 msgid "Journal Entry"
-msgstr "Verifikat"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model,name:account_deferred_revenue_expenses.model_account_move_line
 msgid "Journal Item"
-msgstr "Journalrad"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,help:account_deferred_revenue_expenses.field_product_product__deferred_expense_profile_id
 msgid "Makes accounting more simple when using deferred template."
-msgstr "Gör bokföringen enklare när du använder uppskjuten mall."
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_tree
 msgid "Name"
-msgstr "Namn"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
 msgid "Notes"
-msgstr "Anteckningar"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Other Information"
-msgstr "Annan information"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model,name:account_deferred_revenue_expenses.model_product_product
 msgid "Product Variant"
-msgstr "Produktvariant"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Profile"
-msgstr "Profil"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Remove"
-msgstr "Ta bort"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_tree
 msgid "Remove Date"
-msgstr "Borttagningsdatum"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Removed"
-msgstr "Borttagen"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Running"
-msgstr "Pågår"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_search
 msgid "Search Deferred Expense Profile"
-msgstr "Sök profil för periodiserade kostnader"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Set to Draft"
-msgstr "Sätt till utkast"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_tree
 msgid "Start Date"
-msgstr "Startdatum"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #. odoo-python
 #: code:addons/account_deferred_revenue_expenses/models/account_move.py:0
 #, python-format
 msgid "This invoice created the asset(s): %s"
-msgstr "Denna faktura skapade tillgången(arna): %s"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Total Days"
-msgstr "Totalt antal dagar"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_asset__rec_type
 #: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_asset_profile__rec_type
 msgid "Type"
-msgstr "Typ"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "View Move"
-msgstr "Visa verifikat"
+msgstr ""
 
 #. module: account_deferred_revenue_expenses
 #. odoo-python
@@ -355,8 +345,6 @@ msgid ""
 "You are not allowed to link an accounting entry to an asset.\n"
 "You should generate such entries from the asset."
 msgstr ""
-"Det är inte tillåtet att koppla ett bokfört verifikat till en tillgång.\n"
-"Du bör generera sådana verifikat från tillgången."
 
 #. module: account_deferred_revenue_expenses
 #. odoo-python
@@ -365,5 +353,3 @@ msgstr ""
 msgid ""
 "You cannot change an accounting item linked to an asset depreciation line."
 msgstr ""
-"Du kan inte ändra ett bokfört verifikat som är kopplad till en "
-"avskrivningsrad för tillgångar."
