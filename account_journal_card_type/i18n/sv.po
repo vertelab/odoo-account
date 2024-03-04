@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20240225\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-27 06:16+0000\n"
-"PO-Revision-Date: 2024-02-27 06:37+0000\n"
+"PO-Revision-Date: 2024-03-04 16:03+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -43,7 +43,7 @@ msgstr "Kontokortsutdrag"
 #. module: account_journal_card_type
 #: model:ir.model,name:account_journal_card_type.model_account_card_statement_line
 msgid "Account Card Statement Line"
-msgstr "Kontokort Utdragsrad"
+msgstr "Kontokort utdragsrad"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__accounting_status
@@ -78,7 +78,7 @@ msgid ""
 "Bank Statement for this month already exists. You can cancel previous "
 "statement and create new one."
 msgstr ""
-"Kontoutdrag för denna månad finns redan. Du kan annullera det tidigare "
+"Kontoutdrag för denna månad finns redan. Du kan avbryta det tidigare "
 "kontoutdraget och skapa ett nytt."
 
 #. module: account_journal_card_type
@@ -124,17 +124,17 @@ msgstr "Kort"
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_journal__card_credit_account
 msgid "Card Credit Account"
-msgstr "Kort Kredit Konto"
+msgstr "Kort kreditkonto"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_journal__card_debit_account
 msgid "Card Debit Account"
-msgstr "Kort Debet Konto"
+msgstr "Kort debetkonto"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__card_name
 msgid "Card Name"
-msgstr "Kortets namn"
+msgstr "Kortnamn"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__card_number
@@ -176,7 +176,7 @@ msgstr "Kategori"
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__comment
 #: model_terms:ir.ui.view,arch_db:account_journal_card_type.account_card_statement_line_form_view
 msgid "Comment"
-msgstr "Hur man"
+msgstr "Kommentar"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__company_id
@@ -188,7 +188,7 @@ msgstr "Företag"
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__company_currency_id
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__company_currency_id
 msgid "Company Currency"
-msgstr "Företagets valuta"
+msgstr "Företagsvaluta"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__create_uid
@@ -210,12 +210,12 @@ msgstr "Återbetalning av kredit"
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__statement_line_credit_repayment_id
 msgid "Credit Repayment Transaction"
-msgstr "Transaktion för återbetalning av kredit"
+msgstr "Kredit återbetalning transaktion"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__statement_line_credit_repayment_line_ids
 msgid "Credit Repayment Transaction Line"
-msgstr "Kredit Återbetalning Transaktionslinje"
+msgstr "Kredit återbetalning transaktionsrad"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__currency
@@ -265,7 +265,7 @@ msgstr "Följare"
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Följare (Partners)"
+msgstr "Följare (kontakter)"
 
 #. module: account_journal_card_type
 #: model_terms:ir.ui.view,arch_db:account_journal_card_type.view_card_statement_search

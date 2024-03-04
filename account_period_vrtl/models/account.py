@@ -395,7 +395,7 @@ class AccountFiscalyear(models.Model):
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    def _reverse_moves(self, default_values_list=None, cancel=False):
+    def _reverse_moves_deprecated(self, default_values_list=None, cancel=False):
         ''' Reverse a recordset of account.move.
         If cancel parameter is true, the reconcilable or liquidity lines
         of each original move will be reconciled with its reverse's.
