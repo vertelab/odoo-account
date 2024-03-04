@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="product_normal_form_view">
+            <field name="name">product.form.deferred.expense</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <group name="payables" position="after">
+                    <group>
+                      <field name="deferred_expense_profile_id" />
+                    </group>
+                </group>
+            </field>
+        </record>        
+    </data>
+</odoo>
+
+
+
