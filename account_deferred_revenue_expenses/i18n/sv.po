@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20240304\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-04 15:22+0000\n"
-"PO-Revision-Date: 2024-03-04 16:34+0100\n"
+"POT-Creation-Date: 2024-03-05 13:54+0000\n"
+"PO-Revision-Date: 2024-03-05 15:04+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -23,16 +23,18 @@ msgid ""
 "<span class=\"o_form_label oe_inline\" attrs=\"{'invisible':"
 "[('salvage_type','!=','percent')]}\">%</span>"
 msgstr ""
+"<span class=\"o_form_label oe_inline\" attrs=\"{'invisible':"
+"[('salvage_type','!=','percent')]}\">%</span>"
 
 #. module: account_deferred_revenue_expenses
-#: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_view_move_form_extended
-msgid "<span class=\"o_stat_text\">Assets</span>"
-msgstr "<span class=\"o_stat_text\">Tillgångar</span>"
+#: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.view_move_form_extended
+msgid "<span class=\"o_stat_text\">Accrual</span>"
+msgstr "<span class=\"o_stat_text\">Periodisering</span>"
 
 #. module: account_deferred_revenue_expenses
-#: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_view_move_form_extended
-msgid "<span class=\"o_stat_text\">Deferred Expenses</span>"
-msgstr "<span class=\"o_stat_text\">Uppskjutna kostnader</span>"
+#: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.view_move_form_extended
+msgid "<span class=\"o_stat_text\">Asset(s)</span>"
+msgstr "<span class=\"o_stat_text\"> Tillgång(ar)</span>"
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_product_product__deferred_expense_profile_id
@@ -148,25 +150,44 @@ msgid "Deferred Expense"
 msgstr "Periodisering"
 
 #. module: account_deferred_revenue_expenses
+#: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_bank_statement_line__deferred_expense_count
+#: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_move__deferred_expense_count
+#: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_payment__deferred_expense_count
+msgid "Deferred Expense Count"
+msgstr "Uppskjuten kostnadsräkning"
+
+#. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_search
 msgid "Deferred Expense Profile"
-msgstr "Profil för periodiserade kostnader"
+msgstr "Uppskjuten kostnadsprofil"
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.actions.act_window,name:account_deferred_revenue_expenses.account_deferred_expense_profile_action
 #: model:ir.ui.menu,name:account_deferred_revenue_expenses.account_deferred_expense_profile_menu
 msgid "Deferred Expense Profiles"
-msgstr "Profiler för periodiserade kostnader"
+msgstr "Uppskjuten kostnadsprofiler"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
 msgid "Deferred Expense profile"
-msgstr "Profil för periodiserad kostnad"
+msgstr "Uppskjuten kostnadsprofil"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Deferred Expense removal."
-msgstr "Uppskjuten kostnadsföring."
+msgstr "Uppskjuten kostnadsborttagning."
+
+#. module: account_deferred_revenue_expenses
+#: model:ir.actions.act_window,name:account_deferred_revenue_expenses.account_deferred_income_action
+#: model:ir.ui.menu,name:account_deferred_revenue_expenses.account_deferred_income_action_menu
+msgid "Deferred Income"
+msgstr "Periodiserade intäkter"
+
+#. module: account_deferred_revenue_expenses
+#: model:ir.actions.act_window,name:account_deferred_revenue_expenses.account_deferred_income_profile_action
+#: model:ir.ui.menu,name:account_deferred_revenue_expenses.account_deferred_income_profile_menu
+msgid "Deferred Income Profiles"
+msgstr "Profiler för periodiserade intäkter"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -322,7 +343,7 @@ msgstr "Startdatum"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_view_search
 msgid "Status"
-msgstr "Status"
+msgstr "Läge"
 
 #. module: account_deferred_revenue_expenses
 #. odoo-python
