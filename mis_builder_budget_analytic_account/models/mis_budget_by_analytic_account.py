@@ -16,6 +16,7 @@ class MisBudgetByAnalyticAccount(models.Model):
     allow_items_overlap = fields.Boolean(
         help="If checked, overlap between budget items is allowed"
     )
+    code = fields.Char(related='name', string="Code")
 
     def action_aggregate_account_analytic(self):
         active_ids = self.env.context.get('active_ids')
