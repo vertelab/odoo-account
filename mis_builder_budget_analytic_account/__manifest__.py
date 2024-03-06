@@ -42,6 +42,7 @@
         "security/mis_budget_by_analytic_account_item.xml",
         "views/mis_budget_by_analytic_account_item.xml",
         "views/mis_budget_by_analytic_account.xml",
+        "views/mis_report_instance.xml",
     ],
     'demo': [],
     'qweb': [],
