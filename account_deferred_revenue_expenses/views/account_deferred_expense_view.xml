@@ -1,7 +1,5 @@
 <odoo>
     <data>
-
-        
         <record model="ir.ui.view" id="view_asset_profile_extended">
             <field name="name">view_asset_profile_extended</field>
             <field name="model">account.asset</field>
@@ -12,8 +10,6 @@
                 </field>
             </field>
         </record>
-        
-        
         <record model="ir.ui.view" id="account_deferred_expense_form_view">
             <field name="name">account.deferred.expense.form</field>
             <field name="model">account.asset</field>
@@ -403,6 +399,20 @@
         </record>
 
         <menuitem id="account_deferred_expense_action_menu" action="account_deferred_expense_action" parent="account.menu_finance_entries_management"/>
+ 
+        <record id="account_deferred_income_action" model="ir.actions.act_window">
+            <field name="name">Deferred Income</field>
+            <field name="res_model">account.asset</field>
+            <field name="search_view_id" ref="account_deferred_expense_view_search"/>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('account_deferred_expense_view_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('account_deferred_expense_form_view')})]"/>
+            <field name="domain">[('rec_type', '=', 'deferred_income')]</field>
+            <field name="context">{'default_rec_type': 'deferred_income'}</field>
+        </record>
+
+        <menuitem id="account_deferred_income_action_menu" action="account_deferred_income_action" parent="account.menu_finance_entries_management"/>
 
 
         <record id="account_asset_management.account_asset_action" model="ir.actions.act_window">

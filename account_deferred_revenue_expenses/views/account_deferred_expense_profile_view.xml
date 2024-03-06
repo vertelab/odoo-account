@@ -160,5 +160,17 @@
 
         <menuitem id="account_deferred_expense_profile_menu" action="account_deferred_expense_profile_action" parent="account.account_account_menu"/>
 
+        <record id="account_deferred_income_profile_action" model="ir.actions.act_window">
+            <field name="name">Deferred Income Profiles</field>
+            <field name="res_model">account.asset.profile</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('account_deferred_expense_profile_view_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('account_deferred_expense_profile_view_form')})]"/>
+            <field name="domain">[('rec_type', '=', 'deferred_income')]</field>
+            <field name="context">{'default_rec_type': 'deferred_income'}</field>
+        </record>
+
+        <menuitem id="account_deferred_income_profile_menu" action="account_deferred_income_profile_action" parent="account.account_account_menu"/>
     </data>
 </odoo>

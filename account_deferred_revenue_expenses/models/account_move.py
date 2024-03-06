@@ -22,6 +22,15 @@ FIELDS_AFFECTS_ASSET_MOVE_LINE = {
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
+    deferred_expense_count = fields.Integer(compute="_compute_asset_count")
+
+    def _compute_asset_count(self):
+        super(AccountMoveLine, self)._compute_asset_count()
+
+        for move in self:
+            move.asset_count =len(move.invoice_line_ids.filtered(lambda l: l.asset_profile_id.id != False) )
+            move.deferred_expense_count =len(move.invoice_line_ids.filtered(lambda l: l.deferred_expense_profile_id.id != False) )
+
     def _prepare_asset_vals(self, aml):
         depreciation_base = aml.balance
         return {
@@ -103,16 +112,15 @@ class AccountMove(models.Model):
                 'res_id': res_id.id
             }
 
-
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
-
-    deferred_expense_profile_id = fields.Many2one('account.asset.profile', string="Deferred Expense Profile",
+    
+    deferred_expense_profile_id = fields.Many2one('account.asset.profile', string="Accural",
                                                   domain=[('rec_type', '=', 'deferred_expense')])
-
     asset_profile_id = fields.Many2one(comodel_name="account.asset.profile", string="Asset Profile", store=True,
                                        readonly=False,)
 
+    
     def _compute_asset_profile(self):
         pass
 
@@ -162,3 +170,12 @@ class AccountMoveLine(models.Model):
                 aml.write({"quantity": 1, "name": "{} {}".format(name, 1)})
                 for i in range(1, int(qty)):
                     aml.copy({"name": "{} {}".format(name, i + 1)})
+
+    
+    @api.onchange('product_id')
+    def _compute_deferred_expense(self):
+        # ~ _logger.warning("_compute_deferred_expense"*100)
+        for line in self:
+            if not line.product_id or line.display_type in ('line_section', 'line_note'):
+                continue
+            line.deferred_expense_profile_id= line.product_id.deferred_expense_profile_id.id

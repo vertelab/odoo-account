@@ -41,6 +41,7 @@
         'views/account_deferred_expense_view.xml',
         'views/account_deferred_expense_profile_view.xml',
         'views/account_move_view.xml',
+        'views/product_view.xml',
     ],
     'installable': 'True',
 }

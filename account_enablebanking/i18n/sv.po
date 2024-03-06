@@ -7,13 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20240225\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-27 06:16+0000\n"
-"PO-Revision-Date: 2024-02-27 06:16+0000\n"
+"PO-Revision-Date: 2024-03-04 15:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. module: account_enablebanking
 #: model_terms:ir.ui.view,arch_db:account_enablebanking.res_config_settings_view_form
@@ -83,7 +85,7 @@ msgstr "Kontakt"
 #. module: account_enablebanking
 #: model_terms:ir.ui.view,arch_db:account_enablebanking.res_partner_bank_form_view_inherit
 msgid "Create Journal"
-msgstr "Skapa dagbok"
+msgstr "Skapa verifikat"
 
 #. module: account_enablebanking
 #: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__create_uid
@@ -159,7 +161,7 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:account_enablebanking.field_res_config_settings__interval_number
 #: model_terms:ir.ui.view,arch_db:account_enablebanking.res_config_settings_view_form
 msgid "Interval Number"
-msgstr "Intervall Antal"
+msgstr "Intervallnummer"
 
 #. module: account_enablebanking
 #: model:ir.model.fields,field_description:account_enablebanking.field_res_config_settings__interval_type
@@ -171,7 +173,7 @@ msgstr "Typ av intervall"
 #: model:ir.model,name:account_enablebanking.model_account_journal
 #: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard__journal_id
 msgid "Journal"
-msgstr "Tidskrift"
+msgstr "Journal"
 
 #. module: account_enablebanking
 #: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_transaction_wizard____last_update
@@ -199,7 +201,7 @@ msgstr "Protokoll"
 #. module: account_enablebanking
 #: model:ir.model.fields.selection,name:account_enablebanking.selection__res_config_settings__interval_type__months
 msgid "Months"
-msgstr "månader"
+msgstr "Månader"
 
 #. module: account_enablebanking
 #: model:ir.model.fields,field_description:account_enablebanking.field_res_partner__enable_banking_private_key
@@ -230,7 +232,7 @@ msgstr "Välj en bank!"
 #. module: account_enablebanking
 #: model:ir.model.fields,field_description:account_enablebanking.field_enable_banking_wizard__session_id
 msgid "Session ID"
-msgstr "ID för session"
+msgstr "Sessions-ID"
 
 #. module: account_enablebanking
 #: model_terms:ir.ui.view,arch_db:account_enablebanking.res_config_settings_view_form

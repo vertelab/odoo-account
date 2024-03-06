@@ -6,8 +6,8 @@ class AccountAsset(models.Model):
 
     rec_type = fields.Selection([
         ('asset', 'Asset'),
-        ('deferred_expense', 'Deferred Expense'),
-        ('deferred_income', 'Deferred Income')], default='asset', string="Type")
+        ('deferred_expense', 'Accrued Expense'),
+        ('deferred_income', 'Accrued Income')], default='asset', string="Type")
 
 
 class AccountAssetProfile(models.Model):
@@ -15,5 +15,5 @@ class AccountAssetProfile(models.Model):
 
     rec_type = fields.Selection([
         ('asset', 'Asset'),
-        ('deferred_expense', 'Deferred Expense'),
-        ('deferred_income', 'Deferred Income')], default='asset', string="Type")
+        ('deferred_expense', 'Accrued Expense'),
+        ('deferred_income', 'Accrued Income')], default='asset', string="Type")

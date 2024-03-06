@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20240225\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-27 06:19+0000\n"
-"PO-Revision-Date: 2024-02-27 21:23+0000\n"
+"PO-Revision-Date: 2024-03-05 16:29+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -62,7 +62,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_close
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_close
 msgid "Are you sure?"
-msgstr "Är du säker på det?"
+msgstr "Är du säker?"
 
 #. module: account_period_vrtl
 #: model:ir.model,name:account_period_vrtl.model_account_bank_statement
@@ -72,7 +72,7 @@ msgstr "Kontoutdrag"
 #. module: account_period_vrtl
 #: model:ir.model,name:account_period_vrtl.model_account_bank_statement_line
 msgid "Bank Statement Line"
-msgstr "Linje för kontoutdrag"
+msgstr "Kontoutdragsrad"
 
 #. module: account_period_vrtl
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.account_period_create_wizard_form
@@ -110,7 +110,7 @@ msgstr "Avsluta räkenskapsåret"
 #. module: account_period_vrtl
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_close
 msgid "Close Fiscialyear"
-msgstr "Stäng Fiscalyear"
+msgstr "Avsluta räkenskapsåret"
 
 #. module: account_period_vrtl
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_close
@@ -332,12 +332,12 @@ msgstr "Fakturans betalningsdatum"
 #. module: account_period_vrtl
 #: model:ir.model,name:account_period_vrtl.model_account_move
 msgid "Journal Entry"
-msgstr "Journalanteckning"
+msgstr "Verifikat"
 
 #. module: account_period_vrtl
 #: model:ir.model,name:account_period_vrtl.model_account_move_line
 msgid "Journal Item"
-msgstr "Tidningsartikel"
+msgstr "Journalrad"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear____last_update
@@ -374,7 +374,7 @@ msgstr "Matchande id"
 #. module: account_period_vrtl
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_move_line_filter
 msgid "Move id"
-msgstr "Flytta id"
+msgstr "Transaktions-ID"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__name
@@ -489,7 +489,7 @@ msgstr "Startperiod ska föregå slutperiod."
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__state
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_search
 msgid "Status"
-msgstr "Status"
+msgstr "Läge"
 
 #. module: account_period_vrtl
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_move_form

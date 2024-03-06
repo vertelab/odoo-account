@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20240304\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-05 13:54+0000\n"
-"PO-Revision-Date: 2024-03-05 15:04+0100\n"
+"POT-Creation-Date: 2024-03-05 13:49+0000\n"
+"PO-Revision-Date: 2024-03-05 14:55+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: sv\n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,8 +23,6 @@ msgid ""
 "<span class=\"o_form_label oe_inline\" attrs=\"{'invisible':"
 "[('salvage_type','!=','percent')]}\">%</span>"
 msgstr ""
-"<span class=\"o_form_label oe_inline\" attrs=\"{'invisible':"
-"[('salvage_type','!=','percent')]}\">%</span>"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.view_move_form_extended
@@ -159,18 +157,18 @@ msgstr "Uppskjuten kostnadsräkning"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_search
 msgid "Deferred Expense Profile"
-msgstr "Uppskjuten kostnadsprofil"
+msgstr "Profil för periodiserade kostnader"
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.actions.act_window,name:account_deferred_revenue_expenses.account_deferred_expense_profile_action
 #: model:ir.ui.menu,name:account_deferred_revenue_expenses.account_deferred_expense_profile_menu
 msgid "Deferred Expense Profiles"
-msgstr "Uppskjuten kostnadsprofiler"
+msgstr "Profiler för periodiserade kostnader"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_profile_view_form
 msgid "Deferred Expense profile"
-msgstr "Uppskjuten kostnadsprofil"
+msgstr "Profil för periodiserad kostnad"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -192,7 +190,7 @@ msgstr "Profiler för periodiserade intäkter"
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
 msgid "Delete/Reverse Move"
-msgstr "Raderat/omvändt verifikat"
+msgstr "Radera/omvänd verifikat"
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_expense_form_view
@@ -270,7 +268,7 @@ msgstr "Verifikat"
 #. module: account_deferred_revenue_expenses
 #: model:ir.model,name:account_deferred_revenue_expenses.model_account_move_line
 msgid "Journal Item"
-msgstr "Journalrad"
+msgstr "Transaktion"
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,help:account_deferred_revenue_expenses.field_product_product__deferred_expense_profile_id
