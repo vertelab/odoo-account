@@ -25,7 +25,7 @@ class AccountMove(models.Model):
     deferred_expense_count = fields.Integer(compute="_compute_asset_count")
 
     def _compute_asset_count(self):
-        super(AccountMoveLine, self)._compute_asset_count()
+        super(AccountMove, self)._compute_asset_count()
 
         for move in self:
             move.asset_count =len(move.invoice_line_ids.filtered(lambda l: l.asset_profile_id.id != False) )
