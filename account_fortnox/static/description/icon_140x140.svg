@@ -8,7 +8,7 @@
    version="1.1"
    id="SVGRoot"
    sodipodi:docname="icon_140x140.svg"
-   inkscape:export-filename="/usr/share/odoo-account/account_fortnox_merged/static/description/icon.png"
+   inkscape:export-filename="/usr/share/odoo-account/account_fortnox/static/description/icon.png"
    inkscape:export-xdpi="92"
    inkscape:export-ydpi="92"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
@@ -55,8 +55,8 @@
      showgrid="false"
      inkscape:window-width="1128"
      inkscape:window-height="962"
-     inkscape:window-x="2346"
-     inkscape:window-y="101"
+     inkscape:window-x="2091"
+     inkscape:window-y="64"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0" />
   <metadata
@@ -87,34 +87,29 @@
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.3462px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="70.904388"
-       y="79.504829"
+       y="91.504829"
        id="text2035"
        inkscape:export-xdpi="92"
        inkscape:export-ydpi="92"><tspan
          sodipodi:role="line"
          x="70.904388"
-         y="79.504829"
+         y="91.504829"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.2823px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
          id="tspan832">Account</tspan><tspan
          sodipodi:role="line"
          x="70.904388"
-         y="102.35784"
+         y="114.35784"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.2823px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
-         id="tspan833">Fortnox</tspan><tspan
-         sodipodi:role="line"
-         x="70.904388"
-         y="125.21085"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.2823px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
-         id="tspan853">Merged</tspan></text>
+         id="tspan853">Fortnox</tspan></text>
     <text
        id="text845-2"
-       y="46.425255"
-       x="10.932983"
+       y="40.425255"
+       x="6.9329834"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:37.134px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:0.994609;stroke:none;stroke-width:1"
        xml:space="preserve"><tspan
          style="fill:#ffffff;fill-opacity:0.994609;stroke-width:1"
-         y="46.425255"
-         x="10.932983"
+         y="40.425255"
+         x="6.9329834"
          id="tspan843-9"
          sodipodi:role="line"></tspan></text>
   </g>
