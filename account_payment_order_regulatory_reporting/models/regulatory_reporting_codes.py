@@ -25,17 +25,18 @@ from dateutil.relativedelta import relativedelta
 from odoo.exceptions import Warning
 
 import logging
+
 _logger = logging.getLogger(__name__)
+
 
 class RegulatoryReportingCode(models.Model):
     _name = 'regulatory.reporting.code'
     heading = fields.Char(string="Heading")
     code = fields.Char(string="Code")
-    explaination = fields.Char(string="Explaination")
-    
-    
+    explaination = fields.Char(string="Explanation")
+
     def _compute_name(self):
         for rule in self:
             rule.name = f"{rule.heading} {rule.code}: {rule.explaination}"
-            
-    name = fields.Char(compute = _compute_name)
+
+    name = fields.Char(compute=_compute_name)

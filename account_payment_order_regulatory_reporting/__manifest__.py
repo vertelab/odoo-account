@@ -46,7 +46,7 @@ When we make a sale order and try to make bank payment lines then it will requir
     # Any module necessary for this one to work correctly
     'depends': ['account_banking_pain_base','account_payment_order','account_banking_sepa_credit_transfer','account_banking_sepa_direct_debit'],
     'data': [
-        'views/regulatory_reporting_code.xml',
+        # 'views/regulatory_reporting_code.xml',
         'data/regulatory_reporting_codes.xml',
         'security/ir.model.access.csv',
     ],
