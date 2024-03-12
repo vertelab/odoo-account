@@ -43,7 +43,7 @@ class account_invoice(models.Model):
         url = settings.get_url(endpoint='documents')
         client_token = settings.inexchange_request_client_token()
         self.inexchange_file_count += 1
-        filename = (f"{self.ref.replace('/', '')}-{self.number}-{self.inexchange_file_count}")
+        filename = (f"{self.ref.replace('/', '')}-{self.name}-{self.inexchange_file_count}")
         header = {
             'ClientToken': client_token,
             'ContentDisposition': f'attachement; filename={filename}.xml',
