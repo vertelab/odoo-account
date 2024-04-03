@@ -130,7 +130,7 @@ class StockPicking(models.Model):
             for move in stock_picking.move_ids:
                 if move.product_id.tracking == "serial":
                     for lot_id in move.lot_ids:
-                        if move.asset_profile_id or lot_id.asset_profile_id and not lot_id.asset_id:
+                        if not lot_id.asset_id and move.asset_profile_id or lot_id.asset_profile_id:
                             vals = lot_id._prepare_asset_vals(stock_picking, move)
                             lot_id.create_asset(vals)
                         elif lot_id.asset_id and lot_id.asset_id.state == "draft":
