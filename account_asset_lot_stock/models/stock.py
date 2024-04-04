@@ -10,15 +10,59 @@ class StockLocation(models.Model):
         string="Owner",
     )#???
     
+class AccountAsset(models.Model):
+    _inherit = 'account.asset'
+    
+    lot_id = fields.Many2one(
+        comodel_name="stock.lot",
+        string="Serial Number",
+        readonly=True
+    )
+    
+    product_id = fields.Many2one(
+        comodel_name="product.product",
+        string="Product",
+        readonly=True
+    )
+    
+    default_code = fields.Char('Internal Reference')
+    
+    supplier_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Supplier",
+        readonly=True,
+    )
+    
+    stock_picking_num = fields.Integer(
+        string="Stock Pickings",
+        ondelete="restrict",
+        check_company=True,
+        compute="_compute_stock_pickings",
+    )
+    
+    
+    def action_view_stock_pickings(self):
+        return {
+            'name': _('Stock Pickings'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'stock.picking',
+            'view_mode': 'tree,form',
+            'domain': [('id', 'in', self._compute_stock_pickings())]
+        }
 
-
+    def _compute_stock_pickings(self):
+        _logger.warning("_compute_stock_pickings"*100)
+        stock_move_lines = self.env['stock.move.line'].search([('lot_id','=',self.id)])
+        stock_pickings = [x.picking_id.id for x in stock_move_lines if x.picking_id]
+        self.stock_picking_num = len(list(set(stock_pickings)))
+        return list(set(stock_pickings))
+    
 class StockLot(models.Model):
     _inherit = 'stock.lot'
     
     asset_profile_id = fields.Many2one(
         comodel_name="account.asset.profile",
         string="Asset Profile",
-        #compute="_compute_asset_profile",
         store=True,
         readonly=False,
     )
@@ -34,7 +78,7 @@ class StockLot(models.Model):
         depreciation_base = move.purchase_line_id.price_unit
         owner = False
         
-        stock_picking.location_dest_id.company_id.partner_id.id if stock_picking.picking_type_code == "incoming" else stock_picking.partner_id.id,
+        # ~ stock_picking.location_dest_id.company_id.partner_id.id if stock_picking.picking_type_code == "incoming" else stock_picking.partner_id.id,
         
         if stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.res_partner_id:
            owner = stock_picking.location_dest_id.res_partner_id.id
@@ -48,7 +92,12 @@ class StockLot(models.Model):
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
             "purchase_value": depreciation_base,
             "partner_id": owner,
-            "date_start": stock_picking.date,
+            "date_start": stock_picking.date_done,
+            "lot_id": self.id,
+            "product_id": self.product_id.id,
+            "supplier_id":stock_picking.partner_id.id,
+            "note":move.description_picking,
+            "default_code":self.product_id.default_code,
         }
         #raise UserError(str(vals))
         return vals
@@ -112,7 +161,6 @@ class StockPicking(models.Model):
 
     
     def _compute_assets(self):
-        _logger.warning("_compute_assets"*100)
         assets_ids = []
         for stock_picking in self:
             for move in stock_picking.move_ids:
