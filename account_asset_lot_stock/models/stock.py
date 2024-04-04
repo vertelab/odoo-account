@@ -88,7 +88,7 @@ class StockLot(models.Model):
             owner = stock_picking.partner_id.id
         
         vals = {
-            "name": self.name,
+            "name": f"{self.name} {self.product_id.name}",
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
             "purchase_value": depreciation_base,
             "partner_id": owner,
