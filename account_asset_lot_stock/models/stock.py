@@ -178,9 +178,15 @@ class StockPicking(models.Model):
             for move in stock_picking.move_ids:
                 if move.product_id.tracking == "serial":
                     for lot_id in move.lot_ids:
-                        if not lot_id.asset_id and move.asset_profile_id or lot_id.asset_profile_id:
+                        if not lot_id.asset_id and (move.asset_profile_id or lot_id.asset_profile_id):
                             vals = lot_id._prepare_asset_vals(stock_picking, move)
                             lot_id.create_asset(vals)
+                        elif not lot_id.asset_id and not move.asset_profile_id and not lot_id.asset_profile_id:
+                            raise UserError(f"""
+On line "{move.product_id.name}" there is no Asset profile set.
+This is needed in order to create a new It-asset. 
+Kindly set it on the line and if you want to automate this you can set one on the product aswell. 
+                                            """)
                         elif lot_id.asset_id and lot_id.asset_id.state == "draft":
                             lot_id.update_partner_asset(stock_picking.partner_id)
                             #Change partner 
