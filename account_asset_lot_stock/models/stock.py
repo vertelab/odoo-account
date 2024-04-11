@@ -194,8 +194,8 @@ On line "{move.product_id.name}" there is no Asset profile set.
 This is needed in order to create a new It-asset. 
 Kindly set it on the line and if you want to automate this you can set one on the product aswell. 
                                             """)
-                        elif lot_id.asset_id and lot_id.asset_id.state == "draft":
-                            lot_id.update_partner_asset(stock_picking.partner_id)
+                        #elif lot_id.asset_id and lot_id.asset_id.state == "draft":
+                        #   lot_id.update_partner_asset(stock_picking.partner_id)
                             #Change partner 
         
         #raise UserError(f"Not if case {(stock_picking.sale_id and not stock_picking.purchase_id)=} {(stock_picking.sale_id and stock_picking.is_dropship)=}")
