@@ -75,27 +75,32 @@ class StockLot(models.Model):
     )
     
     def _prepare_asset_vals(self, stock_picking, move):
-        depreciation_base = move.purchase_line_id.price_unit
-        owner = False
-        
-        # ~ stock_picking.location_dest_id.company_id.partner_id.id if stock_picking.picking_type_code == "incoming" else stock_picking.partner_id.id,
-        
-        if stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.res_partner_id:
-           owner = stock_picking.location_dest_id.res_partner_id.id
-        elif stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.company_id.partner_id:
-            owner = stock_picking.location_dest_id.company_id.partner_id.id
-        else:
-            owner = stock_picking.partner_id.id
-        
+        purchase_line = False
+        depreciation_base = 0
+        supplier_id = False
+        if self.purchase_order_ids:
+           purchase_line_id = self.env['purchase.order.line'].search([('order_id','in',self.purchase_order_ids.ids),('product_id','=',self.product_id.id)], limit=1)
+        if purchase_line:
+           depreciation_base = purchase_line_id.price_unit
+           supplier_id = purchase_line_id.order_id.partner_id.id
+        elif move.sale_line_id:
+           depreciation_base = move.sale_line_id.price_unit
+           purchase_line_id = self.env['purchase.order.line'].search([('order_id','in',stock_picking.sale_id._get_purchase_orders().ids),('product_id','=',self.product_id.id)], limit=1)
+           supplier_id = purchase_line_id.order_id.partner_id.id
+
+
+           _logger.warning(f"{depreciation_base=} {supplier_id=}")
+           #raise Exception(Bleh)
+            
         vals = {
             "name": f"{self.name} {self.product_id.name}",
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
             "purchase_value": depreciation_base,
-            "partner_id": owner,
+            "partner_id": stock_picking.sale_id.partner_id.id,
             "date_start": stock_picking.date_done,
             "lot_id": self.id,
             "product_id": self.product_id.id,
-            "supplier_id":stock_picking.partner_id.id,
+            "supplier_id":supplier_id,
             "note":move.description_picking,
             "default_code":self.product_id.default_code,
         }
@@ -175,7 +180,9 @@ class StockPicking(models.Model):
     def button_validate(self):
         res = super().button_validate()
         for stock_picking in self:
-            for move in stock_picking.move_ids:
+            if (stock_picking.sale_id and not stock_picking.purchase_id) or (stock_picking.sale_id and stock_picking.is_dropship):
+              #_logger.warning("Inside if case"*100)
+              for move in stock_picking.move_ids:
                 if move.product_id.tracking == "serial":
                     for lot_id in move.lot_ids:
                         if not lot_id.asset_id and (move.asset_profile_id or lot_id.asset_profile_id):
@@ -191,6 +198,6 @@ Kindly set it on the line and if you want to automate this you can set one on th
                             lot_id.update_partner_asset(stock_picking.partner_id)
                             #Change partner 
         
-        
+        #raise UserError(f"Not if case {(stock_picking.sale_id and not stock_picking.purchase_id)=} {(stock_picking.sale_id and stock_picking.is_dropship)=}")
         return res
 
