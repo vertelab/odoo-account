@@ -3,7 +3,6 @@
 
 from odoo.exceptions import UserError
 from odoo import api, fields, models
-from odoo.exceptions import Warning
 from odoo.tools.safe_eval import safe_eval, wrap_module
 
 import datetime

@@ -1,4 +1,4 @@
-1  # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import datetime, timedelta
@@ -7,11 +7,12 @@ import json
 import time
 
 from odoo import api, fields, models, _
-from odoo.exceptions import Warning, UserError
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
 BASE_URL = 'https://api.fortnox.se'
+
 
 class AccountJournal(models.Model):
     _inherit = "account.journal"
@@ -51,9 +52,10 @@ class AccountInvoice(models.Model):
     def update_invoice_status_fortnox_paid(self, fortnox_values):
         final_pay_date_string = fortnox_values.get('FinalPayDate')
         if not final_pay_date_string:
-           final_pay_date_string = fortnox_values.get('OutboundDate')
+            final_pay_date_string = fortnox_values.get('OutboundDate')
         final_pay_date = datetime.strptime(final_pay_date_string, '%Y-%m-%d').date()
-        fortnox_journal = self.env['account.journal'].search([('company_id','=',self.company_id.id),('is_fortnox_journal', '=', True), ('type', '=', 'bank')])
+        fortnox_journal = self.env['account.journal'].search(
+            [('company_id', '=', self.company_id.id), ('is_fortnox_journal', '=', True), ('type', '=', 'bank')])
 
         if not fortnox_journal:
             raise UserError(
@@ -88,20 +90,19 @@ class AccountInvoice(models.Model):
             'default_journal_id': invoice_id.journal_id
         }
         refund_invoice_wiz = self.env['account.move.reversal'].with_context(wiz_context).create({
-            'refund_method': 'refund',
+            'journal_id': invoice_id.journal_id.id,
             'date': fields.Date.today(),
         })
-
-        refund_invoice = self.env['account.move'].browse(refund_invoice_wiz.reverse_moves()['res_id'])
+        refund_invoice = self.env['account.move'].browse(refund_invoice_wiz.refund_moves()['res_id'])
         refund_invoice.action_post()
-        refund_invoice.name = credit_invoice_ref
+        refund_invoice.ref = credit_invoice_ref
         refund_invoice.fortnox_response = company_id.fortnox_request(
             "GET", f"{BASE_URL}/3/invoices/{credit_invoice_ref}"
         )
 
-        (invoice_id + refund_invoice).line_ids \
-            .filtered(lambda line: line.account_type in ('asset_receivable', 'liability_payable')) \
-            .reconcile()
+        # (invoice_id + refund_invoice).line_ids \
+        #     .filtered(lambda line: line.account_type in ('asset_receivable', 'liability_payable')) \
+        #     .reconcile()
 
     def update_invoice_status_fortnox_cron(self):
         from_date = datetime.now() - timedelta(days=365)
@@ -109,15 +110,14 @@ class AccountInvoice(models.Model):
             move_id = self.env['account.move'].search([
                 ('company_id', '=', company_id.id),
                 ('create_date', '>', from_date),
-                ('payment_state', 'not in', ['paid','reversed','partially_paid']),
-                ('state', '!=', 'draft'),
-                ('state', '!=', 'cancel'),
+                ('payment_state', 'not in', ['paid', 'reversed', 'partially_paid', 'in_payment']),
+                ('state', '=', 'posted'),
                 ('move_type', '=', 'out_invoice')
             ])
             for invoice in move_id:
                 fortnox_res = company_id.fortnox_request(
                     "GET",
-                    f"{BASE_URL}/3/invoices/{invoice.id}"
+                    f"{BASE_URL}/3/invoices/{invoice.name}"
                 )
 
                 if fortnox_res.get('ErrorInformation', {}).get('Code'):
@@ -128,7 +128,7 @@ class AccountInvoice(models.Model):
                         invoice._reverse_invoice(
                             invoice_id=invoice, credit_invoice_ref=credit_invoice_ref, company_id=company_id
                         )
-                    elif credit_invoice_ref == 0 and invoice.state == 'posted':
+                    elif credit_invoice_ref == 0 and invoice_info.get("FinalPayDate") and invoice.state == 'posted':
                         invoice.update_invoice_status_fortnox_paid(invoice_info)
 
                 invoice.fortnox_response = fortnox_res
@@ -136,29 +136,31 @@ class AccountInvoice(models.Model):
     def sync_fortnox(self):
         self.ensure_one()
         invoice_id = self.env['account.move'].browse(self.id)
-        invoice_id.is_sent_to_fortnox = True
         fortnox_res = invoice_id.company_id.fortnox_request(
             "get",
-            f"{BASE_URL}/3/invoices/{invoice_id.id}"
+            f"{BASE_URL}/3/invoices/{invoice_id.name}"
         )
         if fortnox_invoice := fortnox_res.get('Invoice'):
             self.fortnox_update(invoice_id, fortnox_invoice)
-        elif fortnox_res.get('ErrorInformation', {}).get('Code') == 2000434:
+        elif fortnox_res.get('ErrorInformation', {}).get('Code') in [2000434, 2000762]:
+            self.fortnox_create(invoice_id)
+        elif fortnox_res.get('ErrorInformation', {}).get('code') in [2000434, 2000762]:
             self.fortnox_create(invoice_id)
         else:
             raise UserError(f"There is an issue with the fortnox connection. Contact administrator ({fortnox_res=})")
+
     def fortnox_update(self, invoice, fortnox_invoice):
-        invoice.ref = fortnox_invoice["CustomerNumber"]
+        #invoice.ref = fortnox_invoice["CustomerNumber"] ??
         invoice.name = fortnox_invoice["DocumentNumber"]
-        invoice.partner_id.ref = fortnox_invoice["CustomerNumber"]
+        invoice.partner_id.fortnox_ref = fortnox_invoice["CustomerNumber"]
         invoice.is_move_sent = True
 
     def fortnox_create(self, invoice):
         if not invoice.invoice_date_due:
             raise UserError(_("ERROR: missing date_due on invoice."))
-        if not invoice.partner_id.commercial_partner_id.ref:
+        if not invoice.partner_id.commercial_partner_id.fortnox_ref:
             invoice.partner_id.partner_create(invoice.company_id)
-        if invoice.partner_id.commercial_partner_id.ref:
+        if invoice.partner_id.commercial_partner_id.fortnox_ref:
             invoice.partner_id.partner_update(invoice.company_id)
 
         invoice_lines = []
@@ -183,20 +185,10 @@ class AccountInvoice(models.Model):
         r = self.company_id.fortnox_request(
             'POST',
             "https://api.fortnox.se/3/invoices",
-            data={"Invoice": {
-                "Comments": "",
-                "Currency": "SEK",
-                "CustomerName": invoice.partner_id.commercial_partner_id.name,
-                "CustomerNumber": invoice.partner_id.commercial_partner_id.ref,
-                "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
-                "DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
-                "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
-                "InvoiceRows": invoice_lines,
-                "InvoiceType": "INVOICE",
-                "Language": "SV",
-                "Remarks": "",
+            data={
+                "Invoice": self.fortnox_invoice_vals(invoice, invoice_lines)
             }
-        })
+        )
 
         if r.get('ErrorInformation'):
             invoice._message_log(
@@ -205,13 +197,31 @@ class AccountInvoice(models.Model):
             )
             _logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
         else:
-            invoice.ref = r["Invoice"]["CustomerNumber"]
+            #invoice.ref = r["Invoice"]["CustomerNumber"] ??
             invoice.name = r["Invoice"]["DocumentNumber"]
             invoice.is_move_sent = True
+            invoice.is_sent_to_fortnox = True
+
+    def fortnox_invoice_vals(self, invoice, invoice_lines):
+        invoice_vals = {
+            "Comments": "",
+            "Currency": "SEK",
+            "CustomerName": invoice.partner_id.commercial_partner_id.name,
+            "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
+            "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
+            # "DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
+            "InvoiceDate": invoice.invoice_date.strftime(
+                '%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
+            "InvoiceRows": invoice_lines,
+            "InvoiceType": "INVOICE",
+            "Language": "SV",
+            "Remarks": "",
+        }
+        return invoice_vals
 
 
-class AccountInvoiceSend(models.TransientModel):
-    _inherit = 'account.invoice.send'
+class AccountMoveSend(models.TransientModel):
+    _inherit = 'account.move.send'
     is_fortnox = fields.Boolean(string='Fortnox', default=True)
 
     def send_and_print_action(self):
@@ -219,7 +229,7 @@ class AccountInvoiceSend(models.TransientModel):
         Override normal send_and_print_action with additional
         functionality for fortnox.
         """
-        res = super(AccountInvoiceSend, self).send_and_print_action()
+        res = super(AccountMoveSend, self).send_and_print_action()
         if self.is_fortnox:
             for invoice in self.invoice_ids:
                 invoice.remove_zero_cost_lines()

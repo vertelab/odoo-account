@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_account_journal_form"/>
         <field name="arch" type="xml">
             <notebook position="inside">
-                <page name="fornox_name" string="Fortnox Settings" attrs="{'invisible': [('type', '!=', 'bank')]}">
+                <page name="fornox_name" string="Fortnox Settings" invisible="type != 'bank'">
                     <group>
                         <field name="is_fortnox_journal"/>
                     </group>
