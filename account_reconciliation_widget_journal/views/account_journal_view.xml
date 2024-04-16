@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!-- model.name inherit form view -->
+    <record id="account_journal_view_override" model="ir.ui.view">
+        <field name="name">account.journal.inherit.view.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='advanced_settings']/group[1]/group[last()]" position="after">
+                <group string="Reconciliation Filters">
+                    <field name="allowed_reconcile_journal_ids" widget="many2many_tags"/>
+                    <field name="after_allowed_reconcile_date"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
