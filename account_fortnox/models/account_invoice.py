@@ -16,15 +16,15 @@ BASE_URL = 'https://api.fortnox.se'
 
 class AccountJournal(models.Model):
     _inherit = "account.journal"
-    is_fortnox_journal = fields.Boolean(string="Is Fortnox Journal")
+    is_fortnox_journal = fields.Boolean(string="Is Fortnox Journal", copy=False)
 
 
 class AccountInvoice(models.Model):
     _inherit = "account.move"
 
-    fortnox_response = fields.Char(string="Fortnox Response", readonly=True)
-    fortnox_status = fields.Char(string="Fortnox Status", readonly=True)
-    is_sent_to_fortnox = fields.Boolean(string="Sent To Fortnox", readonly=True)
+    fortnox_response = fields.Char(string="Fortnox Response", readonly=True, copy=False)
+    fortnox_status = fields.Char(string="Fortnox Status", readonly=True, copy=False)
+    is_sent_to_fortnox = fields.Boolean(string="Sent To Fortnox", readonly=True, copy=False)
 
     def remove_zero_cost_lines(self):
         """
