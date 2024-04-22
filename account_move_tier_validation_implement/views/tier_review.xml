@@ -36,7 +36,7 @@
             <field name="model">tier.review</field>
             <field name="inherit_id" ref="base_tier_validation_report.tier_review_report_search"/>
             <field name="arch" type="xml">
-                <field name="resource_ref" position="after">
+                <field name="resource_ref" position="replace">
                     <field name="resource_name"/>
                 </field>
                 <filter name="pending" position="before">
