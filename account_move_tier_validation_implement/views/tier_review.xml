@@ -7,6 +7,7 @@
             <field name="arch" type="xml">
                 <field name="resource_name" position="after">
                     <field name="resource_partner_id"/>
+                    <field name="copy_resource_name" invisible="1"/>
                     <field name="resource_date"/>
                     <field name="invoice_due_date"/>
                     <field name="resource_currency_id" invisible="1"/>
@@ -35,6 +36,9 @@
             <field name="model">tier.review</field>
             <field name="inherit_id" ref="base_tier_validation_report.tier_review_report_search"/>
             <field name="arch" type="xml">
+                <field name="resource_ref" position="after">
+                    <field name="resource_name"/>
+                </field>
                 <filter name="pending" position="before">
                     <filter name="invoice" string="Invoices" domain="[('model', '=', 'account.move')]"/>
                     <filter name="purchase" string="Purchase" domain="[('model', '=', 'purchase.order')]"/>

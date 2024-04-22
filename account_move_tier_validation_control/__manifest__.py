@@ -40,7 +40,7 @@
     """,
     'depends': ['account_move_tier_validation_implement', 'base'],
     'data': [
-        'views/res_users_views.xml',
+        # 'views/res_users_views.xml',
         'views/account_move_views.xml',
         # 'data/validator_group.xml'
     ],
