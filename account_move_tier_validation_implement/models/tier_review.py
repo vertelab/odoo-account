@@ -74,4 +74,5 @@ class TierReview(models.Model):
     @api.depends("resource_ref")
     def _compute_resource_name(self):
         for rec in self:
-            rec.copy_resource_name = rec.resource_ref.name
+            rec.copy_resource_name = rec.resource_name
+
