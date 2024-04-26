@@ -443,7 +443,7 @@ class BaseUbl(models.AbstractModel):
                 property_name.text = attribute_value.attribute_id.name
                 property_value = etree.SubElement(
                     item_property, ns['cbc'] + 'Value')
-                property_value.text = attribute_value.name
+                property_value.text = attribute_value.attribute_id.name
             
 
     @api.model

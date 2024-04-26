@@ -38,9 +38,9 @@ class AccountMove(models.Model):
             type_code.text = '380'
         elif self.move_type == 'out_refund':
             type_code.text = '381'
-        if self.comment:
+        if self.narration:
             note = etree.SubElement(parent_node, ns['cbc'] + 'Note')
-            note.text = self.comment
+            note.text = self.narration
         doc_currency = etree.SubElement(
             parent_node, ns['cbc'] + 'DocumentCurrencyCode')
         doc_currency.text = self.currency_id.name
