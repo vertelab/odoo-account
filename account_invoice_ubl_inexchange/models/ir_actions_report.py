@@ -21,7 +21,7 @@ class IrActionsReport(models.Model):
                 not self._context.get('no_embedded_ubl_xml')):
             invoice = self.env['account.move'].browse(res_ids[0])
             if (
-                    invoice.type in ('out_invoice', 'out_refund') and
+                    invoice.move_type in ('out_invoice', 'out_refund') and
                     invoice.company_id.xml_format_in_pdf_invoice == 'ubl'):
                 pdf_content = invoice.with_context(
                     no_embedded_pdf=True).embed_ubl_xml_in_pdf(
