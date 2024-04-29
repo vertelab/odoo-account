@@ -55,7 +55,7 @@ class AccountMove(models.Model):
             parent_node, ns['cac'] + 'OrderReference')
         order_ref_id = etree.SubElement(
             order_ref, ns['cbc'] + 'ID')
-        order_ref_id.text = self.name if self.name else 'N/A'
+        order_ref_id.text = self.ref if self.ref else 'N/A'
         order_sale_id = etree.SubElement(
             order_ref, ns['cbc'] + 'SalesOrderID')
         sale_orders = self.env['sale.order'].search([['invoice_ids', '=', self.id]])
