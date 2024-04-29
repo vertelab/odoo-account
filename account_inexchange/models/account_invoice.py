@@ -208,7 +208,7 @@ class account_invoice(models.Model):
         for document in documents:
             inexchange_error_doc_id = document.get('id', False)
             error = document.get('error', False)
-            invoice_inexchange_id = self.env['account.invoice'].search(
+            invoice_inexchange_id = self.env['account.move'].search(
                 [('inexchange_invoice_url_address', '=', document['id'])],
                 limit=1)
             _logger.info('Inexchange Error Info '
