@@ -46,7 +46,7 @@ class AccountMove(models.Model):
         doc_currency.text = self.currency_id.name
         buyer_ref = etree.SubElement(
             parent_node, ns['cbc'] + 'BuyerReference')
-        buyer_ref.text = self.ref or ""
+        buyer_ref.text = self.customer_invoice_ref if self.customer_invoice_ref else 'N/A'
 
 
     def _ubl_add_order_reference(self, parent_node, ns, version='2.1'):
