@@ -33,7 +33,7 @@ class BaseUbl(models.AbstractModel):
             payee_fin_account = etree.SubElement(
                 pay_means, ns['cac'] + 'PayeeFinancialAccount')
             payee_fin_account_id = etree.SubElement(payee_fin_account, ns['cbc'] + 'ID')
-            payee_fin_account_id.text = '57944316'
+            payee_fin_account_id.text = self.env.company_id.payee_fin_account_id
             financial_inst_branch = etree.SubElement(payee_fin_account, ns['cac'] + 'FinancialInstitutionBranch')
             financial_inst_id = etree.SubElement(financial_inst_branch, ns['cbc'] + 'ID')
             financial_inst_id.text = 'SE:BANKGIRO'
