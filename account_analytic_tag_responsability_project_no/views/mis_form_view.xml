@@ -14,5 +14,23 @@
 <!--                </field>-->
             </field>
         </record>
+        
+        
+        
+    <record id="mis_report_instance_period_view_form_inherit" model="ir.ui.view">
+            <field name="name">l10n_mis_add_period_view</field>
+            <field name="model">mis.report.instance.period</field>
+            <field name="inherit_id" ref="mis_builder.mis_report_instance_period_view_form"/>
+            <field name="arch" type="xml">
+                <field name="analytic_tag_ids" position="after">
+                    <field name="area_of_responsibility"/>
+                    <field name="project_no"/>
+                </field>
+              </field>
+        </record>
+
     </data>
 </odoo>
+
+
+

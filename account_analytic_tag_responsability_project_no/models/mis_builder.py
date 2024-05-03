@@ -18,10 +18,24 @@ class MisReportInstance(models.Model):
 class MisReportInstancePeriod(models.Model):
     _inherit = 'mis.report.instance.period'
 
+    area_of_responsibility = fields.Many2one("account.analytic.tag", string="Cost Center",
+                                             domain="[('type_of_tag', '=', 'area_of_responsibility')]")
+    project_no = fields.Many2one("account.analytic.tag", string="Project",
+                                 domain="[('type_of_tag', '=', 'project_number')]")
+
     def _get_additional_move_line_filter(self):
         domain = super(MisReportInstancePeriod, self)._get_additional_move_line_filter()
-        if self.report_instance_id.area_of_responsibility:
+        
+        if self.area_of_responsibility:
+            domain.extend([("area_of_responsibility", "=", self.area_of_responsibility.id)])
+        elif self.report_instance_id.area_of_responsibility:
             domain.extend([("area_of_responsibility", "=", self.report_instance_id.area_of_responsibility.id)])
-        if self.report_instance_id.project_no:
+            
+        if self.project_no:
+            domain.extend([("project_no", "=", self.project_no.id)])
+        elif self.report_instance_id.project_no:
             domain.extend([("project_no", "=", self.report_instance_id.project_no.id)])
+            
         return domain
+
+
