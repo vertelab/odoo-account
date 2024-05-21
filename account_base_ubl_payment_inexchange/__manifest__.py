@@ -13,5 +13,8 @@
         'account_payment_unece',
         'account_base_ubl_inexchange',
         ],
+    'data': [
+        'data/inexchange.xml'
+    ],
     'installable': True,
 }

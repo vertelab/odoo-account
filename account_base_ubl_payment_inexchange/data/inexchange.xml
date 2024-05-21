@@ -1,0 +1,8 @@
+<odoo>
+  <data noupdate="0">
+    <record id="payee_fin_account_id" model="ir.config_parameter">
+      <field name="key">payee_fin_account_id</field>
+      <field name="value">False</field>
+    </record>
+  </data>
+</odoo>

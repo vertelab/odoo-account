@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _name = 'account.move'
     _inherit = ['account.move', 'base.ubl']
+    customer_invoice_ref = fields.Char(string='Customer Invoice Ref')
 
     def _ubl_add_header(self, parent_node, ns, version='2.1'):
         ubl_version = etree.SubElement(
