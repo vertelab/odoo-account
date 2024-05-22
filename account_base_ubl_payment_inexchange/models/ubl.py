@@ -23,7 +23,7 @@ class BaseUbl(models.AbstractModel):
         res_obj = self.env[res_model].search([('id', '=', res_id)], limit=1) 
         if res_id:
 
-            payee_fin_account_value = self.env['ir.config_parameter'].set_param('payee_fin_account_key', False) #TODO hämta från en system parameter istället
+            payee_fin_account_value = self.env['ir.config_parameter'].get_param('payee_fin_account_key')
             if not payee_fin_account_value: ## System parameter is missing
                 raise UserError('Please create a system parameter with the key payee_fin_account_key')
             elif payee_fin_account_value == "False" or payee_fin_account_value == "0": ## System parameter has a bad value
