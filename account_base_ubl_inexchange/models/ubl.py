@@ -401,10 +401,8 @@ class BaseUbl(models.AbstractModel):
             if not seller_code:
                 seller_code = product.default_code
             if not product_name:
-                variant = ", ".join(product.attribute_line_ids.mapped("value_ids.name"))
-                product_name = (
-                    variant and "{} ({})".format(product.name, variant) or product.name
-                )
+                product_name = product.name if product else name
+
         description = etree.SubElement(item, ns['cbc'] + 'Description')
         description.text = name
         name_node = etree.SubElement(item, ns['cbc'] + 'Name')
