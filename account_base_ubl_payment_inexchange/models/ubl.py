@@ -17,17 +17,19 @@ class BaseUbl(models.AbstractModel):
             self, partner_bank, payment_mode, date_due, parent_node, ns,
             payment_identifier=None, version='2.1'):
                 
-        logger.warn('Haze %s' %self.env.context)
-        res_id = self.env.context.get('params', {}).get('id') 
+        res_id = self.env.context.get('params', {}).get('id')
         res_model = self.env.context.get('params', {}).get('model')
         res_obj = self.env[res_model].search([('id', '=', res_id)], limit=1) 
         if res_id:
 
-            payee_fin_account_value = self.env['ir.config_parameter'].get_param('payee_fin_account_key')
-            if not payee_fin_account_value: ## System parameter is missing
+            payee_fin_account_value = self.env['ir.config_parameter'].sudo().get_param('payee_fin_account_key')
+            print(payee_fin_account_value)
+            if not payee_fin_account_value:  # System parameter is missing
                 raise UserError('Please create a system parameter with the key payee_fin_account_key')
-            elif payee_fin_account_value == "False" or payee_fin_account_value == "0": ## System parameter has a bad value
-                raise UserError(f"System parameter payee_fin_account_value can't be False or 0 ({payee_fin_account_value}) ")
+            elif payee_fin_account_value == "False" or payee_fin_account_value == "0":
+                # System parameter has a bad value
+                raise UserError(
+                    f"System parameter payee_fin_account_value can't be False or 0 ({payee_fin_account_value}) ")
 
             pay_means = etree.SubElement(parent_node, ns['cac'] + 'PaymentMeans')
             pay_means_code = etree.SubElement(
@@ -44,59 +46,3 @@ class BaseUbl(models.AbstractModel):
             financial_inst_branch = etree.SubElement(payee_fin_account, ns['cac'] + 'FinancialInstitutionBranch')
             financial_inst_id = etree.SubElement(financial_inst_branch, ns['cbc'] + 'ID')
             financial_inst_id.text = 'SE:BANKGIRO'
-        
-            
-            
-        
-        
-        
-
-
-
-        
-        # ~ if payment_mode:  # type is a required field on payment_mode
-            # ~ if not payment_mode.payment_method_id.unece_id:
-                # ~ raise UserError(_(
-                    # ~ "Missing 'UNECE Payment Mean' on payment type '%s' "
-                    # ~ "used by the payment mode '%s'.") % (
-                    # ~ payment_mode.payment_method_id.name, payment_mode.name))
-            # ~ pay_means_code.text = payment_mode.payment_method_id.unece_code
-        # ~ else:
-            # ~ pay_means_code.text = '31'
-            # ~ logger.warning(
-                # ~ 'Missing payment mode on invoice ID %d. '
-                # ~ 'Using 31 (wire transfer) as UNECE code as fallback '
-                # ~ 'for payment mean', self.id)
-        # ~ if pay_means_code.text in ['30', '31', '42']:
-            # ~ if (
-                    # ~ not partner_bank and
-                    # ~ payment_mode and
-                    # ~ payment_mode.bank_account_link == 'fixed' and
-                    # ~ payment_mode.fixed_journal_id):
-                # ~ partner_bank = payment_mode.fixed_journal_id.bank_account_id
-            # ~ if partner_bank and partner_bank.acc_type == 'iban':
-                # ~ # In the Chorus specs, they except 'IBAN' in PaymentChannelCode
-                # ~ # I don't know if this usage is common or not
-                # ~ payment_channel_code = etree.SubElement(
-                    # ~ pay_means, ns['cbc'] + 'PaymentChannelCode')
-                # ~ payment_channel_code.text = 'IBAN'
-                # ~ if payment_identifier:
-                    # ~ payment_id = etree.SubElement(
-                        # ~ pay_means, ns['cbc'] + 'PaymentID')
-                    # ~ payment_id.text = payment_identifier
-                # ~ payee_fin_account = etree.SubElement(
-                    # ~ pay_means, ns['cac'] + 'PayeeFinancialAccount')
-                # ~ payee_fin_account_id = etree.SubElement(
-                    # ~ payee_fin_account, ns['cbc'] + 'ID')
-                # ~ payee_fin_account_id.text =\
-                    # ~ partner_bank.sanitized_acc_number
-                # ~ if partner_bank.bank_bic:
-                    # ~ financial_inst_branch = etree.SubElement(
-                        # ~ payee_fin_account,
-                        # ~ ns['cac'] + 'FinancialInstitutionBranch')
-                    # ~ financial_inst = etree.SubElement(
-                        # ~ financial_inst_branch,
-                        # ~ ns['cac'] + 'FinancialInstitution')
-                    # ~ financial_inst_id = etree.SubElement(
-                        # ~ financial_inst_branch, ns['cbc'] + 'ID')
-                    # ~ financial_inst_id.text = partner_bank.bank_bic
