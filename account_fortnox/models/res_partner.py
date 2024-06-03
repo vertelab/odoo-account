@@ -29,43 +29,45 @@ class Partner(models.Model):
         for page in range(pages):
             url = "https://api.fortnox.se/3/customers?page=" + str(page)
             r = self.env.user.company_id.fortnox_request('get', url)
-
+            _logger.warning(f"{r['Customers']=}")
             for customer in r['Customers']:
+                #_logger.warning(f"{customer=}")
                 customer_number = customer.get('CustomerNumber', False)
-
+                if customer_number:
+                   customer_number_partner = self.env['res.partner'].search([('fortnox_ref',"=",customer_number)])
+                   if customer_number_partner:
+                      _logger.warning(f"~ ERROR 3: Partner Found with matching customer number {customer_number=} {customer_number_partner=} {customer_number_partner.name=}")
+                      continue
+                
                 customer_address = customer.get('Address1', False)
                 customer_city = customer.get('City', False)
                 customer_email = customer.get('Email', False)
                 customer_name = customer.get('Name', False)
                 customer_phone = customer.get('Phone', False)
                 customer_zip = customer.get('ZipCode', False)
-                fortnox_fields = [
+                fortnox_fields2 = [
                     customer_address, customer_city, customer_email, customer_name, customer_phone,
-                    customer_zip, customer_number
+                    customer_zip
                 ]
-                odoo_fields = ['street', 'city', 'email', 'name', 'phone', 'zip', 'commercial_partner_id.fortnox_ref']
-                filter_params = []
+                
+                fortnox_fields = []
+                for fortnox_field in fortnox_fields2:
+                    if fortnox_field == "0" or fortnox_field == "":
+                       _logger.warning(f"{fortnox_field=}")
+                       fortnox_field = False
+                    fortnox_fields.append(fortnox_field)
+
+
+                odoo_fields = ['street', 'city', 'email', 'name', 'phone', 'zip']
+                filter_params = [('commercial_partner_id.fortnox_ref','=',False)]
                 for number in range(len(fortnox_fields)):
                     if not fortnox_fields[number] == False:
                         filter_params.append((odoo_fields[number], '=', fortnox_fields[number]))
-
+                
                 partner = self.env['res.partner'].search(filter_params)
-                if len(partner) == 0:
-                    _logger.warning(f"~ ERROR 3: No customer from fortnox was found in odoo db")
-                elif len(partner) > 1:
-                    _logger.warning(
-                        "~ ERROR 2: Several customers from fortnox with the same ref found in odoo db. Recordset = %s"
-                        % partner
-                    )
-                else:
-                    if partner.fortnox_ref == customer_number:
-                        _logger.warning("~ OK 1: %s (id: %s) is already correct" % (customer['Name'], partner.id))
-                    else:
-                        _logger.warning(
-                            "~ OK 2: %s's (id: %s) internal reference was set to %s" %
-                            (customer['Name'], partner.id, customer['CustomerNumber'])
-                        )
-                        partner.fortnox_ref = customer_number
+                if len(partner) == 1:
+                    _logger.warning(f"~ Found contact with {filter_params=} that is missing an fortnox_ref. Setting ref to {customer_number=}")
+                    partner.fortnox_ref = customer_number
 
     def partner_create(self, company_id):
         for partner in self:
@@ -78,11 +80,11 @@ class Partner(models.Model):
                     url,
                     data={
                         "Customer": {
-                            "Address1": partner.street,
-                            "City": partner.city,
+                            "Address1": partner.commercial_partner_id.street,
+                            "City": partner.commercial_partner_id.city,
                             "CountryCode": "SE",
                             "Currency": "SEK",
-                            "Email": partner.email or None,
+                            "Email": partner.commercial_partner_id.email or None,
                             "Name": partner.commercial_partner_id.name,
                             "Phone1": partner.commercial_partner_id.phone,
                             "Phone2": None,
@@ -91,8 +93,8 @@ class Partner(models.Model):
                             "Type": "COMPANY",
                             "VATType": "SEVAT",
                             "WWW": partner.commercial_partner_id.website,
-                            "YourReference": partner.name,
-                            "ZipCode": partner.zip,
+                            "YourReference": partner.commercial_partner_id.name,
+                            "ZipCode": partner.commercial_partner_id.zip,
                         }
                     })
                 if r.get("ErrorInformation", {}).get("code") in [2000357]:
@@ -110,11 +112,11 @@ class Partner(models.Model):
                     url,
                     data={
                         "Customer": {
-                            "Address1": partner.street,
-                            "City": partner.city,
+                            "Address1": partner.commercial_partner_id.street,
+                            "City": partner.commercial_partner_id.city,
                             "CountryCode": "SE",
                             "Currency": "SEK",
-                            "Email": partner.email or None,
+                            "Email": partner.commercial_partner_id.email or None,
                             "Name": partner.commercial_partner_id.name,
                             "Phone1": partner.commercial_partner_id.phone,
                             "Phone2": None,
@@ -123,8 +125,8 @@ class Partner(models.Model):
                             "Type": "COMPANY",
                             "VATType": "SEVAT",
                             "WWW": partner.commercial_partner_id.website,
-                            "YourReference": partner.name,
-                            "ZipCode": partner.zip,
+                            "YourReference": partner.commercial_partner_id.name,
+                            "ZipCode": partner.commercial_partner_id.zip,
                         }
                     })
 
