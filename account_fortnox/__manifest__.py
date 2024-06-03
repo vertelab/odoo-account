@@ -43,6 +43,7 @@
 
     'depends': ['crm', 'membership', 'l10n_se'],
     'data': [
+        'views/res_partner_view.xml',
         'views/res_company_view.xml',
         'views/account_invoice_send_view.xml',
         'views/product_views.xml',
