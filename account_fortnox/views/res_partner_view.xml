@@ -5,9 +5,10 @@
                 <field name="model">res.partner</field>
                 <field name="inherit_id" ref="base.view_partner_form" />
                 <field name="arch" type="xml">
-                       <span name="address_name" position="before">
-                         <field name="fortnox_ref"/>
-                       </span>
+                       <field name="ref" position="after">
+                              <field name="fortnox_ref"/>
+                       </field>
+
                 </field>
         </record>
 </odoo>
