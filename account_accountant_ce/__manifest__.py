@@ -24,9 +24,9 @@
     'version': '16.0.0.0.0',
     # Version ledger: 16.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'License Manager.',
-    'category': 'Sales',
+    'category': 'Accounting',
     'description': """
-    License Manager
+    Accounting for the Community Edition
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
