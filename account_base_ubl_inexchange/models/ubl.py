@@ -212,7 +212,7 @@ class BaseUbl(models.AbstractModel):
 
         #12 jun endpoint_id.text = commercial_partner.gln_number_vertel or None
         endpoint_id.text = partner.gln_number_vertel or None
-        if not partner.gln_number_vertel
+        if not partner.gln_number_vertel:
            raise UserError("GLN number is not set")
 
         # ~ raise Warning(endpoint_id.text)
