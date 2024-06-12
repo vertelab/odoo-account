@@ -209,19 +209,33 @@ class BaseUbl(models.AbstractModel):
         self._ubl_add_party_identification(
             commercial_partner, party, ns, version=version)
         endpoint_id = etree.SubElement(party, ns['cbc'] + 'EndpointID',schemeID='0088')
-        endpoint_id.text = commercial_partner.gln_number_vertel or None
+
+        #12 jun endpoint_id.text = commercial_partner.gln_number_vertel or None
+        endpoint_id.text = partner.gln_number_vertel or None
+        if not partner.gln_number_vertel
+           raise UserError("GLN number is not set")
+
         # ~ raise Warning(endpoint_id.text)
         party_identification = etree.SubElement(party, ns['cac'] + 'PartyIdentification')
         party_id = etree.SubElement(party_identification, ns['cbc'] + 'ID')
         if endpoint_id.text == '7300009018680':
             party_id.text = 'SE556656628601'
         else:
-            party_id.text = str(commercial_partner.id)
+            #12 jun party_id.text = str(commercial_partner.id)
+            party_id.text = str(partner.id)
+
         party_name = etree.SubElement(party, ns['cac'] + 'PartyName')
         name = etree.SubElement(party_name, ns['cbc'] + 'Name')
-        name.text = commercial_partner.name if commercial_partner.name else partner.parent_id.name
+        #12 jun name.text = commercial_partner.name if commercial_partner.name else partner.parent_id.name
+        name.text = partner.name if partner.name else commercial_partner.name
+        
+
+        #12 jun self._ubl_add_address(
+        #    commercial_partner, 'PostalAddress', party, ns, version=version)
+        
         self._ubl_add_address(
-            commercial_partner, 'PostalAddress', party, ns, version=version)
+            partner, 'PostalAddress', party, ns, version=version)
+
         self._ubl_add_party_tax_scheme(
             commercial_partner, party, ns, version=version)
         if commercial_partner.company_org_number == '556656-6286':
