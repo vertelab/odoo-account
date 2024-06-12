@@ -42,6 +42,8 @@
         #"views/agreement_view.xml",
         #"views/product_template_view.xml",
         #"data/cron_demo.xml",
+        "data/account_accountant_data.xml",
+        "security/ir.model.access.csv",
     ],
     "demo": [
     ],
