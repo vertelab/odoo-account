@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,34 +20,33 @@
 ##############################################################################
 
 {
-    'name': 'MIS Builder for Analytic Account',
-    'version': '16.0.0.0.2',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'MIS Builder for Analytic Account.',
+    'name': 'Account: accountant_ce',
+    'version': '16.0.0.0.0',
+    # Version ledger: 16.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'summary': 'License Manager.',
     'category': 'Accounting',
-    #'sequence': '1'
+    'description': """
+    Accounting for the Community Edition
+    """,
+    #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/mis_builder_budget_analytic_account',
-    'images': ['/static/description/banner.png'], # 560x280 px.
+    'website': 'https://vertel.se/apps/odoo-account/account_accountant_ce',
+    'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': """
-        MIS Builder for Analytic Account
-    """,
-    'depends': ['account', 'mis_builder','mis_budget_extended','mis_builder_budget', 'analytic', 'base', 'hr'],
-    'data': [
-        "security/mis_budget_by_analytic_account.xml",
-        "security/mis_budget_by_analytic_account_item.xml",
-        "views/mis_budget_by_analytic_account_item.xml",
-        "views/mis_budget_by_analytic_account.xml",
-        "views/mis_report_instance.xml",
+    'depends': ['sale'],
+    "data": [
+        #"views/license_view.xml",
+        #"views/agreement_view.xml",
+        #"views/product_template_view.xml",
+        #"data/cron_demo.xml",
+        "data/account_accountant_data.xml",
+        "security/ir.model.access.csv",
     ],
-    'demo': [],
-    'qweb': [],
-    'installable': True,
-    'application': False,
-    'auto_install': False,
+    "demo": [
+    ],
+    "installable": True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

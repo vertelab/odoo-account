@@ -7,13 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20240225\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-27 06:16+0000\n"
-"PO-Revision-Date: 2024-02-27 06:16+0000\n"
+"PO-Revision-Date: 2024-03-05 16:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. module: account_mis_cash_flow_extended
 #: model:ir.model,name:account_mis_cash_flow_extended.model_cash_flow_custom_account_class
@@ -43,7 +45,7 @@ msgstr "Åtgärd Skapa Prognos"
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,field_description:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__message_needaction
 msgid "Action Needed"
-msgstr "Åtgärder som krävs"
+msgstr "Nödvändig åtgärd"
 
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,field_description:account_mis_cash_flow_extended.field_mis_cash_flow_forecast_line__adjusted_balance
@@ -102,10 +104,8 @@ msgstr "Prognos för kassaflöde"
 
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,help:account_mis_cash_flow_extended.field_cash_flow_custom_account_class__account_class
-msgid ""
-"Coma separated list of beginning of account code for account classes eg 5,6"
-msgstr ""
-"Komaseparerad lista över början av kontokod för kontoklasser, t.ex. 5,6"
+msgid "Coma separated list of beginning of account code for account classes eg 5,6"
+msgstr "Komaseparerad lista över början av kontokod för kontoklasser, t.ex. 5,6"
 
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,field_description:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__company_id
@@ -166,7 +166,7 @@ msgstr "Följare"
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,field_description:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Följare (Partners)"
+msgstr "Följare (kontakter)"
 
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,field_description:account_mis_cash_flow_extended.field_mis_cash_flow_forecast_line__forecast_factor
@@ -193,7 +193,7 @@ msgstr "ID"
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,help:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Om markerat, kräver nya meddelanden din uppmärksamhet."
+msgstr "Om markerat, nya meddelanden kräver din uppmärksamhet."
 
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,help:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__allow_items_overlap
@@ -204,7 +204,7 @@ msgstr "Om markerat, tillåts överlappning mellan budgetposter"
 #: model:ir.model.fields,help:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__message_has_error
 #: model:ir.model.fields,help:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Om markerat får vissa meddelanden ett leveransfel."
+msgstr "Om markerat, vissa meddelanden har ett leveransfel."
 
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,field_description:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__message_is_follower
@@ -306,7 +306,7 @@ msgstr "Fel vid leverans av SMS"
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,field_description:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__state
 msgid "State"
-msgstr "Stat"
+msgstr "Läge"
 
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,field_description:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__task_ids
@@ -341,9 +341,9 @@ msgstr "Till"
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,field_description:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__website_message_ids
 msgid "Website Messages"
-msgstr "Meddelanden från webbplatsen"
+msgstr "Webbplatsmeddelanden"
 
 #. module: account_mis_cash_flow_extended
 #: model:ir.model.fields,help:account_mis_cash_flow_extended.field_mis_cash_flow_forecast__website_message_ids
 msgid "Website communication history"
-msgstr "Historik för kommunikation på webbplatsen"
+msgstr "Webbplatskommunikationshistorik"

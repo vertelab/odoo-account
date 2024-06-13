@@ -20,29 +20,27 @@
 ##############################################################################
 
 {
-    'name': 'MIS Builder for Analytic Account',
-    'version': '16.0.0.0.2',
+    'name': 'Account Asset Stock Lot Equipment',
+    'version': '16.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'MIS Builder for Analytic Account.',
+    'summary': 'Connect Created Asset to equipment.',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/mis_builder_budget_analytic_account',
+    'website': 'https://vertel.se/apps/odoo-account/account_asset_lot_stock',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-        MIS Builder for Analytic Account
+Create an asset connected to a Lot number and equipment.
     """,
-    'depends': ['account', 'mis_builder','mis_budget_extended','mis_builder_budget', 'analytic', 'base', 'hr'],
+    'depends': ['account_asset_lot_stock','hr_personal_equipment_stock'],
     'data': [
-        "security/mis_budget_by_analytic_account.xml",
-        "security/mis_budget_by_analytic_account_item.xml",
-        "views/mis_budget_by_analytic_account_item.xml",
-        "views/mis_budget_by_analytic_account.xml",
-        "views/mis_report_instance.xml",
+        #'security/ir.model.access.csv',
+        #'security/security.xml',
+        'views/employee_view.xml',
     ],
     'demo': [],
     'qweb': [],
