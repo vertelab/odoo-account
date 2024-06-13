@@ -34,11 +34,11 @@
     vertelab/odoo-account/account_period_vrtl
 
     OCA
-    https://github.com/OCA/account-financial-reporting/tree/16.0/account_financial_report
-    https://github.com/OCA/account-reconcile/tree/16.0/account_reconcile_oca
-    https://github.com/OCA/bank-statement-import/tree/16.0/account_statement_import_camt
-    https://github.com/OCA/mis-builder/tree/16.0/mis_builder
-    https://github.com/OCA/mis-builder/tree/16.0/mis_builder_budget
+    https://github.com/OCA/account-financial-reporting/tree/17.0/account_financial_report
+    https://github.com/OCA/account-reconcile/tree/17.0/account_reconcile_oca
+    https://github.com/OCA/bank-statement-import/tree/17.0/account_statement_import_camt
+    https://github.com/OCA/mis-builder/tree/17.0/mis_builder
+    https://github.com/OCA/mis-builder/tree/17.0/mis_builder_budget
 
     account_banking_sepa_credit_transfer
     account_banking_sepa_direct_debit
