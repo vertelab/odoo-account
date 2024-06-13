@@ -42,8 +42,13 @@
 
     account_banking_sepa_credit_transfer
     account_banking_sepa_direct_debit
-    account_bank_payment
+    # account_bank_payment
     https://github.com/OCA/bank-payment
+    
+    https://pypi.org/project/Unidecode/
+    pip3 install unidecode:
+    root@odoo16server:~$ pip3 install Unidecode
+
 
     """,
     #'sequence': '1',
@@ -56,7 +61,7 @@
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['sale', 'account_period_vrtl', 'account_financial_report', 'account_reconcile_oca',
                 'account_statement_import_camt', 'mis_builder', 'mis_builder_budget',
-                'account_banking_sepa_credit_transfer', 'account_banking_sepa_direct_debit'],
+                'account_banking_sepa_credit_transfer', 'account_banking_sepa_direct_debit', 'account_bank_payment'],
     'data': [
         #"views/license_view.xml",
         #"views/agreement_view.xml",
