@@ -26,7 +26,25 @@
     'summary': 'License Manager.',
     'category': 'Accounting',
     'description': """
-    Accounting for the Community Edition
+    Accounting for Community Edition
+    
+    This module depends on the following modules:
+    
+    Vertel
+    vertelab/odoo-account/account_period_vrtl
+
+    OCA
+    https://github.com/OCA/account-financial-reporting/tree/16.0/account_financial_report
+    https://github.com/OCA/account-reconcile/tree/16.0/account_reconcile_oca
+    https://github.com/OCA/bank-statement-import/tree/16.0/account_statement_import_camt
+    https://github.com/OCA/mis-builder/tree/16.0/mis_builder
+    https://github.com/OCA/mis-builder/tree/16.0/mis_builder_budget
+
+    account_banking_sepa_credit_transfer
+    account_banking_sepa_direct_debit
+    account_bank_payment
+    https://github.com/OCA/bank-payment
+
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
@@ -36,14 +54,17 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'depends': ['sale'],
+    'depends': ['sale', 'account_period_vrtl', 'account_financial_report', 'account_reconcile_oca',
+                'account_statement_import_camt', 'mis_builder', 'mis_builder_budget',
+                'account_banking_sepa_credit_transfer', 'account_banking_sepa_direct_debit', 'account_bank_payment'],
     "data": [
         #"views/license_view.xml",
         #"views/agreement_view.xml",
         #"views/product_template_view.xml",
         #"data/cron_demo.xml",
         "data/account_accountant_data.xml",
-        "security/ir.model.access.csv",
+        "security/account_accountant_security.xml",
+        # ~ "security/ir.model.access.csv",
     ],
     "demo": [
     ],
