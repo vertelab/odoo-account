@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Bokföring (CE)',
+    'name': 'Bokföring CE',
     'version': '17.0.0.0.0',
     # Version ledger: 17.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'License Manager.',
@@ -60,7 +60,8 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['sale', 'account_period_vrtl', 'account_financial_report', 'account_reconcile_oca',
-                'account_statement_import_camt', 'mis_builder', 'mis_builder_budget',
+                #'account_statement_import_camt', 
+                'mis_builder', 'mis_builder_budget',
                 'account_banking_sepa_credit_transfer', 'account_banking_sepa_direct_debit'],
     'data': [
         #"views/license_view.xml",
