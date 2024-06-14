@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account: accountant_ce',
+    'name': 'Bokföring (CE)',
     'version': '17.0.0.0.0',
     # Version ledger: 17.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'License Manager.',
