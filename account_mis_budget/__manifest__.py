@@ -43,6 +43,7 @@
         "wizard/last_years_actuals.xml",
         "data/custom_account_classes.xml",
         "views/mis_budget_by_account.xml",
+        "views/kpi_mis_budget_view.xml",
     ],
     'demo': [],
     'application': False,

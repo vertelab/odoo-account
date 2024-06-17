@@ -58,3 +58,9 @@ class MisBudgetByAccount(models.Model):
                     valid.append(False)
             break
         return valid
+
+
+class MisBudget(models.Model):
+    _inherit = "mis.budget"
+
+    analytic_account_id = fields.Many2one('account.analytic.account', string="Analytic")

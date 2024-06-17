@@ -10,10 +10,12 @@
                     <sheet>
                         <group>
                             <field name="date_type"/>
+                            <field name="use_last_year"/>
+                            <field name="factor" widget="percentage" attrs="{'invisible': [('use_last_year', '=', False)]}"/>
                         </group>
                         <footer>
                             <button string="Cancel" class="btn-secondary" special="cancel"/>
-                            <button string="Make KPI Report" type="object" class="oe_highlight" name="make_report"/>
+                            <button string="Generate KPI Report" type="object" class="oe_highlight" name="action_generate_kpi_report"/>
                         </footer>
                     </sheet>
                 </form>
@@ -30,7 +32,7 @@
         </record>
 
         <record id="action_open_kpi_wizard" model="ir.actions.server">
-            <field name="name">Make KPI Report</field>
+            <field name="name">Generate KPI Report</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="mis_builder_budget.model_mis_budget"/>
             <field name="binding_model_id" ref="mis_builder_budget.model_mis_budget"/>
