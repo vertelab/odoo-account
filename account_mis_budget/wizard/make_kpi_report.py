@@ -52,20 +52,14 @@ class MakeKPIReport(models.TransientModel):
             kpi_matrix = mis_report_instance._compute_matrix()
 
             already_visited = []
-            # num = 0
-            #print(len(kpi_matrix.iter_rows()))
             for row in kpi_matrix.iter_rows():
-                # num += 1
                 if row.kpi.id not in already_visited:
-                    #print(row.kpi.id)
                     already_visited.append(row.kpi.id)
                 else:
-                    # print("wat"*1000)
                     continue
 
                 for cell in row.iter_cells():
                     if (isinstance(cell.val, float) and cell.val > 0) or not self.use_last_year:
-                        # print(f"{num=}")
                         if row.kpi.expression:
                             self._mis_budget_item(
                                 budget_kpi_id,
@@ -73,7 +67,6 @@ class MakeKPIReport(models.TransientModel):
                                 row.kpi,
                                 cell.val * self.factor if self.use_last_year else 0.0
                             )
-            # print(f"{num=}")
 
     def _mis_budget_item(self, budget_kpi_id, date_range, kpi_id, amount):
         kpi_expression_id = self.env['mis.report.kpi.expression'].search([('kpi_id', "=", kpi_id.id)], limit=1)
