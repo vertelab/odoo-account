@@ -77,8 +77,6 @@ class MakeKPIReport(models.TransientModel):
 
     def _mis_budget_item(self, budget_kpi_id, date_range, kpi_id, amount):
         kpi_expression_id = self.env['mis.report.kpi.expression'].search([('kpi_id', "=", kpi_id.id)], limit=1)
-        date_from = date_range.date_start if not self.use_last_year else date_range.date_start - relativedelta(years=1)
-        date_to = date_range.date_end if not self.use_last_year else date_range.date_end - relativedelta(years=1)
         self.env['mis.budget.item'].create({
             'budget_id': budget_kpi_id.id,
             'report_id': budget_kpi_id.report_id,
