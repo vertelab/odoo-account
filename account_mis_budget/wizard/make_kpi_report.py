@@ -1,4 +1,6 @@
 from odoo import api, fields, models, _
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError
 import logging
 
@@ -16,12 +18,12 @@ class MakeKPIReport(models.TransientModel):
         return mis_report_instance_id
 
     def _mis_instance_vals(self, date_range, budget_kpi_id):
+        date_from, date_to = self._get_date_(date_range)
         vals = dict(
             report_id=budget_kpi_id.report_id.id,
-            name=f'{date_range.date_start}--{date_range.date_end}',
-            date_range_id=date_range.id,
-            date_from=date_range.date_start,
-            date_to=date_range.date_end,
+            name=f'{date_from}--{date_to}',
+            date_from=date_from,
+            date_to=date_to,
             period_ids=[
                 (
                     0,
@@ -36,6 +38,10 @@ class MakeKPIReport(models.TransientModel):
                 )
             ],
         )
+        if self.use_last_year and budget_kpi_id.analytic_account_id:
+            vals['analytic_domain'] = repr([
+                    ('analytic_line_ids.account_id', '=', budget_kpi_id.analytic_account_id.id)
+            ])
         return vals
 
     def action_generate_kpi_report(self):
@@ -67,14 +73,22 @@ class MakeKPIReport(models.TransientModel):
                                 row.kpi,
                                 cell.val * self.factor if self.use_last_year else 0.0
                             )
+            mis_report_instance.unlink()
 
     def _mis_budget_item(self, budget_kpi_id, date_range, kpi_id, amount):
         kpi_expression_id = self.env['mis.report.kpi.expression'].search([('kpi_id', "=", kpi_id.id)], limit=1)
+        date_from = date_range.date_start if not self.use_last_year else date_range.date_start - relativedelta(years=1)
+        date_to = date_range.date_end if not self.use_last_year else date_range.date_end - relativedelta(years=1)
         self.env['mis.budget.item'].create({
             'budget_id': budget_kpi_id.id,
             'report_id': budget_kpi_id.report_id,
             'date_from': date_range.date_start,
-            'date_to': date_range.date_end,
+            'date_to':  date_range.date_end,
             'kpi_expression_id': kpi_expression_id.id,
             'amount': amount
         })
+
+    def _get_date_(self, date_range):
+        date_from = date_range.date_start if not self.use_last_year else date_range.date_start - relativedelta(years=1)
+        date_to = date_range.date_end if not self.use_last_year else date_range.date_end - relativedelta(years=1)
+        return date_from, date_to
