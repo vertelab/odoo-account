@@ -66,7 +66,7 @@ class MakeKPIReport(models.TransientModel):
 
                 for cell in row.iter_cells():
                     if (isinstance(cell.val, float) and cell.val > 0) or not self.use_last_year:
-                        if row.kpi.expression:
+                        if row.kpi.budgetable:
                             self._mis_budget_item(
                                 budget_kpi_id,
                                 date_range,
