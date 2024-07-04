@@ -14,7 +14,7 @@ class TierReview(models.Model):
     resource_currency_id = fields.Many2one("res.currency", string="Resource Currency", compute="_compute_resource_data")
     resource_amount = fields.Monetary(string="Resource Amount", compute="_compute_resource_data",
                                       currency_field='resource_currency_id')
-    resource_partner_id = fields.Many2one("res.partner", string="Resource Partner", compute="_compute_resource_data")
+    resource_partner_id = fields.Many2one("res.partner", string="Resource Partner", compute="_compute_resource_data", store=True)
     invoice_due_date = fields.Date(string="Invoice Due Date", compute="_compute_resource_data")
 
     def _search_resource_name(self, operator, value):

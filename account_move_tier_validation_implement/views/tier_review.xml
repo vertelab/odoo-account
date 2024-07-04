@@ -38,6 +38,7 @@
             <field name="arch" type="xml">
                 <field name="resource_ref" position="replace">
                     <field name="resource_name"/>
+                    <field name="resource_partner_id"/>
                 </field>
                 <filter name="pending" position="before">
                     <filter name="invoice" string="Invoices" domain="[('model', '=', 'account.move')]"/>
