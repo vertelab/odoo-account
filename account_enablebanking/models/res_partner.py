@@ -1,4 +1,5 @@
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
 from datetime import datetime, timezone, timedelta
 import jwt as pyjwt
 import requests
@@ -59,6 +60,8 @@ class ResConfigSettings(models.Model):
     def auth_request(self, bank_id=None, app=None, api_url=None, base_headers=None):
         if not app:
             app = self._request_application_details(api_url, base_headers)
+        if app.get('code') == 401:
+            raise ValidationError(app.get('message'))
         body = {
             "access": {
                 "valid_until": (datetime.now(timezone.utc) + timedelta(days=10)).isoformat()
