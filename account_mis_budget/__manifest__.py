@@ -36,7 +36,7 @@
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-',
     'license': 'AGPL-3',
-    'depends': ['date_range', 'account', 'mis_builder_budget'],
+    'depends': ['date_range', 'account', 'mis_builder_budget', 'mis_builder'],
     'data': [
         "security/ir.model.access.csv",
         "wizard/make_kpi_report.xml",
@@ -46,6 +46,8 @@
         "data/custom_account_classes.xml",
         "views/mis_budget_by_account.xml",
         "views/kpi_mis_budget_view.xml",
+        "views/mis_budget_by_account_item.xml",
+        "views/mis_budget_by_kpi_item.xml",
     ],
     'demo': [],
     'application': False,
