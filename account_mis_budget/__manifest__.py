@@ -25,8 +25,10 @@
     'name': 'Make KPI Report',
     'version': '16.0.0.0.0',
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.odoo.com""",
+        Lets us generat budget based on the previous year.
+        Also lets us add two budgets together into a new one.
+        
+        """,
     'category': '', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
     'description': """
         Long description of module's purpose
