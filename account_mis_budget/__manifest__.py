@@ -22,10 +22,10 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'Make KPI Report',
+    'name': 'Account MIS Budget',
     'version': '16.0.0.0.0',
     'summary': """
-        Lets us generat budget based on the previous year.
+        Lets us generate budget based on the previous year.
         Also lets us add two budgets together into a new one.
         
         """,
