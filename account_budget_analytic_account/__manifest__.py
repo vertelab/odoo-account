@@ -20,29 +20,33 @@
 ##############################################################################
 
 {
-    'name': 'MIS Budget Extended (To be Deprecated)',
+    'name': 'MIS Builder for Analytic Account',
     'version': '16.0.0.0.2',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'MIS Budget Extended.',
+    'summary': 'MIS Builder for Analytic Account.',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/mis_budget_extended',
+    'website': 'https://vertel.se/apps/odoo-account/account_budget_analytic_account',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-        MIS Budget Extended
+        MIS Builder for Analytic Account
     """,
-    'depends': ['account', 'mis_builder', 'mis_builder_budget'],
+    'depends': ['account', 'mis_builder','account_mis_budget','mis_builder_budget', 'analytic', 'base', 'hr'],
     'data': [
-        "views/mis_budget_by_account_item.xml",
-        "views/mis_budget_by_kpi_item.xml",
-
+        "security/mis_budget_by_analytic_account.xml",
+        "security/mis_budget_by_analytic_account_item.xml",
+        "views/mis_budget_by_analytic_account_item.xml",
+        "views/mis_budget_by_analytic_account.xml",
+        "views/mis_report_instance.xml",
     ],
-    'installable': False,
+    'demo': [],
+    'qweb': [],
+    'installable': True,
     'application': False,
     'auto_install': False,
 }

@@ -22,11 +22,13 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'Make KPI Report',
+    'name': 'Account MIS Budget',
     'version': '16.0.0.0.0',
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.odoo.com""",
+        Lets us generate budget based on the previous year.
+        Also lets us add two budgets together into a new one.
+        
+        """,
     'category': '', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
     'description': """
         Long description of module's purpose
@@ -34,7 +36,7 @@
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-',
     'license': 'AGPL-3',
-    'depends': ['date_range', 'account', 'mis_builder_budget'],
+    'depends': ['date_range', 'account', 'mis_builder_budget', 'mis_builder'],
     'data': [
         "security/ir.model.access.csv",
         "wizard/make_kpi_report.xml",
@@ -44,6 +46,8 @@
         "data/custom_account_classes.xml",
         "views/mis_budget_by_account.xml",
         "views/kpi_mis_budget_view.xml",
+        "views/mis_budget_by_account_item.xml",
+        "views/mis_budget_by_kpi_item.xml",
     ],
     'demo': [],
     'application': False,
