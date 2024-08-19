@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,11 +21,13 @@
 
 {
     'name': 'Account: Analytic Tier Validation',
-    'version': '16.0.0.0.1',
+    'version': '1.0',
     'summary': 'Account Analytic Tier Validation',
     'category': 'Accounting',
     'description': """
         Account Analytic Tier Validation.
+        Adds a field on an analytic account that can be used when making a rule for validations for an invoice.
+        A use case being that you want the person in charge of a project to validate invoices connected to that project.
     """,
     'sequence': '20',
     'author': 'Vertel AB',
