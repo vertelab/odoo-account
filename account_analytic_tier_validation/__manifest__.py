@@ -37,7 +37,7 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'depends': ['analytic', 'account'],
+    'depends': ['analytic', 'account','account_move_tier_validation'],
     'data': [
         'views/account_analytics_view.xml',
         'views/account_move_view.xml',
