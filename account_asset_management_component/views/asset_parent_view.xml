@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="account_asset_parent_view_form">
+        <field name="name">asset.parent.form</field>
+        <field name="model">asset.parent</field>
+        <field name="arch" type="xml">
+            <form string="Parent Asset">
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="action_view_account_assets"
+                            string="Assets"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-bars"
+                        />
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" class="oe_inline" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group id="header_left_group">
+                            <field name="company_id" invisible="1" />
+                            <field name="code" />
+                            <field name="purchase_value" />
+                            <field
+                                name="company_id"
+                                widget="selection"
+                                groups="base.group_multi_company"
+                            />
+                            <field
+                                name="currency_id"
+                                groups="base.group_multi_currency"
+                                invisible="1"
+                            />
+                        </group>
+                        <group id="header_right_group">
+                            <field name="depreciation_base" />
+                            <field name="value_depreciated" />
+                            <field name="value_residual" />
+                            <field name="active" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Assets">
+                            <field name="account_asset_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date_start"/>
+                                    <field name="purchase_value"/>
+                                    <field name="value_depreciated"/>
+                                    <field name="value_residual"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_asset_view_tree">
+        <field name="name">asset.parent.tree</field>
+        <field name="model">asset.parent</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="code" optional="show" />
+                <field name="depreciation_base" optional="show" />
+                <field name="value_depreciated" optional="show" />
+                <field name="value_residual" optional="show" />
+                <field
+                    name="company_id"
+                    groups="base.group_multi_company"
+                    optional="show"
+                />
+
+                <field name="currency_id" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="account_asset_parent_action" model="ir.actions.act_window">
+        <field name="name">Asset Parent</field>
+        <field name="res_model">asset.parent</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="account_asset_parent_menu"
+        action="account_asset_parent_action"
+        parent="account_asset_management.menu_finance_assets"
+        sequence="50"
+    />
+
+</odoo>
