@@ -29,6 +29,16 @@ class AccountMove(models.Model):
         move_id = self.env['account.move'].create(vals)
 
         for partner_id in self.partner_ids:
-            move_id.copy({'partner_id': partner_id.id})
+            partner_move_id = move_id.copy({'partner_id': partner_id.id})
+            self._cleanup(partner_move_id)
         self.unlink()
         move_id.unlink()
+
+    def _cleanup(self, partner_move_id):
+        mail_message_id = self.env['mail.message'].search([
+            ('model', '=', 'account.move'),
+            ('res_id', '=', partner_move_id.id),
+            ('record_name', '=', False)
+        ])
+        mail_message_id.unlink()
+
