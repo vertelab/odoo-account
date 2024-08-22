@@ -9,11 +9,12 @@
    id="SVGRoot"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="banner_560x280.svg"
-   inkscape:export-filename="/usr/share/odoo-account/account_move_tier_validation_implement/static/description/banner.png"
+   inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-account/account_move_tier_validation_implement/static/description/banner.png"
    inkscape:export-xdpi="92.61972"
    inkscape:export-ydpi="92.61972"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -29,23 +30,6 @@
          offset="0"
          id="stop4209" />
     </linearGradient>
-    <linearGradient
-       id="linearGradient-1"
-       y2="145.47549"
-       x2="79.832403"
-       y1="-2.9184923"
-       x1="66.881189"
-       gradientTransform="scale(1.7597466,0.56826363)"
-       gradientUnits="userSpaceOnUse">
-      <stop
-         id="stop833"
-         offset="0%"
-         stop-color="#222357" />
-      <stop
-         id="stop835"
-         offset="100%"
-         stop-color="#254AA5" />
-    </linearGradient>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -55,15 +39,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="140"
-     inkscape:cy="105"
+     inkscape:cx="186"
+     inkscape:cy="84"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1625"
+     inkscape:window-width="1597"
      inkscape:window-height="773"
-     inkscape:window-x="229"
-     inkscape:window-y="170"
+     inkscape:window-x="286"
+     inkscape:window-y="87"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0">
     <inkscape:grid
@@ -135,102 +119,56 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="319.77063"
-       y="153.03708"
-       id="text2039"><tspan
-         sodipodi:role="line"
-         id="tspan2037"
-         x="319.77063"
-         y="153.03708"
-         style="stroke-width:1px">odoo-account</tspan><tspan
-         sodipodi:role="line"
-         x="319.77063"
-         y="171.78708"
-         id="tspan2041" /></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:31.134px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:0;stroke:none;stroke-width:1"
-       x="290.98041"
-       y="-104.52473"
-       id="text827"><tspan
-         sodipodi:role="line"
-         id="tspan825"
-         x="290.98041"
-         y="-104.52473"
-         style="fill:#000000;fill-opacity:1;stroke-width:1"></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:36.441px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:0;stroke:none;stroke-width:1"
-       x="351.74457"
-       y="-100.83463"
-       id="text823"><tspan
-         sodipodi:role="line"
-         id="tspan821"
-         x="351.74457"
-         y="-100.83463"
-         style="fill:#000000;fill-opacity:1;stroke-width:1"></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="507.3996"
-       y="73.199997"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="518.55615"
+       y="68.822594"
        id="text2035"
        inkscape:export-xdpi="92"
        inkscape:export-ydpi="92"><tspan
          sodipodi:role="line"
-         x="507.3996"
-         y="73.199997"
+         x="518.55615"
+         y="68.822594"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:1px"
-         id="tspan847">Account move tier</tspan><tspan
+         id="tspan559">Account Move Tier</tspan><tspan
          sodipodi:role="line"
-         x="507.3996"
-         y="95.537415"
+         x="524.71613"
+         y="91.160011"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:1px"
-         id="tspan6197">validation implement</tspan></text>
+         id="tspan563">Validation Implement </tspan></text>
     <flowRoot
        xml:space="preserve"
-       id="flowRoot844"
+       id="flowRoot892"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.3333px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
-         id="flowRegion846"><rect
-           id="rect848"
-           width="100"
-           height="83"
-           x="206"
-           y="-32" /></flowRegion><flowPara
-         id="flowPara850" /></flowRoot>
+         id="flowRegion894"><rect
+           id="rect896"
+           width="165"
+           height="57"
+           x="276"
+           y="-57" /></flowRegion><flowPara
+         id="flowPara898"></flowPara></flowRoot>
     <text
-       id="text845"
-       y="-126.52473"
-       x="232.98041"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:31.134px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:0;stroke:none;stroke-width:1"
-       xml:space="preserve"><tspan
-         style="fill:#000000;fill-opacity:1;stroke-width:1"
-         y="-126.52473"
-         x="232.98041"
-         id="tspan843"
-         sodipodi:role="line"></tspan></text>
-    <text
-       id="text845-7"
-       y="-94.324753"
-       x="178.43298"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:31.134px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:0;stroke:none;stroke-width:1"
-       xml:space="preserve"><tspan
-         style="fill:#000000;fill-opacity:1;stroke-width:1"
-         y="-94.324753"
-         x="178.43298"
-         id="tspan843-0"
-         sodipodi:role="line"></tspan></text>
-    <text
-       id="text845-2"
-       y="152.30026"
-       x="292.43298"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:18.134px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:0;stroke:none;stroke-width:1"
-       xml:space="preserve"><tspan
-         style="fill:#000000;fill-opacity:1;stroke-width:1"
-         y="152.30026"
-         x="292.43298"
-         id="tspan843-9"
-         sodipodi:role="line"></tspan></text>
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="342.03513"
+       y="154.41"
+       id="text2039"><tspan
+         sodipodi:role="line"
+         id="tspan2037"
+         x="342.03513"
+         y="154.41"
+         style="stroke-width:1px">odoo-account</tspan><tspan
+         sodipodi:role="line"
+         x="342.03513"
+         y="173.16"
+         id="tspan2041" /></text>
+    <image
+       width="58.676052"
+       height="37.161503"
+       preserveAspectRatio="none"
+       style="stroke-width:1.02256;image-rendering:optimizeQuality"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAmCAYAAACYsfiPAAAABHNCSVQICAgIfAhkiAAABXZJREFU aIHt2nmM3VMUB/DP6MyY2qKopfat9jWE1BbU1lSaxlJLGtQWCRJbkaCpiCJI0KjEntgSS4WUEFsR W9F2aENJS6mdVrU6qjPPH+f+vN88783Mm3kzrfBNbn75nbud8zvnnuW+x38MdSubgQ5Qj82xMfrj T/yML/D7ymOrthiMq/GGEKpQpq3AbEzE4VhtpXDaQxyGl9GmvWDz8CZexGuYJT5EftxcnI/V+5rp 7mAzPK0owELchWOwToU5DdgX4zAnN3cOhna2YWdnuF58+d7CbhiAXzBBCLukivl1GI7r0loF3IIr 0VppQkdoxB9VMFAtCngG5+L7HH0THIV9sBXWwnJ8g2a8gplpPqGYSzBemPZknNwd3huVdxy1aK24 SvuPfgCeFR65s/kfYUwSNsNB+DH1P4l+q4rAbcLRZFgXDymexyV4AhfiaAzBoTgdk/BVbuwM7Jlb a9ec0DetKgLfkNtjO3ya6ItxDdbrhK96jMrNW4oTc/0HCXNuxZErW+A3FM1wa6GtAt5J79WgCXcI bf+Jk3J9YxP9c7mQ1ZnTqsMOVTJRDtsK57QCe4t42oS3hTm+jBFCU93BFbgeLcIPTBcf9X3sgQtE otJnuE1o8e4c7fpEm6VyzK0GE9N6MxUt6Fih5bmSA8s0PAEja7BpJWwpjseewrtuLs5fg3BIP2Jn LMOr3dyjSQg7GGfiPiHfJ4l2BF7KBt+v98JP1qbnmMu0+1B6vyi9f9FNYTOMEhptztHGpbUn0reJ 93PpWSecy99M1BBP4lsRmnbP7VsQYa1d0O5tvJue24rs6Tu818H44dheZFj3igJjH1FQzMB5+A2X 5+aswBScncY3CzNfLpxv/2xgX5j0Tmmvken92RyjpSZ9TmJ+CYYl2qQ0Zi5+9c9jkuGs1HdfjpbF 6x37SsMF4ZhgUHrOrzD2bNwphB2BqSX9W+N2PKK8d8/WHZSj/SAc1/qZwBfg0i4yXw36ibJtLaEx wltTPrEfJDS5WBQP08qMmScsoq3Cni0l+8jtXZ8JvER1ZVk1WCo0sQYWCXOkfPpYl9oaomIqh3kq C0vk5cT5zrBmev7emZduEPdIPWkbJSE2zTFM+QxugaigGvGYKBxKUSh5P0545snaZ4bzcmM2S8/v OpAVtc2lz0hrDhDmvEzxDJY6rRuEFpcq3mJkTuvv5CGhOdG/F2F2Sno/JfVvkNZajNX6Mg4fkp4L 8ZbIjEbmaHOEByZuLCbia9wotDYfH+CzknUn4HmcioHiYm+5uAeDA4Xmp+n4KKC2Gv5B0ZGMTrRm tc0FbkzrPp6jPZhoY7uyQK3Lw+Nz685JtIu7KVwpdhHHZAX2SrT1hPNq1cXSs1Fci/a0tQjhpimm s8MSI8tEwd4TDMDHaY9JOfr4RJtSzWINNWhrK4aTMbm1b0kMLdR9oQeKtDXLvLIQtJXQbhv2r2bB /jVqp6XNf07MEInJw4nZZbhMfKCuYqjw7AVxRLLw009cKhRERtZlNAqPV6uWXbx9qBiS+gln05r6 PhG5dKV7rQYRn5/LzZkq4n2GW9NeC4QFVCVwbxUTrwpTz3Ck+M0o6/9DhKFHxQX9A2nOIsUPt0h4 37ynH5f6W3BwNcL2tsDZmdsmt1+9uH18Xph4uTmtojwcq70VNOGeJOxynFCtsH0hcOawzvXPS/M1 hbM5SZR8o0VSsWEZPocoZlxZldUt9IXABaGVmSJbauoib3Uii3pK8SzP1v5SvuykjtCAL7vIQE/Q X7HK+RUv4HURWxeIWN4otDtYaP4YkUzUCa3eLJxfi38BGsXPKG8paqvUAtrK0OfjWu09dIdYFf/y sIW4Ut1PFA35vzz8JAqM6cJjvy8E/x+V8BerHsw1SqmPxAAAAABJRU5ErkJggg== "
+       id="image1275"
+       x="281.70871"
+       y="121.97366" />
   </g>
 </svg>
