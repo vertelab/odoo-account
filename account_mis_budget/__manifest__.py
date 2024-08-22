@@ -24,14 +24,11 @@
 {
     'name': 'Account: MIS Budget',
     'version': '0.1',
-    'summary': """
-        Lets us generate budget based on the previous year.
-        Also lets us add two budgets together into a new one.
-        
-        """,
+    'summary': 'Lets us generate budget based on the previous year.',
     'category': 'Accounting', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
     'description': """
-        Long description of module's purpose
+        Lets us generate budget based on the previous year.
+        Also lets us add two budgets together into a new one.
     """,
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_mis_budget',
