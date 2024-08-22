@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account: Odoo - Fortnox Integration',
+    'name': 'Account: Fortnox Integration',
     'version': '0.1',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'A combination of several modules to bring an invoice integration with fortnox',
