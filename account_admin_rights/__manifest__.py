@@ -21,8 +21,8 @@
 
 {
     'name': 'Account: Admin Rights',
-    'version': '16.0.0.1.0',
-    # Version ledger: 16.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'version': '1.0',
+    # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Account Admin Rights',
     'category': 'Accounting',
     'description': """
