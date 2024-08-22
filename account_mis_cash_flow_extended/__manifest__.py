@@ -24,9 +24,7 @@
 {
     'name': 'Account: MIS cash flow extend',
     'version': '0.1',
-    'summary': """
-
-    """,
+    'summary': '',
     'category': 'Accounting', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
     'description': """
     
