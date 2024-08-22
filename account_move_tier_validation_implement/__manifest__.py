@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,21 +21,21 @@
 
 {
     'name': 'Account: Move Validation Implement',
-    'version': '16.0.0.0.0',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'version': '0.1',
+    # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds a field on a account move to select validator.',
+    'description': """
+    Adds a field on a account move to select validator
+    """,
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_move_tier_validation_implement',
     'images': ['/static/description/banner.png'], # 560x280 px
     'license': 'AGPL-3',
-    'contributor': '',
+    'contributor': 'Vertel AB',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': """
-    Adds a field on a account move to select validator
-    """,
     # Any module necessary for this one to work correctly - base_tier_validation_report
     'depends': ['account_move_tier_validation', 'odoo_invoice_analysis', 'base', 'base_tier_validation'],
     'data': [
