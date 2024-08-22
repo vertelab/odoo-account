@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'MIS Budget Extended (To be Deprecated)',
+    'name': 'Account: MIS Budget Extended (To be Deprecated)',
     'version': '0.2',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'MIS Budget Extended.',
