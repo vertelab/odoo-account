@@ -21,8 +21,8 @@
 
 {
     'name': 'Account: Period Vertel',
-    'version': '16.0.0.0.2',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'version': '0.2',
+    # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Divide the year in 12 months or 4 quarters.',
     'category': 'Accounting',
     #'sequence': '1'
