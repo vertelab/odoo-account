@@ -20,9 +20,9 @@
 ##############################################################################
 
 {
-    'name': 'MIS Builder for Analytic Account (To be Deprecated)',
-    'version': '16.0.0.0.2',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'name': 'Account: MIS Builder for Analytic Account (To be Deprecated)',
+    'version': '.0.2',
+    # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'MIS Builder for Analytic Account.',
     'category': 'Accounting',
     #'sequence': '1'
