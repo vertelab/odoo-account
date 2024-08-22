@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,9 +20,9 @@
 ##############################################################################
 
 {
-    'name': 'MIS Builder for Analytic Account',
-    'version': '16.0.0.0.2',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'name': 'Account: MIS Builder for Analytic Account',
+    'version': '0.2',
+    # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'MIS Builder for Analytic Account.',
     'category': 'Accounting',
     #'sequence': '1'
