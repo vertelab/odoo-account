@@ -75,12 +75,12 @@ class StockLot(models.Model):
     )
     
     def _prepare_asset_vals(self, stock_picking, move):
-        purchase_line = False
+        purchase_line_id = move.purchase_line_id
         depreciation_base = 0
         supplier_id = False
-        if self.purchase_order_ids:
+        if self.purchase_order_ids and not purchase_line_id:
            purchase_line_id = self.env['purchase.order.line'].search([('order_id','in',self.purchase_order_ids.ids),('product_id','=',self.product_id.id)], limit=1)
-        if purchase_line:
+        if purchase_line_id:
            depreciation_base = purchase_line_id.price_unit
            supplier_id = purchase_line_id.order_id.partner_id.id
         elif move.sale_line_id:
