@@ -44,7 +44,7 @@ class ProductTemplate(models.Model):
 # To return an amount and qty, assign: \n
 #        amount =  <something>
 #        qty = <something>\n\n\n\n""",
-                                  help="Write Python code that holds advanced calcultations for amount and quatity")
+                                  help="Write Python code that holds advanced calculations for amount and quantity")
 
 
 class ProductProduct(models.Model):
