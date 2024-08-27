@@ -36,7 +36,7 @@
     'description': """
 Create an asset connected to a Lot number.
     """,
-    'depends': ['account','account_asset_management','stock'],
+    'depends': ['account','account_asset_management','stock','sale','purchase'],
     'data': [
         #'security/ir.model.access.csv',
         #'security/security.xml',
