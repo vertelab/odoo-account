@@ -97,7 +97,7 @@ class StockLot(models.Model):
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
             "purchase_value": depreciation_base,
             "partner_id": stock_picking.sale_id.partner_id.id,
-            "date_start": stock_picking.date_done,
+            "date_start": stock_picking.date_done if stock_picking.date_done else fields.Datetime.now(),
             "lot_id": self.id,
             "product_id": self.product_id.id,
             "supplier_id":supplier_id,
