@@ -85,7 +85,9 @@ class StockLot(models.Model):
            supplier_id = purchase_line_id.order_id.partner_id.id
         elif move.sale_line_id:
            depreciation_base = move.sale_line_id.price_unit
-           purchase_line_id = self.env['purchase.order.line'].search([('order_id','in',stock_picking.sale_id._get_purchase_orders().ids),('product_id','=',self.product_id.id)], limit=1)
+           purchase_line_id = self.env['purchase.order.line'].search([('order_id','in',move.sale_line_id.order_id._get_purchase_orders().ids),('product_id','=',self.product_id.id)], limit=1)
+           if not purchase_line_id:
+               purchase_line_id = self.env['purchase.order.line'].search([('order_id','in',stock_picking.sale_id._get_purchase_orders().ids),('product_id','=',self.product_id.id)], limit=1)
            supplier_id = purchase_line_id.order_id.partner_id.id
 
 
@@ -97,7 +99,7 @@ class StockLot(models.Model):
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
             "purchase_value": depreciation_base,
             "partner_id": stock_picking.sale_id.partner_id.id,
-            "date_start": stock_picking.date_done,
+            "date_start": stock_picking.date_done if stock_picking.date_done else fields.Datetime.now(),
             "lot_id": self.id,
             "product_id": self.product_id.id,
             "supplier_id":supplier_id,
