@@ -1,5 +1,5 @@
 odoo-account / account_admin_rights
-2023-06-20
+2024-08-28
 
 
 Be aware of these!
@@ -7,8 +7,11 @@ Be aware of these!
 [project]/[module]/static/description/icon.png
 
 
-Icon: "coins"
-Icons may be found at: https://fontawesome.com/v5/cheatsheet
+Icon: "money"
+https://fontawesome.com/v4/icon/money
+icon_money.png
+icon_money_50.png
+icon_money_50_neg.png
 
 
 Odoo banner: 560 x 280

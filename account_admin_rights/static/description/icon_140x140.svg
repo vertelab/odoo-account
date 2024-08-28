@@ -2,14 +2,6 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="140px"
    height="140px"
    viewBox="0 0 140 140"
@@ -19,7 +11,15 @@
    inkscape:export-filename="/usr/share/odoo-account/account_admin_rights/static/description/icon.png"
    inkscape:export-xdpi="92"
    inkscape:export-ydpi="92"
-   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs3475">
     <linearGradient
@@ -47,17 +47,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="9.1677776"
-     inkscape:cy="-31.191402"
+     inkscape:zoom="1"
+     inkscape:cx="9.5"
+     inkscape:cy="-30.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1128"
      inkscape:window-height="962"
-     inkscape:window-x="414"
-     inkscape:window-y="112"
-     inkscape:window-maximized="0" />
+     inkscape:window-x="390"
+     inkscape:window-y="99"
+     inkscape:window-maximized="0"
+     inkscape:pagecheckerboard="0" />
   <metadata
      id="metadata3478">
     <rdf:RDF>
@@ -66,7 +67,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -85,42 +85,56 @@
        style="stroke-width:4.60939169" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.88224792px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.99999988px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="70.519753"
-       y="74.392151"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.5949px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="69.667946"
+       y="81.734192"
        id="text2035"
        inkscape:export-xdpi="92"
        inkscape:export-ydpi="92"><tspan
          sodipodi:role="line"
-         x="70.519753"
-         y="74.392151"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.34621811px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.99999988px"
+         x="69.667946"
+         y="81.734192"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.1688px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
          id="tspan832">Account</tspan><tspan
          sodipodi:role="line"
-         x="70.519753"
-         y="90.597565"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.34621811px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.99999988px"
-         id="tspan820">Analytic</tspan><tspan
+         x="69.667946"
+         y="101.97921"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.1688px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
+         id="tspan820">Admin</tspan><tspan
          sodipodi:role="line"
-         x="70.519753"
-         y="106.80298"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.34621811px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.99999988px"
-         id="tspan835">Tag Respons-</tspan><tspan
-         sodipodi:role="line"
-         x="70.519753"
-         y="123.00839"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.34621811px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.99999988px"
-         id="tspan833">ability</tspan></text>
-    <text
-       id="text845-2"
-       y="46.425255"
-       x="10.932983"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:37.13401794px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:0.99460918;stroke:none;stroke-width:0.99999988;"
-       xml:space="preserve"><tspan
-         style="fill:#ffffff;fill-opacity:0.99460918;stroke-width:0.99999988;"
-         y="46.425255"
-         x="10.932983"
-         id="tspan843-9"
-         sodipodi:role="line"></tspan></text>
+         x="69.667946"
+         y="122.22423"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.1688px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
+         id="tspan833">Rights</tspan></text>
+    <image
+       width="43.84613"
+       height="28.938446"
+       preserveAspectRatio="none"
+       style="stroke-width:1.14035;image-rendering:optimizeQuality"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAABHNCSVQICAgIfAhkiAAABGJJREFU
+WIXVWEFL81gUfXmpjUkYixtr3JiiC7UuCioa3PkHLBQKghRKUYvgWlBUipvaQV24ENwqCA5WRKzF
+hQtnoVJEESMKLTr0w4WDSAfSZpI2+RaaoVP7NS82Ip5Vmrx77jnvvSb3Pgy8gaZp2mKxWMA3Qj6f
+zwuCIPx3IxwOh0VRFNVvBlEU/41EIhEAAMAIgiAymUyGIAjiy6a2CkiSJNlsNhuEEMLvagIAAKxW
+qxVCCJH/E8vLy8vz8/PznymqFKFQKDQxMTGBNJgkSRJlPw4PDw9/su53GBoaGkLRRlEUhZEkSWaz
+2WwlQkEQhObm5ubn5+dnVBEMwzADAwMDLpfLhWEYdnl5eXl0dHT0+Pj4iMpRX19f//Dw8FddXd1v
+lcbRNE0jrcjMzMwMavLa2traxcXFRUEQhFIeQRCyS0tLSyRJkqh8U1NTUygromtkc3NzE/X7QlEU
+dXJycqKX+Pj4+E+apmkUTovFYtnY2Nj4sJG7u7u7QCAQQJ05HMfxvb29vWKOw8PDw9/fcHBwEC9+
+tr+/H8NxHEfl9/v9/tvb2ztkI8FgMOhwOByoCTR4vV5vMc/6+vp6sdBAIBAoFeD1er1G87Asy46M
+jIzoGnE6nU6j5DiO49fX19caRygUCpXOdjkjPM/zHymL2tra2kqNQKMk5dDb29urTcDk5OTk3Nzc
+XKFQKOjFdXR0dHAcx5mhwRQjg4ODbu3a6XQ6IYQQwzCsqampSS/W7Xa79cagwJRql+O4Pu3a5/P5
+RFEUZVmWr66urtbW1tYqxfb19fVVeo4KU4y0tra2Fv8eHR0dBQCAsbGxMb3YlpaWFgzDMFVV1Wo0
+VL21IISQYRjmo/F2u91uRh9UtRFVVVUjpUspXl5eXlBeDHowxUgymUx+ND6VSqUURVGq1WHKW+vi
+4uLiK2KLYcqffXd3dzcYDAYBAGB1dXVVq3ATiURCG3N+fn6uFZ8MwzDj4+PjWqwZGkz5stfU1NSk
+0+kfqqqqXV1dXXrjXS6XS1VVNZ1O/7BarVaj+cp92d+tCMuyLM/zvBFiWZblhYWF8MrKygrLsuz/
+TjbKQKvlIpHIgiRJkjEbrxrf3SxX/QqCIESj0Wh/f38/KjlBEMTp6elZKdevkEgkEkbOCjiO46LR
+aLRcn6Pbj0iSJM/Ozs6iJmMYhkkmk0k9E6lUKoVSvmiYnp6elmVZ/hUfUmNVKBQUv9/vR03a0NDQ
+EIvFYoVCQSnHFY/H442NjY2ofD6fz6coyjuuUiNIPfvT09PfDoeD1RtXjJ6enh6Px+Npb29vxzAM
+u7m5udnZ2dk5Ozs7Q+UgSZK8v7+/t9vt9krjkHt2VVVVj8fjQRVgFtxutxtFm6F+pLu7u/szRVeb
+E2lrAfB6JJTJZP6pTpox2Gy2OpRDCpqmaQsAACiKokAIK64O/QazRJoFbXvBXC6X29ra+uOrBX0U
+29vb27lcLocB8Hp40NnZ2UlRFPXVwowgm81meZ7n8/l8/ifVxzYscjsj1QAAAABJRU5ErkJggg==
+"
+       id="image2838"
+       x="7"
+       y="9.5" />
   </g>
 </svg>
