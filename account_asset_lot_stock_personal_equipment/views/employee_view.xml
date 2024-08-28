@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                    <button class="oe_stat_button" icon="fa-bars" name="open_entries" type="object" position="after">
                       <field name="personal_equipment_id" invisible="True"/>
-                      <button name="action_view_equipment" string="Equipment" type="object" class="oe_stat_button" icon="fa-cubes" attrs="{'invisible': [('personal_equipment_id', '=', False)]}"/>
+                      <button name="action_view_equipment" string="Equipment" type="object" class="oe_stat_button" icon="fa-cubes" invisible="personal_equipment_id == False" />
                   </button>
             </field>
         </record>
@@ -23,7 +23,7 @@
                    <field name="name" position="before">
                        <field name="asset_id" invisible="True"/>
                         <div class="oe_button_box" name="button_box">
-                            <button name="action_view_assets" string="It Asset" type="object" class="oe_stat_button" icon="fa-cubes" attrs="{'invisible': [('asset_id', '=', False)]}"/>
+                            <button name="action_view_assets" string="It Asset" type="object" class="oe_stat_button" icon="fa-cubes" invisible="asset_id == False"/>
                         </div>
                   </field>
             </field>
