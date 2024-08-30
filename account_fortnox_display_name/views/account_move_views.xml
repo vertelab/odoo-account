@@ -1,0 +1,14 @@
+<odoo>
+	<data>
+		<record id="account_fortnox_display_name" model="ir.ui.view">
+			<field name="name">account.fortnox.display.name</field>
+			<field name="model">account.move</field>
+			<field name="inherit_id" ref="account.view_invoice_tree" />
+			<field name="arch" type="xml">    
+				<field name="name" position="replace" >
+					<field name="display_name_fortnox" decoration-bf="1" decoration-danger="made_sequence_hole" string="Number"/>
+				</field>
+			</field>
+		</record>
+	</data>
+</odoo>
