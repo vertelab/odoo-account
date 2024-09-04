@@ -206,7 +206,7 @@ class AccountInvoice(models.Model):
     def fortnox_invoice_vals(self, invoice, invoice_lines):
         invoice_vals = {
             "Comments": "",
-            "Currency": "SEK",
+            "Currency": line.currency_id.name,
             "CustomerName": invoice.partner_id.commercial_partner_id.name,
             "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
             "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
