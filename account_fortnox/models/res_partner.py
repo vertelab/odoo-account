@@ -79,8 +79,8 @@ class Partner(models.Model):
                         "Customer": {
                             "Address1": partner.street,
                             "City": partner.city,
-                            "CountryCode": "SE",
-                            "Currency": "SEK",
+                            "CountryCode": partner.country_id.code,
+                            #"Currency": "SEK",
                             "Email": partner.email or None,
                             "Name": partner.commercial_partner_id.name,
                             "Phone1": partner.commercial_partner_id.phone,
@@ -109,8 +109,8 @@ class Partner(models.Model):
                         "Customer": {
                             "Address1": partner.street,
                             "City": partner.city,
-                            "CountryCode": "SE",
-                            "Currency": "SEK",
+                            "CountryCode": partner.country_id.code,
+                            #"Currency": "SEK",
                             "Email": partner.email or None,
                             "Name": partner.commercial_partner_id.name,
                             "Phone1": partner.commercial_partner_id.phone,
