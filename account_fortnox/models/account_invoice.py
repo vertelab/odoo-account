@@ -188,8 +188,9 @@ class AccountInvoice(models.Model):
 
     def fortnox_create(self, invoice):
         if self.tax_included_in_price == "mixed":
-           raise UserError("""Fortnox does not support having a mix of invoice lines where the tax is or is not included in the price.
-                              Please redo the lines to so that all are tax included or all tax excluded from the price before syncing to Fortnox.
+           raise UserError("""
+Fortnox does not support having a mix of invoice lines where the tax is or is not included in the price.
+Please redo the lines to so that all are tax included or all tax excluded from the price before syncing to Fortnox.
                           """)
         if not invoice.invoice_date_due:
             raise UserError(_("ERROR: missing date_due on invoice."))
@@ -213,7 +214,7 @@ class AccountInvoice(models.Model):
                     "DeliveredQuantity": line.quantity,
                     "Description": line_name,
                     "ArticleNumber": line.product_id.default_code if line.product_id else None,
-                    "Price": line.price_unit if invoice.tax_included_in_price == "tax_excluded_from_price" else line.price_subtotal,
+                    "Price": line.price_unit,
                     "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else None,
                 })
 
@@ -240,6 +241,7 @@ class AccountInvoice(models.Model):
     def fortnox_invoice_vals(self, invoice, invoice_lines):
         invoice_vals = {
             "Comments": "",
+            "VATIncluded": True if invoice.tax_included_in_price == "tax_included_price" else False,
             "Currency": invoice.currency_id.name,
             "CustomerName": invoice.partner_id.commercial_partner_id.name,
             "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
