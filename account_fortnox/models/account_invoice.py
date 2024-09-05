@@ -26,6 +26,30 @@ class AccountInvoice(models.Model):
     fortnox_status = fields.Char(string="Fortnox Status", readonly=True, copy=False)
     is_sent_to_fortnox = fields.Boolean(string="Sent To Fortnox", readonly=True, copy=False)
 
+    tax_included_in_price = fields.Selection([
+        ('tax_included_price', 'Tax Included Price'),
+        ('tax_excluded_from_price', 'Tax Excluded from Price'),
+        ('mixed', 'Mixed')
+    ], string='Tax Inclusion in price', compute='_compute_tax_included_in_price', store=False)
+
+    def _compute_tax_included_in_price(self):
+        for move in self:
+            tax_included = set()
+            for line in move.line_ids:
+                for tax in line.tax_ids:
+                    tax_included.add(tax.price_include)
+            move.tax_included_in_price = False
+            tax_included = list(tax_included)
+            if len(tax_included) == 0:
+               move.tax_included_in_price = "tax_excluded_from_price"
+            elif len(tax_included) == 1:
+               if tax_included[0]:
+                  move.tax_included_in_price = "tax_included_price" 
+               else:
+                  move.tax_included_in_price = "tax_excluded_from_price"
+            elif len(tax_included) == 2:
+                move.tax_included_in_price = "mixed"
+
     def remove_zero_cost_lines(self):
         """
         SFM does not want products with 0 cost to show on the invoice.
@@ -157,6 +181,10 @@ class AccountInvoice(models.Model):
         invoice.is_move_sent = True
 
     def fortnox_create(self, invoice):
+        if self.tax_included_in_price == "mixed":
+           raise UserError("""Fortnox does not support having a mix of invoice lines where the tax is or is not included in the price.
+                              Please redo the lines to so that all are tax included or all tax excluded from the price before syncing to Fortnox.
+                          """)
         if not invoice.invoice_date_due:
             raise UserError(_("ERROR: missing date_due on invoice."))
         if not invoice.partner_id.commercial_partner_id.fortnox_ref:
@@ -179,7 +207,7 @@ class AccountInvoice(models.Model):
                     "DeliveredQuantity": line.quantity,
                     "Description": line_name,
                     "ArticleNumber": line.product_id.default_code if line.product_id else None,
-                    "Price": line.price_unit,
+                    "Price": line.price_unit if invoice.tax_included_in_price == "tax_excluded_from_price" else line.price_subtotal,
                     "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else None,
                 })
 
