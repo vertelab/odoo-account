@@ -44,6 +44,7 @@
                         <field name="is_sent_to_fortnox" invisible="move_type != 'out_invoice'"/>
                         <field name="fortnox_ref"/>
                         <field name="fortnox_response" groups="base.group_no_one"/>
+                        <field name="tax_included_in_price" groups="base.group_no_one"/>
                         <field name="fortnox_status" invisible="1"/>
                     </group>
 				</page>
