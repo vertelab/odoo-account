@@ -1,1 +1,4 @@
 zeep
+langchain
+langchain_community
+pathlib
