@@ -1,2 +1,4 @@
 zeep
-Unidecode
+langchain
+langchain_community
+pathlib
