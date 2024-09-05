@@ -59,9 +59,12 @@
             <notebook position="inside">
 				<page id="fortnox_tab" name="fortnox_tab" string="Fortnox Info" attrs="{'invisible': ['|',('move_type', '!=', 'out_invoice'),('is_sent_to_fortnox','!=', True)]}">
 					<group>
-					  <field name="fortnox_response"/>
-                      <field name="fortnox_status"/>
-                     </group>
+			                        <field name="is_sent_to_fortnox" invisible="move_type != 'out_invoice'"/>
+			                        <field name="fortnox_ref"/>
+			                        <field name="fortnox_response" groups="base.group_no_one"/>
+			                        <field name="tax_included_in_price" groups="base.group_no_one"/>
+			                        <field name="fortnox_status" invisible="1"/>
+                                      </group>
 				</page>
 			</notebook>
         </field>
