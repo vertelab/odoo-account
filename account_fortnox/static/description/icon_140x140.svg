@@ -8,7 +8,7 @@
    version="1.1"
    id="SVGRoot"
    sodipodi:docname="icon_140x140.svg"
-   inkscape:export-filename="/usr/share/odoo-account/account_fortnox_merged/static/description/icon.png"
+   inkscape:export-filename="/home/jakob/Dokument/Odoo17/odoo-account/account_fortnox/static/description/icon.png"
    inkscape:export-xdpi="92"
    inkscape:export-ydpi="92"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
@@ -47,16 +47,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="62.578948"
-     inkscape:cy="44.194173"
+     inkscape:zoom="1"
+     inkscape:cx="9.5"
+     inkscape:cy="-30.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1128"
      inkscape:window-height="962"
-     inkscape:window-x="2346"
-     inkscape:window-y="101"
+     inkscape:window-x="390"
+     inkscape:window-y="71"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0" />
   <metadata
@@ -85,37 +85,30 @@
        style="stroke-width:4.60939169" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.3462px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="70.904388"
-       y="79.504829"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.4788px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="68.410629"
+       y="86.519188"
        id="text2035"
        inkscape:export-xdpi="92"
        inkscape:export-ydpi="92"><tspan
          sodipodi:role="line"
-         x="70.904388"
-         y="79.504829"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.2823px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
+         x="68.410629"
+         y="86.519188"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:31.0736px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
          id="tspan832">Account</tspan><tspan
          sodipodi:role="line"
-         x="70.904388"
-         y="102.35784"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.2823px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
-         id="tspan833">Fortnox</tspan><tspan
-         sodipodi:role="line"
-         x="70.904388"
-         y="125.21085"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.2823px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
-         id="tspan853">Merged</tspan></text>
-    <text
-       id="text845-2"
-       y="46.425255"
-       x="10.932983"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:37.134px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:0.994609;stroke:none;stroke-width:1"
-       xml:space="preserve"><tspan
-         style="fill:#ffffff;fill-opacity:0.994609;stroke-width:1"
-         y="46.425255"
-         x="10.932983"
-         id="tspan843-9"
-         sodipodi:role="line"></tspan></text>
+         x="68.410629"
+         y="112.54797"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:31.0736px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
+         id="tspan833">Fortnox</tspan></text>
+    <image
+       width="43.84613"
+       height="28.938446"
+       preserveAspectRatio="none"
+       style="stroke-width:1.14035;image-rendering:optimizeQuality"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAABHNCSVQICAgIfAhkiAAABGJJREFU WIXVWEFL81gUfXmpjUkYixtr3JiiC7UuCioa3PkHLBQKghRKUYvgWlBUipvaQV24ENwqCA5WRKzF hQtnoVJEESMKLTr0w4WDSAfSZpI2+RaaoVP7NS82Ip5Vmrx77jnvvSb3Pgy8gaZp2mKxWMA3Qj6f zwuCIPx3IxwOh0VRFNVvBlEU/41EIhEAAMAIgiAymUyGIAjiy6a2CkiSJNlsNhuEEMLvagIAAKxW qxVCCJH/E8vLy8vz8/PznymqFKFQKDQxMTGBNJgkSRJlPw4PDw9/su53GBoaGkLRRlEUhZEkSWaz 2WwlQkEQhObm5ubn5+dnVBEMwzADAwMDLpfLhWEYdnl5eXl0dHT0+Pj4iMpRX19f//Dw8FddXd1v lcbRNE0jrcjMzMwMavLa2traxcXFRUEQhFIeQRCyS0tLSyRJkqh8U1NTUygromtkc3NzE/X7QlEU dXJycqKX+Pj4+E+apmkUTovFYtnY2Nj4sJG7u7u7QCAQQJ05HMfxvb29vWKOw8PDw9/fcHBwEC9+ tr+/H8NxHEfl9/v9/tvb2ztkI8FgMOhwOByoCTR4vV5vMc/6+vp6sdBAIBAoFeD1er1G87Asy46M jIzoGnE6nU6j5DiO49fX19caRygUCpXOdjkjPM/zHymL2tra2kqNQKMk5dDb29urTcDk5OTk3Nzc XKFQKOjFdXR0dHAcx5mhwRQjg4ODbu3a6XQ6IYQQwzCsqampSS/W7Xa79cagwJRql+O4Pu3a5/P5 RFEUZVmWr66urtbW1tYqxfb19fVVeo4KU4y0tra2Fv8eHR0dBQCAsbGxMb3YlpaWFgzDMFVV1Wo0 VL21IISQYRjmo/F2u91uRh9UtRFVVVUjpUspXl5eXlBeDHowxUgymUx+ND6VSqUURVGq1WHKW+vi 4uLiK2KLYcqffXd3dzcYDAYBAGB1dXVVq3ATiURCG3N+fn6uFZ8MwzDj4+PjWqwZGkz5stfU1NSk 0+kfqqqqXV1dXXrjXS6XS1VVNZ1O/7BarVaj+cp92d+tCMuyLM/zvBFiWZblhYWF8MrKygrLsuz/ TjbKQKvlIpHIgiRJkjEbrxrf3SxX/QqCIESj0Wh/f38/KjlBEMTp6elZKdevkEgkEkbOCjiO46LR aLRcn6Pbj0iSJM/Ozs6iJmMYhkkmk0k9E6lUKoVSvmiYnp6elmVZ/hUfUmNVKBQUv9/vR03a0NDQ EIvFYoVCQSnHFY/H442NjY2ofD6fz6coyjuuUiNIPfvT09PfDoeD1RtXjJ6enh6Px+Npb29vxzAM u7m5udnZ2dk5Ozs7Q+UgSZK8v7+/t9vt9krjkHt2VVVVj8fjQRVgFtxutxtFm6F+pLu7u/szRVeb E2lrAfB6JJTJZP6pTpox2Gy2OpRDCpqmaQsAACiKokAIK64O/QazRJoFbXvBXC6X29ra+uOrBX0U 29vb27lcLocB8Hp40NnZ2UlRFPXVwowgm81meZ7n8/l8/ifVxzYscjsj1QAAAABJRU5ErkJggg== "
+       id="image2838"
+       x="7"
+       y="9.5" />
   </g>
 </svg>

@@ -2,29 +2,29 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="560px"
    height="280px"
    viewBox="0 0 560 280"
    version="1.1"
    id="SVGRoot"
-   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="banner_560x280.svg"
-   inkscape:export-filename="/run/user/1000/gvfs/sftp:host=marina/usr/share/odoo-account/account_period/static/description/banner.png"
+   inkscape:export-filename="/home/jakob/Dokument/Odoo17/odoo-account/account_asset_lot_stock/static/description/banner.png"
    inkscape:export-xdpi="92.61972"
-   inkscape:export-ydpi="92.61972">
+   inkscape:export-ydpi="92.61972"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs1502">
     <linearGradient
        id="linearGradient4211"
-       osb:paint="solid">
+       inkscape:swatch="solid">
       <stop
          style="stop-color:#930a57;stop-opacity:0.64959568;"
          offset="0"
@@ -56,16 +56,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="187.12419"
-     inkscape:cy="100.78164"
+     inkscape:cx="164"
+     inkscape:cy="105"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1625"
      inkscape:window-height="773"
      inkscape:window-x="295"
-     inkscape:window-y="119"
-     inkscape:window-maximized="0">
+     inkscape:window-y="104"
+     inkscape:window-maximized="0"
+     inkscape:pagecheckerboard="0">
     <inkscape:grid
        type="xygrid"
        id="grid2236" />
@@ -78,7 +79,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -136,7 +136,7 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="319.77063"
        y="153.03708"
        id="text2039"><tspan
@@ -144,78 +144,43 @@
          id="tspan2037"
          x="319.77063"
          y="153.03708"
-         style="stroke-width:0.99999994px">Account</tspan><tspan
+         style="stroke-width:1px">odoo-account</tspan><tspan
          sodipodi:role="line"
          x="319.77063"
          y="171.78708"
-         style="stroke-width:0.99999994px"
          id="tspan2041" /></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:31.13401604px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:0;stroke:none;stroke-width:0.99999994"
-       x="290.98041"
-       y="-104.52473"
-       id="text827"><tspan
-         sodipodi:role="line"
-         id="tspan825"
-         x="290.98041"
-         y="-104.52473"
-         style="fill:#000000;fill-opacity:1;stroke-width:0.99999994"></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:36.44100952px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:0;stroke:none;stroke-width:0.99999994"
-       x="351.74457"
-       y="-100.83463"
-       id="text823"><tspan
-         sodipodi:role="line"
-         id="tspan821"
-         x="351.74457"
-         y="-100.83463"
-         style="fill:#000000;fill-opacity:1;stroke-width:0.99999994"></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="266.89337"
-       y="95.199997"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="522.73328"
+       y="77.199997"
        id="text2035"
        inkscape:export-xdpi="92"
        inkscape:export-ydpi="92"><tspan
          sodipodi:role="line"
-         x="266.89337"
-         y="95.199997"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.66666603px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.99999994px"
-         id="tspan846">Account Period</tspan></text>
+         x="522.73328"
+         y="77.199997"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:1px"
+         id="tspan847">Account Asset Lot Stock</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
-       style="fill:black;fill-opacity:1;stroke:none;font-family:'Futura PT';font-style:normal;font-weight:500;font-size:53.33333333px;line-height:1.25;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:'Futura PT, Medium';font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal"><flowRegion
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:53.3333px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
          id="flowRegion846"><rect
            id="rect848"
            width="100"
            height="83"
            x="206"
            y="-32" /></flowRegion><flowPara
-         id="flowPara850" /></flowRoot>    <text
-       id="text845"
-       y="93.475273"
-       x="228.98041"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:31.13401604px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:0;stroke:none;stroke-width:0.99999994"
-       xml:space="preserve"><tspan
-         style="fill:#000000;fill-opacity:1;stroke-width:0.99999994"
-         y="93.475273"
-         x="228.98041"
-         id="tspan843"
-         sodipodi:role="line"></tspan></text>
-    <text
-       id="text845-2"
-       y="152.80026"
-       x="295.93298"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:18.13401604px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:0;stroke:none;stroke-width:0.99999988"
-       xml:space="preserve"><tspan
-         style="fill:#000000;fill-opacity:1;stroke-width:0.99999988"
-         y="152.80026"
-         x="295.93298"
-         id="tspan843-9"
-         sodipodi:role="line"></tspan></text>
+         id="flowPara850" /></flowRoot>
+    <image
+       width="35.604408"
+       height="23.498911"
+       preserveAspectRatio="none"
+       style="stroke-width:1.40431;image-rendering:optimizeQuality"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAABHNCSVQICAgIfAhkiAAABNJJREFU WIXVWF+oFFUY/76ZOzM7Z3bOetmNe3cT2Uu9lD340D/LpyBECFJ8CsL+EmYIFVQPklYiaRgRPRRC +FJQiYRPdpP+oESEWSLYg2R7EXZXybm7O+uemTmzM18PurLcu9eZ3btl/p7mnPP7vvn9mPm+c2YQ rkFRFAsAJuDWQjeO4w4AAAIA5PP5vZzzlxHRuLm6hgMRSdd1P3Qc53VERKNcLrduNRM9EJGcm5vL KQCg3KomAAAQUQcAJXVNtNvtDxzH2f0valqEQqHwdjab3Z6Gm9qI7/u/xXHcGF3W8BBC/DxWI0TU EUIcHUaEpmlFwzAeMU1zDQCg7/unfd//PgzDWtocQohv4jhuK4piJ3FTGXFdd18URU4aLiJm8vn8 Htu2tyIi683btg1E5LXb7U8cx9lBRF5SrjiOG67r7l2xYsWeJK6SRPB9/4v5+fl3ky0AICJbuXLl D5zzV/tN9K2bnPNXSqXSt4hopcnZaDTe833/8yTekkbCMDznOM7ztVrtCSLqJiVCRLVYLH6padqD vTnP8461Wq39rVZrv+d5s715wzDWFYvFQ4ioJuUlom6tVnvy8uXLz4ZheG4p3qJXy3GcF4UQs2EY VpJu0g/LsjZnMpnHemMhxGcXL158GgAiAADbtp8zTXN9bz2TyWywLGvzlStXvkqT33Xdg67rHtQ0 rcwYezSfzx/oX1/0RDzPOzGsCURUJycnd/bGzWbznUuXLl03sRQmJyd3IeJQx6IwDOeEECcWzifW SBoYhvGApmmrAQAajcYb8/Pzu4johiYAADRNuzuTyawdh4axGLEsa2PvOpPJrEZEBQBQVdVSUixj bGMSJw3Gcto1DON6gZumuWVqasrvdruhlPKM67oH0sYuB2N5Irqu39k/Zoy9wDl/KU2sYRh3wLVT +HIwDiOKqqrFkYMVZWrYgh+YZ7kJAIDiOE616w8MJmpAQndLg7EYkVL+OWpwEATniSheroix1IiU 8vebEduPsXStTqdzxLbtrQAArut+HEVRDQAgCIKTPU4QBKcajcabAACqqhY559sAAIQQR8ahYSxG PM/7Loqiqqqqt7fb7U+DIDi1kCOlPC2lPA0AoOv6Gs75tiiKqkKIY+PQsMiIYRhlKeXZYZIQUdhs Nvfm8/mPJiYmyr0/G0tB07QZAIBms7mPiORwkq9qXDiHiGjOzMyIBcKEEGLWdd33Pc/7KU1yRVGM Uql0XNf1+9PwpZS/1mq1dXEcB2n4pmmu5Zy/xhhbv/AToVKpWAOLHRGZZVmbpqenfywUCjsHcRYi juOgXq9v7Ha755O43W73r3q9/nhaE4VCYcf09PRxy7I2DfrOAUjoWog4wTl/K5fLPZPmhlEU1avV 6kO+7x8FABpAId/3Z6vV6sO9hpCEXC63hXO+O2nTHPhqDRD494ULF8pEdENePwzDuC+bzW7Wdf0u AEAp5R+dTudr3/d/SZsDEc1Vq1ZVVFWduhGvUqlYqbqWqqq3McY2dDqdw2lFBEFwsr/9jgLG2Pok Ez2k3hAZY/eOLmk0mKaZ+p6p95FsNrudMfbUaJJGg6IoPC23ZySG5MK3VFVN9efjPwYBAClE5Akh Dt1sNaNCCHGYiDwEuPrzQNf1e5bq0f9XEJGQUp4lou4/jW0Ea46B2HIAAAAASUVORK5CYII= "
+       id="image7153"
+       x="280.15286"
+       y="131.30089" />
   </g>
 </svg>

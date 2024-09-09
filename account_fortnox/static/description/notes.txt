@@ -1,5 +1,5 @@
-odoo-account / account_fortnox_merged
-2023-06-20
+odoo-account / account_fortnox
+2024-09-09
 
 
 Be aware of these!
@@ -7,8 +7,11 @@ Be aware of these!
 [project]/[module]/static/description/icon.png
 
 
-Icon: "coins"
-Icons may be found at: https://fontawesome.com/v5/cheatsheet
+Icon: "money"
+https://fontawesome.com/v4/icon/money
+icon_money.png
+icon_money_50.png
+icon_money_50_neg.png
 
 
 Odoo banner: 560 x 280
@@ -36,7 +39,7 @@ Guide:
 8. ...of choice and choose "Export".
 
 
-Do it right the first time!
+Check module:
 grep -sR "'name':" */*__.py
 grep -sR "'version':" */*__.py
 grep -sR "'category':" */*__.py
@@ -50,7 +53,11 @@ ls | wc -l
 grep -sR "'website':" */*__.py | tr "'" " "
 
 Find the latest project to copy / paste:
-grep -r "2023-06-*" odoo-*/*/static/description/notes.txt
-grep -r "2023-*" */static/description/notes.txt
+grep -r "2024-09-*" odoo-*/*/static/description/notes.txt
+grep -r "2024-*" */static/description/notes.txt
+
+Unexpected errors sometimes occurs, then set the correct permissions!
+sudo chmod 664 /usr/share/*/*/static/description/banner.png
+sudo chmod 664 /usr/share/*/*/static/description/icon.png
 
 
