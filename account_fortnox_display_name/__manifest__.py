@@ -22,7 +22,7 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'Fortnox Display Name',
+    'name': 'Account: Fortnox Display Name',
     'version': '1.0',
     'summary': """
     Replaces name with the fortnox ref dash name if there is a fortnox ref
