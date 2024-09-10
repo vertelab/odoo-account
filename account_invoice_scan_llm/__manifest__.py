@@ -25,7 +25,7 @@
     'name': 'Account: Invoice Scan LLM',
     'version': '1.0',
     'summary': '',
-    'category': 'Economy',
+    'category': 'Accounting',
     'description': """
 
     """,
