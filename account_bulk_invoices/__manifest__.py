@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2023- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Bulk Invoices',
-    'version': '17.0.0.0.0',
+    'version': '1.0',
     'summary': 'A wizard to create bulk invoices',
     'category': 'Accounting',
     'description': """
