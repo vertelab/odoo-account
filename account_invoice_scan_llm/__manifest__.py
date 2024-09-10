@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) {year} {company} (<{mail}>)
+#    Copyright (C) 2024- Vertel AB, info@vertel.se
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -24,17 +24,16 @@
 {
     'name': 'Account: Invoice Scan LLM',
     'version': '1.0',
-    'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.odoo.com""",
-    'category': '', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
+    'summary': '',
+    'category': 'Economy',
     'description': """
-        Long description of module's purpose
+
     """,
     #'sequence': 1,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-',
+    'website': 'https://vertel.se/apps/odoo-account/account_invoice_scan_llm',
     'images': ['static/description/banner.png'], # 560x280
+    'repository': 'https://github.com/vertelab/odoo-account',
     'license': 'AGPL-3',
     'depends': [],
      #"external_dependencies": {
