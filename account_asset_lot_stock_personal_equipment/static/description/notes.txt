@@ -1,15 +1,15 @@
 odoo-account / account_asset_lot_stock_personal_equipment
-2024-08-22
+2024-09-17
 
 Be aware of these!
 [project]/[module]/static/description/banner.png
 [project]/[module]/static/description/icon.png
 
-Icon: "coins" (Included)
-SEK_icon.png
-SEK_icon_60.png
-SEK_icon_60_neg.png
-
+Icon: "calculator" (Included)
+https://fontawesome.com/v4/icon/calculator
+icon_calculator.png
+icon_calculator_50.png
+icon_calculator_50_neg.png
 
 Odoo banner: 560 x 280
 Odoo icon: 140 x 140
@@ -51,7 +51,11 @@ ls | wc -l
 grep -sR "'website':" */*__.py | tr "'" " "
 
 Find the latest project:
-/usr/share$ grep -r "2024-08-*" odoo-*/*/static/description/notes.txt
+/usr/share$ grep -r "2024-09-*" odoo-*/*/static/description/notes.txt
 /usr/share$ grep -r "2024-*" */*/static/description/notes.txt
+
+Unexpected errors sometimes occurs, then set the correct permissions!
+sudo chmod 664 /usr/share/*/*/static/description/banner.png
+sudo chmod 664 /usr/share/*/*/static/description/icon.png
 
 
