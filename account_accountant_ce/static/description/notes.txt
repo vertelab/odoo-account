@@ -6,6 +6,7 @@ Be aware of these!
 [project]/[module]/static/description/icon.png
 
 Icon: "coins" (Included)
+https://fontawesome.com/v4/icon/line-chart
 SEK_icon.png
 SEK_icon_60.png
 SEK_icon_60_neg.png
