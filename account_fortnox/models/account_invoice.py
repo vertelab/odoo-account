@@ -7,7 +7,7 @@ import json
 import time
 
 from odoo import api, fields, models, _
-from odoo.exceptions import Warning, UserError
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -16,13 +16,14 @@ BASE_URL = 'https://api.fortnox.se'
 
 class AccountJournal(models.Model):
     _inherit = "account.journal"
-    is_fortnox_journal = fields.Boolean(string="Is Fortnox Journal")
+    is_fortnox_journal = fields.Boolean(string="Is Fortnox Journal", copy=False)
 
 
 class AccountInvoice(models.Model):
     _inherit = "account.move"
 
     fortnox_response = fields.Char(string="Fortnox Response", readonly=True, copy=False)
+    fortnox_ref = fields.Char(string="Fortnox Ref", readonly=True, copy=False, store=True, compute="set_old_name")
     fortnox_status = fields.Char(string="Fortnox Status", readonly=True, copy=False)
     is_sent_to_fortnox = fields.Boolean(string="Sent To Fortnox", readonly=True, copy=False)
 
@@ -49,6 +50,13 @@ class AccountInvoice(models.Model):
                   move.tax_included_in_price = "tax_excluded_from_price"
             elif len(tax_included) == 2:
                 move.tax_included_in_price = "mixed"
+
+    def set_old_name(self):
+        for record in self:
+            if record.is_sent_to_fortnox and not record.fortnox_ref:
+                record.fortnox_ref = record.name
+            else:
+                record.fortnox_ref = False
 
     def remove_zero_cost_lines(self):
         """
@@ -142,7 +150,7 @@ class AccountInvoice(models.Model):
             for invoice in move_id:
                 fortnox_res = company_id.fortnox_request(
                     "GET",
-                    f"{BASE_URL}/3/invoices/{invoice.name}"
+                    f"{BASE_URL}/3/invoices/{invoice.fortnox_ref}"
                 )
 
                 if fortnox_res.get('ErrorInformation', {}).get('Code'):
@@ -161,22 +169,22 @@ class AccountInvoice(models.Model):
     def sync_fortnox(self):
         self.ensure_one()
         invoice_id = self.env['account.move'].browse(self.id)
+        if not invoice_id.fortnox_ref and not invoice_id.is_sent_to_fortnox:
+            self.fortnox_create(invoice_id)
+            return
+
         fortnox_res = invoice_id.company_id.fortnox_request(
             "get",
-            f"{BASE_URL}/3/invoices/{invoice_id.name}"
+            f"{BASE_URL}/3/invoices/{invoice_id.fortnox_ref}"
         )
         if fortnox_invoice := fortnox_res.get('Invoice'):
             self.fortnox_update(invoice_id, fortnox_invoice)
-        elif fortnox_res.get('ErrorInformation', {}).get('Code') in [2000434, 2000762]:
-            self.fortnox_create(invoice_id)
-        elif fortnox_res.get('ErrorInformation', {}).get('code') in [2000434, 2000762]:
-            self.fortnox_create(invoice_id)
         else:
             raise UserError(f"There is an issue with the fortnox connection. Contact administrator ({fortnox_res=})")
 
     def fortnox_update(self, invoice, fortnox_invoice):
         #invoice.ref = fortnox_invoice["CustomerNumber"] ??
-        invoice.name = fortnox_invoice["DocumentNumber"]
+        invoice.fortnox_ref = fortnox_invoice["DocumentNumber"]
         invoice.partner_id.fortnox_ref = fortnox_invoice["CustomerNumber"]
         invoice.is_move_sent = True
 
@@ -228,15 +236,15 @@ Please redo the lines to so that all are tax included or all tax excluded from t
             _logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
         else:
             #invoice.ref = r["Invoice"]["CustomerNumber"] ??
-            invoice.name = r["Invoice"]["DocumentNumber"]
+            invoice.fortnox_ref = r["Invoice"]["DocumentNumber"]
             invoice.is_move_sent = True
             invoice.is_sent_to_fortnox = True
 
     def fortnox_invoice_vals(self, invoice, invoice_lines):
         invoice_vals = {
             "Comments": "",
-            "Currency": line.currency_id.name,
             "VATIncluded": True if invoice.tax_included_in_price == "tax_included_price" else False,
+            "Currency": invoice.currency_id.name,
             "CustomerName": invoice.partner_id.commercial_partner_id.name,
             "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
             "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
@@ -251,8 +259,8 @@ Please redo the lines to so that all are tax included or all tax excluded from t
         return invoice_vals
 
 
-class AccountInvoiceSend(models.TransientModel):
-    _inherit = 'account.invoice.send'
+class AccountMoveSend(models.TransientModel):
+    _inherit = 'account.move.send'
     is_fortnox = fields.Boolean(string='Fortnox', default=True)
 
     def send_and_print_action(self):
@@ -260,7 +268,7 @@ class AccountInvoiceSend(models.TransientModel):
         Override normal send_and_print_action with additional
         functionality for fortnox.
         """
-        res = super(AccountInvoiceSend, self).send_and_print_action()
+        res = super(AccountMoveSend, self).send_and_print_action()
         if self.is_fortnox:
             for invoice in self.invoice_ids:
                 invoice.remove_zero_cost_lines()

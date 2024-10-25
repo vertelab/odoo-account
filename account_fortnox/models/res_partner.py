@@ -15,8 +15,9 @@ _logger = logging.getLogger(__name__)
 
 class Partner(models.Model):
     _inherit = 'res.partner'
-    #ref = fields.Char(string='Reference', index=True, company_dependent=True)
+
     fortnox_ref = fields.Char(string='Fortnox Customer ID', index=True, company_dependent=True)
+
     # sets internal reference on all companies and fellowships based on the customer number in Fortnox. Odoo 14: this
     # method is redundant because company_registry doesn't exist in res.partners anymore. There is a module to add it
     # back but since Odoo 14 doesn't use res.partners the same way it might not be worth installing. Furthermore,
@@ -80,7 +81,7 @@ class Partner(models.Model):
                             "Address1": partner.street,
                             "City": partner.city,
                             "CountryCode": partner.country_id.code,
-                            "Currency": "SEK",
+                            #"Currency": "SEK",
                             "Email": partner.email or None,
                             "Name": partner.commercial_partner_id.name,
                             "Phone1": partner.commercial_partner_id.phone,
@@ -94,8 +95,8 @@ class Partner(models.Model):
                             "ZipCode": partner.zip,
                         }
                     })
-                if r.get("ErrorInformation",{}).get("code") in [2000357]:
-                   raise UserError(_(f"{partner.name} has an invalid mail {partner.email}"))
+                if r.get("ErrorInformation", {}).get("code") in [2000357]:
+                    raise UserError(_(f"{partner.name} has an invalid mail {partner.email}"))
                 partner.commercial_partner_id.fortnox_ref = r["Customer"]["CustomerNumber"]
 
     def partner_update(self, company_id):
@@ -112,7 +113,7 @@ class Partner(models.Model):
                             "Address1": partner.street,
                             "City": partner.city,
                             "CountryCode": partner.country_id.code,
-                            "Currency": "SEK",
+                            #"Currency": "SEK",
                             "Email": partner.email or None,
                             "Name": partner.commercial_partner_id.name,
                             "Phone1": partner.commercial_partner_id.phone,
