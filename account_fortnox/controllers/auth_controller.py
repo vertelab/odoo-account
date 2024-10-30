@@ -30,5 +30,6 @@ class FortnoxController(http.Controller):
             company.fortnox_authorization_code = auth_code
                 
             company.fortnox_get_access_token()
-            return redirect(f"{base_url}/web#id={kw['state']}&action=52&model=res.company&view_type=form&cids=1&menu_id=4")
+            #return redirect(f"{base_url}/web#id={kw['state']}&action=52&model=res.company&view_type=form&cids=1&menu_id=4")
+            return redirect(f"{base_url}/web#id={kw['state']}&model=res.company&view_type=form")
 
