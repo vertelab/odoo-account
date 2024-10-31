@@ -233,7 +233,8 @@ Please redo the lines to so that all are tax included or all tax excluded from t
                 body='Error Creating Invoice Fortnox %s ' % r['ErrorInformation']['message'],
                 subject='Fortnox Error'
             )
-            _logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
+            _logger.error(f"{r=}")
+            #_logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
         else:
             #invoice.ref = r["Invoice"]["CustomerNumber"] ??
             invoice.fortnox_ref = r["Invoice"]["DocumentNumber"]
@@ -241,6 +242,26 @@ Please redo the lines to so that all are tax included or all tax excluded from t
             invoice.is_sent_to_fortnox = True
 
     def fortnox_invoice_vals(self, invoice, invoice_lines):
+        source_orders = invoice.line_ids.sale_line_ids.order_id if invoice.line_ids.sale_line_ids else False
+        order_refs = False
+        if source_orders:
+           for source_order in source_orders:
+               if not order_refs:
+                   order_refs = source_order.name
+               else:
+                   order_refs = order_refs + ", " + source_order.name
+        if invoice.invoice_payment_term_id and not invoice.invoice_payment_term_id.fortnox_code:
+           raise UserError(f"""
+The payment term chosen ({invoice.invoice_payment_term_id.name}) is missing an fortnox code.
+Please add it.
+        """)
+
+        if invoice.invoice_incoterm_id and not invoice.invoice_incoterm_id.fortnox_code:
+           raise UserError(f"""
+The Incoterm term chosen ({invoice.invoice_incoterm_id.name}) is missing an fortnox code.
+Please add it.
+        """)
+
         invoice_vals = {
             "Comments": "",
             "VATIncluded": True if invoice.tax_included_in_price == "tax_included_price" else False,
@@ -248,19 +269,37 @@ Please redo the lines to so that all are tax included or all tax excluded from t
             "CustomerName": invoice.partner_id.commercial_partner_id.name,
             "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
             "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
-            # "DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
             "InvoiceDate": invoice.invoice_date.strftime(
                 '%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
             "InvoiceRows": invoice_lines,
             "InvoiceType": "INVOICE",
-            "Language": "SV",
             "Remarks": "",
+            "Language": "SV" if invoice.partner_id.lang == "sv_SE" else "EN",##  
+            "Country": invoice.partner_id.country_id.name,
+            "DeliveryAddress1": invoice.partner_shipping_id.street if invoice.partner_shipping_id and invoice.partner_shipping_id.street else "", 
+            "DeliveryAddress2": invoice.partner_shipping_id.street2 if invoice.partner_shipping_id and invoice.partner_shipping_id.street2 else "",
+            "DeliveryCity": invoice.partner_shipping_id.city if invoice.partner_shipping_id and invoice.partner_shipping_id.city else "", 
+            "DeliveryCountry": invoice.partner_shipping_id.country_id.name if invoice.partner_shipping_id and invoice.partner_shipping_id.country_id else "", 
+            "DeliveryName": invoice.partner_shipping_id.name if invoice.partner_shipping_id and invoice.partner_shipping_id.name else "",  
+            "DeliveryZipCode": invoice.partner_shipping_id.zip if invoice.partner_shipping_id and invoice.partner_shipping_id.zip else "", 
+            "TermsOfDelivery":invoice.invoice_incoterm_id.fortnox_code if invoice.invoice_incoterm_id else "",
+            "TermsOfPayment": int(invoice.invoice_payment_term_id.fortnox_code) if invoice.invoice_payment_term_id else "",
+            #"OrderReference":order_refs if order_refs else "",
+            "OurReference": order_refs if order_refs else "",
+            "YourReference": invoice.partner_id.name if invoice.partner_id.name and invoice.partner_id.type == "contact" else "", 
+            "Freight": 0,
+            "AdministrationFee": 0,
+            "Remarks": "",
+            
         }
+        
+        
+        #_logger.warning(f"{invoice_vals=}")
         return invoice_vals
 
 
 class AccountMoveSend(models.TransientModel):
-    _inherit = 'account.move.send'
+    _inherit = 'account.invoice.send'
     is_fortnox = fields.Boolean(string='Fortnox', default=True)
 
     def send_and_print_action(self):

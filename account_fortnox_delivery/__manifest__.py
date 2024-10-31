@@ -20,40 +20,34 @@
 ##############################################################################
 
 {
-    'name': 'Account: Fortnox Integration',
+    'name': 'Account: Fortnox Integration Delivery',
     'version': '0.1',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'A combination of several modules to bring an invoice integration with fortnox',
+    'summary': 'Glue module between delivery and fortnox.',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/16.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Accounting',
     'description': """
-    A combination of several modules to bring an invoice integration with fortnox
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_fortnox',
-    'images': ['static/description/banner.png'], # 560x280 px.
+    #'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     # Any module necessary for this one to work correctly
 
-    'depends': ['crm', 'membership', 'l10n_se'],
+    'depends': ['account_fortnox', 'delivery'],
     'data': [
-        'views/res_company_view.xml',
-        'views/account_invoice_send_view.xml',
-        'views/product_views.xml',
-        'views/account_journal.xml',
-        'views/res_partner_view.xml',
-        'views/account_payment_term_view.xml',
-        'views/account_incoterm_view.xml',
-        'data/cron_jobs.xml',
-
+            'views/delivery_carrier_view.xml'
     ],
     'sequence': 5,
-    'application': False,
+    'auto_install': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+
+
