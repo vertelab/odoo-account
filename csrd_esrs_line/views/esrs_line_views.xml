@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Action -->
+    <record id="action_esrs_line" model="ir.actions.act_window">
+        <field name="name">ESRS Lines</field>
+        <field name="res_model">esrs.line</field>
+        <field name="view_mode">tree,form,pivot</field>
+    </record>
+    
+    <!-- Menu Items -->
+    <menuitem id="menu_esrs_root" name="ESRS" sequence="10" />
+    
+    <menuitem id="menu_esrs_line" name="ESRS Lines" parent="menu_esrs_root" action="action_esrs_line" sequence="10"/>
+
+
+
+    <!-- Tree View -->
+    <record id="view_esrs_line_tree" model="ir.ui.view">
+        <field name="name">esrs.line.tree</field>
+        <field name="model">esrs.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="quantity"/>
+                <field name="account_move_id"/>
+                <field name="document_csrd_id"/>
+                <field name="uom_id"/>
+                <field name="value_type"/>
+                <field name="second_table_value_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_esrs_line_form" model="ir.ui.view">
+        <field name="name">esrs.line.form</field>
+        <field name="model">esrs.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="quantity"/>
+                        <field name="account_move_id"/>
+                        <field name="document_csrd_id"/>
+                        <field name="uom_id"/>
+                        <field name="value_type"/>
+                        <field name="second_table_value_type"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="view_esrs_line_pivot" model="ir.ui.view">
+        <field name="name">esrs.line.pivot</field>
+        <field name="model">esrs.line</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="date" type="row"/>
+                <field name="value_type" type="col"/>
+                <field name="quantity" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+</odoo>

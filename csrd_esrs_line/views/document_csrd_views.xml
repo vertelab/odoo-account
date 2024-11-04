@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+
+    <record id="view_csrd_form" model="ir.ui.view">
+      <field name="name">document.csrd.form</field>
+      <field name="model">document.csrd</field>
+      <field name="inherit_id" ref="document_csrd.view_csrd_form"/>
+      <field name="arch" type="xml">
+        <field name="document_page_manual_ids" position="before">
+          <field name="uom_id"/>          
+        </field>
+      </field>
+    </record>
+
+  </data>
+</odoo>
