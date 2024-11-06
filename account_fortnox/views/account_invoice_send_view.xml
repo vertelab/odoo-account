@@ -24,12 +24,12 @@
             <field name="is_print" position="attributes">
                 <attribute name="attrs">{'invisible': True}</attribute>
             </field>
-            <label for="snailmail_is_letter" position="attributes">
+            <!--<label for="snailmail_is_letter" position="attributes">
                 <attribute name="attrs">{'invisible': True}</attribute>
             </label>
             <field name="snailmail_is_letter" position="attributes">
                 <attribute name="attrs">{'invisible': True}</attribute>
-            </field>
+            </field>-->
             <footer>
 <!--
                 <button string="Send "

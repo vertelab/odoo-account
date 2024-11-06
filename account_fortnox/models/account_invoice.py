@@ -287,6 +287,7 @@ Please add it.
             #"OrderReference":order_refs if order_refs else "",
             "OurReference": order_refs if order_refs else "",
             "YourReference": invoice.partner_id.name if invoice.partner_id.name and invoice.partner_id.type == "contact" else "", 
+            "YourOrderNumber":invoice.ref if invoice.ref else "",
             "Freight": 0,
             "AdministrationFee": 0,
             "Remarks": "",
