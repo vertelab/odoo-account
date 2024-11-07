@@ -1,3 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 csrd_esrs_line.access_esrs_line,access_esrs_line,csrd_esrs_line.model_esrs_line,base.group_user,1,1,1,1
-csrd_esrs_line.access_esrs_value_type,access_esrs_value_type,csrd_esrs_line.model_esrs_value_type,base.group_user,1,1,1,1

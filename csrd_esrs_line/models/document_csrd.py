@@ -9,6 +9,4 @@ class DocumentCSRD(models.Model):
     _inherit = 'document.csrd'
 
     uom_id = fields.Many2one(comodel_name="uom.uom")
-    implement_volume
-
 

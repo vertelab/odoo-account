@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Your data here!-->
+    <data noupdate="1">
+
+        <record id="my_partner_record" model="uom.category">
+            <field name="name"> </field>
+        </record>
+
+        <record id="my_partner_record" model="uom.uom">
+            <field name="name">kWh</field>
+            <field name="email">info@mycompany.com</field>
+            <field name="phone">+1 234 567 890</field>
+        </record>
+
+        <record id="my_partner_record" model="uom.uom">
+            <field name="name">kWh</field>
+            <field name="email">info@mycompany.com</field>
+            <field name="phone">+1 234 567 890</field>
+        </record>
+        
+        <!-- You can add more records here -->
     </data>
 </odoo>

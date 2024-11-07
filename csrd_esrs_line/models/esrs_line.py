@@ -12,9 +12,7 @@ class ESRSLine(models.Model):
     account_move_id = fields.Many2one(comodel_name="account.move")
     document_csrd_id = fields.Many2one(comodel_name="document.csrd" )
     uom_id = fields.Many2one(comodel_name="uom.uom")
-    value_type = fields.Many2one(comodel_name="esrs.value.type")
-    second_table_value_type = fields.Many2one(comodel_name="esrs.value.type", domain="[('is_table', '=', True)]")
-    date = fields.Datetime()
+    # date = fields.Datetime()
     quantity = fields.Float()
 
     @api.depends("document_csrd_id", "uom_id")
@@ -26,10 +24,15 @@ class ESRSLine(models.Model):
     @api.onchange("document_csrd_id")
     def set_quantity_and_uom(self):
         for record in self:
-            if record.document_csrd_id and record.document_csrd_id.value_type:
-                record.quantity = record.document_csrd_id.value_type
-            else:
-                record.value_type = False
+
+            if record.document_csrd_id:
+
+                if record.document_csrd_id.implementation_numerical:
+                    record.quantity = record.document_csrd_id.implementation_numerical
+                
+                if record.document_csrd_id.uom_id:
+                    record.uom_id = record.document_csrd_id.uom_id
+
 
 
 

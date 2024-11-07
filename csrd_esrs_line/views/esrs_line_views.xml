@@ -22,13 +22,10 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="date"/>
                 <field name="quantity"/>
                 <field name="account_move_id"/>
                 <field name="document_csrd_id"/>
                 <field name="uom_id"/>
-                <field name="value_type"/>
-                <field name="second_table_value_type"/>
             </tree>
         </field>
     </record>
@@ -42,13 +39,10 @@
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="date"/>
                         <field name="quantity"/>
                         <field name="account_move_id"/>
                         <field name="document_csrd_id"/>
                         <field name="uom_id"/>
-                        <field name="value_type"/>
-                        <field name="second_table_value_type"/>
                     </group>
                 </sheet>
             </form>
@@ -61,8 +55,8 @@
         <field name="model">esrs.line</field>
         <field name="arch" type="xml">
             <pivot>
-                <field name="date" type="row"/>
-                <field name="value_type" type="col"/>
+                <field name="create_date" type="row"/>
+                <field name="uom_id" type="col"/>
                 <field name="quantity" type="measure"/>
             </pivot>
         </field>

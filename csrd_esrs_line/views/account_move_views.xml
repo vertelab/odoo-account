@@ -14,10 +14,10 @@
                   <create string="Add a ESRS Datapoint" />
                 </control>
                 <field name="document_csrd_id"/>
-                <field name="uom_id"/>
                 <field name="quantity"/>
-                <field name="date"/>
-                <field name="value_type"/>
+                <field name="uom_id"/>
+                <field name="create_date"/>
+                <!-- <field name="value_type"/> -->
               </tree>
             </field>
           </page>
