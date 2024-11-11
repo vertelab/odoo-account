@@ -1,1 +1,1 @@
-from . import wizard_models
+from . import document_csrd_gather_survey_wizard

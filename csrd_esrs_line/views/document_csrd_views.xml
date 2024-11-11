@@ -6,9 +6,36 @@
       <field name="model">document.csrd</field>
       <field name="inherit_id" ref="document_csrd.view_csrd_form"/>
       <field name="arch" type="xml">
-        <field name="document_page_manual_ids" position="before">
-          <field name="uom_id"/>          
+
+        <header position="inside">
+          <button name="open_survey_wizard" string="Apply Survey Data" type="object" class="oe_highlight" attrs="{'invisible': [('survey_id', '=', False)]}"/>
+        </header>
+
+          <div name="button_box" position="inside" >
+            <button class="oe_stat_button" type="object" name="get_children" icon="fa-list" attrs="{'invisible': [('count_esrs_lines', '=', 0)]}">
+              <field string="ESRS Lines" name="count_esrs_lines" widget="statinfo"/>
+            </button>
+          </div>
+
+        <field name="estimated_value" position="after">
+            <field name="data_value" attrs="{'invisible': ['|',('csrd_data_type', '=', 'narrative'),('csrd_data_type', '=', 'semi-narrative')]}"/>
+            <field name="uom_id" attrs="{'invisible': ['|',('csrd_data_type', '=', 'narrative'),('csrd_data_type', '=', 'semi-narrative')]}" />
         </field>
+
+        <field name="category_id" position="after">
+          <field name="parent_id"/>
+        </field>
+
+        <page name="survey" position="after">
+          <page name="secondary_data_point" string="Secondary Data Point">
+            <field name="child_ids" widget="section_and_note_one2many">
+              <tree editable="bottom">
+                <field name="csrd_name"/>
+              </tree>
+            </field>
+          </page>
+        </page>
+
       </field>
     </record>
 

@@ -1,19 +1,26 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-    <!--
-    <record model="ir.ui.view" id="list">
-      <field name="name">scaffold_test list</field>
-      <field name="model">scaffold_test.scaffold_test</field>
+
+    <record id="document_csrd_gather_survey_data_wizard_view" model="ir.ui.view">
+      <field name="name">Test wuzard</field>
+      <field name="model">document.csrd.gather.survey.wizard</field>
       <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
+        <form string="Survey Question">
+          <group>
+            <field name="survey_id" invisible="1"/>
+            <field name="survey_question_id" domain="[('survey_id', '=', survey_id)]"/>
+            <field name="is_one_answer" />
+            <field name="survey_question_suggested_answer_id" attrs="{'invisible': [('is_one_answer', '=', False)], 'required': [('is_one_answer', '=', True)]}" domain="[('question_id', '=', survey_question_id)]"/>
+          </group>
+          <footer>
+            <button name="gather_survey_data" string="Ok" type="object" class="oe_highlight"/>
+            <button name="cancel" string="Cancel" special="cancel"/>
+          </footer>
+        </form>
       </field>
     </record>
--->
+
 
     <!-- actions opening views on models -->
     <!--
