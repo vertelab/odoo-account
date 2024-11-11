@@ -21,6 +21,7 @@
             <tree>
                 <field name="name"/>
                 <field name="data_value"/>
+                <field name="data_type"/>
                 <field name="account_move_id" attrs="{'invisible': [('account_move_id', '=', False)]}" optional="hide"/>
                 <field name="survey_id" attrs="{'invisible': [('survey_id', '=', False)]}" optional="hide"/>
                 <field name="document_csrd_id"/>
@@ -40,6 +41,7 @@
                     <group>
                         <field name="name"/>
                         <field name="data_value"/>
+                        <field name="data_type"/>
                         <field name="account_move_id" attrs="{'invisible': [('account_move_id', '=', False)]}" />
                         <field name="survey_id" attrs="{'invisible': [('survey_id', '=', False)]}" />
                         <field name="document_csrd_id"/>

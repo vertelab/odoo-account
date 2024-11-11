@@ -18,11 +18,12 @@ class DocumentCSRDGatherSurveyWizard(models.TransientModel):
     def gather_survey_data(self):
         
         
-        uom_id = self.env["uom.uom"].search([("name", "=", "Units")])
+        #uom_id = self.env["uom.uom"].search([("name", "=", "Units")])
+        uom_id = self.env.ref('uom.product_uom_unit')
 
         count_answers = 0
 
-        if is_one_answer:
+        if self.is_one_answer:
 
             count_answers = self.env["survey.user_input.line"].search_count([("question_id", "=", self.survey_question_id.id),("suggested_answer_id", "=", self.survey_question_suggested_answer_id.id)])
             
