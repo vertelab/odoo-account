@@ -1,0 +1,82 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record id="document_csrd_gather_survey_data_wizard_view" model="ir.ui.view">
+      <field name="name">Test wuzard</field>
+      <field name="model">document.csrd.gather.survey.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Survey Question">
+          <group>
+            <field name="survey_id" invisible="1"/>
+            <field name="survey_question_id" domain="[('survey_id', '=', survey_id)]"/>
+            <field name="is_one_answer" />
+            <field name="survey_question_suggested_answer_id" attrs="{'invisible': [('is_one_answer', '=', False)], 'required': [('is_one_answer', '=', True)]}" domain="[('question_id', '=', survey_question_id)]"/>
+          </group>
+          <footer>
+            <button name="gather_survey_data" string="Ok" type="object" class="oe_highlight"/>
+            <button name="cancel" string="Cancel" special="cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="scaffold_test.action_window">
+      <field name="name">scaffold_test window</field>
+      <field name="res_model">scaffold_test.scaffold_test</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="scaffold_test.action_server">
+      <field name="name">scaffold_test server</field>
+      <field name="model_id" ref="model_scaffold_test_scaffold_test"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Inherit view -->
+    <!-- 
+    <record id="list" model="ir.ui.view">
+            <field name="name">scaffold_test list</field>
+            <field name="model">scaffold_test.scaffold_test</field>
+            <field name="inherit_id" ref="scaffold_test.list"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="value3"/>
+                </field>
+                <xpath expr="//div[@name='value1']" position="inside">
+                    <field name="value4"/>
+                </xpath>
+            </field>
+          </record> 
+  -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="scaffold_test" id="scaffold_test.menu_root"/>
+-->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="scaffold_test.menu_1" parent="scaffold_test.menu_root"/>
+    <menuitem name="Menu 2" id="scaffold_test.menu_2" parent="scaffold_test.menu_root"/>
+-->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="scaffold_test.menu_1_list" parent="scaffold_test.menu_1" action="scaffold_test.action_window"/>
+    <menuitem name="Server to list" id="scaffold_test" parent="scaffold_test.menu_2" action="scaffold_test.action_server"/>
+-->
+  </data>
+</odoo>
