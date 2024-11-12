@@ -15,8 +15,8 @@
                 </control>
                 <field name="document_csrd_id"/>
                 <field name="data_value"/>
-                <field name="data_type"/>
                 <field name="uom_id"/>
+                <field name="data_type"/>
                 <field name="create_date"/>
               </tree>
             </field>
