@@ -41,7 +41,7 @@
      #   "bin": ["openssl",], 
      #   "python": ["acme_tiny", "IPy",],
      #},
-    'data': ["security/ir.model.access.csv", "views/account_move_views.xml", "views/document_csrd_views.xml", "views/esrs_line_views.xml","wizard/document_csrd_gather_survey_wizard_views.xml"],
+    'data': ["security/ir.model.access.csv", "data/esrs_data_type_data.xml", "views/account_move_views.xml", "views/document_csrd_views.xml", "views/esrs_line_views.xml","wizard/document_csrd_gather_survey_wizard_views.xml"],
     'demo': [],
     'application': False,
     'installable': True,    

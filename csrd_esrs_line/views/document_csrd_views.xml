@@ -19,6 +19,7 @@
 
         <field name="estimated_value" position="after">
             <field name="data_value" attrs="{'invisible': ['|',('csrd_data_type', '=', 'narrative'),('csrd_data_type', '=', 'semi-narrative')]}"/>
+            <field name="data_type" attrs="{'invisible': ['|',('csrd_data_type', '=', 'narrative'),('csrd_data_type', '=', 'semi-narrative')]}"/>
             <field name="uom_id" attrs="{'invisible': ['|',('csrd_data_type', '=', 'narrative'),('csrd_data_type', '=', 'semi-narrative')]}" />
         </field>
 
