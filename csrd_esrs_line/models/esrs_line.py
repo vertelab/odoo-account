@@ -14,8 +14,8 @@ class ESRSLine(models.Model):
     document_csrd_id = fields.Many2one(comodel_name="document.csrd" )
     parent_document_csrd_id = fields.Many2one(comodel_name="document.csrd", related="document_csrd_id.parent_id", readonly=True, store=True)
     uom_id = fields.Many2one(comodel_name="uom.uom", required=True)
+    data_type = fields.Many2one(comodel_name="esrs.data.type", required=True, store=True)
     data_value = fields.Float(string="Quantity", required=True)
-    data_type = fields.Selection([('water','Vatten'), ('energy','Energi'), ('co2','CO2')])
     
     @api.depends("document_csrd_id", "uom_id", "survey_id", "account_move_id", "account_move_id.name", "account_move_id.state")
     def _compute_name(self):

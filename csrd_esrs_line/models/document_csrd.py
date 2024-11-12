@@ -10,6 +10,8 @@ class DocumentCSRD(models.Model):
 
     uom_id = fields.Many2one(comodel_name="uom.uom")
 
+    data_type = fields.Many2one(comodel_name="esrs.data.type")
+
     esrs_line_ids = fields.One2many(comodel_name="esrs.line", inverse_name="document_csrd_id")
 
     data_value = fields.Float(string="Data Value", compute="_compute_data_value")
