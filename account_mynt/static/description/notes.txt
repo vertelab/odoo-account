@@ -11,6 +11,9 @@ Icons may be found at: https://fontawesome.com/v5/cheatsheet
 Odoo icon: 140 x 140
 Odoo banner: 560 x 280
 
+## mynt logo large
+https://www.mynt.com/en/about-us/press-and-media
+
 HEX
 #930a57
 #8105a7
