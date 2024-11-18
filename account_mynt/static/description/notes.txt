@@ -1,18 +1,21 @@
-odoo-l10n_se / l10n_se_mynt
-2024-08-12
+odoo-account / account_mynt
+2024-11-18
 
 Be aware of these!
 [project]/[module]/static/description/banner.png
 [project]/[module]/static/description/icon.png
 
-Icon:
-Icons may be found at: https://fontawesome.com/v5/cheatsheet
-
 Odoo icon: 140 x 140
 Odoo banner: 560 x 280
 
-## mynt logo large
+Icon:
+## mynt logo large, svg format
 https://www.mynt.com/en/about-us/press-and-media
+
+mynt_logo.svg
+mynt_logo_neg.png
+mynt_logo_neg.svg
+
 
 HEX
 #930a57
