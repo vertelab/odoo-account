@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'l10n_se: Mynt',
+    'name': 'account: Mynt',
     'version': '0.1',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Handles Mynt Transactions',
