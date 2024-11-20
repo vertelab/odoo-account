@@ -9,9 +9,8 @@
     </record>
 
     <!-- Menu Items -->
-    <menuitem id="menu_esrs_root" name="ESRS" sequence="10" />
 
-    <menuitem id="menu_esrs_line" name="ESRS Lines" parent="menu_esrs_root" action="action_esrs_line" sequence="10"/>
+    <menuitem id="menu_esrs_line" name="ESRS Lines" parent="document_knowledge.menu_document_configuration" action="action_esrs_line" sequence="10"/>
 
     <!-- Tree View -->
     <record id="view_esrs_line_tree" model="ir.ui.view">
@@ -20,7 +19,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="data_value"/>
+                <field name="quantity"/>
                 <field name="data_type"/>
                 <field name="account_move_id" attrs="{'invisible': [('account_move_id', '=', False)]}" optional="hide"/>
                 <field name="survey_id" attrs="{'invisible': [('survey_id', '=', False)]}" optional="hide"/>
@@ -40,7 +39,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="data_value"/>
+                        <field name="quantity"/>
                         <field name="data_type"/>
                         <field name="account_move_id" attrs="{'invisible': [('account_move_id', '=', False)]}" />
                         <field name="survey_id" attrs="{'invisible': [('survey_id', '=', False)]}" />
@@ -61,7 +60,7 @@
             <pivot>
                 <field name="create_date" type="row"/>
                 <field name="uom_id" type="col"/>
-                <field name="data_value" type="measure"/>
+                <field name="quantity" type="measure"/>
             </pivot>
         </field>
     </record>

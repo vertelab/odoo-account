@@ -14,7 +14,7 @@ class DocumentCSRD(models.Model):
 
     esrs_line_ids = fields.One2many(comodel_name="esrs.line", inverse_name="document_csrd_id")
 
-    data_value = fields.Float(string="Data Value", compute="_compute_data_value")
+    quantity = fields.Float(string="Data Value", compute="_compute_quantity")
 
     parent_id = fields.Many2one(comodel_name="document.csrd")
 
@@ -63,13 +63,10 @@ class DocumentCSRD(models.Model):
                 'target': 'new',
             }
 
-    def _compute_data_value(self):
+    def _compute_quantity(self):
         for record in self:
-            record.data_value = sum(map(lambda esrs_line_id: esrs_line_id.data_value, record.esrs_line_ids))
+            record.quantity = sum(map(lambda esrs_line_id: esrs_line_id.quantity, record.esrs_line_ids))
 
-    def _compute_uom_id(self):
-        for record in self:
-            record.uom_id = record
 
     @api.onchange("parent_id")
     def set_category_on_childe(self):

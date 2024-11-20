@@ -29,7 +29,7 @@ class DocumentCSRDGatherSurveyWizard(models.TransientModel):
             
             _logger.error(f"{count_answers=}")
 
-            self.env["esrs.line"].create({'document_csrd_id': self.document_csrd_id.id, 'survey_id': self.survey_id.id, 'uom_id': uom_id.id, 'data_value': count_answers})
+            self.env["esrs.line"].create({'document_csrd_id': self.document_csrd_id.id, 'survey_id': self.survey_id.id, 'uom_id': uom_id.id, 'quantity': count_answers})
             
         else:
         
@@ -41,7 +41,7 @@ class DocumentCSRDGatherSurveyWizard(models.TransientModel):
 
                 new_document_csrd_id = self.env["document.csrd"].create({"csrd_name": f"{self.document_csrd_id.name} [{suggested_answer_id.value}]", "parent_id": self.document_csrd_id.id, "survey_id": self.survey_id.id})
 
-                self.env["esrs.line"].create({'document_csrd_id': new_document_csrd_id.id, 'survey_id': self.survey_id.id, 'uom_id': uom_id.id, 'data_value': count_answers})
+                self.env["esrs.line"].create({'document_csrd_id': new_document_csrd_id.id, 'survey_id': self.survey_id.id, 'uom_id': uom_id.id, 'quantity': count_answers})
 
         return  {'type': 'ir.actions.act_window_close'}
 
