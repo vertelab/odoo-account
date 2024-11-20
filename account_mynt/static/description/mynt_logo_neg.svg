@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="128"
+   height="37"
+   viewBox="0 0 128 37"
+   fill="none"
+   version="1.1"
+   id="svg20"
+   sodipodi:docname="mynt_logo_neg.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs24" />
+  <sodipodi:namedview
+     id="namedview22"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1"
+     inkscape:cx="71.5"
+     inkscape:cy="22"
+     inkscape:window-width="1508"
+     inkscape:window-height="905"
+     inkscape:window-x="350"
+     inkscape:window-y="56"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg20" />
+  <path
+     d="m 222.19459,65.84519 c 0.0302,-0.11826 0.0605,-0.23607 0.0902,-0.35388 z"
+     fill="#1c1b1f"
+     id="path2"
+     style="stroke-width:1"
+     inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-account/account_mynt/static/description/mynt_logo_neg.png"
+     inkscape:export-xdpi="259.5"
+     inkscape:export-ydpi="259.5" />
+  <path
+     d="m 221.70258,65.84519 c -0.10561,-0.38954 -0.21169,-0.77683 -0.31823,-1.16232 0.0745,0.27038 0.14897,0.54167 0.22344,0.81385 z"
+     fill="#1c1b1f"
+     id="path4"
+     style="stroke-width:1"
+     inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-account/account_mynt/static/description/mynt_logo_neg.png"
+     inkscape:export-xdpi="259.5"
+     inkscape:export-ydpi="259.5" />
+  <path
+     d="m 181.22914,-1.165181 h 17.93895 l 16.74638,50.076209 c 1.74505,5.180547 3.46392,10.882892 5.15617,17.106142 l 0.13134,0.48298 h 1.50176 l 0.12586,-0.49336 c 1.58255,-6.22099 3.21883,-11.920631 4.90836,-17.098922 L 244.23925,-1.165181 H 262.1809 L 226.17392,95.96476 c -2.4772,6.73015 -6.20113,11.72112 -11.15012,15.02029 l -0.004,0.003 c -4.94131,3.34748 -11.63355,5.05461 -20.13719,5.05461 h -6.31669 v -14.02814 h 6.31669 c 4.27642,0 7.72185,-0.77503 10.27127,-2.39596 2.5598,-1.57262 4.5477,-4.2209 6.00251,-7.85771 l 2.55349,-6.55456 z"
+     fill="#1c1b1f"
+     id="path6"
+     style="stroke-width:1"
+     inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-account/account_mynt/static/description/mynt_logo_neg.png"
+     inkscape:export-xdpi="259.5"
+     inkscape:export-ydpi="259.5" />
+  <path
+     d="M 61.506471,80.54816 H 77.381238 V 20.977513 c 0,-15.717679 -0.157084,-28.449266 -0.314169,-37.722791 h 0.157085 c 2.043409,7.54454 4.08639,15.874851 7.701527,26.72028 L 108.65996,80.54816 h 17.44648 l 19.9616,-59.256482 c 5.02978,-15.560598 10.53128,-32.378528 12.10299,-38.036956 h 0.15708 c 0,4.558176 -0.15708,11.316811 -0.31416,18.704133 l -0.15753,10.84543 V 80.54816 h 16.03229 V -31.834405 h -25.77724 l -19.80452,60.356369 -2.35759,6.916123 -8.01614,24.990933 h -0.15709 l -2.35759,-7.544449 -2.5151,-8.330312 L 108.18827,29.62244 88.226666,-31.834405 H 61.506471 Z"
+     fill="#1c1b1f"
+     id="path8"
+     style="stroke-width:1"
+     inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-account/account_mynt/static/description/mynt_logo_neg.png"
+     inkscape:export-xdpi="259.5"
+     inkscape:export-ydpi="259.5" />
+  <path
+     d="m 284.10161,-1.970452 h -15.72175 c 0.15799,2.04342 0.15799,4.243922 0.15799,6.286891 V 80.54816 h 15.87521 V 32.922969 c 0,-13.045932 7.23119,-23.733828 20.43421,-23.733828 13.04502,0 18.38941,10.21665 18.38941,26.563109 v 44.79591 h 16.03321 V 29.779523 c 0,-21.376243 -9.90339,-34.107739 -28.92024,-34.107739 -13.83495,0 -22.00503,6.444152 -26.24804,13.517357 z"
+     fill="#1c1b1f"
+     id="path10"
+     style="stroke-width:1"
+     inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-account/account_mynt/static/description/mynt_logo_neg.png"
+     inkscape:export-xdpi="259.5"
+     inkscape:export-ydpi="259.5" />
+  <path
+     d="m 373.19599,-24.289819 h -16.0332 v 22.319367 h -12.4176 v 12.259618 h 12.4176 V 60.74364 c 0,16.50354 9.27597,21.37624 23.89181,21.37624 2.04477,0 3.77358,-0.15708 6.12982,-0.62878 V 69.70273 c -1.10138,0.15708 -2.83019,0.31416 -3.93157,0.31416 -6.12982,0 -10.05686,-2.20005 -10.05686,-10.2162 V 10.289166 h 15.40127 V -1.970452 h -15.40127 z"
+     fill="#1c1b1f"
+     id="path12"
+     style="stroke-width:1"
+     inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-account/account_mynt/static/description/mynt_logo_neg.png"
+     inkscape:export-xdpi="259.5"
+     inkscape:export-ydpi="259.5" />
+  <path
+     d="m -113.92705,21.584175 c 0,-32.780035 -24.57927,-59.878667 -56.4532,-64.154729 -3.89698,-0.522803 -5.84548,-0.784204 -7.56376,0.511736 -1.71829,1.295926 -2.02749,3.411929 -2.64584,7.64398 -2.67238,18.290078 -4.06743,36.986675 -4.06743,55.999013 0,19.01234 1.39505,37.709165 4.06743,55.998835 0.61835,4.23219 0.92755,6.34828 2.64584,7.6442 1.71828,1.29593 3.66678,1.03458 7.56376,0.51188 31.87393,-4.27643 56.4532,-31.374879 56.4532,-64.154915 z"
+     fill="#1c1b1f"
+     id="path14"
+     style="stroke-width:1"
+     inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-account/account_mynt/static/description/mynt_logo_neg.png"
+     inkscape:export-xdpi="259.5"
+     inkscape:export-ydpi="259.5" />
+  <path
+     d="m -88.823268,80.8709 c -3.799307,2.65685 -5.699188,3.98528 -7.714171,3.11185 -2.014983,-0.87389 -2.363001,-3.30279 -3.059037,-8.16105 -2.540394,-17.7286 -3.864304,-35.835006 -3.864304,-54.237525 0,-18.403872 1.32436,-36.511771 3.864757,-54.241455 0.696034,-4.856632 1.044052,-7.284948 3.058584,-8.15883 2.014532,-0.873836 3.91396,0.453507 7.713268,3.108238 18.894529,13.203149 31.206959,34.832393 31.206959,59.292047 0,24.456495 -12.324618,46.083255 -31.206056,59.286725 z"
+     fill="#1c1b1f"
+     id="path16"
+     style="stroke-width:1"
+     inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-account/account_mynt/static/description/mynt_logo_neg.png"
+     inkscape:export-xdpi="259.5"
+     inkscape:export-ydpi="259.5" />
+  <path
+     d="m -38.365187,73.15447 c 0.769167,5.59898 1.153736,8.39847 3.055872,8.71579 1.901692,0.31733 3.147065,-2.1522 5.637353,-7.09081 8.098756,-16.05982 12.669473,-34.107554 12.669473,-53.195275 0,-19.08772 -4.570717,-37.13563 -12.669473,-53.195279 -2.490288,-4.93865 -3.735661,-7.407997 -5.637353,-7.090763 -1.902136,0.317233 -2.286705,3.116678 -3.055872,8.715523 -2.317863,16.876204 -3.523963,34.089729 -3.523963,51.570519 0,17.48079 1.2061,34.694365 3.523963,51.570295 z"
+     fill="#1c1b1f"
+     id="path18"
+     style="stroke-width:1"
+     inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-account/account_mynt/static/description/mynt_logo_neg.png"
+     inkscape:export-xdpi="259.5"
+     inkscape:export-ydpi="259.5" />
+</svg>
