@@ -283,7 +283,7 @@ Please add it.
             "DeliveryName": invoice.partner_shipping_id.name if invoice.partner_shipping_id and invoice.partner_shipping_id.name else "",  
             "DeliveryZipCode": invoice.partner_shipping_id.zip if invoice.partner_shipping_id and invoice.partner_shipping_id.zip else "", 
             "TermsOfDelivery":invoice.invoice_incoterm_id.fortnox_code if invoice.invoice_incoterm_id else "",
-            "TermsOfPayment": int(invoice.invoice_payment_term_id.fortnox_code) if invoice.invoice_payment_term_id else "",
+            "TermsOfPayment": invoice.invoice_payment_term_id.fortnox_code if invoice.invoice_payment_term_id else "",
             #"OrderReference":order_refs if order_refs else "",
             "OurReference": order_refs if order_refs else "",
             "YourReference": invoice.partner_id.name if invoice.partner_id.name and invoice.partner_id.type == "contact" else "", 
