@@ -244,7 +244,9 @@ Please redo the lines to so that all are tax included or all tax excluded from t
     def fortnox_invoice_vals(self, invoice, invoice_lines):
         source_orders = invoice.line_ids.sale_line_ids.order_id if invoice.line_ids.sale_line_ids else False
         order_refs = False
+        order_contact = False
         if source_orders:
+           order_contact = source_orders[0].partner_id
            for source_order in source_orders:
                if not order_refs:
                    order_refs = source_order.name
@@ -261,7 +263,9 @@ Please add it.
 The Incoterm term chosen ({invoice.invoice_incoterm_id.name}) is missing an fortnox code.
 Please add it.
         """)
-
+        yourreference = invoice.partner_id.name if invoice.partner_id.name and invoice.partner_id.type == "contact" else ""
+        if not yourreference and order_contact:
+            yourreference = order_contact.name if order_contact.name and order_contact.type == "contact" else ""
         invoice_vals = {
             "Comments": "",
             "VATIncluded": True if invoice.tax_included_in_price == "tax_included_price" else False,
@@ -286,7 +290,7 @@ Please add it.
             "TermsOfPayment": invoice.invoice_payment_term_id.fortnox_code if invoice.invoice_payment_term_id else "",
             #"OrderReference":order_refs if order_refs else "",
             "OurReference": order_refs if order_refs else "",
-            "YourReference": invoice.partner_id.name if invoice.partner_id.name and invoice.partner_id.type == "contact" else "", 
+            "YourReference": yourreference, 
             "YourOrderNumber":invoice.ref if invoice.ref else "",
             "Freight": 0,
             "AdministrationFee": 0,
