@@ -643,8 +643,8 @@ class account_account(models.Model):
 
 class account_move_line(models.Model):
     _inherit = 'account.move.line'
-    period_id = fields.Many2one('account.period', string='Period', related='move_id.period_id', store=True)
-    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', related='period_id.fiscalyear_id', store=True)
+    period_id = fields.Many2one('account.period', string='Period', related='move_id.period_id', store=True, readonly=True)
+    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', related='period_id.fiscalyear_id', store=True, readonly=True)
     
 class account_bank_statement(models.Model):
     _inherit = 'account.bank.statement'
