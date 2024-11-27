@@ -641,7 +641,11 @@ class account_account(models.Model):
             domain.append(('move_id.state', '=', self._context.get('target_move')))
         return sum([a.balance for a in self.env['account.move.line'].search(domain)])
 
-
+class account_move_line(models.Model):
+    _inherit = 'account.move.line'
+    period_id = fields.Many2one('account.period', string='Period', related='move_id.period_id', store=True)
+    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', related='period_id.fiscalyear_id', store=True)
+    
 class account_bank_statement(models.Model):
     _inherit = 'account.bank.statement'
 
