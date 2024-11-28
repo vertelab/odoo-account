@@ -644,6 +644,18 @@ class account_account(models.Model):
         return sum([a.balance for a in self.env['account.move.line'].search(domain)])
 
 
+class account_move_line(models.Model):
+    _inherit = 'account.move.line'
+    period_id = fields.Many2one('account.period', string='Period', related='move_id.period_id', store=True, readonly=True)
+    fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear', related='move_id.period_id.fiscalyear_id', store=True, readonly=True)
+    #fiscalyear_id = fields.Many2one(comodel_name='account.fiscalyear')
+    #def set_fiscalyear_id(self):
+    #    _logger.warning("set_fiscalyear_id"*100)
+    #    for line in self:
+    #        if line.move_id and line.move_id.period_id:
+    #            line.fiscalyear_id = line.move_id.period_id.fiscalyear_id
+    #        else:
+    #            line.fiscalyear_id = False
 class account_bank_statement(models.Model):
     _inherit = 'account.bank.statement'
 
