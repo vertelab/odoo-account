@@ -27,30 +27,25 @@ from odoo.exceptions import UserError, ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 
-
 class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"
 
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            statement = self.env['account.bank.statement'].browse(vals['statement_id'])
-            #if statement.state != 'open' and self._context.get('check_move_validity', True):
-            #    raise UserError(_("You can only create statement line in open bank statements."))
-            if 'date' not in vals:
-                vals['date'] = statement.date
-            date = vals['date']
-            _logger.warning(f"{date=}")
-            try:
-                date = datetime.strptime(date, "%Y-%m-%d")
-            except TypeError:
-                pass
-            period = vals['period_id'] = self.env['account.period'].date2period(date).id
-            if not period:
-                date_formated = datetime.strftime(date, "%Y-%m-%d")
-                raise UserError(_(f"There is no period for the date {date_formated}, please choose another date or "
-                                  f"create a period for that date."))
-            _logger.warning(f"{period=}")
+			if 'date' in vals:
+				date = vals['date']
+					_logger.warning(f"{date=}")
+					try:
+						date = datetime.strptime(date, "%Y-%m-%d")
+					except TypeError:
+						pass
+					period = vals['period_id'] = self.env['account.period'].date2period(date).id
+					if not period:
+						date_formated = datetime.strftime(date, "%Y-%m-%d")
+						raise UserError(_(f"There is no period for the date {date_formated}, please choose another date or "
+										  f"create a period for that date."))
+					_logger.warning(f"{period=}")
         return super(AccountBankStatementLine, self).create(vals_list)
     
     
