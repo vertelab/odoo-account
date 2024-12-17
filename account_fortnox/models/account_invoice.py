@@ -204,21 +204,22 @@ Please redo the lines to so that all are tax included or all tax excluded from t
         invoice_lines = []
 
         for line in invoice.invoice_line_ids:
+            if line.display_type == "line_section":
+                continue
             if line.product_id:
-                line_name = line.name.split(' ')[1] \
-                    if len(line.name.split(' ')) == 2 \
-                    else line.name.replace('[', '').replace(']', '').strip(' ')
-
                 line.product_id.article_update(invoice.company_id)
+            line_name = line.name.split(' ')[1] \
+                if len(line.name.split(' ')) == 2 \
+                else line.name.replace('[', '').replace(']', '').strip(' ')
 
-                invoice_lines.append({
-                    "AccountNumber": line.account_id.code,
-                    "DeliveredQuantity": line.quantity,
-                    "Description": line_name,
-                    "ArticleNumber": line.product_id.default_code if line.product_id else None,
-                    "Price": line.price_unit,
-                    "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else None,
-                })
+            invoice_lines.append({
+                "AccountNumber": line.account_id.code,
+                "DeliveredQuantity": line.quantity,
+                "Description": line_name,
+                "ArticleNumber": line.product_id.default_code if line.product_id else "",
+                "Price": line.price_unit,
+                "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else "",
+            })
 
         r = self.company_id.fortnox_request(
             'POST',
@@ -279,7 +280,7 @@ Please add it.
             "InvoiceType": "INVOICE",
             "Remarks": "",
             "Language": "SV" if invoice.partner_id.lang == "sv_SE" else "EN",##  
-            "Country": invoice.partner_id.country_id.name,
+            "Country": invoice.partner_id.country_id.name if invoice.partner_id.country_id else "",
             "DeliveryAddress1": invoice.partner_shipping_id.street if invoice.partner_shipping_id and invoice.partner_shipping_id.street else "", 
             "DeliveryAddress2": invoice.partner_shipping_id.street2 if invoice.partner_shipping_id and invoice.partner_shipping_id.street2 else "",
             "DeliveryCity": invoice.partner_shipping_id.city if invoice.partner_shipping_id and invoice.partner_shipping_id.city else "", 
@@ -294,12 +295,11 @@ Please add it.
             "YourOrderNumber":invoice.ref if invoice.ref else "",
             "Freight": 0,
             "AdministrationFee": 0,
-            "Remarks": "",
-            
+
         }
         
         
-        #_logger.warning(f"{invoice_vals=}")
+        _logger.warning(f"{invoice_vals=}")
         return invoice_vals
 
 
