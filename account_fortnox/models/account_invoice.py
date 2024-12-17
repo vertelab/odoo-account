@@ -202,21 +202,24 @@ Please redo the lines to so that all are tax included or all tax excluded from t
         invoice_lines = []
 
         for line in invoice.invoice_line_ids:
+            if line.display_type == "line_section":
+                continue
             if line.product_id:
-                line_name = line.name.split(' ')[1] \
-                    if len(line.name.split(' ')) == 2 \
-                    else line.name.replace('[', '').replace(']', '').strip(' ')
-
                 line.product_id.article_update(invoice.company_id)
+            line_name = line.name.split(' ')[1] \
+                if len(line.name.split(' ')) == 2 \
+                else line.name.replace('[', '').replace(']', '').strip(' ')
 
-                invoice_lines.append({
-                    "AccountNumber": line.account_id.code,
-                    "DeliveredQuantity": line.quantity,
-                    "Description": line_name,
-                    "ArticleNumber": line.product_id.default_code if line.product_id else None,
-                    "Price": line.price_unit,
-                    "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else None,
-                })
+            
+
+            invoice_lines.append({
+                "AccountNumber": line.account_id.code,
+                "DeliveredQuantity": line.quantity,
+                "Description": line_name,
+                "ArticleNumber": line.product_id.default_code if line.product_id else None,
+                "Price": line.price_unit,
+                "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else None,
+            })
 
         r = self.company_id.fortnox_request(
             'POST',
@@ -239,6 +242,30 @@ Please redo the lines to so that all are tax included or all tax excluded from t
             invoice.is_sent_to_fortnox = True
 
     def fortnox_invoice_vals(self, invoice, invoice_lines):
+        source_orders = invoice.line_ids.sale_line_ids.order_id if invoice.line_ids.sale_line_ids else False
+        order_refs = False
+        order_contact = False
+        if source_orders:
+           order_contact = source_orders[0].partner_id
+           for source_order in source_orders:
+               if not order_refs:
+                   order_refs = source_order.name
+               else:
+                   order_refs = order_refs + ", " + source_order.name
+        if invoice.invoice_payment_term_id and not invoice.invoice_payment_term_id.fortnox_code:
+           raise UserError(f"""
+The payment term chosen ({invoice.invoice_payment_term_id.name}) is missing an fortnox code.
+Please add it.
+        """)
+
+        if invoice.invoice_incoterm_id and not invoice.invoice_incoterm_id.fortnox_code:
+           raise UserError(f"""
+The Incoterm term chosen ({invoice.invoice_incoterm_id.name}) is missing an fortnox code.
+Please add it.
+        """)
+        yourreference = invoice.partner_id.name if invoice.partner_id.name and invoice.partner_id.type == "contact" else ""
+        if not yourreference and order_contact:
+            yourreference = order_contact.name if order_contact.name and order_contact.type == "contact" else ""
         invoice_vals = {
             "Comments": "",
             "VATIncluded": True if invoice.tax_included_in_price == "tax_included_price" else False,
@@ -246,14 +273,32 @@ Please redo the lines to so that all are tax included or all tax excluded from t
             "CustomerName": invoice.partner_id.commercial_partner_id.name,
             "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
             "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
-            # "DocumentNumber": invoice.id,  # <-- invoice can only contain numbers apparently
             "InvoiceDate": invoice.invoice_date.strftime(
                 '%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
             "InvoiceRows": invoice_lines,
             "InvoiceType": "INVOICE",
-            "Language": "SV",
             "Remarks": "",
+            "Language": "SV" if invoice.partner_id.lang == "sv_SE" else "EN",##  
+            "Country": invoice.partner_id.country_id.name if invoice.partner_id.country_id else "",
+            "DeliveryAddress1": invoice.partner_shipping_id.street if invoice.partner_shipping_id and invoice.partner_shipping_id.street else "", 
+            "DeliveryAddress2": invoice.partner_shipping_id.street2 if invoice.partner_shipping_id and invoice.partner_shipping_id.street2 else "",
+            "DeliveryCity": invoice.partner_shipping_id.city if invoice.partner_shipping_id and invoice.partner_shipping_id.city else "", 
+            "DeliveryCountry": invoice.partner_shipping_id.country_id.name if invoice.partner_shipping_id and invoice.partner_shipping_id.country_id else "", 
+            "DeliveryName": invoice.partner_shipping_id.name if invoice.partner_shipping_id and invoice.partner_shipping_id.name else "",  
+            "DeliveryZipCode": invoice.partner_shipping_id.zip if invoice.partner_shipping_id and invoice.partner_shipping_id.zip else "", 
+            "TermsOfDelivery":invoice.invoice_incoterm_id.fortnox_code if invoice.invoice_incoterm_id else "",
+            "TermsOfPayment": invoice.invoice_payment_term_id.fortnox_code if invoice.invoice_payment_term_id else "",
+            #"OrderReference":order_refs if order_refs else "",
+            "OurReference": order_refs if order_refs else "",
+            "YourReference": yourreference, 
+            "YourOrderNumber":invoice.ref if invoice.ref else "",
+            "Freight": 0,
+            "AdministrationFee": 0,
+
         }
+        
+        
+        _logger.warning(f"{invoice_vals=}")
         return invoice_vals
 
 
