@@ -35,7 +35,6 @@ class AccountBankStatementLine(models.Model):
         for vals in vals_list:
             if 'date' in vals:
                 date = vals['date']
-                _logger.warning(f"{date=}")
                 try:
                         date = datetime.strptime(date, "%Y-%m-%d")
                 except TypeError:
@@ -45,5 +44,4 @@ class AccountBankStatementLine(models.Model):
                         date_formated = datetime.strftime(date, "%Y-%m-%d")
                         raise UserError(_(f"There is no period for the date {date_formated}, please choose another date or "
                                                           f"create a period for that date."))
-                            _logger.warning(f"{period=}")
         return super(AccountBankStatementLine, self).create(vals_list)
