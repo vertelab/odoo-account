@@ -206,9 +206,12 @@ Please redo the lines to so that all are tax included or all tax excluded from t
                 continue
             if line.product_id:
                 line.product_id.article_update(invoice.company_id)
-            line_name = line.name.split(' ')[1] \
+            if line.name:
+                line_name = line.name.split(' ')[1] \
                 if len(line.name.split(' ')) == 2 \
                 else line.name.replace('[', '').replace(']', '').strip(' ')
+            else:
+                line_name = ""
 
             
 
