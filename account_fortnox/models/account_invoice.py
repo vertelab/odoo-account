@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import logging
 import json
 import time
+import re
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
@@ -12,6 +13,47 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 BASE_URL = 'https://api.fortnox.se'
+
+import re
+
+def split_into_chunks(text, max_length=255):
+    # Split the text into sentences using a regex
+    sentences = re.split(r'(?<=[.!?])\s+', text)
+    chunks = []
+    current_chunk = ""
+
+    for sentence in sentences:
+        if len(current_chunk) + len(sentence) + 1 <= max_length:
+            # Add the sentence to the current chunk
+            current_chunk += (sentence + " ")
+        else:
+            # If adding the sentence would exceed max_length
+            if current_chunk:
+                # Save the current chunk
+                chunks.append(current_chunk.strip())
+            # Start a new chunk with the current sentence
+            if len(sentence) > max_length:
+                # If a single sentence is longer than max_length, split it
+                chunks.extend([sentence[i:i+max_length] for i in range(0, len(sentence), max_length)])
+                current_chunk = ""
+            else:
+                current_chunk = sentence + " "
+
+    # Add the last chunk if any
+    if current_chunk:
+        chunks.append(current_chunk.strip())
+    return chunks
+
+class CustomFiscalPosition(models.Model):
+    _inherit = 'account.fiscal.position'
+
+    fortnox_vat_type = fields.Selection([
+        ('SEVAT', 'Swedish VAT (SEVAT)'),
+        ('SEREVERSEDVAT', 'Swedish Reversed VAT (SEREVERSEDVAT)'),
+        ('EUREVERSEDVAT', 'EU Reversed VAT (EUREVERSEDVAT)'),
+        ('EUVAT', 'EU VAT (EUVAT)'),
+        ('EXPORT', 'Export (EXPORT)')
+    ], string='Fortnox VAT Type')
 
 
 class AccountJournal(models.Model):
@@ -203,23 +245,40 @@ Please redo the lines to so that all are tax included or all tax excluded from t
 
         invoice_lines = []
 
-        for line in invoice.invoice_line_ids:
-            if line.display_type == "line_section":
-                continue
+        # Sort invoice lines according to the "sequence" field (also get the lines with correct language for units, etc)
+        sorted_invoice_line_ids = sorted(invoice.with_context({'lang': invoice.partner_id.lang}).invoice_line_ids, key=lambda x: x.sequence)
+
+        for line in sorted_invoice_line_ids:
+            # if line.display_type == "line_section":
+            #     continue
             if line.product_id:
                 line.product_id.article_update(invoice.company_id)
             line_name = line.name.split(' ')[1] \
                 if len(line.name.split(' ')) == 2 \
                 else line.name.replace('[', '').replace(']', '').strip(' ')
 
-            invoice_lines.append({
-                "AccountNumber": line.account_id.code,
-                "DeliveredQuantity": line.quantity,
-                "Description": line_name,
-                "ArticleNumber": line.product_id.default_code if line.product_id else "",
-                "Price": line.price_unit,
-                "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else "",
-            })
+            if line.product_id:
+                invoice_lines.append({
+                    "AccountNumber": line.account_id.code,
+                    "DeliveredQuantity": line.quantity,
+                    "Unit": line.product_uom_id.name if line.product_uom_id else "",
+                    "Description": line_name,
+                    "ArticleNumber": line.product_id.default_code,
+                    "Price": line.price_unit,
+                    "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else "",
+                })
+            else: # This is a note or similar
+                # Fortnox accepts a maximum of 255 characters for each invoice line, Odoo notes may be longer, so we need to split them.
+                text_chunks = split_into_chunks(line_name, 255)
+                for text in text_chunks:
+                    invoice_lines.append({
+                        "AccountNumber": 0,
+                        "DeliveredQuantity": 0,
+                        "Description": text,
+                        "ArticleNumber": "",
+                        "Price": 0,
+                        "VAT": 0,
+                    })
 
         r = self.company_id.fortnox_request(
             'POST',
@@ -279,7 +338,7 @@ Please add it.
             "InvoiceRows": invoice_lines,
             "InvoiceType": "INVOICE",
             "Remarks": "",
-            "Language": "SV" if invoice.partner_id.lang == "sv_SE" else "EN",##  
+            "Language": "SV" if invoice.partner_id.lang == "sv_SE" else "EN",##  with_context({'lang': 'de_DE'})
             "Country": invoice.partner_id.country_id.name if invoice.partner_id.country_id else "",
             "DeliveryAddress1": invoice.partner_shipping_id.street if invoice.partner_shipping_id and invoice.partner_shipping_id.street else "", 
             "DeliveryAddress2": invoice.partner_shipping_id.street2 if invoice.partner_shipping_id and invoice.partner_shipping_id.street2 else "",

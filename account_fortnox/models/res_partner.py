@@ -89,14 +89,14 @@ class Partner(models.Model):
                             "PriceList": "A",
                             "ShowPriceVATIncluded": False,
                             "Type": "COMPANY",
-                            "VATType": "SEVAT",
+                            #"VATType": "SEVAT",
                             "WWW": partner.commercial_partner_id.website,
                             "YourReference": partner.name,
                             "ZipCode": partner.zip,
                         }
                     })
                 if r.get("ErrorInformation", {}).get("code") in [2000357]:
-                    raise UserError(_(f"{partner.name} has an invalid mail {partner.email}"))
+                    raise UserError(_("%s has an invalid mail %s") % (partner.name, partner.email))
                 partner.commercial_partner_id.fortnox_ref = r["Customer"]["CustomerNumber"]
 
     def partner_update(self, company_id):
@@ -121,7 +121,7 @@ class Partner(models.Model):
                             "PriceList": "A",
                             "ShowPriceVATIncluded": False,
                             "Type": "COMPANY",
-                            "VATType": "SEVAT",
+                            # "VATType": "SEVAT",
                             "WWW": partner.commercial_partner_id.website,
                             "YourReference": partner.name,
                             "ZipCode": partner.zip,
