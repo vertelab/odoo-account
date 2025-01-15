@@ -69,8 +69,10 @@ class Partner(models.Model):
 
     def partner_create(self, company_id):
         for partner in self:
+            VATType = partner.commercial_partner_id.property_account_position_id.fortnox_vat_type if partner.commercial_partner_id and partner.commercial_partner_id.property_account_position_id and partner.commercial_partner_id.property_account_position_id.fortnox_vat_type else "SEVAT"
             _logger.warning(
-                f"CREATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.fortnox_ref=}")
+                f"CREATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.fortnox_ref=} {VATType=}")
+            #raise UserError("test create")
             if not partner.commercial_partner_id.fortnox_ref:
                 url = "https://api.fortnox.se/3/customers"
                 r = company_id.fortnox_request(
@@ -89,7 +91,7 @@ class Partner(models.Model):
                             "PriceList": "A",
                             "ShowPriceVATIncluded": False,
                             "Type": "COMPANY",
-                            #"VATType": "SEVAT",
+                            "VATType": VATType,
                             "WWW": partner.commercial_partner_id.website,
                             "YourReference": partner.name,
                             "ZipCode": partner.zip,
@@ -101,8 +103,9 @@ class Partner(models.Model):
 
     def partner_update(self, company_id):
         for partner in self:
+            VATType = partner.commercial_partner_id.property_account_position_id.fortnox_vat_type if partner.commercial_partner_id and partner.commercial_partner_id.property_account_position_id and partner.commercial_partner_id.property_account_position_id.fortnox_vat_type else "SEVAT"
             _logger.warning(
-                f"UPDATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.fortnox_ref=}")
+                f"UPDATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.fortnox_ref=} {VATType=}")
             if partner.commercial_partner_id.fortnox_ref:
                 url = "https://api.fortnox.se/3/customers/%s" % partner.commercial_partner_id.fortnox_ref
                 company_id.fortnox_request(
@@ -121,7 +124,7 @@ class Partner(models.Model):
                             "PriceList": "A",
                             "ShowPriceVATIncluded": False,
                             "Type": "COMPANY",
-                            # "VATType": "SEVAT",
+                            "VATType": VATType,
                             "WWW": partner.commercial_partner_id.website,
                             "YourReference": partner.name,
                             "ZipCode": partner.zip,
