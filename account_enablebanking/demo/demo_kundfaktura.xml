@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="new_demo_invoice_1" model="account.move">
+            <field name="name">Faktura1</field>
+            <field name="invoice_date" eval="time.strftime('%Y')+'-03-14'" />
+            <field name="invoice_user_id" ref="base.user_demo"/>
+            <field name ="invoice_payment_term_id" ref="account.account_payment_term_end_following_month"/>
+            <field name="currency_id" ref="base.SEK" />
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" search="[('type','=',u'sale')]" />
+            <field name="state">draft</field>
+            <field name="move_type">out_invoice</field>
+            <field name="partner_id" ref="base.res_partner_1" />
+            <field name="invoice_line_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {'product_id': ref('product.product_product_1'), 'quantity': 1}),
+                (0, 0, {'product_id': ref('product.product_product_2'), 'quantity': 1}),
+                ]"/>
+        </record>
+
+
+        <function model="account.move.line" name="_onchange_product_id" context="{'check_move_validity': False}">
+            <value model="account.move.line" eval="obj().search([('move_id', 'in', [
+                ref('new_demo_invoice_1'),
+
+            
+            ])]).ids"/>
+        </function>
+
+        <function model="account.move.line" name="_onchange_mark_recompute_taxes" context="{'check_move_validity': False}">
+            <value model="account.move.line" eval="obj().search([('move_id', 'in', [
+                ref('new_demo_invoice_1'),
+
+            ])]).ids"/>
+        </function>
+
+        <function model="account.move" name="_recompute_dynamic_lines" context="{'check_move_validity': False}">
+            <value eval="[
+         ref('new_demo_invoice_1'),
+
+         ]"/>
+        </function>
+    </data>
+</odoo>

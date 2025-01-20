@@ -1,0 +1,23 @@
+<odoo>
+    <record id="account_class_class_1" model="cash.flow.custom.account.class">
+        <field name="name">Assets (class 1)</field>
+        <field name="account_class">1</field>
+    </record>
+    <record id="account_class_class_1" model="cash.flow.custom.account.class">
+        <field name="name">Test (class 3)</field>
+        <field name="account_class">3</field>
+    </record>
+    <record id="account_class_class_56" model="cash.flow.custom.account.class">
+        <field name="name">Other Costs (class 5 &amp; 6)</field>
+        <field name="account_class">5,6</field>
+
+    </record>
+    <record id="account_class_class_7" model="cash.flow.custom.account.class">
+        <field name="name">Personell Costs (class 7)</field>
+        <field name="account_class">7</field>
+    </record>
+    <record id="account_class_class_8" model="cash.flow.custom.account.class">
+        <field name="name">Financial Income and Costs (class 8)</field>
+        <field name="account_class">8</field>
+    </record>
+</odoo>

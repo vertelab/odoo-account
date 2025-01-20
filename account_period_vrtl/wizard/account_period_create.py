@@ -38,11 +38,10 @@ class AccountPeriodCreate(models.Model):
 
     @api.model
     def default_date_start(self):
-        return '%s-01-01' %fields.Date.today()[:4]
+        return '%s-01-01' % fields.Date.today()[:4]
 
-    @api.model
     def default_date_stop(self):
-        return '%s-12-31' %fields.Date.today()[:4]
+        return '%s-12-31' % fields.Date.today()[:4]
 
     fy_name = fields.Char(string='Fiscal Year Name', required=True, default=default_fy_name)
     fy_code = fields.Char(string='Fiscal Year Code', required=True, default=default_fy_name)

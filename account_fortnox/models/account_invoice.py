@@ -1,23 +1,104 @@
-1# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import datetime, timedelta
 import logging
 import json
 import time
+import re
 
 from odoo import api, fields, models, _
-from odoo.exceptions import Warning, UserError
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
 BASE_URL = 'https://api.fortnox.se'
 
+import re
+
+def split_into_chunks(text, max_length=255):
+    # Split the text into sentences using a regex
+    sentences = re.split(r'(?<=[.!?])\s+', text)
+    chunks = []
+    current_chunk = ""
+
+    for sentence in sentences:
+        if len(current_chunk) + len(sentence) + 1 <= max_length:
+            # Add the sentence to the current chunk
+            current_chunk += (sentence + " ")
+        else:
+            # If adding the sentence would exceed max_length
+            if current_chunk:
+                # Save the current chunk
+                chunks.append(current_chunk.strip())
+            # Start a new chunk with the current sentence
+            if len(sentence) > max_length:
+                # If a single sentence is longer than max_length, split it
+                chunks.extend([sentence[i:i+max_length] for i in range(0, len(sentence), max_length)])
+                current_chunk = ""
+            else:
+                current_chunk = sentence + " "
+
+    # Add the last chunk if any
+    if current_chunk:
+        chunks.append(current_chunk.strip())
+    return chunks
+
+class CustomFiscalPosition(models.Model):
+    _inherit = 'account.fiscal.position'
+
+    fortnox_vat_type = fields.Selection([
+        ('SEVAT', 'Swedish VAT (SEVAT)'),
+        ('SEREVERSEDVAT', 'Swedish Reversed VAT (SEREVERSEDVAT)'),
+        ('EUREVERSEDVAT', 'EU Reversed VAT (EUREVERSEDVAT)'),
+        ('EUVAT', 'EU VAT (EUVAT)'),
+        ('EXPORT', 'Export (EXPORT)')
+    ], string='Fortnox VAT Type')
+
+
+class AccountJournal(models.Model):
+    _inherit = "account.journal"
+    is_fortnox_journal = fields.Boolean(string="Is Fortnox Journal", copy=False)
+
+
 class AccountInvoice(models.Model):
     _inherit = "account.move"
-    fortnox_response = fields.Char(string="Fortnox Response", readonly=True)
-    fortnox_status = fields.Char(string="Fortnox Status", readonly=True)
-    # state = fields.Selection([("draft", "Utkast"), ("open", "Bekräftad"), ("sent", "Skickad"), ("paid", "Betalad"), ("cancel", "Avbruten")], readonly=False)
+
+    fortnox_response = fields.Char(string="Fortnox Response", readonly=True, copy=False)
+    fortnox_ref = fields.Char(string="Fortnox Ref", readonly=True, copy=False, store=True, compute="set_old_name")
+    fortnox_status = fields.Char(string="Fortnox Status", readonly=True, copy=False)
+    is_sent_to_fortnox = fields.Boolean(string="Sent To Fortnox", readonly=True, copy=False)
+
+    tax_included_in_price = fields.Selection([
+        ('tax_included_price', 'Tax Included Price'),
+        ('tax_excluded_from_price', 'Tax Excluded from Price'),
+        ('mixed', 'Mixed')
+    ], string='Tax Inclusion in price', compute='_compute_tax_included_in_price', store=False)
+
+    def _compute_tax_included_in_price(self):
+        for move in self:
+            tax_included = set()
+            for line in move.line_ids:
+                for tax in line.tax_ids:
+                    tax_included.add(tax.price_include)
+            move.tax_included_in_price = False
+            tax_included = list(tax_included)
+            if len(tax_included) == 0:
+               move.tax_included_in_price = "tax_excluded_from_price"
+            elif len(tax_included) == 1:
+               if tax_included[0]:
+                  move.tax_included_in_price = "tax_included_price" 
+               else:
+                  move.tax_included_in_price = "tax_excluded_from_price"
+            elif len(tax_included) == 2:
+                move.tax_included_in_price = "mixed"
+
+    def set_old_name(self):
+        for record in self:
+            if record.is_sent_to_fortnox and not record.fortnox_ref:
+                record.fortnox_ref = record.name
+            else:
+                record.fortnox_ref = False
 
     def remove_zero_cost_lines(self):
         """
@@ -44,179 +125,244 @@ class AccountInvoice(models.Model):
 
     def update_invoice_status_fortnox_paid(self, fortnox_values):
         final_pay_date_string = fortnox_values.get('FinalPayDate')
+        if not final_pay_date_string:
+            final_pay_date_string = fortnox_values.get('OutboundDate')
         final_pay_date = datetime.strptime(final_pay_date_string, '%Y-%m-%d').date()
-        fortnox_journal = self.env['account.journal'].search([('name','like','fortnox'),('type','=','bank')])
+        fortnox_journal = self.env['account.journal'].search(
+            [('company_id', '=', self.company_id.id), ('is_fortnox_journal', '=', True), ('type', '=', 'bank')])
 
         if not fortnox_journal:
-            raise UserError("No valid Journal found. Create a journal called something containing fortnox and of the type bank.")
+            raise UserError(
+                "No valid Journal found. Create a journal of type bank with is fortnox journal set to true.")
         elif len(fortnox_journal) > 1:
-            raise UserError("More than one valid journal found for fortnox. Make sure there is only one journal of the type Bank with fortnox in its name.")
+            raise UserError(
+                "More than one valid journal found for fortnox. Make sure there is only one journal of the type Bank "
+                "with is fortnox journal set to true.")
         for rec in self:
-            #payment_methods = (rec.amount_residual>0) and rec.journal_id.inbound_payment_method_ids or rec.journal_id.outbound_payment_method_ids
-            #_logger.warning(f"{rec.journal_id=}")
-            #_logger.warning(f"{payment_methods=}")
             payment_register_params = dict(
-                amount = rec.amount_residual,
-                communication = rec.payment_reference,
-                currency_id = rec.currency_id.id,
-                journal_id = fortnox_journal.id,
-                payment_date = final_pay_date if final_pay_date else rec.date,
-                #payment_method_id = payment_methods and payment_methods[0].id or False,
-                payment_type = rec.amount_residual >0 and 'inbound' or 'outbound',
-                partner_id = rec.partner_id.id,
-                partner_bank_id = fortnox_journal.bank_account_id.id,
+                amount=rec.amount_residual,
+                communication=rec.payment_reference,
+                currency_id=rec.currency_id.id,
+                journal_id=fortnox_journal.id,
+                payment_date=final_pay_date if final_pay_date else rec.date,
+                payment_type=rec.amount_residual > 0 and 'inbound' or 'outbound',
+                partner_id=rec.partner_id.id,
+                partner_bank_id=fortnox_journal.bank_account_id.id,
             )
 
             payment_id = self.env['account.payment.register'].with_context(
                 active_model='account.move',
                 active_ids=rec.id,
             ).create(payment_register_params)
-            # ~ payment_id._onchange_journal()
-           # _logger.warning(f"before"*10)
-           # _logger.warning(self.env.context)
-           # _logger.warning(self.company_id)
-           # _logger.warning(self.id)
-            action = payment_id.action_create_payments()
-           # _logger.warning("after"*10)
+            payment_id.action_create_payments()
+
+    def _reverse_invoice(self, invoice_id, credit_invoice_ref, company_id):
+        # Refund the invoice
+        wiz_context = {
+            'active_model': 'account.move',
+            'active_ids': [invoice_id.id],
+            'default_journal_id': invoice_id.journal_id
+        }
+        refund_invoice_wiz = self.env['account.move.reversal'].with_context(wiz_context).create({
+            'refund_method': 'refund',
+            'date': fields.Date.today(),
+        })
+
+        refund_invoice = self.env['account.move'].browse(refund_invoice_wiz.reverse_moves()['res_id'])
+        refund_invoice.action_post()
+        refund_invoice.name = credit_invoice_ref
+        refund_invoice.fortnox_response = company_id.fortnox_request(
+            "GET", f"{BASE_URL}/3/invoices/{credit_invoice_ref}"
+        )
+
+        (invoice_id + refund_invoice).line_ids \
+            .filtered(lambda line: line.account_type in ('asset_receivable', 'liability_payable')) \
+            .reconcile()
 
     def update_invoice_status_fortnox_cron(self):
-        """Update invoice status from fortnox."""
-
-        # Assumption that most invoices are paid rather than canceled.
-        # Python conserves dict order since Python 3.7 so order matters.
-        states = {'fullypaid': 'paid',
-                  'cancelled': 'cancel',}
-
-        # States we don't care about.
-        #          'unpaid': 'open',
-        #          'unpaidoverdue': 'open'}
-
-        # Cutof date to not check too old invoices.
         from_date = datetime.now() - timedelta(days=365)
-        # Allow for multi company.
-        for company in self.env['res.company'].search([]):
-            for invoice in self.env['account.move'].search(
-                    [('company_id', '=', company.id),
-                     ('create_date', '>', from_date),
-                     ('payment_state', '!=', 'paid'),
-                     ('state', '!=', 'draft'),
-                     ('state', '!=', 'cancel'),
-                    ]):
-                #('id', '=', 940)
-                for state in states:
-                    # Only allowed to do 4 requests per second to Fortnox.
-                    # Do 3 requests per second just to be sure.
-                    time.sleep(0.3)
-                    try:
-                        r = company.fortnox_request(
-                            'get',
-                            #f'{BASE_URL}/3/invoices/{invoice.name}')
-                            f'{BASE_URL}/3/invoices/?filter={state}&documentnumber={invoice.name}&fromdate={from_date.strftime("%Y-%m-%d")}')                       
-                        r = json.loads(r)
-                    except:
-                        _logger.error(f': {invoice.name}')
-                        _logger.error(r.get('ErrorInformation'))
-                        continue
-                    
-                    for inv in r.get('Invoices', []):
-                        # ~ if invoice.name == inv.get('DocumentNumber'):
-                        if invoice.name == inv['DocumentNumber']:
-                            # ~ _logger.info(f' {invoice.id} {invoice.name}: {state}')
-                            # ~ _logger.debug(str(invoice.read())) 
-                            # ~ _logger.warning("Look here"*100)
-                            # ~ _logger.warning(states[state])
-                            # ~ _logger.warning(invoice.state)
-                            if states[state] == 'paid' and invoice.state == 'posted':
-                                invoice.update_invoice_status_fortnox_paid(inv)
-                            elif states[state] == 'paid' and invoice.is_move_sent:
-                                invoice.payment_state = 'paid'
-                                #TODO: check which method updates the state instead of setting it yourself. invoice.post something
-                                invoice.update_invoice_status_fortnox_paid(inv)
-
-                            invoice.fortnox_response = r
-                            invoice.fortnox_status = states[state]
-                            break
-                    else:
-                        # If we found an invoice we do not have to check
-                        # next state.
-                        break
-
-    def fortnox_create(self):
-        # Customer (POST https://api.fortnox.se/3/customers)
-        for invoice in self:
-            try:
-                r = self.company_id.fortnox_request(
-                    "get",
-                    f"https://api.fortnox.se/3/invoices/{invoice.id}"
+        for company_id in self.env['res.company'].search([]):
+            move_id = self.env['account.move'].search([
+                ('company_id', '=', company_id.id),
+                ('create_date', '>', from_date),
+                ('payment_state', 'not in', ['paid', 'reversed', 'partially_paid', 'in_payment']),
+                ('state', '=', 'posted'),
+                ('move_type', '=', 'out_invoice')
+            ])
+            for invoice in move_id:
+                fortnox_res = company_id.fortnox_request(
+                    "GET",
+                    f"{BASE_URL}/3/invoices/{invoice.fortnox_ref}"
                 )
-                r = json.loads(r)
-            except UserError as e:
-                try:
-                    e_json = json.loads(e.args[0].decode('utf-8'))
-                except AttributeError as f:
-                    raise UserError(e)
-                else:
-                    if e_json['ErrorInformation'] and e_json['ErrorInformation']['Code'] == 2000434:
-                        _logger.warning(f"Invoice does not exist in fortnox, creating.")
-                    else:
-                        raise UserError(e)
-            else:
-                invoice.ref = r["Invoice"]["CustomerNumber"]
-                invoice.name = r["Invoice"]["DocumentNumber"]
-                invoice.partner_id.ref = r["Invoice"]["CustomerNumber"]
-                invoice.is_move_sent = True
-                _logger.warning(f"Invoice already created in fortnox, syncing info to Odoo.")
-                continue
-            
-            if not invoice.invoice_date_due:
-                raise UserError(_("ERROR: missing date_due on invoice."))
-            if not invoice.partner_id.commercial_partner_id.ref:
-                invoice.partner_id.partner_create()
-            if invoice.partner_id.commercial_partner_id.ref:
-                invoice.partner_id.partner_update()
-            
-            InvoiceRows = []
-            for line in invoice.invoice_line_ids:
-                if line.product_id:
-                    line_name = line.name.split(' ')[1] if len(line.name.split(' ')) == 2 else line.name.replace('[','').replace(']','').strip(' ')
-                    line.product_id.article_update()
-                    InvoiceRows.append({
-                        "AccountNumber": line.account_id.code,
-                        "DeliveredQuantity": line.quantity,
-                        "Description": line_name,
-                        "ArticleNumber": line.product_id.default_code if line.product_id else None,
-                        "Price": line.price_unit,
-                        "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else None,
-                     })
 
-            r = self.company_id.fortnox_request(
-                'post',
-                "https://api.fortnox.se/3/invoices",
-                data={"Invoice": {
-                    "Comments": "",
-                    "Currency": "SEK",
-                    "CustomerName": invoice.partner_id.commercial_partner_id.name,
-                    "CustomerNumber": invoice.partner_id.commercial_partner_id.ref,
-                    "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
-                    "DocumentNumber": invoice.id, #<-- invoice can only contain numbers apparently
-                    "InvoiceDate": invoice.invoice_date.strftime('%Y-%m-%d'),
-                    "InvoiceRows": InvoiceRows,
-                    "InvoiceType": "INVOICE",
-                    "Language": "SV",
-                    "Remarks": "",
-                    }
+                if fortnox_res.get('ErrorInformation', {}).get('Code'):
+                    pass
+                elif invoice_info := fortnox_res.get('Invoice'):
+                    credit_invoice_ref = int(invoice_info.get('CreditInvoiceReference'))
+                    if credit_invoice_ref > 0:
+                        invoice._reverse_invoice(
+                            invoice_id=invoice, credit_invoice_ref=credit_invoice_ref, company_id=company_id
+                        )
+                    elif credit_invoice_ref == 0 and invoice_info.get("FinalPayDate") and invoice.state == 'posted':
+                        invoice.update_invoice_status_fortnox_paid(invoice_info)
+
+                invoice.fortnox_response = fortnox_res
+
+    def sync_fortnox(self):
+        self.ensure_one()
+        invoice_id = self.env['account.move'].browse(self.id)
+        if not invoice_id.fortnox_ref and not invoice_id.is_sent_to_fortnox:
+            self.fortnox_create(invoice_id)
+            return
+
+        fortnox_res = invoice_id.company_id.fortnox_request(
+            "get",
+            f"{BASE_URL}/3/invoices/{invoice_id.fortnox_ref}"
+        )
+        if fortnox_invoice := fortnox_res.get('Invoice'):
+            self.fortnox_update(invoice_id, fortnox_invoice)
+        else:
+            raise UserError(f"There is an issue with the fortnox connection. Contact administrator ({fortnox_res=})")
+
+    def fortnox_update(self, invoice, fortnox_invoice):
+        #invoice.ref = fortnox_invoice["CustomerNumber"] ??
+        invoice.fortnox_ref = fortnox_invoice["DocumentNumber"]
+        invoice.partner_id.fortnox_ref = fortnox_invoice["CustomerNumber"]
+        invoice.is_move_sent = True
+
+    def fortnox_create(self, invoice):
+        if self.tax_included_in_price == "mixed":
+           raise UserError("""
+Fortnox does not support having a mix of invoice lines where the tax is or is not included in the price.
+Please redo the lines to so that all are tax included or all tax excluded from the price before syncing to Fortnox.
+                          """)
+        if not invoice.invoice_date_due:
+            raise UserError(_("ERROR: missing date_due on invoice."))
+        if not invoice.partner_id.commercial_partner_id.fortnox_ref:
+            invoice.partner_id.partner_create(invoice.company_id)
+        if invoice.partner_id.commercial_partner_id.fortnox_ref:
+            invoice.partner_id.partner_update(invoice.company_id)
+
+        invoice_lines = []
+
+        # Sort invoice lines according to the "sequence" field (also get the lines with correct language for units, etc)
+        sorted_invoice_line_ids = sorted(invoice.with_context({'lang': invoice.partner_id.lang}).invoice_line_ids, key=lambda x: x.sequence)
+
+        for line in sorted_invoice_line_ids:
+            # if line.display_type == "line_section":
+            #     continue
+            if line.product_id:
+                line.product_id.article_update(invoice.company_id)
+            line_name = line.name.split(' ')[1] \
+                if len(line.name.split(' ')) == 2 \
+                else line.name.replace('[', '').replace(']', '').strip(' ')
+
+            if line.product_id:
+                invoice_lines.append({
+                    "AccountNumber": line.account_id.code,
+                    "DeliveredQuantity": line.quantity,
+                    "Unit": line.product_uom_id.name if line.product_uom_id else "",
+                    "Description": line_name,
+                    "ArticleNumber": line.product_id.default_code,
+                    "Price": line.price_unit,
+                    "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else "",
                 })
-            r = json.loads(r)
-            if r.get('ErrorInformation'):
-                invoice._message_log(body='Error Creating Invoice Fortnox %s ' % r['ErrorInformation']['message'], subject='Fortnox Error')
-                _logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
-            else:
-                # ~ _logger.warning(f'REF, NAME {r["Invoice"]["CustomerNumber"]=} {invoice.ref=} {r["Invoice"]["DocumentNumber"]=} {invoice.name=}')
-                invoice.ref = r["Invoice"]["CustomerNumber"]
-                invoice.name = r["Invoice"]["DocumentNumber"] # <-- maybe dont assign an invoice this name? The odoo way of naming invoices is more descriptive, can maybe add the documentnumber to ref. 
-                invoice.is_move_sent = True
+            else: # This is a note or similar
+                # Fortnox accepts a maximum of 255 characters for each invoice line, Odoo notes may be longer, so we need to split them.
+                text_chunks = split_into_chunks(line_name, 255)
+                for text in text_chunks:
+                    invoice_lines.append({
+                        "AccountNumber": 0,
+                        "DeliveredQuantity": 0,
+                        "Description": text,
+                        "ArticleNumber": "",
+                        "Price": 0,
+                        "VAT": 0,
+                    })
 
-class AccountInvoiceSend(models.TransientModel):
+        r = self.company_id.fortnox_request(
+            'POST',
+            "https://api.fortnox.se/3/invoices",
+            data={
+                "Invoice": self.fortnox_invoice_vals(invoice, invoice_lines)
+            }
+        )
+
+        if r.get('ErrorInformation'):
+            invoice._message_log(
+                body='Error Creating Invoice Fortnox %s ' % r['ErrorInformation']['message'],
+                subject='Fortnox Error'
+            )
+            _logger.error(f"{r=}")
+            #_logger.error('%s has problem in its contact information, please check it' % invoice.partner_id.name)
+        else:
+            #invoice.ref = r["Invoice"]["CustomerNumber"] ??
+            invoice.fortnox_ref = r["Invoice"]["DocumentNumber"]
+            invoice.is_move_sent = True
+            invoice.is_sent_to_fortnox = True
+
+    def fortnox_invoice_vals(self, invoice, invoice_lines):
+        source_orders = invoice.line_ids.sale_line_ids.order_id if invoice.line_ids.sale_line_ids else False
+        order_refs = False
+        order_contact = False
+        if source_orders:
+           order_contact = source_orders[0].partner_id
+           for source_order in source_orders:
+               if not order_refs:
+                   order_refs = source_order.name
+               else:
+                   order_refs = order_refs + ", " + source_order.name
+        if invoice.invoice_payment_term_id and not invoice.invoice_payment_term_id.fortnox_code:
+           raise UserError(f"""
+The payment term chosen ({invoice.invoice_payment_term_id.name}) is missing an fortnox code.
+Please add it.
+        """)
+
+        if invoice.invoice_incoterm_id and not invoice.invoice_incoterm_id.fortnox_code:
+           raise UserError(f"""
+The Incoterm term chosen ({invoice.invoice_incoterm_id.name}) is missing an fortnox code.
+Please add it.
+        """)
+        yourreference = invoice.partner_id.name if invoice.partner_id.name and invoice.partner_id.type == "contact" else ""
+        if not yourreference and order_contact:
+            yourreference = order_contact.name if order_contact.name and order_contact.type == "contact" else ""
+        invoice_vals = {
+            "Comments": "",
+            "VATIncluded": True if invoice.tax_included_in_price == "tax_included_price" else False,
+            "Currency": invoice.currency_id.name,
+            "CustomerName": invoice.partner_id.commercial_partner_id.name,
+            "CustomerNumber": invoice.partner_id.commercial_partner_id.fortnox_ref,
+            "DueDate": invoice.invoice_date_due.strftime('%Y-%m-%d'),
+            "InvoiceDate": invoice.invoice_date.strftime(
+                '%Y-%m-%d') if invoice.invoice_date else fields.Date.today().strftime('%Y-%m-%d'),
+            "InvoiceRows": invoice_lines,
+            "InvoiceType": "INVOICE",
+            "Remarks": "",
+            "Language": "SV" if invoice.partner_id.lang == "sv_SE" else "EN",##  with_context({'lang': 'de_DE'})
+            "Country": invoice.partner_id.country_id.name if invoice.partner_id.country_id else "",
+            "DeliveryAddress1": invoice.partner_shipping_id.street if invoice.partner_shipping_id and invoice.partner_shipping_id.street else "", 
+            "DeliveryAddress2": invoice.partner_shipping_id.street2 if invoice.partner_shipping_id and invoice.partner_shipping_id.street2 else "",
+            "DeliveryCity": invoice.partner_shipping_id.city if invoice.partner_shipping_id and invoice.partner_shipping_id.city else "", 
+            "DeliveryCountry": invoice.partner_shipping_id.country_id.name if invoice.partner_shipping_id and invoice.partner_shipping_id.country_id else "", 
+            "DeliveryName": invoice.partner_shipping_id.name if invoice.partner_shipping_id and invoice.partner_shipping_id.name else "",  
+            "DeliveryZipCode": invoice.partner_shipping_id.zip if invoice.partner_shipping_id and invoice.partner_shipping_id.zip else "", 
+            "TermsOfDelivery":invoice.invoice_incoterm_id.fortnox_code if invoice.invoice_incoterm_id else "",
+            "TermsOfPayment": invoice.invoice_payment_term_id.fortnox_code if invoice.invoice_payment_term_id else "",
+            #"OrderReference":order_refs if order_refs else "",
+            "OurReference": order_refs if order_refs else "",
+            "YourReference": yourreference, 
+            "YourOrderNumber":invoice.ref if invoice.ref else "",
+            "Freight": 0,
+            "AdministrationFee": 0,
+
+        }
+        
+        
+        _logger.warning(f"{invoice_vals=}")
+        return invoice_vals
+
+
+class AccountMoveSend(models.TransientModel):
     _inherit = 'account.invoice.send'
     is_fortnox = fields.Boolean(string='Fortnox', default=True)
 
@@ -225,11 +371,11 @@ class AccountInvoiceSend(models.TransientModel):
         Override normal send_and_print_action with additional
         functionality for fortnox.
         """
-        res = super(AccountInvoiceSend, self).send_and_print_action()
+        res = super(AccountMoveSend, self).send_and_print_action()
         if self.is_fortnox:
             for invoice in self.invoice_ids:
                 invoice.remove_zero_cost_lines()
-                invoice.fortnox_create()
+                invoice.sync_fortnox()
                 # Do not spam fortnox
                 time.sleep(1)
         return res

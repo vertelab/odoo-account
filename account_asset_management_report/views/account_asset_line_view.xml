@@ -1,0 +1,76 @@
+<odoo>
+    <data>
+        <record id="account_asset_line_view_tree" model="ir.ui.view">
+            <field name="name">account.asset.line.tree</field>
+            <field name="model">account.asset.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="asset_id"/>
+                    <field name="move_id"/>
+                    <field name="amount"/>
+                    <field name="line_date"/>
+                    <field name="depreciation_base"/>
+                    <field name="depreciated_value"/>
+                    <field name="remaining_value"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="account_asset_line_view_pivot" model="ir.ui.view">
+            <field name="name">account.asset.line.pivot</field>
+            <field name="model">account.asset.line</field>
+            <field name="arch" type="xml">
+                <pivot string="Depreciation Board" sample="1">
+                    <field name="asset_id" type="row"/>
+                    <field name="line_date" type="row" interval="month"/>
+                    <field name="depreciated_value" type="measure"/>
+                    <field name="remaining_value" type="measure"/>
+                    <field name="amount" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="account_asset_line_view_form" model="ir.ui.view">
+            <field name="name">account.asset.line.form</field>
+            <field name="model">account.asset.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="asset_id"/>
+                                <field name="move_id"/>
+                                <field name="amount"/>
+                                <field name="line_date"/>
+                            </group>
+                            <group>
+                                <field name="depreciation_base"/>
+                                <field name="depreciated_value"/>
+                                <field name="remaining_value"/>
+                                <field name="type"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="account_asset_line_action" model="ir.actions.act_window">
+            <field name="name">Depreciation Board</field>
+            <field name="res_model">account.asset.line</field>
+            <field name="view_mode">tree,pivot</field>
+        </record>
+
+        <menuitem
+            id="account_asset_line_menu"
+            action="account_asset_line_action"
+            parent="account_asset_management.menu_finance_assets"
+            sequence="100"
+        />
+    </data>
+</odoo>

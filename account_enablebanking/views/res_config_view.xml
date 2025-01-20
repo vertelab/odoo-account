@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.account</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('app_settings_block')]/div[@name='fiscal_localization_setting_container']" position="after">
+                    <h2>Enable Banking</h2>
+                    <div class="row mt16 o_settings_container" name="enable_banking_setting_container">
+                        <div class="col-12 col-lg-6 o_setting_box" id="enable_banking" title="Enable Banking">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Schedule Interval</span>
+                                <div class="text-muted">
+                                    Set internal number and type for enable banking to sync transactions
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label string="Interval Type" for="interval_type" class="col-lg-3 o_light_label"/>
+                                        <field name="interval_type"/>
+                                    </div>
+                                    <div class="row">
+                                        <label string="Interval Number" for="interval_number" class="col-lg-3 o_light_label"/>
+                                        <field name="interval_number"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="view_account_move_line_filter">
+        <field name="name">account.account.form.inherit</field>
+        <field name="inherit_id" ref="account.view_account_move_line_filter" />
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <field name="account_id" position="after">
+                <field name="analytic_distribution" string="Analytic Account"/>
+            </field>
+            <xpath expr="//group[1]/filter[@name='group_by_account']" position="after">
+                <filter string="Analytic Account" name="group_by_analytic_distribution" domain="[]" context="{'group_by': 'analytic_account_ids'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
