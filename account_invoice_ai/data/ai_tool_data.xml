@@ -1,0 +1,36 @@
+<odoo>
+  <data noupdate="0">
+      
+    <record id="account_invoice_ai_rfc822" model="ai.tool">
+      <field name="name">RFC 822</field>
+      <field name="tool">mail_rfc822</field>
+      <field name="tool_lib">odoo.addons.account_invoice_ai.tools.rfc822</field>
+      <field name="image_128"></field>
+    </record>
+    <record id="account_invoice_ai_partner_search" model="ai.tool">
+      <field name="name">Partner Search</field>
+      <field name="tool">partner_search</field>
+      <field name="tool_lib">odoo.addons.ai_agent.tools.partner_search</field>
+      <field name="image_128"></field>
+    </record>
+    <record id="account_invoice_ai_invoice_search" model="ai.tool">
+      <field name="name">Invoice Search</field>
+      <field name="tool">Invoice_search</field>
+      <field name="tool_lib">odoo.addons.ai_agent.tools.invoice_search</field>
+      <field name="image_128"></field>
+    </record>
+    <record id="account_invoice_ai_pdf" model="ai.tool">
+      <field name="name">PDF-scrape</field>
+      <field name="tool">pdf_scrape</field>
+      <field name="tool_lib">odoo.addons.ai_agent.tools.pdf_scrape</field>
+      <field name="image_128"></field>
+    </record>
+    <record id="account_invoice_ai_ocr" model="ai.tool">
+      <field name="name">OCR-scrape</field>
+      <field name="tool">ocr_scrape</field>
+      <field name="tool_lib">odoo.addons.ai_agent.tools.ocr_scrape</field>
+      <field name="image_128"></field>
+    </record>
+
+  </data>
+</odoo>
