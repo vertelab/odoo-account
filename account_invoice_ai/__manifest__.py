@@ -42,7 +42,7 @@
         'account',
     ],
     'data': [
-        'data/tools_data.xml',
+        'data/ai_tool_data.xml',
         'data/ai_agent_data.xml',
     ],
     'installable': True,
