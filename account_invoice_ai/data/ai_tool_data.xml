@@ -31,6 +31,12 @@
       <field name="tool_lib">odoo.addons.ai_agent.tools.ocr_scrape</field>
       <field name="image_128"></field>
     </record>
+    <record id="account_invoice_ai_process_attachments" model="ai.tool">
+      <field name="name">Process Attachments</field>
+      <field name="tool">create_attachment_tool</field>
+      <field name="tool_lib">odoo.addons.account_invoice_ai.tools.tools</field>
+      <field name="image_128"></field>
+    </record>
 
   </data>
 </odoo>
