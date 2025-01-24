@@ -18,6 +18,15 @@ from odoo.exceptions import UserError, ValidationError, Warning
 # from odoo.tools.safe_eval import safe_eval
 from langgraph.graph.message import add_messages
 
+import io
+import re
+
+from datetime import datetime
+from hashlib import md5
+from logging import getLogger
+from zlib import compress, decompress
+from PIL import Image, PdfImagePlugin
+
 _logger = logging.getLogger(__name__)
 
 tool_state = {}
@@ -60,5 +69,8 @@ def create_attachment_tool(state):
     def process_attachments(query: str) -> str:
         """This gets data/string from a attachment :)"""
         print("Access to state in process_attachments: ", state.get('messages')[0].attachments)
-        return f"It works!!!"
+        attachments = state.get('messages')[0].attachments
+        pdf_content = attachments.get_pdf_content()
+        return pdf_content
+
     return process_attachments
