@@ -30,22 +30,63 @@ class State(TypedDict):
     messages: Annotated[list, add_messages]
 
 
-@tool("mail_rfc822", return_direct=False)
-def mail_rfc822(mail: str) -> dict:
-    """Returns a dict with mail-format."""
+def mail_rfc822(state):
 
-    results = list(DDGS().text(query, max_results=5))
+    @tool("mail_rfc822_tool", return_direct=False)
+    def mail_rfc822_tool(mail_body: str) -> str:
+        """Returns a json with values from eml file"""
+        
+        import json, base64, io, eml_parser, datetime, email
 
-    return results if results else "No results found."
+        attachment_ids = []
+
+        if state.get("attachments"):
+            attachment_ids = state["attachments"]
+        elif state.get("session") and len(state["session"].message_ids.attachment_ids) != 0:
+            attachment_ids = state["session"].message_ids.attachment_ids
+        else:
+            _logger.error(f"No attachments on email or given to agent")
+
+        raw_attachments = []
+        result = []
+
+        if type([b"0"]) != type(attachment_ids):
+
+            eml_files = list(filter(lambda attachment_id: ".eml" in attachment_id.name, attachment_ids))
+            for eml_file in eml_files:
+                raw_attachments.append(base64.b64decode(eml_file.datas))
+       
+        else:
+            raw_attachments = attachment_ids
+
+        def json_serial(obj):
+            if isinstance(obj, datetime.datetime):
+                serial = obj.isoformat()
+                return serial
+
+        for raw_attachment in raw_attachments:
+            ep = eml_parser.EmlParser()
+            parsed_eml = ep.decode_email_bytes(raw_attachment)
+            test = email.message(raw_attachment)
+            result.append(json.dumps(parsed_eml, default=json_serial))
+
+        return result if len(result) != 0 else "No eml files to analyze"
+
+    return mail_rfc822_tool
 
 
-@tool("partner_search", return_direct=False)
-def partner_search(email: str) -> int:
-    """Searh partner using email."""
+def partner_search(state):
 
-    partner = self.env['res.partner'].search([('mail', '=', email)], limit=1)
-    return partner.id if partner else None
+    @tool("partner_search_tool", return_direct=False)
+    def partner_search_tool(email: str) -> int:
+        """Search partner using email."""
 
+        state["mail"]
+
+        partner = self.env['res.partner'].search([('mail', '=', email)], limit=1)
+        return partner.id if partner else None
+
+    return partner_search_tool
 
 @tool("invoice_search", return_direct=False)
 def invoice_search(number: str) -> int:

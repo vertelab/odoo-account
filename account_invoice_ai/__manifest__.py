@@ -46,6 +46,11 @@
         'data/ai_agent_data.xml',
         'views/quest_view.xml'
     ],
+    "external_dependencies": {
+        "python": [
+            "eml_parser",
+        ],
+    },
     'installable': True,
     'auto_install': False,
     'application': False,
