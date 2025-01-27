@@ -51,6 +51,7 @@
         "python": [
             "eml_parser",
             "pyarrow",
+            "pytesseract",
         ],
     },
     'installable': True,
