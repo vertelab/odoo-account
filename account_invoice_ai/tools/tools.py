@@ -1,31 +1,12 @@
 import logging
 import requests
 from langchain.tools import tool
-from bs4 import BeautifulSoup
-from duckduckgo_search import DDGS
-from typing_extensions import Annotated, TypedDict, Sequence, Any, List, Dict
+from typing_extensions import Annotated, TypedDict, Dict
 from odoo.addons.ai_agent.models.ai_quest import AgentState
-from langchain_core.tools import InjectedToolArg
 from pydantic import BaseModel, Field
-from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
-import operator
 
-from odoo import models, fields, api, _
 from odoo.addons.ai_agent.models.ai_quest_session import AIQuestSession
-# from odoo.addons.ai_agent.models.ai_quest import AgentState as State
-from odoo.exceptions import UserError, ValidationError, Warning
-# from odoo.tools.mail import html2plaintext
-# from odoo.tools.safe_eval import safe_eval
 from langgraph.graph.message import add_messages
-
-import io
-import re
-
-from datetime import datetime
-from hashlib import md5
-from logging import getLogger
-from zlib import compress, decompress
-from PIL import Image, PdfImagePlugin
 
 _logger = logging.getLogger(__name__)
 
@@ -40,7 +21,6 @@ class State(TypedDict):
 
 
 def mail_rfc822(state):
-
     @tool("mail_rfc822_tool", return_direct=False)
     def mail_rfc822_tool(mail_body: str) -> str:
         """Returns a json with values from eml file"""
@@ -87,7 +67,6 @@ def mail_rfc822(state):
 
 
 def partner_search(state):
-
     @tool("partner_search_tool", return_direct=False)
     def partner_search_tool(email: str) -> str:
         """Search partner using email and returns an id"""
@@ -99,6 +78,7 @@ def partner_search(state):
         return "failed no session in state"
 
     return partner_search_tool
+
 
 @tool("invoice_search", return_direct=False)
 def invoice_search(number: str) -> int:
@@ -113,8 +93,9 @@ def create_attachment_tool(state):
     def process_attachments(query: str) -> str:
         """This gets data/string from a attachment :)"""
         print("Access to state in process_attachments: ", state.get('messages')[0].attachments)
-        attachments = state.get('messages')[0].attachments
-        pdf_content = attachments.get_pdf_content()
-        return pdf_content
+        if state.get('messages')[0].attachments:
+            attachments = state.get('messages')[0].attachments
+            pdf_content = attachments.get_pdf_content()
+            return pdf_content
 
     return process_attachments
