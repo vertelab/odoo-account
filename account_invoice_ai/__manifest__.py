@@ -50,6 +50,7 @@
     "external_dependencies": {
         "python": [
             "eml_parser",
+            "pyarrow",
         ],
     },
     'installable': True,

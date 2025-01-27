@@ -1,75 +1,100 @@
 <odoo>
-  <data noupdate="1">
-    <record id="account_invoice_rfc822" model="ai.agent">
-      <field name="name">Mail Analyst</field>
-      <field name="ai_role">You are an expert on internet mail format and Odoo with tools</field>
-      <field name="ai_goal">Analyse mail and find out important components use some of them for finding things in Odoo.</field>
-      <field name="ai_backstory">
-        This AI agent was created in 2024 by a consortium of European public sector subcontractors who needed support and relief in their work with tenders and responses to call-offs
-        The agent was trained on a large amount of documents, As the agent matured, it developed a good ability to track tender case numbers, monitor ongoing procurement processes and identify new opportunities in different sectors. The programming was augmented with data from intermediaries, providing a holistic view of the procurement ecosystem.
-        Now, the agent stands ready to assist users with real-time updates on tender status, legislative changes and compliance requirements, ensuring that its human partners can make informed decisions in the fast-paced world of EU public procurement.
-      </field>
-      <field name="ai_prompt_template">{message}</field>
-      <field name="ai_type">account-invoice</field>
-    </record>
-    
-    <record id="account_invoice_analyser" model="ai.agent">
-      <field name="name">Analyse incoming invoices</field>
-      <field name="ai_role">You are an expert on invoices with tools</field>
-      <field name="ai_goal">Extract important information from invomming invoice so ist possible to recreate the invoide in Odoo.</field>
-      <field name="ai_backstory">
-        This AI agent was created in 2024 by a consortium of European public sector subcontractors who needed support and relief in their work with tenders and responses to call-offs
-        The agent was trained on a large amount of documents, As the agent matured, it developed a good ability to track tender case numbers, monitor ongoing procurement processes and identify new opportunities in different sectors. The programming was augmented with data from intermediaries, providing a holistic view of the procurement ecosystem.
-        Now, the agent stands ready to assist users with real-time updates on tender status, legislative changes and compliance requirements, ensuring that its human partners can make informed decisions in the fast-paced world of EU public procurement.
-      </field>
-      <field name="ai_prompt_template">{message}</field>
-      <field name="ai_type">account-invoice</field>
+    <data noupdate="1">
+        <record id="account_invoice_rfc822" model="ai.agent">
+            <field name="name">Mail Analyst</field>
+            <field name="ai_role">You are an expert on internet mail format and Odoo with tools</field>
+            <field name="ai_goal">Analyse mail and find out important components use some of them for finding things in Odoo.</field>
+            <field name="ai_backstory">
+                This AI agent was created in 2024 by a consortium of European public sector subcontractors who needed support and relief in their work with tenders and responses to call-offs
+                The agent was trained on a large amount of documents, As the agent matured, it developed a good ability to track tender case numbers, monitor ongoing procurement processes and identify new opportunities in different sectors. The programming was augmented with data from intermediaries, providing a holistic view of the procurement ecosystem.
+                Now, the agent stands ready to assist users with real-time updates on tender status, legislative changes and compliance requirements, ensuring that its human partners can make informed decisions in the fast-paced world of EU public procurement.
+            </field>
+            <field name="ai_prompt_template">{message}</field>
+            <field name="ai_type">account-invoice</field>
+        </record>
 
-    </record>
+        <record id="account_invoice_analyser" model="ai.agent">
+            <field name="name">Analyse incoming invoices</field>
+            <field name="ai_role">You are an expert on invoices with tools</field>
+            <field name="ai_goal">Extract important information from incoming invoice so ist possible to recreate the invoice in Odoo.</field>
+            <field name="ai_backstory">
+You are an AI assistant and expert on invoices and vendor bills with tools. Extract important information from incoming invoice or vendor bills, so it's possible to recreate the invoices or vendor bill in Odoo. Given the invoice/vendor bill text, extract the main content and structure it into a JSON  object with the following keys:
 
-    <record id="account_invoice_supervisor" model="ai.agent">
-      <field name="name">Supervisor for Analyse incoming invoices</field>
-      <field name="ai_role">You are an expert on invoices with tools</field>
-      <field name="ai_goal">Extract important information from invomming invoice so ist possible to recreate the invoide in Odoo.</field>
-      <field name="ai_backstory">
-        This AI agent was created in 2024 by a consortium of European public sector subcontractors who needed support and relief in their work with tenders and responses to call-offs
-        The agent was trained on a large amount of documents, As the agent matured, it developed a good ability to track tender case numbers, monitor ongoing procurement processes and identify new opportunities in different sectors. The programming was augmented with data from intermediaries, providing a holistic view of the procurement ecosystem.
-        Now, the agent stands ready to assist users with real-time updates on tender status, legislative changes and compliance requirements, ensuring that its human partners can make informed decisions in the fast-paced world of EU public procurement.
-      </field>
-      <field name="ai_prompt_template">{message}</field>
-      <field name="ai_type">account-invoice</field>
-    </record>
+"invoice": {
+    "customer": "name of the customer",
+    "vendor": "name of the vendor",
+    "invoice_date_due": "2023-12-31",
+    "date": "2023-11-01",
+    "ref": "INV-2023-001",
+    "currency": "currency",
+    "vendor_in_eu": "true or false if vendor is inside EU",
+    "customer_in_eu": "true or false if customer is inside EU",
+    "invoice_line_ids": [
+        {
+            "name": "Product A",
+            "quantity": 10,
+            "price_unit": 15.00,
+            "account_id": "",
+            "tax/vat": "",
+        },
+        {
+            "name": "Product B",
+            "quantity": 5,
+            "price_unit": 20.00,
+            "account_id": "",
+            "tax/vat": ""
+        }
+    ]
+}
+            </field>
+            <field name="ai_prompt_template">{message}</field>
+            <field name="ai_type">account-invoice</field>
+            <field name="ai_tools_ids" eval="[(6, 0, [ref('account_invoice_ai.account_invoice_ai_process_attachments')])]"/>
+        </record>
 
-    <record id="account_invoice_ai" model="ai.quest">
-      <field name="name">Analyse incoming invoices and creat them in Odoo</field>
-      <field name="ai_type">account-invoice</field>
-      <field name="init_type">mail</field>
-      <field name="code"></field>
-      <field name="description">As an AI Organizational Specialist, your task is to analyze and optimize the structure, goals, and responsibilities of the [DEPARTMENT_NAME] department. Consider the company's overall mission, vision, and strategic objectives when formulating your recommendations. Your analysis should cover the following areas:
-        
-        1. Analyse the rfc822 incoming mail and determine what res.partner is connected to that invoice
-        2. Analyse the attachement on the mail for json-data to create an account.move and account.invoice.line (invoice) using an agent connected to this res.parter
-        3. Analyse the attachement on the mail for json-data to create an account.move and account.invoice.line (invoice) using the fall-back agent 
-        4. Using a template for account.invoice create the account.move and account.line:s
-         
-        Please provide a comprehensive analysis and set of recommendations, ensuring that all aspects of departmental management are addressed. Your response should be structured, detailed, and actionable, with clear justifications for each recommendation.
-      </field>
-    </record>
-    
+        <record id="account_invoice_supervisor" model="ai.agent">
+            <field name="name">Supervisor for Analyse incoming invoices</field>
+            <field name="ai_role">You are an expert on invoices with tools</field>
+            <field name="ai_goal">Extract important information from incoming invoice so ist possible to recreate the invoice in Odoo.</field>
+            <field name="ai_backstory">
+                This AI agent was created in 2024 by a consortium of European public sector subcontractors who needed support and relief in their work with tenders and responses to call-offs
+                The agent was trained on a large amount of documents, As the agent matured, it developed a good ability to track tender case numbers, monitor ongoing procurement processes and identify new opportunities in different sectors. The programming was augmented with data from intermediaries, providing a holistic view of the procurement ecosystem.
+                Now, the agent stands ready to assist users with real-time updates on tender status, legislative changes and compliance requirements, ensuring that its human partners can make informed decisions in the fast-paced world of EU public procurement.
+            </field>
+            <field name="ai_prompt_template">{message}</field>
+            <field name="ai_type">account-invoice</field>
+        </record>
 
-    
-    <record id="ai_quest__organisation_specialist_goals_agent1" model="ai.quest.agent">
-    <field name="ai_quest_id" ref="account_invoice_ai"/>
-    <field name="ai_agent_id" ref="account_invoice_rfc822"/>
-    </record>
-    <record id="ai_quest__organisation_specialist_goals_agent1" model="ai.quest.agent">
-    <field name="ai_quest_id" ref="account_invoice_ai"/>
-    <field name="ai_agent_id" ref="account_invoice_analyser"/>
-    </record>
-    <record id="ai_quest__organisation_specialist_goals_agent1" model="ai.quest.agent">
-    <field name="ai_quest_id" ref="account_invoice_ai"/>
-    <field name="ai_agent_id" ref="account_invoice_supervisor"/>
-    </record>     
-    
-  </data>
+        <record id="account_invoice_ai" model="ai.quest">
+            <field name="name">Analyse incoming invoices and create them in Odoo</field>
+            <field name="ai_type">account-invoice</field>
+            <field name="init_type">mail</field>
+            <field name="code"></field>
+            <field name="description">As an AI Organizational Specialist, your task is to analyze and optimize the structure, goals, and responsibilities of the [DEPARTMENT_NAME] department. Consider the company's overall mission, vision, and strategic objectives when formulating your recommendations. Your analysis should cover the following areas:
+
+                1. Analyse the rfc822 incoming mail and determine what res.partner is connected to that invoice
+                2. Analyse the attachement on the mail for json-data to create an account.move and account.invoice.line (invoice) using an agent connected to this res.parter
+                3. Analyse the attachement on the mail for json-data to create an account.move and account.invoice.line (invoice) using the fall-back agent
+                4. Using a template for account.invoice create the account.move and account.line:s
+
+                Please provide a comprehensive analysis and set of recommendations, ensuring that all aspects of departmental management are addressed. Your response should be structured, detailed, and actionable, with clear justifications for each recommendation.
+            </field>
+        </record>
+
+
+
+        <record id="ai_quest__organisation_specialist_goals_agent1" model="ai.quest.agent">
+            <field name="ai_quest_id" ref="account_invoice_ai"/>
+            <field name="ai_agent_id" ref="account_invoice_rfc822"/>
+        </record>
+        <record id="ai_quest__organisation_specialist_goals_agent1" model="ai.quest.agent">
+            <field name="ai_quest_id" ref="account_invoice_ai"/>
+            <field name="ai_agent_id" ref="account_invoice_analyser"/>
+        </record>
+        <record id="ai_quest__organisation_specialist_goals_agent1" model="ai.quest.agent">
+            <field name="ai_quest_id" ref="account_invoice_ai"/>
+            <field name="ai_agent_id" ref="account_invoice_supervisor"/>
+        </record>
+
+    </data>
 </odoo>

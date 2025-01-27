@@ -14,11 +14,7 @@ class AIQuest(models.Model):
     ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice')], ondelete={'account-invoice': 'cascade'})
 
     def parse_invoice_data(self, res):
-        print("parse_invoice_data", res)
         ai_messages = [m for m in res.get('messages') if isinstance(m, AIMessage)]
-        print("ai_messages", ai_messages)
-        print("ai_messages", ai_messages[-1])
-        print("ai_messages", ai_messages[-1].content)
         extracted_dicts = self.json2dict(ai_messages[-1].content)
         invoice_data = extracted_dicts.get('invoice')
         return invoice_data
@@ -36,8 +32,6 @@ class AIQuest(models.Model):
         return currency_id.id
 
     def _create_vendor_bill(self, res):
-        print("=============, _create_vendor_bill")
-
         invoice_data = self.parse_invoice_data(res)
         # vendor_name = invoice_data.pop('vendor')
         customer_name = invoice_data.pop('customer', False)
