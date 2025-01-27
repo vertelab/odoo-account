@@ -65,6 +65,17 @@ You are an AI assistant and expert on invoices and vendor bills with tools. Extr
             <field name="ai_type">account-invoice</field>
         </record>
 
+        <record id="account_invoice_partner_searcher" model="ai.agent">
+            <field name="name">Partner Searcher</field>
+            <field name="ai_role">You are a Odoo contact specialist agent</field>
+            <field name="ai_goal">Your goal is to search for ids of partners in odoo from a provided email</field>
+            <field name="ai_backstory">
+                You where create in order to find out witch id is associatet to the email you get from the supervisor 
+            </field>
+            <field name="ai_prompt_template">{message}</field>
+            <field name="ai_type">account-invoice</field>
+        </record>
+
         <record id="account_invoice_ai" model="ai.quest">
             <field name="name">Analyse incoming invoices and create them in Odoo</field>
             <field name="ai_type">account-invoice</field>
@@ -81,20 +92,23 @@ You are an AI assistant and expert on invoices and vendor bills with tools. Extr
             </field>
         </record>
 
-
-
         <record id="ai_quest__organisation_specialist_goals_agent1" model="ai.quest.agent">
             <field name="ai_quest_id" ref="account_invoice_ai"/>
             <field name="ai_agent_id" ref="account_invoice_rfc822"/>
         </record>
-        <record id="ai_quest__organisation_specialist_goals_agent1" model="ai.quest.agent">
+        <record id="ai_quest__organisation_specialist_goals_agent2" model="ai.quest.agent">
             <field name="ai_quest_id" ref="account_invoice_ai"/>
             <field name="ai_agent_id" ref="account_invoice_analyser"/>
         </record>
-        <record id="ai_quest__organisation_specialist_goals_agent1" model="ai.quest.agent">
+        <record id="ai_quest__organisation_specialist_goals_agent4" model="ai.quest.agent">
+            <field name="ai_quest_id" ref="account_invoice_ai"/>
+            <field name="ai_agent_id" ref="account_invoice_partner_searcher"/>
+        </record>
+        <record id="ai_quest__organisation_specialist_goals_agent3" model="ai.quest.agent">
             <field name="ai_quest_id" ref="account_invoice_ai"/>
             <field name="ai_agent_id" ref="account_invoice_supervisor"/>
         </record>
+
 
     </data>
 </odoo>
