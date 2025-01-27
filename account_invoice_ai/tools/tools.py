@@ -45,7 +45,7 @@ def mail_rfc822(state):
     def mail_rfc822_tool(mail_body: str) -> str:
         """Returns a json with values from eml file"""
         
-        import json, base64, io, eml_parser, datetime, email
+        import json, base64, datetime, eml_parser
 
         attachment_ids = []
 
@@ -57,13 +57,14 @@ def mail_rfc822(state):
             _logger.error(f"No attachments on email or given to agent")
 
         raw_attachments = []
-        result = []
+        result = {}
+        counter = 0
 
         if type([b"0"]) != type(attachment_ids):
 
             eml_files = list(filter(lambda attachment_id: ".eml" in attachment_id.name, attachment_ids))
             for eml_file in eml_files:
-                raw_attachments.append(base64.b64decode(eml_file.datas))
+                raw_attachments.append(eml_file.datas)
        
         else:
             raw_attachments = attachment_ids
@@ -74,12 +75,13 @@ def mail_rfc822(state):
                 return serial
 
         for raw_attachment in raw_attachments:
+            counter += 1
             ep = eml_parser.EmlParser()
+            raw_attachment = base64.b64decode(raw_attachment)
             parsed_eml = ep.decode_email_bytes(raw_attachment)
-            test = email.message(raw_attachment)
-            result.append(json.dumps(parsed_eml, default=json_serial))
+            result.update({f"email_{counter}": json.dumps(parsed_eml, default=json_serial)})
 
-        return result if len(result) != 0 else "No eml files to analyze"
+        return json.dumps(result) if len(result) != 0 else "No eml files to analyze"
 
     return mail_rfc822_tool
 
@@ -87,13 +89,14 @@ def mail_rfc822(state):
 def partner_search(state):
 
     @tool("partner_search_tool", return_direct=False)
-    def partner_search_tool(email: str) -> int:
-        """Search partner using email."""
+    def partner_search_tool(email: str) -> str:
+        """Search partner using email and returns an id"""
 
-        state["mail"]
+        if state.get("session"):
+            partner = state["session"].env['res.partner'].search([('email', '=', email)], limit=1)
+            return str(partner.id) if partner else "No partner with that email found"
 
-        partner = self.env['res.partner'].search([('mail', '=', email)], limit=1)
-        return partner.id if partner else None
+        return "failed no session in state"
 
     return partner_search_tool
 
