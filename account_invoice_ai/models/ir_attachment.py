@@ -11,25 +11,15 @@ from logging import getLogger
 from zlib import compress, decompress
 from PIL import Image, PdfImagePlugin
 import logging
-# from langchain.document_loaders import PyPDFLoader
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_core.documents.base import Blob
 from langchain_community.document_loaders.parsers import PyMuPDFParser
-# from langchain.chains import QAChain
 from langchain_community.llms.openai import OpenAIChat, OpenAI
-from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.prompts import PromptTemplate
 from typing_extensions import List
 
 _logger = logging.getLogger(__name__)
-
-
-class CVDataExtraction(BaseModel):
-    username: str = Field(description="candidate username")
-    email: str = Field(description="candidate email")
-    profile: str = Field(description="candidate profile description")
-    skills: List[str] = Field(description="soft and technical skills")
 
 
 class IrAttachment(models.Model):
