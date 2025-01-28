@@ -18,7 +18,7 @@
             <field name="ai_role">You are an agent on invoices with tools.</field>
             <field name="ai_goal">Extract important information from incoming invoice as shown by the template.</field>
             <field name="ai_backstory">
-You have text of an invoice and will given no more info.
+You have text of an invoice and will be given no more info.
 You have a tool to extract data from attachments, use it instead of asking for more info.
 Given the invoice/vendor bill text, extract the main content and structure it into a JSON  object with the following keys:
 
@@ -58,7 +58,7 @@ Given the invoice/vendor bill text, extract the main content and structure it in
             <field name="ai_role">You a Supervisor of an agent that can analyse a email and create an invoice in odoo.</field>
             <field name="ai_goal">Via selecting a proper agent for the job we will have an invoice created in odoo.</field>
             <field name="ai_backstory">
-You a Supervisor of an agent that can analyse a email and create an invoice in odoo. Your job is to select the proper agent.
+You a Supervisor of an agent that can analyse an email and create an invoice in odoo. Your job is to select the proper agent.
 Use the generic Analyse incoming invoices agent.
             </field>
             <field name="ai_prompt_template">{message}</field>
