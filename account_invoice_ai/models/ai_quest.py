@@ -43,13 +43,9 @@ class AIQuest(models.Model):
 
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice')], ondelete={'account-invoice': 'cascade'})
-    latest_session_id = fields.Many2one('ai.quest.session', string="Latest Session")
 
     def mail(self, mail, session):
         session.create_minimal_invoice()
-        if session.move_id:
-            self.latest_session_id = session.id
-
         return super(AIQuest, self).mail(mail, session)
 
     def parse_invoice_data(self, res):
