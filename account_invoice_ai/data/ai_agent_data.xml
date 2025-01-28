@@ -35,21 +35,20 @@ You are an AI assistant and expert on invoices and vendor bills with tools. Extr
             "quantity": 10,
             "price_unit": 15.00,
             "account_id": "",
-            "tax/vat": "",
+            "tax/vat": "Tax or Vat or Mom",
         },
         {
             "name": "Product B",
             "quantity": 5,
             "price_unit": 20.00,
             "account_id": "",
-            "tax/vat": ""
+            "tax/vat": "Tax or Vat or Mom",
         }
     ]
 }
             </field>
             <field name="ai_prompt_template">{message}</field>
             <field name="ai_type">account-invoice</field>
-            <field name="ai_tools_ids" eval="[(6, 0, [ref('account_invoice_ai.account_invoice_ai_process_attachments')])]"/>
         </record>
 
         <record id="account_invoice_supervisor" model="ai.agent">
@@ -69,7 +68,11 @@ You are an AI assistant and expert on invoices and vendor bills with tools. Extr
             <field name="name">Analyse incoming invoices and create them in Odoo</field>
             <field name="ai_type">account-invoice</field>
             <field name="init_type">mail</field>
-            <field name="code"></field>
+            <field name="code">
+response = self.build_graph(session=session, message=mail_body, attachments=attachments).invoke({"messages": [HumanMessage(content=mail_body, attachments=attachments)]})
+result = response
+self._create_vendor_bill(result)
+            </field>
             <field name="description">As an AI Organizational Specialist, your task is to analyze and optimize the structure, goals, and responsibilities of the [DEPARTMENT_NAME] department. Consider the company's overall mission, vision, and strategic objectives when formulating your recommendations. Your analysis should cover the following areas:
 
                 1. Analyse the rfc822 incoming mail and determine what res.partner is connected to that invoice

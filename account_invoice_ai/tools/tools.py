@@ -88,11 +88,21 @@ def invoice_search(number: str) -> int:
 def create_attachment_tool(state):
     @tool("process_attachments", return_direct=False)
     def process_attachments(query: str) -> str:
-        """This gets data/string from a attachment :)"""
-        print("Access to state in process_attachments: ", state.get('messages')[0].attachments)
-        if state.get('messages')[0].attachments:
-            attachments = state.get('messages')[0].attachments
-            pdf_content = attachments.get_pdf_content()
+        """This gets data/string from an attachment :)"""
+        session = state.get('session')
+        session_pdf_attachment = session.env['ir.attachment'].search([
+            ('res_model', '=', 'ai.quest.session'),
+            ('res_id', '=', session.id),
+            ('mimetype', '=', 'application/pdf'),
+        ], limit=1)
+        print("pdf_attachment", session_pdf_attachment)
+        # if state.get('messages')[0].attachments:
+        #     attachment = state.get('messages')[0].attachments[-1]
+        #     pdf_content = attachment.get_pdf_content()
+        #     return pdf_content
+
+        if session_pdf_attachment:
+            pdf_content = session_pdf_attachment.get_pdf_content()
             return pdf_content
 
     return process_attachments

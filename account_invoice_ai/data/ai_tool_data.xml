@@ -41,6 +41,5 @@
             <field name="tool_lib">odoo.addons.account_invoice_ai.tools.tools</field>
             <field name="image_128"></field>
         </record>
-
     </data>
 </odoo>
