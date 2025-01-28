@@ -248,7 +248,6 @@ class AccountPeriod(models.Model):
             date = datetime.strptime(date, "%Y-%m-%d")
 
         company_id = self.env.context.get('company_id') or self.env.company.id
-        company_id2 = self.env.company.id
         res = self.env['account.period'].search(
             [('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')),
              ('company_id', '=', company_id), ('special', '=', False)])

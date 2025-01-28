@@ -1,161 +1,106 @@
+import json
+import re
+from typing import List, Dict, Any
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, AccessError, ValidationError
-import json
+from langchain_core.messages import AIMessage
 
 import logging
 
 _logger = logging.getLogger(__name__)
 
 
+class AIQuestSession(models.Model):
+    _inherit = "ai.quest.session"
+
+    move_id = fields.Many2one('account.move')
+    ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice')], ondelete={'account-invoice': 'cascade'})
+
+    def create_minimal_invoice(self):
+        if self.ai_quest_id.ai_type == 'account-invoice':
+            period_id = self.env['account.period'].search([('state', '=', 'draft')], limit=1, order="date_stop")
+            self.move_id = self.env['account.move'].create({
+                'move_type': "in_invoice",
+                'period_id': period_id.id,
+                'ai_session_id': self.id
+            })
+
+            if self.move_id:
+                attachments = self.env['ir.attachment'].search(
+                    [('res_model', '=', self._name), ('res_id', '=', self.id)])
+                for attachment in attachments:
+                    self.env['ir.attachment'].create({
+                        'name': attachment.name,
+                        'type': attachment.type,
+                        'datas': attachment.datas,
+                        'res_model': 'account.move',
+                        'res_id': self.move_id.id,
+                    })
+
+
 class AIQuest(models.Model):
     _inherit = "ai.quest"
 
+    company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice')], ondelete={'account-invoice': 'cascade'})
-    
-    def _get_tools(self):
-        super(AIQuest, self)._get_tools()
 
-        @tool("mail_rfc822", return_direct=False)
-        def mail_rfc822(mail: str) -> dict:
-            """Returns a dict with mail-format."""
-            
-            results = list(DDGS().text(mail, max_results=5))
+    def mail(self, mail, session):
+        session.create_minimal_invoice()
+        return super(AIQuest, self).mail(mail, session)
 
-            return results if results else "No results found."
-
-        @tool("partner_search", return_direct=False)
-        def partner_search(email: str) -> int:   
-            """Searh partner using email."""
-
-            partner = self.env['res.partner'].search([('mail','=',email)],limit=1)
-            return partner.id if partner else None
-
-        @tool("invoice_search", return_direct=False)
-        def invoice_search(number: str) -> int:   
-            """Searh invoice using number."""
-
-            invoice = self.env['accout.move'].search([('number','=',number)],limit=1)
-            return invoice.id if invoice else None
-
-    def test_create_invoice(self):
-        json_test = """json { 
-            "invoice": {
-                "partner_id": 3,
-                "invoice_date_due": "2023-12-31",
-                "date": "2023-11-01",
-                "ref": "INV-2023-001",
-                "currency_id": 1,
-                "fiscal_position_id": false,
-                "move_type": "in_invoice",
-                "invoice_line_ids": [
-                    {
-                        "product_id": false,
-                        "name": "Product A",
-                        "account_id": 4000,
-                        "quantity": 10,
-                        "price_unit": 15.00,
-                        "tax_ids": false
-                    },
-                    {
-                        "product_id": false,
-                        "name": "Product B",
-                        "account_id": 4000,
-                        "quantity": 5,
-                        "price_unit": 20.00,
-                        "tax_ids": false
-                    },
-                    {
-                        "product_id": false,
-                        "name": "Product C",
-                        "account_id": 4000,
-                        "quantity": 8,
-                        "price_unit": 10.00,
-                        "tax_ids": false
-                    }
-                ]
-            }
-        }"""
-
-        formatted_json = self.extract_and_parse_json(json_test)
-        if not formatted_json:
-            raise ValueError("Failed to parse JSON input")
-            
-        _logger.warning(f"{formatted_json=}")
-        
-        # Extract and create invoice
-        invoice_data = formatted_json['invoice']
-        invoice_lines = invoice_data.pop('invoice_line_ids')
-        _logger.warning(f"{invoice_lines=}")
-        _logger.warning(f"{invoice_data=}")
-        
-        invoice = self.env['account.move'].create(invoice_data)
-        
-        # Create invoice lines
-        for line in invoice_lines:
-            # Find matching account
-            if line.get('account_id'):
-                account_id = self.env['account.account'].search(
-                    [('code', '=', str(line.get('account_id')))], limit=1
-                )
-                if account_id:
-                    line['account_id'] = account_id.id
-                
-            # Find and format tax information
-            if line.get('tax_ids'):
-                tax_id = self.env['account.tax'].search(
-                    [('name', 'ilike', line.get('tax_ids'))], limit=1
-                )
-                if tax_id:
-                    line['tax_ids'] = [(6, 0, tax_id.ids)]
-                
-            line['move_id'] = invoice.id
-            _logger.warning(f"{line=}")
-            
-            line_id = self.env['account.move.line'].create(line)
-            _logger.warning(f"{line_id=}")
-
-    def extract_and_parse_json(self, llm_output):
-        """
-        Extract and parse JSON from input string, handling potential 'json' prefix.
-        
-        Args:
-            llm_output (str): Input string containing JSON, possibly with 'json' prefix
-            
-        Returns:
-            dict: Parsed JSON object or None if parsing fails
-        """
-        # Clean up the input string
-        json_str = llm_output.strip()
-        if json_str.startswith('json'):
-            json_str = json_str[4:].strip()
-            
+    def parse_invoice_data(self, res):
+        ai_messages = [m for m in res.get('messages') if isinstance(m, AIMessage)]
+        # print("ai_messages", ai_messages)
         try:
-            return json.loads(json_str)
-        except json.JSONDecodeError as e:
-            _logger.error(f"JSON parsing error: {e}")
-            # If direct parsing fails, try to find proper JSON boundaries
-            json_start = json_str.find('{')
-            if json_start == -1:
-                return None
-                
-            json_str = json_str[json_start:]
-            bracket_count = 0
-            
-            for i, char in enumerate(json_str):
-                if char == '{':
-                    bracket_count += 1
-                elif char == '}':
-                    bracket_count -= 1
-                    
-                if bracket_count == 0:
-                    # Found matching end bracket
-                    json_str = json_str[:i + 1]
-                    try:
-                        # Convert JavaScript 'false' to Python 'False'
-                        json_str = json_str.replace('false', 'false')
-                        return json.loads(json_str)
-                    except json.JSONDecodeError as e:
-                        _logger.error(f"Final JSON parsing error: {e}")
-                        return None
-                        
-            return None
+            extracted_dicts = self.json2dict(ai_messages[-1].content)
+            invoice_data = extracted_dicts.get('invoice')
+            return invoice_data
+        except IndexError:
+            raise UserError("Error get the content from AI. Run this again.")
+
+    def _get_or_create_partner(self, name):
+        partner_id = self.env['res.partner'].search([('name', '=', name)], limit=1)
+        if not partner_id:
+            partner_id = self.env['res.partner'].create({'name': name})
+        return partner_id.id
+
+    def _get_currency(self, currency):
+        currency_id = self.env['res.currency'].search([('name', '=', currency)], limit=1)
+        if not currency_id:
+            currency_id = self.env['res.currency'].search([('symbol', '=', currency)], limit=1)
+        return currency_id.id
+
+    def _create_vendor_bill(self, res, session):
+        invoice_data = self.parse_invoice_data(res)
+        customer_name = invoice_data.pop('customer', False)
+        vendor_in_eu = invoice_data.pop('vendor_in_eu', False)
+        customer_in_eu = invoice_data.pop('customer_in_eu', False)
+        period_id = self.env['account.period'].date2period(invoice_data.get('date', fields.Date.today())).id
+        _logger.warning(f"period_id period_id {period_id=}")
+        _logger.warning(f"1{invoice_data['date']=}")
+        invoice_data['partner_id'] = self._get_or_create_partner(invoice_data.pop('vendor', False))
+        invoice_data['currency_id'] = self._get_currency(invoice_data.pop('currency', False))
+        invoice_data['period_id'] = period_id
+        invoice_data['invoice_date'] = invoice_data.get('date')
+        invoice_data['move_type'] = 'in_invoice'
+        invoice_data['invoice_line_ids'] = self._invoice_lines(invoice_data.pop('invoice_line_ids'))
+        print(f"invoice_data {invoice_data}")
+
+        if session.move_id:
+            session.move_id.write(invoice_data)
+        else:
+            self.env['account.move'].create(invoice_data)
+
+    def _invoice_lines(self, invoice_lines):
+        default_journal = self.env['account.journal'].search([('type', '=', 'purchase')], limit=1)
+        default_account = default_journal.default_account_id.id
+        default_tax = self.company_id.account_purchase_tax_id.ids
+        lines = []
+        for line in invoice_lines:
+            line['account_id'] = default_account
+            line['tax_ids'] = [(6, 0, default_tax)]
+            line.pop("tax/vat", False)
+            lines.append((0, 0, line))
+
+            _logger.warning(f"{line=}")
+        return lines

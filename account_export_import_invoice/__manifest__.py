@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2025- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,42 +20,27 @@
 ##############################################################################
 
 {
-    'name': 'Acount: chat with cases',
-    'version': '1.0.3',
-    'summary': 'Mailbox for Invoices AI',
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'account',
+    'name': 'Account: Account Export Import Invoice',
+    'version': '16.0.0.0.0',
+    'summary': 'Account Export Import Invoice',
+    'category': 'EDI',
     'description': """
-        Mailbox for AI Invoices
+        Implements an Import/Export flow for Account Invoice
     """,
-    #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_invoice_ai',
-    'images': ['static/description/banner.png'],  # 560x280 px.
+    'website': 'https://vertel.se/apps/odoo-account/account_export_import_invoice',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'depends': [
-        'ai_agent',
-        'account',
+    'repository': 'https://github.com/vertelab/odoo-account',
+    'depends': ['account'],
+    "data": [
+        "security/ir.model.access.csv",
+        "data/data.xml",
+        "wizard/import_account_move_view.xml",
     ],
-    'data': [
-        'data/ai_tool_data.xml',
-        'data/ai_agent_data.xml',
-        # 'views/quest_view.xml',
-        'views/ir_attachment_view.xml',
-    ],
-    "external_dependencies": {
-        "python": [
-            "eml_parser",
-            "pyarrow",
-            "pytesseract",
-        ],
-    },
-    'installable': True,
-    'auto_install': False,
-    'application': False,
+    "demo": [],
+    "installable": True,
+    "application": False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
