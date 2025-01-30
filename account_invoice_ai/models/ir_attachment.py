@@ -60,6 +60,8 @@ class IrAttachment(models.Model):
             _logger.warning("No content could be extracted from the PDF using any method")
             raise UserError(_("Unable to extract any content from the PDF document"))
 
+        print(extracted_text)
+
         return extracted_text
 
     def _extract_text_from_specific_pages(self, pdf_path, page_numbers):

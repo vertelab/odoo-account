@@ -9,3 +9,6 @@ class AIAgent(models.Model):
     _inherit = "ai.agent"
 
     ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice')], ondelete={'account-invoice': 'cascade'})
+
+
+

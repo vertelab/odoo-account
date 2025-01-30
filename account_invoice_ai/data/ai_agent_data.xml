@@ -83,7 +83,7 @@ Use the generic Analyse incoming invoices agent.
             <field name="code">
 response = self.build_graph(session=session, message=mail_body, attachments=attachments).invoke({"messages": [HumanMessage(content=mail_body, attachments=attachments)]})
 result = response
-self._create_vendor_bill(result)
+self._create_vendor_bill(result, session)
             </field>
             <field name="description">As an AI Organizational Specialist, your task is to analyze and optimize the structure, goals, and responsibilities of the [DEPARTMENT_NAME] department. Consider the company's overall mission, vision, and strategic objectives when formulating your recommendations. Your analysis should cover the following areas:
 
