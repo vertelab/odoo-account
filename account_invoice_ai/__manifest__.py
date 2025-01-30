@@ -44,9 +44,7 @@
     'data': [
         'data/ai_tool_data.xml',
         'data/ai_agent_data.xml',
-        # 'views/quest_view.xml',
         'views/ir_attachment_view.xml',
-        # 'views/res_partner_view.xml',
     ],
     "external_dependencies": {
         "python": [

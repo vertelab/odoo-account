@@ -5,9 +5,9 @@
             <field name="ai_role">You are an expert on internet mail format and Odoo with tools</field>
             <field name="ai_goal">Analyse mail and find out important components use some of them for finding things in Odoo.</field>
             <field name="ai_backstory">
-                This AI agent was created in 2024 by a consortium of European public sector subcontractors who needed support and relief in their work with tenders and responses to call-offs
-                The agent was trained on a large amount of documents, As the agent matured, it developed a good ability to track tender case numbers, monitor ongoing procurement processes and identify new opportunities in different sectors. The programming was augmented with data from intermediaries, providing a holistic view of the procurement ecosystem.
-                Now, the agent stands ready to assist users with real-time updates on tender status, legislative changes and compliance requirements, ensuring that its human partners can make informed decisions in the fast-paced world of EU public procurement.
+This AI agent was created in 2024 by a consortium of European public sector subcontractors who needed support and relief in their work with tenders and responses to call-offs
+The agent was trained on a large amount of documents, As the agent matured, it developed a good ability to track tender case numbers, monitor ongoing procurement processes and identify new opportunities in different sectors. The programming was augmented with data from intermediaries, providing a holistic view of the procurement ecosystem.
+Now, the agent stands ready to assist users with real-time updates on tender status, legislative changes and compliance requirements, ensuring that its human partners can make informed decisions in the fast-paced world of EU public procurement.
             </field>
             <field name="ai_prompt_template">{message}</field>
             <field name="ai_type">account-invoice</field>
@@ -70,7 +70,7 @@ Use the generic Analyse incoming invoices agent.
             <field name="ai_role">You are a Odoo contact specialist agent</field>
             <field name="ai_goal">Your goal is to search for ids of partners in odoo from a provided email</field>
             <field name="ai_backstory">
-                You where create in order to find out witch id is associatet to the email you get from the supervisor 
+You where create in order to find out witch id is associated to the email you get from the supervisor
             </field>
             <field name="ai_prompt_template">{message}</field>
             <field name="ai_type">account-invoice</field>
@@ -85,14 +85,15 @@ response = self.build_graph(session=session, message=mail_body, attachments=atta
 result = response
 self._create_vendor_bill(result, session)
             </field>
-            <field name="description">As an AI Organizational Specialist, your task is to analyze and optimize the structure, goals, and responsibilities of the [DEPARTMENT_NAME] department. Consider the company's overall mission, vision, and strategic objectives when formulating your recommendations. Your analysis should cover the following areas:
+            <field name="description">
+As an AI Organizational Specialist, your task is to analyze and optimize the structure, goals, and responsibilities of the [DEPARTMENT_NAME] department. Consider the company's overall mission, vision, and strategic objectives when formulating your recommendations. Your analysis should cover the following areas:
 
-                1. Analyse the rfc822 incoming mail and determine what res.partner is connected to that invoice
-                2. Analyse the attachement on the mail for json-data to create an account.move and account.invoice.line (invoice) using an agent connected to this res.parter
-                3. Analyse the attachement on the mail for json-data to create an account.move and account.invoice.line (invoice) using the fall-back agent
-                4. Using a template for account.invoice create the account.move and account.line:s
+1. Analyse the rfc822 incoming mail and determine what res.partner is connected to that invoice
+2. Analyse the attachment on the mail for json-data to create an account.move and account.invoice.line (invoice) using an agent connected to this res.parter
+3. Analyse the attachment on the mail for json-data to create an account.move and account.invoice.line (invoice) using the fall-back agent
+4. Using a template for account.invoice create the account.move and account.line:s
 
-                Please provide a comprehensive analysis and set of recommendations, ensuring that all aspects of departmental management are addressed. Your response should be structured, detailed, and actionable, with clear justifications for each recommendation.
+Please provide a comprehensive analysis and set of recommendations, ensuring that all aspects of departmental management are addressed. Your response should be structured, detailed, and actionable, with clear justifications for each recommendation.
             </field>
         </record>
 
@@ -100,19 +101,20 @@ self._create_vendor_bill(result, session)
             <field name="ai_quest_id" ref="account_invoice_ai"/>
             <field name="ai_agent_id" ref="account_invoice_rfc822"/>
         </record>
+
         <record id="ai_quest__organisation_specialist_goals_agent2" model="ai.quest.agent">
             <field name="ai_quest_id" ref="account_invoice_ai"/>
             <field name="ai_agent_id" ref="account_invoice_analyser"/>
         </record>
+
         <record id="ai_quest__organisation_specialist_goals_agent4" model="ai.quest.agent">
             <field name="ai_quest_id" ref="account_invoice_ai"/>
             <field name="ai_agent_id" ref="account_invoice_partner_searcher"/>
         </record>
+
         <record id="ai_quest__organisation_specialist_goals_agent3" model="ai.quest.agent">
             <field name="ai_quest_id" ref="account_invoice_ai"/>
             <field name="ai_agent_id" ref="account_invoice_supervisor"/>
         </record>
-
-
     </data>
 </odoo>

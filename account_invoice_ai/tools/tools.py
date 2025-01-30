@@ -74,7 +74,7 @@ def partner_search(state):
 
 @tool("invoice_search", return_direct=False)
 def invoice_search(number: str) -> int:
-    """Searh invoice using number."""
+    """Search invoice using number."""
 
     invoice = self.env['account.move'].search([('number', '=', number)], limit=1)
     return invoice.id if invoice else None
