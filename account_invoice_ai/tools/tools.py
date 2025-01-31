@@ -37,7 +37,6 @@ def mail_rfc822(state):
             _logger.error(f"No attachments on email or given to agent")
         result = []
 
-        # if type([b"0"]) != type(attachment_ids):
         if not isinstance(attachment_ids, list):
             raw_attachments = attachment_ids.filtered(
                 lambda attachment: attachment.mimetype == "message/rfc822"

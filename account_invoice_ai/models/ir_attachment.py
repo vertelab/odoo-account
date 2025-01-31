@@ -38,7 +38,6 @@ class IrAttachment(models.Model):
                         all_pages.append((index, content))
                     else:
                         empty_pages.append(index)
-                        _logger.info(f"Empty content detected on page {index}, will attempt OCR for this page")
 
                 # If we have any successfully parsed pages, combine them
                 if all_pages:
@@ -59,8 +58,6 @@ class IrAttachment(models.Model):
         if not extracted_text.strip():
             _logger.warning("No content could be extracted from the PDF using any method")
             raise UserError(_("Unable to extract any content from the PDF document"))
-
-        print(extracted_text)
 
         return extracted_text
 

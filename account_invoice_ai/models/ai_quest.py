@@ -61,7 +61,6 @@ class AIQuest(models.Model):
 
     def parse_invoice_data(self, res):
         ai_messages = [m for m in res.get('messages') if isinstance(m, AIMessage)]
-        print("ai_messages", ai_messages)
         try:
             ai_invoice_data = self._serialize_ai_messages(ai_messages)[-1]
             invoice_data = ai_invoice_data.get('invoice')
