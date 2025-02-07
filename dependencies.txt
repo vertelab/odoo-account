@@ -1,3 +1,5 @@
 git@github.com:OCA/server-ux.git
 git@github.com:OCA/account-invoicing.git
-
+git@github.com:OCA/account-financial-tools.git
+git@github.com:OCA/reporting-engine.git
+git@github.com:OCA/hr.git
