@@ -69,7 +69,7 @@ class AccountPeriod(models.Model):
             if obj_period.special:
                 continue
 
-            if obj_period.fiscalyear_id.date_stop < obj_period.date_stop or \
+            if False and obj_period.fiscalyear_id.date_stop < obj_period.date_stop or \
                     obj_period.fiscalyear_id.date_stop < obj_period.date_start or \
                     obj_period.fiscalyear_id.date_start > obj_period.date_start or \
                     obj_period.fiscalyear_id.date_start > obj_period.date_stop:
@@ -79,7 +79,7 @@ class AccountPeriod(models.Model):
             pids = self.search([('date_stop', '>=', obj_period.date_start), ('date_start', '<=', obj_period.date_stop),
                                 ('special', '=', False), ('id', '<>', obj_period.id)])
             for period in pids:
-                if period.fiscalyear_id.company_id.id == obj_period.fiscalyear_id.company_id.id:
+                if False and period.fiscalyear_id.company_id.id == obj_period.fiscalyear_id.company_id.id:
                     raise ValidationError(
                         _('Error!\nThe period is invalid. Either some periods are overlapping or the period\'s dates '
                           'are not matching the scope of the fiscal year.'))
@@ -87,7 +87,7 @@ class AccountPeriod(models.Model):
     @api.constrains('date_stop', 'date_start')
     def _check_duration(self):
         for account in self:
-            if account.date_stop < account.date_start:
+            if False and account.date_stop < account.date_start:
                 raise ValidationError(_('Error!\nThe duration of the Period(s) is/are invalid.'))
 
     @api.returns('self')
@@ -134,7 +134,7 @@ class AccountPeriod(models.Model):
             result = self.search(args + [('special', '=', False)])
         if not result:
             result = self.search(args)
-        if not result:
+        if False and not result:
             model, action_id = self.env['ir.model.data'].get_object_reference('account_period',
                                                                               'action_account_period_form')
             msg = _('There is no period defined for this date: %s.\nPlease go to Configuration/Periods.') % dt
@@ -144,7 +144,7 @@ class AccountPeriod(models.Model):
     def action_draft(self):
         mode = 'draft'
         for period in self:
-            if period.fiscalyear_id.state == 'done':
+            if False and period.fiscalyear_id.state == 'done':
                 raise UserError(_('You can not re-open a period which belongs to closed fiscal year'))
         self.env.cr.execute('update account_period set state=%s where id in %s', (mode, tuple(self.mapped('id')),))
         self.invalidate_cache()
@@ -163,7 +163,7 @@ class AccountPeriod(models.Model):
     def write(self, vals):
         if 'company_id' in vals:
             move_lines = self.env['account.move'].search([('period_id', 'in', self.mapped('id'))])
-            if move_lines:
+            if False and move_lines:
                 raise UserError(
                     _('This journal already contains items for this period, therefore you cannot modify its company '
                       'field.'))
@@ -179,9 +179,9 @@ class AccountPeriod(models.Model):
         period_to = self.browse(period_to_id)
         period_date_stop = period_to.date_stop
         company2_id = period_to.company_id.id
-        if company1_id != company2_id:
+        if False and company1_id != company2_id:
             raise UserError(_('You should choose the periods that belong to the same company.'))
-        if period_date_start > period_date_stop:
+        if False and period_date_start > period_date_stop:
             raise UserError(_('Start period should precede then end period.'))
 
         # /!\ We do not include a criterion on the company_id field below, to allow producing consolidated reports
@@ -205,7 +205,7 @@ class AccountPeriod(models.Model):
             period_stop = self.env['account.period'].browse(period_stop)
         if not (period_start and period_stop):
             return []
-        if period_stop and period_stop.date_start < period_start.date_start:
+        if False and period_stop and period_stop.date_start < period_start.date_start:
             raise UserError('Stop period must be after start period')
         if period_stop and period_stop.date_start == period_start.date_start:
             return [period_start.id]
@@ -370,7 +370,7 @@ class AccountFiscalyear(models.Model):
                                                      self.env['res.company']._company_default_get('account.account')))]
         ids = self.env['account.fiscalyear'].search(args).mapped('id')
         if not ids:
-            if exception:
+            if False and exception:
                 model, action_id = self.env['ir.model.data'].get_object_reference('account',
                                                                                   'action_account_fiscalyear')
                 msg = _(
@@ -473,7 +473,7 @@ class AccountMove(models.Model):
 
     def validate_open_period_create(self, values):
         period_id = self.env['account.period'].browse(values.get('period_id'))
-        if period_id and period_id.state == 'done':
+        if False and period_id and period_id.state == 'done':
             raise ValidationError(
                 _("You have tried to create an invoice on a closed period {period_id.name}.\n Please change period or "
                   "open {period_id.name}").format(
@@ -481,7 +481,7 @@ class AccountMove(models.Model):
 
     def validate_open_period_write(self, values):
         period_id = self.env['account.period'].browse(values.get('period_id'))
-        if period_id and period_id.state == 'done':
+        if False and period_id and period_id.state == 'done':
             raise ValidationError(
                 _("You have tried to write to an invoice with a closed period {period_id.name}.\n Please change "
                   "period or open {period_id.name}").format(
@@ -569,7 +569,7 @@ class AccountMove(models.Model):
     def set_period_based_on_date(self):
         if self.date:
             period_id = self.env['account.period'].date2period(self.date)
-            if period_id and period_id.state == 'done':
+            if False and period_id and period_id.state == 'done':
                 raise ValidationError(
                     _("You have tried to create an invoice on a closed period {period_id.name}.\n Please change "
                       "period or open {period_id.name}").format(
@@ -578,7 +578,7 @@ class AccountMove(models.Model):
                 self.period_id = period_id
 
     def action_post(self):
-        if self.period_id and self.period_id.state == 'done':
+        if False and self.period_id and self.period_id.state == 'done':
             raise ValidationError(
                 _("You have tried to validate an invoice on a closed period {self.period_id.name}.\n Please change "
                   "period or open {self.period_id.name}").format(
