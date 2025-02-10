@@ -300,8 +300,8 @@ Please redo the lines to so that all are tax included or all tax excluded from t
             invoice.fortnox_ref = r["Invoice"]["DocumentNumber"]
             invoice.is_move_sent = True
             invoice.is_sent_to_fortnox = True
-            for attachment in invoice.attachment_ids:
-                attachment.connect_file_and_invoice(invoice, invoice.company_id)
+            #for attachment in invoice.attachment_ids:
+            #    attachment.connect_file_and_invoice(invoice, invoice.company_id)
 
     def fortnox_invoice_vals(self, invoice, invoice_lines):
         source_orders = invoice.line_ids.sale_line_ids.order_id if invoice.line_ids.sale_line_ids else False
