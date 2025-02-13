@@ -108,7 +108,9 @@ class AIQuest(models.Model):
         lines = []
         for line in invoice_lines:
             if account_id := line.get('account_id'):
-                dynamic_account_id = self.env['account.account'].search([('code', '=', account_id)])
+                dynamic_account_id = self.env['account.account'].search([
+                    ('code', '=', account_id), ('company_id', '=', self.company_id.id)
+                ], limit=1)
                 if dynamic_account_id:
                     line['account_id'] = dynamic_account_id.id
                 else:
