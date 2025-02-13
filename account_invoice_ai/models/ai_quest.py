@@ -18,7 +18,9 @@ class AIQuestSession(models.Model):
 
     def create_minimal_invoice(self):
         if self.ai_quest_id.ai_type == 'account-invoice':
-            period_id = self.env['account.period'].search([('state', '=', 'draft')], limit=1, order="date_stop")
+            period_id = self.env['account.period'].search([
+                ('state', '=', 'draft'), ('company_id', '=', self.company_id.id)
+            ], limit=1, order="date_stop")
             self.move_id = self.env['account.move'].create({
                 'move_type': "in_invoice",
                 'period_id': period_id.id,
