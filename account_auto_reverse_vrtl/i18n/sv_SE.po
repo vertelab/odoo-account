@@ -1,0 +1,56 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_auto_reverse_vrtl
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e-20250224\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-03 08:26+0000\n"
+"PO-Revision-Date: 2025-03-03 09:33+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: account_auto_reverse_vrtl
+#: model:ir.model.fields,field_description:account_auto_reverse_vrtl.field_account_bank_statement_line__auto_reverse_date
+#: model:ir.model.fields,field_description:account_auto_reverse_vrtl.field_account_move__auto_reverse_date
+#: model:ir.model.fields,field_description:account_auto_reverse_vrtl.field_account_payment__auto_reverse_date
+msgid "Auto Reverse Date"
+msgstr "Datum för automatisk återföring"
+
+#. module: account_auto_reverse_vrtl
+#: model:ir.actions.server,name:account_auto_reverse_vrtl.ir_cron_auto_reverse_invoices_ir_actions_server
+msgid "Auto Reverse Invoices"
+msgstr "Automatisk återföring av fakturor"
+
+#. module: account_auto_reverse_vrtl
+#: model:ir.model.fields,help:account_auto_reverse_vrtl.field_account_bank_statement_line__auto_reverse_date
+#: model:ir.model.fields,help:account_auto_reverse_vrtl.field_account_move__auto_reverse_date
+#: model:ir.model.fields,help:account_auto_reverse_vrtl.field_account_payment__auto_reverse_date
+msgid "Date when the journal entry will be automatically reversed"
+msgstr "Datum då verifikationen kommer att återföras automatiskt\""
+
+#. module: account_auto_reverse_vrtl
+#: model:ir.model,name:account_auto_reverse_vrtl.model_account_move
+msgid "Journal Entry"
+msgstr "Verifikat"
+
+#. module: account_auto_reverse_vrtl
+#: model:ir.model.fields,field_description:account_auto_reverse_vrtl.field_account_bank_statement_line__reverse_failed
+#: model:ir.model.fields,field_description:account_auto_reverse_vrtl.field_account_move__reverse_failed
+#: model:ir.model.fields,field_description:account_auto_reverse_vrtl.field_account_payment__reverse_failed
+msgid "Reverse Failed"
+msgstr "Återföringen misslyckades"
+
+#. module: account_auto_reverse_vrtl
+#: model:ir.model.fields,field_description:account_auto_reverse_vrtl.field_account_bank_statement_line__reverse_reason
+#: model:ir.model.fields,field_description:account_auto_reverse_vrtl.field_account_move__reverse_reason
+#: model:ir.model.fields,field_description:account_auto_reverse_vrtl.field_account_payment__reverse_reason
+msgid "Reverse Reason"
+msgstr "Anledning till att återföringen misslyckades"
