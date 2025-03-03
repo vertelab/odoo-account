@@ -20,35 +20,27 @@
 ##############################################################################
 
 {
-    'name': 'Account: Payment Order Regulatory Reporting',
-    'version': '14.0.0.0.1',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds Account Regulatory Reporting for Sweden',
+    'name': 'Account: Asset Stock Lot Equipment',
+    'version': '0.1',
+    # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'summary': 'Connect Created Asset to equipment.',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_payment_order_regulatory_reporting',
+    'website': 'https://vertel.se/apps/odoo-account/account_asset_lot_stock_personal_equipment',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-
-When making bank files, with international payments in Sweden, we are sometimes required  to add Account Regulatory Reporting to the generated file.
-This is required, when the value of a of a payment is above 150 000 SEK.
-
-This module adds a List of most commonly used Regulatory Reporting codes, which can be found in the config menu for invoicing.
-
-When we make a sale order and try to make bank payment lines then it will require the user to add Regulatory Reporting codes if the value is above 150 000 SEK and if the currency is not SEK, at which point this module will assume that it is an international payment.
-
+Create an asset connected to a Lot number and equipment.
     """,
-    # Any module necessary for this one to work correctly
-    'depends': ['account_banking_pain_base','account_payment_order','account_banking_sepa_credit_transfer','account_banking_sepa_direct_debit'],
+    'depends': ['account_asset_lot_stock','hr_personal_equipment_stock'],
     'data': [
-        'views/regulatory_reporting_code.xml',
-        'data/regulatory_reporting_codes.xml',
-        'security/ir.model.access.csv',
+        #'security/ir.model.access.csv',
+        #'security/security.xml',
+        'views/employee_view.xml',
     ],
     'demo': [],
     'qweb': [],
