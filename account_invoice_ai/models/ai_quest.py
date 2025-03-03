@@ -134,7 +134,8 @@ class AIQuest(models.Model):
 
     def _invoice_lines(self, invoice_lines):
         company_id = self.env.context.get('company_id') or self.env.company.id
-        default_journal = self.env['account.journal'].search([('type', '=', 'purchase'),('company_id','=',company_id)], limit=1)
+        default_journal = self.env['account.journal'].search(
+            [('type', '=', 'purchase'), ('company_id', '=', company_id)], limit=1)
         default_account = default_journal.default_account_id.id
         default_tax = self.env['res.company'].browse(company_id).account_purchase_tax_id.ids
         lines = []
@@ -151,7 +152,7 @@ class AIQuest(models.Model):
                 line['account_id'] = default_account
 
             if tax := line.pop('tax/vat', False):
-                dynamic_tax_id = self.env['account.tax'].search([('name', '=', tax),('company_id','=',company_id)])
+                dynamic_tax_id = self.env['account.tax'].search([('name', '=', tax), ('company_id', '=', company_id)])
                 if dynamic_tax_id:
                     line['tax_ids'] = [(6, 0, dynamic_tax_id.ids)]
                 else:
