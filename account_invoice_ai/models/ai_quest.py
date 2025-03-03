@@ -16,6 +16,18 @@ class AIQuestSession(models.Model):
     move_id = fields.Many2one('account.move')
     ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice')], ondelete={'account-invoice': 'cascade'})
 
+    def action_view_move(self):
+        view = self.env.ref('account.view_move_form')
+        return {
+            'name': _('Account Move'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'account.move',
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
+            'res_id': self.move_id.id
+        }
+
     def create_minimal_invoice(self):
         if self.ai_quest_id.ai_type == 'account-invoice':
             period_id = self.env['account.period'].search([
@@ -85,23 +97,58 @@ class AIQuest(models.Model):
             currency_id = self.env['res.currency'].search([('symbol', '=', currency)], limit=1)
         return currency_id.id
 
-    def _create_vendor_bill(self, res, session):
-        invoice_data = self.parse_invoice_data(res)
+    # def _create_vendor_bill(self, res, session):
+    #     invoice_data = self.parse_invoice_data(res)
+    #     customer_name = invoice_data.pop('customer', False)
+    #     vendor_in_eu = invoice_data.pop('vendor_in_eu', False)
+    #     customer_in_eu = invoice_data.pop('customer_in_eu', False)
+    #     period_id = self.env['account.period'].date2period(invoice_data.get('date', fields.Date.today())).id
+    #     invoice_data['partner_id'] = self._get_or_create_partner(invoice_data.pop('vendor', False))
+    #     invoice_data['currency_id'] = self._get_currency(invoice_data.pop('currency', False))
+    #     invoice_data['period_id'] = period_id
+    #     invoice_data['invoice_date'] = invoice_data.get('date')
+    #     invoice_data['move_type'] = 'in_invoice'
+    #     invoice_data['invoice_line_ids'] = self._invoice_lines(invoice_data.pop('invoice_line_ids'))
+    #
+    #     if session.move_id:
+    #         session.move_id.write(invoice_data)
+    #     else:
+    #         self.env['account.move'].create(invoice_data)
+
+    def _create_vendor_bill(self, invoice_data, session, partner_id):
+        if session.ai_quest_id.company_id:
+            self = self.with_context(company_id=session.ai_quest_id.company_id.id)
+        _logger.warning(f"{self.env.context=}")
         customer_name = invoice_data.pop('customer', False)
+        vendor_name = invoice_data.pop('vendor', False)
         vendor_in_eu = invoice_data.pop('vendor_in_eu', False)
         customer_in_eu = invoice_data.pop('customer_in_eu', False)
-        period_id = self.env['account.period'].date2period(invoice_data.get('date', fields.Date.today())).id
-        invoice_data['partner_id'] = self._get_or_create_partner(invoice_data.pop('vendor', False))
-        invoice_data['currency_id'] = self._get_currency(invoice_data.pop('currency', False))
+        currency = self._get_currency(
+            invoice_data.pop('currency', 'SEK')
+        )
+        if not currency:
+            currency = self.env['res.currency'].search([('name', '=', 'SEK')]).id
+        period_id = self.env['account.period'].date2period(
+            invoice_data.get('date', fields.Date.today())
+        ).id
+
+        invoice_data['partner_id'] = partner_id.id if partner_id else False
+        invoice_data['currency_id'] = currency
         invoice_data['period_id'] = period_id
+        invoice_data['ai_session_id'] = session.id
         invoice_data['invoice_date'] = invoice_data.get('date')
         invoice_data['move_type'] = 'in_invoice'
-        invoice_data['invoice_line_ids'] = self._invoice_lines(invoice_data.pop('invoice_line_ids'))
+        invoice_data['invoice_line_ids'] = self._invoice_lines(
+            invoice_data.pop('invoice_line_ids', False)
+        )
 
         if session.move_id:
             session.move_id.write(invoice_data)
+            move_id = session.move_id
         else:
-            self.env['account.move'].create(invoice_data)
+            move_id = self.env['account.move'].create(invoice_data)
+            session.move_id = move_id.id
+        return move_id
 
     def _invoice_lines(self, invoice_lines):
         default_journal = self.env['account.journal'].search([('type', '=', 'purchase')], limit=1)

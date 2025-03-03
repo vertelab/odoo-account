@@ -45,6 +45,8 @@
         'data/ai_tool_data.xml',
         'data/ai_agent_data.xml',
         'views/ir_attachment_view.xml',
+        'views/ai_session_view.xml',
+        'views/account_move_view.xml',
     ],
     "external_dependencies": {
         "python": [

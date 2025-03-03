@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="ai_quest_account_move_form_view" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/div[@name='button_box']" position="inside">
+                    <field name="ai_session_id" invisible="1"/>
+                    <button name="action_view_ai_session" class="oe_stat_button " type="object" icon="fa-spinner" string="AI Session" attrs="{'invisible': [('ai_session_id', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

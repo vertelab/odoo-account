@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="ai_quest_session_form_view" model="ir.ui.view">
+            <field name="name">ai.quest.session.form</field>
+            <field name="model">ai.quest.session</field>
+            <field name="inherit_id" ref="ai_agent.ai_quest_session_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']/button[@name='action_get_llms']" position="before">
+                    <button name="action_view_move" class="oe_stat_button " type="object" icon="fa-bank" string="Account Move" attrs="{'invisible': [('move_id', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
