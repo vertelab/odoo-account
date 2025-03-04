@@ -52,7 +52,7 @@
         "python": [
             "eml_parser",
             "pyarrow",
-            "pytesseract",
+            "pytesseract", 
             "PyMuPDF",
             "faiss-cpu",
         ],

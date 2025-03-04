@@ -17,6 +17,7 @@ class IrAttachment(models.Model):
 
     def get_pdf_content(self):
         pdf_path = self._full_path(self.store_fname)
+        _logger.info(f"{pdf_path=}")
         blob = Blob.from_path(pdf_path)
         parser = PyMuPDFParser()
         extracted_text = ""
@@ -54,7 +55,7 @@ class IrAttachment(models.Model):
                 _logger.error(f"Error in PyMuPDFParser processing: {e}", exc_info=True)
                 # Fallback to full OCR only if initial parsing completely failed
                 extracted_text = self._extract_text_from_pdf_image(pdf_path)
-
+        _logger.warning(f"==={extracted_text=}")
         if not extracted_text.strip():
             _logger.warning("No content could be extracted from the PDF using any method")
             raise UserError(_("Unable to extract any content from the PDF document"))
