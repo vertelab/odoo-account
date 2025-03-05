@@ -7,7 +7,7 @@ from odoo.exceptions import Warning,UserError
 import requests
 import json
 import time
-
+import base64
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -25,22 +25,30 @@ class IrAttachment(models.Model):
             
             #raise UserError("test create")
             if not file.fortnox_ref:
-                url = "https://api.fortnox.se/3/inbox"
+                url = "https://api.fortnox.se/3/inbox/?path=inbox_kf"
+                file_content = base64.b64decode(file.datas)
+                files = {
+                'file': (file.name, file_content, file.mimetype)
+                }
+                _logger.warning(f"{files=}")
                 r = company_id.fortnox_request(
                     'post',
                     url,
-                    data={
-                    "File": {
-                    "@url":f"{self.env['ir.config_parameter'].sudo().get_param('web.base.url')}/{file.local_url}",
-                    #"ArchiveFileId": "string",
-                    #"Comments": "string",
-                    "Id": file.checksum,
-                    "Name": file.name,
-                    "Path": "string",
-                    "Size": 0
-                    }
-                    })
-                if r.get("ErrorInformation", {}).get("code") in [2000357]:
+                    files=files
+                )
+                #data={
+                #    "File": {
+                #    "@url":f"{self.env['ir.config_parameter'].sudo().get_param('web.base.url')}{file.local_url}",
+                #    "ArchiveFileId": "string",
+                #    "Comments": "string",
+                    #"Id": file.checksum,
+                #    "Name": file.name,
+                #    "Path": "inbox_kf",
+                #    "Size": file.file_size
+                #    }
+                #}
+                #_logger.warning(f"{data=}")
+                if r.get("ErrorInformation", {}):
                     raise UserError(f"File upload went wrong {r}")
                 _logger.warning("CHECK HERE"*100)
                 _logger.warning(f"{r=}")

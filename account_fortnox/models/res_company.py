@@ -200,7 +200,7 @@ class ResCompany(models.Model):
         elif datetime.now() > self.fortnox_token_expiration:
             return 2
 
-    def fortnox_request(self, request_type, url, data=None, raise_error=True):
+    def fortnox_request(self, request_type, url, data=None, files=None, raise_error=True):
         if self.is_access_token_expired() == 1 or self.fortnox_access_token == False:
             _logger.warning("Access token not fetched, fetching.")
             self.fortnox_get_access_token()
@@ -211,12 +211,25 @@ class ResCompany(models.Model):
             self.env.cr.commit()
 
         headers = {
-            "Content-Type": "application/json",
+            #"Content-Type": "application/json",
             "Accept": "application/json",
             "Authorization": f"Bearer {self.fortnox_access_token}"
         }
-
-        r = requests.request(request_type, url=url, headers=headers, data=json.dumps(data))
+            # Only set Content-Type if not sending files
+        if not files:
+           headers["Content-Type"] = "application/json"
+        
+        _logger.warning(f"{request_type=}")
+        _logger.warning(f"{url=}")
+        _logger.warning(f"{headers=}")
+        _logger.warning(f"{json.dumps(data)=}")
+        #r = requests.request(request_type, url=url, headers=headers, data=json.dumps(data))
+        if files:
+           _logger.warning(f"Sending files: {files.keys()}")
+           r = requests.request(request_type, url=url, headers=headers, files=files)
+        else:
+           _logger.warning(f"{json.dumps(data)=}")
+           r = requests.request(request_type, url=url, headers=headers, data=json.dumps(data))
         return r.json()
 
     def fortnox_auth_open_link(self):
