@@ -17,7 +17,9 @@ class IrAttachment(models.Model):
     _inherit = 'ir.attachment'
 
     fortnox_ref = fields.Char(string='Fortnox File ID', index=True, company_dependent=True)
-
+    fortnox_ArchiveFileId = fields.Char(string='Fortnox File ArchiveID', index=True, company_dependent=True)
+    fortnox_Path = fields.Char(string='Fortnox File Path', index=True, company_dependent=True)
+    fortnox_Url = fields.Char(string='Fortnox File Url', index=True, company_dependent=True) 
     def file_upload(self, company_id = None):
         if not company_id:
            company_id = self.env.user.company_id
@@ -46,10 +48,16 @@ class IrAttachment(models.Model):
                 #    "Path": "inbox_kf",
                 #    "Size": file.file_size
                 #    }
-                #}
+                #}ArchiveFileId
                 #_logger.warning(f"{data=}")
                 if r.get("ErrorInformation", {}):
                     raise UserError(f"File upload went wrong {r}")
+                if r.get('File'):
+                   file.fortnox_ref = r.get('File').get('Id')
+                   file.fortnox_ArchiveFileId = r.get('File').get('ArchiveFileId')
+                   file.fortnox_Path = r.get('File').get('Path')
+                   file.fortnox_Url = r.get('File').get('@url')
+                   
                 _logger.warning("CHECK HERE"*100)
                 _logger.warning(f"{r=}")
 

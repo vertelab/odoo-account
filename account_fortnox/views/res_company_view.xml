@@ -37,6 +37,23 @@
 			</xpath>
 		</field>
 	</record>
+        
+        <record id="view_attachment_form_inherit_fortnox" model="ir.ui.view">
+            <field name="name">ir.attachment.view.form.inherit.fortnox</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='description_group']" position="after">
+                    <group name="fortnox_info" string="Fortnox Info" attrs="{'invisible': [('fortnox_ref', '=', False)]}">
+                        <field name="fortnox_ref"/>
+                        <field name="fortnox_ArchiveFileId"/>
+                        <field name="fortnox_Path"/>
+                        <field name="fortnox_Url"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
 </odoo>
 
 
