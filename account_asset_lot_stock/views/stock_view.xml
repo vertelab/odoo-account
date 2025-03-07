@@ -62,7 +62,7 @@
             <field name="arch" type="xml">
                    <button class="oe_stat_button" icon="fa-bars" name="open_entries" type="object" position="after">
                       <field name="stock_picking_num" invisible="True"/>
-                      <button name="action_view_stock_pickings" type="object" class="oe_stat_button" icon="fa-cubes" invisible="stock_picking_num == 0">
+					  <button name="action_view_stock_pickings" type="object" class="oe_stat_button" icon="fa-cubes" invisible="stock_picking_num == 0">
                             <field string="Stock Pickings" name="stock_picking_num" widget="statinfo"/>
                         </button>
                   </button>

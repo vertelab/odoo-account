@@ -5,6 +5,7 @@ _logger = logging.getLogger(__name__)
 
 class StockLocation(models.Model):
     _inherit = "stock.location"
+    
     res_partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Owner",
@@ -89,20 +90,17 @@ class StockLot(models.Model):
            if not purchase_line_id:
                purchase_line_id = self.env['purchase.order.line'].search([('order_id','in',stock_picking.sale_id._get_purchase_orders().ids),('product_id','=',self.product_id.id)], limit=1)
            supplier_id = purchase_line_id.order_id.partner_id.id
-
-
            _logger.warning(f"{depreciation_base=} {supplier_id=}")
            #raise Exception(Bleh)
-            
         vals = {
             "name": f"{self.name} {self.product_id.name}",
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
             "purchase_value": depreciation_base,
             "partner_id": stock_picking.sale_id.partner_id.id,
             "date_start": stock_picking.date_done if stock_picking.date_done else fields.Datetime.now(),
+            "supplier_id":supplier_id,
             "lot_id": self.id,
             "product_id": self.product_id.id,
-            "supplier_id":supplier_id,
             "note":move.description_picking,
             "default_code":self.product_id.default_code,
         }
@@ -183,23 +181,20 @@ class StockPicking(models.Model):
         res = super().button_validate()
         for stock_picking in self:
             if (stock_picking.sale_id and not stock_picking.purchase_id) or (stock_picking.sale_id and stock_picking.is_dropship):
-              #_logger.warning("Inside if case"*100)
               for move in stock_picking.move_ids:
                 if move.product_id.tracking == "serial":
                     for lot_id in move.lot_ids:
-                        if not lot_id.asset_id and (move.asset_profile_id or lot_id.asset_profile_id):
+                       if not lot_id.asset_id and (move.asset_profile_id or lot_id.asset_profile_id):
                             vals = lot_id._prepare_asset_vals(stock_picking, move)
                             lot_id.create_asset(vals)
-                        elif not lot_id.asset_id and not move.asset_profile_id and not lot_id.asset_profile_id:
-                            raise UserError(f"""
-On line "{move.product_id.name}" there is no Asset profile set.
-This is needed in order to create a new It-asset. 
-Kindly set it on the line and if you want to automate this you can set one on the product aswell. 
-                                            """)
-                        #elif lot_id.asset_id and lot_id.asset_id.state == "draft":
-                        #   lot_id.update_partner_asset(stock_picking.partner_id)
+                       elif not lot_id.asset_id and not move.asset_profile_id and not lot_id.asset_profile_id:
+                           raise UserError(f"""
+Online "{move.product_id.name}" there is no Asset profile set.
+Thisis needed in order to create a new It-asset. 
+Kindlyset it on the line and if you want to automate this you can set one on the product aswell. 
+                                           """)
+
                             #Change partner 
         
-        #raise UserError(f"Not if case {(stock_picking.sale_id and not stock_picking.purchase_id)=} {(stock_picking.sale_id and stock_picking.is_dropship)=}")
         return res
 

@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
@@ -23,19 +22,19 @@
                 <field name="lot_ids" position="before">
                     <field name="asset_profile_id" optional="show"/>
                 </field>
-                # #if VERSION == "16.0" 
+                <!-- #if VERSION <= "16.0" --> 
                   <button name="action_see_move_scrap" type="object" class="oe_stat_button" icon="fa-arrows-v" attrs="{'invisible': [('has_scrap_move', '=', False)]}" position="after">
-				# #elif VERSION >= "17.0"
+				<!-- #elif VERSION >= "17.0" -->
                   <button name="action_see_returns" type="object" class="oe_stat_button" icon="fa-rotate-left" invisible="return_count == 0" position="after">
-				# #endif
+				<!-- #endif -->
                       <field name="asset_count" invisible="True"/>
-						# #if VERSION == "16.0" 
+						<!-- #if VERSION <= "16.0" --> 
                       <button name="action_view_assets" type="object" attrs="{'invisible': [('asset_count', '=', 0)]}" class="oe_stat_button" icon="fa-cubes">
                             <field string="Assets" name="asset_count"  widget="statinfo"/>
-						# #elif VERSION >= "17.0"
+						<!-- #elif VERSION >= "17.0" -->
                       <button name="action_view_assets" type="object" class="oe_stat_button" icon="fa-cubes" invisible="asset_count == 0">
                             <field string="Assets" name="asset_count" widget="statinfo"/>
-						# #endif
+					    <!-- #endif -->
                         </button>
                   </button>
             </field>
@@ -72,11 +71,11 @@
             <field name="arch" type="xml">
                    <button class="oe_stat_button" icon="fa-bars" name="open_entries" type="object" position="after">
                       <field name="stock_picking_num" invisible="True"/>
-                      # #if VERSION == "16.0"
+                      <!-- #if VERSION <= "16.0" -->
                       <button name="action_view_stock_pickings" type="object" class="oe_stat_button" icon="fa-cubes" attrs="{'invisible': [('stock_picking_num', '=', 0)]}">
-                      # #elif VERSION >= "17.0"
+                      <!-- #elif VERSION >= "17.0" -->
 					  <button name="action_view_stock_pickings" type="object" class="oe_stat_button" icon="fa-cubes" invisible="stock_picking_num == 0">
-                      # #endif
+                      <!-- #endif -->
                             <field string="Stock Pickings" name="stock_picking_num" widget="statinfo"/>
                         </button>
                   </button>

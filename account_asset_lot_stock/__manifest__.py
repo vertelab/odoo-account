@@ -38,8 +38,6 @@ Create an asset connected to a Lot number.
     """,
     'depends': ['account','account_asset_management','stock','sale','purchase'],
     'data': [
-        #'security/ir.model.access.csv',
-        #'security/security.xml',
         'views/stock_view.xml',
     ],
     'demo': [],
@@ -48,4 +46,3 @@ Create an asset connected to a Lot number.
     'application': False,
     'auto_install': False,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
