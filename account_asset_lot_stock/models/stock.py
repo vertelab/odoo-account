@@ -5,6 +5,7 @@ _logger = logging.getLogger(__name__)
 
 class StockLocation(models.Model):
     _inherit = "stock.location"
+    
     res_partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Owner",
