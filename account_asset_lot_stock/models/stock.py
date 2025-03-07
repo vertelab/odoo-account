@@ -5,6 +5,7 @@ _logger = logging.getLogger(__name__)
 
 class StockLocation(models.Model):
     _inherit = "stock.location"
+    
     res_partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Owner",
@@ -77,25 +78,24 @@ class StockLot(models.Model):
     def _prepare_asset_vals(self, stock_picking, move):
         depreciation_base = move.purchase_line_id.price_unit
         owner = False
-        
+       
         # ~ stock_picking.location_dest_id.company_id.partner_id.id if stock_picking.picking_type_code == "incoming" else stock_picking.partner_id.id,
-        
+       
         if stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.res_partner_id:
            owner = stock_picking.location_dest_id.res_partner_id.id
         elif stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.company_id.partner_id:
             owner = stock_picking.location_dest_id.company_id.partner_id.id
         else:
             owner = stock_picking.partner_id.id
-        
         vals = {
             "name": f"{self.name} {self.product_id.name}",
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
             "purchase_value": depreciation_base,
             "partner_id": owner,
             "date_start": stock_picking.date_done,
+            "supplier_id":stock_picking.partner_id.id,
             "lot_id": self.id,
             "product_id": self.product_id.id,
-            "supplier_id":stock_picking.partner_id.id,
             "note":move.description_picking,
             "default_code":self.product_id.default_code,
         }
@@ -175,16 +175,16 @@ class StockPicking(models.Model):
     def button_validate(self):
         res = super().button_validate()
         for stock_picking in self:
-            for move in stock_picking.move_ids:
+              for move in stock_picking.move_ids:
                 if move.product_id.tracking == "serial":
                     for lot_id in move.lot_ids:
-                        if not lot_id.asset_id and move.asset_profile_id or lot_id.asset_profile_id:
+                       if not lot_id.asset_id and (move.asset_profile_id or lot_id.asset_profile_id):
                             vals = lot_id._prepare_asset_vals(stock_picking, move)
                             lot_id.create_asset(vals)
                         elif lot_id.asset_id and lot_id.asset_id.state == "draft":
                             lot_id.update_partner_asset(stock_picking.partner_id)
+
                             #Change partner 
-        
         
         return res
 

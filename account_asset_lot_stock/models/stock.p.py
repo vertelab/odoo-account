@@ -5,6 +5,7 @@ _logger = logging.getLogger(__name__)
 
 class StockLocation(models.Model):
     _inherit = "stock.location"
+    
     res_partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Owner",
@@ -75,7 +76,7 @@ class StockLot(models.Model):
     )
     
     def _prepare_asset_vals(self, stock_picking, move):
-		# # if VERSION == "16.0"
+		# # if VERSION <= "16.0"
         depreciation_base = move.purchase_line_id.price_unit
         owner = False
        
@@ -87,7 +88,7 @@ class StockLot(models.Model):
             owner = stock_picking.location_dest_id.company_id.partner_id.id
         else:
             owner = stock_picking.partner_id.id
-        # # elif VERSION == "17.0"
+        # # elif VERSION >= "17.0"
         purchase_line_id = move.purchase_line_id
         depreciation_base = 0
         supplier_id = False
@@ -109,11 +110,11 @@ class StockLot(models.Model):
             "name": f"{self.name} {self.product_id.name}",
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
             "purchase_value": depreciation_base,
-            # #if VERSION == "16.0" 
+            # #if VERSION <= "16.0" 
             "partner_id": owner,
             "date_start": stock_picking.date_done,
             "supplier_id":stock_picking.partner_id.id,
-			# #elif VERSION == "17.0"
+			# #elif VERSION >= "17.0"
             "partner_id": stock_picking.sale_id.partner_id.id,
             "date_start": stock_picking.date_done if stock_picking.date_done else fields.Datetime.now(),
             "supplier_id":supplier_id,
@@ -199,7 +200,7 @@ class StockPicking(models.Model):
     def button_validate(self):
         res = super().button_validate()
         for stock_picking in self:
-        # #if VERSION == "17.0"
+        # #if VERSION >= "17.0"
             if (stock_picking.sale_id and not stock_picking.purchase_id) or (stock_picking.sale_id and stock_picking.is_dropship):
 		# # endif
               for move in stock_picking.move_ids:
@@ -208,10 +209,10 @@ class StockPicking(models.Model):
                        if not lot_id.asset_id and (move.asset_profile_id or lot_id.asset_profile_id):
                             vals = lot_id._prepare_asset_vals(stock_picking, move)
                             lot_id.create_asset(vals)
-                        # #if VERSION == "16.0"
+                        # #if VERSION <= "16.0"
                         elif lot_id.asset_id and lot_id.asset_id.state == "draft":
                             lot_id.update_partner_asset(stock_picking.partner_id)
-						# #elif VERSION == "17.0"
+						# #elif VERSION >= "17.0"
                        elif not lot_id.asset_id and not move.asset_profile_id and not lot_id.asset_profile_id:
                            raise UserError(f"""
 Online "{move.product_id.name}" there is no Asset profile set.

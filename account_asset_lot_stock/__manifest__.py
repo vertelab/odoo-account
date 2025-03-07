@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Asset Stock Lot',
-    'version': '0.1',
+    'version': '1.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Create an asset connected to a Lot number.',
     'category': 'Accounting',
@@ -36,10 +36,8 @@
     'description': """
 Create an asset connected to a Lot number.
     """,
-    'depends': ['account','account_asset_management','stock'],
+    'depends': ['account','account_asset_management','stock','sale','purchase'],
     'data': [
-        #'security/ir.model.access.csv',
-        #'security/security.xml',
         'views/stock_view.xml',
     ],
     'demo': [],
@@ -48,4 +46,3 @@ Create an asset connected to a Lot number.
     'application': False,
     'auto_install': False,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
