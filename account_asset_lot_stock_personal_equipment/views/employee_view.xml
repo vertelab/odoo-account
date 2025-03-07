@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+
+        <record id="account_asset_management_account_asset_view_form_inherit" model="ir.ui.view">
+            <field name="name">account_asset_management_account_asset_view_form_inherit</field>
+            <field name="model">account.asset</field>
+            <field name="inherit_id" ref="account_asset_management.account_asset_view_form"/>
+            <field name="arch" type="xml">
+                   <button class="oe_stat_button" icon="fa-bars" name="open_entries" type="object" position="after">
+                      <field name="personal_equipment_id" invisible="True"/>
+                  </button>
+            </field>
+        </record>
+        
+        
+        <record id="hr_personal_equipment_request_hr_personal_equipment_form_view" model="ir.ui.view">
+            <field name="name">hr_personal_equipment_request_hr_personal_equipment_form_view_inherit</field>
+            <field name="model">hr.personal.equipment</field>
+            <field name="inherit_id" ref="hr_personal_equipment_request.hr_personal_equipment_form_view"/>
+            <field name="arch" type="xml">
+                   <field name="name" position="before">
+                       <field name="asset_id" invisible="True"/>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                  </field>
+            </field>
+        </record>
+        
+    </data>
+</odoo>
