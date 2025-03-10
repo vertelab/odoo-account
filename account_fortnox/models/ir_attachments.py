@@ -16,32 +16,49 @@ _logger = logging.getLogger(__name__)
 class IrAttachment(models.Model):
     _inherit = 'ir.attachment'
 
-    fortnox_ref = fields.Char(string='Fortnox File ID', index=True, company_dependent=True)
-    fortnox_ArchiveFileId = fields.Char(string='Fortnox File ArchiveID', index=True, company_dependent=True)
-    fortnox_Path = fields.Char(string='Fortnox File Path', index=True, company_dependent=True)
-    fortnox_Url = fields.Char(string='Fortnox File Url', index=True, company_dependent=True) 
+    fortnox_file_ref = fields.Char(string='Fortnox File ID', index=True, company_dependent=True)
+    fortnox_file_archive_id = fields.Char(string='Fortnox File ArchiveID', index=True, company_dependent=True)
+    fortnox_file_path = fields.Char(string='Fortnox File Path', index=True, company_dependent=True)
+    fortnox_file_url = fields.Char(string='Fortnox File Url', index=True, company_dependent=True) 
+    
     def file_upload(self, company_id = None):
+        file_metadata = self._upload_file_to_fortnox(company_id=company_id)
+        
+    
+    def _upload_file_to_fortnox(self, company_id = None):
         if not company_id:
            company_id = self.env.user.company_id
+           
         for file in self:
-            if not file.fortnox_ref:
+            if not file.fortnox_file_ref:
                 url = "https://api.fortnox.se/3/inbox/?path=inbox_kf"
                 file_content = base64.b64decode(file.datas)
                 files = {
-                'file': (file.name, file_content, file.mimetype)
+                    'file': (file.name, file_content, file.mimetype)
                 }
-                _logger.warning(f"{files=}")
+                
                 r = company_id.fortnox_request(
                     'post',
                     url,
                     files=files
                 )
+                _logger.warning(f"{r=}")
                 if r.get("ErrorInformation", {}):
                     raise UserError(f"File upload went wrong {r}")
-                if r.get('File'):
-                   file.fortnox_ref = r.get('File').get('Id')
-                   file.fortnox_ArchiveFileId = r.get('File').get('ArchiveFileId')
-                   file.fortnox_Path = r.get('File').get('Path')
-                   file.fortnox_Url = r.get('File').get('@url')
+                file_metadata = {
+                    "fortnox_file_ref": r.get('File').get('Id'),
+                    "fortnox_file_path": r.get('File').get('Path'),
+                    "fortnox_file_url": r.get('File').get('@url'),
+                    "fortnox_file_archive_id": r.get('File').get('ArchiveFileId')
+                }
+                self.write(file_metadata)
+                return file_metadata
+                
+                
+                #if r.get('File'):
+                 #  file.fortnox_ref = r.get('File').get('Id')
+                 #  file.fortnox_ArchiveFileId = r.get('File').get('ArchiveFileId')
+                 #  file.fortnox_Path = r.get('File').get('Path')
+                 #  file.fortnox_Url = r.get('File').get('@url')
                    
 

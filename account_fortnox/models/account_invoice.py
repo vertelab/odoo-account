@@ -68,7 +68,6 @@ class AccountInvoice(models.Model):
     fortnox_ref = fields.Char(string="Fortnox Ref", readonly=True, copy=False, store=True, compute="set_old_name")
     fortnox_status = fields.Char(string="Fortnox Status", readonly=True, copy=False)
     is_sent_to_fortnox = fields.Boolean(string="Sent To Fortnox", readonly=True, copy=False)
-
     tax_included_in_price = fields.Selection([
         ('tax_included_price', 'Tax Included Price'),
         ('tax_excluded_from_price', 'Tax Excluded from Price'),
@@ -229,6 +228,7 @@ class AccountInvoice(models.Model):
         invoice.fortnox_ref = fortnox_invoice["DocumentNumber"]
         invoice.partner_id.fortnox_ref = fortnox_invoice["CustomerNumber"]
         invoice.is_move_sent = True
+        self.push_invoice_files()
 
     def fortnox_create(self, invoice):
         if self.tax_included_in_price == "mixed":
@@ -300,6 +300,7 @@ Please redo the lines to so that all are tax included or all tax excluded from t
             invoice.fortnox_ref = r["Invoice"]["DocumentNumber"]
             invoice.is_move_sent = True
             invoice.is_sent_to_fortnox = True
+            invoice.push_invoice_files()
             #for attachment in invoice.attachment_ids:
             #    attachment.connect_file_and_invoice(invoice, invoice.company_id)
 
@@ -325,6 +326,12 @@ Please add it.
 The Incoterm term chosen ({invoice.invoice_incoterm_id.name}) is missing an fortnox code.
 Please add it.
         """)
+        # sale order delivery date
+        if self.line_ids.sale_line_ids.order_id:
+            commitment_date = self.line_ids.sale_line_ids.order_id[-1].commitment_date.strftime('%Y-%m-%d') 
+        else:
+            commitment_date = ""
+        
         yourreference = invoice.partner_id.name if invoice.partner_id.name and invoice.partner_id.type == "contact" else ""
         if not yourreference and order_contact:
             yourreference = order_contact.name if order_contact.name and order_contact.type == "contact" else ""
@@ -356,12 +363,46 @@ Please add it.
             "YourOrderNumber":invoice.ref if invoice.ref else "",
             "Freight": 0,
             "AdministrationFee": 0,
+            "DeliveryDate": commitment_date 
 
         }
         
         
         _logger.warning(f"{invoice_vals=}")
         return invoice_vals
+        
+    def push_invoice_files(self):
+        attachments = self.attachment_ids.filtered(
+            lambda attachment: not attachment.fortnox_file_ref and not attachment.fortnox_file_url
+        )
+        for attachment in attachments:
+            fortnox_file_metadata = attachment._upload_file_to_fortnox()
+            _logger.info(f"{fortnox_file_metadata=}")
+            if fortnox_file_metadata.get('fortnox_file_url'):
+                r = self.company_id.fortnox_request(
+                    'POST',
+                    "https://api.fortnox.se/api/fileattachments/attachments-v1",
+                    data={
+                        "entityId": int(self.fortnox_ref),
+                        "entityType": "F",
+                        "fileId": "Test",
+                        "id": fortnox_file_metadata.get("fortnox_file_ref"),
+                        #"includeOnSend": True
+                    }
+                )
+                
+                #r = self.company_id.fortnox_request(
+                #    'POST',
+                #    "https://api.fortnox.se/3/articlefileconnections",
+                #    data={
+                #        "ArticleNumber": self.fortnox_ref,
+                #        "fileId": fortnox_file_metadata.get("fortnox_file_archive_id"),
+                #        "@url": fortnox_file_metadata.get("fortnox_file_url"),
+                #    }
+                #)
+                
+                _logger.info(f"upload result {r=}")
+        
 
 
 class AccountMoveSend(models.TransientModel):
