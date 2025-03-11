@@ -21,14 +21,11 @@ class IrAttachment(models.Model):
     fortnox_file_path = fields.Char(string='Fortnox File Path', index=True, company_dependent=True)
     fortnox_file_url = fields.Char(string='Fortnox File Url', index=True, company_dependent=True) 
     
-    def file_upload(self, company_id = None):
-        file_metadata = self._upload_file_to_fortnox(company_id=company_id)
+    #def file_upload(self, company_id = None):
+    #    file_metadata = self._upload_file_to_fortnox(company_id=company_id)
         
-    
-    def _upload_file_to_fortnox(self, company_id = None):
-        if not company_id:
-           company_id = self.env.user.company_id
-           
+        
+    def _upload_file_to_fortnox(self, company_id):           
         for file in self:
             if not file.fortnox_file_ref:
                 url = "https://api.fortnox.se/3/inbox/?path=inbox_kf"
@@ -45,20 +42,9 @@ class IrAttachment(models.Model):
                 _logger.warning(f"{r=}")
                 if r.get("ErrorInformation", {}):
                     raise UserError(f"File upload went wrong {r}")
-                file_metadata = {
-                    "fortnox_file_ref": r.get('File').get('Id'),
-                    "fortnox_file_path": r.get('File').get('Path'),
-                    "fortnox_file_url": r.get('File').get('@url'),
-                    "fortnox_file_archive_id": r.get('File').get('ArchiveFileId')
-                }
-                self.write(file_metadata)
-                return file_metadata
-                
-                
-                #if r.get('File'):
-                 #  file.fortnox_ref = r.get('File').get('Id')
-                 #  file.fortnox_ArchiveFileId = r.get('File').get('ArchiveFileId')
-                 #  file.fortnox_Path = r.get('File').get('Path')
-                 #  file.fortnox_Url = r.get('File').get('@url')
+                file.fortnox_file_ref = r.get('File').get('Id')
+                file.fortnox_file_archive_id = r.get('File').get('ArchiveFileId')
+                file.fortnox_file_path = r.get('File').get('Path')
+                file.fortnox_file_url = r.get('File').get('@url')
                    
 
