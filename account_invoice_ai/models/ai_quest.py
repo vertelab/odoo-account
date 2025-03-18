@@ -97,10 +97,7 @@ class AIQuest(models.Model):
             currency_id = self.env['res.currency'].search([('symbol', '=', currency)], limit=1)
         return currency_id.id
 
-    def _create_vendor_bill(self, invoice_data, session, partner_id):
-        if session.ai_quest_id.company_id:
-            self = self.with_context(company_id=session.ai_quest_id.company_id.id)
-        _logger.warning(f"{self.env.context=}")
+    def _vendor_bill_vals(self, invoice_data, session, partner_id):
         customer_name = invoice_data.pop('customer', False)
         vendor_name = invoice_data.pop('vendor', False)
         vendor_in_eu = invoice_data.pop('vendor_in_eu', False)
@@ -120,9 +117,40 @@ class AIQuest(models.Model):
         invoice_data['ai_session_id'] = session.id
         invoice_data['invoice_date'] = invoice_data.get('date')
         invoice_data['move_type'] = 'in_invoice'
-        invoice_data['invoice_line_ids'] = self._invoice_lines(
-            invoice_data.pop('invoice_line_ids', False)
-        )
+        invoice_data['fiscal_position_id'] = partner_id.property_account_position_id.id
+        invoice_data['invoice_line_ids'] = self._invoice_lines(invoice_data.pop('invoice_line_ids', False))
+
+        return invoice_data
+
+
+    def _create_vendor_bill(self, invoice_data, session, partner_id):
+        if session.ai_quest_id.company_id:
+            self = self.with_context(company_id=session.ai_quest_id.company_id.id)
+        _logger.warning(f"{self.env.context=}")
+
+        invoice_data = self._vendor_bill_vals(invoice_data, session, partner_id)
+        # customer_name = invoice_data.pop('customer', False)
+        # vendor_name = invoice_data.pop('vendor', False)
+        # vendor_in_eu = invoice_data.pop('vendor_in_eu', False)
+        # customer_in_eu = invoice_data.pop('customer_in_eu', False)
+        # currency = self._get_currency(
+        #     invoice_data.pop('currency', 'SEK')
+        # )
+        # if not currency:
+        #     currency = self.env['res.currency'].search([('name', '=', 'SEK')]).id
+        # period_id = self.env['account.period'].date2period(
+        #     invoice_data.get('date', fields.Date.today())
+        # ).id
+        #
+        # invoice_data['partner_id'] = partner_id.id if partner_id else False
+        # invoice_data['currency_id'] = currency
+        # invoice_data['period_id'] = period_id
+        # invoice_data['ai_session_id'] = session.id
+        # invoice_data['invoice_date'] = invoice_data.get('date')
+        # invoice_data['move_type'] = 'in_invoice'
+        # invoice_data['invoice_line_ids'] = self._invoice_lines(
+        #     invoice_data.pop('invoice_line_ids', False)
+        # )
 
         if session.move_id:
             session.move_id.write(invoice_data)
