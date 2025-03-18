@@ -181,7 +181,7 @@ class StockPicking(models.Model):
                        if not lot_id.asset_id and (move.asset_profile_id or lot_id.asset_profile_id):
                             vals = lot_id._prepare_asset_vals(stock_picking, move)
                             lot_id.create_asset(vals)
-                        elif lot_id.asset_id and lot_id.asset_id.state == "draft":
+                       elif lot_id.asset_id and lot_id.asset_id.state == "draft":
                             lot_id.update_partner_asset(stock_picking.partner_id)
 
                             #Change partner 
