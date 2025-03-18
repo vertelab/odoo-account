@@ -98,6 +98,8 @@ class AIQuest(models.Model):
         return currency_id.id
         
     def _prepare_vendor_bill(self, invoice_data, session, partner_id):
+        ##Same as _create_vendor_bill but we dont add the lines
+        ##Used when we match a purchase order.
         if session.ai_quest_id.company_id:
             self = self.with_context(company_id=session.ai_quest_id.company_id.id)
         _logger.warning(f"{self.env.context=}")
@@ -152,6 +154,7 @@ class AIQuest(models.Model):
         invoice_data['period_id'] = period_id
         invoice_data['ai_session_id'] = session.id
         invoice_data['invoice_date'] = invoice_data.get('date')
+        invoice_data['invoice_payment_term_id'] = partner_id.property_supplier_payment_term_id.id if partner_id else self.env.ref('account.account_payment_term_30days').id
         invoice_data['move_type'] = 'in_invoice'
         invoice_data['fiscal_position_id'] = partner_id.property_account_position_id.id
         invoice_data['invoice_line_ids'] = self._invoice_lines(invoice_data.pop('invoice_line_ids', False))
@@ -190,7 +193,9 @@ class AIQuest(models.Model):
         # )
 
         if session.move_id:
+            _logger.warning(f"{invoice_data=}")
             session.move_id.write(invoice_data)
+            _logger.warning(f"{session.move_id.fiscal_position_id=}")
             move_id = session.move_id
         else:
             move_id = self.env['account.move'].create(invoice_data)
