@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2025- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,45 +20,32 @@
 ##############################################################################
 
 {
-    'name': 'Acount: chat with cases',
-    'version': '1.0.3',
-    'summary': 'Mailbox for Invoices AI',
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'account',
-    'description': """
-        Mailbox for AI Invoices
-    """,
-    #'sequence': '1',
+    'name': 'Account: Asset Stock Lot Equipment',
+    'version': '0.1',
+    # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'summary': 'Connect Created Asset to equipment.',
+    'category': 'Accounting',
+    #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_invoice_ai',
-    'images': ['static/description/banner.png'],  # 560x280 px.
+    'website': 'https://vertel.se/apps/odoo-account/account_asset_lot_stock_personal_equipment',
+    'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'depends': [
-        'ai_agent',
-        'account',
-    ],
+    'repository': 'https://github.com/vertelab/odoo-account',
+    'description': """
+Create an asset connected to a Lot number and equipment.
+    """,
+    'depends': ['account_asset_lot_stock','hr_personal_equipment_stock'],
     'data': [
-        'data/ai_tool_data.xml',
-        'data/ai_agent_data.xml',
-        'views/ir_attachment_view.xml',
-        'views/ai_session_view.xml',
-        'views/account_move_view.xml',
+        #'security/ir.model.access.csv',
+        #'security/security.xml',
+        'views/employee_view.xml',
     ],
-    "external_dependencies": {
-        "python": [
-            "eml_parser",
-            "pyarrow",
-            "pytesseract", 
-            "PyMuPDF",
-            "faiss-cpu",
-        ],
-    },
+    'demo': [],
+    'qweb': [],
     'installable': True,
-    'auto_install': False,
     'application': False,
+    'auto_install': False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
