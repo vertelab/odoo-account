@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="view_account_analytic_default_form" model="ir.ui.view">
+            <field name="name">account.analytic.distribution.model.form</field>
+            <field name="model">account.analytic.distribution.model</field>
+            <field name="inherit_id" ref="analytic.account_analytic_distribution_model_form_view"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="hr_department_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
