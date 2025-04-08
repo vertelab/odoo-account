@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="kpi_mis_budget_form_view" model="ir.ui.view">
+            <field name="name">kpi.mis.budget.form</field>
+            <field name="model">mis.budget</field>
+            <field name="inherit_id" ref="mis_builder_budget.mis_budget_form_view" />
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="%(account_mis_budget.action_make_kpi_report)d" string="Create KPI Budget" type="action" class="btn btn-primary"/>
+                </header>
+                <field name="date_to" position="after">
+                    <field name="analytic_account_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
