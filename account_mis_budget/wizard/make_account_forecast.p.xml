@@ -54,6 +54,6 @@
       <field name="state">code</field>
       <field name="code">action = env.ref('account_mis_budget.action_make_account_budget').with_context(active_id=record.id).read()[0]</field>
     </record>
--->
+->
   </data>
 </odoo>
