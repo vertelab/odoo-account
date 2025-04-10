@@ -70,7 +70,8 @@ class AIQuest(models.Model):
         return ai_invoice_data
 
     def mail(self, mail, session):
-        session.create_minimal_invoice()
+        if not session.move_id:
+            session.create_minimal_invoice()
         return super(AIQuest, self).mail(mail, session)
 
     def parse_invoice_data(self, res):
