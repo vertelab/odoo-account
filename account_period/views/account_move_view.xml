@@ -64,6 +64,37 @@
                 </field>
             </field>
         </record>
+        
+        
+    <record id="view_account_invoice_filter_period_filter" model="ir.ui.view">
+        <field name="name">view_account_invoice_filter_period_filter</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+                <filter name="invoice_date" date="invoice_date" position="after">
+                        <filter name="period_date_start" string="Period" date="period_date_start"/>
+                </filter>
+                <filter name="duedate" context="{'group_by': 'invoice_date_due'}" position="after">
+                        <filter string="Period" name="period_date_start" context="{'group_by': 'period_date_start'}"/>
+                </filter>
+        </field>
+    </record>
+    
+    
+    <record id="view_account_move_filter_period_filter" model="ir.ui.view">
+        <field name="name">view_account_invoice_filter_period_filter</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_move_filter" />
+        <field name="arch" type="xml">
+                <filter  name="date" date="date" position="after">
+                        <filter name="period_date_start" string="Period" date="period_date_start"/>
+                </filter>
+                <filter name="by_date" domain="[]" context="{'group_by': 'date'}" position="after">
+                        <filter string="Period" name="period_date_start" context="{'group_by': 'period_date_start'}"/>
+                </filter>
+        </field>
+    </record>
+
 
 
 
