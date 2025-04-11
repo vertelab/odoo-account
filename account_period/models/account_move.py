@@ -134,8 +134,8 @@ class AccountMove(models.Model):
         comodel_name='account.period', string='Period', default=_get_default_period_id,
         required=True, states={'posted': [('readonly', True)]}, domain=_set_period_domain)
 
-    period_date_start = fields.Date(string='Start of Period', related='period_id.date_start', required=True, store=True)
-    period_date_stop = fields.Date(string='End of Period', related='period_id.date_stop', required=True, store=True)
+    period_date_start = fields.Date(string='Start of Period', related='period_id.date_start', required=False, store=True)
+    period_date_stop = fields.Date(string='End of Period', related='period_id.date_stop', required=False, store=True)
 
     payment_period_id = fields.Many2one(store=True, comodel_name='account.period', string='Payment Invoice Period',
                                         compute="_set_period_from_payment", readonly=True)
@@ -222,8 +222,8 @@ class AccountMoveLine(models.Model):
     period_id = fields.Many2one(
         'account.period', string='Period', related='move_id.period_id', store=True, readonly=True
     )
-    period_date_start = fields.Date(string='Start of Period', related='period_id.date_start', required=True, store=True)
-    period_date_stop = fields.Date(string='End of Period', related='period_id.date_stop', required=True, store=True)
+    period_date_start = fields.Date(string='Start of Period', related='period_id.date_start', required=False, store=True)
+    period_date_stop = fields.Date(string='End of Period', related='period_id.date_stop', required=False, store=True)
     fiscalyear_id = fields.Many2one(
         comodel_name='account.fiscalyear', related='period_id.fiscalyear_id', store=True, readonly=True
     )
