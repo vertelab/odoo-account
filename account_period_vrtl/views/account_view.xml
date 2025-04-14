@@ -42,14 +42,14 @@
             <field name="name">account.fiscalyear.tree</field>
             <field name="model">account.fiscalyear</field>
             <field name="arch" type="xml">
-                <tree string="Fiscalyear">
+                <list string="Fiscalyear">
                     <field name="code" />
                     <field name="name" />
                     <field name="company_id" groups="base.group_multi_company" />
                     <field name="state" />
                     <button name="action_draft" invisible="state == 'done'" string="Re-Open Fiscalyear" type="object" groups="account.group_account_manager" />
                     <button string="Close Fiscal Year" name="%(account_period_vrtl.action_account_fiscalyear_close)d" type="action" class="oe_highlight" invisible="state != 'draft'"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -74,7 +74,7 @@
         <record id="action_account_fiscalyear" model="ir.actions.act_window">
             <field name="name">Fiscal Years</field>
             <field name="res_model">account.fiscalyear</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Click to start a new fiscal year.</p>
                 <p>
@@ -127,7 +127,7 @@
             <field name="name">account.period.tree</field>
             <field name="model">account.period</field>
             <field name="arch" type="xml">
-                <tree string="Account Period">
+                <list string="Account Period">
                     <field name="name" />
                     <field name="code" />
                     <field name="date_start" />
@@ -137,7 +137,7 @@
                     <field name="state" />
                     <button string="Close Period" name="%(account_period_vrtl.action_account_period_close)d" type="action" class="oe_highlight" invisible="state != 'draft'"/>
                     <button name="action_draft" invisible="state == 'done'" string="Re-Open Period" type="object" groups="account.group_account_manager"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -159,7 +159,7 @@
         <record id="action_account_period_form" model="ir.actions.act_window">
             <field name="name">Account Period</field>
             <field name="res_model">account.period</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="search_view_id" ref="account_period_vrtl.view_account_period_search" />
             <field name="view_id" ref="account_period_vrtl.view_account_period_tree" />
             <field name="help" type="html">
@@ -294,10 +294,10 @@
             <field name="model">account.move.line</field>
             <field name="inherit_id" ref="account.view_move_line_tree"/>
             <field name="arch" type="xml">
-                   <field name="date" postion="after">
-                          <field name="period_id" optional="hide"/>
-                          <field name="fiscalyear_id" optional="hide"/>
-                   </field>
+               <field name="date" postion="after">
+                  <field name="period_id" optional="hide"/>
+                  <field name="fiscalyear_id" optional="hide"/>
+               </field>
             </field>
         </record>
         <record id="view_account_move_line_filter_inherit2" model="ir.ui.view">
