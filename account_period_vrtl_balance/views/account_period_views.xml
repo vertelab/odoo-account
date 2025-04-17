@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+	<record id="view_account_period_form" model="ir.ui.view">
+		<field name="name">account.period.form</field>
+		<field name="model">account.period</field>
+		<field name="arch" type="xml"/>
+		    <form>
+				
+		    </form> 
+    </record>
+
+	
+    <record id="view_account_period_tree" model="ir.ui.view">
+		<field name="name">account.period.tree</field>
+		<field name="model">account.period</field>
+		<field name="arch" type="xml">
+		    <tree>
+				<field name="name"/>
+				<field name="date_start"/>
+				<field name="date_stop"/>
+				<field name="incoming_balance"/>
+				<field name="outgoing_balance"/>
+		    </tree>
+        </field>
+    </record>
+    
+    <record id="action_account_period" model="ir.action.act_window">
+		<field name="name">Account Period</field>
+		<field name="res_model">account.period</field>
+		<field name="view_mode">tree,form</field>
+		<field name="view_id" ref="view_account_period_tree"/>
+    
+    </record>
+
+    
+</odoo>

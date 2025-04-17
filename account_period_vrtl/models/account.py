@@ -150,7 +150,7 @@ class AccountPeriod(models.Model):
         return True
 
     @api.model
-    def name_search(self, name='', args=None, operator='ilike', limit=100):
+    def name_search_depricated(self, name='', args=None, operator='ilike', limit=100):
         if args is None:
             args = []
         if operator in expression.NEGATIVE_TERM_OPERATORS:
@@ -381,7 +381,7 @@ class AccountFiscalyear(models.Model):
         return ids
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=80):
+    def name_search_depricated(self, name, args=None, operator='ilike', limit=80):
         if args is None:
             args = []
         if operator in expression.NEGATIVE_TERM_OPERATORS:
