@@ -44,7 +44,7 @@ class TierValidation(models.AbstractModel):
                 users_to_notify = tier_reviews.filtered(
                     lambda r: r.definition_id.notify_on_create and r.res_id == rec.id
                 ).mapped("reviewer_ids")
-                self._validation_request_mail(tier_reviews)
+                #self._validation_request_mail(tier_reviews)
                 # Subscribe reviewers and notify
                 getattr(rec, subscribe)(
                     partner_ids=users_to_notify.mapped("partner_id").ids
@@ -71,5 +71,5 @@ class TierValidation(models.AbstractModel):
         for review in user_reviews:
             rec = self.env[review.model].browse(review.res_id)
             rec._notify_accepted_reviews()
-        self._validation_request_mail(self.review_ids)
+        #self._validation_request_mail(self.review_ids)
 
