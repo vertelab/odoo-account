@@ -157,7 +157,7 @@ class AIQuest(models.Model):
         invoice_data['invoice_date'] = invoice_data.get('date')
         invoice_data['invoice_payment_term_id'] = partner_id.property_supplier_payment_term_id.id if partner_id else self.env.ref('account.account_payment_term_30days').id
         invoice_data['move_type'] = 'in_invoice'
-        invoice_data['fiscal_position_id'] = partner_id.property_account_position_id.id
+        invoice_data['fiscal_position_id'] = partner_id.property_account_position_id.id if partner_id and partner_id.property_account_position_id else False
         invoice_data['invoice_line_ids'] = self._invoice_lines(invoice_data.pop('invoice_line_ids', False))
         _logger.warning(f"odoo-account {invoice_data=}")
 
