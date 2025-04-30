@@ -152,7 +152,8 @@ class AIQuest(models.Model):
 
         invoice_data['partner_id'] = partner_id.id if partner_id else False
         invoice_data['currency_id'] = currency
-        invoice_data['period_id'] = period_id
+        if period_id:
+           invoice_data['period_id'] = period_id
         invoice_data['ai_session_id'] = session.id
         invoice_data['invoice_date'] = invoice_data.get('date')
         invoice_data['invoice_payment_term_id'] = partner_id.property_supplier_payment_term_id.id if partner_id else self.env.ref('account.account_payment_term_30days').id
