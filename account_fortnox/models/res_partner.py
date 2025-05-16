@@ -96,7 +96,7 @@ class Partner(models.Model):
                             "WWW": partner.commercial_partner_id.website,
                             "YourReference": partner.name,
                             "ZipCode": partner.zip,
-                            "EmailInvoice": partner_invoice_contacts[0] if partner_invoice_contacts else False
+                            "EmailInvoice": partner_invoice_contacts[0] if partner_invoice_contacts else ""
                         }
                     })
                 if r.get("ErrorInformation", {}).get("code") in [2000357]:
@@ -131,7 +131,7 @@ class Partner(models.Model):
                             "WWW": partner.commercial_partner_id.website,
                             "YourReference": partner.name,
                             "ZipCode": partner.zip,
-                            "EmailInvoice": partner_invoice_contacts[0] if partner_invoice_contacts else False
+                            "EmailInvoice": partner_invoice_contacts[0] if partner_invoice_contacts else ""
                         }
                     })
 
