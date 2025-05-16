@@ -69,7 +69,7 @@ class Partner(models.Model):
 
     def partner_create(self, company_id):
         for partner in self:
-            partner_invoice_contacts = partner.child_ids.filtered(lambda c: c.type == 'invoice').mapped('email')
+            partner_invoice_contacts = partner.commercial_partner_id.child_ids.filtered(lambda c: c.type == 'invoice').mapped('email')
             VATType = partner.commercial_partner_id.property_account_position_id.fortnox_vat_type if partner.commercial_partner_id and partner.commercial_partner_id.property_account_position_id and partner.commercial_partner_id.property_account_position_id.fortnox_vat_type else "SEVAT"
             _logger.warning(
                 f"CREATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.fortnox_ref=} {VATType=}")
@@ -81,11 +81,11 @@ class Partner(models.Model):
                     url,
                     data={
                         "Customer": {
-                            "Address1": partner.street,
-                            "City": partner.city,
-                            "CountryCode": partner.country_id.code,
+                            "Address1": partner.commercial_partner_id.street,
+                            "City": partner.commercial_partner_id.city,
+                            "CountryCode": partner.commercial_partner_id.country_id.code,
                             #"Currency": "SEK",
-                            "Email": partner.email or None,
+                            "Email": partner.commercial_partner_id.email or None,
                             "Name": partner.commercial_partner_id.name,
                             "Phone1": partner.commercial_partner_id.phone,
                             "Phone2": None,
@@ -94,8 +94,8 @@ class Partner(models.Model):
                             "Type": "COMPANY",
                             "VATType": VATType,
                             "WWW": partner.commercial_partner_id.website,
-                            "YourReference": partner.name,
-                            "ZipCode": partner.zip,
+                            "YourReference": partner.name if partner.type == "contact" else "",
+                            "ZipCode": partner.commercial_partner_id.zip,
                             "EmailInvoice": partner_invoice_contacts[0] if partner_invoice_contacts else ""
                         }
                     })
@@ -105,7 +105,7 @@ class Partner(models.Model):
 
     def partner_update(self, company_id):
         for partner in self:
-            partner_invoice_contacts = partner.child_ids.filtered(lambda c: c.type == 'invoice').mapped('email')
+            partner_invoice_contacts = partner.commercial_partner_id.child_ids.filtered(lambda c: c.type == 'invoice').mapped('email')
             VATType = partner.commercial_partner_id.property_account_position_id.fortnox_vat_type if partner.commercial_partner_id and partner.commercial_partner_id.property_account_position_id and partner.commercial_partner_id.property_account_position_id.fortnox_vat_type else "SEVAT"
             _logger.warning(
                 f"UPDATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.fortnox_ref=} {VATType=}")
@@ -129,7 +129,7 @@ class Partner(models.Model):
                             "Type": "COMPANY",
                             "VATType": VATType,
                             "WWW": partner.commercial_partner_id.website,
-                            "YourReference": partner.name,
+                            "YourReference": partner.name if partner.type == "contact" else "",
                             "ZipCode": partner.zip,
                             "EmailInvoice": partner_invoice_contacts[0] if partner_invoice_contacts else ""
                         }

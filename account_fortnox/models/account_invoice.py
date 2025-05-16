@@ -224,9 +224,8 @@ class AccountInvoice(models.Model):
             raise UserError(f"There is an issue with the fortnox connection. Contact administrator ({fortnox_res=})")
 
     def fortnox_update(self, invoice, fortnox_invoice):
-        #invoice.ref = fortnox_invoice["CustomerNumber"] ??
         invoice.fortnox_ref = fortnox_invoice["DocumentNumber"]
-        invoice.partner_id.fortnox_ref = fortnox_invoice["CustomerNumber"]
+        invoice.partner_id.commercial_partner_id.fortnox_ref = fortnox_invoice["CustomerNumber"]
         invoice.is_move_sent = True
         self.push_invoice_files(invoice.company_id)
 
