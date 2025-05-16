@@ -17,7 +17,7 @@ class FortnoxController(http.Controller):
                 'redirect_uri': f"{base_url}/fortnox/auth",
                 'response_type': 'code',
                 'state': kw['state'],
-                'scope': 'invoice article price offer customer bookkeeping'
+                'scope': 'invoice article price offer customer bookkeeping settings inbox connectfile archive'
             })
             
             return redirect(response.url)
