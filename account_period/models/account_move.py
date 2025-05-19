@@ -141,19 +141,21 @@ class AccountMove(models.Model):
                                         compute="_set_period_from_payment", readonly=True)
     # payment_date = fields.Date(store=True, string='Invoice Payment Date', compute="_set_date_from_payment",
     #                            readonly=True)
-    payment_date = fields.Date(string='Invoice Payment Date', related="payment_move_id.date", store=True, readonly=True)
+    invoice_payment_date = fields.Date(
+        string='Invoice Payment Date', related="payment_move_id.date", store=True, readonly=True
+    )
     payment_move_id = fields.Many2one(
         store=True, comodel_name='account.move', string='The payment invoice',
         compute="_set_payment_invoice", readonly=True)
 
-    @api.depends('payment_move_id', 'payment_date')
+    @api.depends('invoice_payment_date', 'invoice_date_due')
     def _compute_late_payment(self):
         # If today's date has passed due date then it is late.
         # If the payment date has passed the due date then it is still late.
         for rec in self:
-            if fields.Date.today() > rec.payment_move_id.invoice_date_due:
+            if rec.invoice_date_due and (fields.Date.today() > rec.invoice_date_due):
                 rec.payment_is_late = True
-            elif rec.payment_date > rec.payment_move_id.invoice_date_due:
+            elif rec.invoice_payment_date and rec.invoice_date_due and (rec.invoice_payment_date > rec.invoice_date_due):
                 rec.payment_is_late = True
             else:
                 rec.payment_is_late = False
