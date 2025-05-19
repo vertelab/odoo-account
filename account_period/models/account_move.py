@@ -139,10 +139,26 @@ class AccountMove(models.Model):
 
     payment_period_id = fields.Many2one(store=True, comodel_name='account.period', string='Payment Invoice Period',
                                         compute="_set_period_from_payment", readonly=True)
-    payment_date = fields.Date(store=True, string='Invoice Payment Date', compute="_set_date_from_payment",
-                               readonly=True)
-    payment_move_id = fields.Many2one(store=True, comodel_name='account.move', string='The payment invoice',
-                                      compute="_set_payment_invoice", readonly=True)
+    # payment_date = fields.Date(store=True, string='Invoice Payment Date', compute="_set_date_from_payment",
+    #                            readonly=True)
+    payment_date = fields.Date(string='Invoice Payment Date', related="payment_move_id.date", store=True, readonly=True)
+    payment_move_id = fields.Many2one(
+        store=True, comodel_name='account.move', string='The payment invoice',
+        compute="_set_payment_invoice", readonly=True)
+
+    @api.depends('payment_move_id', 'payment_date')
+    def _compute_late_payment(self):
+        # If today's date has passed due date then it is late.
+        # If the payment date has passed the due date then it is still late.
+        for rec in self:
+            if fields.Date.today() > rec.payment_move_id.invoice_date_due:
+                rec.payment_is_late = True
+            elif rec.payment_date > rec.payment_move_id.invoice_date_due:
+                rec.payment_is_late = True
+            else:
+                rec.payment_is_late = False
+
+    payment_is_late = fields.Boolean(string="Payment Is Late", compute=_compute_late_payment)
 
     @api.depends("payment_move_id.period_id", "payment_move_id")
     def _set_period_from_payment(self):
@@ -152,13 +168,13 @@ class AccountMove(models.Model):
             else:
                 rec.payment_period_id = False
 
-    @api.depends("payment_move_id.date", "payment_move_id")
-    def _set_date_from_payment(self):
-        for rec in self:
-            if rec.payment_move_id:
-                rec.payment_date = rec.payment_move_id.date
-            else:
-                rec.payment_date = False
+    # @api.depends("payment_move_id.date", "payment_move_id")
+    # def _set_date_from_payment(self):
+    #     for rec in self:
+    #         if rec.payment_move_id:
+    #             rec.payment_date = rec.payment_move_id.date
+    #         else:
+    #             rec.payment_date = False
 
     @api.depends("payment_state", "state")
     def _set_payment_invoice(self):
