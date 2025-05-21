@@ -324,7 +324,7 @@ Please add it.
         """)
         # sale order delivery date
         if self.line_ids.sale_line_ids.order_id:
-            commitment_date = self.line_ids.sale_line_ids.order_id[-1].commitment_date.strftime('%Y-%m-%d') 
+            commitment_date = self.line_ids.sale_line_ids.order_id[-1].commitment_date.strftime('%Y-%m-%d') if self.line_ids.sale_line_ids.order_id[-1].commitment_date else "" 
         else:
             commitment_date = ""
         

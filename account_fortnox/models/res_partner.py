@@ -69,11 +69,35 @@ class Partner(models.Model):
 
     def partner_create(self, company_id):
         for partner in self:
-            partner_invoice_contacts = partner.commercial_partner_id.child_ids.filtered(lambda c: c.type == 'invoice').mapped('email')
+            partner_invoice_contact = partner.email if partner.type == "invoice" else False
+            if not partner_invoice_contact:
+               partner_invoice_contacts = partner.commercial_partner_id.child_ids.filtered(lambda c: c.type == 'invoice').mapped('email')
+               partner_invoice_contact = partner_invoice_contacts[0] if partner_invoice_contact else False
             VATType = partner.commercial_partner_id.property_account_position_id.fortnox_vat_type if partner.commercial_partner_id and partner.commercial_partner_id.property_account_position_id and partner.commercial_partner_id.property_account_position_id.fortnox_vat_type else "SEVAT"
             _logger.warning(
                 f"CREATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.fortnox_ref=} {VATType=}")
             #raise UserError("test create")
+            data={
+                        "Customer": {
+                            "Address1": partner.commercial_partner_id.street,
+                            "City": partner.commercial_partner_id.city,
+                            "CountryCode": partner.commercial_partner_id.country_id.code,
+                            #"Currency": "SEK",
+                            "Email": partner.commercial_partner_id.email or None,
+                            "Name": partner.commercial_partner_id.name,
+                            "Phone1": partner.commercial_partner_id.phone,
+                            "Phone2": None,
+                            "PriceList": "A",
+                            "ShowPriceVATIncluded": False,
+                            "Type": "COMPANY",
+                            "VATType": VATType,
+                            "WWW": partner.commercial_partner_id.website,
+                            "YourReference": partner.name if partner.type == "contact" else "",
+                            "ZipCode": partner.commercial_partner_id.zip,
+                            "EmailInvoice": partner_invoice_contact if partner_invoice_contact else ""
+                        }
+            }
+            _logger.warning(f"{data=}")
             if not partner.commercial_partner_id.fortnox_ref:
                 url = "https://api.fortnox.se/3/customers"
                 r = company_id.fortnox_request(
@@ -96,16 +120,21 @@ class Partner(models.Model):
                             "WWW": partner.commercial_partner_id.website,
                             "YourReference": partner.name if partner.type == "contact" else "",
                             "ZipCode": partner.commercial_partner_id.zip,
-                            "EmailInvoice": partner_invoice_contacts[0] if partner_invoice_contacts else ""
+                            "EmailInvoice": partner_invoice_contact if partner_invoice_contact else ""
                         }
                     })
+                _logger.warning(f"{data=}")
                 if r.get("ErrorInformation", {}).get("code") in [2000357]:
                     raise UserError(_("%s has an invalid mail %s") % (partner.name, partner.email))
                 partner.commercial_partner_id.fortnox_ref = r["Customer"]["CustomerNumber"]
 
     def partner_update(self, company_id):
         for partner in self:
-            partner_invoice_contacts = partner.commercial_partner_id.child_ids.filtered(lambda c: c.type == 'invoice').mapped('email')
+            partner_invoice_contact = partner.email if partner.type == "invoice" else False
+            if not partner_invoice_contact:
+               partner_invoice_contacts = partner.commercial_partner_id.child_ids.filtered(lambda c: c.type == 'invoice').mapped('email')   
+               partner_invoice_contact = partner_invoice_contacts[0] if partner_invoice_contact else False
+
             VATType = partner.commercial_partner_id.property_account_position_id.fortnox_vat_type if partner.commercial_partner_id and partner.commercial_partner_id.property_account_position_id and partner.commercial_partner_id.property_account_position_id.fortnox_vat_type else "SEVAT"
             _logger.warning(
                 f"UPDATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.fortnox_ref=} {VATType=}")
@@ -131,7 +160,7 @@ class Partner(models.Model):
                             "WWW": partner.commercial_partner_id.website,
                             "YourReference": partner.name if partner.type == "contact" else "",
                             "ZipCode": partner.zip,
-                            "EmailInvoice": partner_invoice_contacts[0] if partner_invoice_contacts else ""
+                            "EmailInvoice": partner_invoice_contact if partner_invoice_contact else ""
                         }
                     })
 
