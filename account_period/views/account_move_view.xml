@@ -45,6 +45,7 @@
                             <field name="payment_period_id"/>
                             <field name="payment_state"/>
                             <field name="invoice_payment_date" force_save="1"/>
+                            <field name="invoice_date_due"/>
                             <field name="payment_move_id" />
                             <field name="payment_reference" readonly="1"/>
                             <field name="payment_is_late" readonly="1"/>

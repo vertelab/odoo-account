@@ -141,6 +141,8 @@ class AccountMove(models.Model):
                                         compute="_set_period_from_payment", readonly=True)
     # payment_date = fields.Date(store=True, string='Invoice Payment Date', compute="_set_date_from_payment",
     #                            readonly=True)
+
+    payment_date = fields.Date() # dummy field to avoid dependency error
     invoice_payment_date = fields.Date(
         string='Invoice Payment Date', related="payment_move_id.date", store=True, readonly=True
     )
@@ -150,14 +152,14 @@ class AccountMove(models.Model):
 
     @api.depends('invoice_payment_date', 'invoice_date_due')
     def _compute_late_payment(self):
-        # If today's date has passed due date then it is late.
-        # If the payment date has passed the due date then it is still late.
         for rec in self:
-            if rec.invoice_date_due and (fields.Date.today() > rec.invoice_date_due):
+            if rec.invoice_payment_date and rec.invoice_date_due and (rec.invoice_payment_date > rec.invoice_date_due):#Paid late
                 rec.payment_is_late = True
-            elif rec.invoice_payment_date and rec.invoice_date_due and (rec.invoice_payment_date > rec.invoice_date_due):
+            elif rec.invoice_payment_date and rec.invoice_date_due and (rec.invoice_payment_date <= rec.invoice_date_due):#Paid on time
+                rec.payment_is_late = False
+            elif rec.invoice_date_due and (fields.Date.today() > rec.invoice_date_due):#Not paid and late
                 rec.payment_is_late = True
-            else:
+            else:#Not paid but due date has not passed
                 rec.payment_is_late = False
 
     payment_is_late = fields.Boolean(string="Payment Is Late", compute=_compute_late_payment)
