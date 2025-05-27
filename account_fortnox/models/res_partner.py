@@ -103,22 +103,22 @@ class Partner(models.Model):
                     "VisitingCountryCode": commercial_entity.country_id.code,
                     "Email": commercial_entity.email or None,
 
-                    "Address1": invoice_contact.street if invoice_contact else commercial_entity.street,
-                    "Address2": invoice_contact.street2 if invoice_contact else commercial_entity.street2,
-                    "ZipCode": invoice_contact.zip if invoice_contact else commercial_entity.zip, 
-                    "City": invoice_contact.city if invoice_contact else commercial_entity.city,
+                    "Address1": invoice_contact.street if invoice_contact and invoice_contact.street else commercial_entity.street,
+                    "Address2": invoice_contact.street2 if invoice_contact and invoice_contact.street2 else commercial_entity.street2,
+                    "ZipCode": invoice_contact.zip if invoice_contact and invoice_contact.zip else commercial_entity.zip, 
+                    "City": invoice_contact.city if invoice_contact and invoice_contact.city else commercial_entity.city,
                     # "Country": invoice_contact.country_id.name if invoice_contact else commercial_entity.country_id.name,
-                    "CountryCode": invoice_contact.country_id.code if invoice_contact else commercial_entity.country_id.code,
-                    "Phone1": invoice_contact.phone if invoice_contact else commercial_entity.phone,
+                    "CountryCode": invoice_contact.country_id.code if invoice_contact and invoice_contact.country_id.code else commercial_entity.country_id.code,
+                    "Phone1": invoice_contact.phone if invoice_contact and invoice_contact.phone else commercial_entity.phone,
                     
                     "DeliveryName": delivery_contact.name if delivery_contact and delivery_contact.name else commercial_entity.name,
-                    "DeliveryAddress1": delivery_contact.street if delivery_contact else commercial_entity.street,
-                    "DeliveryAddress2": delivery_contact.street2 if delivery_contact else commercial_entity.street2,
-                    "DeliveryZipCode": delivery_contact.zip if delivery_contact else commercial_entity.zip,
-                    "DeliveryCity": delivery_contact.city if delivery_contact else commercial_entity.city,
+                    "DeliveryAddress1": delivery_contact.street if delivery_contact and delivery_contact.street else commercial_entity.street,
+                    "DeliveryAddress2": delivery_contact.street2 if delivery_contact and delivery_contact.street2 else commercial_entity.street2,
+                    "DeliveryZipCode": delivery_contact.zip if delivery_contact and delivery_contact.zip else commercial_entity.zip,
+                    "DeliveryCity": delivery_contact.city if delivery_contact and delivery_contact.city else commercial_entity.city,
                     # "DeliveryCountry": delivery_contact.country_id.name if delivery_contact else commercial_entity.country_id.name,
-                    "DeliveryCountryCode": delivery_contact.country_id.code if delivery_contact else commercial_entity.country_id.code,
-                    "DeliveryPhone1": delivery_contact.phone if delivery_contact else commercial_entity.phone,
+                    "DeliveryCountryCode": delivery_contact.country_id.code if delivery_contact and delivery_contact.country_id and delivery_contact.country_id.code else commercial_entity.country_id.code,
+                    "DeliveryPhone1": delivery_contact.phone if delivery_contact and delivery_contact.phone else commercial_entity.phone,
 
                     "Phone2": None,
                     "PriceList": "A",
@@ -127,9 +127,10 @@ class Partner(models.Model):
                     "VATType": VATType,
                     "WWW": commercial_entity.website,
                     "YourReference": commercial_entity.name if commercial_entity.type == "contact" else "",
-                    "EmailInvoice": invoice_contact.email if invoice_contact else commercial_entity.email,
+                    "EmailInvoice": invoice_contact.email if invoice_contact and invoice_contact.email else commercial_entity.email,
                 }
             }
+            
         return self.replace_bool_with_string(data)
 
     def partner_create(self, company_id):
@@ -159,6 +160,7 @@ class Partner(models.Model):
 
             _logger.warning(
                 f"UPDATING PARTNER {partner=} {commercial_entity=} {commercial_entity.fortnox_ref=} {data['Customer']['VATType']=}")
+            _logger.warning(f"{data=}")
             
             if commercial_entity.fortnox_ref:
                 url = "https://api.fortnox.se/3/customers/%s" % partner.commercial_partner_id.fortnox_ref
