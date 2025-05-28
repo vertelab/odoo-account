@@ -559,8 +559,6 @@ class AccountMove(models.Model):
                 
                 rec._compute_payments_widget_reconciled_info()
                 list_of_payments = rec.invoice_payments_widget
-                _logger.warning("LOOK HERE"*100)
-                _logger.warning(f"{list_of_payments=}")
                 if list_of_payments:
                     latest_payment = self.env['account.move'].search([('id', '=', list_of_payments[0]['move_id'])],
                                                                      limit=1)

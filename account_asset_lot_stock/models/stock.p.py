@@ -52,7 +52,6 @@ class AccountAsset(models.Model):
         }
 
     def _compute_stock_pickings(self):
-        _logger.warning("_compute_stock_pickings"*100)
         stock_move_lines = self.env['stock.move.line'].search([('lot_id','=',self.lot_id.id)])
         stock_pickings = [x.picking_id.id for x in stock_move_lines if x.picking_id]
         self.stock_picking_num = len(list(set(stock_pickings)))
