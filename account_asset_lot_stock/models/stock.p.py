@@ -52,7 +52,6 @@ class AccountAsset(models.Model):
         }
 
     def _compute_stock_pickings(self):
-        _logger.warning("_compute_stock_pickings"*100)
         stock_move_lines = self.env['stock.move.line'].search([('lot_id','=',self.lot_id.id)])
         stock_pickings = [x.picking_id.id for x in stock_move_lines if x.picking_id]
         self.stock_picking_num = len(list(set(stock_pickings)))
@@ -210,7 +209,7 @@ class StockPicking(models.Model):
                             vals = lot_id._prepare_asset_vals(stock_picking, move)
                             lot_id.create_asset(vals)
                         # #if VERSION <= "16.0"
-                       elif lot_id.asset_id and lot_id.asset_id.state == "draft":
+                        elif lot_id.asset_id and lot_id.asset_id.state == "draft":
                             lot_id.update_partner_asset(stock_picking.partner_id)
 						# #elif VERSION >= "17.0"
                        elif not lot_id.asset_id and not move.asset_profile_id and not lot_id.asset_profile_id:
