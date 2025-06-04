@@ -57,7 +57,7 @@ class account_period_close(models.TransientModel):
 
                     # ~ self.env.cr.execute('update account_journal_period set state=%s where period_id=%s', (mode, id))
                     self.env.cr.execute('update account_period set state=%s where id=%s', (mode, id))
-                    self.invalidate_cache()
+                    # self.invalidate_cache()
                     #self.env['account.period'].browse(id)._set_fiscalyear_id_state()
 
         return {'type': 'ir.actions.act_window_close'}

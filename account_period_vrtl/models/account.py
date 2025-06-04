@@ -146,18 +146,18 @@ class AccountPeriod(models.Model):
             if period.fiscalyear_id.state == 'done':
                 raise UserError(_('You can not re-open a period which belongs to closed fiscal year'))
         self.env.cr.execute('update account_period set state=%s where id in %s', (mode, tuple(self.mapped('id')),))
-        self.invalidate_cache()
+        # self.invalidate_cache()
         return True
 
-    @api.model
-    def name_search(self, name='', args=None, operator='ilike', limit=100):
-        if args is None:
-            args = []
-        if operator in expression.NEGATIVE_TERM_OPERATORS:
-            domain = [('code', operator, name), ('name', operator, name)]
-        else:
-            domain = ['|', ('code', operator, name), ('name', operator, name)]
-        return self.search(expression.AND([domain, args]), limit=limit).name_get()
+    # @api.model
+    # def name_search(self, name='', args=None, operator='ilike', limit=100):
+    #     if args is None:
+    #         args = []
+    #     if operator in expression.NEGATIVE_TERM_OPERATORS:
+    #         domain = [('code', operator, name), ('name', operator, name)]
+    #     else:
+    #         domain = ['|', ('code', operator, name), ('name', operator, name)]
+    #     return self.search(expression.AND([domain, args]), limit=limit).name_get()
 
     def write(self, vals):
         if 'company_id' in vals:
