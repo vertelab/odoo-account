@@ -40,8 +40,8 @@
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['analytic', 'account', 'project'],
     'data': [
-        'views/project_form.xml',
-        'views/account_move_views.xml',
+        #'views/project_form.xml',
+        #'views/account_move_views.xml',
     ],
     'demo': [],
     'qweb': [],

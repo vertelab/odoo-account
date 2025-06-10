@@ -4,6 +4,8 @@ from odoo import models, fields, api, _
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
+    #chart_template = fields.Selection(string="Chart of Accounts", selection=lambda self: self.env['account.chart.template']._select_chart_template())
+
     @api.model
     def setting_init_fiscal_year_action(self):
         """ Called by the 'Fiscal Year Opening' button of the setup bar."""

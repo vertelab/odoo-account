@@ -207,9 +207,9 @@
                 <xpath expr="//field[@name='country_code']" position="after">
                     <field name="invoicing_date_warning" invisible="1"/>
                 </xpath>
-                <xpath expr="(//button[@name='action_post'])[1]" position="attributes">
+                <!--<xpath expr="(//button[@name='action_post'])[1]" position="attributes">
                     <attribute name="invisible">state != 'draft' or auto_post != "no" or move_type != 'entry' or invoicing_date_warning or hide_post_button</attribute>
-                </xpath>
+                </xpath>-->
 
 <!--                <xpath expr="(//button[@name='action_post'])[2]" position="attributes">-->
 <!--                    <attribute name="invisible">state != 'draft' or auto_post != "no" or move_type == 'entry' or invoicing_date_warning or hide_post_button</attribute>-->
