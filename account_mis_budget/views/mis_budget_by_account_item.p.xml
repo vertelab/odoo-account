@@ -3,8 +3,12 @@
         <record model="ir.ui.view" id="mis_budget_by_account_item_tree_view">
             <field name="name">mis.budget.by.account.item.tree (in mis_builder_budget)</field>
             <field name="model">mis.budget.by.account.item</field>
+	    <!-- #if VERSION >= "18.0" -->
+            <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_item_list_view"/>
+            <!-- #elif VERSION <= "17.0" -->
             <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_item_tree_view"/>
-            <field name="arch" type="xml">
+	    <!-- #endif -->
+	    <field name="arch" type="xml">
                 <xpath expr="//field[last()]" position="after">
                     <field name="actual_amount" />
                     <button name="action_read_budget_by_account" type="object" string="View" class="float-end btn-secondary"/>
