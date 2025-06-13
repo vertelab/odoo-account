@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <data>
 
@@ -11,7 +11,7 @@
                         <group>
                             <field name="date_type"/>
                             <field name="use_last_year"/>
-                            <field name="factor" widget="percentage" attrs="{'invisible': [('use_last_year', '=', False)]}"/>
+                            <field name="factor" widget="percentage" invisible="not use_last_year"/>
                         </group>
                         <footer>
                             <button string="Cancel" class="btn-secondary" special="cancel"/>
