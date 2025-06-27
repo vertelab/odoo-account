@@ -7,7 +7,11 @@
             <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_form_view"/>
             <field name="arch" type="xml">
                 <header position="inside">
+                    <!-- #if VERSION >= "17.0" -->
                     <button name="action_create_income_budget" string="Create Profit &amp; Loss Budget" type="object" invisible="state != 'draft'"/>
+                    <!-- #elif VERSION <= "16.0" -->
+                    <button name="action_create_income_budget" string="Create Profit &amp; Loss Budget" type="object" attrs="{'invisible': [('state', '!=', 'draft')]}" />
+                    <!-- #endif -->
                 </header>
                 <field name="allow_items_overlap" position="before">
                     <field name="date_type"/>
@@ -23,7 +27,11 @@
                         <group>
                             <field name="budget_id"/>
                             <field name="use_account_from_year"/>
+                            <!-- #if VERSION >= "17.0" -->
                             <field name="percentage_factor" widget="percentage" invisible="not use_account_from_year"/>
+                            <!-- #elif VERSION <= "16.0" -->
+                            <field name="percentage_factor" widget="percentage" attrs="{'invisible': [('use_account_from_year', '=', False)]}" />
+                            <!-- #endif -->
                         </group>
                         <separator string="" colspan="4" style="border-top: 1px solid grey; margin-top: 10px; margin-bottom: 10px;"/>
                         <group>
