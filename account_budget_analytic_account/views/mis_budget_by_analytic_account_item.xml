@@ -75,6 +75,7 @@
                 <field name="state" />
                 <button name="action_read_budget_by_analytic_account" type="object" string="View" class="float-end btn-secondary"/>
             </tree>
+
         </field>
     </record>
 
