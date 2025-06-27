@@ -11,8 +11,12 @@
                         <group>
                             <field name="date_type"/>
                             <field name="use_last_year"/>
+                            <!-- #if VERSION >= "17.0" -->
                             <field name="factor" widget="percentage" invisible="not use_last_year"/>
-                        </group>
+                            <!-- #elif VERSION <= "16.0" -->
+                            <field name="factor" widget="percentage" attrs="{'invisible': [('use_last_year', '=', False)]}"/>
+                            <!-- #endif -->
+                         </group>
                         <footer>
                             <button string="Cancel" class="btn-secondary" special="cancel"/>
                             <button string="Create KPI Budget" type="object" class="oe_highlight" name="action_generate_kpi_report"/>
