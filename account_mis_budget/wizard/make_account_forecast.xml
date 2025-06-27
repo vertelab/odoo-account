@@ -7,7 +7,7 @@
       <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_form_view"/>
       <field name="arch" type="xml">
         <header position="inside">
-          <button name="make_account_forecast" string="Create Forecast" type="object" invisible="state != 'draft'"/>
+          <button name="make_account_forecast" string="Create Forecast" type="object" attrs="{'invisible': [('state', '!=', 'draft')]}" />
         </header>
       </field>
     </record>
@@ -22,7 +22,7 @@
               <field name="use_account_from_year"/>
               <field name="use_contract"/>
               <field name="use_first_period"/>
-              <field name="percentage_factor" widget="percentage" invisible="not use_account_from_year"/>
+              <field name="percentage_factor" widget="percentage" attrs="{'invisible': [('use_account_from_year', '=', False)]}" />
             </group>
             <separator string="" colspan="4" style="border-top: 1px solid grey; margin-top: 10px; margin-bottom: 10px;"/>
             <group>
