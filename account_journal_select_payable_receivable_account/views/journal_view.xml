@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_journal_tree_inherit3" model="ir.ui.view">
+            <field name="name">view_account_journal_tree_inherit3</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="default_account_type" position="after">
+                    <field name="payable_account"/>
+                    <field name="receivable_account"/>
+                </field>
+            </field>
+    </record>
+</odoo>
+
