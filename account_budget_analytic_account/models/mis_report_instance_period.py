@@ -23,7 +23,7 @@ class MisReportInstancePeriod(models.Model):
     def _check_source_aml_model_id_depricated(self):
         for record in self:
             if record.source_aml_model_id:
-                if record.move_lines_source.model == 'mis.budget.by.analytic.account.item':
+                if record.source_aml_model_id.model == 'mis.budget.by.analytic.account.item':
                     record_model = (
                         record.source_aml_model_id.sudo()
                         .field_id.filtered(lambda r: r.name == "analytic_account_id")
