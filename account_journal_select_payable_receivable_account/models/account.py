@@ -46,23 +46,18 @@ class AccountJournal(models.Model):
     help ="Used on everything except Customer Invoice, Customer Credit Note, Sales Receipt"
     "The account used to make sure an invoice/journal entries are balanced"
     "Have as empty if you want odoo to select the account used",
-    domain="[('deprecated', '=', False), ('account_type', '=', 'liability_payable')]")
-    
-    # domain="[('deprecated', '=', False), ('company_id', '=', company_id),"
-               # "'|', ('user_type_id', '=', default_account_type),"
-               # "('user_type_id.type', '=', 'payable')]")
-    
+    domain="""[('deprecated', '=', False), ('company_ids', 'in', company_id),
+              '|', ('account_type', '=', default_account_type),
+              ('account_type', '=', 'liability_payable')]""")
     
                         
     receivable_account = fields.Many2one('account.account', string='Receivable Account',
     help ="Used on Customer Invoice, Customer Credit Note, Sales Receipt"
     "The account used to make sure an invoice/journal entries are balanced"
     "Have as empty if you want odoo to select the account used",
-    domain="[('deprecated', '=', False),('account_type', '=', 'asset_receivable')]")
-   
-    # domain="[('deprecated', '=', False), ('company_id', '=', company_id),"
-               # "'|', ('user_type_id', '=', default_account_type),"
-               # "('user_type_id.type', '=', 'receivable')]")
+    domain="""[('deprecated', '=', False), ('company_ids', 'in', company_id),
+              '|', ('account_type', '=', default_account_type),
+              ('account_type', '=', 'asset_receivable')]""")
     
 
 class AccountMove(models.Model):

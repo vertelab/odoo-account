@@ -38,16 +38,10 @@ class AccountJournal(models.Model):
                             )
 
     card_debit_account = fields.Many2one('account.account', string='Card Debit Account',
-                                           domain="[('deprecated', '=', False)]")
-                                         # domain="[('deprecated', '=', False),('company_id','=',company_id)]")
+                                           domain="[('deprecated', '=', False), ('company_ids', 'in', company_id)]")
                                          
     card_credit_account = fields.Many2one('account.account', string='Card Credit Account',
-                                            domain="[('deprecated', '=', False)]")
-                                          # domain="[('deprecated', '=', False),('company_id','=',company_id)]")
-
-    # ~ domain="[('deprecated', '=', False), ('company_id', '=', company_id),"
-    # ~ "'|', ('user_type_id', '=', default_account_type),"
-    # ~ "('user_type_id.type', '=', 'other')]")
+                                            domain="[('deprecated', '=', False), ('company_ids', 'in', company_id)]")
 
     def open_action(self):
         _logger.warning("-------------------------------INSIDE OPEN ACTION ---------------------------------------")
