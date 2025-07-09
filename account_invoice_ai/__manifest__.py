@@ -45,8 +45,10 @@
         'data/ai_tool_data.xml',
         'data/ai_agent_data.xml',
         'views/ir_attachment_view.xml',
-        'views/ai_session_view.xml',
         'views/account_move_view.xml',
+        'views/res_partner_view.xml',
+        'views/ai_quest_session_views.xml',
+        'views/ai_agent_view.xml',
     ],
     "external_dependencies": {
         "python": [

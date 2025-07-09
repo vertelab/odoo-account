@@ -9,6 +9,21 @@
                     <field name="ai_session_id" invisible="1"/>
                     <button name="action_view_ai_session" class="oe_stat_button " type="object" icon="fa-spinner" string="AI Session" attrs="{'invisible': [('ai_session_id', '=', False)]}"/>
                 </xpath>
+                <widget name="web_ribbon" position="after">
+                    <widget name="web_ribbon" title="Duplicate" bg_color="bg-danger"    attrs="{'invisible': ['|',('to_check_duplicate', '=', False), ('payment_state', '!=', 'not_paid')]}"/>
+                    <widget name="web_ribbon" title="Check Period" bg_color="bg-danger" attrs="{'invisible': ['|','|',('to_check_period', '=', False), ('payment_state', '!=', 'not_paid'), ('to_check_duplicate', '=', True)]}"/>
+                </widget>
+
+                <button name="action_post" position="after">
+                    <button groups="account.group_account_user" name="re_update_move_lines" type="object" class="btn btn-primary" confirm="Are you sure you want to add scanned lines?" string="Add Scanned Lines" attrs="{'invisible': ['|',('state', '!=', 'draft'),('ai_session_id','=',False)]}"/>
+                    <button groups="account.group_account_user" name="clear_move_lines" type="object" class="btn btn-danger" string="Clear Lines" confirm="Are you sure you want to clear the lines?" attrs="{'invisible': ['|',('state', '!=', 'draft'),('ai_session_id','=',False)]}"/>
+                    <button groups="account.group_account_user" name="action_rerun" type="object" class="btn btn-warning" string="Re-run" confirm="Are you sure you want to rerun?" attrs="{'invisible': ['|',('state', '!=', 'draft'),('ai_session_id','=',False)]}"/>
+                </button>
+                
+                    <xpath expr="//field[@name='to_check']" position="after">
+                    <field name="to_check_duplicate"/>
+                    <field name="to_check_period"/>
+                </xpath>
             </field>
         </record>
     </data>
