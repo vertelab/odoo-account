@@ -40,6 +40,7 @@
     'depends': [
         'ai_agent',
         'account',
+        'purchase_reception_status',
     ],
     'data': [
         'data/ai_tool_data.xml',
