@@ -40,7 +40,7 @@ Fixes
 
     """,
 #External Repo https://github.com/OCA/bank-payment
-    'depends': ['account_banking_pain_base','account_banking_sepa_credit_transfer','account_banking_sepa_direct_debit','account_payment_order'],
+    'depends': ['account_banking_pain_base','account_banking_sepa_direct_debit','account_payment_order'],
     'data': [
         #'views/regulatory_reporting_code.xml',
     ],
