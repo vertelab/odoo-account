@@ -43,6 +43,62 @@ class AccountJournal(models.Model):
     card_credit_account = fields.Many2one('account.account', string='Card Credit Account',
                                             domain="[('deprecated', '=', False), ('company_ids', 'in', company_id)]")
 
+
+
+    def _get_journal_dashboard_data_batched(self):
+        dashboard_data = super()._get_journal_dashboard_data_batched()
+        self._fill_card_dashboard_data(dashboard_data)
+        return dashboard_data
+        # ~ self.env['account.move'].flush_model()
+        # ~ self.env['account.move.line'].flush_model()
+        # ~ self.env['account.payment'].flush_model()
+        # ~ dashboard_data = {}  # container that will be filled by functions below
+        # ~ for journal in self:
+            # ~ dashboard_data[journal.id] = {
+                # ~ 'currency_id': journal.currency_id.id or journal.company_id.sudo().currency_id.id,
+                # ~ 'show_company': len(self.env.companies) > 1 or journal.company_id.id != self.env.company.id,
+            # ~ }
+        # ~ self._fill_bank_cash_dashboard_data(dashboard_data)
+        # ~ self._fill_sale_purchase_dashboard_data(dashboard_data)
+        # ~ self._fill_general_dashboard_data(dashboard_data)
+        # ~ self._fill_onboarding_data(dashboard_data)
+        # ~ return dashboard_data
+
+    def _fill_card_dashboard_data(self, dashboard_data):
+        """Populate all card journal's data dict with relevant information for the kanban card."""
+        general_journals = self.filtered(lambda journal: journal.type == "card")
+        if not general_journals:
+            return
+        to_check_vals = {
+            journal.id: (amount_total_signed_sum, count)
+            for journal, amount_total_signed_sum, count in self.env['account.move']._read_group(
+                domain=[
+                    *self.env['account.move']._check_company_domain(self.env.companies),
+                    ('journal_id', 'in', general_journals.ids),
+                    ('checked', '=', False),
+                    ('state', '=', 'posted'),
+                ],
+                groupby=['journal_id'],
+                aggregates=['amount_total_signed:sum', '__count'],
+            )
+        }
+        for journal in general_journals:
+            currency = journal.currency_id or self.env['res.currency'].browse(journal.company_id.sudo().currency_id.id)
+            amount_total_signed_sum, count = to_check_vals.get(journal.id, (0, 0))
+            drag_drop_settings = {
+                'image': '/web/static/img/folder.svg',
+                'text': _('Drop to create journal entries with attachments.'),
+                'group': 'account.group_account_user',
+            }
+
+            dashboard_data[journal.id].update({
+                'number_to_check': count,
+                'to_check_balance': currency.format(amount_total_signed_sum),
+                'drag_drop_settings': drag_drop_settings,
+            })
+
+
+
     def open_action(self):
         _logger.warning("-------------------------------INSIDE OPEN ACTION ---------------------------------------")
         action = super().open_action()
@@ -55,41 +111,14 @@ class AccountJournal(models.Model):
                 "type": "ir.actions.act_window",
                 "name": "Card Statement",
                 "res_model": "account.card.statement",
-                "view_mode": "tree,form",
+                "view_mode": "list,form",
                 "domain": [("journal_id", "=", self.id)],
                 "context": ctx,
             }
             return action
-
-            # return self.open_action_with_context_mynt()
         return action
 
-    # def open_action(self):
-    #     _logger.warning("-------------------------------INSIDE OPEN ACTION ---------------------------------------")
-    #     if self.type == 'card':
-    #         _logger.warning("-------------------------------INSIDE CARD ---------------------------------------")
-    #         return self.open_action_with_context_mynt()
-    #     else:
-    #         return super().open_action()
 
-    # def open_action(self):
-    #     action = super().open_action()
-    #     _logger.warning("-------------------------------KÖRS DENNA ---------------------------------------")
-    #     if self.type == "card":
-    #         # tree_view = self.env.ref("account_journal_card_type.account_card_statement_tree", raise_if_not_found=False)
-    #         # ctx = dict(self.env.context)
-    #         action = {
-    #             "type": "ir.actions.act_window",
-    #             "name": "Sale Contracts",
-    #             "res_model": "account.card.statement",
-    #             "view_mode": "tree",
-    #              "domain": [("id", "in", self.open_action_with_context_mynt().ids)],
-    #             # "context": ctx,
-    #         }
-    #         return action
-    #         # if tree_view and form_view:
-    #         #     action["views"] = [(tree_view.id, "tree"), (form_view.id, "form")]
-    #     return action
 
     def open_action_with_context_mynt(self):
         _logger.warning("{open_action_with_context_mynt}" * 10)
