@@ -19,7 +19,7 @@ class AccountAsset(models.Model):
             'name': _('Personal Equipment'),
             'type': 'ir.actions.act_window',
             'res_model': 'hr.personal.equipment',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', '=', self.personal_equipment_id.id)]
         }
     
@@ -39,7 +39,7 @@ class PersonalEquipment(models.Model):
             'name': _('It Asset'),
             'type': 'ir.actions.act_window',
             'res_model': 'account.asset',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', '=', self.asset_id.id)]
         }
    
