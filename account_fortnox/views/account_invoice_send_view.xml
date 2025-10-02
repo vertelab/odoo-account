@@ -24,12 +24,7 @@
             <field name="is_print" position="attributes">
                 <attribute name="attrs">{'invisible': True}</attribute>
             </field>
-            <label for="snailmail_is_letter" position="attributes">
-                <attribute name="attrs">{'invisible': True}</attribute>
-            </label>
-            <field name="snailmail_is_letter" position="attributes">
-                <attribute name="attrs">{'invisible': True}</attribute>
-            </field>
+
             <footer>
 <!--
                 <button string="Send "
@@ -38,6 +33,20 @@
 -->
                 <button string="Send" name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
             </footer>
+        </field>
+    </record>
+
+    <record id="snail_mail_account_invoice_send_inherit_account_wizard_form_fortnox" model="ir.ui.view" >
+        <field name="name">account.invoice.send.form.inherited.fortnox</field>
+        <field name="model">account.invoice.send</field>
+        <field name="inherit_id" ref="snailmail_account.account_invoice_send_inherit_account_wizard_form"/>
+        <field name="arch" type="xml">
+            <label for="snailmail_is_letter" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </label>
+            <field name="snailmail_is_letter" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </field>
         </field>
     </record>
 
