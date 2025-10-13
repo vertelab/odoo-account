@@ -48,7 +48,6 @@ class StockLot(models.Model):
     
     def _prepare_asset_vals(self, stock_picking, move):
         vals =  super()._prepare_asset_vals(stock_picking, move)
-        _logger.warning("Equipment _prepare_asset_vals" * 100)
         if stock_picking.equipment_request_id:
            vals['personal_equipment_id'] = move.personal_equipment_id.id
         return vals

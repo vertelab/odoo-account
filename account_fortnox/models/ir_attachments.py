@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models, _ 
-from odoo.exceptions import Warning,UserError
+from odoo.exceptions import UserError
 
 import requests
 import json
@@ -19,11 +19,7 @@ class IrAttachment(models.Model):
     fortnox_file_ref = fields.Char(string='Fortnox File ID', index=True, company_dependent=True)
     fortnox_file_archive_id = fields.Char(string='Fortnox File ArchiveID', index=True, company_dependent=True)
     fortnox_file_path = fields.Char(string='Fortnox File Path', index=True, company_dependent=True)
-    fortnox_file_url = fields.Char(string='Fortnox File Url', index=True, company_dependent=True) 
-    
-    #def file_upload(self, company_id = None):
-    #    file_metadata = self._upload_file_to_fortnox(company_id=company_id)
-        
+    fortnox_file_url = fields.Char(string='Fortnox File Url', index=True, company_dependent=True)
         
     def _upload_file_to_fortnox(self, company_id):           
         for file in self:

@@ -174,3 +174,31 @@ class Partner(models.Model):
                 'get',
                 url,
             )
+
+    def create_membership_invoice(self, product, amount):
+        """ Create Customer Invoice of Membership for partners.
+        @param datas: datas has dictionary value which consist Id of Membership product and Cost Amount of Membership.
+                      datas = {'membership_product_id': None, 'amount': None}
+        """
+        invoice_list = super(Partner, self).create_membership_invoice(product=product, amount=amount)
+        # Add extra products
+        for move in invoice_list:
+            for line in move.invoice_line_ids:
+                for member_product in line.product_id.membership_product_ids:
+                    # create a record in cache, apply onchange then revert back to a dictionary
+                    move_line = self.env['account.move.line'].new(
+                        {'product_id': member_product.id, 'price_unit': member_product.lst_price, 'move_id': move.id})
+                    move_line._onchange_product_id()
+                    line_values = move_line._convert_to_write({name: move_line[name] for name in move_line._cache})
+                    line_values['name'] = member_product.name
+                    line_values[
+                        'account_id'] = member_product.property_account_income_id.id if member_product.property_account_income_id else \
+                    self.env['account.account'].search(
+                        [('user_type_id', '=', self.env.ref('account.data_account_type_revenue').id)])[0].id
+                    move.write({'invoice_line_ids': [(0, 0, line_values)]})
+        # Calculate amount and qty
+        for move in invoice_list:
+            for line in move.invoice_line_ids:
+                if line.product_id.membership_code:
+                    line.price_unit, line.quantity = line.product_id.membership_get_amount_qty(move.partner_id.id)
+        return invoice_list
