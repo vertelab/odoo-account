@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import logging
 import json
 import time
+import re
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
@@ -12,6 +13,47 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 BASE_URL = 'https://api.fortnox.se'
+
+import re
+
+def split_into_chunks(text, max_length=255):
+    # Split the text into sentences using a regex
+    sentences = re.split(r'(?<=[.!?])\s+', text)
+    chunks = []
+    current_chunk = ""
+
+    for sentence in sentences:
+        if len(current_chunk) + len(sentence) + 1 <= max_length:
+            # Add the sentence to the current chunk
+            current_chunk += (sentence + " ")
+        else:
+            # If adding the sentence would exceed max_length
+            if current_chunk:
+                # Save the current chunk
+                chunks.append(current_chunk.strip())
+            # Start a new chunk with the current sentence
+            if len(sentence) > max_length:
+                # If a single sentence is longer than max_length, split it
+                chunks.extend([sentence[i:i+max_length] for i in range(0, len(sentence), max_length)])
+                current_chunk = ""
+            else:
+                current_chunk = sentence + " "
+
+    # Add the last chunk if any
+    if current_chunk:
+        chunks.append(current_chunk.strip())
+    return chunks
+
+class CustomFiscalPosition(models.Model):
+    _inherit = 'account.fiscal.position'
+
+    fortnox_vat_type = fields.Selection([
+        ('SEVAT', 'Swedish VAT (SEVAT)'),
+        ('SEREVERSEDVAT', 'Swedish Reversed VAT (SEREVERSEDVAT)'),
+        ('EUREVERSEDVAT', 'EU Reversed VAT (EUREVERSEDVAT)'),
+        ('EUVAT', 'EU VAT (EUVAT)'),
+        ('EXPORT', 'Export (EXPORT)')
+    ], string='Fortnox VAT Type')
 
 
 class AccountJournal(models.Model):
@@ -183,8 +225,9 @@ class AccountInvoice(models.Model):
     def fortnox_update(self, invoice, fortnox_invoice):
         #invoice.ref = fortnox_invoice["CustomerNumber"] ??
         invoice.fortnox_ref = fortnox_invoice["DocumentNumber"]
-        invoice.partner_id.fortnox_ref = fortnox_invoice["CustomerNumber"]
+        invoice.partner_id.commercial_partner_id.fortnox_ref = fortnox_invoice["CustomerNumber"]
         invoice.is_move_sent = True
+        self.push_invoice_files(invoice.company_id)
 
     def fortnox_create(self, invoice):
         if self.tax_included_in_price == "mixed":
@@ -201,28 +244,42 @@ Please redo the lines to so that all are tax included or all tax excluded from t
 
         invoice_lines = []
 
-        for line in invoice.invoice_line_ids:
-            if line.display_type == "line_section":
-                continue
+        # Sort invoice lines according to the "sequence" field (also get the lines with correct language for units, etc)
+        sorted_invoice_line_ids = sorted(invoice.with_context({'lang': invoice.partner_id.lang}).invoice_line_ids, key=lambda x: x.sequence)
+
+        for line in sorted_invoice_line_ids:
+            # if line.display_type == "line_section":
+            #     continue
             if line.product_id:
                 line.product_id.article_update(invoice.company_id)
-            if line.name:
-                line_name = line.name.split(' ')[1] \
+            line_name = line.name.split(' ')[1] \
                 if len(line.name.split(' ')) == 2 \
                 else line.name.replace('[', '').replace(']', '').strip(' ')
             else:
                 line_name = ""
 
-            
-
-            invoice_lines.append({
-                "AccountNumber": line.account_id.code,
-                "DeliveredQuantity": line.quantity,
-                "Description": line_name,
-                "ArticleNumber": line.product_id.default_code if line.product_id else None,
-                "Price": line.price_unit,
-                "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else None,
-            })
+            if line.product_id:
+                invoice_lines.append({
+                    "AccountNumber": line.account_id.code,
+                    "DeliveredQuantity": line.quantity,
+                    "Unit": line.product_uom_id.name if line.product_uom_id else "",
+                    "Description": line_name,
+                    "ArticleNumber": line.product_id.default_code,
+                    "Price": line.price_unit,
+                    "VAT": int(line.tax_ids.mapped('amount')[0]) if len(line.tax_ids) > 0 else "",
+                })
+            else: # This is a note or similar
+                # Fortnox accepts a maximum of 255 characters for each invoice line, Odoo notes may be longer, so we need to split them.
+                text_chunks = split_into_chunks(line_name, 255)
+                for text in text_chunks:
+                    invoice_lines.append({
+                        "AccountNumber": 0,
+                        "DeliveredQuantity": 0,
+                        "Description": text,
+                        "ArticleNumber": "",
+                        "Price": 0,
+                        "VAT": 0,
+                    })
 
         r = self.company_id.fortnox_request(
             'POST',
@@ -243,6 +300,7 @@ Please redo the lines to so that all are tax included or all tax excluded from t
             invoice.fortnox_ref = r["Invoice"]["DocumentNumber"]
             invoice.is_move_sent = True
             invoice.is_sent_to_fortnox = True
+            invoice.push_invoice_files(invoice.company_id)
 
     def fortnox_invoice_vals(self, invoice, invoice_lines):
         source_orders = invoice.line_ids.sale_line_ids.order_id if invoice.line_ids.sale_line_ids else False
@@ -266,6 +324,12 @@ Please add it.
 The Incoterm term chosen ({invoice.invoice_incoterm_id.name}) is missing an fortnox code.
 Please add it.
         """)
+        # sale order delivery date
+        if self.line_ids.sale_line_ids.order_id:
+            commitment_date = self.line_ids.sale_line_ids.order_id[-1].commitment_date.strftime('%Y-%m-%d') if self.line_ids.sale_line_ids.order_id[-1].commitment_date else "" 
+        else:
+            commitment_date = ""
+        
         yourreference = invoice.partner_id.name if invoice.partner_id.name and invoice.partner_id.type == "contact" else ""
         if not yourreference and order_contact:
             yourreference = order_contact.name if order_contact.name and order_contact.type == "contact" else ""
@@ -297,12 +361,46 @@ Please add it.
             "YourOrderNumber":invoice.ref if invoice.ref else "",
             "Freight": 0,
             "AdministrationFee": 0,
+            "DeliveryDate": commitment_date 
 
         }
         
         
         _logger.warning(f"{invoice_vals=}")
         return invoice_vals
+        
+    def push_invoice_files(self, company_id):
+        #attachments = self.attachment_ids.filtered(
+        #    lambda attachment: not attachment.fortnox_file_ref and not attachment.fortnox_file_url
+        #)
+        for attachment in self.attachment_ids:
+            attachment._upload_file_to_fortnox(company_id)
+            #_logger.info(f"{fortnox_file_metadata=}")
+            if attachment.fortnox_file_url:
+                r = self.company_id.fortnox_request(
+                    'POST',
+                    "https://api.fortnox.se/api/fileattachments/attachments-v1",
+                    data=[{
+                        "entityId": int(self.fortnox_ref),
+                        "entityType": "F",
+                        "fileId": attachment.fortnox_file_archive_id,
+                        #"id": attachment.fortnox_file_archive_id,
+                        "includeOnSend": True
+                    }]
+                )
+                
+                #r = self.company_id.fortnox_request(
+                #    'POST',
+                #    "https://api.fortnox.se/3/articlefileconnections",
+                #    data={
+                #        "ArticleNumber": self.fortnox_ref,
+                #        "fileId": fortnox_file_metadata.get("fortnox_file_archive_id"),
+                #        "@url": fortnox_file_metadata.get("fortnox_file_url"),
+                #    }
+                #)
+                
+                _logger.info(f"upload result {r=}")
+        
 
 
 class AccountMoveSend(models.TransientModel):
