@@ -91,6 +91,8 @@ class StockLot(models.Model):
            supplier_id = purchase_line_id.order_id.partner_id.id
            _logger.warning(f"{depreciation_base=} {supplier_id=}")
            #raise Exception(Bleh)
+        
+        
         vals = {
             "name": f"{self.name} {self.product_id.name}",
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
@@ -190,10 +192,13 @@ class StockPicking(models.Model):
                            raise UserError(f"""
 Online "{move.product_id.name}" there is no Asset profile set.
 Thisis needed in order to create a new It-asset. 
-Kindlyset it on the line and if you want to automate this you can set one on the product aswell. 
-                                           """)
-
+Kindlyset it on the line and if you want to automate this you can set one on the product aswell.
+                                        """)
+        
+                       elif lot_id.asset_id:
+                            lot_id.update_partner_asset(stock_picking.partner_id)
                             #Change partner 
+
         
         return res
 
