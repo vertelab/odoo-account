@@ -19,7 +19,7 @@ class AccountAsset(models.Model):
             'name': _('Personal Equipment'),
             'type': 'ir.actions.act_window',
             'res_model': 'hr.personal.equipment',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', '=', self.personal_equipment_id.id)]
         }
     
@@ -39,7 +39,7 @@ class PersonalEquipment(models.Model):
             'name': _('It Asset'),
             'type': 'ir.actions.act_window',
             'res_model': 'account.asset',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', '=', self.asset_id.id)]
         }
    
@@ -48,7 +48,6 @@ class StockLot(models.Model):
     
     def _prepare_asset_vals(self, stock_picking, move):
         vals =  super()._prepare_asset_vals(stock_picking, move)
-        _logger.warning("Equipment _prepare_asset_vals" * 100)
         if stock_picking.equipment_request_id:
            vals['personal_equipment_id'] = move.personal_equipment_id.id
         return vals
