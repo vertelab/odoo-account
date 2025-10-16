@@ -47,7 +47,11 @@ class AccountAsset(models.Model):
             'name': _('Stock Pickings'),
             'type': 'ir.actions.act_window',
             'res_model': 'stock.picking',
+            # #if VERSION >= "18.0" 
+            'view_mode': 'list,form',
+            # #elif VERSION <= "17.0"
             'view_mode': 'tree,form',
+            # #endif
             'domain': [('id', 'in', self._compute_stock_pickings())]
         }
 
@@ -78,15 +82,13 @@ class StockLot(models.Model):
 		# # if VERSION <= "16.0"
         depreciation_base = move.purchase_line_id.price_unit
         owner = False
-       
         # ~ stock_picking.location_dest_id.company_id.partner_id.id if stock_picking.picking_type_code == "incoming" else stock_picking.partner_id.id,
-       
         if stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.res_partner_id:
            owner = stock_picking.location_dest_id.res_partner_id.id
         elif stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.company_id.partner_id:
-            owner = stock_picking.location_dest_id.company_id.partner_id.id
+           owner = stock_picking.location_dest_id.company_id.partner_id.id
         else:
-            owner = stock_picking.partner_id.id
+           owner = stock_picking.partner_id.id
         # # elif VERSION >= "17.0"
         purchase_line_id = move.purchase_line_id
         depreciation_base = 0
@@ -105,6 +107,16 @@ class StockLot(models.Model):
            _logger.warning(f"{depreciation_base=} {supplier_id=}")
            #raise Exception(Bleh)
         # # endif 
+        
+        # # if VERSION >= "18.0"
+        if stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.res_partner_id:
+           owner = stock_picking.location_dest_id.res_partner_id.id
+        elif stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.company_id.partner_id:
+           owner = stock_picking.location_dest_id.company_id.partner_id.id
+        else:
+           owner = stock_picking.partner_id.id
+        # # endif
+        
         vals = {
             "name": f"{self.name} {self.product_id.name}",
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
@@ -113,8 +125,12 @@ class StockLot(models.Model):
             "partner_id": owner,
             "date_start": stock_picking.date_done,
             "supplier_id":stock_picking.partner_id.id,
-			# #elif VERSION >= "17.0"
+			# #elif VERSION == "17.0"
             "partner_id": stock_picking.sale_id.partner_id.id,
+            "date_start": stock_picking.date_done if stock_picking.date_done else fields.Datetime.now(),
+            "supplier_id":supplier_id,
+            # #elif VERSION >= "18.0"
+            "partner_id": owner,
             "date_start": stock_picking.date_done if stock_picking.date_done else fields.Datetime.now(),
             "supplier_id":supplier_id,
 			# #endif
@@ -179,7 +195,11 @@ class StockPicking(models.Model):
             'name': _('It Assets'),
             'type': 'ir.actions.act_window',
             'res_model': 'account.asset',
+            # #if VERSION >= "18.0" 
+            'view_mode': 'list,form',
+            # #elif VERSION <= "17.0"
             'view_mode': 'tree,form',
+            # #endif
             'domain': [('id', 'in', self._compute_assets())]
         }
 
@@ -199,7 +219,7 @@ class StockPicking(models.Model):
     def button_validate(self):
         res = super().button_validate()
         for stock_picking in self:
-        # #if VERSION >= "17.0"
+        # #if VERSION == "17.0"
             if (stock_picking.sale_id and not stock_picking.purchase_id) or (stock_picking.sale_id and stock_picking.is_dropship):
 		# # endif
               for move in stock_picking.move_ids:
@@ -207,6 +227,9 @@ class StockPicking(models.Model):
                     for lot_id in move.lot_ids:
                        if not lot_id.asset_id and (move.asset_profile_id or lot_id.asset_profile_id):
                             vals = lot_id._prepare_asset_vals(stock_picking, move)
+                            # #if VERSION >= "18.0"
+                            lot_id.company_id = stock_picking.company_id
+                            # # endif
                             lot_id.create_asset(vals)
                         # #if VERSION <= "16.0"
                         elif lot_id.asset_id and lot_id.asset_id.state == "draft":
@@ -216,11 +239,16 @@ class StockPicking(models.Model):
                            raise UserError(f"""
 Online "{move.product_id.name}" there is no Asset profile set.
 Thisis needed in order to create a new It-asset. 
-Kindlyset it on the line and if you want to automate this you can set one on the product aswell. 
-                                           """)
-						# #endif
-
+Kindlyset it on the line and if you want to automate this you can set one on the product aswell.
+                                        """)
+        
+                       # # endif
+                       # #if VERSION >= "17.0"
+                       elif lot_id.asset_id:
+                            lot_id.update_partner_asset(stock_picking.partner_id)
                             #Change partner 
+                       # # endif
+
         
         return res
 

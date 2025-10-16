@@ -77,15 +77,15 @@ class StockLot(models.Model):
     def _prepare_asset_vals(self, stock_picking, move):
         depreciation_base = move.purchase_line_id.price_unit
         owner = False
-       
         # ~ stock_picking.location_dest_id.company_id.partner_id.id if stock_picking.picking_type_code == "incoming" else stock_picking.partner_id.id,
-       
         if stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.res_partner_id:
            owner = stock_picking.location_dest_id.res_partner_id.id
         elif stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.company_id.partner_id:
-            owner = stock_picking.location_dest_id.company_id.partner_id.id
+           owner = stock_picking.location_dest_id.company_id.partner_id.id
         else:
-            owner = stock_picking.partner_id.id
+           owner = stock_picking.partner_id.id
+        
+        
         vals = {
             "name": f"{self.name} {self.product_id.name}",
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
@@ -183,7 +183,6 @@ class StockPicking(models.Model):
                         elif lot_id.asset_id and lot_id.asset_id.state == "draft":
                             lot_id.update_partner_asset(stock_picking.partner_id)
 
-                            #Change partner 
         
         return res
 
