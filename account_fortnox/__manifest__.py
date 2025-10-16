@@ -41,13 +41,15 @@
     'repository': 'https://github.com/vertelab/odoo-account',
     # Any module necessary for this one to work correctly
 
-    'depends': ['crm', 'membership', 'l10n_se', 'sale'],
+    'depends': ['crm', 'membership', 'l10n_se', 'sale_management'],
     'data': [
-        'views/res_partner_view.xml',
         'views/res_company_view.xml',
         'views/account_invoice_send_view.xml',
         'views/product_views.xml',
         'views/account_journal.xml',
+        'views/res_partner_view.xml',
+        'views/account_payment_term_view.xml',
+        'views/account_incoterm_view.xml',
         'data/cron_jobs.xml',
 
     ],

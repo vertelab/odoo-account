@@ -1,18 +1,30 @@
 <odoo>
-   <data>
-   <record id="view_account_journal_tree_inherit2" model="ir.ui.view">
-        <field name="name">view_account_journal_tree_inherit2</field>
-        <field name="model">account.journal</field>
-        <field name="inherit_id" ref="account.view_account_journal_form"/>
-        <field name="arch" type="xml">
-            <notebook position="inside">
-                <page name="fornox_name" string="Fortnox Settings" invisible="type != 'bank'">
-                    <group>
-                        <field name="is_fortnox_journal"/>
-                    </group>
-                </page>
-            </notebook>
-        </field>
-    </record>
+    <data>
+        <record id="view_account_journal_tree_inherit2" model="ir.ui.view">
+            <field name="name">view_account_journal_tree_inherit2</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page name="fornox_name" string="Fortnox Settings" invisible="type != 'bank'">
+                        <group>
+                            <field name="is_fortnox_journal"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record id="view_account_position_form_inherited" model="ir.ui.view">
+            <field name="name">account.fiscal.position.form.inherited</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="inherit_id" ref="account.view_account_position_form"/>
+            <field name="arch" type="xml">
+                <field name="foreign_vat" position="after">
+                    <field name="fortnox_vat_type"/>
+                </field>
+            </field>
+        </record>
+
    </data>
 </odoo>
