@@ -101,7 +101,7 @@ msgstr "Klienthemlighet"
 #. module: account_fortnox
 #: model:ir.model,name:account_fortnox.model_res_company
 msgid "Companies"
-msgstr "Företag"
+msgstr "Bolagen"
 
 #. module: account_fortnox
 #: model:ir.model,name:account_fortnox.model_res_config_settings
