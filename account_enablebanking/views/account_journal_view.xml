@@ -1,0 +1,62 @@
+<odoo>
+    <data>
+        <record id="view_account_journal_form" model="ir.ui.view">
+            <field name="name">account.journal.form.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='advanced_settings']//group[1]" postion="after">
+                    <group string="Enable Banking">
+                        <field name="notify_user_id" string="Gatekeeper" help="User to notify when transaction sync fails"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_journal_dashboard_kanban_view_inherit" model="ir.ui.view">
+            <field name="name">account.journal.dashboard.kanban.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+            <field name="arch" type="xml">
+                <div class="col-4" groups="account.group_account_basic" name="kanban_manage_new" position="after">
+                    <div class="col-4" name="kanban_manage_reconciliation">
+                        <h5 class="o_kanban_card_manage_title">
+                            <span role="separator">Reconciliation</span>
+                        </h5>
+                        <div name="bank_customer_payment">
+                            <a role="menuitem" type="object" name="action_sync_transactions_with_enable_banking" context="{'action_name': 'action_view_card_statements', 'search_default_journal': True, 'use_domain':True}" >Sync Transactions</a>
+                        </div>
+                        <div>
+                           <a role="menuitem" type="object" name="action_sync_balances_with_enable_banking" context="{'action_name': 'action_view_card_statements', 'search_default_journal': True, 'use_domain':True}" >Sync Balances</a>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <record id="view_enable_banking_transaction_wizard_form" model="ir.ui.view">
+            <field name="name">enable.banking.transaction.wizard.form</field>
+            <field name="model">enable.banking.transaction.wizard</field>
+            <field name="arch" type="xml">
+                <form create="0" edit="1" delete="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="journal_id" readonly="1"/>
+                                <field name="date_from" required="1"/>
+                            </group>
+                            <group>
+                                <field name="account_uuid" readonly="1"/>
+                                <field name="date_to" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Sync Transactions" name="action_sync_transactions" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
