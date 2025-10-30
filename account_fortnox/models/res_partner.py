@@ -67,66 +67,104 @@ class Partner(models.Model):
                         )
                         partner.fortnox_ref = customer_number
 
+    def replace_bool_with_string(self,data):
+        ignore = ["ShowPriceVATIncluded"]
+        for key in data.keys():
+            if key not in ignore and type(data[key]) == type(bool):
+                data[key] = ""
+        return data
+
+    def get_commercial_entity(self,partner):
+        commercial_entity = partner.commercial_partner_id
+        if not commercial_entity:
+            commercial_entity = partner
+        return commercial_entity
+
+
+    def get_data_dict(self,commercial_entity):
+
+        invoice_contacts = commercial_entity.child_ids.filtered(lambda c: c.type == 'invoice')
+        invoice_contact = invoice_contacts[0] if invoice_contacts else False
+        
+        delivery_contacts = commercial_entity.child_ids.filtered(lambda c: c.type == 'delivery')
+        delivery_contact = delivery_contacts[0] if delivery_contacts else False
+
+        VATType = invoice_contact.property_account_position_id.fortnox_vat_type if invoice_contact and invoice_contact.property_account_position_id and invoice_contact.property_account_position_id.fortnox_vat_type else False
+        if not VATType:
+            VATType = commercial_entity.property_account_position_id.fortnox_vat_type if commercial_entity.property_account_position_id and commercial_entity.property_account_position_id.fortnox_vat_type else "SEVAT"
+
+        data = {
+                "Customer": {
+                    "Name": commercial_entity.name,
+                    "VisitingAddress": commercial_entity.street,
+                    "VisitingZipCode": commercial_entity.zip,
+                    "VisitingCity": commercial_entity.city,
+                    # "VisitingCountry": commercial_entity.country_id.name,
+                    "VisitingCountryCode": commercial_entity.country_id.code,
+                    "Email": commercial_entity.email or None,
+
+                    "Address1": invoice_contact.street if invoice_contact and invoice_contact.street else commercial_entity.street,
+                    "Address2": invoice_contact.street2 if invoice_contact and invoice_contact.street2 else commercial_entity.street2,
+                    "ZipCode": invoice_contact.zip if invoice_contact and invoice_contact.zip else commercial_entity.zip, 
+                    "City": invoice_contact.city if invoice_contact and invoice_contact.city else commercial_entity.city,
+                    # "Country": invoice_contact.country_id.name if invoice_contact else commercial_entity.country_id.name,
+                    "CountryCode": invoice_contact.country_id.code if invoice_contact and invoice_contact.country_id.code else commercial_entity.country_id.code,
+                    "Phone1": invoice_contact.phone if invoice_contact and invoice_contact.phone else commercial_entity.phone,
+                    
+                    "DeliveryName": delivery_contact.name if delivery_contact and delivery_contact.name else commercial_entity.name,
+                    "DeliveryAddress1": delivery_contact.street if delivery_contact and delivery_contact.street else commercial_entity.street,
+                    "DeliveryAddress2": delivery_contact.street2 if delivery_contact and delivery_contact.street2 else commercial_entity.street2,
+                    "DeliveryZipCode": delivery_contact.zip if delivery_contact and delivery_contact.zip else commercial_entity.zip,
+                    "DeliveryCity": delivery_contact.city if delivery_contact and delivery_contact.city else commercial_entity.city,
+                    # "DeliveryCountry": delivery_contact.country_id.name if delivery_contact else commercial_entity.country_id.name,
+                    "DeliveryCountryCode": delivery_contact.country_id.code if delivery_contact and delivery_contact.country_id and delivery_contact.country_id.code else commercial_entity.country_id.code,
+                    "DeliveryPhone1": delivery_contact.phone if delivery_contact and delivery_contact.phone else commercial_entity.phone,
+
+                    "Phone2": None,
+                    "PriceList": "A",
+                    "ShowPriceVATIncluded": False,
+                    "Type": "COMPANY",
+                    "VATType": VATType,
+                    "WWW": commercial_entity.website,
+                    "YourReference": commercial_entity.name if commercial_entity.type == "contact" else "",
+                    "EmailInvoice": invoice_contact.email if invoice_contact and invoice_contact.email else commercial_entity.email,
+                }
+            }
+            
+        return self.replace_bool_with_string(data)
+
     def partner_create(self, company_id):
         for partner in self:
+            commercial_entity = self.get_commercial_entity(partner)
+            data = self.get_data_dict(commercial_entity)
+          
             _logger.warning(
-                f"CREATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.fortnox_ref=}")
-            if not partner.commercial_partner_id.fortnox_ref:
+                f"CREATING PARTNER {partner=} {commercial_entity=} {commercial_entity.fortnox_ref=} {data['Customer']['VATType']=}")
+           
+            if not commercial_entity.fortnox_ref:
                 url = "https://api.fortnox.se/3/customers"
                 r = company_id.fortnox_request(
                     'post',
                     url,
-                    data={
-                        "Customer": {
-                            "Address1": partner.street,
-                            "City": partner.city,
-                            "CountryCode": partner.country_id.code,
-                            #"Currency": "SEK",
-                            "Email": partner.email or None,
-                            "Name": partner.commercial_partner_id.name,
-                            "Phone1": partner.commercial_partner_id.phone,
-                            "Phone2": None,
-                            "PriceList": "A",
-                            "ShowPriceVATIncluded": False,
-                            "Type": "COMPANY",
-                            "VATType": "SEVAT",
-                            "WWW": partner.commercial_partner_id.website,
-                            "YourReference": partner.name,
-                            "ZipCode": partner.zip,
-                        }
-                    })
+                    data=data)
+                _logger.warning(f"{data=}")
                 if r.get("ErrorInformation", {}).get("code") in [2000357]:
-                    raise UserError(_(f"{partner.name} has an invalid mail {partner.email}"))
-                partner.commercial_partner_id.fortnox_ref = r["Customer"]["CustomerNumber"]
+                    raise UserError(_("%s has an invalid mail %s") % (partner.name, partner.email))
+                _logger.error(f"{r=}")
+                commercial_entity.fortnox_ref = r["Customer"]["CustomerNumber"]
 
     def partner_update(self, company_id):
         for partner in self:
+            commercial_entity = self.get_commercial_entity(partner)
+            data = self.get_data_dict(commercial_entity)
+
             _logger.warning(
-                f"UPDATING PARTNER {partner=} {partner.commercial_partner_id=} {partner.commercial_partner_id.fortnox_ref=}")
-            if partner.commercial_partner_id.fortnox_ref:
+                f"UPDATING PARTNER {partner=} {commercial_entity=} {commercial_entity.fortnox_ref=} {data['Customer']['VATType']=}")
+            _logger.warning(f"{data=}")
+            
+            if commercial_entity.fortnox_ref:
                 url = "https://api.fortnox.se/3/customers/%s" % partner.commercial_partner_id.fortnox_ref
-                company_id.fortnox_request(
-                    'put',
-                    url,
-                    data={
-                        "Customer": {
-                            "Address1": partner.street,
-                            "City": partner.city,
-                            "CountryCode": partner.country_id.code,
-                            #"Currency": "SEK",
-                            "Email": partner.email or None,
-                            "Name": partner.commercial_partner_id.name,
-                            "Phone1": partner.commercial_partner_id.phone,
-                            "Phone2": None,
-                            "PriceList": "A",
-                            "ShowPriceVATIncluded": False,
-                            "Type": "COMPANY",
-                            "VATType": "SEVAT",
-                            "WWW": partner.commercial_partner_id.website,
-                            "YourReference": partner.name,
-                            "ZipCode": partner.zip,
-                        }
-                    })
+                company_id.fortnox_request('put',url,data=data)
 
     def partner_get(self, company_id):
         for partner in self:
@@ -136,3 +174,31 @@ class Partner(models.Model):
                 'get',
                 url,
             )
+
+    def create_membership_invoice(self, product, amount):
+        """ Create Customer Invoice of Membership for partners.
+        @param datas: datas has dictionary value which consist Id of Membership product and Cost Amount of Membership.
+                      datas = {'membership_product_id': None, 'amount': None}
+        """
+        invoice_list = super(Partner, self).create_membership_invoice(product=product, amount=amount)
+        # Add extra products
+        for move in invoice_list:
+            for line in move.invoice_line_ids:
+                for member_product in line.product_id.membership_product_ids:
+                    # create a record in cache, apply onchange then revert back to a dictionary
+                    move_line = self.env['account.move.line'].new(
+                        {'product_id': member_product.id, 'price_unit': member_product.lst_price, 'move_id': move.id})
+                    move_line._onchange_product_id()
+                    line_values = move_line._convert_to_write({name: move_line[name] for name in move_line._cache})
+                    line_values['name'] = member_product.name
+                    line_values[
+                        'account_id'] = member_product.property_account_income_id.id if member_product.property_account_income_id else \
+                    self.env['account.account'].search(
+                        [('user_type_id', '=', self.env.ref('account.data_account_type_revenue').id)])[0].id
+                    move.write({'invoice_line_ids': [(0, 0, line_values)]})
+        # Calculate amount and qty
+        for move in invoice_list:
+            for line in move.invoice_line_ids:
+                if line.product_id.membership_code:
+                    line.price_unit, line.quantity = line.product_id.membership_get_amount_qty(move.partner_id.id)
+        return invoice_list

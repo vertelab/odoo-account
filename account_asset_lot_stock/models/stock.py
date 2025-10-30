@@ -47,7 +47,7 @@ class AccountAsset(models.Model):
             'name': _('Stock Pickings'),
             'type': 'ir.actions.act_window',
             'res_model': 'stock.picking',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', 'in', self._compute_stock_pickings())]
         }
 
@@ -91,11 +91,19 @@ class StockLot(models.Model):
            supplier_id = purchase_line_id.order_id.partner_id.id
            _logger.warning(f"{depreciation_base=} {supplier_id=}")
            #raise Exception(Bleh)
+        
+        if stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.res_partner_id:
+           owner = stock_picking.location_dest_id.res_partner_id.id
+        elif stock_picking.picking_type_code == "incoming" and stock_picking.location_dest_id.company_id.partner_id:
+           owner = stock_picking.location_dest_id.company_id.partner_id.id
+        else:
+           owner = stock_picking.partner_id.id
+        
         vals = {
             "name": f"{self.name} {self.product_id.name}",
             "profile_id": self.asset_profile_id.id if self.asset_profile_id else move.asset_profile_id.id,
             "purchase_value": depreciation_base,
-            "partner_id": stock_picking.sale_id.partner_id.id,
+            "partner_id": owner,
             "date_start": stock_picking.date_done if stock_picking.date_done else fields.Datetime.now(),
             "supplier_id":supplier_id,
             "lot_id": self.id,
@@ -159,7 +167,7 @@ class StockPicking(models.Model):
             'name': _('It Assets'),
             'type': 'ir.actions.act_window',
             'res_model': 'account.asset',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', 'in', self._compute_assets())]
         }
 
@@ -179,21 +187,24 @@ class StockPicking(models.Model):
     def button_validate(self):
         res = super().button_validate()
         for stock_picking in self:
-            if (stock_picking.sale_id and not stock_picking.purchase_id) or (stock_picking.sale_id and stock_picking.is_dropship):
               for move in stock_picking.move_ids:
                 if move.product_id.tracking == "serial":
                     for lot_id in move.lot_ids:
                        if not lot_id.asset_id and (move.asset_profile_id or lot_id.asset_profile_id):
                             vals = lot_id._prepare_asset_vals(stock_picking, move)
+                            lot_id.company_id = stock_picking.company_id
                             lot_id.create_asset(vals)
                        elif not lot_id.asset_id and not move.asset_profile_id and not lot_id.asset_profile_id:
                            raise UserError(f"""
 Online "{move.product_id.name}" there is no Asset profile set.
 Thisis needed in order to create a new It-asset. 
-Kindlyset it on the line and if you want to automate this you can set one on the product aswell. 
-                                           """)
-
+Kindlyset it on the line and if you want to automate this you can set one on the product aswell.
+                                        """)
+        
+                       elif lot_id.asset_id:
+                            lot_id.update_partner_asset(stock_picking.partner_id)
                             #Change partner 
+
         
         return res
 

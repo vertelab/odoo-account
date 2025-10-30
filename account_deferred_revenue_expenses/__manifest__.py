@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2023- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,40 +20,29 @@
 ##############################################################################
 
 {
-    'name': 'Account: Odoo - Fortnox Integration',
+    'name': 'Account: Deferred Revenue Expenses',
     'version': '1.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'A combination of several modules to bring an invoice integration with fortnox',
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/16.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
+    'summary': 'Account Admin Rights',
     'category': 'Accounting',
     'description': """
-    A combination of several modules to bring an invoice integration with fortnox
+        Account Deferred Revenue Expenses
     """,
-    #'sequence': '1',
+    #'sequence': '1'
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-account/account_fortnox',
+    'website': 'https://vertel.se/apps/odoo-account/account_deferred_revenue_expenses',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    # Any module necessary for this one to work correctly
-
-    'depends': ['crm', 'membership', 'l10n_se', 'sale_management'],
+    'depends': ['account', 'account_asset_management'],
     'data': [
-        'views/res_company_view.xml',
-        'views/account_invoice_send_view.xml',
-        'views/product_views.xml',
-        'views/account_journal.xml',
-        'views/res_partner_view.xml',
-        'views/account_payment_term_view.xml',
-        'views/account_incoterm_view.xml',
-        'data/cron_jobs.xml',
-
+        'views/account_deferred_expense_view.xml',
+        'views/account_deferred_expense_profile_view.xml',
+        'views/account_move_view.xml',
+        'views/product_view.xml',
     ],
-    'sequence': 5,
-    'application': False,
+    'installable': 'True',
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

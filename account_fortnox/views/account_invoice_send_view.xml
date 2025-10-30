@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="account_move_send_inherit_account_wizard_form_fortnox" model="ir.ui.view" >
-        <field name="name">account.move.send.form.inherited.fortnox</field>
-        <field name="model">account.move.send</field>
-        <field name="inherit_id" ref="account.account_move_send_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[@name='options']/div[@name='standard_options']/div[@name='option_send_mail']" position="after">
-                <div name="option_fortnox">
-                    <field name="is_fortnox" />
-                    <b><label for="is_fortnox"/></b>
-                </div>
-            </xpath>
-            <footer>
-                <button string="Send" name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
-            </footer>
-        </field>
-    </record>
+<!--    <record id="account_move_send_inherit_account_wizard_form_fortnox" model="ir.ui.view" >-->
+<!--        <field name="name">account.move.send.form.inherited.fortnox</field>-->
+<!--        <field name="model">account.move.send</field>-->
+<!--        <field name="inherit_id" ref="account.account_move_send_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//div[@name='options']/div[@name='standard_options']/div[@name='option_send_mail']" position="after">-->
+<!--                <div name="option_fortnox">-->
+<!--                    <field name="is_fortnox" />-->
+<!--                    <b><label for="is_fortnox"/></b>-->
+<!--                </div>-->
+<!--            </xpath>-->
+<!--            <footer>-->
+<!--                <button string="Send" name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>-->
+<!--            </footer>-->
+<!--        </field>-->
+<!--    </record>-->
 
     <record id="view_account_invoice_fortnox_filter" model="ir.ui.view">
         <field name="name">account.invoice.filter.fortnox.inherit</field>

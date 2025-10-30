@@ -10,33 +10,50 @@
 					<button name="fortnox_auth_open_link" string="Authorize with Fortnox" type="object" class="oe_highlight"/>
 					<group>
 						<field name="fortnox_authorization_code"/>
-						<field name="fortnox_client_secret"/>
 						<field name="fortnox_client_id"/>
+						<field name="fortnox_client_secret"/>
 					</group>
 				</page>
 			</xpath>
 		</field>
 	</record>
 
-	<record id="res_config_settings_view_form_fortnox" model="ir.ui.view">
-		<field name="name">res.config.settings.view.form.inherit.fortnox.account</field>
-		<field name="model">res.config.settings</field>
-		<field name="priority" eval="100" />
-		<field name="inherit_id" ref="account.res_config_settings_view_form" />
+<!--	<record id="res_config_settings_view_form_fortnox" model="ir.ui.view">-->
+<!--		<field name="name">res.config.settings.view.form.inherit.fortnox.account</field>-->
+<!--		<field name="model">res.config.settings</field>-->
+<!--		<field name="priority" eval="100" />-->
+<!--		<field name="inherit_id" ref="account.res_config_settings_view_form" />-->
+<!--		<field name="arch" type="xml">-->
+<!--			<xpath expr="//div[@id='send_default']" position="inside">-->
+<!--				<div class="col-12 col-lg-6 o_setting_box">-->
+<!--					<div class="o_setting_left_pane">-->
+<!--						<field name="invoice_fortnox" />-->
+<!--					</div>-->
+<!--					<div class="o_setting_right_pane">-->
+<!--						<label for="invoice_fortnox" />-->
+<!--						<span class="fa fa-lg fa-building-o" title="Values set here are company-specific." />-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</xpath>-->
+<!--		</field>-->
+<!--	</record>-->
+        
+	<record id="view_attachment_form_inherit_fortnox" model="ir.ui.view">
+		<field name="name">ir.attachment.view.form.inherit.fortnox</field>
+		<field name="model">ir.attachment</field>
+		<field name="inherit_id" ref="base.view_attachment_form"/>
 		<field name="arch" type="xml">
-			<xpath expr="//div[@id='send_default']" position="inside">
-				<div class="col-12 col-lg-6 o_setting_box">
-					<div class="o_setting_left_pane">
-						<field name="invoice_fortnox" />
-					</div>
-					<div class="o_setting_right_pane">
-						<label for="invoice_fortnox" />
-						<span class="fa fa-lg fa-building-o" title="Values set here are company-specific." />
-					</div>
-				</div>
+			<xpath expr="//group[@name='description_group']" position="after">
+				<group name="fortnox_info" string="Fortnox Info" invisible="not fortnox_file_ref">
+					<field name="fortnox_file_ref"/>
+					<field name="fortnox_file_archive_id"/>
+					<field name="fortnox_file_path"/>
+					<field name="fortnox_file_url"/>
+				</group>
 			</xpath>
 		</field>
 	</record>
+
 </odoo>
 
 

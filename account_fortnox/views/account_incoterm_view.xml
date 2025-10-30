@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_incoterms_form_inherited" model="ir.ui.view">
+        <field name="name">account.incoterms.form.inherited</field>
+        <field name="model">account.incoterms</field>
+        <field name="inherit_id" ref="account.account_incoterms_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="fortnox_code"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
