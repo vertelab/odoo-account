@@ -182,13 +182,13 @@ msgstr "Kommentar"
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__company_id
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__company_id
 msgid "Company"
-msgstr "Företag"
+msgstr "Bolag"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__company_currency_id
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement_line__company_currency_id
 msgid "Company Currency"
-msgstr "Företagsvaluta"
+msgstr "Bolagsvaluta"
 
 #. module: account_journal_card_type
 #: model:ir.model.fields,field_description:account_journal_card_type.field_account_card_statement__create_uid
