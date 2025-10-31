@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="ai_agent_form_view" model="ir.ui.view">
+            <field name="name">ai.agent.form</field>
+            <field name="model">ai.agent</field>
+            <field name="inherit_id" ref="ai_agent.ai_agent_form"/>
+            <field name="arch" type="xml">
+                <field name="ai_type" position="after">
+                    <field name="generic_agent"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
