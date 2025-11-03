@@ -1,0 +1,5 @@
+eml_parser
+pyarrow
+pytesseract
+PyMuPDF
+faiss-cpu
