@@ -202,11 +202,8 @@ class AIQuest(models.Model):
             
             context_copy = self.env.context.copy()
             context_copy.update({'check_move_period_validity': False})
-            move_id = session.move_id
-            self.env['account.move'].with_context(context_copy)._compute_purchase_auto_complete(move_id)
-            # session.move_id.with_context(context_copy)._compute_purchase_auto_complete(move_id)
+            session.move_id.with_context(context_copy)._compute_purchase_auto_complete()
             session.move_id.ref = json_data.get('invoice', {}).get('ref')
-            # message  = 'Purchase order found: <a href="#" data-oe-model="%s" data-oe-id="%s">%s</a>' % (partner_purchase_order._name, partner_purchase_order.id, partner_purchase_order.name)
             message = Markup(
                 '<div class="o_mail_notification">Purchase order found: <a href="#" data-oe-model="%s" data-oe-id="%s">%s</a></div>') % (
                           partner_purchase_order._name,

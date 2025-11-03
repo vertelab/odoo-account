@@ -26,7 +26,7 @@ class AccountMove(models.Model):
             'res_id': self.ai_session_id.id
         }
 
-    def _compute_purchase_auto_complete(self, move_id):
+    def _compute_purchase_auto_complete(self):
         if self.purchase_vendor_bill_id.vendor_bill_id:
             self.invoice_vendor_bill_id = self.purchase_vendor_bill_id.vendor_bill_id
             self._onchange_invoice_vendor_bill()
@@ -36,36 +36,33 @@ class AccountMove(models.Model):
 
         if not self.purchase_id:
             return
+
         context_copy = self.env.context.copy()
-        context_copy.update({'check_move_validity':False})
-        
+        context_copy.update({'check_move_validity': False})
+
         # Copy data from PO
         invoice_vals = self.purchase_id.with_company(self.purchase_id.company_id)._prepare_invoice()
-        invoice_vals['currency_id'] = self.line_ids and self.currency_id or invoice_vals.get('currency_id')
-        del invoice_vals['ref']
+
+        has_invoice_lines = bool(
+            self.invoice_line_ids.filtered(lambda x: x.display_type not in ('line_note', 'line_section')))
+        new_currency_id = self.currency_id if has_invoice_lines else invoice_vals.get('currency_id')
+        del invoice_vals['ref'], invoice_vals['payment_reference']
+        del invoice_vals['company_id']  # avoid recomputing the currency
+        if self.move_type == invoice_vals['move_type']:
+            del invoice_vals['move_type']  # no need to be updated if it's same value, to avoid recomputes
         self.update(invoice_vals)
+        self.currency_id = new_currency_id
 
         # Copy purchase lines.
-        po_lines = self.purchase_id.order_line - self.line_ids.mapped('purchase_line_id')
-        new_lines = self.env['account.move.line']
-        sequence = max(self.line_ids.mapped('sequence')) + 1 if self.line_ids else 10
-        account_id = self.env['account.account'].search([('code','=','4001')])
-        for line in po_lines.filtered(lambda l: not l.display_type):
-            line_vals = line._prepare_account_move_line(self)
-            line_vals.update({
-                'sequence': sequence,
-                'account_id': account_id.id,
-                'move_id': move_id
-            })
-            new_line = new_lines.with_context(context_copy).create(line_vals)
-            sequence += 1
-            new_line.account_id = new_line._get_computed_account()
-            new_line._onchange_price_subtotal()
+        po_lines = self.purchase_id.order_line - self.invoice_line_ids.mapped('purchase_line_id')
 
-        #new_lines._onchange_mark_recompute_taxes()
-        self.with_context(context_copy)._recompute_dynamic_lines()
+        for invoice_line in self.invoice_line_ids:
+            invoice_line.account_id = self.env['account.account'].search([('code', '=', '4001')], limit=1).id
+
+        self._add_purchase_order_lines(po_lines)
+
         # Compute invoice_origin.
-        origins = set(self.line_ids.mapped('purchase_line_id.order_id.name'))
+        origins = set(self.invoice_line_ids.mapped('purchase_line_id.order_id.name'))
         self.invoice_origin = ','.join(list(origins))
 
         # Compute ref.
@@ -73,12 +70,17 @@ class AccountMove(models.Model):
         self.ref = ', '.join(refs)
 
         # Compute payment_reference.
-        if len(refs) == 1:
-            self.payment_reference = refs[0]
-        
+        if not self.payment_reference:
+            if len(refs) == 1:
+                self.payment_reference = refs[0]
+            elif len(refs) > 1:
+                self.payment_reference = refs[-1]
+
+        # Copy company_id (only changes if the id is of a child company (branch))
+        if self.company_id != self.purchase_id.company_id:
+            self.company_id = self.purchase_id.company_id
 
         self.purchase_id = False
-        self._onchange_currency()
 
     def re_update_move_lines(self):
         self = self.sudo()
