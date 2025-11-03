@@ -27,6 +27,10 @@
             <field name="parent_id" ref="menu_accounting"/>
         </record>
 
+        <record id="account_asset_management.menu_finance_assets" model="ir.ui.menu">
+            <field name="parent_id" ref="menu_accounting"/>
+        </record>
+
         <menuitem id="account.menu_account_config" name="Settings" parent="account.menu_finance_configuration" sequence="0" groups="base.group_system"/>
 
 </odoo>
