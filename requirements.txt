@@ -2,3 +2,6 @@ zeep
 langchain
 langchain_community
 pathlib
+pdftotext
+eml_parser
+
