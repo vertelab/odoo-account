@@ -40,6 +40,7 @@
     'depends': [
         'ai_agent',
         'account',
+        'account_period_vrtl'
     ],
     'data': [
         'data/ai_tool_data.xml',

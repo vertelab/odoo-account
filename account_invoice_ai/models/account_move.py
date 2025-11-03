@@ -26,7 +26,7 @@ class AccountMove(models.Model):
             'res_id': self.ai_session_id.id
         }
 
-    def _compute_purchase_auto_complete(self):
+    def _compute_purchase_auto_complete(self, move_id):
         if self.purchase_vendor_bill_id.vendor_bill_id:
             self.invoice_vendor_bill_id = self.purchase_vendor_bill_id.vendor_bill_id
             self._onchange_invoice_vendor_bill()
@@ -49,14 +49,13 @@ class AccountMove(models.Model):
         po_lines = self.purchase_id.order_line - self.line_ids.mapped('purchase_line_id')
         new_lines = self.env['account.move.line']
         sequence = max(self.line_ids.mapped('sequence')) + 1 if self.line_ids else 10
-        account_id = self.env.ref('l10n_se.1_K2_2999_2017')
+        account_id = self.env['account.account'].search([('code','=','4001')])
         for line in po_lines.filtered(lambda l: not l.display_type):
             line_vals = line._prepare_account_move_line(self)
             line_vals.update({
                 'sequence': sequence,
                 'account_id': account_id.id,
-                'project_no': line.project_no.id,
-                'area_of_responsibility': line.area_of_responsibility.id
+                'move_id': move_id
             })
             new_line = new_lines.with_context(context_copy).create(line_vals)
             sequence += 1

@@ -75,6 +75,7 @@ class AIAgent(models.Model):
             _logger.debug(f"Agent {self.name} {messages=}")
         try:
             response = self.ai_agent_llm_id.invoke(messages, session=session, quest=quest, agent=self, debug=debug)
+            print("response", response)
         except Exception as e:
             _logger.error(f"Error in agent {self.name}: {str(e)}")
             self.log_message(f"Error in agent {self.name}: {str(e)}\n{traceback.format_exc()}")

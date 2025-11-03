@@ -3,6 +3,7 @@ import re
 from typing import List, Dict, Any
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, AccessError, ValidationError
+from markupsafe import Markup
 from langchain_core.messages import AIMessage
 
 import logging
@@ -127,7 +128,7 @@ class AIQuest(models.Model):
         for line in invoice_lines:
             if account_id := line.get('account_id'):
                 dynamic_account_id = self.env['account.account'].search([
-                    ('code', '=', account_id), ('company_id', '=', company_id)
+                    ('code', '=', account_id), ('company_ids', 'in', [company_id])
                 ], limit=1)
                 if dynamic_account_id:
                     line['account_id'] = dynamic_account_id.id
@@ -201,10 +202,17 @@ class AIQuest(models.Model):
             
             context_copy = self.env.context.copy()
             context_copy.update({'check_move_period_validity': False})
-            session.move_id.with_context(context_copy)._compute_purchase_auto_complete()
+            move_id = session.move_id
+            self.env['account.move'].with_context(context_copy)._compute_purchase_auto_complete(move_id)
+            # session.move_id.with_context(context_copy)._compute_purchase_auto_complete(move_id)
             session.move_id.ref = json_data.get('invoice', {}).get('ref')
-            #message = f"Purchase order found: <a href='#' data-oe-model='partner_purchase_order.id' data-oe-id='{partner_purchase_order.id}'>{partner_purchase_order.name}</a>"
-            message  = 'Purchase order found: <a href="#" data-oe-model="%s" data-oe-id="%s">%s</a>' % (partner_purchase_order._name, partner_purchase_order.id, partner_purchase_order.name)
+            # message  = 'Purchase order found: <a href="#" data-oe-model="%s" data-oe-id="%s">%s</a>' % (partner_purchase_order._name, partner_purchase_order.id, partner_purchase_order.name)
+            message = Markup(
+                '<div class="o_mail_notification">Purchase order found: <a href="#" data-oe-model="%s" data-oe-id="%s">%s</a></div>') % (
+                          partner_purchase_order._name,
+                          partner_purchase_order.id,
+                          partner_purchase_order.name
+                      )
             session.move_id.message_post(
                 body=message,
                 message_type='notification',
@@ -212,7 +220,7 @@ class AIQuest(models.Model):
             )
             return session.move_id, partner_purchase_order
         else:
-            return False,False
+            return False, False
 
     def partner_search(self, email_info):
         """Search partner using email and returns an id"""
@@ -310,37 +318,37 @@ class AIQuest(models.Model):
         if move_id:
             move_ids = self.env['account.move'].search([('ref', '=', move_id.ref)]) - move_id
             if move_ids:
-                move_id.write({'to_check': True})
+                move_id.write({'checked': False})
                 move_id.write({'to_check_duplicate': True})
                 # Create links for duplicate bills
-                duplicate_links = []
-                for duplicate in move_ids:
-                    link = '<a href="#" data-oe-model="%s" data-oe-id="%s">%s</a>' % (duplicate._name, duplicate.id, duplicate.name)
-                    duplicate_links.append(link)
-                
-                # Join the links with commas
-                duplicate_links_str = ", ".join(duplicate_links)
+                duplicate_links = [
+                    Markup('<a href="#" data-oe-model="{model}" data-oe-id="{id}">{name}</a>').format(
+                        model=duplicate._name,
+                        id=duplicate.id,
+                        name=duplicate.name if duplicate.name else duplicate.id
+                    )
+                    for duplicate in move_ids
+                ]
+                duplicate_links_str = Markup(", ").join(duplicate_links)
                 
                 # Build the body message
-                body = _(
-                    "Duplicate vendor bill(s) found: %s"
-                ) % duplicate_links_str
+                body = Markup(_("Duplicate vendor bill(s) found: %s")) % duplicate_links_str
                 
                 # Post the message on the original move
                 move_id.message_post(body=body)
                 
             period = self.env['account.period'].search([('date_start','<=',move_id.date),('date_stop','>=',move_id.date)])
-            _logger.warning("closed peiod"*100)
+            _logger.warning("closed period"*100)
             _logger.warning(f"{[('date_start','>=',move_id.date),('date_stop','<=',move_id.date)]}")
             _logger.warning(f"{period=}")
             if not period:
                 body=f"After Ai scanning no period found for date: {move_id.date.strftime('%Y-%m-%d')}. Please check if the date and period is correct."
-                move_id.write({'to_check': True})
+                move_id.write({'checked': False})
                 move_id.write({'to_check_period': True})
                 move_id.message_post(body=body)
             elif period and period.state == "done":
                 body=f"After Ai scanning the period found for date: {move_id.date.strftime('%Y-%m-%d')} is closed. Please check if the date and period is correct."
-                move_id.write({'to_check': True})
+                move_id.write({'checked': False})
                 move_id.write({'to_check_period': True})
                 move_id.message_post(body=body)
             
