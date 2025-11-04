@@ -35,7 +35,7 @@ class AccountMove(models.Model):
         return {
             "name": aml.name,
             "code": self.name,
-            "profile_id": aml.asset_profile_id or aml.deferred_expense_profile_id,
+            "profile_id": aml.asset_profile_id.id or aml.deferred_expense_profile_id.id,
             "purchase_value": depreciation_base,
             "partner_id": aml.partner_id.id,
             "date_start": self.date,
