@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+W# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Odoo, Open Source Enterprise Management Solution, third party addon
@@ -390,7 +390,7 @@ class AccountFiscalyear(models.Model):
         else:
             domain = ['|', ('code', operator, name), ('name', operator, name)]
         ids = self.search(expression.AND([domain, args]), limit=limit)
-        return ids.name_get()
+        return [(id.id,id.name) for id in ids]
 
     def action_draft(self):
         mode = 'draft'
