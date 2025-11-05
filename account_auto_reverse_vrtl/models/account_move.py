@@ -5,7 +5,8 @@ _logger = logging.getLogger(__name__)
 class AccountMoveExtension(models.Model):
     _inherit = 'account.move'
 
-    auto_reverse_date = fields.Date(string='Auto Reverse Date', help='Date when the journal entry will be automatically reversed')
+    auto_reverse_date = fields.Date(
+        string='Auto Reverse Date', help='Date when the journal entry will be automatically reversed')
     reverse_failed = fields.Boolean()
     reverse_reason = fields.Char()
 
@@ -25,11 +26,6 @@ class AccountMoveExtension(models.Model):
 
         refund_invoice = self.env['account.move'].browse(refund_invoice_wiz.reverse_moves()['res_id'])
         refund_invoice.action_post()
-
-        #(invoice_id + refund_invoice).line_ids \
-        #    .filtered(lambda line: line.account_type in ('asset_receivable', 'liability_payable')) \
-        #    .reconcile()
-
 
     
     @api.model

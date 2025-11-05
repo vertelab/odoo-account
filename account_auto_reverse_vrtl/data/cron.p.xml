@@ -7,8 +7,10 @@
             <field name="code">model.auto_reverse_invoices()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
+            <!-- #if VERSION <= "17.0" -->
             <field name="numbercall">-1</field>
             <field name="doall" eval="False"/>
+            <!-- #endif -->
             <field name="active" eval="True"/>
         </record>
     </data>
