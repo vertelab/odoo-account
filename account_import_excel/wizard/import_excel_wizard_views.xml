@@ -1,0 +1,45 @@
+<odoo>
+  <data>
+
+    <record model="ir.actions.server" id="action_open_import_excel_wizard">
+      <field name="name">action.open.import.excel.wizard</field>
+      <field name="model_id" ref="account.model_account_move" />
+      <field name="binding_model_id" ref="account.model_account_move"/>
+      <field name="binding_view_types">list,form,kanban</field>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          'type': 'ir.actions.act_window',
+          'name': 'Import Excel',
+          'res_model': 'account_import_excel.model_import_excel_wizard',
+          'view_mode': 'form',
+          'target': 'current',
+        }
+      </field>
+    </record>
+
+    <record id="account_import_excel_wizard_form" model="ir.ui.view">
+      <field name="name">account.excel.wizard.form</field>
+      <field name="model">import.excel.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Warning">
+          <group>
+            <field name="excel_file" />
+          </group>
+          <footer>
+            <button name="load_excel" string="Ok" type="object" class="oe_highlight"/>
+            <button string="Cancel" special="cancel" class="oe_highlight"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <record id="action_import_excel_wizard" model="ir.actions.act_window">
+            <field name="name">Import Excel</field>
+            <field name="res_model">import.excel.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+  </data>
+</odoo>
