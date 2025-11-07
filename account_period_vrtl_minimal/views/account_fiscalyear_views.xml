@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Fiscal Year -->
+        <record id="view_account_fiscalyear_form" model="ir.ui.view">
+            <field name="name">account.fiscalyear.form</field>
+            <field name="model">account.fiscalyear</field>
+            <field name="arch" type="xml">
+                <form string="Fiscal year">
+                    <header>
+                        <button name="create_period1" invisible="state != 'draft'" string="Create Monthly Periods" type="object" class="oe_highlight" />
+                        <button name="create_period3" invisible="state != 'draft'" string="Create 3 Months Periods" type="object" class="oe_highlight" />
+                        <field name="state" widget="statusbar" nolabel="1" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="code" />
+                                <field name="company_id" groups="base.group_multi_company" />
+                            </group>
+                            <group>
+                                <field name="date_start" />
+                                <field name="date_stop" />
+                                <field name="date_range_type_id" />
+                            </group>
+                        </group>
+                        <field colspan="4" name="period_ids" nolabel="1" widget="one2many_list">
+                            <form string="Period">
+                                <group col="4">
+                                    <field name="name" />
+                                    <field name="code" />
+                                    <field name="date_start" />
+                                    <field name="date_end" />
+                                    <field name="closing_date" />
+                                    <field name="special" />
+                                    <field name="state" invisible="1" />
+                                </group>
+                            </form>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_account_fiscalyear_tree" model="ir.ui.view">
+            <field name="name">account.fiscalyear.tree</field>
+            <field name="model">account.fiscalyear</field>
+            <field name="arch" type="xml">
+                <list string="Fiscalyear">
+                    <field name="code" />
+                    <field name="name" />
+                    <field name="company_id" groups="base.group_multi_company" />
+                    <field name="state" />
+                    <button name="action_draft" invisible="state == 'done'" string="Re-Open Fiscalyear" type="object" groups="account.group_account_manager" />
+                    <button string="Close Fiscal Year" name="%(account_period_vrtl_minimal.action_account_fiscalyear_close)d" type="action" class="oe_highlight" invisible="state != 'draft'"/>
+                </list>
+            </field>
+        </record>
+
+
+        <record id="view_account_fiscalyear_search" model="ir.ui.view">
+            <field name="name">account.fiscalyear.search</field>
+            <field name="model">account.fiscalyear</field>
+            <field name="arch" type="xml">
+                <search string="Search Fiscalyear">
+                    <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Fiscal Year" />
+                    <filter name="open" string="Open" domain="[('state','=','draft')]"  />
+                    <filter name="closed" string="Closed" domain="[('state','=','done')]" />
+                    <field name="state" />
+                    <group expand="0" string="Group By">
+                        <filter name="status" string="Status" context="{'group_by': 'state'}"  />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_account_fiscalyear" model="ir.actions.act_window">
+            <field name="name">Fiscal Years</field>
+            <field name="res_model">account.fiscalyear</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click to start a new fiscal year.</p>
+                <p>
+                    Define your company's financial year according to your needs. A
+                    financial year is a period at the end of which a company's
+                    accounts are made up (usually 12 months). The financial year is
+                    usually referred to by the date in which it ends. For example,
+                    if a company's financial year ends November 30, 2011, then
+                    everything between December 1, 2010 and November 30, 2011
+                    would be referred to as FY 2011.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="next_id_23" name="Periods" parent="account.menu_finance_configuration" sequence="5" />
+        <menuitem id="menu_action_account_fiscalyear" action="action_account_fiscalyear" parent="next_id_23" />
+
+    </data>
+</odoo>

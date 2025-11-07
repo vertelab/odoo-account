@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Period -->
+        <record id="view_account_period_form" model="ir.ui.view">
+            <field name="name">account.period.form</field>
+            <field name="model">account.period</field>
+            <field name="arch" type="xml">
+                <form string="Account Period">
+                    <header>
+                        <button string="Close Period" name="%(account_period_vrtl_minimal.action_account_period_close)d" type="action" class="oe_highlight" invisible="state != 'draft'" />
+                        <button name="action_draft" invisible="state != 'done'" string="Re-Open Period" type="object" groups="account.group_account_manager" />
+                        <field name="state" widget="statusbar" nolabel="1" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="fiscalyear_id" widget="selection" readonly="state == 'done'"/>
+                                <label for="date_start" string="Duration" />
+                                <div>
+                                    <field name="date_start" class="oe_inline" nolabel="1" />
+                                    -
+                                    <field name="date_end" nolabel="1" class="oe_inline" />
+                                </div>
+                            </group>
+                            <group>
+                                <field name="closing_date" />
+                                <field name="code" />
+                                <field name="special" />
+                                <field name="company_id" widget="selection" groups="base.group_multi_company" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_account_period_tree" model="ir.ui.view">
+            <field name="name">account.period.tree</field>
+            <field name="model">account.period</field>
+            <field name="arch" type="xml">
+                <list string="Account Period">
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="date_start" />
+                    <field name="date_end" />
+                    <field name="closing_date" />
+                    <field name="special" />
+                    <field name="company_id" groups="base.group_multi_company" />
+                    <field name="state" />
+                    <button string="Close Period" name="%(account_period_vrtl_minimal.action_account_period_close)d" type="action" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_draft" invisible="state != 'done'" string="Re-Open Period" type="object" groups="account.group_account_manager"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_account_period_search" model="ir.ui.view">
+            <field name="name">account.period.search</field>
+            <field name="model">account.period</field>
+            <field name="arch" type="xml">
+                <search string="Search Period">
+                    <field name="name" filter_domain="['|', '|', '|', ('name','ilike',self), ('code','ilike',self), ('date_start','ilike',self), ('date_end','ilike',self)]" string="Account" />
+                    <group expand="0" string="Group By">
+                        <filter name="name_grp" string="Name" domain="" context="{'group_by':'name'}" />
+                        <filter string="To Close" name="draft" domain="[('state','=','draft')]" icon="terp-dialog-close" />
+                        <filter name="date_start" string="Date Start" domain="" context="{'group_by':'date_start'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_account_period_form" model="ir.actions.act_window">
+            <field name="name">Account Period</field>
+            <field name="res_model">account.period</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="account_period_vrtl_minimal.view_account_period_search" />
+            <field name="view_id" ref="account_period_vrtl_minimal.view_account_period_tree" />
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click to add a fiscal period.</p>
+                <p>
+                    An accounting period typically is a month or a quarter. It
+                    usually corresponds to the periods of the tax declaration.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
