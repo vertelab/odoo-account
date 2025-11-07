@@ -157,8 +157,6 @@ class AccountMove(models.Model):
         compute="_set_payment_invoice", readonly=True
     )
 
-
-
     @api.depends("payment_move_id.period_id", "payment_move_id")
     def _set_period_from_payment(self):
         for rec in self:
@@ -217,6 +215,8 @@ class AccountMove(models.Model):
                 self.period_id = period_id
 
     def action_post(self):
+        if not self.period_id:
+            raise ValidationError(_("You have tried to validate an invoice that does not have a period."))
         if self.period_id and self.period_id.state == 'done':
             raise ValidationError(
                 _("You have tried to validate an invoice on a closed period {self.period_id.name}.\n Please change "
