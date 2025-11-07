@@ -25,6 +25,7 @@
                                 </div>
                             </group>
                             <group>
+                                <field name="closing_date" />
                                 <field name="code" />
                                 <field name="special" />
                                 <field name="company_id" widget="selection" groups="base.group_multi_company" />
@@ -43,6 +44,7 @@
                     <field name="code" />
                     <field name="date_start" />
                     <field name="date_end" />
+                    <field name="closing_date" />
                     <field name="special" />
                     <field name="company_id" groups="base.group_multi_company" />
                     <field name="state" />

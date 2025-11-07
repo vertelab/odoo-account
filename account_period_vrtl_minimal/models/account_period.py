@@ -58,6 +58,7 @@ class AccountPeriod(models.Model):
     state = fields.Selection([('draft', 'Open'), ('done', 'Closed')], string='Status', readonly=True, copy=False,
                              help='When monthly periods are created. The status is \'Draft\'. At the end of monthly '
                                   'period it is in \'Done\' status.', default='draft')
+    closing_date = fields.Date(string='Closing Date')
     # company_id = fields.Many2one(comodel_name='res.company', string='Company',
     #                              default=lambda self: self.env['res.company']._company_default_get('account.account'))
 
@@ -234,9 +235,13 @@ class AccountPeriod(models.Model):
             record.fiscalyear_id._set_state()
 
 
-
-
-
+    @api.model
+    def _cron_close_account_period(self):
+        due_period_ids = self.search([
+            ('closing_date', '!=', False), ('closing_date', '<=', fields.Date.today())
+        ])
+        if due_period_ids:
+            due_period_ids.write({'state': 'done'})
 
 
 

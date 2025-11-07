@@ -32,6 +32,7 @@
                                     <field name="code" />
                                     <field name="date_start" />
                                     <field name="date_end" />
+                                    <field name="closing_date" />
                                     <field name="special" />
                                     <field name="state" invisible="1" />
                                 </group>
