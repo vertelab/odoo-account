@@ -41,6 +41,7 @@
      },
     'data': 
     [
+        "security/ir.model.access.csv",
         "wizard/import_excel_wizard_views.xml",
         "views/account_move_views.xml",
     ],
