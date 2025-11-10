@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="bulk_account_move_wizard_form" model="ir.ui.view">
+            <field name="name">bulk.account.move.wizard.form</field>
+            <field name="model">bulk.account.move.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Bulk Account Invoice Wizard">
+                    <group>
+                        <field name="move_id" required="1" invisible="1"/>
+                        <field name="partner_ids" widget="many2many_tags" required="1"/>
+                    </group>
+                    <footer>
+                        <button string="Create Bulk Invoice" name="action_create_bulk_invoice" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

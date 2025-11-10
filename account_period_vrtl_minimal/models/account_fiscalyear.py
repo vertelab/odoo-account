@@ -1,6 +1,6 @@
+from datetime import datetime
 from odoo import api, fields, models, _, exceptions
 from odoo.osv import expression
-from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import UserError, ValidationError
 
@@ -41,6 +41,20 @@ class AccountFiscalyear(models.Model):
         default='draft'
     )
     date_range_type_id = fields.Many2one('date.range.type', string='Date Range Type', readonly=True)
+
+    outgoing_balance_record_ids = fields.One2many(
+        'account.balance', 'fiscalyear_id', string='Outgoing Balance'
+    )
+
+    outgoing_balance_count = fields.Integer(string="Outgoing Balance Count", compute='_compute_outgoing_balance_count')
+
+    @api.depends('outgoing_balance_record_ids')
+    def _compute_outgoing_balance_count(self):
+        for rec in self:
+            if rec.outgoing_balance_record_ids:
+                rec.outgoing_balance_count = len(rec.outgoing_balance_record_ids)
+            else:
+                rec.outgoing_balance_count = 0
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -165,3 +179,119 @@ class AccountFiscalyear(models.Model):
         for fiscalyear in self:
             fiscalyear.state = 'draft'
         return True
+
+    def create_balance(self):
+        for fy in self:
+            # Find the previous fiscal year
+            previous_fy = self.env['account.fiscalyear'].search(
+                [
+                    ('date_stop', '<', fy.date_start),
+                    ('company_id', '=', fy.company_id.id)
+                ],
+                order='date_stop desc',
+                limit=1
+            )
+
+            _logger.info(
+                "Calculating balance for %s (Previous year: %s)",
+                fy.name,
+                previous_fy.name if previous_fy else 'None'
+            )
+
+            # Collect incoming balances from previous fiscal year (if any)
+            incoming_balances = {}
+            if previous_fy:
+                for record in previous_fy.outgoing_balance_record_ids:
+                    incoming_balances[record.account_id.id] = {
+                        'debit': record.debit,
+                        'credit': record.credit,
+                    }
+
+                if not incoming_balances:
+                    _logger.info(
+                        "Previous year %s has no balance records (starting from zero)", previous_fy.name
+                    )
+
+            # Get current fiscal year posted moves grouped by account
+            current_moves = self.env['account.move.line'].read_group(
+                domain=[
+                    ('date', '>=', fy.date_start),
+                    ('date', '<=', fy.date_stop),
+                    ('move_id.state', '=', 'posted'),
+                    ('company_id', '=', fy.company_id.id)
+                ],
+                fields=['account_id', 'debit:sum', 'credit:sum'],
+                groupby=['account_id']
+            )
+
+            _logger.info("Found %d accounts with moves in %s", len(current_moves), fy.name)
+
+            # Clear old records before recreating
+            fy.outgoing_balance_record_ids.unlink()
+
+            # Track which accounts have been processed
+            accounts_processed = set()
+
+            # Process accounts with current year moves
+            for move_data in current_moves:
+                account_id = move_data.get('account_id') and move_data['account_id'][0]
+                if not account_id:
+                    continue
+
+                # Get incoming balances (0.0 if not found)
+                inc_debit = incoming_balances.get(account_id, {}).get('debit', 0.0)
+                inc_credit = incoming_balances.get(account_id, {}).get('credit', 0.0)
+
+                # Calculate totals including incoming balances
+                total_debit = inc_debit + move_data.get('debit', 0.0)
+                total_credit = inc_credit + move_data.get('credit', 0.0)
+
+                # Create new balance record
+                self.env['account.balance'].create({
+                    'fiscalyear_id': fy.id,
+                    'account_id': account_id,
+                    'debit': total_debit,
+                    'credit': total_credit,
+                    'date': self.date_stop
+                })
+
+                accounts_processed.add(account_id)
+
+            # Handle accounts with only incoming balance but no current moves
+            for acc_id, bal in incoming_balances.items():
+                if acc_id not in accounts_processed:
+                    self.env['account.balance'].create({
+                        'fiscalyear_id': fy.id,
+                        'account_id': acc_id,
+                        'debit': bal['debit'],
+                        'credit': bal['credit'],
+                        'date': self.date_stop
+                    })
+
+            _logger.info(
+                "Created %d balance records for fiscal year %s",
+                len(fy.outgoing_balance_record_ids),
+                fy.name
+            )
+
+            if fy.outgoing_balance_record_ids:
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'title': _('Success'),
+                        'message': _('Created %d balance records for %s') % (len(fy.outgoing_balance_record_ids), fy.name),
+                        'type': 'success',
+                        'sticky': False,
+                    }
+                }
+
+    def open_balances(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Outgoing Balances'),
+            'res_model': 'account.balance',
+            'domain': [('id', 'in', self.outgoing_balance_record_ids.ids)],
+            'views': [[False, 'list'], [False, 'form']],
+        }
