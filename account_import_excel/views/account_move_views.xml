@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+
+    <record id="view_invoice_tree_add_import_excel" model="ir.ui.view">
+      <field name="name">invoice.tree.add.import.excel</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_invoice_tree"/>
+      <field name="arch" type="xml">
+        <header position="inside">
+          <button name="%(account_import_excel.action_import_excel_wizard)d"  string="Import Excel"  display="always" class="btn-primary" type="action"/>
+        </header>
+      </field>
+    </record>
+
+  </data>
+</odoo>
