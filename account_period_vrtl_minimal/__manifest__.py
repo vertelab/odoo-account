@@ -38,7 +38,7 @@ Account Period
 ==============
 Added period for accounting. Either 12 months or 4 quarters.
     """,
-    'depends': ['account', 'date_range'],
+    'depends': ['account', 'date_range', 'mis_builder_budget'],
     'data': [
         'security/ir.model.access.csv',
         'security/security.xml',
@@ -50,6 +50,7 @@ Added period for accounting. Either 12 months or 4 quarters.
         'views/account_move_line_views.xml',
         'views/account_period_views.xml',
         'views/account_bank_statement_views.xml',
+        'views/account_balance_views.xml',
         'views/onboarding_template.xml',
         'data/ir_cron.xml',
     ],

@@ -138,11 +138,16 @@ class AccountMove(models.Model):
             else:
                 rec.period_id = False
 
+    def _search_period_id(self, operator, value):
+        return [('id', operator, value)]
+
     period_id = fields.Many2one(
         comodel_name='account.period',
         string='Period',
         domain=_set_period_domain,
-        compute=_compute_period
+        compute=_compute_period,
+        search=_search_period_id,
+        compute_sudo = True
     )
 
     payment_period_id = fields.Many2one(
