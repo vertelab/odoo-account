@@ -5,8 +5,8 @@
         <record id="reminder_email_template_1" model="mail.template">
             <field name="name">Payment Reminder</field>
             <field name="model_id" ref="account.model_account_payment_term"/>
-            <field name="email_from">{{ object._get_followup_responsible().email_formatted }}</field>
-            <field name="subject">{{ (object.company_id or object._get_followup_responsible().company_id).name }} Payment Reminder - {{ object.commercial_company_name }}</field>
+            <field name="email_from">{{ object._get_reminder_responsible().email_formatted }}</field>
+            <field name="subject">{{ (object.company_id or object._get_reminder_responsible().company_id).name }} Payment Reminder - {{ object.commercial_company_name }}</field>
             <field name="body_html" type="html">
                 <div style="margin: 0px; padding: 0px;">
                     <p style="margin: 0px; padding: 0px;">
@@ -26,15 +26,15 @@
                         Thank you for your cooperation.
                         <br/>
                         Sincerely,
-                        <t t-if="not is_html_empty(object._get_followup_responsible().signature)">
+                        <t t-if="not is_html_empty(object._get_reminder_responsible().signature)">
                             <br/>
-                            <t t-out="object._get_followup_responsible().signature"/>
+                            <t t-out="object._get_reminder_responsible().signature"/>
                         </t>
                         <t t-else="">
                             <br/>
                             --
                             <br/>
-                            <t t-out="object._get_followup_responsible().name"/>
+                            <t t-out="object._get_reminder_responsible().name"/>
                         </t>
                     </p>
                 </div>
@@ -54,8 +54,8 @@
         <record id="reminder_email_template_2" model="mail.template" forcecreate="False">
             <field name="name">Second reminder followup</field>
             <field name="model_id" ref="account.model_account_payment_term"/>
-            <field name="email_from">{{ object._get_followup_responsible().email_formatted }}</field>
-            <field name="subject">{{ (object.company_id or object._get_followup_responsible().company_id).name }} Payment Reminder - {{ object.commercial_company_name }}</field>
+            <field name="email_from">{{ object._get_reminder_responsible().email_formatted }}</field>
+            <field name="subject">{{ (object.company_id or object._get_reminder_responsible().company_id).name }} Payment Reminder - {{ object.commercial_company_name }}</field>
             <field name="body_html" type="html">
                 <div style="margin: 0px; padding: 0px;">
                     <p>
@@ -71,15 +71,15 @@
                         Details of due payments is printed below.
                         <br/>
                         Best Regards,
-                        <t t-if="not is_html_empty(object._get_followup_responsible().signature)">
+                        <t t-if="not is_html_empty(object._get_reminder_responsible().signature)">
                             <br/>
-                            <t t-out="object._get_followup_responsible().signature"/>
+                            <t t-out="object._get_reminder_responsible().signature"/>
                         </t>
                         <t t-else="">
                             <br/>
                             --
                             <br/>
-                            <t t-out="object._get_followup_responsible().name"/>
+                            <t t-out="object._get_reminder_responsible().name"/>
                         </t>
                     </p>
                 </div>
