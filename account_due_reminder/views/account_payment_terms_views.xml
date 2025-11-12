@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_account_payment_terms_form" model="ir.ui.view">
+        <field name="name">account.payment.term.form</field>
+        <field name="model">account.payment.term</field>
+        <field name="inherit_id" ref="account.view_payment_term_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[last()]" position="after">
+                <notebook>
+                    <page string="Reminder" name="reminder">
+                        <field name="payment_reminder_line_ids">
+                            <list>
+                                <field name="name"/>
+                                <field name="delay"/>
+                                <field name="send_email"/>
+                                <field name="send_sms"/>
+                                <field name="auto_execute"/>
+                                <field name="activity_type_id" string="Activity"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+</odoo>
