@@ -22,8 +22,15 @@ class ImportExcelWizard(models.TransientModel):
         except Exception as e:
             raise UserError(f"The file given could not be read as an Excel file!\n\n{e}")
         
-        header_fields = {"invoicenumber": "ref","date": "invoice_date_due"}
-        header_field_rows = {"contact": "partner_id", "product": "product_id", "analytic_accounts": "analytic_accounts_id", "account":"account_id", "journal": "journal_id", "unit": "product_uom_id", "amount": "quantity", "price": "price_unit"}
+        header_fields = {"invoicenumber": "ref","date": "invoice_date_due","journal": "journal_id"}
+        header_field_rows = {
+            "contact": "partner_id", 
+            "product": "product_id", 
+            "account":"account_id", 
+            "unit": "product_uom_id", 
+            "amount": "quantity", 
+            "price": "price_unit", 
+            "tax": "tax_ids"} #"analytic_accounts": "analytic_distribution",
 
         for sheet in wb:
             first_row = next(sheet.iter_rows(values_only=True,min_row=1,max_row=1))
@@ -33,8 +40,11 @@ class ImportExcelWizard(models.TransientModel):
     def create_account_move(self,header_fields,sheet,first_row):
         header_field_index,filterd_header_fields = self.index_word_filter(first_row,header_fields)
         header_field_values = self.get_header_field_values(sheet,header_field_index,filterd_header_fields)
-        _logger.error(f"{header_field_values=}")
-        move_id = self.env["account.move"].create(header_field_values)
+        data = self._update_move_values(header_field_values)
+        if journal_id := data.get("journal_id"):
+              self._set_types(data,journal_id)
+        _logger.error(f"{data=}")
+        move_id = self.env["account.move"].create(data)
         return move_id
     
     def create_account_move_line(self,header_field_rows,sheet,first_row,move_id):
@@ -59,17 +69,54 @@ class ImportExcelWizard(models.TransientModel):
                 new_value = self._is_string("account.analytic.account",value)
             if key == "product_uom_id" and isinstance(value,str):
                 new_value = self._is_string("uom.uom",value)
-            if key == "account_id" and isinstance(value,str):
-                new_value = self._is_string("account.account",value)
+            if key == "account_id":
+                new_value = self.is_account_code(value)
             if key == "journal_id" and isinstance(value,str):
                 new_value = self._is_string("account.journal",value)
+            if key == "tax_ids" and "%" in value:
+                new_value = [(4,self._is_string("account.tax",value))]
             data.update({key:new_value})
         return data
     
+    def _set_types(self,data,journal_id):
+        journal_id = self.env["account.journal"].browse(journal_id)
+        if journal_id.type == "sale":
+            data.update({
+                "move_type": "out_invoice",
+                }) 
+        elif journal_id.type == "purchase":
+            data.update({
+                "move_type": "in_invoice",
+                })
+        return data
+    
+    def is_account_code(self,value):
+        new_value = value
+        model_id = False
+        if isinstance(value,str): 
+            value = value.strip()
+            ext_id = self.env.ref(value,raise_if_not_found=False)
+            if ext_id:
+                new_value = ext_id.id
+        else:
+            model_id = self.env["account.account"].search([
+                "|",
+                ("name","ilike",value),
+                ("code","=",value)],
+                limit=1)
+        if model_id:
+            new_value = model_id.id
+        return new_value
+
     def _is_string(self,model,value):
+        value = value.strip()
         new_value = value
         ext_id = self.env.ref(value,raise_if_not_found=False)
-        model_id = self.env[model].search([("name","ilike",value)],limit=1)
+        model_id = self.env[model].search([
+            "|",
+            ("name","ilike",value),
+            ("display_name","=",value)],
+            limit=1)
         if ext_id:
             new_value = ext_id.id
         elif model_id:
