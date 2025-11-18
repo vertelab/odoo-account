@@ -7,5 +7,5 @@ class ResConfigSettings(models.TransientModel):
     account_attachment_directory = fields.Char(
         string='Account Attachment Directory',
         config_parameter='account_attachment_directory',
-        help="Path to a directory for loading attachements to Account Moves. "
+        help="Path to a directory for loading attachments to Account Moves. "
     )
