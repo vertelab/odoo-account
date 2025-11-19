@@ -3,7 +3,7 @@ Description=Start account attachment directory
 After=network.target
 
 [Service]
-User=ayomir
+User=odoo
 ExecStart=/usr/local/bin/account_attachment_directory -d $(sudo su postgres -c "psql -At -c \"select datname from pg_database where datistemplate = false and 'postgres' <> datname;\" postgres|tr '\n' ','")
 
 Restart=always

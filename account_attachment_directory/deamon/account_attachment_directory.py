@@ -24,13 +24,23 @@ logging.basicConfig(
 
 def read_admin_password():
     config = ConfigParser()
-    config.read('/etc/odoo.conf')
+    config.read('/etc/odoo/odoo.conf')
     return config.get('options', 'admin_passwd')
+
+def get_all_databases():
+    """TODO: to be used later"""
+    try:
+        odoo = ODOO('localhost', port=8069)
+        databases = odoo.db.list()
+        return databases
+    except Exception as e:
+        logging.error(f'Failed to get databases from Odoo: {e}')
+        return []
 
 def connect_to_odoo(database):
     admin_password = read_admin_password()
     try:
-        odoo = ODOO('http://localhost', port=8069)
+        odoo = ODOO('localhost', port=8069)
         odoo.login(database, 'admin', admin_password)
         return odoo
     except RPCError as e:
