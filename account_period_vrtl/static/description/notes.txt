@@ -1,4 +1,4 @@
-odoo-account / account_period_vrtl
+odoo-account / account_period_vrtl_minimal
 2024-09-09
 
 
