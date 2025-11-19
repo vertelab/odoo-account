@@ -17,7 +17,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('/var/log/odoo/odoo-server.log'),
+        logging.FileHandler('/var/log/odoo/account_attachment_directory.log'),
         logging.StreamHandler()
     ]
 )
