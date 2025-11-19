@@ -5,6 +5,8 @@ _logger = logging.getLogger(__name__)
 
 class AccountAccount(models.Model):
     _inherit = 'account.account'
+    
+    
 
     def get_debit_credit_balance(self, period, target_move):
         self.ensure_one()

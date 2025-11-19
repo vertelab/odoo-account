@@ -27,7 +27,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class account_period_close(models.TransientModel):
+class AccountPeriodClose(models.TransientModel):
     """
         close period
     """
@@ -43,7 +43,6 @@ class account_period_close(models.TransientModel):
         @param uid: the current user’s ID for security checks,
         @param ids: account period close’s ID or list of IDs
          """
-        # ~ journal_period_pool = self.pool.get('account.journal.period')
         period_pool = self.pool.get('account.period')
         account_move_obj = self.pool.get('account.move')
 
@@ -51,13 +50,6 @@ class account_period_close(models.TransientModel):
         for form in self:
             if form['sure']:
                 for id in self.env.context.get('active_ids', []):
-                    # ~ account_move_ids = self.env['account.move'].search([('period_id', '=', id), ('state', '=', "draft")])
-                    # ~ if account_move_ids:
-                        # ~ raise Warning(_('In order to close a period, you must first post related journal entries.')) # Leave this here, we may want to have this check when we close a period
-
-                    # ~ self.env.cr.execute('update account_journal_period set state=%s where period_id=%s', (mode, id))
                     self.env.cr.execute('update account_period set state=%s where id=%s', (mode, id))
-                    # self.invalidate_cache()
-                    #self.env['account.period'].browse(id)._set_fiscalyear_id_state()
 
         return {'type': 'ir.actions.act_window_close'}
