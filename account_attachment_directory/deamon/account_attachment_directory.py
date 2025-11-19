@@ -25,7 +25,6 @@ logging.basicConfig(
 def read_admin_password():
     config = ConfigParser()
     config.read('/etc/odoo.conf')
-    config.read('/home/ayomir/odoo/18.0/.odoorc')
     return config.get('options', 'admin_passwd')
 
 def connect_to_odoo(database):
