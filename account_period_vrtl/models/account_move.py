@@ -2,6 +2,7 @@ import logging
 from odoo import api, fields, models, _, exceptions
 from odoo.osv import expression
 from odoo.exceptions import UserError, ValidationError
+import traceback
 
 _logger = logging.getLogger(__name__)
 
@@ -92,7 +93,9 @@ class AccountMove(models.Model):
                 rec.payment_move_id = False
 
     def action_post(self):
-        if self.period_id and self.period_id.state == 'done':
+        _logger.warning(f"Context is: {self.env.context}")
+        if self.period_id and self.period_id.state == 'done' and self.env.context.get("default_move_type", False):
+            _logger.error("Ett undantag inträffade:\n%s", traceback.format_exc())
             raise ValidationError(
                 _("You have tried to validate an invoice on a closed period {self.period_id.name}.\n Please change "
                   "period or open {self.period_id.name}").format(
