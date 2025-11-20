@@ -28,6 +28,7 @@
                                 <field name="closing_date" />
                                 <field name="code" />
                                 <field name="special" />
+                                <field name="journal_id" />
                                 <field name="company_id" widget="selection" groups="base.group_multi_company" />
                             </group>
                         </group>
@@ -46,6 +47,7 @@
                     <field name="date_end" />
                     <field name="closing_date" />
                     <field name="special" />
+                    <field name="journal_id" />
                     <field name="company_id" groups="base.group_multi_company" />
                     <field name="state" />
                     <button string="Close Period" name="%(account_period_vrtl.action_account_period_close)d" type="action" class="oe_highlight" invisible="state != 'draft'"/>

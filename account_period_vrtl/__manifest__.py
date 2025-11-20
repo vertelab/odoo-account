@@ -51,6 +51,7 @@ Added period for accounting. Either 12 months or 4 quarters.
         'views/account_period_views.xml',
         'views/account_bank_statement_views.xml',
         'views/account_balance_views.xml',
+        'views/res_config_settings_views.xml',
         'views/onboarding_template.xml',
         'data/ir_cron.xml',
     ],

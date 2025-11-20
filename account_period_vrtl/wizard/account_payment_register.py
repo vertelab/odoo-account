@@ -32,8 +32,19 @@ class AccountPaymentRegister(models.TransientModel):
     def action_create_payments(self):
         for record in self:
             period_id = record.env['account.period'].date2period(record.payment_date)
+            period_by_journal = record.env['account.period']._get_period_by_journal(
+                record.journal_id, record.payment_date
+            )
+
             if period_id and period_id.state == 'done':
                 raise ValidationError(_(
-                    "You have tried to create an payment on a date during a closed period {period_id.name}.\n Please change the date or open {period_id.name}"
-                ).format(**locals()))
+                    "You have tried to create an payment on a date during a closed period {period_id.name}."
+                    "\n Please change the date or open {period_id.name}").format(**locals())
+                )
+
+            if period_by_journal:
+                raise ValidationError(_(
+                    "You have tried to validate an invoice that has the journal closed {self.journal_id.name}."
+                    "\n Please change journal or remove it from the period {period_id.name}").format(**locals())
+                )
         return super(AccountPaymentRegister, self).action_create_payments()

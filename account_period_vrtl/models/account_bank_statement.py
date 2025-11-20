@@ -60,6 +60,8 @@ class AccountBankStatementLine(models.Model):
                 period = vals['period_id'] = self.env['account.period'].date2period(date).id
                 if not period:
                         date_formated = datetime.strftime(date, "%Y-%m-%d")
-                        raise UserError(_(f"There is no period for the date {date_formated}, please choose another date or "
-                                                          f"create a period for that date."))
+                        raise UserError(_(
+                            f"There is no period for the date {date_formated}, please choose another date or "
+                            "create a period for that date."
+                        ))
         return super(AccountBankStatementLine, self).create(vals_list)

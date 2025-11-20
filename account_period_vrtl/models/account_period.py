@@ -58,9 +58,8 @@ class AccountPeriod(models.Model):
     state = fields.Selection([('draft', 'Open'), ('done', 'Closed')], string='Status', readonly=True, copy=False,
                              help='When monthly periods are created. The status is \'Draft\'. At the end of monthly '
                                   'period it is in \'Done\' status.', default='draft')
-    closing_date = fields.Date(string='Closing Date')
-    # company_id = fields.Many2one(comodel_name='res.company', string='Company',
-    #                              default=lambda self: self.env['res.company']._company_default_get('account.account'))
+    closing_date = fields.Date(string='Closing Date', default=lambda self: self.env.company.period_closing_date)
+    journal_id = fields.Many2one('account.journal', string="Journal")
 
     _sql_constraints = [
         ('name_unique', 'unique(name,company_id)', 'Period for this company already exist!')
@@ -216,30 +215,42 @@ class AccountPeriod(models.Model):
             period = self.env['account.period'].browse(period)
         return fields.Date.from_string(period.date_start).strftime("%b" if short else "%B")
 
+    def _normalize_date(self, date):
+        if isinstance(date, str) and date:
+            return datetime.strptime(date, "%Y-%m-%d")
+        return date
+
+    def _period_domain(self, date=None, journal_id=None, special=False):
+        company_id = self.env.context.get('company_id') or self.env.company.id
+        domain = [('special', '=', special), ('company_id', '=', company_id)]
+
+        if journal_id:
+            domain.append(('journal_id', '=', journal_id.id))
+
+        if date:
+            date = self._normalize_date(date)
+            date_str = date.strftime('%Y-%m-%d')
+            domain += [('date_start', '<=', date_str), ('date_stop', '>=', date_str)]
+        return domain
     
     @api.model
     def date2period(self, date):
-        if isinstance(date, str):
-            date = datetime.strptime(date, "%Y-%m-%d")
+        domain = self._period_domain(date=date)
+        return self.env['account.period'].search(domain)
 
-        company_id = self.env.context.get('company_id') or self.env.company.id
-        res = self.env['account.period'].search(
-            [('date_start', '<=', date.strftime('%Y-%m-%d')), ('date_stop', '>=', date.strftime('%Y-%m-%d')),
-             ('company_id', '=', company_id), ('special', '=', False)])
-
-        return res
+    @api.model
+    def _get_period_by_journal(self, journal_id, date=None):
+        domain = self._period_domain(date=date, journal_id=journal_id)
+        return self.env['account.period'].search(domain)
 
     @api.depends("state")
     def _set_fiscalyear_id_state(self):
         for record in self:
             record.fiscalyear_id._set_state()
 
-
     @api.model
     def _cron_close_account_period(self):
-        due_period_ids = self.search([
-            ('closing_date', '!=', False), ('closing_date', '<=', fields.Date.today())
-        ])
+        due_period_ids = self.search([('closing_date', '!=', False), ('closing_date', '<=', fields.Date.today())])
         if due_period_ids:
             due_period_ids.write({'state': 'done'})
 
