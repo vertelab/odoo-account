@@ -94,7 +94,10 @@ class AccountMove(models.Model):
 
     def action_post(self):
         _logger.warning(f"Context is: {self.env.context}")
-        if self.period_id and self.period_id.state == 'done' and self.env.context.get("default_move_type", False):
+        print(self.period_id,  self.period_id.state)
+        context = self.env.context
+
+        if self.period_id and self.period_id.state == 'done' and (context.get("default_move_type", False) or context.get("display_account_trust", False)):
             _logger.error("Ett undantag inträffade:\n%s", traceback.format_exc())
             raise ValidationError(
                 _("You have tried to validate an invoice on a closed period {self.period_id.name}.\n Please change "
