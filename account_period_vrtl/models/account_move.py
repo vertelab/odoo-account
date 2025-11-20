@@ -94,7 +94,6 @@ class AccountMove(models.Model):
 
     def action_post(self):
         _logger.warning(f"Context is: {self.env.context}")
-        print(self.period_id,  self.period_id.state)
         context = self.env.context
 
         if self.period_id and self.period_id.state == 'done' and (context.get("default_move_type", False) or context.get("display_account_trust", False)):
