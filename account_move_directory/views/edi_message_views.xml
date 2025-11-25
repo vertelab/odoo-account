@@ -1,0 +1,32 @@
+<odoo>
+    <record id="view_edi_message_form" model="ir.ui.view">
+        <field name="name">edi.message.form</field>
+        <field name="model">edi.message</field>
+        <field name="inherit_id" ref="edi_base.view_edi_message_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="unpack" string="Unpack" class="btn btn-primary" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,ongoing,done,error"/>
+                </header>
+            </xpath>
+            <xpath expr="//sheet" position="after">
+                <chatter/>
+            </xpath>
+            <field name="sender" position="after">
+                <field name="create_date"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_edi_message_list" model="ir.ui.view">
+        <field name="name">edi.message.form</field>
+        <field name="model">edi.message</field>
+        <field name="inherit_id" ref="edi_base.view_edi_message_list"/>
+        <field name="arch" type="xml">
+            <field name="reference" position="before">
+                <field name="create_date"/>
+            </field>
+        </field>
+    </record>
+</odoo>

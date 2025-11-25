@@ -1,0 +1,12 @@
+[Unit]
+Description=Start account move directory
+After=network.target
+
+[Service]
+User=root
+ExecStart=/usr/local/bin/account_move_directory -d huddinge
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
