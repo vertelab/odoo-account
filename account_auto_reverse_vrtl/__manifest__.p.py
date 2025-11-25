@@ -2,6 +2,7 @@
     'name': 'Auto Reverse Accounting Entries',
     'version': '1.0',
     'category': 'Accounting',
+    'license': 'AGPL-3'
     'summary': 'Automatically reverse accounting entries on a specified date',
     'description': """
 This module extends the account module to allow automatic reversal of journal entries on a specified date.
