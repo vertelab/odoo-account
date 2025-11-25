@@ -28,7 +28,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class account_period_close(models.TransientModel):
+class AccountPeriodClose(models.TransientModel):
     """
         close period
     """

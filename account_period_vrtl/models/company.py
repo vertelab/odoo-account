@@ -1,10 +1,15 @@
+from datetime import date, timedelta
 from odoo import models, fields, api, _
+
 
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    #chart_template = fields.Selection(string="Chart of Accounts", selection=lambda self: self.env['account.chart.template']._select_chart_template())
+    period_closing_date = fields.Date(
+        string='Account Period Closing Date',
+        default=lambda self: date.today() + timedelta(days=14)
+    )
 
     @api.model
     def setting_init_fiscal_year_action(self):

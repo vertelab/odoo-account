@@ -34,7 +34,7 @@ msgstr "Kontoperiod"
 #: code:addons/account_period/models/company.py:0
 #, python-format
 msgid "Accounting Periods"
-msgstr "Räkenskapsperioder"
+msgstr ""
 
 #. module: account_period
 #: model_terms:ir.actions.act_window,help:account_period.action_account_period_form
@@ -263,7 +263,7 @@ msgstr "Räkenskapsår"
 #: code:addons/account_period/models/account.py:0
 #, python-format
 msgid "Go to the configuration panel"
-msgstr "Gå till konfigurationspanelen"
+msgstr ""
 
 #. module: account_period
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
@@ -283,7 +283,7 @@ msgstr "Gruppera efter"
 #: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__id
 #: model:ir.model.fields,field_description:account_period.field_res_company__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_bank_statement_line__payment_date
@@ -384,7 +384,7 @@ msgstr "Betalningsverifikatets period"
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
 #: model_terms:ir.ui.view,arch_db:account_period.view_bank_statement_search
 msgid "Period"
-msgstr "Period"
+msgstr ""
 
 #. module: account_period
 #: model:ir.model.constraint,message:account_period.constraint_account_period_name_unique
@@ -445,7 +445,7 @@ msgstr "Periodstarten måste komma före periodslutet."
 #: model:ir.model.fields,field_description:account_period.field_account_period__state
 #: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 #. module: account_period
 #: model:ir.model.fields,field_description:account_period.field_account_bank_statement_line__payment_move_id

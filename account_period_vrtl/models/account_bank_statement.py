@@ -27,6 +27,24 @@ from odoo.exceptions import UserError, ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 
+
+class AccountBankStatement(models.Model):
+    _inherit = 'account.bank.statement'
+
+    def _period_id(self):
+        return self.env['account.period'].date2period(self.date or fields.Date.today()).id
+
+    period_id = fields.Many2one(comodel_name='account.period', string='Period', default=_period_id)
+
+    @api.model_create_multi
+    def create(self, values):
+        for val in values:
+            if not "period_id" in values:
+                val['period_id'] = self.env['account.period'].date2period(val.get('date') or fields.Date.today()).id
+        res = super(AccountBankStatement, self).create(values)
+        return res
+
+
 class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"
 
@@ -42,6 +60,8 @@ class AccountBankStatementLine(models.Model):
                 period = vals['period_id'] = self.env['account.period'].date2period(date).id
                 if not period:
                         date_formated = datetime.strftime(date, "%Y-%m-%d")
-                        raise UserError(_(f"There is no period for the date {date_formated}, please choose another date or "
-                                                          f"create a period for that date."))
+                        raise UserError(_(
+                            f"There is no period for the date {date_formated}, please choose another date or "
+                            "create a period for that date."
+                        ))
         return super(AccountBankStatementLine, self).create(vals_list)
