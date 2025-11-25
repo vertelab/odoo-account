@@ -11,8 +11,8 @@ INSTALL_DIR = /usr/local/bin
 SYSTEMD_DIR = /etc/systemd/system
 
 # Define the user and group for the systemd service
-USER = root
-GROUP = root
+USER = odoo
+GROUP = odoo
 
 all: install
 
