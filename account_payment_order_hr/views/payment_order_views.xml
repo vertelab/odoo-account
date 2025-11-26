@@ -8,7 +8,7 @@
       <field name="arch" type="xml">
         <field name="payment_type" position="after">
           <field name="user_id"/>
-          <field name="user_boss_id"/>
+          <field name="user_boss_id" invisible="1"/>
         </field>
       </field>
     </record>

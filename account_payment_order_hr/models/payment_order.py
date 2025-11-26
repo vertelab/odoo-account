@@ -8,8 +8,8 @@ _logger = logging.getLogger(__name__)
 class AccountPaymentOrder(models.Model):
     _inherit = 'account.payment.order'
 
-    user_id = fields.Many2one(comodel_name="res.users",string="responsible")
-    user_boss_id = fields.Many2one(comodel_name="res.users", string="responsible boss",compute="_compute_user_boss_id", store=True)
+    user_id = fields.Many2one(comodel_name="res.users",string="Responsible")
+    user_boss_id = fields.Many2one(comodel_name="res.users", string="Responsible boss",compute="_compute_user_boss_id", store=True)
 
     def create(self, vals_list):
         user_id = self.env.context.get("uid")
