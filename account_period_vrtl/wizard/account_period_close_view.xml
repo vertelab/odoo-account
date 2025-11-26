@@ -34,6 +34,31 @@
             <field name="code">action = model.action_account_period_close()</field>
         </record>
 
+        <record id="close_account_period_journal_form" model="ir.ui.view">
+            <field name="name">close.account.period.journal.form</field>
+            <field name="model">close.account.period.journal</field>
+            <field name="arch" type="xml">
+                <form string="Close Journal">
+                    <group string="Are you sure?">
+                        <field name="sure"/>
+                    </group>
+                    <footer>
+                        <button string="Close Journal" name="data_save" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_close_account_period_journal" model="ir.actions.act_window">
+            <field name="name">Close Journal Period</field>
+            <field name="res_model">close.account.period.journal</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="close_account_period_journal_form"/>
+            <field name="target">new</field>
+        </record>
+
 
     </data>
 </odoo>

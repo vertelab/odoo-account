@@ -53,3 +53,18 @@ class AccountPeriodClose(models.TransientModel):
                     self.env.cr.execute('update account_period set state=%s where id=%s', (mode, id))
 
         return {'type': 'ir.actions.act_window_close'}
+
+class CloseAccountPeriodJournal(models.TransientModel):
+    _name = "close.account.period.journal"
+    _description = "close period journal"
+
+    sure = fields.Boolean(string='Check this box')
+
+    def data_save(self):
+        mode = 'done'
+        for form in self:
+            if form['sure']:
+                for id in self.env.context.get('active_ids', []):
+                    self.env.cr.execute('update account_period_journal set state=%s where id=%s', (mode, id))
+
+        return {'type': 'ir.actions.act_window_close'}
