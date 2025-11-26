@@ -1,589 +1,830 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* account_period
+# 	* account_period_vrtl
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0-20210312\n"
+"Project-Id-Version: Odoo Server 18.0-20251125\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-04 06:50+0000\n"
-"PO-Revision-Date: 2022-04-04 08:52+0200\n"
+"POT-Creation-Date: 2025-11-25 15:08+0000\n"
+"PO-Revision-Date: 2025-11-25 16:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"Language: sv\n"
-"X-Generator: Poedit 2.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
 
-#. module: account_period
-#: model:ir.model,name:account_period.model_account_account
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_search
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_bank_statement_line__invoicing_date_warning
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_move__invoicing_date_warning
+msgid "A warning"
+msgstr "En varning"
+
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_account_account
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__account_id
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_search
 msgid "Account"
 msgstr "Konto"
 
-#. module: account_period
-#: model:ir.actions.act_window,name:account_period.action_account_period_form
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_form
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_tree
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_account_balance model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_balance_form
+msgid "Account Balance"
+msgstr "Saldo på konto"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_balance_list
+msgid "Account Balances"
+msgstr "Saldon på konton"
+
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_account_move
+msgid "Account Move link to Agreement"
+msgstr "Kontoflyttningslänk till avtal"
+
+#. module: account_period_vrtl
+#: model:ir.actions.act_window,name:account_period_vrtl.action_account_period_form
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_form
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_tree
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_res_config_settings_form
 msgid "Account Period"
-msgstr "Kontoperiod"
+msgstr "Konto Period"
 
-#. module: account_period
-#: code:addons/account_period/models/company.py:0
-#, python-format
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_res_company__period_closing_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_res_config_settings__period_closing_date
+#: model:ir.model.fields,help:account_period_vrtl.field_res_config_settings__period_closing_date
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_res_config_settings_form
+msgid "Account Period Closing Date"
+msgstr "Konto Period Avslutningsdatum"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_res_config_settings_form
+msgid "Account Period Closing Date."
+msgstr "Konto Period Avslutningsdatum."
+
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/company.py:0
 msgid "Accounting Periods"
-msgstr ""
+msgstr "Räkenskapsperioder"
 
-#. module: account_period
-#: model_terms:ir.actions.act_window,help:account_period.action_account_period_form
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_needaction
+msgid "Action Needed"
+msgstr "Åtgärder krävs"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__active
+msgid "Active"
+msgstr "Aktiv"
+
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_account_period_create_wizard
+msgid "Added period for accounting. Either 12 months or 4 quarters."
+msgstr "Tillagd period för redovisning. Antingen 12 månader eller 4 kvartal."
+
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_res_company
+msgid "Adds a RSS URL field to the res.company model"
+msgstr "Lägger till ett RSS-URL-fält i res.company-modellen"
+
+#. module: account_period_vrtl
+#: model_terms:ir.actions.act_window,help:account_period_vrtl.action_account_period_form
 msgid ""
 "An accounting period typically is a month or a quarter. It\n"
-"          usually corresponds to the periods of the tax declaration."
+"                    usually corresponds to the periods of the tax declaration."
 msgstr ""
-"En bokföringsperiod är typiskt sett en månad eller ett kvartal. Den\n"
-"överensstämmer för det mesta med perioderna för skattedeklarationen."
+"En redovisningsperiod är vanligtvis en månad eller ett kvartal. Den\n"
+"                    motsvarar vanligtvis perioderna i skattedeklarationen."
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_close
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_close
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_close
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_close
 msgid "Are you sure?"
 msgstr "Är du säker?"
 
-#. module: account_period
-#: model:ir.model,name:account_period.model_account_bank_statement
-msgid "Bank Statement"
-msgstr "Kontoutdrag"
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_attachment_count
+msgid "Attachment Count"
+msgstr "Antal bifogade filer"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.account_period_create_wizard_form
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_close
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_close
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_form
+msgid "Balances"
+msgstr "Saldon"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.account_period_create_wizard_form
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_close
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_close
 msgid "Cancel"
 msgstr "Avbryt"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_close__sure
-#: model:ir.model.fields,field_description:account_period.field_account_period_close__sure
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear_close__sure
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__sure
 msgid "Check this box"
 msgstr "Kryssa i denna ruta"
 
-#. module: account_period
-#: model_terms:ir.actions.act_window,help:account_period.action_account_period_form
+#. module: account_period_vrtl
+#: model_terms:ir.actions.act_window,help:account_period_vrtl.action_account_period_form
 msgid "Click to add a fiscal period."
 msgstr "Klicka för att lägga till en räkenskapsperiod."
 
-#. module: account_period
-#: model_terms:ir.actions.act_window,help:account_period.action_account_fiscalyear
+#. module: account_period_vrtl
+#: model_terms:ir.actions.act_window,help:account_period_vrtl.action_account_fiscalyear
 msgid "Click to start a new fiscal year."
-msgstr "Klicka för att skapa ett nytt räkenskapsår."
+msgstr "Klicka för att starta ett nytt räkenskapsår."
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_tree
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_tree
 msgid "Close Fiscal Year"
-msgstr "Stäng räkenskapsår"
+msgstr "Avsluta räkenskapsåret"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_close
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_close
 msgid "Close Fiscalyear"
-msgstr "Stäng räkenskapsår"
+msgstr "Stäng Räkenskapsår"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_close
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_close
 msgid "Close Fiscialyear"
-msgstr "Stäng räkenskapsår"
+msgstr "Stäng Fiscialyear"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_close
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_form
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_tree
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_close
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_form
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_tree
 msgid "Close Period"
-msgstr "Stäng period"
+msgstr "Stängningsperiod"
 
-#. module: account_period
-#: model:ir.actions.act_window,name:account_period.action_account_fiscalyear_close
+#. module: account_period_vrtl
+#: model:ir.actions.act_window,name:account_period_vrtl.action_account_fiscalyear_close
 msgid "Close a Fiscalyear"
-msgstr "Stäng ett räkenskapsår"
+msgstr "Avsluta ett räkenskapsår"
 
-#. module: account_period
-#: model:ir.actions.act_window,name:account_period.action_account_period_close
-#: model:ir.actions.server,name:account_period.action_idea_post_vote_values
+#. module: account_period_vrtl
+#: model:ir.actions.act_window,name:account_period_vrtl.action_account_period_close
+#: model:ir.actions.server,name:account_period_vrtl.action_idea_post_vote_values
 msgid "Close a Period"
-msgstr "Stäng en period"
+msgstr "Avsluta en period"
 
-#. module: account_period
-#: model:ir.model.fields.selection,name:account_period.selection__account_fiscalyear__state__done
-#: model:ir.model.fields.selection,name:account_period.selection__account_period__state__done
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
+#. module: account_period_vrtl
+#: model:ir.model.fields.selection,name:account_period_vrtl.selection__account_fiscalyear__state__done
+#: model:ir.model.fields.selection,name:account_period_vrtl.selection__account_period__state__done
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_search
 msgid "Closed"
-msgstr "Stängd"
+msgstr "Stängt"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__code
-#: model:ir.model.fields,field_description:account_period.field_account_period__code
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__closing_date
+msgid "Closing Date"
+msgstr "Slutdatum"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__code
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__code
 msgid "Code"
 msgstr "Kod"
 
-#. module: account_period
-#: model:ir.model,name:account_period.model_res_company
-msgid "Companies"
-msgstr "Bolag"
-
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__company_id
-#: model:ir.model.fields,field_description:account_period.field_account_period__company_id
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__company_id
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__company_id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__company_id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__company_id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__company_id
 msgid "Company"
 msgstr "Bolag"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.account_period_create_wizard_form
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_res_config_settings
+msgid "Config Settings"
+msgstr "Inställningar"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.account_period_create_wizard_form
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_form
 msgid "Create 3 Months Periods"
-msgstr "Skapa 3-månadsperioder"
+msgstr "Skapa 3-månadersperioder"
 
-#. module: account_period
-#: model:ir.actions.act_window,name:account_period.account_period_create_form
+#. module: account_period_vrtl
+#: model:ir.actions.act_window,name:account_period_vrtl.account_period_create_form
 msgid "Create Account Period"
-msgstr "Skapa kontoperiod"
+msgstr "Skapa konto Period"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.account_period_create_wizard_form
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_form
+msgid "Create Balance"
+msgstr "Skapa balans"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.account_period_create_wizard_form
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_form
 msgid "Create Monthly Periods"
 msgstr "Skapa månadsperioder"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__create_uid
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_close__create_uid
-#: model:ir.model.fields,field_description:account_period.field_account_period__create_uid
-#: model:ir.model.fields,field_description:account_period.field_account_period_close__create_uid
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__create_uid
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_fiscalyear.py:0
+msgid "Created %d balance records for %s"
+msgstr "Skapade %d saldoposter för %s"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__create_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__create_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear_close__create_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__create_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__create_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__create_uid
 msgid "Created by"
 msgstr "Skapad av"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__create_date
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_close__create_date
-#: model:ir.model.fields,field_description:account_period.field_account_period__create_date
-#: model:ir.model.fields,field_description:account_period.field_account_period_close__create_date
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__create_date
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__create_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__create_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear_close__create_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__create_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__create_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__create_date
 msgid "Created on"
-msgstr "Skapad den"
+msgstr "Skapad på"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_search
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__currency_id
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__date
+msgid "Date"
+msgstr "Datum"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__date_range_id
+msgid "Date Range"
+msgstr "Datumintervall"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__date_range_type_id
+msgid "Date Range Type"
+msgstr "Typ av datumintervall"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_search
 msgid "Date Start"
-msgstr "Startdatum"
+msgstr "Datum Start"
 
-#. module: account_period
-#: model_terms:ir.actions.act_window,help:account_period.action_account_fiscalyear
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__date_range_id
+msgid "Date range"
+msgstr "Datumintervall"
+
+#. module: account_period_vrtl
+#: model_terms:ir.actions.act_window,help:account_period_vrtl.action_account_fiscalyear
 msgid ""
 "Define your company's financial year according to your needs. A\n"
-"          financial year is a period at the end of which a company's\n"
-"          accounts are made up (usually 12 months). The financial year is\n"
-"          usually referred to by the date in which it ends. For example,\n"
-"          if a company's financial year ends November 30, 2011, then\n"
-"          everything between December 1, 2010 and November 30, 2011\n"
-"          would be referred to as FY 2011."
+"                    financial year is a period at the end of which a company's\n"
+"                    accounts are made up (usually 12 months). The financial year is\n"
+"                    usually referred to by the date in which it ends. For example,\n"
+"                    if a company's financial year ends November 30, 2011, then\n"
+"                    everything between December 1, 2010 and November 30, 2011\n"
+"                    would be referred to as FY 2011."
 msgstr ""
-"Definiera företagets räkenskapsår utifrån era behov. Ett \n"
-"räkenskapsår är den period för vilken ett företag gör sitt \n"
-"bokslut och upprättar sin årsredovisning (vanligtvis 12 månader). \n"
-"Räkenskapsåret benämns vanligen med det datum det slutar. Exempelvis, \n"
-"om ett företags räkenskapsår slutar den 30 november 2011 så kallas allt\n"
-"mellan den 1 december 2010 och den 30 november 2011 för räkenskapsår 2011."
+"Definiera ditt företags räkenskapsår efter dina behov. A\n"
+"                    räkenskapsår är en period i slutet av vilken ett företags räkenskaper\n"
+"                    upprättas (vanligtvis 12 månader). Räkenskapsåret benämns\n"
+"                    vanligtvis med det datum då det slutar. Exempelvis\n"
+"                    om ett företags räkenskapsår slutar den 30 november 2011, så är\n"
+"                    allt mellan den 1 december 2010 och den 30 november 2011\n"
+"                    benämnas räkenskapsåret 2011."
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_account__display_name
-#: model:ir.model.fields,field_description:account_period.field_account_bank_statement__display_name
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__display_name
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_close__display_name
-#: model:ir.model.fields,field_description:account_period.field_account_move__display_name
-#: model:ir.model.fields,field_description:account_period.field_account_payment_register__display_name
-#: model:ir.model.fields,field_description:account_period.field_account_period__display_name
-#: model:ir.model.fields,field_description:account_period.field_account_period_close__display_name
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__display_name
-#: model:ir.model.fields,field_description:account_period.field_res_company__display_name
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__description
+msgid "Description"
+msgstr "Beskrivning"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__display_name
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__display_name
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear_close__display_name
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__display_name
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__display_name
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__display_name
 msgid "Display Name"
 msgstr "Visningsnamn"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_form
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_form
 msgid "Duration"
 msgstr "Varaktighet"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__date_stop
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__date_stop
 msgid "End Date"
 msgstr "Slutdatum"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_period__date_stop
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__date_stop
-msgid "End of Period"
-msgstr "Periodslut"
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__date_end
+msgid "End date"
+msgstr "Slutdatum"
 
-#. module: account_period
-#: model:ir.model,name:account_period.model_account_fiscalyear
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__name
-#: model:ir.model.fields,field_description:account_period.field_account_period__fiscalyear_id
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__date_stop
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__date_stop
+msgid "End of Period"
+msgstr "Periodens slut"
+
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_period.py:0
+msgid ""
+"Error!\n"
+"The duration of the Period(s) is/are invalid."
+msgstr ""
+"Felaktig!\n"
+"Längden på perioden/perioderna är ogiltig."
+
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_period.py:0
+msgid ""
+"Error!\n"
+"The period is invalid. Either some periods are overlapping or the period's dates are not matching the scope of the fiscal year."
+msgstr ""
+"Fel!\n"
+"Perioden är ogiltig. Antingen överlappar vissa perioder varandra eller så stämmer inte periodens datum överens med räkenskapsårets omfattning."
+
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_account_fiscalyear
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__fiscalyear_id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__name
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_move_line__fiscalyear_id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__fiscalyear_id
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_search
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_move_line_filter_inherit2
 msgid "Fiscal Year"
 msgstr "Räkenskapsår"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__fy_code
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__fy_code
 msgid "Fiscal Year Code"
-msgstr "Räkenskapsårets kod"
+msgstr "Kod för räkenskapsår"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__fy_name
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__fy_name
 msgid "Fiscal Year Name"
-msgstr "Räkenskapsårets namn"
+msgstr "Räkenskapsår Namn"
 
-#. module: account_period
-#: model:ir.actions.act_window,name:account_period.action_account_fiscalyear
-#: model:ir.ui.menu,name:account_period.menu_action_account_fiscalyear
+#. module: account_period_vrtl
+#: model:ir.actions.act_window,name:account_period_vrtl.action_account_fiscalyear
+#: model:ir.ui.menu,name:account_period_vrtl.menu_action_account_fiscalyear
 msgid "Fiscal Years"
 msgstr "Räkenskapsår"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_form
 msgid "Fiscal year"
 msgstr "Räkenskapsår"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_tree
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_tree
 msgid "Fiscalyear"
 msgstr "Räkenskapsår"
 
-#. module: account_period
-#: code:addons/account_period/models/account.py:0
-#, python-format
-msgid "Go to the configuration panel"
-msgstr ""
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_follower_ids
+msgid "Followers"
+msgstr "Följare"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_search
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Följare (Partners)"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__date_from
+msgid "From"
+msgstr "Från"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_search
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_search
 msgid "Group By"
 msgstr "Gruppera efter"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_account__id
-#: model:ir.model.fields,field_description:account_period.field_account_bank_statement__id
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__id
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_close__id
-#: model:ir.model.fields,field_description:account_period.field_account_move__id
-#: model:ir.model.fields,field_description:account_period.field_account_payment_register__id
-#: model:ir.model.fields,field_description:account_period.field_account_period__id
-#: model:ir.model.fields,field_description:account_period.field_account_period_close__id
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__id
-#: model:ir.model.fields,field_description:account_period.field_res_company__id
-msgid "ID"
-msgstr ""
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__has_message
+msgid "Has Message"
+msgstr "Har meddelande"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_bank_statement_line__payment_date
-#: model:ir.model.fields,field_description:account_period.field_account_move__payment_date
-#: model:ir.model.fields,field_description:account_period.field_account_payment__payment_date
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear_close__id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_balance__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Om den är markerad kräver nya meddelanden din uppmärksamhet."
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_balance__message_has_error
+#: model:ir.model.fields,help:account_period_vrtl.field_account_balance__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Om kryssrutan är markerad får vissa meddelanden ett leveransfel."
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_bank_statement_line__payment_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_move__payment_date
 msgid "Invoice Payment Date"
 msgstr "Fakturans betalningsdatum"
 
-#. module: account_period
-#: model:ir.model,name:account_period.model_account_move
-msgid "Journal Entry"
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_is_follower
+msgid "Is Follower"
+msgstr "Är följare"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__journal_id
+msgid "Journal"
 msgstr "Verifikat"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_account____last_update
-#: model:ir.model.fields,field_description:account_period.field_account_bank_statement____last_update
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear____last_update
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_close____last_update
-#: model:ir.model.fields,field_description:account_period.field_account_move____last_update
-#: model:ir.model.fields,field_description:account_period.field_account_payment_register____last_update
-#: model:ir.model.fields,field_description:account_period.field_account_period____last_update
-#: model:ir.model.fields,field_description:account_period.field_account_period_close____last_update
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard____last_update
-#: model:ir.model.fields,field_description:account_period.field_res_company____last_update
-msgid "Last Modified on"
-msgstr "Senast redigerad"
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_account_move_line
+msgid "Journal Item"
+msgstr "Verifikatsdel"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__write_uid
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_close__write_uid
-#: model:ir.model.fields,field_description:account_period.field_account_period__write_uid
-#: model:ir.model.fields,field_description:account_period.field_account_period_close__write_uid
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__write_uid
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__write_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__write_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear_close__write_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__write_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__write_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__write_uid
 msgid "Last Updated by"
 msgstr "Senast uppdaterad av"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__write_date
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear_close__write_date
-#: model:ir.model.fields,field_description:account_period.field_account_period__write_date
-#: model:ir.model.fields,field_description:account_period.field_account_period_close__write_date
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__write_date
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__write_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__write_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear_close__write_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__write_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__write_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__write_date
 msgid "Last Updated on"
 msgstr "Senast uppdaterad den"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_move_line_filter
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_move_line_filter
 msgid "Matching id"
-msgstr "Matchnings-id"
+msgstr "Matchande id"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_move_line_filter
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_has_error
+msgid "Message Delivery error"
+msgstr "Fel vid leverans av meddelande"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_ids
+msgid "Messages"
+msgstr "Meddelanden"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_move_line_filter
 msgid "Move id"
-msgstr "Faktura id"
+msgstr "Verifikats id"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_period__name
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_search
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__name
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__name
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_search
 msgid "Name"
 msgstr "Namn"
 
-#. module: account_period
-#: model:ir.model.fields.selection,name:account_period.selection__account_fiscalyear__state__draft
-#: model:ir.model.fields.selection,name:account_period.selection__account_period__state__draft
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
-msgid "Open"
-msgstr "Öppen"
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Antal åtgärder"
 
-#. module: account_period
-#: code:addons/account_period/models/account.py:0
-#, python-format
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_has_error_counter
+msgid "Number of errors"
+msgstr "Antal fel"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_balance__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Antal meddelanden som kräver åtgärder"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_balance__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Antal meddelanden med leveransfel"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields.selection,name:account_period_vrtl.selection__account_fiscalyear__state__draft
+#: model:ir.model.fields.selection,name:account_period_vrtl.selection__account_period__state__draft
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_search
+msgid "Open"
+msgstr "Öppna"
+
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_fiscalyear.py:0
 msgid "Opening Period"
 msgstr "Öppningsperiod"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_period__special
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__special
 msgid "Opening/Closing Period"
 msgstr "Öppnings-/stängningsperiod"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_move_form
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__outgoing_balance_record_ids
+msgid "Outgoing Balance"
+msgstr "Utgående saldo"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__outgoing_balance_count
+msgid "Outgoing Balance Count"
+msgstr "Utgående balansräkning"
+
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_fiscalyear.py:0
+msgid "Outgoing Balances"
+msgstr "Utgående saldon"
+
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_account_payment_register
+msgid "Pay"
+msgstr "Betala"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_move_form
 msgid "Payment"
-msgstr "Betalningar"
+msgstr "Betalning"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_bank_statement_line__payment_period_id
-#: model:ir.model.fields,field_description:account_period.field_account_move__payment_period_id
-#: model:ir.model.fields,field_description:account_period.field_account_payment__payment_period_id
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_bank_statement_line__payment_period_id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_move__payment_period_id
 msgid "Payment Invoice Period"
-msgstr "Betalningsverifikatets period"
+msgstr "Betalning Faktureringsperiod"
 
-#. module: account_period
-#: model:ir.model,name:account_period.model_account_period
-#: model:ir.model.fields,field_description:account_period.field_account_bank_statement__period_id
-#: model:ir.model.fields,field_description:account_period.field_account_bank_statement_line__period_id
-#: model:ir.model.fields,field_description:account_period.field_account_move__period_id
-#: model:ir.model.fields,field_description:account_period.field_account_payment__period_id
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_form
-#: model_terms:ir.ui.view,arch_db:account_period.view_bank_statement_search
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_account_period
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_bank_statement_line__period_id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_move__period_id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_move_line__period_id
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_form
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_move_line_filter_inherit2
 msgid "Period"
-msgstr ""
+msgstr "Period"
 
-#. module: account_period
-#: model:ir.model.constraint,message:account_period.constraint_account_period_name_unique
-msgid "Period already exist!"
-msgstr "Perioden finns redan!"
+#. module: account_period_vrtl
+#: model:ir.model.constraint,message:account_period_vrtl.constraint_account_period_name_unique
+msgid "Period for this company already exist!"
+msgstr "Period för detta företag finns redan!"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__period_ids
-#: model:ir.ui.menu,name:account_period.next_id_23
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__period_ids
+#: model:ir.ui.menu,name:account_period_vrtl.next_id_23
 msgid "Periods"
 msgstr "Perioder"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_tree
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__rating_ids
+msgid "Ratings"
+msgstr "Betyg"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_tree
 msgid "Re-Open Fiscalyear"
-msgstr "Återöppna räkenskapsår"
+msgstr "Återöppna Räkenskapsår"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_form
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_tree
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_form
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_tree
 msgid "Re-Open Period"
-msgstr "Återöppna period"
+msgstr "Återöppningsperiod"
 
-#. module: account_period
-#: model:ir.model,name:account_period.model_account_payment_register
-msgid "Register Payment"
-msgstr "Registrera betalning"
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Fel vid leverans av SMS"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_search
 msgid "Search Fiscalyear"
-msgstr "Sök räkenskapsår"
+msgstr "Sök Räkenskapsår"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_search
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_search
 msgid "Search Period"
-msgstr "Sök period"
+msgstr "Sökperiod"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__date_start
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__date_start
 msgid "Start Date"
 msgstr "Startdatum"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_period__date_start
-#: model:ir.model.fields,field_description:account_period.field_account_period_create_wizard__date_start
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__date_start
+msgid "Start date"
+msgstr "Startdatum"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__date_start
 msgid "Start of Period"
-msgstr "Periodstart"
+msgstr "Början av perioden"
 
-#. module: account_period
-#: code:addons/account_period/models/account.py:0
-#, python-format
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_period.py:0
 msgid "Start period should precede then end period."
-msgstr "Periodstarten måste komma före periodslutet."
+msgstr "Startperioden bör föregå slutperioden."
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_fiscalyear__state
-#: model:ir.model.fields,field_description:account_period.field_account_period__state
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_search
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__state
+msgid "State"
+msgstr "Läge"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__state
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__state
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_search
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
-#. module: account_period
-#: model:ir.model.fields,field_description:account_period.field_account_bank_statement_line__payment_move_id
-#: model:ir.model.fields,field_description:account_period.field_account_move__payment_move_id
-#: model:ir.model.fields,field_description:account_period.field_account_payment__payment_move_id
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_fiscalyear.py:0
+msgid "Success"
+msgstr "Framgång"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__active
+msgid "The active field allows you to hide the date range without removing it."
+msgstr "Med det aktiva fältet kan du dölja datumintervallet utan att ta bort det."
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_bank_statement_line__payment_move_id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_move__payment_move_id
 msgid "The payment invoice"
-msgstr "Betalningsverifikat"
+msgstr "Betalningsfakturan"
 
-#. module: account_period
-#: code:addons/account_period/models/account.py:0
-#, python-format
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_fiscalyear.py:0
 msgid ""
-"There is no period defined for this date: %s.\n"
+"There is no fiscal year defined for this date: %s.\n"
 "Please go to Configuration/Periods and configure a fiscal year."
 msgstr ""
-"Det finns ingen period definierad för det här datumet: %s.\n"
-"Var vänligt och gå till Konfiguration/Perioder och konfigurera ett räkenskapsår."
+"Det finns inget räkenskapsår definierat för detta datum: %s.\n"
+"Gå till Konfiguration/Perioder och konfigurera ett räkenskapsår."
 
-#. module: account_period
-#: code:addons/account_period/models/account.py:0
-#, python-format
-msgid ""
-"There is no period defined for this date: %s.\n"
-"Please go to Configuration/Periods."
-msgstr ""
-"Det finns ingen period definierad för det här datumet: %s.\n"
-"Var vänligt och gå till Konfiguration/Perioder och konfigurera ett räkenskapsår."
-
-#. module: account_period
-#: model:ir.model.fields,help:account_period.field_account_period__special
+#. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__special
 msgid "These periods can overlap."
-msgstr "Dessa perioder kan överlappa."
+msgstr "Dessa perioder kan överlappa varandra."
 
-#. module: account_period
-#: code:addons/account_period/models/account.py:0
-#, python-format
-msgid ""
-"This journal already contains items for this period, therefore you cannot "
-"modify its company field."
-msgstr ""
-"Denna journal innehåller redan data för den här perioden, därför kan du inte "
-"modifiera dess bolagsfält."
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_period.py:0
+msgid "This journal already contains items for this period, therefore you cannot modify its company field."
+msgstr "Denna journal innehåller redan poster för denna period, därför kan du inte ändra dess företagsfält."
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_search
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__date_to
+msgid "To"
+msgstr "Till"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_search
 msgid "To Close"
 msgstr "Att stänga"
 
-#. module: account_period
-#: model:ir.model.fields,help:account_period.field_account_period__state
-msgid ""
-"When monthly periods are created. The status is 'Draft'. At the end of monthly "
-"period it is in 'Done' status."
-msgstr ""
-"När månadsperioder skapas, så är statusen 'Utkast'. När en månadsperiod är "
-"slut, så blir statusen 'Klar'."
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__credit
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_balance_list
+msgid "Total Credit"
+msgstr "Total kredit"
 
-#. module: account_period
-#: code:addons/account_period/wizard/account_fiscalyear_close.py:0
-#, python-format
-msgid ""
-"You can not close fiscalyear with that has a period that is opened, please "
-"close period"
-msgstr ""
-"Det går inte att stänga ett räkenskapsår som har en öppen period, var vänlig "
-"och stäng perioderna"
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__debit
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_balance_list
+msgid "Total Debit"
+msgstr "Totalt debetbelopp"
 
-#. module: account_period
-#: code:addons/account_period/models/account.py:0
-#, python-format
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__type_id
+msgid "Type"
+msgstr "Typ"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__website_message_ids
+msgid "Website Messages"
+msgstr "Webbplatsmeddelanden"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_balance__website_message_ids
+msgid "Website communication history"
+msgstr "Webbplatsens kommunikationshistorik"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__state
+msgid "When monthly periods are created. The status is 'Draft'. At the end of monthly period it is in 'Done' status."
+msgstr "När månadsperioder skapas. Statusen är \"Utkast\". I slutet av månadsperioden är statusen \"Klar\"."
+
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/wizard/account_fiscalyear_close.py:0
+msgid "You can not close fiscalyear with that has a period that is opened, please close period"
+msgstr "Du kan inte stänga räkenskapsåret med att har en period som är öppen, vänligen stäng perioden"
+
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_period.py:0
 msgid "You can not re-open a period which belongs to closed fiscal year"
-msgstr "Det går inte att återöppna en period som tillhör ett stängt räkenskapsår"
+msgstr "Du kan inte öppna en period igen som tillhör ett avslutat räkenskapsår"
 
-#. module: account_period
-#: code:addons/account_period/models/account.py:0
-#, python-format
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/wizard/account_payment_register.py:0
 msgid ""
-"You have tried to create an invoice on a closed period {period_id.name}.\n"
-" Please change period or open {period_id.name}"
-msgstr ""
-"Du har försökt skapa en faktura i en stängd period {period_id.name}.\n"
-"Var vänlig ändra period, eller öppna {period_id.name}"
-
-#. module: account_period
-#: code:addons/account_period/wizard/account_payment_register.py:0
-#, python-format
-msgid ""
-"You have tried to create an payment on a date during a closed period {period_id."
-"name}.\n"
+"You have tried to create an payment on a date during a closed period {period_id.name}.\n"
 " Please change the date or open {period_id.name}"
 msgstr ""
-"Du har försökt skapa en betalning i en stängd period {period_id.name}.\n"
-"Var vänlig ändra period, eller öppna {period_id.name}"
+"Du har försökt att skapa en betalning på ett datum under en stängd period {period_id.name}.\n"
+" Vänligen ändra datumet eller öppna {period_id.name}."
 
-#. module: account_period
-#: code:addons/account_period/models/account.py:0
-#, python-format
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_move.py:0
 msgid ""
-"You have tried to validate an invoice on a closed period {self.period_id."
-"name}.\n"
+"You have tried to validate an invoice on a closed period {self.period_id.name}.\n"
 " Please change period or open {self.period_id.name}"
 msgstr ""
-"Du har försökt validera en faktura i en stängd period {period_id.name}.\n"
-"Var vänlig ändra period, eller öppna {period_id.name}"
+"Du har försökt att attestera en faktura för en stängd period {self.period_id.name}.\n"
+" Vänligen ändra period eller öppna {self.period_id.name}."
 
-#. module: account_period
-#: code:addons/account_period/models/account.py:0
-#, python-format
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/wizard/account_payment_register.py:0
 msgid ""
-"You have tried to write to an invoice with a closed period {period_id.name}.\n"
-" Please change period or open {period_id.name}"
+"You have tried to validate an invoice that has the journal closed {self.journal_id.name}.\n"
+" Please change journal or remove it from the period {period_id.name}"
 msgstr ""
-"Du har försökt skriva till en faktura med en stängd period {period_id.name}.\n"
-"Var vänlig ändra period, eller öppna {period_id.name}"
+"Du har försökt att attestera en faktura som har en journal som är stängd {self.journal_id.name}.\n"
+" Vänligen ändra journal eller ta bort den från perioden {period_id.name}."
 
-#. module: account_period
-#: code:addons/account_period/models/account.py:0
-#, python-format
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_move.py:0
+msgid ""
+"You have tried to validate an invoice that has the journal closed {self.journal_id.name}.\n"
+" Please change journal or remove it from the period {self.period_id.name}"
+msgstr ""
+"Du har försökt att attestera en faktura som har en journal som är stängd {self.journal_id.name}.\n"
+" Vänligen ändra journal eller ta bort den från perioden {self.period_id.name}."
+
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_period.py:0
 msgid "You should choose the periods that belong to the same company."
-msgstr "Du ska välja perioder som tillhör samma bolag."
+msgstr "Du bör välja de perioder som tillhör samma bolag."
 
-#. module: account_period
-#: model:ir.model,name:account_period.model_account_period_create_wizard
-msgid "account.period.create.wizard"
-msgstr ""
+#. module: account_period_vrtl
+#: model:ir.actions.server,name:account_period_vrtl.close_account_period_cron_ir_actions_server
+msgid "automatic close account period"
+msgstr "automatisk stängning av kontoperiod"
 
-#. module: account_period
-#: model:ir.model,name:account_period.model_account_fiscalyear_close
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_bank_statement.py:0
+msgid "create a period for that date."
+msgstr "skapa en period för det datumet."
+
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_account_fiscalyear_close
 msgid "fiscalyear close"
-msgstr "stäng räkenskapsår"
+msgstr "räkenskapsårets slut"
 
-#. module: account_period
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_fiscalyear_close
-#: model_terms:ir.ui.view,arch_db:account_period.view_account_period_close
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_close
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_close
 msgid "or"
 msgstr "eller"
 
-#. module: account_period
-#: model:ir.model,name:account_period.model_account_period_close
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_account_period_close
 msgid "period close"
-msgstr "stäng period"
+msgstr "periodstängning"

@@ -1,0 +1,12 @@
+[Unit]
+Description=Start account move directory
+After=network.target
+
+[Service]
+User=odoo
+ExecStart=/usr/local/bin/account_move_directory -d $(sudo su postgres -c "psql -At -c \"select datname from pg_database where datistemplate = false and 'postgres' <> datname;\" postgres|tr '\n' ','")
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
