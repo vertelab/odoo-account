@@ -65,7 +65,6 @@
         'account_reconcile_oca',
         'mis_builder', 
         'mis_builder_budget',
-        'account_banking_sepa_direct_debit',
         'account_asset_management'
         #'account_period_vrtl',
         #'account_statement_import_camt',
