@@ -13,7 +13,7 @@ class AccountPaymentOrder(models.Model):
 
     @api.onchange("user_id")
     def set_boss(self):
-        if self.user_id and self.user_id.employee_id and self.user_id.employee_id.parent_id and self.user_id.employee_id.parent_id.user_partner_id and self.user_id.employee_id.parent_id.user_partner_id.user_id:
-            self.user_boss_id = self.user_id.employee_id.parent_id.user_partner_id.user_id.id
+        if self.user_id and self.user_id.employee_parent_id and self.user_id.employee_parent_id.user_id:
+            self.user_boss_id = self.user_id.employee_parent_id.user_id.id
 
 
