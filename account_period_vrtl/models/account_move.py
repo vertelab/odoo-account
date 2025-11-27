@@ -96,9 +96,9 @@ class AccountMove(models.Model):
         _logger.warning(f"Context is: {self.env.context}")
         context = self.env.context
 
-        period_by_journal = self.env['account.period']._get_period_by_journal(
-            self.journal_id, self.date
-        )
+        # period_by_journal = self.env['account.period']._get_period_by_journal(
+        #     self.journal_id, self.date
+        # )
 
         if self.period_id and self.period_id.state == 'done' and (context.get("default_move_type", False) or context.get("display_account_trust", False)):
             _logger.error("Ett undantag inträffade:\n%s", traceback.format_exc())
@@ -107,11 +107,11 @@ class AccountMove(models.Model):
                 "period or open {self.period_id.name}").format(**locals())
             )
 
-        if period_by_journal:
-            raise ValidationError(_(
-                "You have tried to validate an invoice that has the journal closed {self.journal_id.name}.\n Please change "
-                "journal or remove it from the period {self.period_id.name}").format(**locals())
-            )
+        # if period_by_journal:
+        #     raise ValidationError(_(
+        #         "You have tried to validate an invoice that has the journal closed {self.journal_id.name}.\n Please change "
+        #         "journal or remove it from the period {self.period_id.name}").format(**locals())
+        #     )
         return super(AccountMove, self).action_post()
 
     @api.depends('period_id', 'date')

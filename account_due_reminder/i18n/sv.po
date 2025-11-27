@@ -1,0 +1,639 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_due_reminder
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20251117\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-26 15:18+0000\n"
+"PO-Revision-Date: 2025-11-26 16:54+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: account_due_reminder
+#: model:payment.reminder.line,name:account_due_reminder.followup_line1
+msgid "15 Days"
+msgstr "15 dagar"
+
+#. module: account_due_reminder
+#: model:payment.reminder.line,name:account_due_reminder.reminder_line2
+msgid "30 Days"
+msgstr "30 dagar"
+
+#. module: account_due_reminder
+#: model:mail.template,body_html:account_due_reminder.reminder_email_template_1
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px; padding: 0px;\">\n"
+"                        <t t-if=\"object.id != object.commercial_partner_id."
+"id\">Dear <t t-out=\"object.name or ''\"/> (<t t-out=\"object."
+"commercial_partner_id.name or ''\"/>),</t>\n"
+"                        <t t-else=\"\">Dear <t t-out=\"object.name or ''\"/"
+">,</t>\n"
+"                        <br/>\n"
+"                        It has come to our attention that you have&nbsp;an "
+"outstanding balance of <t t-out=\"format_amount(object.total_overdue, "
+"object.currency_id) or ''\"/>\n"
+"                        <br/>\n"
+"                        We kindly request that you take necessary action to "
+"settle this amount within the next 8 days.\n"
+"                        <br/>\n"
+"                        </p><div t-if=\"object._show_pay_now_button()\" "
+"class=\"d-flex\">\n"
+"                            <a t-att-href=\"'/my/invoices/overdue'\" "
+"class=\"btn btn-primary\">Pay now</a>\n"
+"                        </div>\n"
+"                        If you have already made the payment after "
+"receiving this message, please disregard it.\n"
+"                        Our accounting department is available if you "
+"require any assistance or have any questions.\n"
+"                        <br/>\n"
+"                        Thank you for your cooperation.\n"
+"                        <br/>\n"
+"                        Sincerely,\n"
+"                        <t t-if=\"not is_html_empty(object."
+"_get_reminder_responsible().signature)\">\n"
+"                            <br/>\n"
+"                            <t t-out=\"object._get_reminder_responsible()."
+"signature\"/>\n"
+"                        </t>\n"
+"                        <t t-else=\"\">\n"
+"                            <br/>\n"
+"                            --\n"
+"                            <br/>\n"
+"                            <t t-out=\"object._get_reminder_responsible()."
+"name\"/>\n"
+"                        </t>\n"
+"                    \n"
+"                </div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px; padding: 0px;\">\n"
+"                        <t t-if=\"object.id != object.commercial_partner_id."
+"id\">Hej <t t-out=\"object.name or ''\"/> (<t t-out=\"object."
+"commercial_partner_id.name or ''\"/>),</t>\n"
+"                        <t t-else=\"\">Hej <t t-out=\"object.name or ''\"/>,"
+"</t>\n"
+"                        <br/>\n"
+"                        Det har kommit till vår kännedom att du har ett "
+"utestående saldo på <t t-out=\"format_amount(object.total_overdue, object."
+"currency_id) or ''\"/>\n"
+"                        <br/>\n"
+"                        Vi ber dig vänligen att vidta nödvändiga åtgärder "
+"för att reglera detta belopp inom de närmaste 8 dagarna.\n"
+"                        <br/>\n"
+"                        </p><div t-if=\"object._show_pay_now_button()\" "
+"class=\"d-flex\">\n"
+"                            <a t-att-href=\"'/my/invoices/overdue'\" "
+"class=\"btn btn-primary\">Betala nu</a>\n"
+"                        </div>\n"
+"                         Om du redan har gjort betalningen efter att ha "
+"mottagit detta meddelande, vänligen bortse från det.\n"
+"                        Vår ekonomiavdelning finns tillgänglig om du "
+"behöver hjälp eller har några frågor.\n"
+"                        <br/>\n"
+"                        Tack för ditt samarbete.\n"
+"                        <br/>\n"
+"                        Vänligen,\n"
+"                        <t t-if=\"not is_html_empty(object."
+"_get_reminder_responsible().signature)\">\n"
+"                            <br/>\n"
+"                            <t t-out=\"object._get_reminder_responsible()."
+"signature\"/>\n"
+"                        </t>\n"
+"                        <t t-else=\"\">\n"
+"                            <br/>\n"
+"                            --\n"
+"                            <br/>\n"
+"                            <t t-out=\"object._get_reminder_responsible()."
+"name\"/>\n"
+"                        </t>\n"
+"                    \n"
+"                </div>\n"
+"            "
+
+#. module: account_due_reminder
+#: model:mail.template,body_html:account_due_reminder.reminder_email_template_2
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p>\n"
+"                        <t t-if=\"object.id != object.commercial_partner_id."
+"id\">Dear <t t-out=\"object.name or ''\"/> (<t t-out=\"object."
+"commercial_partner_id.name or ''\"/>),</t>\n"
+"                        <t t-else=\"\">Dear <t t-out=\"object.name or ''\"/"
+">,</t>\n"
+"                        <br/>\n"
+"                        We are disappointed to see that despite sending a "
+"reminder, that your account is now seriously overdue.\n"
+"                        <br/>\n"
+"                        It is essential that immediate payment is made, "
+"otherwise we will have to consider placing a stop on your account which "
+"means that we will no longer be able to supply your company with (goods/"
+"services). Please, take appropriate measures in order to carry out this "
+"payment in the next 8 days.\n"
+"                        <br/>\n"
+"                        If there is a problem with paying invoice that we "
+"are not aware of, do not hesitate to contact our accounting department, so "
+"that we can resolve the matter quickly.\n"
+"                        <br/>\n"
+"                        Details of due payments is printed below.\n"
+"                        <br/>\n"
+"                        Best Regards,\n"
+"                        <t t-if=\"not is_html_empty(object."
+"_get_reminder_responsible().signature)\">\n"
+"                            <br/>\n"
+"                            <t t-out=\"object._get_reminder_responsible()."
+"signature\"/>\n"
+"                        </t>\n"
+"                        <t t-else=\"\">\n"
+"                            <br/>\n"
+"                            --\n"
+"                            <br/>\n"
+"                            <t t-out=\"object._get_reminder_responsible()."
+"name\"/>\n"
+"                        </t>\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p>\n"
+"                        <t t-if=\"object.id != object.commercial_partner_id."
+"id\">Hej <t t-out=\"object.name or ''\"/> (<t t-out=\"object."
+"commercial_partner_id.name or ''\"/>),</t>\n"
+"                        <t t-else=\"\">Hej <t t-out=\"object.name or ''\"/>,"
+"</t>\n"
+"                        <br/>\n"
+"                        Vi är besvikna över att se att trots att vi skickat "
+"en påminnelse, så är ditt konto nu allvarligt försenat.\n"
+"                        <br/>\n"
+"                        Det är viktigt att omedelbar betalning sker, annars "
+"måste vi överväga att sätta ett stopp på ditt konto vilket innebär att vi "
+"inte längre kommer att kunna förse ditt företag med (varor/tjänster). "
+"Vänligen vidta lämpliga åtgärder för att genomföra denna betalning inom de "
+"närmaste 8 dagarna.\n"
+"                        <br/>\n"
+"                        Om det uppstår problem med betalningen av fakturan "
+"som vi inte känner till, tveka inte att kontakta vår ekonomiavdelning, så "
+"att vi snabbt kan lösa problemet.\n"
+"                        <br/>\n"
+"                        Detaljer om förfallna betalningar finns utskrivna "
+"nedan.\n"
+"                        <br/>\n"
+"                        Vänligeh,\n"
+"                        <t t-if=\"not is_html_empty(object."
+"_get_reminder_responsible().signature)\">\n"
+"                            <br/>\n"
+"                            <t t-out=\"object._get_reminder_responsible()."
+"signature\"/>\n"
+"                        </t>\n"
+"                        <t t-else=\"\">\n"
+"                            <br/>\n"
+"                            --\n"
+"                            <br/>\n"
+"                            <t t-out=\"object._get_reminder_responsible()."
+"name\"/>\n"
+"                        </t>\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_move_form_payment_reminder
+msgid "<span class=\"o_stat_text\">Reminders Sent</span>"
+msgstr "<span class=\"o_stat_text\">Påminnelser skickade</span>"
+
+#. module: account_due_reminder
+#: model:ir.model.constraint,message:account_due_reminder.constraint_payment_reminder_line_uniq_name
+msgid ""
+"A follow-up action name must be unique. This name is already set to another "
+"action."
+msgstr ""
+"Namnet på en uppföljningsåtgärd måste vara unikt. Detta namn är redan "
+"inställt för en annan åtgärd."
+
+#. module: account_due_reminder
+#: model:ir.model.fields.selection,name:account_due_reminder.selection__payment_reminder_line__activity_default_responsible_type__account_manager
+msgid "Account Manager"
+msgstr "Kundansvarig"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__account_move_id
+msgid "Account Move"
+msgstr "Verifikat"
+
+#. module: account_due_reminder
+#: model:ir.model,name:account_due_reminder.model_account_payment_plan
+msgid "Account Payment Plan"
+msgstr "Betalningsplan för konto"
+
+#. module: account_due_reminder
+#: model:ir.actions.server,name:account_due_reminder.ir_cron_auto_run_followup_reminder_ir_actions_server
+msgid "Account Report Followup; Execute followup"
+msgstr "Uppföljning av kontoplan; Utför uppföljning"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_form
+msgid "Actions"
+msgstr "Åtgärder"
+
+#. module: account_due_reminder
+#: model:ir.model.fields.selection,name:account_due_reminder.selection__account_payment_plan__state__active
+msgid "Active"
+msgstr "Aktiv"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_form
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_tree
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_terms_form
+msgid "Activity"
+msgstr "Aktivitet"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_form
+msgid "Activity Notes"
+msgstr "Anteckningar om aktiviteter"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__activity_type_id
+msgid "Activity Type"
+msgstr "Typ av aktivitet"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__actual_loss_move
+msgid "Actual Loss"
+msgstr "Faktisk förlust"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__additional_follower_ids
+msgid "Add followers"
+msgstr "Lägg till följare"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__attach_invoices
+msgid "Attach Invoices"
+msgstr "Bifoga fakturor"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__auto_execute
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_filter
+msgid "Automatic"
+msgstr "Automatisk"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_account_payment_plan_wizard_form
+msgid "Cancel"
+msgstr "Avbryt"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__company_id
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__company_id
+msgid "Company"
+msgstr "Företag"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_form
+msgid "Content Template"
+msgstr "Mall för innehåll"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__contract_id
+msgid "Contract"
+msgstr "Kontrakt"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_account_payment_plan_wizard_form
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_move_form_payment_reminder
+msgid "Create Payment Plan"
+msgstr "Skapa betalningsplan"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__create_uid
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__create_date
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__create_date
+msgid "Created on"
+msgstr "Skapad på"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__currency_id
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: account_due_reminder
+#: model:ir.model.constraint,message:account_due_reminder.constraint_payment_reminder_line_days_uniq
+msgid "Days of the follow-up lines must be different per company"
+msgstr "Dagarna för uppföljningslinjerna måste vara olika per företag"
+
+#. module: account_due_reminder
+#: model_terms:ir.actions.act_window,help:account_due_reminder.action_account_account_payment_plan
+#: model_terms:ir.actions.act_window,help:account_due_reminder.action_account_payment_reminder_line
+msgid "Define follow-up reminders and their related actions"
+msgstr "Definiera påminnelser om uppföljning och relaterade åtgärder"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__name
+msgid "Description"
+msgstr "Beskrivning"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,help:account_due_reminder.field_payment_reminder_line__activity_default_responsible_type
+msgid ""
+"Determine who will be assigned to the activity:\n"
+"- Salesperson: Sales Person defined on the invoice\n"
+"- Account Manager: Sales Person defined on the customer"
+msgstr ""
+"Bestäm vem som ska tilldelas aktiviteten:\n"
+"- Säljare: Säljaren som anges på fakturan\n"
+"- Kundansvarig: Säljare definierad på kunden"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__display_name
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__delay
+msgid "Due Days"
+msgstr "Förfallodagar"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__feared_loss_entry
+msgid "Feared Loss"
+msgstr "Fruktad förlust"
+
+#. module: account_due_reminder
+#: model:ir.actions.act_window,name:account_due_reminder.action_account_payment_reminder_line
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_form
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_tree
+msgid "Follow-up Reminder"
+msgstr "Påminnelse om uppföljning"
+
+#. module: account_due_reminder
+#: model_terms:ir.actions.act_window,help:account_due_reminder.action_account_account_payment_plan
+#: model_terms:ir.actions.act_window,help:account_due_reminder.action_account_payment_reminder_line
+msgid ""
+"For each step, specify the actions to be taken and delay in days. It is\n"
+"                possible to use print and e-mail templates to send specific "
+"messages to\n"
+"                the customer."
+msgstr ""
+"För varje steg ska du ange vilka åtgärder som ska vidtas och fördröjningen "
+"i dagar. Det är\n"
+"                är möjligt att använda utskrifts- och e-postmallar för att "
+"skicka specifika meddelanden till\n"
+"                till kunden."
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__id
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,help:account_due_reminder.field_payment_reminder_line__additional_follower_ids
+msgid "If set, those users will be added as followers on the invoice."
+msgstr ""
+"Om den är inställd kommer dessa användare att läggas till som följare på "
+"fakturan."
+
+#. module: account_due_reminder
+#: model:ir.model.fields.selection,name:account_due_reminder.selection__account_payment_plan__state__inactive
+msgid "Inactive"
+msgstr "Inaktiv"
+
+#. module: account_due_reminder
+#: model:ir.model,name:account_due_reminder.model_account_move
+msgid "Journal Entry"
+msgstr "Verifikat"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_bank_statement_line__last_reminder_id
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_move__last_reminder_id
+msgid "Last Reminder Sent"
+msgstr "Sista påminnelsen skickad"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__write_uid
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__write_date
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad den"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__mail_template_id
+msgid "Mail Template"
+msgstr "Mall för e-post"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_filter
+msgid "Manual"
+msgstr "Manuell"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__name
+msgid "Name"
+msgstr "Namn"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_bank_statement_line__next_reminder_date
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_move__next_reminder_date
+msgid "Next Reminder"
+msgstr "Nästa påminnelse"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__activity_note
+msgid "Note"
+msgstr "Notera"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_form
+msgid "Notification"
+msgstr "Anteckning"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_form
+msgid "Options"
+msgstr "Alternativ"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__partner_id
+msgid "Partner"
+msgstr "Partner"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__duration
+msgid "Payment Duration"
+msgstr "Betalningstid"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__end_date
+msgid "Payment End Date"
+msgstr "Betalningens slutdatum"
+
+#. module: account_due_reminder
+#. odoo-python
+#: code:addons/account_due_reminder/models/account_move.py:0
+#: model:ir.actions.act_window,name:account_due_reminder.action_account_account_payment_plan
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_bank_statement_line__payment_plan_id
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_move__payment_plan_id
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_account_payment_plan_form
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_account_payment_plan_tree
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_account_payment_plan_wizard_form
+msgid "Payment Plan"
+msgstr "Betalningsplan"
+
+#. module: account_due_reminder
+#: model:ir.ui.menu,name:account_due_reminder.account_payment_reminder_menu
+#: model:mail.template,name:account_due_reminder.reminder_email_template_1
+msgid "Payment Reminder"
+msgstr "Påminnelse om betalning"
+
+#. module: account_due_reminder
+#: model:ir.model,name:account_due_reminder.model_payment_reminder_line
+msgid "Payment Reminders"
+msgstr "Betalningspåminnelser"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__start_date
+msgid "Payment Start Date"
+msgstr "Betalningens startdatum"
+
+#. module: account_due_reminder
+#: model:ir.model,name:account_due_reminder.model_account_payment_term
+msgid "Payment Terms"
+msgstr "Betalningsvillkor"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_form
+msgid "Remind"
+msgstr "Påminn"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_terms_form
+msgid "Reminder"
+msgstr "Påminnelse"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_term__payment_reminder_line_ids
+msgid "Reminders"
+msgstr "Påminnelser"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_bank_statement_line__reminder_count
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_move__reminder_count
+msgid "Reminders Sent"
+msgstr "Påminnelser skickade"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__activity_default_responsible_type
+msgid "Responsible"
+msgstr "Ansvarig"
+
+#. module: account_due_reminder
+#: model:ir.model.fields.selection,name:account_due_reminder.selection__payment_reminder_line__activity_default_responsible_type__salesperson
+msgid "Salesperson"
+msgstr "Säljare"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__create_activity
+msgid "Schedule Activity"
+msgstr "Schema Aktivitet"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_filter
+msgid "Search Follow-up"
+msgstr "Uppföljning av sökning"
+
+#. module: account_due_reminder
+#: model:mail.template,name:account_due_reminder.reminder_email_template_2
+msgid "Second reminder followup"
+msgstr "Andra påminnelsen om uppföljning"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__send_email
+msgid "Send Email"
+msgstr "Skicka e-post"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__send_sms
+msgid "Send SMS Message"
+msgstr "Skicka SMS meddelande"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__sms_template_id
+msgid "Sms Template"
+msgstr "Mall för sms"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__state
+msgid "State"
+msgstr "Läge"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__activity_summary
+msgid "Summary"
+msgstr "Sammanfattning"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__tax_id
+msgid "Tax"
+msgstr "Skatt"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,help:account_due_reminder.field_payment_reminder_line__delay
+msgid ""
+"The number of days after the due date of the invoice to wait before sending "
+"the reminder. Can be negative if you want to send the reminder before the "
+"invoice due date."
+msgstr ""
+"Antal dagar efter fakturans förfallodag som påminnelsen ska skickas. Kan "
+"vara negativ om du vill skicka påminnelsen före fakturans förfallodag."
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_account_payment_plan__untaxed_amount
+msgid "Untaxed Amount"
+msgstr "Obeskattat belopp"
+
+#. module: account_due_reminder
+#: model:ir.model.fields,field_description:account_due_reminder.field_payment_reminder_line__payment_term_ids
+msgid "Used in Payment Terms"
+msgstr "Används i betalningsvillkor"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_form
+msgid "days after due date"
+msgstr "dagar efter förfallodagen"
+
+#. module: account_due_reminder
+#: model_terms:ir.ui.view,arch_db:account_due_reminder.view_account_payment_reminder_line_form
+msgid "e.g. First Reminder Email"
+msgstr "t.ex. Första påminnelsen via e-post"
+
+#. module: account_due_reminder
+#: model:mail.template,subject:account_due_reminder.reminder_email_template_1
+#: model:mail.template,subject:account_due_reminder.reminder_email_template_2
+msgid ""
+"{{ (object.company_id or object._get_reminder_responsible().company_id)."
+"name }} Payment Reminder - {{ object.commercial_company_name }}"
+msgstr ""
+"{{ (object.company_id or object._get_reminder_responsible().company_id)."
+"name }} Betalningspåminnelse - {{ object.commercial_company_name }}"

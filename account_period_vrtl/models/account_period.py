@@ -32,11 +32,14 @@ FIELDS = ['move_type','name','partner_id','invoice_date','journal_id','invoice_l
 
 class AccountPeriod(models.Model):
     _name = 'account.period'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _inherits = {'date.range': 'date_range_id'}
     _description = 'Period'
     _order = 'date_start, special desc'
 
     date_range_id = fields.Many2one('date.range', required=True, ondelete='cascade')
+
+    account_period_journal_ids = fields.One2many('account.period.journal', 'period_id', string="Journals")
 
     @api.model
     def default_date_start(self):
@@ -58,7 +61,7 @@ class AccountPeriod(models.Model):
                              help='When monthly periods are created. The status is \'Draft\'. At the end of monthly '
                                   'period it is in \'Done\' status.', default='draft')
     closing_date = fields.Date(string='Closing Date', default=lambda self: self.env.company.period_closing_date)
-    journal_id = fields.Many2one('account.journal', string="Journal")
+    # journal_id = fields.Many2one('account.journal', string="Journal")
 
     _sql_constraints = [
         ('name_unique', 'unique(name,company_id)', 'Period for this company already exist!')
@@ -223,8 +226,8 @@ class AccountPeriod(models.Model):
         company_id = self.env.context.get('company_id') or self.env.company.id
         domain = [('special', '=', special), ('company_id', '=', company_id)]
 
-        if journal_id:
-            domain.append(('journal_id', '=', journal_id.id))
+        # if journal_id:
+        #     domain.append(('journal_id', '=', journal_id.id))
 
         if date:
             date = self._normalize_date(date)
@@ -237,10 +240,10 @@ class AccountPeriod(models.Model):
         domain = self._period_domain(date=date)
         return self.env['account.period'].search(domain)
 
-    @api.model
-    def _get_period_by_journal(self, journal_id, date=None):
-        domain = self._period_domain(date=date, journal_id=journal_id)
-        return self.env['account.period'].search(domain)
+    # @api.model
+    # def _get_period_by_journal(self, journal_id, date=None):
+    #     domain = self._period_domain(date=date, journal_id=journal_id)
+    #     return self.env['account.period'].search(domain)
 
     @api.depends("state")
     def _set_fiscalyear_id_state(self):
@@ -256,3 +259,23 @@ class AccountPeriod(models.Model):
 
 
 
+class AccountPeriodJournal(models.Model):
+    _name = 'account.period.journal'
+
+    period_id = fields.Many2one('account.period', string='Period')
+    journal_id = fields.Many2one('account.journal', string='Journals')
+    closing_date = fields.Date(string="Closing Date")
+    state = fields.Selection(
+        [('draft', 'Open'), ('done', 'Closed')],
+        string='Status',
+        readonly=True, copy=False, default='draft'
+    )
+
+
+    def action_draft(self):
+        mode = 'draft'
+        for rec in self:
+            if rec.period_id.state == 'done':
+                raise UserError(_('You can not re-open a journal which belongs to closed period'))
+        self.env.cr.execute('update account_period_journal set state=%s where id in %s', (mode, tuple(self.mapped('id')),))
+        return True

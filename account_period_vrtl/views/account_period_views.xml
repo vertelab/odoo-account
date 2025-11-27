@@ -28,14 +28,29 @@
                                 <field name="closing_date" />
                                 <field name="code" />
                                 <field name="special" />
-                                <field name="journal_id" />
+<!--                                <field name="journal_id" />-->
                                 <field name="company_id" widget="selection" groups="base.group_multi_company" />
                             </group>
                         </group>
+                        <notebook>
+                            <page string="Journals">
+                                <field name="account_period_journal_ids">
+                                    <list editable="bottom">
+                                        <field name="journal_id"/>
+                                        <field name="period_id" column_invisible="1"/>
+                                        <field name="closing_date"/>
+                                        <button string="Close Journal" name="%(account_period_vrtl.action_close_account_period_journal)d" type="action" class="oe_highlight" invisible="state != 'draft'"/>
+                                        <button name="action_draft" invisible="state != 'done'" string="Re-Open Journal" type="object" groups="account.group_account_manager"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
+                    <chatter/>
                 </form>
             </field>
         </record>
+
         <record id="view_account_period_tree" model="ir.ui.view">
             <field name="name">account.period.tree</field>
             <field name="model">account.period</field>
@@ -47,7 +62,7 @@
                     <field name="date_end" />
                     <field name="closing_date" />
                     <field name="special" />
-                    <field name="journal_id" />
+<!--                    <field name="journal_id" />-->
                     <field name="company_id" groups="base.group_multi_company" />
                     <field name="state" />
                     <button string="Close Period" name="%(account_period_vrtl.action_account_period_close)d" type="action" class="oe_highlight" invisible="state != 'draft'"/>

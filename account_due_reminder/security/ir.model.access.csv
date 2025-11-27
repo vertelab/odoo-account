@@ -1,2 +1,4 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 account_due_reminder.access_payment_reminder_line,access_payment_reminder_line,account_due_reminder.model_payment_reminder_line,base.group_user,1,1,1,1
+account_due_reminder.access_account_payment_plan,access_account_payment_plan,account_due_reminder.model_account_payment_plan,base.group_user,1,1,1,1
+

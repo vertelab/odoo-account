@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0-20251125\n"
+"Project-Id-Version: Odoo Server 18.0-20251117\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-25 15:08+0000\n"
-"PO-Revision-Date: 2025-11-25 16:22+0100\n"
+"POT-Creation-Date: 2025-11-26 15:21+0000\n"
+"PO-Revision-Date: 2025-11-26 16:40+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -41,17 +41,12 @@ msgid "Account Balances"
 msgstr "Saldon på konton"
 
 #. module: account_period_vrtl
-#: model:ir.model,name:account_period_vrtl.model_account_move
-msgid "Account Move link to Agreement"
-msgstr "Kontoflyttningslänk till avtal"
-
-#. module: account_period_vrtl
 #: model:ir.actions.act_window,name:account_period_vrtl.action_account_period_form
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_form
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_tree
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_res_config_settings_form
 msgid "Account Period"
-msgstr "Konto Period"
+msgstr "Kontoperiod"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_res_company__period_closing_date
@@ -59,12 +54,12 @@ msgstr "Konto Period"
 #: model:ir.model.fields,help:account_period_vrtl.field_res_config_settings__period_closing_date
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_res_config_settings_form
 msgid "Account Period Closing Date"
-msgstr "Konto Period Avslutningsdatum"
+msgstr "Kontoperiod Avslutningsdatum"
 
 #. module: account_period_vrtl
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_res_config_settings_form
 msgid "Account Period Closing Date."
-msgstr "Konto Period Avslutningsdatum."
+msgstr "Kontoperiod Avslutningsdatum."
 
 #. module: account_period_vrtl
 #. odoo-python
@@ -74,6 +69,7 @@ msgstr "Räkenskapsperioder"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_needaction
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__message_needaction
 msgid "Action Needed"
 msgstr "Åtgärder krävs"
 
@@ -83,14 +79,29 @@ msgid "Active"
 msgstr "Aktiv"
 
 #. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__activity_ids
+msgid "Activities"
+msgstr "Aktiviteter"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Aktivitet Undantag Dekoration"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__activity_state
+msgid "Activity State"
+msgstr "Aktivitetsläge"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Aktivitetstyp Ikon"
+
+#. module: account_period_vrtl
 #: model:ir.model,name:account_period_vrtl.model_account_period_create_wizard
 msgid "Added period for accounting. Either 12 months or 4 quarters."
 msgstr "Tillagd period för redovisning. Antingen 12 månader eller 4 kvartal."
-
-#. module: account_period_vrtl
-#: model:ir.model,name:account_period_vrtl.model_res_company
-msgid "Adds a RSS URL field to the res.company model"
-msgstr "Lägger till ett RSS-URL-fält i res.company-modellen"
 
 #. module: account_period_vrtl
 #: model_terms:ir.actions.act_window,help:account_period_vrtl.action_account_period_form
@@ -102,6 +113,7 @@ msgstr ""
 "                    motsvarar vanligtvis perioderna i skattedeklarationen."
 
 #. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.close_account_period_journal_form
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_close
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_close
 msgid "Are you sure?"
@@ -109,6 +121,7 @@ msgstr "Är du säker?"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_attachment_count
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__message_attachment_count
 msgid "Attachment Count"
 msgstr "Antal bifogade filer"
 
@@ -119,6 +132,7 @@ msgstr "Saldon"
 
 #. module: account_period_vrtl
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.account_period_create_wizard_form
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.close_account_period_journal_form
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_close
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_close
 msgid "Cancel"
@@ -127,6 +141,7 @@ msgstr "Avbryt"
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear_close__sure
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__sure
+#: model:ir.model.fields,field_description:account_period_vrtl.field_close_account_period_journal__sure
 msgid "Check this box"
 msgstr "Kryssa i denna ruta"
 
@@ -156,6 +171,17 @@ msgid "Close Fiscialyear"
 msgstr "Stäng Fiscialyear"
 
 #. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.close_account_period_journal_form
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_form
+msgid "Close Journal"
+msgstr "Stäng Journal"
+
+#. module: account_period_vrtl
+#: model:ir.actions.act_window,name:account_period_vrtl.action_close_account_period_journal
+msgid "Close Journal Period"
+msgstr "Avsluta journalperioden"
+
+#. module: account_period_vrtl
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_close
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_form
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_tree
@@ -176,12 +202,14 @@ msgstr "Avsluta en period"
 #. module: account_period_vrtl
 #: model:ir.model.fields.selection,name:account_period_vrtl.selection__account_fiscalyear__state__done
 #: model:ir.model.fields.selection,name:account_period_vrtl.selection__account_period__state__done
+#: model:ir.model.fields.selection,name:account_period_vrtl.selection__account_period_journal__state__done
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_search
 msgid "Closed"
 msgstr "Stängt"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__closing_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_journal__closing_date
 msgid "Closing Date"
 msgstr "Slutdatum"
 
@@ -190,6 +218,11 @@ msgstr "Slutdatum"
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__code
 msgid "Code"
 msgstr "Kod"
+
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_res_company
+msgid "Companies"
+msgstr "Bolag"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__company_id
@@ -239,6 +272,8 @@ msgstr "Skapade %d saldoposter för %s"
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__create_uid
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__create_uid
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__create_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_journal__create_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_close_account_period_journal__create_uid
 msgid "Created by"
 msgstr "Skapad av"
 
@@ -249,6 +284,8 @@ msgstr "Skapad av"
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__create_date
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__create_date
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__create_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_journal__create_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_close_account_period_journal__create_date
 msgid "Created on"
 msgstr "Skapad på"
 
@@ -313,6 +350,8 @@ msgstr "Beskrivning"
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__display_name
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__display_name
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__display_name
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_journal__display_name
+#: model:ir.model.fields,field_description:account_period_vrtl.field_close_account_period_journal__display_name
 msgid "Display Name"
 msgstr "Visningsnamn"
 
@@ -396,13 +435,20 @@ msgstr "Räkenskapsår"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_follower_ids
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__message_follower_ids
 msgid "Followers"
 msgstr "Följare"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_partner_ids
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Följare (Partners)"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Font awesome-ikon, t.ex. fa-tasks"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__date_from
@@ -417,6 +463,7 @@ msgstr "Gruppera efter"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__has_message
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__has_message
 msgid "Has Message"
 msgstr "Har meddelande"
 
@@ -427,17 +474,32 @@ msgstr "Har meddelande"
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__id
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__id
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_journal__id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_close_account_period_journal__id
 msgid "ID"
 msgstr "ID"
 
 #. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__activity_exception_icon
+msgid "Icon"
+msgstr "Ikon"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikon för att indikera en undantagsaktivitet."
+
+#. module: account_period_vrtl
 #: model:ir.model.fields,help:account_period_vrtl.field_account_balance__message_needaction
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr "Om den är markerad kräver nya meddelanden din uppmärksamhet."
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,help:account_period_vrtl.field_account_balance__message_has_error
 #: model:ir.model.fields,help:account_period_vrtl.field_account_balance__message_has_sms_error
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__message_has_error
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Om kryssrutan är markerad får vissa meddelanden ett leveransfel."
 
@@ -449,12 +511,13 @@ msgstr "Fakturans betalningsdatum"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_is_follower
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__message_is_follower
 msgid "Is Follower"
 msgstr "Är följare"
 
 #. module: account_period_vrtl
-#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__journal_id
-msgid "Journal"
+#: model:ir.model,name:account_period_vrtl.model_account_move
+msgid "Journal Entry"
 msgstr "Verifikat"
 
 #. module: account_period_vrtl
@@ -463,12 +526,21 @@ msgid "Journal Item"
 msgstr "Verifikatsdel"
 
 #. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__account_period_journal_ids
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_journal__journal_id
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_form
+msgid "Journals"
+msgstr "Verifikat"
+
+#. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__write_uid
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__write_uid
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear_close__write_uid
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__write_uid
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__write_uid
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__write_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_journal__write_uid
+#: model:ir.model.fields,field_description:account_period_vrtl.field_close_account_period_journal__write_uid
 msgid "Last Updated by"
 msgstr "Senast uppdaterad av"
 
@@ -479,6 +551,8 @@ msgstr "Senast uppdaterad av"
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__write_date
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_close__write_date
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_create_wizard__write_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_journal__write_date
+#: model:ir.model.fields,field_description:account_period_vrtl.field_close_account_period_journal__write_date
 msgid "Last Updated on"
 msgstr "Senast uppdaterad den"
 
@@ -489,11 +563,13 @@ msgstr "Matchande id"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_has_error
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__message_has_error
 msgid "Message Delivery error"
 msgstr "Fel vid leverans av meddelande"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_ids
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__message_ids
 msgid "Messages"
 msgstr "Meddelanden"
 
@@ -503,6 +579,11 @@ msgid "Move id"
 msgstr "Verifikats id"
 
 #. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Min aktivitets tidsfrist"
+
+#. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__name
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__name
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_search
@@ -510,28 +591,53 @@ msgid "Name"
 msgstr "Namn"
 
 #. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Nästa aktivitet i aktivitetskalendern"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Tidsfrist för nästa aktivitet"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__activity_summary
+msgid "Next Activity Summary"
+msgstr "Nästa aktivitetssammanfattning"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__activity_type_id
+msgid "Next Activity Type"
+msgstr "Nästa aktivitetstyp"
+
+#. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_needaction_counter
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Antal åtgärder"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_has_error_counter
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__message_has_error_counter
 msgid "Number of errors"
 msgstr "Antal fel"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,help:account_period_vrtl.field_account_balance__message_needaction_counter
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__message_needaction_counter
 msgid "Number of messages requiring action"
 msgstr "Antal meddelanden som kräver åtgärder"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,help:account_period_vrtl.field_account_balance__message_has_error_counter
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Antal meddelanden med leveransfel"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields.selection,name:account_period_vrtl.selection__account_fiscalyear__state__draft
 #: model:ir.model.fields.selection,name:account_period_vrtl.selection__account_period__state__draft
+#: model:ir.model.fields.selection,name:account_period_vrtl.selection__account_period_journal__state__draft
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_search
 msgid "Open"
 msgstr "Öppna"
@@ -584,6 +690,7 @@ msgstr "Betalning Faktureringsperiod"
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_bank_statement_line__period_id
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_move__period_id
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_move_line__period_id
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_journal__period_id
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_form
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_move_line_filter_inherit2
 msgid "Period"
@@ -602,6 +709,7 @@ msgstr "Perioder"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__rating_ids
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__rating_ids
 msgid "Ratings"
 msgstr "Betyg"
 
@@ -612,12 +720,23 @@ msgstr "Återöppna Räkenskapsår"
 
 #. module: account_period_vrtl
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_form
+msgid "Re-Open Journal"
+msgstr "Återöppna verifikat"
+
+#. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_form
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_tree
 msgid "Re-Open Period"
-msgstr "Återöppningsperiod"
+msgstr "Återöppna period"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__activity_user_id
+msgid "Responsible User"
+msgstr "Ansvarig användare"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__message_has_sms_error
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr "Fel vid leverans av SMS"
 
@@ -660,9 +779,23 @@ msgstr "Läge"
 #. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_fiscalyear__state
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__state
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period_journal__state
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_search
 msgid "Status"
 msgstr "Status"
+
+#. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Status baserad på aktiviteter\n"
+"Försenad: Förfallodatumet har redan passerats\n"
+"Idag: Aktivitetsdatumet är idag\n"
+"Planerad: Framtida aktiviteter."
 
 #. module: account_period_vrtl
 #. odoo-python
@@ -730,12 +863,19 @@ msgid "Type"
 msgstr "Typ"
 
 #. module: account_period_vrtl
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ av undantagsaktivitet som registreras."
+
+#. module: account_period_vrtl
 #: model:ir.model.fields,field_description:account_period_vrtl.field_account_balance__website_message_ids
+#: model:ir.model.fields,field_description:account_period_vrtl.field_account_period__website_message_ids
 msgid "Website Messages"
 msgstr "Webbplatsmeddelanden"
 
 #. module: account_period_vrtl
 #: model:ir.model.fields,help:account_period_vrtl.field_account_balance__website_message_ids
+#: model:ir.model.fields,help:account_period_vrtl.field_account_period__website_message_ids
 msgid "Website communication history"
 msgstr "Webbplatsens kommunikationshistorik"
 
@@ -749,6 +889,12 @@ msgstr "När månadsperioder skapas. Statusen är \"Utkast\". I slutet av månad
 #: code:addons/account_period_vrtl/wizard/account_fiscalyear_close.py:0
 msgid "You can not close fiscalyear with that has a period that is opened, please close period"
 msgstr "Du kan inte stänga räkenskapsåret med att har en period som är öppen, vänligen stäng perioden"
+
+#. module: account_period_vrtl
+#. odoo-python
+#: code:addons/account_period_vrtl/models/account_period.py:0
+msgid "You can not re-open a journal which belongs to closed period"
+msgstr "Du kan inte öppna ett verifikat igen som tillhör en stängd period"
 
 #. module: account_period_vrtl
 #. odoo-python
@@ -783,18 +929,8 @@ msgid ""
 "You have tried to validate an invoice that has the journal closed {self.journal_id.name}.\n"
 " Please change journal or remove it from the period {period_id.name}"
 msgstr ""
-"Du har försökt att attestera en faktura som har en journal som är stängd {self.journal_id.name}.\n"
-" Vänligen ändra journal eller ta bort den från perioden {period_id.name}."
-
-#. module: account_period_vrtl
-#. odoo-python
-#: code:addons/account_period_vrtl/models/account_move.py:0
-msgid ""
-"You have tried to validate an invoice that has the journal closed {self.journal_id.name}.\n"
-" Please change journal or remove it from the period {self.period_id.name}"
-msgstr ""
-"Du har försökt att attestera en faktura som har en journal som är stängd {self.journal_id.name}.\n"
-" Vänligen ändra journal eller ta bort den från perioden {self.period_id.name}."
+"Du har försökt att attestera en faktura som har ett verifikat som är stängd {self.journal_id.name}.\n"
+" Vänligen ändra verifikatet eller ta bort den från perioden {period_id.name}."
 
 #. module: account_period_vrtl
 #. odoo-python
@@ -803,9 +939,19 @@ msgid "You should choose the periods that belong to the same company."
 msgstr "Du bör välja de perioder som tillhör samma bolag."
 
 #. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_account_period_journal
+msgid "account.period.journal"
+msgstr "account.period.journal"
+
+#. module: account_period_vrtl
 #: model:ir.actions.server,name:account_period_vrtl.close_account_period_cron_ir_actions_server
 msgid "automatic close account period"
 msgstr "automatisk stängning av kontoperiod"
+
+#. module: account_period_vrtl
+#: model:ir.model,name:account_period_vrtl.model_close_account_period_journal
+msgid "close period journal"
+msgstr "dagbok för avslutningsperiod"
 
 #. module: account_period_vrtl
 #. odoo-python
@@ -819,6 +965,7 @@ msgid "fiscalyear close"
 msgstr "räkenskapsårets slut"
 
 #. module: account_period_vrtl
+#: model_terms:ir.ui.view,arch_db:account_period_vrtl.close_account_period_journal_form
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_fiscalyear_close
 #: model_terms:ir.ui.view,arch_db:account_period_vrtl.view_account_period_close
 msgid "or"

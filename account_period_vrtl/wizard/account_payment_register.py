@@ -32,9 +32,9 @@ class AccountPaymentRegister(models.TransientModel):
     def action_create_payments(self):
         for record in self:
             period_id = record.env['account.period'].date2period(record.payment_date)
-            period_by_journal = record.env['account.period']._get_period_by_journal(
-                record.journal_id, record.payment_date
-            )
+            # period_by_journal = record.env['account.period']._get_period_by_journal(
+            #     record.journal_id, record.payment_date
+            # )
 
             if period_id and period_id.state == 'done':
                 raise ValidationError(_(
