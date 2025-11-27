@@ -30,7 +30,6 @@ _logger = logging.getLogger(__name__)
 
 FIELDS = ['move_type','name','partner_id','invoice_date','journal_id','invoice_line_ids','line_ids','company_id','state']
 
-
 class AccountPeriod(models.Model):
     _name = 'account.period'
     _inherits = {'date.range': 'date_range_id'}
