@@ -39,6 +39,8 @@ class AccountMove(models.Model):
             "purchase_value": depreciation_base,
             "partner_id": aml.partner_id.id,
             "date_start": self.date,
+            "method_time": "number",
+            "prorata": True,
         }
 
     def action_post(self):
@@ -67,13 +69,6 @@ class AccountMove(models.Model):
                     .create(vals)
                 )
 
-                # asset_form = self.env["account.asset"].with_company(move.company_id).with_context(
-                #     create_asset_from_move_line=True, move_id=move.id
-                # )
-
-                # for key, val in vals.items():
-                #     setattr(asset_form, key, val)
-                # asset = asset_form.save()
                 asset.rec_type = aml.asset_profile_id.rec_type or aml.deferred_expense_profile_id.rec_type
 
                 asset.analytic_distribution = aml.analytic_distribution

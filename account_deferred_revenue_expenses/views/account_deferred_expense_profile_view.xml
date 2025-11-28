@@ -1,5 +1,6 @@
 <odoo>
     <data>
+    
         <record id="account_deferred_expense_profile_view_form" model="ir.ui.view">
             <field name="name">account.deferred.expense.profile.form</field>
             <field name="model">account.asset.profile</field>
@@ -100,6 +101,7 @@
                 </form>
             </field>
         </record>
+
         <record id="account_deferred_expense_profile_view_list" model="ir.ui.view">
             <field name="name">account.deferred.expense.profile.list</field>
             <field name="model">account.asset.profile</field>
@@ -125,6 +127,7 @@
                 </list>
             </field>
         </record>
+
         <record id="account_deferred_expense_profile_view_search" model="ir.ui.view">
             <field name="name">account.deferred.expense.profile.search</field>
             <field name="model">account.asset.profile</field>
@@ -174,5 +177,6 @@
         </record>
 
         <menuitem id="account_deferred_income_profile_menu" action="account_deferred_income_profile_action" parent="account.account_account_menu"/>
+    
     </data>
 </odoo>
