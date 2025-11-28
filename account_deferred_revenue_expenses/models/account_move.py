@@ -55,13 +55,19 @@ class AccountMove(models.Model):
                 if aml.asset_id:
                     aml.asset_id.rec_type = aml.asset_profile_id.rec_type or aml.deferred_expense_profile_id.rec_type
                     continue
-                asset_form = self.env["account.asset"].with_company(move.company_id).with_context(
-                    create_asset_from_move_line=True, move_id=move.id
-                )
 
-                for key, val in vals.items():
-                    setattr(asset_form, key, val)
-                asset = asset_form.save()
+                vals.update({
+                    "create_asset_from_move_line": True,
+                    "move_id": move.id})
+                
+                asset = self.env["account.asset"].with_company(move.company_id).create(vals)
+                # asset_form = self.env["account.asset"].with_company(move.company_id).with_context(
+                #     create_asset_from_move_line=True, move_id=move.id
+                # )
+
+                # for key, val in vals.items():
+                #     setattr(asset_form, key, val)
+                # asset = asset_form.save()
                 asset.rec_type = aml.asset_profile_id.rec_type or aml.deferred_expense_profile_id.rec_type
 
                 asset.analytic_distribution = aml.analytic_distribution
