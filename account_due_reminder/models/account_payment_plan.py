@@ -28,35 +28,29 @@ class AccountPaymentPlan(models.Model):
         related='account_move_id.company_id', store=True, readonly=True
     )
     start_date = fields.Date(string="Payment Start Date", required=True, default=fields.Date.today)
-    duration = fields.Integer(string="Payment Duration", required=True, default=1)
+    duration = fields.Integer(string="Payment Duration (Months)", compute='_compute_duration', readonly=True)
     end_date = fields.Date(string="Payment End Date", required=True)
     contract_id = fields.Many2one('contract.contract', string="Contract", copy=False)
     state = fields.Selection([('active', 'Active'), ('inactive', 'Inactive')], string="State", default='active')
     feared_loss_entry = fields.Many2one('account.move', string="Feared Loss")
     actual_loss_move = fields.Many2one('account.move', string="Actual Loss")
 
-    @api.onchange('duration')
-    def _onchange_duration(self):
-        if self.start_date and self.duration:
-            self.end_date = self.start_date + relativedelta(months=self.duration)
-
-    @api.onchange('end_date')
-    def _onchange_end_date(self):
-        if self.start_date and self.end_date:
-            if self.end_date >= self.start_date:
-                delta = relativedelta(self.end_date, self.start_date)
-                total_months = delta.years * 12 + delta.months
-                if delta.days > 0:
-                    total_months += 1
-                self.duration = total_months if total_months > 0 else 1
+    @api.depends('start_date', 'end_date')
+    def _compute_duration(self):
+        """Calculate duration in months based on start and end dates"""
+        for record in self:
+            if record.start_date and record.end_date:
+                if record.end_date >= record.start_date:
+                    delta = relativedelta(record.end_date, record.start_date)
+                    total_months = delta.years * 12 + delta.months
+                    # If there are remaining days, count as an additional month
+                    if delta.days > 0:
+                        total_months += 1
+                    record.duration = total_months if total_months > 0 else 1
+                else:
+                    record.duration = 0
             else:
-                self.end_date = self.start_date
-                self.duration = 1
-
-    @api.onchange('start_date')
-    def _onchange_start_date(self):
-        if self.start_date and self.duration:
-            self.end_date = self.start_date + relativedelta(months=self.duration)
+                record.duration = 0
 
     def action_create_payment_plan(self):
         if not self.contract_id:
@@ -100,7 +94,6 @@ class AccountPaymentPlan(models.Model):
 
     def _view_contract(self):
         name = f'{self.account_move_id.partner_id.name} - {self.account_move_id.name}'
-        print(self.contract_id)
         return {
             "type": "ir.actions.act_window",
             "res_model": "contract.contract",
