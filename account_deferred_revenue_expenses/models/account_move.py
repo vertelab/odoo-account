@@ -48,6 +48,10 @@ class AccountMove(models.Model):
                 lambda line: (line.asset_profile_id or line.deferred_expense_profile_id) and not line.tax_line_id
             ):
                 vals = move._prepare_asset_vals(aml)
+
+                if aml.depreciation_start_date:
+                    vals['date_start'] = aml.depreciation_start_date
+
                 if not aml.name:
                     raise UserError(
                         _("Asset name must be set in the label of the line.")
@@ -58,7 +62,8 @@ class AccountMove(models.Model):
 
                 vals.update({
                     "create_asset_from_move_line": True,
-                    "move_id": move.id})
+                    "move_id": move.id
+                })
                 
                 asset = self.env["account.asset"].with_company(move.company_id).create(vals)
                 # asset_form = self.env["account.asset"].with_company(move.company_id).with_context(
@@ -119,10 +124,13 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     
-    deferred_expense_profile_id = fields.Many2one('account.asset.profile', string="Accural",
-                                                  domain=[('rec_type', '=', 'deferred_expense')])
-    asset_profile_id = fields.Many2one(comodel_name="account.asset.profile", string="Asset Profile", store=True,
-                                       readonly=False,)
+    deferred_expense_profile_id = fields.Many2one(
+        'account.asset.profile', string="Accrual", domain=[('rec_type', '=', 'deferred_expense')]
+    )
+    asset_profile_id = fields.Many2one(
+        comodel_name="account.asset.profile", string="Asset Profile", store=True, readonly=False
+    )
+    depreciation_start_date = fields.Date(string="Depreciation Start Date")
 
     
     def _compute_asset_profile(self):
