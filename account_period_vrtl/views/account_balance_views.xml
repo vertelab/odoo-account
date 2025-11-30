@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_balance_list" model="ir.ui.view">
+        <field name="name">account.balance.list</field>
+        <field name="model">account.balance</field>
+        <field name="arch" type="xml">
+            <list string="Account Balances" create="false" delete="true">
+                <field name="fiscalyear_id"/>
+                <field name="account_id"/>
+                <field name="debit" sum="Total Debit"/>
+                <field name="credit" sum="Total Credit"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_account_balance_form" model="ir.ui.view">
+        <field name="name">account.balance.form</field>
+        <field name="model">account.balance</field>
+        <field name="arch" type="xml">
+            <form string="Account Balance" create="false" delete="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="fiscalyear_id"/>
+                            <field name="account_id"/>
+                        </group>
+                        <group>
+                            <field name="debit"/>
+                            <field name="credit"/>
+                            <field name="currency_id"/>
+                            <field name="date"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

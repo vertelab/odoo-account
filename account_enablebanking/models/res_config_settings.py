@@ -5,14 +5,18 @@ from odoo.exceptions import UserError
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    interval_number = fields.Integer(string="Interval Number", config_parameter='enablebanking.interval_number')
+    interval_number = fields.Integer(
+        string="Interval Number", config_parameter='enablebanking.interval_number', default=1
+    )
 
     interval_type = fields.Selection([
         ('minutes', 'Minutes'),
         ('hours', 'Hours'),
         ('days', 'Days'),
         ('weeks', 'Weeks'),
-        ('months', 'Months')], string="Interval Type", config_parameter='enablebanking.interval_type')
+        ('months', 'Months')],
+        string="Interval Type", config_parameter='enablebanking.interval_type', default='hours'
+    )
 
     def set_values(self):
         super(ResConfigSettings, self).set_values()

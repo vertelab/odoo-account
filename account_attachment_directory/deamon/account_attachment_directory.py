@@ -1,58 +1,82 @@
-from configparser import ConfigParser
-from odoorpc import Odoo
-from odoorpc.error import RPCError
+#!/usr/bin/env python3
 import argparse
-import inotify.adapters
+import base64
 import logging
 import multiprocessing
 import os
 import re
+import signal
+from configparser import ConfigParser
+import inotify.adapters
+from odoorpc import ODOO
+from odoorpc.error import RPCError
 
 
 # Loggningskonfiguration
-logging.basicConfig(filename='odoo_file_watcher.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('/var/log/odoo/account_attachment_directory.log'),
+        logging.StreamHandler()
+    ]
+)
 
 def read_admin_password():
     config = ConfigParser()
-    config.read('/etc/odoo.conf')
-    return config.get('options', 'admin_password')
+    config.read('/etc/odoo/odoo.conf')
+    return config.get('options', 'admin_passwd')
+
+def get_all_databases():
+    """TODO: to be used later"""
+    try:
+        odoo = ODOO('localhost', port=8069)
+        databases = odoo.db.list()
+        return databases
+    except Exception as e:
+        logging.error(f'Failed to get databases from Odoo: {e}')
+        return []
 
 def connect_to_odoo(database):
     admin_password = read_admin_password()
     try:
-        odoo = Odoo('https://localhost:8069', database=database)
-        odoo.login('admin', admin_password)
+        odoo = ODOO('localhost', port=8069)
+        odoo.login(database, 'admin', admin_password)
         return odoo
     except RPCError as e:
         logging.error(f'Fel vid anslutning till Odoo-databas {database}: {e}')
         return None
 
 def get_attachment_directory(odoo):
-    param = odoo.env['ir.config_parameter'].search([('key', '=', 'Account-attachement-directory')])
+    param = odoo.env['ir.config_parameter'].search_read(
+        [('key', '=', 'account_attachment_directory')], ['key', 'value'], limit=1
+    )
     if param:
-        return param[0].value
+        logging.info(f"Account Attachment Directory: {param[0].get('value')}")
+        return param[0].get('value')
     else:
         return None
 
 def process_file(file_path, odoo):
     file_name = os.path.basename(file_path)
     match = re.match(r'(.*)_(.*)\.(.*)', file_name)
+    AccountMove = odoo.env['account.move']
     if match:
         verifikat_id = match.group(1)
         file_extension = match.group(3)
         # Använd wildcard för sökningen om filnamnet innehåller "-"
         verifikat_id = verifikat_id.replace('-', '%')
-        verifikat = odoo.env['account.move'].search([('name', 'like', verifikat_id)])
+        verifikat = AccountMove.search([
+            ('name', 'like', verifikat_id), ('move_type', 'not in', ['in_refund', 'out_refund'])
+        ], limit=1)
         if verifikat:
-            # Lägg till filen som bilaga på verifikatet
             try:
                 with open(file_path, 'rb') as f:
                     odoo.env['ir.attachment'].create({
                         'name': os.path.splitext(file_name)[0],
-                        'datas': f.read(),
-                        'datas_fname': file_name,
+                        'datas': base64.b64encode(f.read()).decode('utf-8'),
                         'res_model': 'account.move',
-                        'res_id': verifikat[0].id
+                        'res_id': verifikat[0]
                     })
                 logging.info(f'Filen {file_name} har lagts till som bilaga på verifikatet {verifikat_id}')
                 # Radera filen
@@ -76,6 +100,7 @@ def watch_directory(database, attachment_directory):
         # Watch the directory
         i = inotify.adapters.Inotify()
         i.add_watch(attachment_directory, mask=inotify.constants.IN_CLOSE_WRITE)
+        logging.info(f'Watching directory: {attachment_directory}')
         for event in i.event_gen():
             if event:
                 file_path = os.path.join(attachment_directory, event[3])
@@ -83,8 +108,8 @@ def watch_directory(database, attachment_directory):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Odoo-databse watcher')
-    parser.add_argument('-d', '--db', required=True, help='Commasepareted list od Odoo-databases')
+    parser = argparse.ArgumentParser(description='Odoo Database Watcher')
+    parser.add_argument('-d', '--db', required=True, help='Comma separated list od Odoo Databases')
     args = parser.parse_args()
 
     processes = []
@@ -93,7 +118,9 @@ def main():
         if odoo:
             attachment_directory = get_attachment_directory(odoo)
             if attachment_directory:
-                p = multiprocessing.Process(target=watch_directory, args=(database, attachment_directory, os.getpid()))
+                p = multiprocessing.Process(
+                    target=watch_directory, args=(database, attachment_directory)
+                )
                 p.start()
                 processes.append(p)
 

@@ -47,7 +47,7 @@
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['account'],
     'data': [
-        'views/res_config_views.xml',
+        'views/res_config_settings_views.xml',
         # 'security/ir_rule.xml',
     ],
     'demo': [],

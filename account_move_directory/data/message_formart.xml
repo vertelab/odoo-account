@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="edi_message_format_datev_csv" model="edi.message.format">
+        <field name="name">extf:datev:csv</field>
+        <field name="description">DateV CSV</field>
+    </record>
+
+
+    <record id="edi_message_format_sie_4" model="edi.message.format">
+        <field name="name">sie:4</field>
+        <field name="description">SIE 4</field>
+    </record>
+</odoo>

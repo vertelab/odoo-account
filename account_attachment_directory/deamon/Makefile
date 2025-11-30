@@ -16,7 +16,7 @@ GROUP = odoo
 
 all: install
 
-install: $(PY_FILE) $(START_SCRIPT)
+install: $(PY_FILE)
 	# Install the Python file
 	cp $(PY_FILE) $(INSTALL_DIR)/$(START_SCRIPT)
 	chmod +x $(INSTALL_DIR)/$(START_SCRIPT)
@@ -41,10 +41,10 @@ uninstall:
 	rm $(SYSTEMD_DIR)/$(SYSTEMD_SERVICE_FILE)
 
 	# Remove the systemd timer file
-	rm $(SYSTEMD_DIR)/$(SYSTEMD_TIMER_FILE)
+	-rm $(SYSTEMD_DIR)/$(SYSTEMD_TIMER_FILE)
 
 	# Remove the Python file and the start script
-	rm $(INSTALL_DIR)/$(PY_FILE)
+	-rm $(INSTALL_DIR)/$(PY_FILE)
 	rm $(INSTALL_DIR)/$(START_SCRIPT)
 
 	# Reload the systemd daemon

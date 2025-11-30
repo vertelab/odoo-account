@@ -11,6 +11,7 @@ class AccountMove(models.Model):
     next_reminder_date = fields.Date('Next Reminder', compute='_compute_next_reminder', store=True)
     last_reminder_id = fields.Many2one('payment.reminder.line', 'Last Reminder Sent')
     reminder_count = fields.Integer('Reminders Sent', default=0)
+    payment_plan_id = fields.Many2one('account.payment.plan', string='Payment Plan', copy=False)
 
     @api.depends('invoice_date_due', 'payment_state', 'invoice_payment_term_id', 'last_reminder_id')
     def _compute_next_reminder(self):
@@ -114,3 +115,27 @@ class AccountMove(models.Model):
                         except Exception as e:
                             _logger.error(f"Failed to send reminder for {invoice.name}: {e}")
                         break
+
+    def action_create_payment_plan(self):
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "account.payment.plan",
+            "context": {
+                'default_account_move_id': self.id,
+                'default_untaxed_amount': self.amount_untaxed,
+            },
+            "name": _("Payment Plan"),
+            'view_mode': 'form',
+            'view_id': self.env.ref('account_due_reminder.view_account_account_payment_plan_wizard_form').id,
+            'target': 'new'
+        }
+
+    # def action_create_payment_plan(self):
+    #     return {
+    #         "type": "ir.actions.act_window",
+    #         "res_model": "account.payment.plan",
+    #         "domain": [('id', 'in', account_move_lines.move_id.ids)],
+    #         "context": {"create": False, 'default_move_type': 'in_invoice'},
+    #         "name": _("Vendor Bills"),
+    #         'view_mode': 'list,form',
+    #     }

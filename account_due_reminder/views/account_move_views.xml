@@ -23,6 +23,21 @@
                     </button>
                 </div>
 
+                <xpath expr="//div[@name='due_date']" position="after">
+<!--                    <field name="contract_id" invisible="not contract_id"/>-->
+                    <field name="payment_plan_id" invisible="not payment_plan_id"/>
+                </xpath>
+
+                <xpath expr="//button[last()]" position="after">
+                    <button name="action_create_payment_plan"
+                        string="Create Payment Plan"
+                        type="object"
+                        groups="account.group_account_invoice"
+                        invisible="state != 'posted' or move_type != 'out_invoice'"
+                        class="btn btn-primary"
+                    />
+                </xpath>
+
                 <!-- Add reminder fields after payment terms -->
                 <field name="invoice_payment_term_id" position="after">
                     <field name="next_reminder_date"
