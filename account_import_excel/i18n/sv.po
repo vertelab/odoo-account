@@ -1,0 +1,84 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_import_excel
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20251201\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-01 13:13+0000\n"
+"PO-Revision-Date: 2025-12-01 14:15+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: account_import_excel
+#: model_terms:ir.ui.view,arch_db:account_import_excel.account_import_excel_wizard_form
+msgid "Cancel"
+msgstr "Avbryt"
+
+#. module: account_import_excel
+#: model:ir.model.fields,field_description:account_import_excel.field_import_excel_wizard__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: account_import_excel
+#: model:ir.model.fields,field_description:account_import_excel.field_import_excel_wizard__create_date
+msgid "Created on"
+msgstr "Skapad den"
+
+#. module: account_import_excel
+#: model:ir.model.fields,field_description:account_import_excel.field_import_excel_wizard__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: account_import_excel
+#: model:ir.model.fields,field_description:account_import_excel.field_import_excel_wizard__excel_file
+msgid "Excel File"
+msgstr "Excelfil"
+
+#. module: account_import_excel
+#: model:ir.model.fields,field_description:account_import_excel.field_import_excel_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_import_excel
+#: model:ir.actions.act_window,name:account_import_excel.action_import_excel_wizard
+#: model_terms:ir.ui.view,arch_db:account_import_excel.view_invoice_tree_add_import_excel
+msgid "Import Excel"
+msgstr "Importera Excel"
+
+#. module: account_import_excel
+#: model:ir.model.fields,field_description:account_import_excel.field_import_excel_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: account_import_excel
+#: model:ir.model.fields,field_description:account_import_excel.field_import_excel_wizard__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad den"
+
+#. module: account_import_excel
+#: model_terms:ir.ui.view,arch_db:account_import_excel.account_import_excel_wizard_form
+msgid "Ok"
+msgstr "Ok"
+
+#. module: account_import_excel
+#: model:ir.model,name:account_import_excel.model_import_excel_wizard
+msgid "Simpel excel import wizard"
+msgstr "Enkel excelguideimport"
+
+#. module: account_import_excel
+#: model_terms:ir.ui.view,arch_db:account_import_excel.account_import_excel_wizard_form
+msgid "Warning"
+msgstr "Varning"
+
+#. module: account_import_excel
+#: model:ir.actions.server,name:account_import_excel.action_open_import_excel_wizard
+msgid "action.open.import.excel.wizard"
+msgstr "action.open.import.excel.wizard"
