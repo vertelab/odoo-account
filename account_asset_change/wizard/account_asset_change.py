@@ -1,16 +1,15 @@
-# -*- coding: utf-8 -*-
+import logging
+from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, _, Command
 from odoo.exceptions import UserError
 from odoo.tools.misc import format_date
 from odoo.tools import float_is_zero
 
-from dateutil.relativedelta import relativedelta
-
+_logger = logging.getLogger(__name__)
 
 class AssetModify(models.TransientModel):
     _name = 'asset.change'
-    _inherit = 'analytic.mixin'
     _description = 'Modify Asset'
 
     account_asset_counterpart_id = fields.Many2one(
@@ -133,6 +132,15 @@ class AssetModify(models.TransientModel):
         readonly=False,
     )
 
+    analytic_distribution = fields.Json(
+        'Analytic Distribution',
+    )
+
+    analytic_precision = fields.Integer(
+        store=False,
+        default=lambda self: self.env['decimal.precision'].precision_get("Percentage Analytic"),
+    )
+
     def _compute_modify_action(self):
         if self.env.context.get('resume_after_pause'):
             return 'resume'
@@ -172,12 +180,12 @@ class AssetModify(models.TransientModel):
         for record in self:
             record.company_id.sudo().loss_account_id = record.loss_account_id
 
-    @api.onchange('modify_action')
-    def _onchange_action(self):
-        # ~ if self.modify_action == 'sell' and self.asset_id.children_ids.filtered(lambda a: a.state in ('draft', 'open') or a.value_residual > 0):
-            # ~ raise UserError(_("You cannot automate the journal entry for an asset that has a running gross increase. Please use 'Dispose' on the increase(s)."))
-        if self.modify_action not in ('modify', 'resume','move'):
-            self.write({'value_residual': self.asset_id._get_residual_value_at_date(self.date), 'salvage_value': self.asset_id.salvage_value})
+    # @api.onchange('modify_action')
+    # def _onchange_action(self):
+    #     # ~ if self.modify_action == 'sell' and self.asset_id.children_ids.filtered(lambda a: a.state in ('draft', 'open') or a.value_residual > 0):
+    #         # ~ raise UserError(_("You cannot automate the journal entry for an asset that has a running gross increase. Please use 'Dispose' on the increase(s)."))
+    #     if self.modify_action not in ('modify', 'resume','move'):
+    #         self.write({'value_residual': self.asset_id._get_residual_value_at_date(self.date), 'salvage_value': self.asset_id.salvage_value})
 
     @api.onchange('invoice_ids')
     def _onchange_invoice_ids(self):
@@ -252,7 +260,7 @@ class AssetModify(models.TransientModel):
                     date=format_date(self.env, wizard.date), extra_text=text,
                 )
             elif wizard.modify_action == 'move':
-                wizard.analytic_distribution = asset_id.analytic_distribution
+                # wizard.analytic_distribution = wizard.asset_id.analytic_distribution
                 text = ""
                 wizard.informational_text = _(
                     "A credit journal entry will be posted for the old analytic accounts and a new with the new accounts."
@@ -469,54 +477,31 @@ class AssetModify(models.TransientModel):
 
     def move_analytic(self):
         # Create a credit  and debit to move from onw analytic account to another
-        credit_move = self.env['account.move'].create({
-                'journal_id': self.asset_id.journal_id.id,
+        _logger.error(f"{self.analytic_distribution=}")
+        vals = {
+                'journal_id': self.asset_id.profile_id.journal_id.id,
                 'date': self.date,
                 'move_type': 'entry',
                 # ~ 'asset_move_type': 'positive_revaluation',  TODO
                 'line_ids': [
                     Command.create({
-                        'account_id': self.asset_id.id,
-                        'analytic_distribution': self.asset_id.analytic_distribution,  # TODO on what line?
-                        'debit': self.asset_id.value_residual,
-                        'credit': 0,
+                        'account_id': self.asset_id.profile_id.account_asset_id.id,
+                        'analytic_distribution': self.asset_id.analytic_distribution,
+                        'debit':self.asset_id.value_residual,
                         'name': _(f'Move analytic distributin from {self.asset_id.analytic_distribution} for: {self.asset_id.name}'),
                     }),
                     Command.create({
-                        'account_id': self.account_asset_counterpart_id.id,
-                        'debit': 0,
-                        'analytic_distribution': self.asset_id.analytic_distribution,  # TODO on what line?
+                        'account_id': self.asset_id.profile_id.account_asset_id.id,
                         'credit': self.asset_id.value_residual,
+                        'analytic_distribution': self.analytic_distribution, 
                         'name': _(f'Move analytic distributin from {self.asset_id.analytic_distribution} for: {self.asset_id.name}'),
                     }),
                 ],
-            })
-        credit_move._post()
-
-        debit_move = self.env['account.move'].create({
-                'journal_id': self.asset_id.journal_id.id,
-                'date': self.date,
-                'move_type': 'entry',
-                # ~ 'asset_move_type': 'positive_revaluation',  TODO
-                'line_ids': [
-                    Command.create({
-                        'account_id': self.asset_id.id,
-                        'analytic_distribution': self.analytic_distribution,  # TODO on what line?
-                        'credit': self.asset_id.value_residual,
-                        'debit': 0,
-                        'name': _(f'Move analytic distributin to {self.analytic_distribution} for: {self.asset_id.name}'),
-                    }),
-                    Command.create({
-                        'account_id': self.account_asset_counterpart_id.id,
-                        'credit': 0,
-                        'analytic_distribution': self.asset_id.analytic_distribution,  # TODO on what line?
-                        'debit': self.asset_id.value_residual,
-                        'name': _(f'Move analytic distributin to {self.asset_id.analytic_distribution} for: {self.asset_id.name}'),
-                    }),
-                ],
-            })
-        debit_move._post()
-        (credit_move.line_ids[0] | debitmove.line_ids[0]).reconcile()  # TODO what lines?
+            }
+        move = self.env['account.move'].create(vals)
         self.asset_id.analytic_distribution = self.analytic_distribution
+        move._post()
+        #(credit_move.line_ids[0] | debit_move.line_ids[0]).reconcile()  # TODO what lines?
+        #self.asset_id.analytic_distribution = self.analytic_distribution
 
     
