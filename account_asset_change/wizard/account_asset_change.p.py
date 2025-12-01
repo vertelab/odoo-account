@@ -477,7 +477,7 @@ class AssetModify(models.TransientModel):
                 'line_ids': [
                     Command.create({
                         'account_id': self.asset_id.id,
-                        'analytic_distribution': self.asset_id.analytic_distribution,,  # TODO on what line?
+                        'analytic_distribution': self.asset_id.analytic_distribution,  # TODO on what line?
                         'debit': self.asset_id.value_residual,
                         'credit': 0,
                         'name': _(f'Move analytic distributin from {self.asset_id.analytic_distribution} for: {self.asset_id.name}'),
@@ -485,7 +485,7 @@ class AssetModify(models.TransientModel):
                     Command.create({
                         'account_id': self.account_asset_counterpart_id.id,
                         'debit': 0,
-                        'analytic_distribution': self.asset_id.analytic_distribution,,  # TODO on what line?
+                        'analytic_distribution': self.asset_id.analytic_distribution,  # TODO on what line?
                         'credit': self.asset_id.value_residual,
                         'name': _(f'Move analytic distributin from {self.asset_id.analytic_distribution} for: {self.asset_id.name}'),
                     }),
@@ -501,7 +501,7 @@ class AssetModify(models.TransientModel):
                 'line_ids': [
                     Command.create({
                         'account_id': self.asset_id.id,
-                        'analytic_distribution': self.analytic_distribution,,  # TODO on what line?
+                        'analytic_distribution': self.analytic_distribution,  # TODO on what line?
                         'credit': self.asset_id.value_residual,
                         'debit': 0,
                         'name': _(f'Move analytic distributin to {self.analytic_distribution} for: {self.asset_id.name}'),
