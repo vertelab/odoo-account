@@ -45,7 +45,7 @@
             <field name="account_asset_counterpart_id" invisible="modify_action != 'modify' or not gain_value" required="gain_value" />
             <field name="account_depreciation_id" invisible="modify_action != 'modify'" required="gain_value" />
             <field name="account_depreciation_expense_id" invisible="modify_action != 'modify'" required="gain_value" />
-            <field name="analytic_distribution" force_save="1" placeholder="New analytic account disitrbution" invisible="modify_action != 'move'" required="modify_action in ('move',)" groups="analytic.group_analytic_accounting" widget="analytic_distribution" />
+            <field name="analytic_distribution" placeholder="New analytic account disitrbution" invisible="modify_action != 'move'" required="modify_action in ('move',)" groups="analytic.group_analytic_accounting" widget="analytic_distribution" />
             <field name="name" placeholder="Add an internal note" required="modify_action in ('modify', 'resume')" />
           </group>
           <group>

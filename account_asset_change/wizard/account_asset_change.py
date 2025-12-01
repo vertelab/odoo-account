@@ -477,7 +477,6 @@ class AssetModify(models.TransientModel):
 
     def move_analytic(self):
         # Create a credit  and debit to move from onw analytic account to another
-        _logger.error(f"{self.analytic_distribution=}")
         vals = {
                 'journal_id': self.asset_id.profile_id.journal_id.id,
                 'date': self.date,
