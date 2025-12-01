@@ -1,0 +1,94 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_mass_invoice_generation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20251201\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-01 13:20+0000\n"
+"PO-Revision-Date: 2025-12-01 14:26+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: account_mass_invoice_generation
+#. odoo-python
+#: code:addons/account_mass_invoice_generation/models/account_move.py:0
+msgid "Bulk Account Invoice"
+msgstr "Faktura för bulkkonto"
+
+#. module: account_mass_invoice_generation
+#: model_terms:ir.ui.view,arch_db:account_mass_invoice_generation.bulk_account_move_wizard_form
+msgid "Bulk Account Invoice Wizard"
+msgstr "Guiden för fakturering av bulkkonto"
+
+#. module: account_mass_invoice_generation
+#: model:ir.model,name:account_mass_invoice_generation.model_bulk_account_move_wizard
+msgid "Bulk Account Move Wizard"
+msgstr "Guiden för flytt av bulkkonto"
+
+#. module: account_mass_invoice_generation
+#: model:ir.actions.server,name:account_mass_invoice_generation.action_bulk_account_invoice
+msgid "Bulk Create Invoice"
+msgstr "Skapa faktura i bulk"
+
+#. module: account_mass_invoice_generation
+#: model_terms:ir.ui.view,arch_db:account_mass_invoice_generation.bulk_account_move_wizard_form
+msgid "Cancel"
+msgstr "Avbryt"
+
+#. module: account_mass_invoice_generation
+#: model_terms:ir.ui.view,arch_db:account_mass_invoice_generation.bulk_account_move_wizard_form
+msgid "Create Bulk Invoice"
+msgstr "Skapa massfaktura"
+
+#. module: account_mass_invoice_generation
+#: model:ir.model.fields,field_description:account_mass_invoice_generation.field_bulk_account_move_wizard__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: account_mass_invoice_generation
+#: model:ir.model.fields,field_description:account_mass_invoice_generation.field_bulk_account_move_wizard__create_date
+msgid "Created on"
+msgstr "Skapad den"
+
+#. module: account_mass_invoice_generation
+#: model:ir.model.fields,field_description:account_mass_invoice_generation.field_bulk_account_move_wizard__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: account_mass_invoice_generation
+#: model:ir.model.fields,field_description:account_mass_invoice_generation.field_bulk_account_move_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_mass_invoice_generation
+#: model:ir.model.fields,field_description:account_mass_invoice_generation.field_bulk_account_move_wizard__move_id
+msgid "Invoice"
+msgstr "Faktura"
+
+#. module: account_mass_invoice_generation
+#: model:ir.model,name:account_mass_invoice_generation.model_account_move
+msgid "Journal Entry"
+msgstr "Verifikat"
+
+#. module: account_mass_invoice_generation
+#: model:ir.model.fields,field_description:account_mass_invoice_generation.field_bulk_account_move_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: account_mass_invoice_generation
+#: model:ir.model.fields,field_description:account_mass_invoice_generation.field_bulk_account_move_wizard__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad den"
+
+#. module: account_mass_invoice_generation
+#: model:ir.model.fields,field_description:account_mass_invoice_generation.field_bulk_account_move_wizard__partner_ids
+msgid "Partners"
+msgstr "Partners"

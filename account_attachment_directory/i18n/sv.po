@@ -1,0 +1,44 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_attachment_directory
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20251201\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-01 13:06+0000\n"
+"PO-Revision-Date: 2025-12-01 14:08+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: account_attachment_directory
+#: model:ir.model.fields,field_description:account_attachment_directory.field_res_config_settings__account_attachment_directory
+#: model_terms:ir.ui.view,arch_db:account_attachment_directory.view_res_config_settings_form
+msgid "Account Attachment Directory"
+msgstr "Katalog för kontobilagor"
+
+#. module: account_attachment_directory
+#: model_terms:ir.ui.view,arch_db:account_attachment_directory.view_res_config_settings_form
+msgid "Add the path of the directory you want watched."
+msgstr "Lägg till sökvägen till den katalog du vill bevaka."
+
+#. module: account_attachment_directory
+#: model:ir.model,name:account_attachment_directory.model_res_config_settings
+msgid "Config Settings"
+msgstr "Inställningar"
+
+#. module: account_attachment_directory
+#: model_terms:ir.ui.view,arch_db:account_attachment_directory.view_res_config_settings_form
+msgid "Directory Watch"
+msgstr "Katalogbevakning"
+
+#. module: account_attachment_directory
+#: model:ir.model.fields,help:account_attachment_directory.field_res_config_settings__account_attachment_directory
+msgid "Path to a directory for loading attachments to Account Moves. "
+msgstr "Sökväg till en katalog för att läsa in bilagor till kontoflyttar. "
