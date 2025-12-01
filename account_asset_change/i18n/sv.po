@@ -1,0 +1,577 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_asset_change
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20251201\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-01 08:20+0000\n"
+"PO-Revision-Date: 2025-12-01 09:35+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid ""
+"%s Future entries will be recomputed to depreciate the asset following the "
+"changes."
+msgstr ""
+"%s Framtida poster kommer att räknas om för att skriva av tillgången efter "
+"ändringarna."
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid ""
+"A credit journal entry will be posted for the old analytic accounts and a "
+"new with the new accounts.Future entries will be recomputed to use the new "
+"analytic account distribution"
+msgstr ""
+"En kreditjournalpost kommer att bokföras för de gamla analytiska kontona "
+"och en ny med de nya kontona. Framtida poster kommer att räknas om för att "
+"använda den nya analytiska kontofördelningen"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid ""
+"A depreciation entry will be posted on and including the date %(date)s. <br/"
+"> %(extra_text)s Future entries will be recomputed to depreciate the asset "
+"following the changes."
+msgstr ""
+"En avskrivningspost kommer att bokföras från och med datumet %(date)s. <br/"
+"> %(extra_text)s Framtida poster kommer att räknas om för att skriva av "
+"tillgången efter ändringarna."
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid ""
+"A depreciation entry will be posted on and including the date %(date)s.<br/"
+"> A disposal entry will be posted on the %(account_type)s account "
+"<b>%(account)s</b>."
+msgstr ""
+"En avskrivningspost kommer att bokföras från och med datumet %(date)s.<br/> "
+"En avyttringspost kommer att bokföras på kontot %(account_type)s "
+"<b>%(account)s</b>."
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid ""
+"A depreciation entry will be posted on and including the date %(date)s.<br/"
+"> A second entry will neutralize the original income and post the  outcome "
+"of this sale on account <b>%(account)s</b>."
+msgstr ""
+"En avskrivningspost kommer att bokföras från och med datumet %(date)s.<br/> "
+"En andra post kommer att neutralisera den ursprungliga inkomsten och "
+"bokföra resultatet av denna försäljning på konto <b>%(account)s</b>."
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "A depreciation entry will be posted on and including the date %s."
+msgstr "En avskrivningspost kommer att bokföras från och med datumet %s."
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "A gross increase has been created: %(link)s"
+msgstr "En bruttoökning har skapats: %(link)s"
+
+#. module: account_asset_change
+#: model:ir.model.fields,help:account_asset_change.field_account_asset__account_depreciation_id
+msgid "Account used in the depreciation entries, to decrease the asset value."
+msgstr ""
+"Konto som används i avskrivningsposterna för att minska tillgångens värde."
+
+#. module: account_asset_change
+#: model:ir.model.fields,help:account_asset_change.field_account_asset__account_depreciation_expense_id
+msgid ""
+"Account used in the periodical entries, to record a part of the asset as "
+"expense."
+msgstr ""
+"Konto som används i periodbokföringen för att kostnadsföra en del av "
+"tillgången."
+
+#. module: account_asset_change
+#: model:ir.model.fields,help:account_asset_change.field_account_asset__account_asset_id
+msgid ""
+"Account used to record the purchase of the asset at its original price."
+msgstr ""
+"Konto som används för att redovisa inköpet av tillgången till dess "
+"ursprungliga pris."
+
+#. module: account_asset_change
+#: model:ir.model.fields,help:account_asset_change.field_asset_change__gain_account_id
+msgid "Account used to write the journal item in case of gain"
+msgstr "Konto som används för att skriva journalposten i händelse av vinst"
+
+#. module: account_asset_change
+#: model:ir.model.fields,help:account_asset_change.field_asset_change__loss_account_id
+msgid "Account used to write the journal item in case of loss"
+msgstr "Konto som används för att skriva journalposten i händelse av förlust"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__modify_action
+msgid "Action"
+msgstr "Åtgärd"
+
+#. module: account_asset_change
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
+msgid "Add an internal note"
+msgstr "Lägg till en intern anteckning"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/models/account_asset.p.py:0
+#: code:addons/account_asset_change/models/account_asset.py:0
+msgid "All the lines should be from the same account"
+msgstr "Alla rader ska komma från samma konto"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "An asset will be created for the value increase of the asset. <br/>"
+msgstr "En tillgång kommer att skapas för värdeökningen av tillgången. <br/>"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__analytic_distribution
+msgid "Analytic Distribution"
+msgstr "Analytisk distribution"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__analytic_precision
+msgid "Analytic Precision"
+msgstr "Analytisk precision"
+
+#. module: account_asset_change
+#: model:ir.model,name:account_asset_change.model_account_asset
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__asset_id
+msgid "Asset"
+msgstr "Tillgång"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__account_asset_counterpart_id
+msgid "Asset Counterpart Account"
+msgstr "Tillgång Motpartskonto"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/models/account_asset.p.py:0
+#: code:addons/account_asset_change/models/account_asset.py:0
+msgid "Asset paused. %s"
+msgstr "Tillgång pausad. %s"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "Asset unpaused. %s"
+msgstr "Tillgång ospärrad. %s"
+
+#. module: account_asset_change
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
+msgid "Cancel"
+msgstr "Avbryt"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/models/account_asset.p.py:0
+#: code:addons/account_asset_change/models/account_asset.py:0
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
+msgid "Change Asset"
+msgstr "Förändring Tillgång"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__company_id
+msgid "Company"
+msgstr "Bolag"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__currency_id
+msgid "Company Currency"
+msgstr "Bolagets valuta"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__create_date
+msgid "Created on"
+msgstr "Skapad den"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__invoice_ids
+msgid "Customer Invoice"
+msgstr "Kundfaktura"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__date
+msgid "Date"
+msgstr "Datum"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__value_residual
+msgid "Depreciable Amount"
+msgstr "Avskrivningsbart belopp"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_account_asset__account_depreciation_id
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__account_depreciation_id
+msgid "Depreciation Account"
+msgstr "Avskrivningskonto"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_account_asset__depreciation_move_ids
+msgid "Depreciation Lines"
+msgstr "Avskrivningsrader"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "Depreciation board modified %s"
+msgstr "Avskrivningstavla ändrad %s"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
+msgid "Dispose"
+msgstr "Kassera"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__distribution_analytic_account_ids
+msgid "Distribution Analytic Account"
+msgstr "Distribution Analytic Account"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__method_number
+msgid "Duration"
+msgstr "Varaktighet"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_account_asset__account_depreciation_expense_id
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__account_depreciation_expense_id
+msgid "Expense Account"
+msgstr "Utgiftskonto"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_account_asset__account_asset_id
+msgid "Fixed Asset Account"
+msgstr "Konto för anläggningstillgångar"
+
+#. module: account_asset_change
+#: model:ir.model.fields.selection,name:account_asset_change.selection__asset_change__gain_or_loss__gain
+msgid "Gain"
+msgstr "Förstärkning"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__gain_account_id
+msgid "Gain Account"
+msgstr "Konto för vinst"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__gain_or_loss
+msgid "Gain Or Loss"
+msgstr "Vinst eller förlust"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__gain_value
+msgid "Gain Value"
+msgstr "Vinstvärde"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__account_asset_id
+msgid "Gross Increase Account"
+msgstr "Konto för bruttoökning"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__informational_text
+msgid "Informational Text"
+msgstr "Informativ text"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__invoice_line_ids
+msgid "Invoice Line"
+msgstr "Fakturarad"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_account_asset__original_move_line_ids
+msgid "Journal Items"
+msgstr "Artiklar i tidskrifter"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad den"
+
+#. module: account_asset_change
+#: model:ir.model.fields.selection,name:account_asset_change.selection__asset_change__gain_or_loss__loss
+msgid "Loss"
+msgstr "Förlust"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__loss_account_id
+msgid "Loss Account"
+msgstr "Förlustkonto"
+
+#. module: account_asset_change
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
+msgid "Modify"
+msgstr "Modifiera"
+
+#. module: account_asset_change
+#: model:ir.model,name:account_asset_change.model_asset_change
+msgid "Modify Asset"
+msgstr "Ändra tillgång"
+
+#. module: account_asset_change
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_view_form
+msgid "Modify Depreciation"
+msgstr "Ändra avskrivningar"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+#: model:ir.model.fields.selection,name:account_asset_change.selection__asset_change__method_period__month
+msgid "Month"
+msgstr "Månad"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
+msgid "Move Analytic"
+msgstr "Verifikat"
+
+#. module: account_asset_change
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
+msgid "New analytic account disitrbution"
+msgstr "Ny analytisk kontodiskvalificering"
+
+#. module: account_asset_change
+#: model:ir.model.fields,help:account_asset_change.field_asset_change__value_residual
+msgid "New residual amount for the asset"
+msgstr "Nytt restvärde för tillgången"
+
+#. module: account_asset_change
+#: model:ir.model.fields,help:account_asset_change.field_asset_change__salvage_value
+msgid "New salvage amount for the asset"
+msgstr "Nytt återvinningsvärde för tillgången"
+
+#. module: account_asset_change
+#: model:ir.model.fields.selection,name:account_asset_change.selection__asset_change__gain_or_loss__no
+msgid "No"
+msgstr "Nej"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__salvage_value
+msgid "Not Depreciable Amount"
+msgstr "Ej avskrivningsbart belopp"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__name
+msgid "Note"
+msgstr "Notera"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__method_period
+msgid "Number of Months in a Period"
+msgstr "Antal månader i en period"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
+msgid "Pause"
+msgstr "Paus"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+#: model:ir.model.fields.selection,name:account_asset_change.selection__asset_change__method_period__quarter
+msgid "Quarter"
+msgstr "Kvartal"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "Re-evaluate"
+msgstr "Omvärdera"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
+msgid "Resume"
+msgstr "Meritförteckning"
+
+#. module: account_asset_change
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_view_form
+msgid "Resume Depreciation"
+msgstr "Avskrivning av CV"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid ""
+"Reverse the depreciation entries posted in the future in order to modify "
+"the depreciation"
+msgstr ""
+"Återföra de avskrivningar som bokförts i framtiden för att ändra "
+"avskrivningarna"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__select_invoice_line_id
+msgid "Select Invoice Line"
+msgstr "Välj fakturarad"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
+msgid "Sell"
+msgstr "Sälja"
+
+#. module: account_asset_change
+#: model:ir.model.fields,help:account_asset_change.field_asset_change__method_period
+msgid "The amount of time between two depreciations"
+msgstr "Tidsperioden mellan två avskrivningar"
+
+#. module: account_asset_change
+#: model:ir.model.fields,help:account_asset_change.field_asset_change__asset_id
+msgid "The asset to be modified by this wizard"
+msgstr "Den tillgång som ska modifieras av denna guide"
+
+#. module: account_asset_change
+#: model:ir.model.fields,help:account_asset_change.field_asset_change__invoice_ids
+msgid ""
+"The disposal invoice is needed in order to generate the closing journal "
+"entry."
+msgstr "Avyttringsfakturan behövs för att skapa den avslutande journalposten."
+
+#. module: account_asset_change
+#: model:ir.model.fields,help:account_asset_change.field_asset_change__invoice_line_ids
+msgid "There are multiple lines that could be the related to this asset"
+msgstr "Det finns flera rader som kan vara relaterade till denna tillgång"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid ""
+"There are unposted depreciations prior to the selected operation date, "
+"please deal with them first."
+msgstr ""
+"Det finns oredovisade avskrivningar före det valda driftdatumet, vänligen "
+"hantera dem först."
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "Value decrease for: %(asset)s"
+msgstr "Värdeminskning för: %(asset)s"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "Value increase for: %(asset)s"
+msgstr "Värdeökning för: %(asset)s"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+#: model:ir.model.fields.selection,name:account_asset_change.selection__asset_change__method_period__year
+msgid "Year"
+msgstr "År"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "You can't re-evaluate the asset before the lock date."
+msgstr "Du kan inte omvärdera tillgången före spärrdatumet."
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "You cannot resume at a date equal to or before the pause date"
+msgstr ""
+"Du kan inte återuppta arbetet vid ett datum som är lika med eller tidigare "
+"än pausdatumet"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "You cannot select the same account as the Depreciation Account"
+msgstr "Du kan inte välja samma konto som avskrivningskonto"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "gain"
+msgstr "vinst"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "gain/loss"
+msgstr "vinst/förlust"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
+#: code:addons/account_asset_change/wizard/account_asset_change.py:0
+msgid "loss"
+msgstr "förlust"
