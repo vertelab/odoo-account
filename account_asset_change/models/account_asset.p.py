@@ -71,9 +71,9 @@ class AccountAsset(models.Model):
         """
         current_and_previous_depreciation = self.depreciation_move_ids.filtered(
             lambda mv:
-            mv.asset_depreciation_beginning_date < date
-            and not mv.reversed_entry_id
-        ).sorted('asset_depreciation_beginning_date', reverse=True)
+            mv.date < date
+            and not mv.move_id.status_in_payment != "reversed"
+        ).sorted('date', reverse=True)
         if not current_and_previous_depreciation:
             return 0
 
@@ -106,6 +106,7 @@ class AccountAsset(models.Model):
         new_wizard = self.env['asset.change'].create({
             'asset_id': self.id,
             'modify_action': 'resume' if self.env.context.get('resume_after_pause') else 'dispose',
+            'analytic_distribution': self.analytic_distribution
         })
         return {
             'name': _('Change Asset'),
