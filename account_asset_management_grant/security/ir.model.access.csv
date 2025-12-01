@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+account_asset_management_grant.access_account_asset_grant,access_account_asset_grant,account_asset_management_grant.model_account_asset_grant,base.group_user,1,1,1,1
+

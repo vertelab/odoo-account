@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_asset_grant_form" model="ir.ui.view">
+            <field name="name">account.asset.grant.form</field>
+            <field name="model">account.asset.grant</field>
+            <field name="arch" type="xml">
+                <form string="Account Asset Grant">
+                    <group>
+                        <field name="name"/>
+                        <field name="amount"/>
+                        <field name="date"/>
+                        <field name="account_asset_id" invisible="1"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button string="Create Garant" name="action_create_grant" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="view_account_asset_grant_list" model="ir.ui.view">
+            <field name="name">account.asset.grant.list</field>
+            <field name="model">account.asset.grant</field>
+            <field name="arch" type="xml">
+                <list string="Asset Grants">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="amount"/>
+                    <field name="move_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_create_account_asset_grant" model="ir.actions.act_window">
+            <field name="name">Account Asset Grant</field>
+            <field name="res_model">account.asset.grant</field>
+            <field name="view_mode">form</field>
+            <field name="context">{
+                    'default_account_asset_id': active_id,
+                }
+            </field>
+            <field name="view_id" ref="view_account_asset_grant_form"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_account_asset_grants">
+            <field name="name">view_account_asset_grants</field>
+            <field name="model">account.asset</field>
+            <field name="inherit_id" ref="account_asset_management.account_asset_view_form"/>
+            <field name="arch" type="xml">
+                <field name="code" position="after">
+                    <field name="account_asset_grant_ids" widget="many2many_tags" invisible="1"/>
+                </field>
+                <xpath expr="//button[last()]" position="after">
+                    <button name="%(account_asset_management_grant.action_create_account_asset_grant)d" string="Create Grant" type="action" class="oe_highlight"/>
+                </xpath>
+                <div name="button_box" position="inside">
+                    <button name="action_view_grants"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-gift">
+                        <field name="grant_count" widget="statinfo" string="Grants"/>
+                    </button>
+                    <button name="action_view_grant_moves"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            invisible="grant_move_count == 0">
+                        <field name="grant_move_count" widget="statinfo" string="Grant Entries"/>
+                    </button>
+                </div>
+
+                <field name="purchase_value" position="after">
+                    <field name="total_grant_amount" readonly="1"/>
+                </field>
+
+            </field>
+        </record>
+    </data>
+</odoo>
