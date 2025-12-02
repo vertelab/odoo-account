@@ -9,8 +9,7 @@
                 <field name="name" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="is_leasing" />
-                <field name="rate" optional="hide" />
-                <field name="loan_amount" optional="hide" />
+                <field name="residual_rate" optional="hide" />
                 <field name="start_date" optional="hide" />
             </list>
         </field>
@@ -34,9 +33,8 @@
                                 groups="base.group_multi_company"
                             />
                             <field name="loan_type" />
-                            <field name="loan_amount" />
                             <field name="rate_type" />
-                            <field name="rate" />
+                            <field name="residual_rate" />
                             <field name="is_leasing" />
                             <field name="start_date" />
                             <field name="periods" />

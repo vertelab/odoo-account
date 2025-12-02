@@ -2,6 +2,7 @@ import logging
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from markupsafe import Markup
 
 _logger = logging.getLogger(__name__)
 
@@ -76,14 +77,14 @@ class AccountMove(models.Model):
                     allow_asset=True, allow_asset_removal=True
                 ).asset_id = asset.id
             refs = [
-                "<a href=# data-oe-model=account.asset data-oe-id=%s>%s</a>"
+                Markup("<a href=# data-oe-model=account.asset data-oe-id=%s>%s</a>")
                 % tuple(name_get)
                 for name_get in move.line_ids.filtered(
                     "asset_profile_id" or "deferred_expense_profile_id"
                 ).asset_id.name_get()
             ]
             if refs:
-                message = _("This invoice created the asset(s): %s") % ", ".join(refs)
+                message = Markup(_("This invoice created the asset(s): %s") % ", ".join(refs))
                 move.message_post(body=message)
         return ret_val
 

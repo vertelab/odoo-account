@@ -7,8 +7,8 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='invoice_line_ids']/list//field[@name='quantity']" position="after">
                 <field name="account_loan_template_id" optional="hide"/>
-                <field name="total_debt" optional="hide"/>
-                <field name="initial_rate" optional="hide"/>
+                <field name="total_debt" optional="hide" required="not account_loan_template_id"/>
+                <field name="initial_rate" optional="hide" required="not account_loan_template_id"/>
             </xpath>
         </field>
     </record>
