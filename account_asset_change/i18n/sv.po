@@ -159,7 +159,7 @@ msgstr "En tillgång kommer att skapas för värdeökningen av tillgången. <br/
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__analytic_distribution
 msgid "Analytic Distribution"
-msgstr "Analytisk distribution"
+msgstr "Objektdistgribution"
 
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_account_asset__analytic_line_ids
@@ -169,7 +169,7 @@ msgstr "Objektrad"
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_account_asset__analytic_line_count
 msgid "Analytic Line Count"
-msgstr "Antalet objektrader"
+msgstr "Antal objektrader"
 
 #. module: account_asset_change
 #: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_view_form
@@ -179,7 +179,7 @@ msgstr "Objektrader"
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__analytic_precision
 msgid "Analytic Precision"
-msgstr "Analytisk precision"
+msgstr "Objektprecision"
 
 #. module: account_asset_change
 #: model:ir.model,name:account_asset_change.model_account_asset
@@ -190,7 +190,7 @@ msgstr "Tillgång"
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__account_asset_counterpart_id
 msgid "Asset Counterpart Account"
-msgstr "Tillgång Motpartskonto"
+msgstr "Tillgång motkonto"
 
 #. module: account_asset_change
 #. odoo-python
@@ -211,7 +211,7 @@ msgstr "Tillgång pausad. %s"
 #: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
 #: code:addons/account_asset_change/wizard/account_asset_change.py:0
 msgid "Asset unpaused. %s"
-msgstr "Tillgång ospärrad. %s"
+msgstr "Tillgång avpausad. %s"
 
 #. module: account_asset_change
 #: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
@@ -277,7 +277,7 @@ msgstr "Avskrivningsrader"
 #: code:addons/account_asset_change/wizard/account_asset_change.p.py:0
 #: code:addons/account_asset_change/wizard/account_asset_change.py:0
 msgid "Depreciation board modified %s"
-msgstr "Avskrivningstavla ändrad %s"
+msgstr "Avskrivningsplan ändrad %s"
 
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__display_name
