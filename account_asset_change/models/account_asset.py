@@ -21,8 +21,8 @@ class AccountAsset(models.Model):
     analytic_line_ids = fields.One2many(comodel_name="account.analytic.line", compute="_compute_analytic_line_ids")
     analytic_line_count = fields.Integer(compute="_compute_analytic_line_count")
     account_move_count = fields.Integer(compute="_compute_account_move_count")
-    irr_analytic_account = fields.Many2one(comodel_name="account.analytic.account")
-    irr = fields.Float(compute="_compute_irr")
+    irr_analytic_account = fields.Many2one(comodel_name="account.analytic.account",help="Analytic account to track income and expenses related to this asset.")
+    irr = fields.Float(compute="_compute_irr",help="Internal rate of return calculated by cash flow.")
 
     account_asset_id = fields.Many2one(
         comodel_name='account.account',
