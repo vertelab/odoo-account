@@ -1,4 +1,6 @@
-import datetime
+import logging
+import numpy_financial as npf
+from datetime import date
 from dateutil.relativedelta import relativedelta
 from markupsafe import Markup
 from math import copysign
@@ -8,13 +10,20 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare, float_is_zero, formatLang
 from odoo.tools.date_utils import end_of
 
+_logger = logging.getLogger(__name__)
+
 class AccountAsset(models.Model):
     _inherit = 'account.asset'
 
     depreciation_move_ids = fields.One2many('account.move.line', 'asset_id', string='Depreciation Lines')
     original_move_line_ids = fields.Many2many(comodel_name='account.move.line', relation='asset_move_line_rel', column1='asset_id', column2='line_id', string='Journal Items', copy=False)
 
-    
+    analytic_line_ids = fields.One2many(comodel_name="account.analytic.line", compute="_compute_analytic_line_ids")
+    analytic_line_count = fields.Integer(compute="_compute_analytic_line_count")
+    account_move_count = fields.Integer(compute="_compute_account_move_count")
+    irr_analytic_account = fields.Many2one(comodel_name="account.analytic.account")
+    irr = fields.Float(compute="_compute_irr")
+
     account_asset_id = fields.Many2one(
         comodel_name='account.account',
         string='Fixed Asset Account',
@@ -50,7 +59,66 @@ class AccountAsset(models.Model):
         domain="[('account_type', 'not in', ('asset_receivable', 'liability_payable', 'asset_cash', 'liability_credit_card', 'off_balance')), ('deprecated', '=', False)]",
         help="Account used in the periodical entries, to record a part of the asset as expense.",
     )
+    
+    @api.depends("depreciation_line_ids")
+    def _compute_irr(self):
+        for rec in self:
+            if rec.depreciation_line_ids and rec.irr_analytic_account:
+            # Better to use purchase date as the true start, not depreciation date
+            # But adhering to your logic, we ensure we get the years correctly:
+                dates = rec.depreciation_line_ids.mapped("line_date")
+                start_year = min(dates).year
+                end_year = max(dates).year
+                
+                # Initial Investment (Outflow)
+                year_summed = [rec.purchase_value * -1]
+                
+                for current_year in range(start_year, end_year + 1):
+                    filter_start_date = date(current_year, 1, 1)
+                    filter_end_date = date(current_year, 12, 31)
+                    
+                    analytic_lines = self.env["account.analytic.line"].search([
+                        ("date", ">=", filter_start_date),
+                        ("date", "<=", filter_end_date),
+                        ("auto_account_id", "=", rec.irr_analytic_account.id)])
+                    
+                    analytic_line_amounts = analytic_lines.mapped("amount")
+                    current_sum = sum(analytic_line_amounts) if analytic_line_amounts else 0
+                    year_summed.append(current_sum)
 
+                # Calculate IRR
+                if sum(year_summed) > 0:
+                    rec.irr = npf.irr(year_summed)
+                else:
+                    rec.irr = 0
+            else:
+                rec.irr = 0
+
+
+    @api.depends("account_move_line_ids")
+    def _compute_analytic_line_ids(self):
+        for rec in self:
+            if rec.account_move_line_ids:
+                analytic_line_ids = self.env["account.analytic.line"].search([("move_line_id", "in", rec.account_move_line_ids.ids)])
+                rec.analytic_line_ids = analytic_line_ids
+            else:
+                rec.analytic_line_ids = False
+
+    @api.depends("analytic_line_ids")
+    def _compute_analytic_line_count(self):
+        for rec in self:
+            if rec.account_move_line_ids:
+                rec.analytic_line_count = len(rec.analytic_line_ids)
+            else:
+                rec.analytic_line_count = 0
+
+    @api.depends("account_move_line_ids")
+    def _compute_account_move_count(self):
+        for rec in self:
+            if rec.account_move_line_ids:
+                rec.account_move_count = len(rec.account_move_line_ids.mapped("move_id").ids)
+            else:
+                rec.account_move_count = 0
 
     @api.onchange('account_depreciation_id')
     def _onchange_account_depreciation_id(self):
@@ -98,7 +166,6 @@ class AccountAsset(models.Model):
             return min(residual_value_at_date, 0)
 
 
-
     def action_asset_change(self):
         """ Returns an action opening the asset modification wizard.
         """
@@ -117,12 +184,17 @@ class AccountAsset(models.Model):
             'res_id': new_wizard.id,
             'context': self.env.context,
         }
-
-
-    def move_analytic(self):
-        
-        pass
-        
+    
+    def action_analytic_lines(self):
+        list_view_id = self.env.ref("analytic.view_account_analytic_line_tree").id
+        return {
+            'name': _('Asset connected analytic lines'),
+            'views': [(list_view_id, 'list'),(False,'form')],
+            'res_model': 'account.analytic.line',
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', self.analytic_line_ids.ids)],
+            'target': 'current',
+        }
         
     def resume_after_pause(self):
         """ Sets an asset in 'paused' state back to 'open'.
@@ -143,5 +215,3 @@ class AccountAsset(models.Model):
         self._create_move_before_date(pause_date)
         self.write({'state': 'paused'})
         self.message_post(body=_("Asset paused. %s", message if message else ""))
-
-
