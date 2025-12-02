@@ -15,7 +15,7 @@ class AccountMove(models.Model):
 
     def _account_loan(self, line):
         loan_vals = line._account_loan_vals()
-        loan_vals['loan_amount'] = line.total_debt - line.price_subtotal
+        loan_vals['loan_amount'] = line.total_debt
         loan_vals['rate'] = line.initial_rate
         loan_vals['partner_id'] = line.partner_id.id
         loan_vals['account_move_line'] = line.id
@@ -28,7 +28,7 @@ class AccountMove(models.Model):
 
     #Asset code
     def _prepare_asset_vals(self, aml):
-        depreciation_base = aml.total_debt if aml.account_loan_template_id else aml.balance
+        depreciation_base = aml.total_debt + aml.balance if aml.account_loan_template_id else aml.balance
         return {
             "name": aml.name,
             "code": self.name,
