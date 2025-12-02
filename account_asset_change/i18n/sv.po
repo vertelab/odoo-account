@@ -37,9 +37,9 @@ msgid ""
 "new with the new accounts.Future entries will be recomputed to use the new "
 "analytic account distribution"
 msgstr ""
-"En kreditjournalpost kommer att bokföras för de gamla analytiska kontona "
-"och en ny med de nya kontona. Framtida poster kommer att räknas om för att "
-"använda den nya analytiska kontofördelningen"
+"En omförning kommer bokföras för de gamla objektkontona "
+"och de nya kontona. Framtida poster kommer att räknas om för att "
+"använda den nya objektfördelningen"
 
 #. module: account_asset_change
 #. odoo-python
@@ -422,7 +422,7 @@ msgstr "Verifikat"
 #. module: account_asset_change
 #: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
 msgid "New analytic account disitrbution"
-msgstr "Ny analytisk kontodiskvalificering"
+msgstr "Ny objektdistribution"
 
 #. module: account_asset_change
 #: model:ir.model.fields,help:account_asset_change.field_asset_change__value_residual
@@ -447,7 +447,7 @@ msgstr "Ej avskrivningsbart belopp"
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__name
 msgid "Note"
-msgstr "Notera"
+msgstr "Noter"
 
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__method_period
@@ -483,12 +483,12 @@ msgstr "Omvärdera"
 #: code:addons/account_asset_change/wizard/account_asset_change.py:0
 #: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
 msgid "Resume"
-msgstr "Meritförteckning"
+msgstr "Återstarta"
 
 #. module: account_asset_change
 #: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_view_form
 msgid "Resume Depreciation"
-msgstr "Avskrivning av CV"
+msgstr "Återstarta avskrivning"
 
 #. module: account_asset_change
 #. odoo-python
