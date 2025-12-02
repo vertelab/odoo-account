@@ -34,7 +34,7 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'depends': ['account_loan'],
+    'depends': ['account_loan', 'account_asset_management'],
     'data': [
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',

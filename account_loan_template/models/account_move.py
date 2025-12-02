@@ -9,8 +9,8 @@ class AccountMove(models.Model):
         for line in self.invoice_line_ids:
             if line.account_loan_template_id:
                 account_loan = self._account_loan(line)
-                account_loan.compute_lines
-            return res
+                account_loan.compute_lines()
+        return res
 
     def _account_loan(self, line):
         loan_vals = line._account_loan_vals()
@@ -23,7 +23,17 @@ class AccountMove(models.Model):
         account_loan = self.env['account.loan'].create(loan_vals)
         return account_loan
 
-
+    #Asset code
+    def _prepare_asset_vals(self, aml):
+        depreciation_base = aml.total_debt if aml.account_loan_template_id else aml.balance
+        return {
+            "name": aml.name,
+            "code": self.name,
+            "profile_id": aml.asset_profile_id.id,
+            "purchase_value": depreciation_base,
+            "partner_id": aml.partner_id.id,
+            "date_start": self.date,
+        }
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
@@ -31,6 +41,8 @@ class AccountMoveLine(models.Model):
     account_loan_template_id = fields.Many2one('account.loan.template', string="Account Loan")
     total_debt = fields.Monetary(string="Total Debt")
     initial_rate = fields.Monetary(string="Initial Rate")
+
+
 
     def _account_loan_vals(self):
         template = self.account_loan_template_id
