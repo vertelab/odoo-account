@@ -402,7 +402,7 @@ msgstr "Månad"
 #: code:addons/account_asset_change/wizard/account_asset_change.py:0
 #: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
 msgid "Move Analytic"
-msgstr "Verifikat"
+msgstr "Nytt objektkonto"
 
 #. module: account_asset_change
 #: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_view_form
