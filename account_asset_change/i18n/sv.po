@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0-20251201\n"
+"Project-Id-Version: Odoo Server 18.0-20251125\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 08:20+0000\n"
-"PO-Revision-Date: 2025-12-01 09:35+0100\n"
+"POT-Creation-Date: 2025-12-02 09:45+0000\n"
+"PO-Revision-Date: 2025-12-02 10:58+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -95,6 +95,11 @@ msgid "A gross increase has been created: %(link)s"
 msgstr "En bruttoökning har skapats: %(link)s"
 
 #. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_account_asset__account_move_count
+msgid "Account Move Count"
+msgstr "Antalet transaktioner"
+
+#. module: account_asset_change
 #: model:ir.model.fields,help:account_asset_change.field_account_asset__account_depreciation_id
 msgid "Account used in the depreciation entries, to decrease the asset value."
 msgstr ""
@@ -157,6 +162,21 @@ msgid "Analytic Distribution"
 msgstr "Analytisk distribution"
 
 #. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_account_asset__analytic_line_ids
+msgid "Analytic Line"
+msgstr "Objektrad"
+
+#. module: account_asset_change
+#: model:ir.model.fields,field_description:account_asset_change.field_account_asset__analytic_line_count
+msgid "Analytic Line Count"
+msgstr "Antalet objektrader"
+
+#. module: account_asset_change
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_view_form
+msgid "Analytic Lines"
+msgstr "Objektrader"
+
+#. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__analytic_precision
 msgid "Analytic Precision"
 msgstr "Analytisk precision"
@@ -171,6 +191,13 @@ msgstr "Tillgång"
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__account_asset_counterpart_id
 msgid "Asset Counterpart Account"
 msgstr "Tillgång Motpartskonto"
+
+#. module: account_asset_change
+#. odoo-python
+#: code:addons/account_asset_change/models/account_asset.p.py:0
+#: code:addons/account_asset_change/models/account_asset.py:0
+msgid "Asset connected analytic lines"
+msgstr "Tillgångar kopplade till objektrader"
 
 #. module: account_asset_change
 #. odoo-python
@@ -197,7 +224,7 @@ msgstr "Avbryt"
 #: code:addons/account_asset_change/models/account_asset.py:0
 #: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
 msgid "Change Asset"
-msgstr "Förändring Tillgång"
+msgstr "Ändra Tillgång"
 
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__company_id
@@ -263,12 +290,7 @@ msgstr "Visningsnamn"
 #: code:addons/account_asset_change/wizard/account_asset_change.py:0
 #: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
 msgid "Dispose"
-msgstr "Kassera"
-
-#. module: account_asset_change
-#: model:ir.model.fields,field_description:account_asset_change.field_asset_change__distribution_analytic_account_ids
-msgid "Distribution Analytic Account"
-msgstr "Distribution Analytic Account"
+msgstr "Ta bort"
 
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__method_number
@@ -289,12 +311,12 @@ msgstr "Konto för anläggningstillgångar"
 #. module: account_asset_change
 #: model:ir.model.fields.selection,name:account_asset_change.selection__asset_change__gain_or_loss__gain
 msgid "Gain"
-msgstr "Förstärkning"
+msgstr "Vinst"
 
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__gain_account_id
 msgid "Gain Account"
-msgstr "Konto för vinst"
+msgstr "Vinstkonto"
 
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__gain_or_loss
@@ -329,7 +351,7 @@ msgstr "Fakturarad"
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_account_asset__original_move_line_ids
 msgid "Journal Items"
-msgstr "Artiklar i tidskrifter"
+msgstr "Journalposter"
 
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__write_uid
@@ -381,6 +403,11 @@ msgstr "Månad"
 #: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
 msgid "Move Analytic"
 msgstr "Verifikat"
+
+#. module: account_asset_change
+#: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_view_form
+msgid "Moves"
+msgstr "Flyttar"
 
 #. module: account_asset_change
 #: model_terms:ir.ui.view,arch_db:account_asset_change.account_asset_change_form
