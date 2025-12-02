@@ -1,4 +1,5 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError, UserError
 
 
 class AccountMove(models.Model):
@@ -14,10 +15,12 @@ class AccountMove(models.Model):
 
     def _account_loan(self, line):
         loan_vals = line._account_loan_vals()
-        loan_vals['loan_amount'] = line.total_debt
+        loan_vals['loan_amount'] = line.total_debt - line.price_subtotal
         loan_vals['rate'] = line.initial_rate
         loan_vals['partner_id'] = line.partner_id.id
         loan_vals['account_move_line'] = line.id
+        if residual_rate := loan_vals.pop('residual_rate'):
+            loan_vals['residual_amount'] = (residual_rate / 100) * line.total_debt
         if loan_vals.get('name'):
             loan_vals.pop('name')
         account_loan = self.env['account.loan'].create(loan_vals)
@@ -40,8 +43,20 @@ class AccountMoveLine(models.Model):
 
     account_loan_template_id = fields.Many2one('account.loan.template', string="Account Loan")
     total_debt = fields.Monetary(string="Total Debt")
-    initial_rate = fields.Monetary(string="Initial Rate")
+    initial_rate = fields.Float(string="Initial Rate (%)")
 
+    @api.constrains('account_loan_template_id', 'total_debt', 'initial_rate')
+    def _check_loan_template_fields(self):
+        for line in self:
+            if line.account_loan_template_id:
+                if not line.total_debt:
+                    raise ValidationError(
+                        _('Total Debt is required when a Loan Template is selected.')
+                    )
+                if not line.initial_rate:
+                    raise ValidationError(
+                        _('Initial Rate is required when a Loan Template is selected.')
+                    )
 
 
     def _account_loan_vals(self):

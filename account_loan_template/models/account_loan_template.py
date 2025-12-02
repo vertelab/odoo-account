@@ -4,9 +4,6 @@ class AccountLoanTemplate(models.Model):
     _name = 'account.loan.template'
     _description = 'Account Loan Template'
 
-    def _get_default_name(self, vals):
-        return self.env["ir.sequence"].next_by_code("account.loan.template") or "/"
-
     def _default_company(self):
         return self.env.company
 
@@ -18,12 +15,6 @@ class AccountLoanTemplate(models.Model):
         for rec in self:
             rec.currency_id = rec.journal_id.currency_id or rec.company_id.currency_id
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:
-            if vals.get("name", "/") == "/":
-                vals["name"] = self._get_default_name(vals)
-        return super().create(vals_list)
 
     @api.depends("is_leasing")
     def _compute_journal_type(self):
@@ -36,15 +27,6 @@ class AccountLoanTemplate(models.Model):
     name = fields.Char(
         copy=False,
         required=True,
-        default="/",
-    )
-
-    rate = fields.Float(
-        required=True,
-        default=0.0,
-        digits=(8, 6),
-        help="Currently applied rate",
-        tracking=True,
     )
 
     start_date = fields.Date(
@@ -82,17 +64,8 @@ class AccountLoanTemplate(models.Model):
         default="fixed-annuity",
     )
 
-    loan_amount = fields.Monetary(
-        currency_field="currency_id",
-        required=True,
-    )
-    residual_amount = fields.Monetary(
-        currency_field="currency_id",
-        default=0.0,
-        required=True,
-        help="Residual amount of the lease that must be payed on the end in "
-             "order to acquire the asset",
-    )
+    residual_rate = fields.Float(string="Residual Rate(%)")
+
     round_on_end = fields.Boolean(
         help="When checked, the differences will be applied on the last period"
              ", if it is unchecked, the annuity will be recalculated on each "
