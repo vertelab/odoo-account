@@ -42,9 +42,4 @@ class AccountPaymentRegister(models.TransientModel):
                     "\n Please change the date or open {period_id.name}").format(**locals())
                 )
 
-            if period_by_journal:
-                raise ValidationError(_(
-                    "You have tried to validate an invoice that has the journal closed {self.journal_id.name}."
-                    "\n Please change journal or remove it from the period {period_id.name}").format(**locals())
-                )
         return super(AccountPaymentRegister, self).action_create_payments()

@@ -477,6 +477,7 @@ class AssetModify(models.TransientModel):
 
     def move_analytic(self):
         # Create a credit  and debit to move from onw analytic account to another
+        ctx = dict(self.env.context, allow_asset=True, check_move_validity=False)
         vals = {
                 'journal_id': self.asset_id.profile_id.journal_id.id,
                 'date': self.date,
@@ -486,18 +487,20 @@ class AssetModify(models.TransientModel):
                     Command.create({
                         'account_id': self.asset_id.profile_id.account_asset_id.id,
                         'analytic_distribution': self.asset_id.analytic_distribution,
-                        'debit':self.asset_id.value_residual,
+                        'asset_id': self.asset_id.id,
+                        'credit':self.asset_id.value_residual,
                         'name': _(f'Move analytic distributin from {self.asset_id.analytic_distribution} for: {self.asset_id.name}'),
                     }),
                     Command.create({
                         'account_id': self.asset_id.profile_id.account_asset_id.id,
-                        'credit': self.asset_id.value_residual,
+                        'debit': self.asset_id.value_residual,
+                        'asset_id': self.asset_id.id,
                         'analytic_distribution': self.analytic_distribution, 
                         'name': _(f'Move analytic distributin from {self.asset_id.analytic_distribution} for: {self.asset_id.name}'),
                     }),
                 ],
             }
-        move = self.env['account.move'].create(vals)
+        move = self.env['account.move'].with_context(**ctx).create(vals)
         self.asset_id.analytic_distribution = self.analytic_distribution
         move._post()
         #(credit_move.line_ids[0] | debit_move.line_ids[0]).reconcile()  # TODO what lines?

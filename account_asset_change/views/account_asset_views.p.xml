@@ -1,0 +1,36 @@
+<odoo>
+
+    <record model="ir.ui.view" id="account_asset_view_form">
+        <field name="name">account.asset.form</field>
+        <field name="model">account.asset</field>
+        <field name="inherit_id" ref="account_asset_management.account_asset_view_form" />
+        <field name="arch" type="xml">
+
+            <header position="inside">
+                <button name="resume_after_pause" string="Resume Depreciation" type="object" class="oe_highlight" invisible="state != 'paused'" />
+                <button name="action_asset_change" invisible="state != 'open'" string="Modify Depreciation" type="object" data-hotkey="e" class="oe_highlight" />
+            </header>
+
+            <button name="open_entries" position="inside">
+                <field string="Moves" name="account_move_count" widget="statinfo"/>
+            </button>
+
+            <div name="button_box" position="inside">
+                <button name="action_analytic_lines" class="oe_stat_button " type="object" icon="fa-bars" invisible="analytic_line_count == 0">
+                    <field string="Analytic Lines" name="analytic_line_count" widget="statinfo" />
+                </button>
+            </div>
+
+            <field name="analytic_distribution" position="attributes">
+                <attribute name="readonly">"state in ['open', 'close', 'removed']"</attribute>
+            </field>
+
+            <field name="value_residual" position="after">
+                <field name="irr_analytic_account"/>
+                <field name="irr" widget="percentage"/>
+            </field>
+
+        </field>
+    </record>
+
+</odoo>
