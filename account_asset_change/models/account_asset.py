@@ -87,7 +87,6 @@ class AccountAsset(models.Model):
                     year_summed.append(current_sum)
 
                 # Calculate IRR
-                _logger.error(f"{year_summed=}")
                 if sum(year_summed) > 0:
                     rec.irr = npf.irr(year_summed)
                 else:
