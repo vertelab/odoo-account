@@ -95,11 +95,11 @@ class AccountAsset(models.Model):
                 rec.irr = 0
 
 
-    @api.depends("account_move_line_ids")
+    @api.depends("account_move_line_ids","irr_analytic_account")
     def _compute_analytic_line_ids(self):
         for rec in self:
             if rec.account_move_line_ids:
-                analytic_line_ids = self.env["account.analytic.line"].search([("move_line_id", "in", rec.account_move_line_ids.ids)])
+                analytic_line_ids = self.env["account.analytic.line"].search(['|',("move_line_id", "in", rec.account_move_line_ids.ids),('auto_account_id', 'in', rec.irr_analytic_account.ids)])
                 rec.analytic_line_ids = analytic_line_ids
             else:
                 rec.analytic_line_ids = False

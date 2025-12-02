@@ -489,14 +489,14 @@ class AssetModify(models.TransientModel):
                         'analytic_distribution': self.asset_id.analytic_distribution,
                         'asset_id': self.asset_id.id,
                         'credit':self.asset_id.value_residual,
-                        'name': _(f'Move analytic distributin from {self.asset_id.analytic_distribution} for: {self.asset_id.name}'),
+                        'name': _(f'Transfer journal entry: {self.note}'),
                     }),
                     Command.create({
                         'account_id': self.asset_id.profile_id.account_asset_id.id,
                         'debit': self.asset_id.value_residual,
                         'asset_id': self.asset_id.id,
                         'analytic_distribution': self.analytic_distribution, 
-                        'name': _(f'Move analytic distributin from {self.asset_id.analytic_distribution} for: {self.asset_id.name}'),
+                        'name': _(f'Transfer journal entry: {self.note}'),
                     }),
                 ],
             }
