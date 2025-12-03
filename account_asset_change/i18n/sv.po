@@ -159,7 +159,7 @@ msgstr "En tillgång kommer att skapas för värdeökningen av tillgången. <br/
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_asset_change__analytic_distribution
 msgid "Analytic Distribution"
-msgstr "Objektdistgribution"
+msgstr "Objektdistribution"
 
 #. module: account_asset_change
 #: model:ir.model.fields,field_description:account_asset_change.field_account_asset__analytic_line_ids
