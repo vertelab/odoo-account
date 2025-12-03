@@ -60,7 +60,7 @@ class AccountAsset(models.Model):
         help="Account used in the periodical entries, to record a part of the asset as expense.",
     )
     
-    @api.depends("depreciation_line_ids")
+    @api.depends("depreciation_line_ids","analytic_line_ids")
     def _compute_irr(self):
         for rec in self:
             if rec.depreciation_line_ids and rec.irr_analytic_account:
@@ -87,8 +87,10 @@ class AccountAsset(models.Model):
                     year_summed.append(current_sum)
 
                 # Calculate IRR
+                _logger.info(f"{year_summed=} {sum(year_summed)=}")
                 if sum(year_summed) > 0:
                     rec.irr = npf.irr(year_summed)
+                    _logger.info(f"{npf.irr(year_summed)=}")
                 else:
                     rec.irr = 0
             else:
