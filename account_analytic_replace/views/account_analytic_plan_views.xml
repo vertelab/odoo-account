@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_analytic_plan_form_inherit_replace" model="ir.ui.view">
+        <field name="name">account.analytic.plan.form.inherit.replace</field>
+        <field name="model">account.analytic.plan</field>
+        <field name="inherit_id"  ref="analytic.account_analytic_plan_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='default_applicability']" position="after">
+                <field name="plan_replacement_id" invisible="not plan_replacement_id"/>
+                <field name="plan_replaces_id" invisible="not plan_replaces_id"/>
+                <button name="action_replace_plan" type="object" 
+                        string="Replace Plan" class="btn-primary"
+                        invisible="default_applicability == 'unavailable'"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="view_account_analytic_account_form_inherit_replace" model="ir.ui.view">
+    <field name="name">account.analytic.account.form.inherit.replace</field>
+    <field name="model">account.analytic.account</field>
+    <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//sheet" position="inside">
+            <group>
+                <field name="replacement_account_id" invisible="not replacement_account_id"/>
+                <field name="replaces_account_id" invisible="not replaces_account_id"/>
+                <field name="plan_replacement_id" invisible="not plan_replacement_id"/>
+            </group>
+        </xpath>
+    </field>
+    </record>
+    
+    
+    <record id="view_account_analytic_account_search_inherit_replace" model="ir.ui.view">
+        <field name="name">account.analytic.account.search.inherit.replace</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_account_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="filter_domain">['|', '|', '|', ('name', 'ilike', self), ('code', 'ilike', self), ('replacement_account_id.name', 'ilike', self), ('replaces_account_id.name', 'ilike', self)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

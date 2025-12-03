@@ -1,0 +1,136 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_analytic_replace
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20251202\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-03 14:05+0000\n"
+"PO-Revision-Date: 2025-12-03 15:11+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: account_analytic_replace
+#: model:ir.model,name:account_analytic_replace.model_account_analytic_account
+msgid "Analytic Account"
+msgstr "Objektkonto"
+
+#. module: account_analytic_replace
+#: model:ir.model,name:account_analytic_replace.model_account_analytic_replace_wizard
+msgid "Analytic Plan Replace Wizard"
+msgstr "Ersätt Objektscheman"
+
+#. module: account_analytic_replace
+#: model:ir.model,name:account_analytic_replace.model_account_analytic_plan
+msgid "Analytic Plans"
+msgstr "Objektscheman"
+
+#. module: account_analytic_replace
+#: model_terms:ir.ui.view,arch_db:account_analytic_replace.view_account_analytic_replace_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_replace_wizard__copy_accounts
+msgid "Copy All Analytic Accounts"
+msgstr "Koperia Objektkonton"
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_replace_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_replace_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_replace_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_replace_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_plan__is_replaced
+msgid "Is Replaced"
+msgstr "Är utbytt"
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_replace_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_replace_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_replace_wizard__new_plan_id
+msgid "New Plan"
+msgstr "Ny Objektschema"
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_replace_wizard__new_plan_name
+msgid "New Plan Name"
+msgstr "Nytt Objektscheman namn"
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_replace_wizard__old_plan_id
+msgid "Old Plan"
+msgstr "Gamla Objektschemat"
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_account__plan_replacement_id
+msgid "Plan Replacement"
+msgstr "Objektscheman ersättning"
+
+#. module: account_analytic_replace
+#: model_terms:ir.ui.view,arch_db:account_analytic_replace.view_account_analytic_replace_wizard_form
+msgid "Replace"
+msgstr "Ersätta"
+
+#. module: account_analytic_replace
+#. odoo-python
+#: code:addons/account_analytic_replace/models/account_analytic_plan.py:0
+#: model:ir.actions.act_window,name:account_analytic_replace.action_account_analytic_replace_wizard
+#: model_terms:ir.ui.view,arch_db:account_analytic_replace.view_account_analytic_replace_wizard_form
+msgid "Replace Analytic Plan"
+msgstr "Ersätt Objektschema"
+
+#. module: account_analytic_replace
+#: model_terms:ir.ui.view,arch_db:account_analytic_replace.view_analytic_plan_form_inherit_replace
+msgid "Replace Plan"
+msgstr "Ersätt Objektschema"
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_account__replacement_account_id
+msgid "This account is replaced by"
+msgstr "Detta konto ersätts av"
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_account__replaces_account_id
+msgid "This account replaces"
+msgstr "Detta konto ersätter"
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_plan__plan_replacement_id
+msgid "This plan is replaced by"
+msgstr "Detta Objektschema ersätts av"
+
+#. module: account_analytic_replace
+#: model:ir.model.fields,field_description:account_analytic_replace.field_account_analytic_plan__plan_replaces_id
+msgid "This plan replaces"
+msgstr "Detta Objektschema ersätter"

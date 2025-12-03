@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_analytic_replace_wizard_form" model="ir.ui.view">
+        <field name="name">account.analytic.replace.wizard.form</field>
+        <field name="model">account.analytic.replace.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Replace Analytic Plan">
+                <group>
+                    <group>
+                        <field name="old_plan_id" readonly="1"/>
+                        <field name="new_plan_name"/>
+                    </group>
+                    <group>
+                        <field name="copy_accounts"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_replace" type="object" string="Replace" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_analytic_replace_wizard" model="ir.actions.act_window">
+        <field name="name">Replace Analytic Plan</field>
+        <field name="res_model">account.analytic.replace.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
