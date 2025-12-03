@@ -482,6 +482,7 @@ class AssetModify(models.TransientModel):
                 'journal_id': self.asset_id.profile_id.journal_id.id,
                 'date': self.date,
                 'move_type': 'entry',
+                'narration': self.name or "",
                 # ~ 'asset_move_type': 'positive_revaluation',  TODO
                 'line_ids': [
                     Command.create({
@@ -489,14 +490,14 @@ class AssetModify(models.TransientModel):
                         'analytic_distribution': self.asset_id.analytic_distribution,
                         'asset_id': self.asset_id.id,
                         'credit':self.asset_id.value_residual,
-                        'name': _(f'Transfer journal entry: {self.note}'),
+                        'name': _(f'Transfer journal entry'),
                     }),
                     Command.create({
                         'account_id': self.asset_id.profile_id.account_asset_id.id,
                         'debit': self.asset_id.value_residual,
                         'asset_id': self.asset_id.id,
                         'analytic_distribution': self.analytic_distribution, 
-                        'name': _(f'Transfer journal entry: {self.note}'),
+                        'name': _(f'Transfer journal entry'),
                     }),
                 ],
             }
