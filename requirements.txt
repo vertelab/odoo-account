@@ -4,4 +4,4 @@ langchain_community
 pathlib
 pdftotext
 eml_parser
-
+numpy_financial
