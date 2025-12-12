@@ -38,7 +38,6 @@ class AccountMove(models.Model):
                 move.next_reminder_date = False
 
     def _send_payment_reminder(self, reminder_line):
-        """Send reminder for this invoice"""
         self.ensure_one()
 
         if reminder_line.send_email and reminder_line.mail_template_id:
@@ -61,7 +60,6 @@ class AccountMove(models.Model):
         self.message_post(body=f"Payment reminder sent: {reminder_line.name}")
 
     def _get_reminder_responsible(self, reminder_line):
-        """Determine who should be assigned the activity"""
         self.ensure_one()
 
         responsible_type = reminder_line.activity_default_responsible_type
@@ -78,7 +76,6 @@ class AccountMove(models.Model):
         return self.invoice_user_id or self.env.user
 
     def action_send_reminders(self):
-        """Manual action to send reminders"""
         for move in self:
             if move.payment_state in ('paid', 'in_payment'):
                 continue
@@ -93,7 +90,6 @@ class AccountMove(models.Model):
 
     @api.model
     def _cron_send_payment_reminders(self):
-        """Cron job to automatically send reminders"""
         today = fields.Date.today()
 
         # Find invoices that need reminders today

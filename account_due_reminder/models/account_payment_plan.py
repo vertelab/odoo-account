@@ -37,7 +37,6 @@ class AccountPaymentPlan(models.Model):
 
     @api.depends('start_date', 'end_date')
     def _compute_duration(self):
-        """Calculate duration in months based on start and end dates"""
         for record in self:
             if record.start_date and record.end_date:
                 if record.end_date >= record.start_date:

@@ -60,7 +60,6 @@ class PaymentReminderLine(models.Model):
             self.create_activity = False
 
     def _get_next_date(self):
-        """Computes the next reminder date"""
         self.ensure_one()
         next_followup = self._get_next_followup()
         if next_followup:

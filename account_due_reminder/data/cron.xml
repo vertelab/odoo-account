@@ -5,7 +5,7 @@
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
         <field name="nextcall" eval="(DateTime.now().replace(hour=2, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
-        <field name="model_id" ref="account.model_account_move"/>
+        <field name="model_id" ref="account_due_reminder.model_account_move"/>
         <field name="code">model._cron_send_payment_reminders()</field>
         <field name="state">code</field>
     </record>
