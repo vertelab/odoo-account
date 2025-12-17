@@ -38,5 +38,5 @@ class AccountAnalyticAccount(models.Model):
             if analytic.partner_id.commercial_partner_id.name:
                 name = f'{name} - {analytic.partner_id.commercial_partner_id.name}'
             if analytic.replaces_account_id:
-                name = f'{name} - Replacment for {analytic.replaces_account_id.name}' 
+                name = f'{name} - Ersätter {analytic.replaces_account_id.name}' 
             analytic.display_name = name

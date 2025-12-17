@@ -6,8 +6,8 @@
         <field name="inherit_id"  ref="analytic.account_analytic_plan_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='default_applicability']" position="after">
-                <field name="plan_replacement_id" invisible="not plan_replacement_id"/>
                 <field name="plan_replaces_id" invisible="not plan_replaces_id"/>
+                <field name="plan_replacement_id" invisible="plan_replaces_id"/>
                 <button name="action_replace_plan" type="object" 
                         string="Replace Plan" class="btn-primary"
                         invisible="default_applicability == 'unavailable'"/>
@@ -22,8 +22,8 @@
     <field name="arch" type="xml">
         <xpath expr="//sheet" position="inside">
             <group>
-                <field name="replacement_account_id" invisible="not replacement_account_id"/>
                 <field name="replaces_account_id" invisible="not replaces_account_id"/>
+                <field name="replacement_account_id" invisible="replaces_account_id"/>
                 <field name="plan_replacement_id" invisible="not plan_replacement_id"/>
             </group>
         </xpath>
