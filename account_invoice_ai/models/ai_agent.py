@@ -3,10 +3,9 @@ import traceback
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-from langchain.schema import AIMessage, HumanMessage, SystemMessage
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 _logger = logging.getLogger(__name__)
-
 
 class SafeDict(dict):
     def __missing__(self, key):
