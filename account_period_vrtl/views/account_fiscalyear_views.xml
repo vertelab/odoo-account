@@ -32,20 +32,23 @@
                                 <field name="date_range_type_id" />
                             </group>
                         </group>
-                        <field colspan="4" name="period_ids" nolabel="1" widget="one2many_list">
-                            <form string="Period">
-                                <group col="4">
-                                    <field name="name" />
-                                    <field name="code" />
-                                    <field name="date_start" />
-                                    <field name="date_end" />
-                                    <field name="closing_date" />
-                                    <field name="special" />
-<!--                                    <field name="journal_id" />-->
-                                    <field name="state" invisible="1" />
-                                </group>
-                            </form>
-                        </field>
+                        <notebook>
+                            <page string="Periods" name="period">
+                                <field colspan="4" name="period_ids" nolabel="1" widget="one2many_list">
+                                    <form string="Period">
+                                        <group col="4">
+                                            <field name="name" />
+                                            <field name="code" />
+                                            <field name="date_start" />
+                                            <field name="date_end" />
+                                            <field name="closing_date" />
+                                            <field name="special" />
+                                            <field name="state" invisible="1" />
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
