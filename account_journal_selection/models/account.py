@@ -61,6 +61,7 @@ class AccountJournal(models.Model):
     @api.constrains('type', 'default_account_id')
     def _check_type_default_account_id_type(self):
         for journal in self:
-            if journal.type in ('sale', 'purchase') and journal.default_account_id.user_type_id.type in ('receivable', 'payable'):
+            # if journal.type in ('sale', 'purchase') and journal.default_account_id.user_type_id.type in ('receivable', 'payable'):
+            if journal.type in ('sale', 'purchase') and journal.default_account_id.account_type in ('asset_receivable', 'liability_payable'):
                 _logger.warning(_("The type of the journal's default credit/debit account shouldn't be 'receivable' or 'payable'."))
 
