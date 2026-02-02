@@ -20,9 +20,9 @@
 ##############################################################################
 
 {
-    'name': 'Account: Important Narration ',
+    'name': 'Account: Notice Period',
     'version': '14.0.0.0.1',
-    'summary': 'Adds a second more visable narration field on the pdf.',
+    'summary': '',
     'category': 'Accounting',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_move_red_narration',
@@ -36,9 +36,7 @@
     """,
     'depends': ['account'],
     'data': [
-        'views/account_move_view.xml',
-        'views/account_move_template.xml',
-        'views/res_config.xml',
+        'views/payment_term_view.xml',
     ],
     'demo': [],
     'qweb': [],

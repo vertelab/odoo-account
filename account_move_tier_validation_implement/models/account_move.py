@@ -28,3 +28,10 @@ class AccountMove(models.Model):
         res.append("exclude_payment_partner_and_move")
         res.append("amount_total_loc")
         return res
+
+class PurchaseOrder(models.Model):
+    _inherit = "purchase.order"
+    def _get_under_validation_exceptions(self):
+        res = super(PurchaseOrder, self)._get_under_validation_exceptions()
+        res.append("user_id")
+        return res
