@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_invoice_document_narration" inherit_id="account.report_invoice_document">
+            <xpath expr="//p[@name='comment']" position="replace">
+                   <p t-if="o.narration" name="comment">
+                        <span t-field="o.narration"/>
+                    </p>
+                    <p t-if="o.important_invoice_narration" name="narration_comment">
+                        <span t-field="o.important_invoice_narration" STYLE="font-weight:bold; font-size: 20px;"/>
+                    </p>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>
+
+
