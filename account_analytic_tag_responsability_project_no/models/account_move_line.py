@@ -105,10 +105,15 @@ class AccountMove(models.Model):
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
-    project_no = fields.Many2one(comodel_name='account.analytic.tag', string='Project', readonly=False,
-                                 domain="[('type_of_tag', '=', 'project_number')]")
-    area_of_responsibility = fields.Many2one(comodel_name='account.analytic.tag', string='Cost Center',
-                                             readonly=False, domain="[('type_of_tag', '=', 'area_of_responsibility')]")
+
+    project_no = fields.Many2one(
+        comodel_name='account.analytic.tag', string='Project', readonly=False,
+        domain="[('type_of_tag', '=', 'project_number')]"
+    )
+    area_of_responsibility = fields.Many2one(
+        comodel_name='account.analytic.tag', string='Cost Center',
+        readonly=False, domain="[('type_of_tag', '=', 'area_of_responsibility')]"
+    )
 
     def reconcile(self):
         res = super(AccountMoveLine, self).reconcile()
@@ -130,8 +135,9 @@ class AccountMoveLine(models.Model):
                     # ~ if partial_record.debit_move_id.move_id.move_type == "entry" and
                     # partial_record.credit_move_id.move_id.move_type == "in_invoice":
                     tags = []
-                    area_of_responsibility = False
-                    project_no = False
+                    area_of_responsibility = self.env.user.area_of_responsibility
+                    project_no = self.env.user.area_of_responsibility
+
                     for line in move_with_tags.line_ids:
                         for tag in line.analytic_tag_ids:
                             tags.append((4, tag.id, 0))
