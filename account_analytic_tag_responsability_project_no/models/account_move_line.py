@@ -108,11 +108,13 @@ class AccountMoveLine(models.Model):
 
     project_no = fields.Many2one(
         comodel_name='account.analytic.tag', string='Project', readonly=False,
-        domain="[('type_of_tag', '=', 'project_number')]"
+        domain="[('type_of_tag', '=', 'project_number')]",
+        default=lambda self: self.env.user.project_no
     )
     area_of_responsibility = fields.Many2one(
         comodel_name='account.analytic.tag', string='Cost Center',
-        readonly=False, domain="[('type_of_tag', '=', 'area_of_responsibility')]"
+        readonly=False, domain="[('type_of_tag', '=', 'area_of_responsibility')]",
+        default=lambda self: self.env.user.area_of_responsibility
     )
 
     def reconcile(self):
