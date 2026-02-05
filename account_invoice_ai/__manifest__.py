@@ -30,21 +30,23 @@
     'description': """
         Mailbox for AI Invoices
     """,
-    #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_invoice_ai',
-    'images': ['static/description/banner.png'],  # 560x280 px.
+    'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'depends': [
         'ai_agent',
         'account',
-        'account_period_vrtl'
+        'account_period_vrtl',
+        'account_invoice_import',
+        'purchase'
     ],
     'data': [
         'data/ai_tool_data.xml',
-        'data/ai_agent_data.xml',
+        'data/ai_invoice_mail.xml',
+        'data/ai_invoice_attachment.xml',
         'views/ir_attachment_view.xml',
         'views/account_move_view.xml',
         'views/res_partner_view.xml',
@@ -54,14 +56,13 @@
     "external_dependencies": {
         "python": [
             "eml_parser",
-            "pyarrow",
+            #"pyarrow",
             "pytesseract", 
             "PyMuPDF",
-            "faiss-cpu",
+            #"faiss-cpu",
         ],
     },
     'installable': True,
     'auto_install': False,
     'application': False,
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

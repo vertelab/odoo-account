@@ -1,12 +1,13 @@
-import json
+import logging
 import re
-from typing import List, Dict, Any
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError, AccessError, ValidationError
+import base64
+import eml_parser
+import json
 from markupsafe import Markup
 from langchain_core.messages import AIMessage
 
-import logging
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError, AccessError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ class AIQuest(models.Model):
     _inherit = "ai.quest"
 
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
-    ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice')], ondelete={'account-invoice': 'cascade'})
+    ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice'),('account-invoice-pdf','Invoice PDF')], ondelete={'account-invoice': 'cascade', 'account-invoice-pdf': 'cascade'})
 
     def _serialize_ai_messages(self, ai_messages):
         filtered_messages = [msg for msg in ai_messages if msg.content.strip()]
@@ -222,7 +223,6 @@ class AIQuest(models.Model):
     def partner_search(self, email_info):
         """Search partner using email and returns an id"""
         partner_id = False
-
         if email_info:
             partner_id = self.env['res.partner'].search(
                 [('email', '=', email_info.get('from')), ('is_company', '=', True)], limit=1)
@@ -269,8 +269,10 @@ class AIQuest(models.Model):
         return partner_id
 
     def _process_file_content(self, session, partner_id, file_content, match_purchase_order=False):
+
         move_id = False
         quest_agent = False
+
         if partner_id:
            quest_agent = self.ai_agent_ids.filtered(
                lambda agent_rec:
@@ -288,8 +290,9 @@ class AIQuest(models.Model):
             debug=self.debug,
             message=file_content,
         )
+
         json_data = self.custom_extract_json(json_content.content)
-        
+
         if match_purchase_order:
             #Find purchase order instead and get lines from there.
             move_id, partner_purchase_order = self.match_purchase_order(session, json_data, partner_id, file_content)
@@ -307,7 +310,7 @@ class AIQuest(models.Model):
             move_id = self._create_vendor_bill(
                 json_data.get('invoice'), session, partner_id
             )
-            
+
         return move_id
 
     def _set_to_check_vendor_bill(self, move_id):
@@ -335,7 +338,6 @@ class AIQuest(models.Model):
                 move_id.message_post(body=body)
                 
             period = self.env['account.period'].search([('date_start','<=',move_id.date),('date_stop','>=',move_id.date)])
-            _logger.warning("closed period"*100)
             _logger.warning(f"{[('date_start','>=',move_id.date),('date_stop','<=',move_id.date)]}")
             _logger.warning(f"{period=}")
             if not period:
@@ -351,6 +353,7 @@ class AIQuest(models.Model):
             
 
     def find_partner_based_on_vat(self, file_content):
+
         partners_with_vat = self.env['res.partner'].search_read(
             [('is_company', '=', True), ('vat', '!=', False)],
             ['id', 'name', 'vat']
@@ -424,7 +427,8 @@ class AIQuest(models.Model):
 
         if match:
             result = match.group(1)
-            result = eval(result)
+            result = json.loads(result)
+            #result = eval(result)
             if result.get('invoice',False) and result.get('invoice',False).get('invoice_line_ids'):
                for line in result.get('invoice',False).get('invoice_line_ids'):
                     if line.get('price_unit'):
@@ -432,7 +436,6 @@ class AIQuest(models.Model):
                     if line.get('quantity'):
                        line['quantity'] = self.fix_number(str(line['quantity']))
                     
-            _logger.warning("custom_extract_json"*100)
             _logger.warning(f"{result}")
             return result
             
