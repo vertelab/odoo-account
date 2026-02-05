@@ -53,8 +53,6 @@ def mail_rfc822(state):
             result = json.dumps(parsed_eml.get('header'))
             return result
 
-        print("result", result)
-
         # result = "Email header not found, so no "
         return "Email header not found, so no "
 
