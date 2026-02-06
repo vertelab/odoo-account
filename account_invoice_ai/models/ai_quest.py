@@ -336,20 +336,20 @@ class AIQuest(models.Model):
                 
                 # Post the message on the original move
                 move_id.message_post(body=body)
-                
-            period = self.env['account.period'].search([('date_start','<=',move_id.date),('date_stop','>=',move_id.date)])
-            _logger.warning(f"{[('date_start','>=',move_id.date),('date_stop','<=',move_id.date)]}")
-            _logger.warning(f"{period=}")
-            if not period:
-                body=f"After Ai scanning no period found for date: {move_id.date.strftime('%Y-%m-%d')}. Please check if the date and period is correct."
-                move_id.write({'checked': False})
-                move_id.write({'to_check_period': True})
-                move_id.message_post(body=body)
-            elif period and period.state == "done":
-                body=f"After Ai scanning the period found for date: {move_id.date.strftime('%Y-%m-%d')} is closed. Please check if the date and period is correct."
-                move_id.write({'checked': False})
-                move_id.write({'to_check_period': True})
-                move_id.message_post(body=body)
+            #TODO CHECK if period is closed or not. 
+            # period = self.env['account.period'].search([('date_start','<=',move_id.date),('date_stop','>=',move_id.date)])
+            # _logger.warning(f"{[('date_start','>=',move_id.date),('date_stop','<=',move_id.date)]}")
+            # _logger.warning(f"{period=}")
+            # if not period:
+            #     body=f"After Ai scanning no period found for date: {move_id.date.strftime('%Y-%m-%d')}. Please check if the date and period is correct."
+            #     move_id.write({'checked': False})
+            #     move_id.write({'to_check_period': True})
+            #     move_id.message_post(body=body)
+            # elif period and period.state == "done":
+            #     body=f"After Ai scanning the period found for date: {move_id.date.strftime('%Y-%m-%d')} is closed. Please check if the date and period is correct."
+            #     move_id.write({'checked': False})
+            #     move_id.write({'to_check_period': True})
+            #     move_id.message_post(body=body)
             
 
     def find_partner_based_on_vat(self, file_content):

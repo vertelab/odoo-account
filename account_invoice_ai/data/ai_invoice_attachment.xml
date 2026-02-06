@@ -65,7 +65,8 @@ Give no comments just the json.
         </record>
 
         <record id="ai_agent_unknown_invoice_analyzer" model="ai.agent">
-            <field name="name">Uknown Vendor Analyzer</field>
+            <field name="name">Uknown Invoice Analyzer</field>
+            <field name="generic_agent" eval="True"/>
             <field name="ai_backstory">
 
 You have text of an invoice and will be given no more info.
