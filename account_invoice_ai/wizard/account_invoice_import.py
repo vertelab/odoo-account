@@ -61,14 +61,19 @@ class AccountInvoiceImport(models.TransientModel):
                 if not partner_id:
                     partner_id = quest_id.find_partner_based_on_keyword(pdf_text)
                 if  not partner_id:
+                    
                     partner_json = vendor_finder_agent_id.trigger_prompt(
                     quest=quest_id,
                     session=session_id,
                     debug=quest_id.debug,
                     message=pdf_text,
                     )
+                    _logger.warning("lookhere"*100)
+                    _logger.warning(f"{partner_json=}")
                     partner_id = quest_id.partner_search(session_id, partner_json.content)
-
+                    _logger.warning(f"{partner_id=}")
+                    if not partner_id:
+                       partner_id = quest_id.partner_create(session_id, partner_json.content)
                 move = quest_id._process_file_content(session_id, partner_id, pdf_text, match_purchase_order=False)
 
                 session_id.write({"status": "done"})

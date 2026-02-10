@@ -63,7 +63,7 @@ class AIQuest(models.Model):
         
         invoice_data = self._vendor_bill_vals(invoice_data, session, partner_id)
         
-        invoice_data.pop('invoice_line_ids', False)
+        #invoice_data.pop('invoice_line_ids', False)
         
         if session.move_id:
             session.move_id.write(invoice_data)
@@ -95,8 +95,8 @@ class AIQuest(models.Model):
         invoice_data['invoice_date'] = invoice_data.get('date')
         invoice_data['invoice_payment_term_id'] = partner_id.property_supplier_payment_term_id.id if partner_id else self.env.ref('account.account_payment_term_30days').id
         invoice_data['move_type'] = 'in_invoice'
-        invoice_data['fiscal_position_id'] = partner_id.property_account_position_id.id if partner_id and partner_id.property_account_position_id else False
-        invoice_data['invoice_line_ids'] = self._invoice_lines(invoice_data.pop('invoice_line_ids', False))
+        invoice_data['fiscal_position_id'] = partner_id.property_account_position_id.id if partner_id and partner_id.property_account_position_id else invoice_data.pop('fiscal_position_id', False)
+        invoice_data['invoice_line_ids'] = self._invoice_lines(invoice_data.pop('invoice_line_ids', False), invoice_data['fiscal_position_id'])
         _logger.warning(f"odoo-account {invoice_data=}")
         session.invoice_metadata = invoice_data
         return invoice_data
@@ -119,37 +119,79 @@ class AIQuest(models.Model):
             session.move_id = move_id.id
         return move_id
 
-    def _invoice_lines(self, invoice_lines):
+    def _invoice_lines(self, invoice_lines, fiscal_position=None):
         company_id = self.env.context.get('company_id') or self.env.company.id
         default_journal = self.env['account.journal'].search(
             [('type', '=', 'purchase'), ('company_id', '=', company_id)], limit=1)
         default_account = default_journal.default_account_id.id
         default_tax = self.env['res.company'].browse(company_id).account_purchase_tax_id.ids
+        product_account = False
+        product_tax = False
+        dynamic_account_id = False
+        dynamic_tax_id = False
+        
         lines = []
         for line in invoice_lines:
+            if product_name := line.get('name'):
+               product_id = self.env['product.product'].search([('name','=', product_name)], limit=1)
+               if product_id:
+                  product_account = product_id.property_account_expense_id
+                  product_tax = product_id.supplier_taxes_id
+                  line['product_id'] = product_id.id
+
             if account_id := line.get('account_id'):
                 dynamic_account_id = self.env['account.account'].search([
                     ('code', '=', account_id), ('company_ids', 'in', [company_id])
                 ], limit=1)
-                if dynamic_account_id:
-                    line['account_id'] = dynamic_account_id.id
-                else:
-                    line['account_id'] = default_account
-            else:
-                line['account_id'] = default_account
 
             if tax := line.pop('tax/vat', False):
                 dynamic_tax_id = self.env['account.tax'].search([('name', '=', tax), ('company_id', '=', company_id)])
-                if dynamic_tax_id:
-                    line['tax_ids'] = [(6, 0, dynamic_tax_id.ids)]
-                else:
-                    line['tax_ids'] = [(6, 0, default_tax)]
+
+             #Grab tax/account from product, else what the ai has returned and default to journal if all else is false.
+            if product_account:
+                line['account_id'] = product_account.id
+            elif dynamic_account_id:
+                line['account_id'] = dynamic_account_id.id
+            else:
+                 line['account_id'] = default_account
+                 
+            if product_tax:
+               line['tax_ids'] = [(6, 0, product_tax.ids)]
+            elif dynamic_tax_id:
+                 line['tax_ids'] = [(6, 0, dynamic_tax_id.id)]
             else:
                 line['tax_ids'] = [(6, 0, default_tax)]
+            
+            
+            #The fiscal postion translation is not triggered for whatever reason so that why this is here.
+            if fiscal_position:
+               fiscal_position = self.env['account.fiscal.position'].browse(int(fiscal_position))
+            
+            if fiscal_position and line.get('tax_ids'):
+               src_taxes = self.env['account.tax'].browse(line['tax_ids'][0][2])
+               translated_taxes = fiscal_position.map_tax(src_taxes)
+               line['tax_ids'] = [(6, 0, translated_taxes.ids)]
+               
+            if fiscal_position and line.get('account_id'):
+               src_account = self.env['account.account'].browse(line['account_id'])
+               translated_account = fiscal_position.map_account(src_account)
+               line['account_id'] = translated_account.id
+               
+            
             lines.append((0, 0, line))
         return lines
         
         
+    def map_tax(self, taxes):
+        return self.env['account.tax'].browse(unique(
+            tax_id
+            for tax in taxes
+            for tax_id in (self.tax_map or {}).get(tax.id, [tax.id])
+        ))
+
+    def map_account(self, account):
+        return self.env['account.account'].browse((self.account_map or {}).get(account.id, account.id))
+
         
     def get_from_email(self, session) -> dict:
         result = {}
@@ -220,15 +262,15 @@ class AIQuest(models.Model):
         else:
             return False, False
 
-    def partner_search(self, email_info):
-        """Search partner using email and returns an id"""
-        partner_id = False
-        if email_info:
-            partner_id = self.env['res.partner'].search(
-                [('email', '=', email_info.get('from')), ('is_company', '=', True)], limit=1)
-            if not partner_id:
-                partner_id = self.env['res.partner'].search([('email', '=', email_info.get('from'))], limit=1)
-        return partner_id
+    # ~ def partner_search(self, email_info):
+        # ~ """Search partner using email and returns an id"""
+        # ~ partner_id = False
+        # ~ if email_info:
+            # ~ partner_id = self.env['res.partner'].search(
+                # ~ [('email', '=', email_info.get('from')), ('is_company', '=', True)], limit=1)
+            # ~ if not partner_id:
+                # ~ partner_id = self.env['res.partner'].search([('email', '=', email_info.get('from'))], limit=1)
+        # ~ return partner_id
 
     def partner_search(self, session, partner_json):
         partner_id = False
@@ -247,25 +289,20 @@ class AIQuest(models.Model):
             json_dict = self.env['ai.quest'].custom_extract_json(partner_json)
         except Exception as e:
             _logger.warning(f"partner_create failed from {partner_json=} due to {e=}")
-            return partner_id
-        if json_dict.get('vat'):
-            partner_id = self.env['res.partner'].search(
-                [('vat', '=', json_dict.get('vat')), ('is_company', '=', True), ('name', '=', json_dict.get('name'))],
-                limit=1)
-            if not partner_id:
-                partner_id = self.env['res.partner'].search(
-                    [('vat', '=', json_dict.get('vat')), ('name', '=', json_dict.get('name'))], limit=1)
-                if not partner_id:
-                    self.env['res.partner'].search([('vat', '=', json_dict.get('vat')), ('is_company', '=', True)],
-                                                   limit=1)
-                    if not partner_id:
-                        self.env['res.partner'].search([('vat', '=', json_dict.get('vat'))], limit=1)
-        if not partner_id and json_dict.get('vat') and json_dict.get('name'):
-            partner_id = self.env['res.partner'].create({
-                'name': json_dict.get('name', ''),
-                'vat': json_dict.get('vat', ''),
-                'company_type': 'company',
-            })
+       
+        if json_dict.get('name'):
+            # Filter to only valid res.partner fields
+            valid_fields = set(self.env['res.partner']._fields.keys())
+            safe_dict = {k: v for k, v in json_dict.items() if k in valid_fields}
+            
+            if not safe_dict.get("company_type"):
+                safe_dict['company_type'] = 'company'  # This field exists, so safe to add
+            _logger.warning(f"1 {safe_dict=}")    
+            if safe_dict.get("country_id"):
+                country = self.env['res.country'].search([('code','=',safe_dict.get("country_id"))])
+                safe_dict["country_id"] = country.id if country else False
+            _logger.warning(f"2 {safe_dict=}")    
+            partner_id = self.env['res.partner'].create(safe_dict)
         return partner_id
 
     def _process_file_content(self, session, partner_id, file_content, match_purchase_order=False):

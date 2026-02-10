@@ -17,7 +17,7 @@
                 <button name="action_post" position="after">
                     <button groups="account.group_account_user" name="re_update_move_lines" type="object" class="btn btn-primary" confirm="Are you sure you want to add scanned lines?" string="Add Scanned Lines" invisible="state != 'draft' or not ai_session_id"/>
                     <button groups="account.group_account_user" name="clear_move_lines" type="object" class="btn btn-danger" string="Clear Lines" confirm="Are you sure you want to clear the lines?" invisible="state != 'draft' or not ai_session_id"/>
-                    <button groups="account.group_account_user" name="action_rerun" type="object" class="btn btn-warning" string="Re-run" confirm="Are you sure you want to rerun?" invisible="state != 'draft' or not ai_session_id"/>
+                    <!--<button groups="account.group_account_user" name="action_rerun" type="object" class="btn btn-warning" string="Re-run" confirm="Are you sure you want to rerun?" invisible="state != 'draft' or not ai_session_id"/>-->
                 </button>
                 
                     <xpath expr="//field[@name='checked']" position="after">
