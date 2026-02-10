@@ -37,6 +37,7 @@
     'depends': ['account'],
     'data': [
         'views/payment_term_view.xml',
+        'views/external_layout.xml',
     ],
     'demo': [],
     'qweb': [],
