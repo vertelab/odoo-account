@@ -83,14 +83,14 @@ class AIQuest(models.Model):
         )
         if not currency:
             currency = self.env['res.currency'].search([('name', '=', 'SEK')]).id
-        period_id = self.env['account.period'].date2period(
-            invoice_data.get('date', fields.Date.today())
-        ).id
+        #period_id = self.env['account.period'].date2period(
+        #    invoice_data.get('date', fields.Date.today())
+        #).id
 
         invoice_data['partner_id'] = partner_id.id if partner_id else False
         invoice_data['currency_id'] = currency
-        if period_id:
-           invoice_data['period_id'] = period_id
+        #if period_id:
+        #   invoice_data['period_id'] = period_id
         invoice_data['ai_session_id'] = session.id
         invoice_data['invoice_date'] = invoice_data.get('date')
         invoice_data['invoice_payment_term_id'] = partner_id.property_supplier_payment_term_id.id if partner_id else self.env.ref('account.account_payment_term_30days').id
@@ -485,7 +485,7 @@ class AIQuest(models.Model):
             fixed_num = fixed_num = f"{''.join(num.split(last_symbol)[0:-1]).replace(',','').replace('.','')}.{num.split(last_symbol)[-1]}"
             return float(fixed_num.replace(" ",""))
         else:
-            return float(num.replace(" ",""))
+            return float(num.replace(" ","")) if num else 0
             
     def find_last_symbol(self,num):
         # Iterate over the string in reverse order
