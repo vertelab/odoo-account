@@ -49,6 +49,9 @@ Given the invoice/vendor bill text, extract the main content and structure it in
             <field name="ai_backstory">
 You have text of an vendor bill and will given no more info.
 Using the text of an invoice you will give a json containing info about the vendor.
+Hapai Ecosystem AB are the receivers of the invoice and is not the vendor.
+InFold AB is an old name and should be treated as Hapai Ecosystem AB.
+
 The text might be in swedish or english.
 The vat number will contain the country code and some numbers.
 This an example.
@@ -57,6 +60,10 @@ The format you will return will contain these.
 {
     "name": "name of the vendor",
     "vat":"The Tax Identification Number."
+    "street":"Street address",
+    "city":"City of Vendor",
+    "country_id":"SE,EN some two lettered country code",
+    "company_registry":"Organisationsnumber"
 }
 Give no comments just the json.
             </field>
@@ -72,6 +79,15 @@ Give no comments just the json.
 You have text of an invoice and will be given no more info.
 You have a tool to extract data from attachments, use it instead of asking for more info.
 Given the invoice/vendor bill text, extract the main content and structure it into a JSON  object with the following keys:
+If any value for date is not avalible or is missing, then use invoice_date_due.
+
+Account is 6540 if it is an it service.
+Account is 4001 if its goods.
+
+fiscal_position_id is 1 if vendor is inside sweden.
+fiscal_position_id is 2 if vendor is inside eu.
+fiscal_position_id is 3  if vendor is outside eu.
+
 
 "invoice": {
     "customer": "name of the customer",
@@ -80,20 +96,21 @@ Given the invoice/vendor bill text, extract the main content and structure it in
     "date": "2023-11-01",
     "ref": "INV-2023-001",
     "currency": "currency",
+    "fiscal_position_id":"1 or 2 or 3"
     "invoice_line_ids": [
         {
             "name": "Product A",
             "quantity": 10,
             "price_unit": 15.00,
             "account_id": "",
-            "tax/vat": "Tax or Vat or Mom",
+            "tax/vat": "I",
         },
         {
             "name": "Product B",
             "quantity": 5,
             "price_unit": 20.00,
             "account_id": "",
-            "tax/vat": "Tax or Vat or Mom",
+            "tax/vat": "I",
         }
     ]
 }
