@@ -390,9 +390,9 @@ class AIQuest(models.Model):
             
 
     def find_partner_based_on_vat(self, file_content):
-
+        partner_id = self.company_id.partner_id.id
         partners_with_vat = self.env['res.partner'].search_read(
-            [('is_company', '=', True), ('vat', '!=', False)],
+            [('is_company', '=', True), ('vat', '!=', False),('id','!=',partner_id)],
             ['id', 'name', 'vat']
         )
         for partner in partners_with_vat:
