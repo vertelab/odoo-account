@@ -7,13 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0-20211230\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-10 08:50+0000\n"
-"PO-Revision-Date: 2022-05-10 08:50+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-02-20 15:26+0100\n"
+"Last-Translator: Jakob Krabbe <jakob.krabbe@vertel.se>\n"
 "Language-Team: \n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. module: account_analytic_line_project
 #: model:ir.actions.act_window,name:account_analytic_line_project.account_analytic_tree_report
@@ -41,19 +43,19 @@ msgstr "Visningsnamn"
 #: model:ir.model.fields,field_description:account_analytic_line_project.field_account_analytic_line__id
 #: model:ir.model.fields,field_description:account_analytic_line_project.field_project_project__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_analytic_line_project
 #: model:ir.model.fields,field_description:account_analytic_line_project.field_account_analytic_line____last_update
 #: model:ir.model.fields,field_description:account_analytic_line_project.field_project_project____last_update
 msgid "Last Modified on"
-msgstr "Senast redigerad"
+msgstr "Senast uppdaterad"
 
 #. module: account_analytic_line_project
 #: model:ir.model,name:account_analytic_line_project.model_project_project
 #: model:ir.model.fields,field_description:account_analytic_line_project.field_account_analytic_line__project_id
 msgid "Project"
-msgstr "Uppdrag"
+msgstr "Projekt"
 
 #. module: account_analytic_line_project
 #: model:ir.model.fields,field_description:account_analytic_line_project.field_project_project__analytic_line_ids
