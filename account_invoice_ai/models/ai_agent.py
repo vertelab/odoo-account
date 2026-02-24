@@ -15,7 +15,7 @@ class SafeDict(dict):
 class AIAgent(models.Model):
     _inherit = "ai.agent"
 
-    ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice')], ondelete={'account-invoice': 'cascade'})
+    ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice'),('vendor-finder','Vendor Finder')], ondelete={'account-invoice': 'cascade', 'vendor-finder': 'cascade'})
     generic_agent = fields.Boolean(copy=False, default=False)
     
     def trigger_prompt(self, session=False, debug=False, quest=False, **kwargs):
@@ -74,17 +74,14 @@ class AIAgent(models.Model):
             _logger.debug(f"Agent {self.name} {messages=}")
         try:
             response = self.ai_agent_llm_id.invoke(messages, session=session, quest=quest, agent=self, debug=debug)
-            print("response", response)
         except Exception as e:
             _logger.error(f"Error in agent {self.name}: {str(e)}")
             self.log_message(f"Error in agent {self.name}: {str(e)}\n{traceback.format_exc()}")
-            return {
-                "messages": [
-                    AIMessage(
+            return AIMessage(
                         content=f"Error occurred in agent {self.name}: {str(e)}\n{traceback.format_exc()}  ",
                         name=self.name.replace(' ', '_').replace(',', '').replace('.', '')
                     )
-                ]
-            }
+            
         session.save_messages(response)
+
         return response

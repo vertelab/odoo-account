@@ -1,12 +1,13 @@
-import json
+import logging
 import re
-from typing import List, Dict, Any
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError, AccessError, ValidationError
+import base64
+import eml_parser
+import json
 from markupsafe import Markup
 from langchain_core.messages import AIMessage
 
-import logging
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError, AccessError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ class AIQuest(models.Model):
     _inherit = "ai.quest"
 
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
-    ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice')], ondelete={'account-invoice': 'cascade'})
+    ai_type = fields.Selection(selection_add=[('account-invoice', 'Invoice'),('account-invoice-pdf','Invoice PDF')], ondelete={'account-invoice': 'cascade', 'account-invoice-pdf': 'cascade'})
 
     def _serialize_ai_messages(self, ai_messages):
         filtered_messages = [msg for msg in ai_messages if msg.content.strip()]
@@ -62,7 +63,7 @@ class AIQuest(models.Model):
         
         invoice_data = self._vendor_bill_vals(invoice_data, session, partner_id)
         
-        invoice_data.pop('invoice_line_ids', False)
+        #invoice_data.pop('invoice_line_ids', False)
         
         if session.move_id:
             session.move_id.write(invoice_data)
@@ -82,20 +83,20 @@ class AIQuest(models.Model):
         )
         if not currency:
             currency = self.env['res.currency'].search([('name', '=', 'SEK')]).id
-        period_id = self.env['account.period'].date2period(
-            invoice_data.get('date', fields.Date.today())
-        ).id
+        #period_id = self.env['account.period'].date2period(
+        #    invoice_data.get('date', fields.Date.today())
+        #).id
 
         invoice_data['partner_id'] = partner_id.id if partner_id else False
         invoice_data['currency_id'] = currency
-        if period_id:
-           invoice_data['period_id'] = period_id
+        #if period_id:
+        #   invoice_data['period_id'] = period_id
         invoice_data['ai_session_id'] = session.id
         invoice_data['invoice_date'] = invoice_data.get('date')
         invoice_data['invoice_payment_term_id'] = partner_id.property_supplier_payment_term_id.id if partner_id else self.env.ref('account.account_payment_term_30days').id
         invoice_data['move_type'] = 'in_invoice'
-        invoice_data['fiscal_position_id'] = partner_id.property_account_position_id.id if partner_id and partner_id.property_account_position_id else False
-        invoice_data['invoice_line_ids'] = self._invoice_lines(invoice_data.pop('invoice_line_ids', False))
+        invoice_data['fiscal_position_id'] = partner_id.property_account_position_id.id if partner_id and partner_id.property_account_position_id else invoice_data.pop('fiscal_position_id', False)
+        invoice_data['invoice_line_ids'] = self._invoice_lines(invoice_data.pop('invoice_line_ids', False), invoice_data['fiscal_position_id'])
         _logger.warning(f"odoo-account {invoice_data=}")
         session.invoice_metadata = invoice_data
         return invoice_data
@@ -118,37 +119,79 @@ class AIQuest(models.Model):
             session.move_id = move_id.id
         return move_id
 
-    def _invoice_lines(self, invoice_lines):
+    def _invoice_lines(self, invoice_lines, fiscal_position=None):
         company_id = self.env.context.get('company_id') or self.env.company.id
         default_journal = self.env['account.journal'].search(
             [('type', '=', 'purchase'), ('company_id', '=', company_id)], limit=1)
         default_account = default_journal.default_account_id.id
         default_tax = self.env['res.company'].browse(company_id).account_purchase_tax_id.ids
+        product_account = False
+        product_tax = False
+        dynamic_account_id = False
+        dynamic_tax_id = False
+        
         lines = []
         for line in invoice_lines:
+            if product_name := line.get('name'):
+               product_id = self.env['product.product'].search([('name','=', product_name)], limit=1)
+               if product_id:
+                  product_account = product_id.property_account_expense_id
+                  product_tax = product_id.supplier_taxes_id
+                  line['product_id'] = product_id.id
+
             if account_id := line.get('account_id'):
                 dynamic_account_id = self.env['account.account'].search([
                     ('code', '=', account_id), ('company_ids', 'in', [company_id])
                 ], limit=1)
-                if dynamic_account_id:
-                    line['account_id'] = dynamic_account_id.id
-                else:
-                    line['account_id'] = default_account
-            else:
-                line['account_id'] = default_account
 
             if tax := line.pop('tax/vat', False):
                 dynamic_tax_id = self.env['account.tax'].search([('name', '=', tax), ('company_id', '=', company_id)])
-                if dynamic_tax_id:
-                    line['tax_ids'] = [(6, 0, dynamic_tax_id.ids)]
-                else:
-                    line['tax_ids'] = [(6, 0, default_tax)]
+
+             #Grab tax/account from product, else what the ai has returned and default to journal if all else is false.
+            if product_account:
+                line['account_id'] = product_account.id
+            elif dynamic_account_id:
+                line['account_id'] = dynamic_account_id.id
+            else:
+                 line['account_id'] = default_account
+                 
+            if product_tax:
+               line['tax_ids'] = [(6, 0, product_tax.ids)]
+            elif dynamic_tax_id:
+                 line['tax_ids'] = [(6, 0, dynamic_tax_id.id)]
             else:
                 line['tax_ids'] = [(6, 0, default_tax)]
+            
+            
+            #The fiscal postion translation is not triggered for whatever reason so that why this is here.
+            if fiscal_position:
+               fiscal_position = self.env['account.fiscal.position'].browse(int(fiscal_position))
+            
+            if fiscal_position and line.get('tax_ids'):
+               src_taxes = self.env['account.tax'].browse(line['tax_ids'][0][2])
+               translated_taxes = fiscal_position.map_tax(src_taxes)
+               line['tax_ids'] = [(6, 0, translated_taxes.ids)]
+               
+            if fiscal_position and line.get('account_id'):
+               src_account = self.env['account.account'].browse(line['account_id'])
+               translated_account = fiscal_position.map_account(src_account)
+               line['account_id'] = translated_account.id
+               
+            
             lines.append((0, 0, line))
         return lines
         
         
+    def map_tax(self, taxes):
+        return self.env['account.tax'].browse(unique(
+            tax_id
+            for tax in taxes
+            for tax_id in (self.tax_map or {}).get(tax.id, [tax.id])
+        ))
+
+    def map_account(self, account):
+        return self.env['account.account'].browse((self.account_map or {}).get(account.id, account.id))
+
         
     def get_from_email(self, session) -> dict:
         result = {}
@@ -219,16 +262,15 @@ class AIQuest(models.Model):
         else:
             return False, False
 
-    def partner_search(self, email_info):
-        """Search partner using email and returns an id"""
-        partner_id = False
-
-        if email_info:
-            partner_id = self.env['res.partner'].search(
-                [('email', '=', email_info.get('from')), ('is_company', '=', True)], limit=1)
-            if not partner_id:
-                partner_id = self.env['res.partner'].search([('email', '=', email_info.get('from'))], limit=1)
-        return partner_id
+    # ~ def partner_search(self, email_info):
+        # ~ """Search partner using email and returns an id"""
+        # ~ partner_id = False
+        # ~ if email_info:
+            # ~ partner_id = self.env['res.partner'].search(
+                # ~ [('email', '=', email_info.get('from')), ('is_company', '=', True)], limit=1)
+            # ~ if not partner_id:
+                # ~ partner_id = self.env['res.partner'].search([('email', '=', email_info.get('from'))], limit=1)
+        # ~ return partner_id
 
     def partner_search(self, session, partner_json):
         partner_id = False
@@ -247,30 +289,27 @@ class AIQuest(models.Model):
             json_dict = self.env['ai.quest'].custom_extract_json(partner_json)
         except Exception as e:
             _logger.warning(f"partner_create failed from {partner_json=} due to {e=}")
-            return partner_id
-        if json_dict.get('vat'):
-            partner_id = self.env['res.partner'].search(
-                [('vat', '=', json_dict.get('vat')), ('is_company', '=', True), ('name', '=', json_dict.get('name'))],
-                limit=1)
-            if not partner_id:
-                partner_id = self.env['res.partner'].search(
-                    [('vat', '=', json_dict.get('vat')), ('name', '=', json_dict.get('name'))], limit=1)
-                if not partner_id:
-                    self.env['res.partner'].search([('vat', '=', json_dict.get('vat')), ('is_company', '=', True)],
-                                                   limit=1)
-                    if not partner_id:
-                        self.env['res.partner'].search([('vat', '=', json_dict.get('vat'))], limit=1)
-        if not partner_id and json_dict.get('vat') and json_dict.get('name'):
-            partner_id = self.env['res.partner'].create({
-                'name': json_dict.get('name', ''),
-                'vat': json_dict.get('vat', ''),
-                'company_type': 'company',
-            })
+       
+        if json_dict.get('name'):
+            # Filter to only valid res.partner fields
+            valid_fields = set(self.env['res.partner']._fields.keys())
+            safe_dict = {k: v for k, v in json_dict.items() if k in valid_fields}
+            
+            if not safe_dict.get("company_type"):
+                safe_dict['company_type'] = 'company'  # This field exists, so safe to add
+            _logger.warning(f"1 {safe_dict=}")    
+            if safe_dict.get("country_id"):
+                country = self.env['res.country'].search([('code','=',safe_dict.get("country_id"))])
+                safe_dict["country_id"] = country.id if country else False
+            _logger.warning(f"2 {safe_dict=}")    
+            partner_id = self.env['res.partner'].create(safe_dict)
         return partner_id
 
     def _process_file_content(self, session, partner_id, file_content, match_purchase_order=False):
+
         move_id = False
         quest_agent = False
+
         if partner_id:
            quest_agent = self.ai_agent_ids.filtered(
                lambda agent_rec:
@@ -288,8 +327,9 @@ class AIQuest(models.Model):
             debug=self.debug,
             message=file_content,
         )
+
         json_data = self.custom_extract_json(json_content.content)
-        
+
         if match_purchase_order:
             #Find purchase order instead and get lines from there.
             move_id, partner_purchase_order = self.match_purchase_order(session, json_data, partner_id, file_content)
@@ -307,7 +347,7 @@ class AIQuest(models.Model):
             move_id = self._create_vendor_bill(
                 json_data.get('invoice'), session, partner_id
             )
-            
+
         return move_id
 
     def _set_to_check_vendor_bill(self, move_id):
@@ -333,26 +373,26 @@ class AIQuest(models.Model):
                 
                 # Post the message on the original move
                 move_id.message_post(body=body)
-                
-            period = self.env['account.period'].search([('date_start','<=',move_id.date),('date_stop','>=',move_id.date)])
-            _logger.warning("closed period"*100)
-            _logger.warning(f"{[('date_start','>=',move_id.date),('date_stop','<=',move_id.date)]}")
-            _logger.warning(f"{period=}")
-            if not period:
-                body=f"After Ai scanning no period found for date: {move_id.date.strftime('%Y-%m-%d')}. Please check if the date and period is correct."
-                move_id.write({'checked': False})
-                move_id.write({'to_check_period': True})
-                move_id.message_post(body=body)
-            elif period and period.state == "done":
-                body=f"After Ai scanning the period found for date: {move_id.date.strftime('%Y-%m-%d')} is closed. Please check if the date and period is correct."
-                move_id.write({'checked': False})
-                move_id.write({'to_check_period': True})
-                move_id.message_post(body=body)
+            #TODO CHECK if period is closed or not. 
+            # period = self.env['account.period'].search([('date_start','<=',move_id.date),('date_stop','>=',move_id.date)])
+            # _logger.warning(f"{[('date_start','>=',move_id.date),('date_stop','<=',move_id.date)]}")
+            # _logger.warning(f"{period=}")
+            # if not period:
+            #     body=f"After Ai scanning no period found for date: {move_id.date.strftime('%Y-%m-%d')}. Please check if the date and period is correct."
+            #     move_id.write({'checked': False})
+            #     move_id.write({'to_check_period': True})
+            #     move_id.message_post(body=body)
+            # elif period and period.state == "done":
+            #     body=f"After Ai scanning the period found for date: {move_id.date.strftime('%Y-%m-%d')} is closed. Please check if the date and period is correct."
+            #     move_id.write({'checked': False})
+            #     move_id.write({'to_check_period': True})
+            #     move_id.message_post(body=body)
             
 
     def find_partner_based_on_vat(self, file_content):
+        partner_id = self.company_id.partner_id.id
         partners_with_vat = self.env['res.partner'].search_read(
-            [('is_company', '=', True), ('vat', '!=', False)],
+            [('is_company', '=', True), ('vat', '!=', False),('id','!=',partner_id)],
             ['id', 'name', 'vat']
         )
         for partner in partners_with_vat:
@@ -424,7 +464,8 @@ class AIQuest(models.Model):
 
         if match:
             result = match.group(1)
-            result = eval(result)
+            result = json.loads(result)
+            #result = eval(result)
             if result.get('invoice',False) and result.get('invoice',False).get('invoice_line_ids'):
                for line in result.get('invoice',False).get('invoice_line_ids'):
                     if line.get('price_unit'):
@@ -432,7 +473,6 @@ class AIQuest(models.Model):
                     if line.get('quantity'):
                        line['quantity'] = self.fix_number(str(line['quantity']))
                     
-            _logger.warning("custom_extract_json"*100)
             _logger.warning(f"{result}")
             return result
             
@@ -445,7 +485,7 @@ class AIQuest(models.Model):
             fixed_num = fixed_num = f"{''.join(num.split(last_symbol)[0:-1]).replace(',','').replace('.','')}.{num.split(last_symbol)[-1]}"
             return float(fixed_num.replace(" ",""))
         else:
-            return float(num.replace(" ",""))
+            return float(num.replace(" ","")) if num else 0
             
     def find_last_symbol(self,num):
         # Iterate over the string in reverse order

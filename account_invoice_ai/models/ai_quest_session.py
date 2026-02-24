@@ -1,9 +1,4 @@
-import json
 import logging
-import re
-import eml_parser
-import base64
-from typing import List, Dict, Any
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, AccessError, ValidationError

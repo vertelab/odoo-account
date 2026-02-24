@@ -1,0 +1,139 @@
+<odoo>
+    <data noupdate="1">
+
+        <record id="account_invoice_attachment_ai" model="ai.quest">
+            <field name="name">Analyse uploaded invoices and create them in Odoo</field>
+            <field name="ai_type">account-invoice-pdf</field>
+            <field name="init_type">manual</field>
+            <field name="code">
+No Code needed.
+            </field>
+            <field name="description">
+You have text of an invoice and will given no more info.
+You have a tool to extract data from attachments, use it instead of asking for more info. 
+You will be precise and concise with your answer and never add anything other than the json as a response.
+An evel will run on the response so price_unit has to be formated in a way so that python can create a float from it.
+Given the invoice/vendor bill text, extract the main content and structure it into a JSON  object with the following keys:
+
+"invoice": {
+    "customer": "name of the customer",
+    "vendor": "name of the vendor",
+    "invoice_date_due": "2023-12-31",
+    "date": "2023-11-01",
+    "ref": "Is an reference. Usally the invoice number",
+    "currency": "currency",
+    "vendor_in_eu": "true or false if vendor is inside EU",
+    "customer_in_eu": "true or false if customer is inside EU",
+    "invoice_line_ids": [
+        {
+            "name": "Product A",
+            "quantity": "10",
+            "price_unit": "15.00",
+            "account_id": "'4001",
+            "tax/vat": "I",
+        },
+        {
+            "name": "Product B",
+            "quantity": "5",
+            "price_unit": "20.00",
+            "account_id": "4001",
+            "tax/vat": "I",
+        }
+    ]
+}
+            </field>
+        </record>
+
+        <record id="ai_agent_vendor_finder" model="ai.agent">
+            <field name="name">Vendor Finder</field>
+            <field name="ai_backstory">
+You have text of an vendor bill and will given no more info.
+Using the text of an invoice you will give a json containing info about the vendor.
+Hapai Ecosystem AB are the receivers of the invoice and is not the vendor.
+InFold AB is an old name and should be treated as Hapai Ecosystem AB.
+
+The text might be in swedish or english.
+The vat number will contain the country code and some numbers.
+This an example.
+Austria ATU999999995
+The format you will return will contain these.
+{
+    "name": "name of the vendor",
+    "vat":"The Tax Identification Number."
+    "street":"Street address",
+    "city":"City of Vendor",
+    "country_id":"SE,EN some two lettered country code",
+    "company_registry":"Organisationsnumber"
+}
+Give no comments just the json.
+            </field>
+            <field name="ai_prompt_template">{message}</field>
+            <field name="ai_type">vendor-finder</field>
+        </record>
+
+        <record id="ai_agent_unknown_invoice_analyzer" model="ai.agent">
+            <field name="name">Uknown Invoice Analyzer</field>
+            <field name="generic_agent" eval="True"/>
+            <field name="ai_backstory">
+
+You have text of an invoice and will be given no more info.
+You have a tool to extract data from attachments, use it instead of asking for more info.
+Given the invoice/vendor bill text, extract the main content and structure it into a JSON  object with the following keys:
+If any value for date is not avalible or is missing, then use invoice_date_due.
+
+Account is 6540 if it is an it service.
+Account is 4001 if its goods.
+
+fiscal_position_id is 1 if vendor is inside sweden.
+fiscal_position_id is 2 if vendor is inside eu.
+fiscal_position_id is 3  if vendor is outside eu.
+
+
+"invoice": {
+    "customer": "name of the customer",
+    "vendor": "name of the vendor",
+    "invoice_date_due": "2023-12-31",
+    "date": "2023-11-01",
+    "ref": "INV-2023-001",
+    "currency": "currency",
+    "fiscal_position_id":"1 or 2 or 3"
+    "invoice_line_ids": [
+        {
+            "name": "Product A",
+            "quantity": 10,
+            "price_unit": 15.00,
+            "account_id": "",
+            "tax/vat": "I",
+        },
+        {
+            "name": "Product B",
+            "quantity": 5,
+            "price_unit": 20.00,
+            "account_id": "",
+            "tax/vat": "I",
+        }
+    ]
+}
+            
+            </field>
+            <field name="ai_prompt_template">{message}</field>
+            <field name="ai_type">account-invoice</field>
+        </record>
+
+        <record id="ai_quest_agent_invoice_vendor" model="ai.quest.agent">
+            <field name="ai_quest_id" ref="account_invoice_attachment_ai"/>
+            <field name="ai_agent_id" ref="ai_agent_vendor_finder"/>
+        </record>
+
+        <record id="ai_quest_agent_uknown_invoice" model="ai.quest.agent">
+            <field name="ai_quest_id" ref="account_invoice_attachment_ai"/>
+            <field name="ai_agent_id" ref="ai_agent_unknown_invoice_analyzer"/>
+        </record>
+
+        <record id="ai_agent_tool_process_attachments" model="ai.agent.tool">
+            <field name="ai_tool_id" ref="account_invoice_ai_process_attachments"/>
+            <field name="ai_agent_id" ref="ai_agent_vendor_finder"/>
+        </record>
+
+    </data>
+</odoo>
