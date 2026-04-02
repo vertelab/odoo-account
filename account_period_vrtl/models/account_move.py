@@ -25,8 +25,62 @@ class AccountMove(models.Model):
             else:
                 rec.period_id = False
     
+    @api.model
     def _search_period_id(self, operator, value):
-        return [('id', operator, value)]
+        if not value:
+            return []
+
+        # Normalize value to a list of IDs
+        if isinstance(value, models.BaseModel):
+            period_ids = value.ids
+        elif isinstance(value, int):
+            period_ids = [value]
+        else:
+            period_ids = list(value)
+
+        if not period_ids:
+            return [('id', '=', False)]
+
+        periods = self.env['account.period'].browse(period_ids).exists()
+
+        if not periods:
+            return [('id', '=', False)]
+
+        if len(periods) == 1:
+            period = periods[0]
+            if operator in ('!=', 'not in'):
+                return ['|',
+                    ('date', '<', period.date_start),
+                    ('date', '>', period.date_stop),
+                ]
+            return [
+                ('date', '>=', period.date_start),
+                ('date', '<=', period.date_stop),
+            ]
+
+        # Multiple periods — build: OR of (date >= start AND date <= stop) for each
+        # Domain: ['|', '|', ..., '&', c1, c2, '&', c1, c2, ...]
+        # Number of '|' needed = len(periods) - 1
+        domain = []
+
+        if operator in ('!=', 'not in'):
+            # NOT in any period range: AND of (date < start OR date > stop)
+            for period in periods:
+                domain += ['&',
+                    ('date', '<', period.date_start),
+                    ('date', '>', period.date_stop),
+                ]
+            # Wrap with AND operators
+            ands = ['&'] * (len(periods) - 1)
+            return ands + domain
+        else:
+            for period in periods:
+                domain += ['&',
+                    ('date', '>=', period.date_start),
+                    ('date', '<=', period.date_stop),
+                ]
+            ors = ['|'] * (len(periods) - 1)
+            return ors + domain
 
     period_id = fields.Many2one(
         comodel_name='account.period',
