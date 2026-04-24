@@ -5,7 +5,7 @@
         <menuitem name="Accounting"
             id="menu_accounting"
             groups="account.group_account_readonly,account.group_account_invoice"
-            web_icon="account_accountant/static/description/icon.svg"
+            web_icon="account,static/description/icon.svg"
             sequence="60"/>
         <!-- move existing submenus to point to the new parent -->
         <record id="account.menu_finance_receivables" model="ir.ui.menu">
