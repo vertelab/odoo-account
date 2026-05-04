@@ -38,7 +38,7 @@ Account Period
 ==============
 Added period for accounting. Either 12 months or 4 quarters.
     """,
-    'depends': ['account', 'date_range', 'mis_builder_budget'],
+    'depends': ['account', 'mis_builder_budget'],
     'data': [
         'security/ir.model.access.csv',
         'security/security.xml',

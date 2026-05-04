@@ -29,7 +29,6 @@
                             <group>
                                 <field name="date_start" />
                                 <field name="date_stop" />
-                                <field name="date_range_type_id" />
                             </group>
                         </group>
                         <notebook>
@@ -40,7 +39,7 @@
                                             <field name="name" />
                                             <field name="code" />
                                             <field name="date_start" />
-                                            <field name="date_end" />
+                                            <field name="date_stop" />
                                             <field name="closing_date" />
                                             <field name="special" />
                                             <field name="state" invisible="1" />

@@ -33,14 +33,29 @@ FIELDS = ['move_type','name','partner_id','invoice_date','journal_id','invoice_l
 class AccountPeriod(models.Model):
     _name = 'account.period'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _inherits = {'date.range': 'date_range_id'}
     _description = 'Period'
     _order = 'date_start, special desc'
 
-    date_range_id = fields.Many2one('date.range', required=True, ondelete='cascade')
 
     account_period_journal_ids = fields.One2many('account.period.journal', 'period_id', string="Journals")
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Company',
+        required=True,
+        default=lambda self: self.env.company
+    )
 
+    @api.model
+    def default_date_start(self):
+        return '%s-01-01' % fields.Date.today().strftime('%Y')
+    date_start = fields.Date(string='Start of Period', default=default_date_start, required=True)
+
+    @api.model
+    def default_date_stop(self):
+        return '%s-12-31' % fields.Date.today().strftime('%Y')
+
+    date_stop = fields.Date(string='End of Period', default=default_date_stop, required=True)
+    name = fields.Char(string='Name', required=True)
     @api.model
     def default_date_start(self):
         return '%s-01-01' % fields.Date.today().strftime('%Y')
@@ -51,7 +66,7 @@ class AccountPeriod(models.Model):
     def default_date_stop(self):
         return '%s-12-31' % fields.Date.today().strftime('%Y')
 
-    date_stop = fields.Date(related='date_range_id.date_end', string='End of Period', store=True, readonly=False)
+    date_stop = fields.Date(string='End of Period', store=True, readonly=False)
 
     # name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', size=12)

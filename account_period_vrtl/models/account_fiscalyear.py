@@ -32,6 +32,7 @@ class AccountFiscalyear(models.Model):
     )
     date_start = fields.Date(string='Start Date', default=default_date_start, required=True)
     date_stop = fields.Date(string='End Date', default=default_date_stop, required=True)
+    
     period_ids = fields.One2many(comodel_name='account.period', inverse_name='fiscalyear_id', string='Periods')
     state = fields.Selection(
         [('draft', 'Open'), ('done', 'Closed')],
@@ -40,7 +41,7 @@ class AccountFiscalyear(models.Model):
         copy=False,
         default='draft'
     )
-    date_range_type_id = fields.Many2one('date.range.type', string='Date Range Type', readonly=True)
+    
 
     outgoing_balance_record_ids = fields.One2many(
         'account.balance', 'fiscalyear_id', string='Outgoing Balance'
@@ -55,30 +56,6 @@ class AccountFiscalyear(models.Model):
                 rec.outgoing_balance_count = len(rec.outgoing_balance_record_ids)
             else:
                 rec.outgoing_balance_count = 0
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        """Create date range type when fiscal year is created"""
-        records = super().create(vals_list)
-        for record in records:
-            # Create a date range type for this fiscal year
-            record.date_range_type_id = record._date_range_type()
-        return records
-
-    def _date_range_type(self):
-        """Get or create the date range type for fiscal periods"""
-        self.ensure_one()
-        type_id = self.env['date.range.type'].search([
-            ('name', '=', f'Fiscal Year {self.code}'),
-            ('company_id', '=', self.company_id.id)
-        ], limit=1)
-        if not type_id:
-            type_id = self.env['date.range.type'].create({
-                'name': f'Fiscal Year {self.code}',
-                'allow_overlap': False,
-                'company_id': self.company_id.id,
-            })
-        return type_id
 
     @api.constrains('date_start', 'date_stop')
     def _check_duration(self):
@@ -103,9 +80,6 @@ class AccountFiscalyear(models.Model):
 
     def create_period(self, interval=1):
         for fy in self:
-            # Ensure date range type exists
-            if not fy.date_range_type_id:
-                fy.date_range_type_id = fy._date_range_type()
 
             ds = fy.date_start
 
@@ -114,11 +88,11 @@ class AccountFiscalyear(models.Model):
                 'name': "%s %s" % (_('Opening Period'), ds.strftime('%Y')),
                 'code': ds.strftime('00/%Y'),
                 'date_start': ds.strftime('%Y-%m-%d'),
-                'date_end': ds.strftime('%Y-%m-%d'),
+                'date_stop': ds.strftime('%Y-%m-%d'),
                 'special': True,
                 'fiscalyear_id': fy.id,
                 'company_id': fy.company_id.id,
-                'type_id': fy.date_range_type_id.id,
+                
             })
 
             # Regular periods
@@ -131,10 +105,10 @@ class AccountFiscalyear(models.Model):
                     'name': ds.strftime('%m/%Y'),
                     'code': ds.strftime('%m/%Y'),
                     'date_start': ds.strftime('%Y-%m-%d'),
-                    'date_end': de.strftime('%Y-%m-%d'),
+                    'date_stop': de.strftime('%Y-%m-%d'),
                     'fiscalyear_id': fy.id,
                     'company_id': fy.company_id.id,
-                    'type_id': fy.date_range_type_id.id,
+                    
                 })
                 ds = ds + relativedelta(months=interval)
         return True
