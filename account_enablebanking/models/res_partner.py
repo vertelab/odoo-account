@@ -17,13 +17,11 @@ class ResConfigSettings(models.Model):
     enable_banking_api_url = fields.Char("API URL")
     enable_banking_application_id = fields.Char("Application ID")
     enable_banking_redirect_url = fields.Char("Redirect URL")
-    #enable_banking_private_key = fields.Text("Private Key")
     enable_banking_private_key = fields.Binary("Private Key (.pem)", attachment=True)
     enable_banking_private_key_filename = fields.Char("Private Key Filename")
 
     def request_essentials(self):
         api_url = self.enable_banking_api_url
-        #private_key = self.enable_banking_private_key
         application_id = self.enable_banking_application_id
 
         if not self.enable_banking_private_key:
