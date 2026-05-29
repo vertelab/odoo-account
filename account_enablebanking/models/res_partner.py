@@ -1,3 +1,4 @@
+import base64
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from datetime import datetime, timezone, timedelta
@@ -16,12 +17,19 @@ class ResConfigSettings(models.Model):
     enable_banking_api_url = fields.Char("API URL")
     enable_banking_application_id = fields.Char("Application ID")
     enable_banking_redirect_url = fields.Char("Redirect URL")
-    enable_banking_private_key = fields.Text("Private Key")
+    #enable_banking_private_key = fields.Text("Private Key")
+    enable_banking_private_key = fields.Binary("Private Key (.pem)", attachment=True)
+    enable_banking_private_key_filename = fields.Char("Private Key Filename")
 
     def request_essentials(self):
         api_url = self.enable_banking_api_url
-        private_key = self.enable_banking_private_key
+        #private_key = self.enable_banking_private_key
         application_id = self.enable_banking_application_id
+
+        if not self.enable_banking_private_key:
+            raise UserError(_("Please upload a private key (.pem) file."))
+
+        private_key = base64.b64decode(self.enable_banking_private_key).decode('utf-8')
 
         iat = int(datetime.now().timestamp())
         jwt_body = {
@@ -34,7 +42,8 @@ class ResConfigSettings(models.Model):
             jwt_body,
             private_key,
             algorithm="RS256",
-            headers={"kid": application_id}, )
+            headers={"kid": application_id}, 
+        )
         try:
             base_headers = {"Authorization": f"Bearer {jwt.decode('utf-8')}"}
         except AttributeError:
