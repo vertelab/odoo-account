@@ -276,6 +276,7 @@ class AccountPeriod(models.Model):
 
 class AccountPeriodJournal(models.Model):
     _name = 'account.period.journal'
+    _description = 'Period Journal'
 
     period_id = fields.Many2one('account.period', string='Period')
     journal_id = fields.Many2one('account.journal', string='Journals')
