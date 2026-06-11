@@ -1,5 +1,5 @@
 import logging
-
+from lxml import etree
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from datetime import datetime, timezone, timedelta, date
@@ -220,17 +220,22 @@ class EnableBankingTransactions(models.TransientModel):
                                    f"({self.journal_id.currency_id.name}). They need to be the same.")
                     self._schedule_activity(err_message)
                     raise UserError(_(err_message))
+                
+
+                remittance = transaction.get('remittance_information', [])
+                raw = remittance[-1] if remittance else None
+                remittance = re.sub('<.*?>', '', raw, flags=re.DOTALL).strip() if raw else False
+
 
                 self.env['account.bank.statement.line'].create({
                     'date': transaction.get('transaction_date') or transaction.get('booking_date'),
                     'invoice_date': transaction.get('booking_date'),
                     'amount': amount,
-                    'narration': transaction.get(
-                        'remittance_information', [])[-1] if transaction.get('remittance_information', []) else False,
+                    'narration': transaction.get('entry_reference'),
                     'transaction_type': transaction.get('credit_debit_indicator'),
                     'ref': transaction.get('reference_number'),
                     'partner_id': partner_id,
-                    'payment_ref': transaction.get('entry_reference'),
+                    'payment_ref': remittance ,
                     'statement_id': bank_statement_id.id,
                 })
 

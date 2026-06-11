@@ -17,7 +17,10 @@
                                 <field name="enable_banking_api_url"/>
                                 <field name="enable_banking_application_id"/>
                                 <field name="enable_banking_redirect_url"/>
-                                <field name="enable_banking_private_key"/>
+                                <field name="enable_banking_private_key" 
+                                    widget="binary" 
+                                    filename="enable_banking_private_key_filename"/>
+                                <field name="enable_banking_private_key_filename" invisible="1"/>
                             </group>
                         </group>
                     </page>
