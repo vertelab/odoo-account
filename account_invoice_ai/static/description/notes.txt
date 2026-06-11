@@ -12,7 +12,6 @@ icon_microchip.jpg
 icon_microchip.png
 icon_microchip_neg.png
 
-
 Odoo banner: 560 x 280
 Odoo icon: 140 x 140
 
