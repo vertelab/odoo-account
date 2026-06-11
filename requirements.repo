@@ -1,3 +1,5 @@
+git@github.com:OCA/account-reconcile.git /usr/share/odooext-OCA-account-reconcile
+git@github.com:OCA/mis-builder.git /usr/share/odooext-OCA-mis-builder
 git@github.com:OCA/server-ux.git /usr/share/odooext-OCA-server-ux
 git@github.com:OCA/account-invoicing.git /usr/share/odooext-OCA-account-invoicing
 git@github.com:OCA/account-financial-tools.git /usr/share/odooext-OCA-account-financial-tools
