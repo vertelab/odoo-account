@@ -5,3 +5,4 @@ git@github.com:OCA/account-invoicing.git /usr/share/odooext-OCA-account-invoicin
 git@github.com:OCA/account-financial-tools.git /usr/share/odooext-OCA-account-financial-tools
 git@github.com:OCA/reporting-engine.git /usr/share/odooext-OCA-reporting-engine
 git@github.com:ForgeFlow/bank-payment.git /usr/share/odooext-ForgeFlow-bank-payment
+git@github.com:vertelab/odoo-contract.git /usr/share/odoo-contract
