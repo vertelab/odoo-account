@@ -36,7 +36,7 @@ class AccountMove(models.Model):
         return {
             "name": aml.name,
             "code": self.name,
-            "profile_id": aml.asset_profile_id.id or aml.deferred_expense_profile_id.id,
+            "profile_id": aml.deferred_expense_profile_id.id or aml.asset_profile_id.id,
             "purchase_value": depreciation_base,
             "partner_id": aml.partner_id.id,
             "date_start": self.date,
@@ -60,7 +60,7 @@ class AccountMove(models.Model):
                         _("Asset name must be set in the label of the line.")
                     )
                 if aml.asset_id:
-                    aml.asset_id.rec_type = aml.asset_profile_id.rec_type or aml.deferred_expense_profile_id.rec_type
+                    aml.asset_id.rec_type = aml.deferred_expense_profile_id.rec_type or aml.asset_profile_id.rec_type
                     continue
                 
                 asset = (
@@ -70,7 +70,7 @@ class AccountMove(models.Model):
                     .create(vals)
                 )
 
-                asset.rec_type = aml.asset_profile_id.rec_type or aml.deferred_expense_profile_id.rec_type
+                asset.rec_type = aml.deferred_expense_profile_id.rec_type or aml.asset_profile_id.rec_type
 
                 asset.analytic_distribution = aml.analytic_distribution
                 aml.with_context(

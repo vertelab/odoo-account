@@ -253,7 +253,7 @@ class AccountPeriod(models.Model):
     @api.model
     def date2period(self, date):
         domain = self._period_domain(date=date)
-        return self.env['account.period'].search(domain)
+        return self.env['account.period'].search(domain, limit=1)
 
     # @api.model
     # def _get_period_by_journal(self, journal_id, date=None):
@@ -276,6 +276,7 @@ class AccountPeriod(models.Model):
 
 class AccountPeriodJournal(models.Model):
     _name = 'account.period.journal'
+    _description = 'Period Journal'
 
     period_id = fields.Many2one('account.period', string='Period')
     journal_id = fields.Many2one('account.journal', string='Journals')
