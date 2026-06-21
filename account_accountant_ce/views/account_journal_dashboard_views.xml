@@ -1,0 +1,15 @@
+<odoo>
+    <!--
+        CE-compatible dashboard additions for account_accountant_ce.
+        
+        Enterprise account_accountant adds the following to the journal dashboard:
+        - on_create: JS wizard for creating journals (enterprise JS)
+        - Payments Matching link (action_open_reconcile method not in CE)
+        - "X to reconcile" button (action_open_reconcile method not in CE)
+        - Latest Statement link (action_open_reconcile_statement method not in CE)
+        - "X To Review" section (action_open_to_check method not in CE)
+        - Transactions menu item (action_open_bank_transactions method not in CE)
+        
+        These require OCA account-reconcile or custom implementation to replace.
+    -->
+</odoo>
