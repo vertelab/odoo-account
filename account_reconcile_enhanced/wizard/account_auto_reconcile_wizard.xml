@@ -35,18 +35,17 @@
 
                     <!-- Preview of selected lines -->
                     <group string="Selected Journal Items"
-                           attrs="{'invisible': [('line_ids', '=', [])]}">
+                           invisible="not line_ids">
                         <field name="line_ids" nolabel="1" readonly="1">
-                            <tree>
+                            <list>
                                 <field name="date"/>
                                 <field name="account_id"/>
-                                <field name="partner_id"/>
                                 <field name="name"/>
                                 <field name="debit"/>
                                 <field name="credit"/>
                                 <field name="amount_residual"/>
                                 <field name="currency_id"/>
-                            </tree>
+                            </list>
                         </field>
                     </group>
                 </sheet>
@@ -75,7 +74,7 @@
     <!-- Menu item under Accounting > Actions -->
     <menuitem id="menu_account_auto_reconcile"
               name="Auto-reconcile"
-              parent="account.menu_finance_entries_actions"
+              parent="account.menu_finance_entries"
               action="action_account_auto_reconcile_wizard"
               sequence="30"/>
 

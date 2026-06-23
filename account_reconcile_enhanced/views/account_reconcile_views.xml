@@ -4,7 +4,7 @@
     <record id="view_account_move_line_reconcile_search" model="ir.ui.view">
         <field name="name">account.move.line.reconcile.search</field>
         <field name="model">account.move.line</field>
-        <field name="inherit_id" ref="account_reconcile_oca.view_move_line_reconcile_search"/>
+        <field name="inherit_id" ref="account.view_account_move_line_filter"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="reconcile_model_id"
@@ -49,20 +49,21 @@
     <record id="view_account_reconcile_model_form_fee" model="ir.ui.view">
         <field name="name">account.reconcile.model.form.fee</field>
         <field name="model">account.reconcile.model</field>
-        <field name="inherit_id" ref="account_reconcile_model_oca.view_account_reconcile_model_form"/>
+        <field name="inherit_id" ref="account.view_account_reconcile_model_form"/>
         <field name="arch" type="xml">
-            <group name="matching" position="inside">
-                <group string="Bank Fee Detection" colspan="2"
-                       attrs="{'invisible': [('rule_type', '!=', 'writeoff_suggestion')]}">
+            <field name="rule_type" position="after">
+                <group string="Bank Fee Detection"
+                       invisible="rule_type != 'writeoff_suggestion'">
                     <field name="is_fee_model"
                            string="Bank Fee Model"
                            help="Automatically apply when a small residual remains on incoming deposits."/>
                     <field name="fee_threshold"
                            string="Fee Threshold (%)"
-                           attrs="{'invisible': [('is_fee_model', '=', False)], 'required': [('is_fee_model', '=', True)]}"
+                           invisible="not is_fee_model"
+                           required="is_fee_model"
                            help="Maximum fee percentage of the deposit. The model triggers when residual is below this threshold."/>
                 </group>
-            </group>
+            </field>
         </field>
     </record>
 

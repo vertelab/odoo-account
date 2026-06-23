@@ -105,16 +105,16 @@ class AccountReconcileModel(models.Model):
                               OR (
                                   reco_model.match_label = 'contains'
                                    AND (
-                                      st_line.payment_ref ILIKE '%%' || reco_model.match_label_param || '%%'
-                                      OR st_line.transaction_details::TEXT ILIKE '%%' || reco_model.match_label_param || '%%'
-                                   )
-                              ) OR (
-                                  reco_model.match_label = 'not_contains'
-                                  AND NOT (
-                                      st_line.payment_ref ILIKE '%%' || reco_model.match_label_param || '%%'
-                                      OR st_line.transaction_details::TEXT ILIKE '%%' || reco_model.match_label_param || '%%'
-                                   )
-                              ) OR (
+                                       st_line.payment_ref ILIKE CONCAT(CHR(37), reco_model.match_label_param, CHR(37))
+                                       OR st_line.transaction_details::TEXT ILIKE CONCAT(CHR(37), reco_model.match_label_param, CHR(37))
+                                    )
+                               ) OR (
+                                   reco_model.match_label = 'not_contains'
+                                   AND NOT (
+                                       st_line.payment_ref ILIKE CONCAT(CHR(37), reco_model.match_label_param, CHR(37))
+                                        OR st_line.transaction_details::TEXT ILIKE CONCAT(CHR(37), reco_model.match_label_param, CHR(37))
+                                    )
+                               ) OR (
                                   reco_model.match_label = 'match_regex'
                                   AND (
                                       st_line.payment_ref ~* reco_model.match_label_param
@@ -222,17 +222,17 @@ class AccountReconcileModel(models.Model):
                               OR (
                                   reco_model.match_label = 'contains'
                                    AND (
-                                      st_line.payment_ref ILIKE '%%' || reco_model.match_label_param || '%%'
-                                      OR st_line.transaction_details::TEXT ILIKE '%%' || reco_model.match_label_param || '%%'
-                                      OR move.narration::TEXT ILIKE '%%' || reco_model.match_label_param || '%%'
-                                   )
-                              ) OR (
-                                  reco_model.match_label = 'not_contains'
-                                  AND NOT (
-                                      st_line.payment_ref ILIKE '%%' || reco_model.match_label_param || '%%'
-                                      OR st_line.transaction_details::TEXT ILIKE '%%' || reco_model.match_label_param || '%%'
-                                      OR move.narration::TEXT ILIKE '%%' || reco_model.match_label_param || '%%'
-                                   )
+                                       st_line.payment_ref ILIKE CONCAT(CHR(37), reco_model.match_label_param, CHR(37))
+                                       OR st_line.transaction_details::TEXT ILIKE CONCAT(CHR(37), reco_model.match_label_param, CHR(37))
+                                       OR move.narration::TEXT ILIKE CONCAT(CHR(37), reco_model.match_label_param, CHR(37))
+                                    )
+                               ) OR (
+                                   reco_model.match_label = 'not_contains'
+                                   AND NOT (
+                                       st_line.payment_ref ILIKE CONCAT(CHR(37), reco_model.match_label_param, CHR(37))
+                                       OR st_line.transaction_details::TEXT ILIKE CONCAT(CHR(37), reco_model.match_label_param, CHR(37))
+                                        OR move.narration::TEXT ILIKE CONCAT(CHR(37), reco_model.match_label_param, CHR(37))
+                                    )
                               ) OR (
                                   reco_model.match_label = 'match_regex'
                                   AND (

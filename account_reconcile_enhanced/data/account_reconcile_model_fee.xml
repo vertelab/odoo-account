@@ -22,7 +22,7 @@
     <record id="account_reco_model_bank_fee_generic_line" model="account.reconcile.model.line">
         <field name="model_id" ref="account_reco_model_bank_fee_generic"/>
         <field name="sequence">1</field>
-        <field name="account_id" search="[('company_id', '=', company_id), ('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
+        <field name="account_id" search="[('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
         <field name="amount_type">percentage_st_line</field>
         <field name="amount">100.0</field>
         <field name="label">Bank Fee</field>
@@ -48,7 +48,7 @@
     <record id="account_reco_model_bank_fee_international_line" model="account.reconcile.model.line">
         <field name="model_id" ref="account_reco_model_bank_fee_international"/>
         <field name="sequence">1</field>
-        <field name="account_id" search="[('company_id', '=', company_id), ('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
+        <field name="account_id" search="[('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
         <field name="amount_type">percentage_st_line</field>
         <field name="amount">100.0</field>
         <field name="label">International Transfer Fee</field>
@@ -74,7 +74,7 @@
     <record id="account_reco_model_bank_fee_card_line" model="account.reconcile.model.line">
         <field name="model_id" ref="account_reco_model_bank_fee_card"/>
         <field name="sequence">1</field>
-        <field name="account_id" search="[('company_id', '=', company_id), ('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
+        <field name="account_id" search="[('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
         <field name="amount_type">percentage_st_line</field>
         <field name="amount">100.0</field>
         <field name="label">Card Processing Fee</field>
@@ -98,7 +98,7 @@
     <record id="account_reco_model_bank_fee_catchall_line" model="account.reconcile.model.line">
         <field name="model_id" ref="account_reco_model_bank_fee_catchall"/>
         <field name="sequence">1</field>
-        <field name="account_id" search="[('company_id', '=', company_id), ('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
+        <field name="account_id" search="[('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
         <field name="amount_type">percentage_st_line</field>
         <field name="amount">100.0</field>
         <field name="label">Bank Fee</field>

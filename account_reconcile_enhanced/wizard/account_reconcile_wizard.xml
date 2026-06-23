@@ -10,7 +10,7 @@
                     <!-- Lock date warning -->
                     <div class="alert alert-warning"
                          role="alert"
-                         attrs="{'invisible': [('lock_date_violated_warning_message', '=', False)]}">
+                         invisible="lock_date_violated_warning_message == False">
                         <field name="lock_date_violated_warning_message" nolabel="1"/>
                     </div>
 
@@ -32,8 +32,8 @@
 
                             <label for="amount_currency"
                                    string="Amount"
-                                   attrs="{'invisible': [('reco_currency_id', '=', False)]}"/>
-                            <div attrs="{'invisible': [('reco_currency_id', '=', False)]}">
+                                   invisible="reco_currency_id == False"/>
+                            <div invisible="reco_currency_id == False">
                                 <field name="amount_currency" class="oe_inline" nolabel="1"/>
                                 <field name="reco_currency_id" class="oe_inline" nolabel="1"/>
                             </div>
@@ -41,14 +41,14 @@
 
                         <group name="reco_settings" string="Settings">
                             <field name="journal_id"
-                                   attrs="{'invisible': [('is_transfer_required', '=', False)]}"/>
+                                   invisible="is_transfer_required == False"/>
                             <field name="date"
-                                   attrs="{'invisible': [('is_transfer_required', '=', False)]}"/>
+                                   invisible="is_transfer_required == False"/>
 
                             <!-- Transfer warning -->
                             <div class="alert alert-info"
                                  role="alert"
-                                 attrs="{'invisible': [('is_transfer_required', '=', False)]}">
+                                 invisible="is_transfer_required == False">
                                 <field name="transfer_warning_message" nolabel="1"/>
                             </div>
 
@@ -59,7 +59,7 @@
 
                     <!-- Edit mode section (single line write-off) -->
                     <group string="Write-Off"
-                           attrs="{'invisible': [('edit_mode', '=', False)]}">
+                           invisible="edit_mode == False">
                         <group>
                             <field name="edit_mode_amount_currency"
                                    string="Amount"
@@ -72,7 +72,7 @@
                             <field name="account_id"/>
                             <field name="is_rec_pay_account" invisible="1"/>
                             <field name="to_partner_id"
-                                   attrs="{'invisible': [('is_rec_pay_account', '=', False)]}"/>
+                                   invisible="is_rec_pay_account == False"/>
                             <field name="label"/>
                             <field name="tax_id"/>
                             <field name="to_check"/>
@@ -81,7 +81,7 @@
 
                     <!-- Standard write-off section -->
                     <group string="Write-Off"
-                           attrs="{'invisible': ['|', ('edit_mode', '=', True), ('is_write_off_required', '=', False)]}">
+                           invisible="edit_mode == True or is_write_off_required == False">
                         <group>
                             <field name="is_write_off_required" invisible="1"/>
                             <field name="reco_model_id"
@@ -91,7 +91,7 @@
                             <field name="account_id"/>
                             <field name="is_rec_pay_account" invisible="1"/>
                             <field name="to_partner_id"
-                                   attrs="{'invisible': [('is_rec_pay_account', '=', False)]}"/>
+                                   invisible="is_rec_pay_account == False"/>
                             <field name="label"/>
                             <field name="tax_id"/>
                             <field name="to_check"/>
@@ -99,7 +99,7 @@
                     </group>
 
                     <!-- Partial reconciliation toggle -->
-                    <group attrs="{'invisible': [('display_allow_partials', '=', False)]}">
+                    <group invisible="display_allow_partials == False">
                         <field name="allow_partials"
                                string="Keep open"
                                help="Keep these lines open after having reconciled all the others"/>
@@ -110,10 +110,9 @@
                         <field name="move_line_ids"
                                nolabel="1"
                                readonly="1">
-                            <tree>
+                            <list>
                                 <field name="date"/>
                                 <field name="account_id"/>
-                                <field name="partner_id"/>
                                 <field name="name"/>
                                 <field name="debit"/>
                                 <field name="credit"/>
@@ -121,7 +120,7 @@
                                 <field name="amount_residual_currency"/>
                                 <field name="currency_id"/>
                                 <field name="reconciled"/>
-                            </tree>
+                            </list>
                         </field>
                     </group>
                 </sheet>
@@ -131,12 +130,12 @@
                             type="object"
                             string="Reconcile"
                             class="btn-primary"
-                            attrs="{'invisible': [('force_partials', '=', True)]}"/>
+                            invisible="force_partials == True"/>
                     <button name="reconcile"
                             type="object"
                             string="Partial Reconcile"
                             class="btn-primary"
-                            attrs="{'invisible': ['|', ('force_partials', '=', False), ('display_allow_partials', '=', False)]}"/>
+                            invisible="force_partials == False or display_allow_partials == False"/>
                     <button string="Cancel"
                             class="btn-secondary"
                             special="cancel"/>
