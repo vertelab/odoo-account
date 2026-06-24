@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_commodity_kanban" model="ir.ui.view">
+        <field name="name">product.commodity.kanban</field>
+        <field name="model">product.commodity</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" default_group_by="category">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="latest_price"/>
+                <field name="latest_price_date"/>
+                <field name="price_change_pct"/>
+                <field name="inventory_qty"/>
+                <field name="inventory_value"/>
+                <field name="product_count"/>
+                <field name="currency_id"/>
+                <field name="category"/>
+                <field name="quality_ids"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click"
+                             t-att-class="kanban_color(0)">
+                            <div class="row mb-2">
+                                <div class="col-8">
+                                    <strong class="fs-5">
+                                        <field name="code"/>
+                                    </strong>
+                                    <div class="text-muted">
+                                        <field name="name"/>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <t t-if="record.price_change_pct.raw_value > 0">
+                                        <span class="text-success fs-5 fw-bold">
+                                            ▲ <field name="price_change_pct" widget="percentage"/>
+                                        </span>
+                                    </t>
+                                    <t t-elif="record.price_change_pct.raw_value &lt; 0">
+                                        <span class="text-danger fs-5 fw-bold">
+                                            ▼ <field name="price_change_pct" widget="percentage"/>
+                                        </span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="text-muted">
+                                            <field name="price_change_pct" widget="percentage"/>
+                                        </span>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="bg-100 p-2 rounded mb-2 text-center">
+                                <div class="display-6 fw-bold">
+                                    <field name="latest_price" widget="monetary"/>
+                                </div>
+                                <div class="text-muted small">
+                                    per unit
+                                    <t t-if="record.latest_price_date.raw_value">
+                                        · <field name="latest_price_date"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <t t-if="record.quality_ids.raw_value">
+                                <div class="row small mb-2">
+                                    <t t-foreach="record.quality_ids.raw_value" t-as="q">
+                                        <div class="col-6">
+                                            <t t-esc="q.display_name"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </t>
+                            <div class="row small text-muted border-top pt-2">
+                                <div class="col-6">
+                                    <i class="fa fa-cube me-1"/>
+                                    <field name="inventory_qty"/>
+                                    <span class="ms-2">
+                                        <field name="inventory_value" widget="monetary"/>
+                                    </span>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <i class="fa fa-tag me-1"/>
+                                    <field name="product_count"/> products
+                                </div>
+                            </div>
+                            <div class="row mt-2 pt-2 border-top">
+                                <div class="col-12">
+                                    <a name="action_fetch_price" type="object"
+                                       class="btn btn-sm btn-primary me-1">
+                                        <i class="fa fa-refresh"/> Fetch Price
+                                    </a>
+                                    <a name="action_revaluate" type="object"
+                                       class="btn btn-sm btn-secondary me-1">
+                                        <i class="fa fa-calculator"/> Revalue
+                                    </a>
+                                    <a name="%(action_product_commodity_price)d" type="action"
+                                       class="btn btn-sm btn-link">
+                                        <i class="fa fa-line-chart"/> History
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_product_commodity_form" model="ir.ui.view">
+        <field name="name">product.commodity.form</field>
+        <field name="model">product.commodity</field>
+        <field name="arch" type="xml">
+            <form string="Commodity">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_fetch_price" type="object"
+                                class="oe_stat_button" icon="fa-refresh">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="latest_price" widget="monetary"/>
+                                </span>
+                                <span class="o_stat_text">Current Price</span>
+                            </div>
+                        </button>
+                        <button name="%(action_product_commodity_price)d" type="action"
+                                class="oe_stat_button" icon="fa-line-chart">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="price_ids" widget="statinfo"
+                                           options="{'object_field': 'price_ids'}"/>
+                                </span>
+                                <span class="o_stat_text">Price Records</span>
+                            </div>
+                        </button>
+                        <button name="action_revaluate" type="object"
+                                class="oe_stat_button" icon="fa-calculator">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="inventory_value" widget="monetary"/>
+                                </span>
+                                <span class="o_stat_text">Inventory Value</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="code" placeholder="Code..." class="me-2"/>
+                            <field name="name" placeholder="Name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="category"/>
+                            <field name="active"/>
+                            <field name="uom_id"/>
+                            <field name="grams_per_unit"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group>
+                            <field name="api_provider"/>
+                            <field name="api_symbol"/>
+                            <field name="api_key" password="True"/>
+                            <field name="api_last_fetch"/>
+                            <field name="api_last_error" nolabel="1"
+                                   invisible="not api_last_error"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Accounting">
+                            <group>
+                                <group>
+                                    <field name="journal_id"/>
+                                    <field name="gain_account_id"
+                                           options="{'no_create': True}"/>
+                                </group>
+                                <group>
+                                    <field name="loss_account_id"
+                                           options="{'no_create': True}"/>
+                                    <field name="valuation_account_id"
+                                           options="{'no_create': True}"/>
+                                    <field name="price_diff_account_id"
+                                           options="{'no_create': True}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Qualities">
+                            <field name="quality_ids" nolabel="1"/>
+                        </page>
+                        <page string="Price History">
+                            <field name="price_ids" nolabel="1"/>
+                        </page>
+                        <page string="Products">
+                            <field name="product_count"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_commodity_tree" model="ir.ui.view">
+        <field name="name">product.commodity.tree</field>
+        <field name="model">product.commodity</field>
+        <field name="arch" type="xml">
+            <list string="Commodities" multi_edit="1">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="latest_price" widget="monetary" optional="show"/>
+                <field name="price_change_pct" widget="percentage" optional="show"/>
+                <field name="inventory_value" widget="monetary" optional="hide"/>
+                <field name="product_count" optional="hide"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_product_commodity_search" model="ir.ui.view">
+        <field name="name">product.commodity.search</field>
+        <field name="model">product.commodity</field>
+        <field name="arch" type="xml">
+            <search string="Search Commodities">
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Precious Metals" name="precious_metals"
+                        domain="[('category', '=', 'precious_metal')]"/>
+                <filter string="Base Metals" name="base_metals"
+                        domain="[('category', '=', 'base_metal')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Category" name="group_category"
+                            context="{'group_by': 'category'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

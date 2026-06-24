@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_product_commodity_price" model="ir.actions.act_window">
+        <field name="name">Price History</field>
+        <field name="res_model">product.commodity.price</field>
+        <field name="view_mode">graph,pivot,tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="binding_model_id" ref="model_product_commodity"/>
+        <field name="binding_view_types">kanban,form</field>
+    </record>
+
+    <record id="view_product_commodity_price_tree" model="ir.ui.view">
+        <field name="name">product.commodity.price.tree</field>
+        <field name="model">product.commodity.price</field>
+        <field name="arch" type="xml">
+            <list string="Commodity Prices" default_order="date desc">
+                <field name="commodity_id"/>
+                <field name="date"/>
+                <field name="price" widget="monetary"/>
+                <field name="currency_id" optional="hide"/>
+                <field name="company_id" optional="hide"/>
+                <field name="notes"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_product_commodity_price_form" model="ir.ui.view">
+        <field name="name">product.commodity.price.form</field>
+        <field name="model">product.commodity.price</field>
+        <field name="arch" type="xml">
+            <form string="Commodity Price">
+                <group>
+                    <field name="commodity_id"/>
+                    <field name="date"/>
+                    <field name="price" widget="monetary"/>
+                    <field name="currency_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="notes"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_commodity_price_graph" model="ir.ui.view">
+        <field name="name">product.commodity.price.graph</field>
+        <field name="model">product.commodity.price</field>
+        <field name="arch" type="xml">
+            <graph string="Price History" type="line">
+                <field name="date" interval="day"/>
+                <field name="price" type="measure"/>
+                <field name="commodity_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_product_commodity_price_pivot" model="ir.ui.view">
+        <field name="name">product.commodity.price.pivot</field>
+        <field name="model">product.commodity.price</field>
+        <field name="arch" type="xml">
+            <pivot string="Price Analysis">
+                <field name="date" type="col" interval="month"/>
+                <field name="commodity_id" type="row"/>
+                <field name="price" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+</odoo>

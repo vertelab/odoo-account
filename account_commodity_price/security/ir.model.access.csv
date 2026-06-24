@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_commodity_user,product.commodity.user,model_product_commodity,base.group_user,1,0,0,0
+access_product_commodity_manager,product.commodity.manager,model_product_commodity,account.group_account_manager,1,1,1,1
+access_product_commodity_quality_user,product.commodity.quality.user,model_product_commodity_quality,base.group_user,1,0,0,0
+access_product_commodity_quality_manager,product.commodity.quality.manager,model_product_commodity_quality,account.group_account_manager,1,1,1,1
+access_product_commodity_price_user,product.commodity.price.user,model_product_commodity_price,base.group_user,1,0,0,0
+access_product_commodity_price_manager,product.commodity.price.manager,model_product_commodity_price,account.group_account_manager,1,1,1,1
+access_commodity_revaluation_wizard_user,commodity.revaluation.wizard.user,model_commodity_revaluation_wizard,base.group_user,1,1,1,1
+access_commodity_revaluation_line_user,commodity.revaluation.line.user,model_commodity_revaluation_line,base.group_user,1,1,1,1

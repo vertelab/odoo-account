@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_journal_form_inherit_commodity" model="ir.ui.view">
+        <field name="name">account.journal.form.inherit.commodity</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='country_code']" position="after">
+                <field name="is_commodity_journal"
+                       groups="base.group_no_one"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_journal_search_inherit_commodity" model="ir.ui.view">
+        <field name="name">account.journal.search.inherit.commodity</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter string="Commodity Journals" name="commodity_journals"
+                        domain="[('is_commodity_journal', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_commodity_price_list" model="ir.actions.report">
+        <field name="name">Price List</field>
+        <field name="model">product.commodity</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_commodity_price.report_commodity_price_list</field>
+        <field name="report_file">account_commodity_price.report_commodity_price_list</field>
+        <field name="print_report_name">'Price List - %s' % (object.name)</field>
+    </record>
+
+    <template id="report_commodity_price_list">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 class="text-center">Commodity Price List</h2>
+                    <p class="text-center text-muted">
+                        <t t-esc="company.name"/>
+                        · <t t-esc="datetime.datetime.now().strftime('%Y-%m-%d')"/>
+                    </p>
+                    <table class="table table-bordered mt-4">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Commodity</th>
+                                <th class="text-right">Price</th>
+                                <th>Currency</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="doc">
+                                <tr>
+                                    <td><t t-esc="doc.code"/></td>
+                                    <td><t t-esc="doc.name"/></td>
+                                    <td class="text-right">
+                                        <t t-esc="doc.latest_price"/>
+                                    </td>
+                                    <td><t t-esc="doc.currency_id.name"/></td>
+                                    <td>
+                                        <t t-esc="doc.latest_price_date"/>
+                                    </td>
+                                </tr>
+                                <t t-if="doc.quality_ids">
+                                    <tr>
+                                        <td colspan="5" class="p-0">
+                                            <table class="table table-sm mb-0">
+                                                <thead>
+                                                    <tr class="small">
+                                                        <th>Quality</th>
+                                                        <th class="text-right">Purity %</th>
+                                                        <th class="text-right">$/gram</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <t t-foreach="doc.quality_ids"
+                                                       t-as="quality">
+                                                        <tr>
+                                                            <td>
+                                                                <t t-esc="quality.name"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <t t-esc="quality.purity_percent"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <t t-esc="quality.gram_price"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

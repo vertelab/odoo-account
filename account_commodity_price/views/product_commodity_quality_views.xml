@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_commodity_quality_tree" model="ir.ui.view">
+        <field name="name">product.commodity.quality.tree</field>
+        <field name="model">product.commodity.quality</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="commodity_id" invisible="1"/>
+                <field name="name"/>
+                <field name="purity_percent"/>
+                <field name="price_coefficient"/>
+                <field name="gram_price"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_product_commodity_quality_form" model="ir.ui.view">
+        <field name="name">product.commodity.quality.form</field>
+        <field name="model">product.commodity.quality</field>
+        <field name="arch" type="xml">
+            <form string="Commodity Quality">
+                <group>
+                    <field name="commodity_id"/>
+                    <field name="name"/>
+                    <field name="purity_percent"/>
+                    <field name="price_coefficient"/>
+                    <field name="gram_price"/>
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_commodity_revaluation_wizard_form" model="ir.ui.view">
+        <field name="name">commodity.revaluation.wizard.form</field>
+        <field name="model">commodity.revaluation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Commodity Revaluation">
+                <group>
+                    <group>
+                        <field name="commodity_id" options="{'no_create': True}"/>
+                        <field name="date"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group>
+                        <field name="old_price" widget="monetary"/>
+                        <field name="new_price" widget="monetary"/>
+                        <field name="price_difference" widget="monetary"/>
+                    </group>
+                </group>
+                <group string="Inventory Impact">
+                    <group>
+                        <field name="inventory_value_current" widget="monetary"/>
+                        <field name="inventory_value_new" widget="monetary"/>
+                    </group>
+                    <group>
+                        <field name="difference_value" widget="monetary"
+                               class="text-danger"/>
+                    </group>
+                </group>
+                <group string="Accounting Configuration">
+                    <group>
+                        <field name="journal_id" domain="[('is_commodity_journal','=',True)]"/>
+                        <field name="gain_account_id"
+                               options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="loss_account_id"
+                               options="{'no_create': True}"/>
+                    </group>
+                    <field name="reason" colspan="2"/>
+                </group>
+                <field name="line_ids" nolabel="1">
+                    <list editable="bottom">
+                        <field name="product_id"/>
+                        <field name="product_qty"/>
+                        <field name="old_unit_price"/>
+                        <field name="old_value"/>
+                        <field name="new_unit_price"/>
+                        <field name="new_value"/>
+                        <field name="difference"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_validate" string="Validate Revaluation"
+                            type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_form_inherit_commodity" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.commodity</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Commodity" name="commodity"
+                      invisible="not is_commodity_raw_material">
+                    <group>
+                        <group>
+                            <field name="is_commodity_raw_material"/>
+                            <field name="commodity_id"
+                                   options="{'no_create_edit': True}"/>
+                            <field name="commodity_quality_id"
+                                   options="{'no_create_edit': True}"/>
+                            <field name="commodity_weight"/>
+                            <field name="commodity_price_type"/>
+                        </group>
+                        <group>
+                            <field name="commodity_price_auto"/>
+                            <field name="commodity_suggested_price"
+                                   invisible="not commodity_price_auto"/>
+                            <button name="action_apply_commodity_price" type="object"
+                                    string="Apply Suggested Price"
+                                    class="btn-secondary"
+                                    invisible="not commodity_price_auto"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <field name="is_commodity_raw_material" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="is_commodity_raw_material" position="after">
+                <field name="is_commodity_raw_material"
+                       class="oe_inline" string="Commodity Raw Material"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_product_template_search_inherit_commodity" model="ir.ui.view">
+        <field name="name">product.template.search.inherit.commodity</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter string="Commodity Raw Materials" name="commodity_raw"
+                        domain="[('is_commodity_raw_material', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Commodity" name="group_commodity"
+                            context="{'group_by': 'commodity_id'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

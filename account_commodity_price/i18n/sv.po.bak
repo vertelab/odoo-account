@@ -1,0 +1,197 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * account_commodity_price
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-24 12:00+0000\n"
+"PO-Revision-Date: 2026-06-24 12:00+0000\n"
+"Last-Translator: Vertel AB <info@vertel.se>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_commodity_price
+#: model:product.commodity,name:account_commodity_price.commodity_gold
+msgid "Gold"
+msgstr "Guld"
+
+#. module: account_commodity_price
+#: model:product.commodity,name:account_commodity_price.commodity_silver
+msgid "Silver"
+msgstr "Silver"
+
+#. module: account_commodity_price
+#: model:product.commodity,name:account_commodity_price.commodity_copper
+msgid "Copper"
+msgstr "Koppar"
+
+#. module: account_commodity_price
+#: model:product.commodity,code:account_commodity_price.commodity_gold
+msgid "XAU"
+msgstr "XAU"
+
+#. module: account_commodity_price
+#: model:product.commodity,code:account_commodity_price.commodity_silver
+msgid "XAG"
+msgstr "XAG"
+
+#. module: account_commodity_price
+#: model:product.commodity,code:account_commodity_price.commodity_copper
+msgid "XCU"
+msgstr "XCU"
+
+#. module: account_commodity_price
+#: model:product.commodity.quality,name:account_commodity_price.commodity_gold_24k
+msgid "24K"
+msgstr "24K"
+
+#. module: account_commodity_price
+#: model:product.commodity.quality,name:account_commodity_price.commodity_gold_22k
+msgid "22K"
+msgstr "22K"
+
+#. module: account_commodity_price
+#: model:product.commodity.quality,name:account_commodity_price.commodity_gold_18k
+msgid "18K"
+msgstr "18K"
+
+#. module: account_commodity_price
+#: model:product.commodity.quality,name:account_commodity_price.commodity_gold_14k
+msgid "14K"
+msgstr "14K"
+
+#. module: account_commodity_price
+#: code:addons/account_commodity_price/models/product_commodity.py
+msgid "No price found in AurumRates response"
+msgstr "Inget pris hittades i AurumRates svar"
+
+#. module: account_commodity_price
+#: code:addons/account_commodity_price/models/product_commodity.py
+msgid "No price found in GoldAPI.io response"
+msgstr "Inget pris hittades i GoldAPI.io svar"
+
+#. module: account_commodity_price
+#: code:addons/account_commodity_price/models/product_commodity.py
+msgid "API Key required for GoldAPI.io"
+msgstr "API-nyckel krävs för GoldAPI.io"
+
+#. module: account_commodity_price
+#: model:ir.model,name:account_commodity_price.model_product_commodity
+msgid "Commodity"
+msgstr "Råvara"
+
+#. module: account_commodity_price
+#: model:ir.model,name:account_commodity_price.model_product_commodity_quality
+msgid "Commodity Quality / Purity"
+msgstr "Råvarukvalitet / Renhet"
+
+#. module: account_commodity_price
+#: model:ir.model,name:account_commodity_price.model_product_commodity_price
+msgid "Commodity Price Record"
+msgstr "Råvaruprispost"
+
+#. module: account_commodity_price
+#: model:ir.model,name:account_commodity_price.model_product_template
+msgid "Product Template"
+msgstr "Produktmall"
+
+#. module: account_commodity_price
+#: model:ir.model,name:account_commodity_price.model_product_product
+msgid "Product"
+msgstr "Produkt"
+
+#. module: account_commodity_price
+#: model:ir.model,name:account_commodity_price.model_account_journal
+msgid "Journal"
+msgstr "Journal"
+
+#. module: account_commodity_price
+#: model:ir.model,name:account_commodity_price.model_stock_valuation_layer
+msgid "Stock Valuation Layer"
+msgstr "Lagervärderingslager"
+
+#. module: account_commodity_price
+#: model:ir.model,name:account_commodity_price.model_account_move
+msgid "Journal Entry"
+msgstr "Bokföringsorder"
+
+#. module: account_commodity_price
+#: model:ir.model,name:account_commodity_price.model_commodity_revaluation_wizard
+msgid "Commodity Revaluation Wizard"
+msgstr "Guiden för omvärdering av råvaror"
+
+#. module: account_commodity_price
+#: model:ir.model,name:account_commodity_price.model_commodity_revaluation_line
+msgid "Commodity Revaluation Line"
+msgstr "Rad för omvärdering av råvara"
+
+#. module: account_commodity_price
+#: model:ir.actions.act_window,name:account_commodity_price.action_product_commodity
+msgid "Commodities"
+msgstr "Råvaror"
+
+#. module: account_commodity_price
+#: model:ir.actions.act_window,name:account_commodity_price.action_product_commodity_price
+msgid "Price History"
+msgstr "Prishistorik"
+
+#. module: account_commodity_price
+#: model:ir.ui.menu,name:account_commodity_price.menu_commodity_root
+msgid "Commodities"
+msgstr "Råvaror"
+
+#. module: account_commodity_price
+#: model:ir.actions.report,name:account_commodity_price.action_report_commodity_price_list
+msgid "Price List"
+msgstr "Prislista"
+
+#. module: account_commodity_price
+#: model:ir.model.fields,field_description:account_commodity_price.field_product_commodity__api_provider
+msgid "API Provider"
+msgstr "API-leverantör"
+
+#. module: account_commodity_price
+#: model:ir.model.fields,field_description:account_commodity_price.field_product_commodity__api_symbol
+msgid "API Symbol"
+msgstr "API-symbol"
+
+#. module: account_commodity_price
+#: model:ir.model.fields,field_description:account_commodity_price.field_product_commodity__api_key
+msgid "API Key"
+msgstr "API-nyckel"
+
+#. module: account_commodity_price
+#: model:ir.model.fields,field_description:account_commodity_price.field_product_commodity__journal_id
+msgid "Revaluation Journal"
+msgstr "Omvärderingsjournal"
+
+#. module: account_commodity_price
+#: model:ir.model.fields,field_description:account_commodity_price.field_product_commodity__gain_account_id
+msgid "Gain Account"
+msgstr "Vinstkonto"
+
+#. module: account_commodity_price
+#: model:ir.model.fields,field_description:account_commodity_price.field_product_commodity__loss_account_id
+msgid "Loss Account"
+msgstr "Förlustkonto"
+
+#. module: account_commodity_price
+#: model:ir.model.fields,field_description:account_commodity_price.field_product_commodity__grams_per_unit
+msgid "Grams per Unit"
+msgstr "Gram per enhet"
+
+#. module: account_commodity_price
+#: model:ir.model.fields,field_description:account_commodity_price.field_product_commodity__price_difference
+msgid "Price Difference"
+msgstr "Prisdifferens"
+
+#. module: account_commodity_price
+#: model:ir.model.fields,field_description:account_commodity_price.field_product_template__commodity_weight
+msgid "Commodity Weight"
+msgstr "Råvaruvikt"

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Gold commodity -->
+        <record id="commodity_gold" model="product.commodity">
+            <field name="name">Gold</field>
+            <field name="code">XAU</field>
+            <field name="category">precious_metal</field>
+            <field name="uom_id" ref="uom.product_uom_oz"/>
+            <field name="grams_per_unit" eval="31.1035"/>
+            <field name="currency_id" ref="base.USD"/>
+            <field name="api_provider">aurumrates</field>
+            <field name="api_symbol">GC=F</field>
+        </record>
+
+        <!-- Gold qualities -->
+        <record id="commodity_gold_24k" model="product.commodity.quality">
+            <field name="commodity_id" ref="commodity_gold"/>
+            <field name="name">24K</field>
+            <field name="purity_percent" eval="99.99"/>
+            <field name="price_coefficient" eval="1.0"/>
+        </record>
+        <record id="commodity_gold_22k" model="product.commodity.quality">
+            <field name="commodity_id" ref="commodity_gold"/>
+            <field name="name">22K</field>
+            <field name="purity_percent" eval="91.67"/>
+            <field name="price_coefficient" eval="0.9167"/>
+        </record>
+        <record id="commodity_gold_18k" model="product.commodity.quality">
+            <field name="commodity_id" ref="commodity_gold"/>
+            <field name="name">18K</field>
+            <field name="purity_percent" eval="75.0"/>
+            <field name="price_coefficient" eval="0.75"/>
+        </record>
+        <record id="commodity_gold_14k" model="product.commodity.quality">
+            <field name="commodity_id" ref="commodity_gold"/>
+            <field name="name">14K</field>
+            <field name="purity_percent" eval="58.5"/>
+            <field name="price_coefficient" eval="0.585"/>
+        </record>
+
+        <!-- Silver commodity -->
+        <record id="commodity_silver" model="product.commodity">
+            <field name="name">Silver</field>
+            <field name="code">XAG</field>
+            <field name="category">precious_metal</field>
+            <field name="uom_id" ref="uom.product_uom_oz"/>
+            <field name="grams_per_unit" eval="31.1035"/>
+            <field name="currency_id" ref="base.USD"/>
+            <field name="api_provider">aurumrates</field>
+            <field name="api_symbol">SI=F</field>
+        </record>
+
+        <record id="commodity_silver_999" model="product.commodity.quality">
+            <field name="commodity_id" ref="commodity_silver"/>
+            <field name="name">999 Silver</field>
+            <field name="purity_percent" eval="99.9"/>
+            <field name="price_coefficient" eval="1.0"/>
+        </record>
+
+        <!-- Copper commodity -->
+        <record id="commodity_copper" model="product.commodity">
+            <field name="name">Copper</field>
+            <field name="code">XCU</field>
+            <field name="category">base_metal</field>
+            <field name="uom_id" ref="uom.product_uom_oz"/>
+            <field name="grams_per_unit" eval="31.1035"/>
+            <field name="currency_id" ref="base.USD"/>
+            <field name="api_provider">aurumrates</field>
+            <field name="api_symbol">HG=F</field>
+        </record>
+    </data>
+</odoo>
