@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!-- Enhanced Reconciliation Wizard Form View -->
+    <record id="view_account_reconcile_wizard_form" model="ir.ui.view">
+        <field name="name">account.reconcile.wizard.form</field>
+        <field name="model">account.reconcile.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reconcile Entries">
+                <sheet>
+                    <!-- Lock date warning -->
+                    <div class="alert alert-warning"
+                         role="alert"
+                         invisible="lock_date_violated_warning_message == False">
+                        <field name="lock_date_violated_warning_message" nolabel="1"/>
+                    </div>
+
+                    <group>
+                        <group name="reco_info" string="Reconciliation Information">
+                            <field name="company_id" invisible="1"/>
+                            <field name="reco_account_id" invisible="1"/>
+                            <field name="reco_currency_id" invisible="1"/>
+                            <field name="company_currency_id" invisible="1"/>
+                            <field name="force_partials" invisible="1"/>
+                            <field name="edit_mode" invisible="1"/>
+                            <field name="display_allow_partials" invisible="1"/>
+
+                            <label for="amount" string="Amount in Company Currency"/>
+                            <div>
+                                <field name="amount" class="oe_inline" nolabel="1"/>
+                                <field name="company_currency_id" class="oe_inline" nolabel="1"/>
+                            </div>
+
+                            <label for="amount_currency"
+                                   string="Amount"
+                                   invisible="reco_currency_id == False"/>
+                            <div invisible="reco_currency_id == False">
+                                <field name="amount_currency" class="oe_inline" nolabel="1"/>
+                                <field name="reco_currency_id" class="oe_inline" nolabel="1"/>
+                            </div>
+                        </group>
+
+                        <group name="reco_settings" string="Settings">
+                            <field name="journal_id"
+                                   invisible="is_transfer_required == False"/>
+                            <field name="date"
+                                   invisible="is_transfer_required == False"/>
+
+                            <!-- Transfer warning -->
+                            <div class="alert alert-info"
+                                 role="alert"
+                                 invisible="is_transfer_required == False">
+                                <field name="transfer_warning_message" nolabel="1"/>
+                            </div>
+
+                            <field name="is_transfer_required" invisible="1"/>
+                            <field name="transfer_from_account_id" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <!-- Edit mode section (single line write-off) -->
+                    <group string="Write-Off"
+                           invisible="edit_mode == False">
+                        <group>
+                            <field name="edit_mode_amount_currency"
+                                   string="Amount"
+                                   widget="monetary"
+                                   options="{'currency_field': 'edit_mode_reco_currency_id'}"/>
+                            <field name="edit_mode_reco_currency_id" invisible="1"/>
+                            <field name="edit_mode_amount"
+                                   widget="monetary"
+                                   options="{'currency_field': 'company_currency_id'}"/>
+                            <field name="account_id"/>
+                            <field name="is_rec_pay_account" invisible="1"/>
+                            <field name="to_partner_id"
+                                   invisible="is_rec_pay_account == False"/>
+                            <field name="label"/>
+                            <field name="tax_id"/>
+                            <field name="to_check"/>
+                        </group>
+                    </group>
+
+                    <!-- Standard write-off section -->
+                    <group string="Write-Off"
+                           invisible="edit_mode == True or is_write_off_required == False">
+                        <group>
+                            <field name="is_write_off_required" invisible="1"/>
+                            <field name="reco_model_id"
+                                   string="Reconciliation Model"
+                                   options="{'no_create': True}"/>
+                            <field name="reco_model_autocomplete_ids" invisible="1"/>
+                            <field name="account_id"/>
+                            <field name="is_rec_pay_account" invisible="1"/>
+                            <field name="to_partner_id"
+                                   invisible="is_rec_pay_account == False"/>
+                            <field name="label"/>
+                            <field name="tax_id"/>
+                            <field name="to_check"/>
+                        </group>
+                    </group>
+
+                    <!-- Partial reconciliation toggle -->
+                    <group invisible="display_allow_partials == False">
+                        <field name="allow_partials"
+                               string="Keep open"
+                               help="Keep these lines open after having reconciled all the others"/>
+                    </group>
+
+                    <!-- Move lines to reconcile -->
+                    <group string="Journal Items to Reconcile">
+                        <field name="move_line_ids"
+                               nolabel="1"
+                               readonly="1">
+                            <list>
+                                <field name="date"/>
+                                <field name="account_id"/>
+                                <field name="name"/>
+                                <field name="debit"/>
+                                <field name="credit"/>
+                                <field name="amount_residual"/>
+                                <field name="amount_residual_currency"/>
+                                <field name="currency_id"/>
+                                <field name="reconciled"/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="reconcile"
+                            type="object"
+                            string="Reconcile"
+                            class="btn-primary"
+                            invisible="force_partials == True"/>
+                    <button name="reconcile"
+                            type="object"
+                            string="Partial Reconcile"
+                            class="btn-primary"
+                            invisible="force_partials == False or display_allow_partials == False"/>
+                    <button string="Cancel"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open the reconcile wizard -->
+    <record id="action_account_reconcile_wizard" model="ir.actions.act_window">
+        <field name="name">Reconcile Entries</field>
+        <field name="res_model">account.reconcile.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_move_line"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+</odoo>

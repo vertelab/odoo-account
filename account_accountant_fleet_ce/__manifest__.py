@@ -1,0 +1,15 @@
+{
+    'name': 'Accounting/Fleet bridge (CE)',
+    'category': 'Accounting/Accounting',
+    'summary': 'Manage accounting with fleet features for Community Edition',
+    'version': '1.0',
+    'depends': ['account_fleet', 'account_accountant_ce'],
+    'data': [],
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-account/account_accountant_fleet_ce',
+    'license': 'AGPL-3',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-account',
+    'installable': True,
+    'auto_install': False,
+}

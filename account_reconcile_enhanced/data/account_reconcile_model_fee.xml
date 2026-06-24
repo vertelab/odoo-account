@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!-- Default Bank Fee Reconciliation Models -->
+
+    <!-- Bank Transaction Fee — common scenario: customer pays $X, bank deducts small fee -->
+    <record id="account_reco_model_bank_fee_generic" model="account.reconcile.model">
+        <field name="name">Bank Transaction Fee</field>
+        <field name="rule_type">writeoff_suggestion</field>
+        <field name="is_fee_model" eval="True"/>
+        <field name="fee_threshold">3.0</field>
+        <field name="auto_reconcile" eval="False"/>
+        <field name="match_text_location_label" eval="True"/>
+        <field name="match_text_location_reference" eval="True"/>
+        <field name="match_text_location_note" eval="True"/>
+        <field name="match_label">contains</field>
+        <field name="match_label_param">fee</field>
+        <field name="match_amount">between</field>
+        <field name="match_amount_min">-1000000.0</field>
+        <field name="match_amount_max">1000000.0</field>
+    </record>
+
+    <record id="account_reco_model_bank_fee_generic_line" model="account.reconcile.model.line">
+        <field name="model_id" ref="account_reco_model_bank_fee_generic"/>
+        <field name="sequence">1</field>
+        <field name="account_id" search="[('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
+        <field name="amount_type">percentage_st_line</field>
+        <field name="amount">100.0</field>
+        <field name="label">Bank Fee</field>
+    </record>
+
+    <!-- International Transfer Fee -->
+    <record id="account_reco_model_bank_fee_international" model="account.reconcile.model">
+        <field name="name">International Transfer Fee</field>
+        <field name="rule_type">writeoff_suggestion</field>
+        <field name="is_fee_model" eval="True"/>
+        <field name="fee_threshold">5.0</field>
+        <field name="auto_reconcile" eval="False"/>
+        <field name="match_text_location_label" eval="True"/>
+        <field name="match_text_location_reference" eval="True"/>
+        <field name="match_text_location_note" eval="True"/>
+        <field name="match_label">contains</field>
+        <field name="match_label_param">intl fee</field>
+        <field name="match_amount">between</field>
+        <field name="match_amount_min">-1000000.0</field>
+        <field name="match_amount_max">1000000.0</field>
+    </record>
+
+    <record id="account_reco_model_bank_fee_international_line" model="account.reconcile.model.line">
+        <field name="model_id" ref="account_reco_model_bank_fee_international"/>
+        <field name="sequence">1</field>
+        <field name="account_id" search="[('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
+        <field name="amount_type">percentage_st_line</field>
+        <field name="amount">100.0</field>
+        <field name="label">International Transfer Fee</field>
+    </record>
+
+    <!-- Card Processing Fee — for credit card / debit card payment processing -->
+    <record id="account_reco_model_bank_fee_card" model="account.reconcile.model">
+        <field name="name">Card Processing Fee</field>
+        <field name="rule_type">writeoff_suggestion</field>
+        <field name="is_fee_model" eval="True"/>
+        <field name="fee_threshold">5.0</field>
+        <field name="auto_reconcile" eval="False"/>
+        <field name="match_text_location_label" eval="True"/>
+        <field name="match_text_location_reference" eval="True"/>
+        <field name="match_text_location_note" eval="True"/>
+        <field name="match_label">contains</field>
+        <field name="match_label_param">processing</field>
+        <field name="match_amount">between</field>
+        <field name="match_amount_min">-1000000.0</field>
+        <field name="match_amount_max">1000000.0</field>
+    </record>
+
+    <record id="account_reco_model_bank_fee_card_line" model="account.reconcile.model.line">
+        <field name="model_id" ref="account_reco_model_bank_fee_card"/>
+        <field name="sequence">1</field>
+        <field name="account_id" search="[('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
+        <field name="amount_type">percentage_st_line</field>
+        <field name="amount">100.0</field>
+        <field name="label">Card Processing Fee</field>
+    </record>
+
+    <!-- Catch-all: any small residual on incoming deposits -->
+    <record id="account_reco_model_bank_fee_catchall" model="account.reconcile.model">
+        <field name="name">Bank Fee (Auto-detect)</field>
+        <field name="rule_type">writeoff_suggestion</field>
+        <field name="is_fee_model" eval="True"/>
+        <field name="fee_threshold">2.0</field>
+        <field name="auto_reconcile" eval="False"/>
+        <field name="match_text_location_label" eval="True"/>
+        <field name="match_text_location_reference" eval="True"/>
+        <field name="match_text_location_note" eval="True"/>
+        <field name="match_amount">between</field>
+        <field name="match_amount_min">-1000000.0</field>
+        <field name="match_amount_max">1000000.0</field>
+    </record>
+
+    <record id="account_reco_model_bank_fee_catchall_line" model="account.reconcile.model.line">
+        <field name="model_id" ref="account_reco_model_bank_fee_catchall"/>
+        <field name="sequence">1</field>
+        <field name="account_id" search="[('code', 'like', '07%'), ('account_type', '=', 'expense')]"/>
+        <field name="amount_type">percentage_st_line</field>
+        <field name="amount">100.0</field>
+        <field name="label">Bank Fee</field>
+    </record>
+
+</odoo>

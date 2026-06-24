@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!-- Auto-Reconcile Wizard Form View -->
+    <record id="view_account_auto_reconcile_wizard_form" model="ir.ui.view">
+        <field name="name">account.auto.reconcile.wizard.form</field>
+        <field name="model">account.auto.reconcile.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Automatic Reconciliation">
+                <sheet>
+                    <group>
+                        <group name="main" string="Configuration">
+                            <field name="search_mode" widget="radio"/>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                            <field name="account_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                            <field name="partner_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <group name="info" string="Information">
+                            <div class="alert alert-info" role="alert">
+                                <p><strong>Perfect Match:</strong>
+                                Reconciles journal items that have the exact
+                                opposite balance within the same account,
+                                partner, and currency.</p>
+                                <p><strong>Clear Account:</strong>
+                                Reconciles all journal items in an account
+                                when the total balance is zero (grouped by
+                                account and partner).</p>
+                            </div>
+                        </group>
+                    </group>
+
+                    <!-- Preview of selected lines -->
+                    <group string="Selected Journal Items"
+                           invisible="not line_ids">
+                        <field name="line_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="date"/>
+                                <field name="account_id"/>
+                                <field name="name"/>
+                                <field name="debit"/>
+                                <field name="credit"/>
+                                <field name="amount_residual"/>
+                                <field name="currency_id"/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_auto_reconcile"
+                            type="object"
+                            string="Reconcile"
+                            class="btn-primary"/>
+                    <button string="Cancel"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open auto-reconcile wizard -->
+    <record id="action_account_auto_reconcile_wizard" model="ir.actions.act_window">
+        <field name="name">Automatic Reconciliation</field>
+        <field name="res_model">account.auto.reconcile.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu item under Accounting > Actions -->
+    <menuitem id="menu_account_auto_reconcile"
+              name="Auto-reconcile"
+              parent="account.menu_finance_entries"
+              action="action_account_auto_reconcile_wizard"
+              sequence="30"/>
+
+</odoo>
