@@ -36,7 +36,7 @@ class AIQuest(models.Model):
         ai_messages = [m for m in res.get('messages') if isinstance(m, AIMessage)]
         try:
             ai_invoice_data = self._serialize_ai_messages(ai_messages)[-1]
-            invoice_data = ai_invoice_data.get('invoice')
+            invoice_data = ai_invoice_data.get('invoice', ai_invoice_data)
             return invoice_data
         except IndexError:
             raise UserError("Error get the content from AI. Run this again.")
@@ -158,7 +158,7 @@ class AIQuest(models.Model):
             if product_tax:
                line['tax_ids'] = [(6, 0, product_tax.ids)]
             elif dynamic_tax_id:
-                 line['tax_ids'] = [(6, 0, dynamic_tax_id.id)]
+                 line['tax_ids'] = [(6, 0, dynamic_tax_id.ids)]
             else:
                 line['tax_ids'] = [(6, 0, default_tax)]
             
@@ -233,7 +233,7 @@ class AIQuest(models.Model):
             )
         if partner_purchase_order:
             if json_data:
-                self._prepare_vendor_bill(json_data.get('invoice'), session, partner_id)
+                self._prepare_vendor_bill(json_data.get('invoice', json_data), session, partner_id)
             
             partner_purchase_order_ref = self.env['purchase.bill.union'].search([
                 ('purchase_order_id', '=', partner_purchase_order.id)], limit=1)
@@ -246,7 +246,7 @@ class AIQuest(models.Model):
             context_copy = self.env.context.copy()
             context_copy.update({'check_move_period_validity': False})
             session.move_id.with_context(context_copy)._compute_purchase_auto_complete()
-            session.move_id.ref = json_data.get('invoice', {}).get('ref')
+            session.move_id.ref = json_data.get('invoice', json_data).get('ref')
             message = Markup(
                 '<div class="o_mail_notification">Purchase order found: <a href="#" data-oe-model="%s" data-oe-id="%s">%s</a></div>') % (
                           partner_purchase_order._name,
@@ -275,7 +275,7 @@ class AIQuest(models.Model):
     def partner_search(self, session, partner_json):
         partner_id = False
         try:
-            json_dict = self.env['ai.quest'].custom_extract_json(partner_json)
+            json_dict = self.json2dict(partner_json)
         except Exception as e:
             _logger.warning(f"partner_create failed from {partner_json=} due to {e=}")
             return partner_id
@@ -286,7 +286,7 @@ class AIQuest(models.Model):
     def partner_create(self, session, partner_json):
         partner_id = False
         try:
-            json_dict = self.env['ai.quest'].custom_extract_json(partner_json)
+            json_dict = self.json2dict(partner_json)
         except Exception as e:
             _logger.warning(f"partner_create failed from {partner_json=} due to {e=}")
        
@@ -328,7 +328,14 @@ class AIQuest(models.Model):
             message=file_content,
         )
 
-        json_data = self.custom_extract_json(json_content.content)
+        json_data = self.json2dict(json_content.content)
+        if json_data:
+            invoice_data = json_data.get('invoice', json_data)
+            for line in invoice_data.get('invoice_line_ids', []):
+                if line.get('price_unit'):
+                    line['price_unit'] = self.fix_number(str(line['price_unit']))
+                if line.get('quantity'):
+                    line['quantity'] = self.fix_number(str(line['quantity']))
 
         if match_purchase_order:
             #Find purchase order instead and get lines from there.
@@ -345,7 +352,7 @@ class AIQuest(models.Model):
             
         if json_data:
             move_id = self._create_vendor_bill(
-                json_data.get('invoice'), session, partner_id
+                json_data.get('invoice', json_data), session, partner_id
             )
 
         return move_id
@@ -457,26 +464,7 @@ class AIQuest(models.Model):
                 
         return None
 
-    def custom_extract_json(self, json_str):
-        # Find JSON-like content within triple backticks
-        pattern = r'(\{.*\})'
-        match = re.search(pattern, json_str, re.DOTALL)
 
-        if match:
-            result = match.group(1)
-            result = json.loads(result)
-            #result = eval(result)
-            if result.get('invoice',False) and result.get('invoice',False).get('invoice_line_ids'):
-               for line in result.get('invoice',False).get('invoice_line_ids'):
-                    if line.get('price_unit'):
-                       line['price_unit'] = self.fix_number(str(line['price_unit']))
-                    if line.get('quantity'):
-                       line['quantity'] = self.fix_number(str(line['quantity']))
-                    
-            _logger.warning(f"{result}")
-            return result
-            
-        return False
         
     def fix_number(self,num):
         comma_used_as_decimal_seprator = False

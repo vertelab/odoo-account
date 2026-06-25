@@ -68,7 +68,6 @@ class AccountInvoiceImport(models.TransientModel):
                     debug=quest_id.debug,
                     message=pdf_text,
                     )
-                    _logger.warning("lookhere"*100)
                     _logger.warning(f"{partner_json=}")
                     partner_id = quest_id.partner_search(session_id, partner_json.content)
                     _logger.warning(f"{partner_id=}")
@@ -83,7 +82,7 @@ class AccountInvoiceImport(models.TransientModel):
                     attachment_id.write({"res_id": move.id, "res_model": move._name})
                     successfull_moves.append(move.id)
                 else:
-                    faild_move_attachments.append(attachment_id)
+                    faild_move_attachments.append(attachment_id.id)
 
 
             return (successfull_moves, faild_move_attachments)
