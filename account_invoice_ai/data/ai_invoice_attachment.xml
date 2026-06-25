@@ -46,11 +46,10 @@ Given the invoice/vendor bill text, extract the main content and structure it in
 
         <record id="ai_agent_vendor_finder" model="ai.agent">
             <field name="name">Vendor Finder</field>
-            <field name="ai_backstory">
+            <field name="ai_backstory"><![CDATA[
 You have text of an vendor bill and will given no more info.
 Using the text of an invoice you will give a json containing info about the vendor.
-Hapai Ecosystem AB are the receivers of the invoice and is not the vendor.
-InFold AB is an old name and should be treated as Hapai Ecosystem AB.
+The receiver of the invoice is not the vendor — identify the sender/supplier as the vendor.
 
 The text might be in swedish or english.
 The vat number will contain the country code and some numbers.
@@ -66,7 +65,7 @@ The format you will return will contain these.
     "company_registry":"Organisationsnumber"
 }
 Give no comments just the json.
-            </field>
+            ]]></field>
             <field name="ai_prompt_template">{message}</field>
             <field name="ai_type">vendor-finder</field>
         </record>
@@ -74,15 +73,46 @@ Give no comments just the json.
         <record id="ai_agent_unknown_invoice_analyzer" model="ai.agent">
             <field name="name">Uknown Invoice Analyzer</field>
             <field name="generic_agent" eval="True"/>
-            <field name="ai_backstory">
-
+            <field name="ai_backstory"><![CDATA[
 You have text of an invoice and will be given no more info.
 You have a tool to extract data from attachments, use it instead of asking for more info.
 Given the invoice/vendor bill text, extract the main content and structure it into a JSON  object with the following keys:
 If any value for date is not avalible or is missing, then use invoice_date_due.
 
-Account is 6540 if it is an it service.
-Account is 4001 if its goods.
+Use the following base accounts (baskonton) for invoice lines:
+- 4000 = Inköp av varor (goods/purchases)
+- 4200 = Inköp av råvaror (raw materials)
+- 4400 = Momspliktiga inköp i Sverige (taxable purchases in Sweden)
+- 4500 = Övriga momspliktiga inköp (other taxable purchases)
+- 4600 = Legoarbeten och underentreprenader (subcontractors)
+- 5010 = Lokalhyra (rent)
+- 5020 = El för belysning (electricity)
+- 5030 = Värme (heating)
+- 5040 = Vatten och avlopp (water/sewage)
+- 5060 = Städning och renhållning (cleaning)
+- 5070 = Reparation och underhåll av lokaler (repairs/maintenance)
+- 5420 = Programvaror (software)
+- 5611 = Drivmedel för personbilar (fuel)
+- 5710 = Frakter och transporter (freight/shipping)
+- 5830 = Kost och logi (meals and lodging)
+- 5910 = Annonsering (advertising)
+- 6070 = Representation (entertainment)
+- 6110 = Kontorsmateriel (office supplies)
+- 6210 = Telekommunikation (telecom)
+- 6212 = Mobiltelefon (mobile phone)
+- 6230 = Datakommunikation (data/internet)
+- 6250 = Postbefordran (postage)
+- 6310 = Företagsförsäkringar (business insurance)
+- 6530 = Redovisningstjänster (accounting services)
+- 6540 = IT-tjänster (IT services)
+- 6550 = Konsultarvoden (consulting fees)
+- 6570 = Bankkostnader (bank fees)
+- 6580 = Advokat- och rättegångskostnader (legal)
+- 6800 = Inhyrd personal (temporary staff)
+- 6910 = Licensavgifter och royalties (licenses/royalties)
+- 6970 = Tidningar, tidskrifter och facklitteratur (newspapers/journals)
+- 6980 = Föreningsavgifter (association fees)
+- 6990 = Övriga externa kostnader (other external costs)
 
 fiscal_position_id is 1 if vendor is inside sweden.
 fiscal_position_id is 2 if vendor is inside eu.
@@ -114,8 +144,7 @@ fiscal_position_id is 3  if vendor is outside eu.
         }
     ]
 }
-            
-            </field>
+            ]]></field>
             <field name="ai_prompt_template">{message}</field>
             <field name="ai_type">account-invoice</field>
         </record>
