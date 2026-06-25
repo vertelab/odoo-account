@@ -1,5 +1,4 @@
 from odoo import fields, models
-from odoo.fields import Domain
 from odoo.tools import SQL
 
 
@@ -30,10 +29,10 @@ class AccountJournal(models.Model):
             ('invoice_date_due', '<', fields.Date.today()),
             ('release_to_pay', '=', 'yes')
         ]
-        domain = Domain.AND([
-            self.env['account.move']._check_company_domain(self.env.companies),
-            Domain('state', '=', 'draft'),
-            Domain('payment_state', 'in', ('not_paid', 'partial')),
-            Domain.OR([domain_sale, domain_purchase]),
-        ])
+        domain = [
+            ('state', '=', 'draft'),
+            ('payment_state', 'in', ('not_paid', 'partial')),
+        ]
+        domain += self.env['account.move']._check_company_domain(self.env.companies)
+        domain += ['|'] + domain_sale + domain_purchase
         return self.env['account.move']._search(domain, bypass_access=True)
