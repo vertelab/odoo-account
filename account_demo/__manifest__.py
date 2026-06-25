@@ -1,6 +1,6 @@
 {
     'name': 'Account Demo Data',
-    'version': '2.0',
+    'version': '2.7',
     'category': 'Accounting',
     'license': 'AGPL-3',
     'summary': 'Demo accounting data — journal entries, invoices, partners from Scalinq AB',

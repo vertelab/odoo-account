@@ -312,10 +312,88 @@ class AccountMove(models.Model):
         _logger.info('account_demo: all %d moves loaded successfully', count)
         return count
 
+    @api.model
+    def _account_demo_load_bank_lines(self):
+        """Create 4 bank statement lines in BNK1 for vendor bill reconciliation.
+        Sets BNK1's suspense_account_id to 1519 (Avräkning) at runtime to avoid
+        the default_account == suspense_account conflict (both 1930)."""
+        data_path = os.path.join(
+            os.path.dirname(__file__), '..', 'data', 'account_demo_bank_lines.json'
+        )
+        if not os.path.exists(data_path):
+            _logger.warning('account_demo: bank lines JSON not found at %s', data_path)
+            return 0
+
+        self.env.cr.execute("""
+            SELECT count(*) FROM account_bank_statement_line
+            WHERE payment_ref IN ('903096605626', '516187', '889131167', '74448889')
+        """)
+        if self.env.cr.fetchone()[0] > 0:
+            _logger.info('account_demo: bank lines already loaded, skipping')
+            return 0
+
+        journal = self.env['account.journal'].search([('code', '=', 'BNK1')], limit=1)
+        if not journal:
+            _logger.warning('account_demo: BNK1 journal not found')
+            return 0
+
+        # Set suspense_account to 1519 (Avräkning) — avoids double-bank-line error
+        self.env.cr.execute(
+            "SELECT id FROM account_account WHERE code_store->>'1' = '1519'"
+        )
+        row = self.env.cr.fetchone()
+        if not row:
+            _logger.warning('account_demo: account 1519 not found for suspense')
+            return 0
+        suspense_account_id = row[0]
+        if journal.suspense_account_id.id != suspense_account_id:
+            journal.suspense_account_id = suspense_account_id
+
+        SEK = self.env.ref('base.SEK')
+        company = self.env.company
+
+        with open(data_path, 'r') as f:
+            lines_data = json.load(f)
+
+        statement = self.env['account.bank.statement'].create({
+            'journal_id': journal.id,
+            'date': lines_data[0]['date'],
+            'name': 'Demo bankhändelser för avstämning',
+        })
+
+        count = 0
+        for line_data in lines_data:
+            partner = self.env['res.partner'].search(
+                [('vat', '=', line_data['partner_vat'])], limit=1
+            ) if line_data.get('partner_vat') else False
+
+            self.env['account.bank.statement.line'].create({
+                'statement_id': statement.id,
+                'journal_id': journal.id,
+                'company_id': company.id,
+                'amount': line_data['amount'],
+                'partner_id': partner.id if partner else False,
+                'partner_name': line_data['partner_name'],
+                'payment_ref': line_data['payment_ref'],
+                'currency_id': SEK.id,
+            })
+            count += 1
+
+        _logger.info('account_demo: loaded %d bank statement lines', count)
+        return count
+
+    # Backward compatibility alias
+    _account_demo_load_payments = _account_demo_load_bank_lines
+
 
 def post_init_hook(env):
-    """Post-install: load demo journal entries via ORM."""
-    count = env['account.move']._account_demo_load_moves()
-    if count:
+    """Post-install: load demo journal entries and bank lines via ORM."""
+    move_count = env['account.move']._account_demo_load_moves()
+    if move_count:
         env.cr.commit()
-        _logger.info('account_demo: post_init_hook loaded %d journal entries', count)
+        _logger.info('account_demo: post_init_hook loaded %d journal entries', move_count)
+
+    bank_count = env['account.move']._account_demo_load_bank_lines()
+    if bank_count:
+        env.cr.commit()
+        _logger.info('account_demo: post_init_hook loaded %d bank statement lines', bank_count)
