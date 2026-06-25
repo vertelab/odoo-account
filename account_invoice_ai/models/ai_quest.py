@@ -125,19 +125,23 @@ class AIQuest(models.Model):
             [('type', '=', 'purchase'), ('company_id', '=', company_id)], limit=1)
         default_account = default_journal.default_account_id.id
         default_tax = self.env['res.company'].browse(company_id).account_purchase_tax_id.ids
-        product_account = False
-        product_tax = False
-        dynamic_account_id = False
-        dynamic_tax_id = False
         
         lines = []
         for line in invoice_lines:
-            if product_name := line.get('name'):
-               product_id = self.env['product.product'].search([('name','=', product_name)], limit=1)
-               if product_id:
-                  product_account = product_id.property_account_expense_id
-                  product_tax = product_id.supplier_taxes_id
-                  line['product_id'] = product_id.id
+            # Per-line scope — no leakage between lines
+            product_account = False
+            product_tax = False
+            dynamic_account_id = False
+            dynamic_tax_id = False
+
+            # --- Product detection: try AI-provided product_id, then name search ---
+            product_name = line.get('name') or line.get('product_name') or line.get('description') or ''
+            if product_name:
+                product_id = self._find_product(product_name)
+                if product_id:
+                    product_account = product_id.property_account_expense_id
+                    product_tax = product_id.supplier_taxes_id
+                    line['product_id'] = product_id.id
 
             if account_id := line.get('account_id'):
                 dynamic_account_id = self.env['account.account'].search([
@@ -147,13 +151,19 @@ class AIQuest(models.Model):
             if tax := line.pop('tax/vat', False):
                 dynamic_tax_id = self.env['account.tax'].search([('name', '=', tax), ('company_id', '=', company_id)])
 
-             #Grab tax/account from product, else what the ai has returned and default to journal if all else is false.
+            # --- Account resolution: product > AI account > guessed account > journal default ---
             if product_account:
                 line['account_id'] = product_account.id
             elif dynamic_account_id:
                 line['account_id'] = dynamic_account_id.id
+            elif product_name:
+                # Product not found — guess account from name keywords
+                guessed_account = self._guess_account_from_name(product_name, company_id)
+                line['account_id'] = guessed_account.id if guessed_account else default_account
+                _logger.info("account_invoice_ai: product '%s' not found, guessed account %s",
+                             product_name, line['account_id'])
             else:
-                 line['account_id'] = default_account
+                line['account_id'] = default_account
                  
             if product_tax:
                line['tax_ids'] = [(6, 0, product_tax.ids)]
@@ -182,6 +192,100 @@ class AIQuest(models.Model):
         return lines
         
         
+    def _find_product(self, name):
+        """Robust product lookup from AI-provided name.
+        Tries: exact match, case-insensitive ILIKE, default_code,
+        supplier product code, supplier product name, then partial contains.
+        Returns product.product record or False."""
+        if not name or not name.strip():
+            return False
+        name = name.strip()
+        Product = self.env['product.product']
+        # 1. Exact match on product name
+        product = Product.search([('name', '=', name)], limit=1)
+        if product:
+            return product
+        # 2. Case-insensitive ILIKE on product name
+        product = Product.search([('name', 'ilike', name)], limit=1)
+        if product:
+            return product
+        # 3. Match on internal reference (default_code)
+        product = Product.search([('default_code', '=', name)], limit=1)
+        if product:
+            return product
+        # 4. Match on supplier product code (product.supplierinfo)
+        supplier_info = self.env['product.supplierinfo'].search(
+            [('product_code', '=', name)], limit=1)
+        if supplier_info and supplier_info.product_id:
+            return supplier_info.product_id
+        # 5. Match on supplier product name (leverantörens benämning)
+        supplier_info = self.env['product.supplierinfo'].search(
+            [('product_name', 'ilike', name)], limit=1)
+        if supplier_info and supplier_info.product_id:
+            return supplier_info.product_id
+        # 6. Partial match — name is substring of product name
+        product = Product.search([('name', 'ilike', '%%%s%%' % name)], limit=1)
+        if product:
+            return product
+        return False
+
+    def _guess_account_from_name(self, name, company_id):
+        """Guess expense account from product name using Swedish BAS keywords.
+        Returns account.account record or False if no keyword matched."""
+        if not name:
+            return False
+        name_lower = name.lower()
+        # Swedish BAS account keyword map
+        keyword_map = {
+            '4000': ['inköp', 'varor', 'goods', 'purchase', 'inkop'],
+            '4200': ['råvar', 'ravar', 'råmaterial', 'ramaterial', 'raw material'],
+            '4600': ['lego', 'underentrepren', 'subcontract', 'entreprenad'],
+            '5010': ['lokalhyra', 'hyra', 'rent', 'lokal'],
+            '5020': ['el ', 'ström', 'belysning', 'electricity', 'lighting', 'electric'],
+            '5030': ['värme', 'heating', 'fjärrvärme'],
+            '5040': ['vatten', 'avlopp', 'water', 'sewage'],
+            '5060': ['städ', 'renhållning', 'cleaning', 'stadning'],
+            '5070': ['reparation', 'underhåll', 'maintenance', 'repair', 'serviceavtal'],
+            '5420': ['programvar', 'software', 'mjukvara', 'saas', 'licens'],
+            '5611': ['drivmedel', 'bränsle', 'fuel', 'bensin', 'diesel', 'gas'],
+            '5710': ['frakt', 'transport', 'freight', 'shipping', 'leverans', 'spedition'],
+            '5830': ['kost och logi', 'hotell', 'måltid', 'meal', 'lodging', 'restaurang'],
+            '5910': ['annons', 'reklam', 'advertising', 'marknadsföring', 'ads'],
+            '6070': ['representation', 'entertainment', 'kundlunch'],
+            '6110': ['kontorsmateriel', 'office supplies', 'kontor', 'papper', 'penn'],
+            '6210': ['telekom', 'telefon', 'telecom', 'telephone', 'mobiltelefon'],
+            '6212': ['mobiltelefon', 'mobil', 'cell', 'mobile phone'],
+            '6230': ['datakommunikation', 'internet', 'bredband', 'fiber', 'data communication'],
+            '6250': ['post', 'postage', 'frimärk', 'brev'],
+            '6310': ['försäkring', 'insurance', 'försakring', 'insurance'],
+            '6530': ['redovisning', 'accounting', 'bokföring', 'revision'],
+            '6540': ['it-tjänst', 'it service', 'it konsult', 'server', 'hosting', 'cloud', 'moln', 'saas'],
+            '6550': ['konsult', 'consulting', 'advisor', 'rådgivning'],
+            '6570': ['bank', 'bankkostnad', 'bank fee', 'ränt'],
+            '6580': ['advokat', 'juridisk', 'legal', 'rättegång', 'domstol'],
+            '6800': ['inhyrd', 'personal', 'temp', 'bemanning', 'rekrytering'],
+            '6910': ['licens', 'royalty', 'avgift', 'subscription', 'prenumeration'],
+            '6970': ['tidning', 'tidskrift', 'newspaper', 'journal', 'facklitteratur', 'bok'],
+            '6980': ['förening', 'medlemskap', 'membership', 'association'],
+        }
+        Account = self.env['account.account']
+        # Try keyword match in priority order
+        for code, keywords in keyword_map.items():
+            for kw in keywords:
+                if kw in name_lower:
+                    account = Account.search([
+                        ('code', '=', code),
+                        ('company_ids', 'in', [company_id]),
+                    ], limit=1)
+                    if account:
+                        return account
+        # Fallback: 4000 = Inköp av varor (most generic)
+        account = Account.search([
+            ('code', '=', '4000'),
+            ('company_ids', 'in', [company_id]),
+        ], limit=1)
+        return account if account else False
+
     def map_tax(self, taxes):
         return self.env['account.tax'].browse(unique(
             tax_id
