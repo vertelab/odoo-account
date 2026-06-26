@@ -17,11 +17,10 @@ class AccountMove(models.Model):
     def _compute_period(self):
         for rec in self:
             if rec.date:
-                period_id = self.env['account.period'].date2period(rec.date)
-                if period_id:
-                    rec.period_id = period_id.id
-                else:
-                    rec.period_id = False
+                period_ids = self.env['account.period'].date2period(rec.date)
+                if len(period_ids) > 1:
+                    _logger.warning("Multiple periods found for date %s: %s", rec.date, period_ids.ids)
+                rec.period_id = period_ids[:1].id
             else:
                 rec.period_id = False
     
