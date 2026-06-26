@@ -565,8 +565,8 @@ class AccountReconcileWizard(models.TransientModel):
                 ("match_amount_min", "<", wizard.amount),
                 ("match_amount_max", ">", wizard.amount),
             ]
-            query = self.env["account.reconcile.model"]._search(
-                domain, bypass_access=True
+            query = self.env["account.reconcile.model"].sudo()._search(
+                domain
             )
             reco_model_ids = [
                 r[0]

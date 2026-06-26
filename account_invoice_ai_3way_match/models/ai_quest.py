@@ -21,7 +21,15 @@ class AIQuest(models.Model):
         """Find open POs for the vendor and link invoice lines to PO lines by product.
         Sets purchase_line_id on matched invoice lines so can_be_paid / release_to_pay
         work for the 3-way match."""
-        move = self.env['account.move'].browse(move_id)
+        # move_id can be an int (ID), a recordset, or False
+        if not move_id:
+            return
+        if isinstance(move_id, models.Model):
+            move = move_id
+        else:
+            move = self.env['account.move'].browse(move_id)
+        if not move.exists():
+            return
 
         # Guard: only vendor bills, and only if we have invoice lines
         if move.move_type not in ('in_invoice', 'in_refund'):

@@ -32,11 +32,12 @@ Dependencies:
 All data is idempotent — safe to reinstall.
 ''',
     'depends': ['account_commodity_price', 'purchase', 'stock'],
+    'post_init_hook': 'post_init_hook',
     'data': [
         'data/account_commodity_demo.xml',
     ],
     'demo': [],
-    'post_init_hook': 'post_init_hook',
+    
     'installable': True,
     'application': False,
     'auto_install': False,

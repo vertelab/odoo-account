@@ -151,22 +151,37 @@ class AIQuest(models.Model):
             if tax := line.pop('tax/vat', False):
                 dynamic_tax_id = self.env['account.tax'].search([('name', '=', tax), ('company_id', '=', company_id)])
 
-            # --- Account resolution: product > AI account > guessed account > journal default ---
+            # --- Determine which account to use ---
+            resolved_account = False
             if product_account:
                 line['account_id'] = product_account.id
+                resolved_account = product_account
             elif dynamic_account_id:
                 line['account_id'] = dynamic_account_id.id
+                resolved_account = dynamic_account_id
             elif product_name:
-                # Product not found — guess account from name keywords
-                guessed_account = self._guess_account_from_name(product_name, company_id)
-                line['account_id'] = guessed_account.id if guessed_account else default_account
+                guessed = self._guess_account_from_name(product_name, company_id)
+                line['account_id'] = guessed.id if guessed else default_account
+                resolved_account = guessed
                 _logger.info("account_invoice_ai: product '%s' not found, guessed account %s",
                              product_name, line['account_id'])
             else:
                 line['account_id'] = default_account
                  
+            # --- Tax resolution: product > account-based > AI tax > default ---
             if product_tax:
                line['tax_ids'] = [(6, 0, product_tax.ids)]
+            elif resolved_account:
+                # Tax from account (guessed or AI-provided) wins over AI tax
+                account_tax = self._guess_tax_from_account(resolved_account, company_id)
+                if account_tax is not False:
+                    _logger.info("account_invoice_ai: account %s → tax %s (rate=%s)",
+                                resolved_account.code,
+                                ', '.join(account_tax.mapped('name')) if account_tax else 'none',
+                                account_tax[0].amount if account_tax else 'n/a')
+                    line['tax_ids'] = [(6, 0, account_tax.ids)]
+                else:
+                    line['tax_ids'] = [(6, 0, default_tax)]
             elif dynamic_tax_id:
                  line['tax_ids'] = [(6, 0, dynamic_tax_id.ids)]
             else:
@@ -179,8 +194,12 @@ class AIQuest(models.Model):
             
             if fiscal_position and line.get('tax_ids'):
                src_taxes = self.env['account.tax'].browse(line['tax_ids'][0][2])
-               translated_taxes = fiscal_position.map_tax(src_taxes)
-               line['tax_ids'] = [(6, 0, translated_taxes.ids)]
+               # Skip fiscal position mapping for VAT-exempt lines (0% tax)
+               if src_taxes and all(t.amount == 0.0 for t in src_taxes):
+                   pass  # keep 0% tax
+               else:
+                   translated_taxes = fiscal_position.map_tax(src_taxes)
+                   line['tax_ids'] = [(6, 0, translated_taxes.ids)]
                
             if fiscal_position and line.get('account_id'):
                src_account = self.env['account.account'].browse(line['account_id'])
@@ -248,6 +267,8 @@ class AIQuest(models.Model):
             '5070': ['reparation', 'underhåll', 'maintenance', 'repair', 'serviceavtal'],
             '5420': ['programvar', 'software', 'mjukvara', 'saas', 'licens'],
             '5611': ['drivmedel', 'bränsle', 'fuel', 'bensin', 'diesel', 'gas'],
+            '5612': ['försäkring', 'insurance', 'fordonsförsäkring', 'bilförsäkring', 'trafikförsäkring', 'vehicle insurance', 'car insurance'],
+            '5615': ['leasing', 'leasingavgift', 'lease'],
             '5710': ['frakt', 'transport', 'freight', 'shipping', 'leverans', 'spedition'],
             '5830': ['kost och logi', 'hotell', 'måltid', 'meal', 'lodging', 'restaurang'],
             '5910': ['annons', 'reklam', 'advertising', 'marknadsföring', 'ads'],
@@ -257,7 +278,7 @@ class AIQuest(models.Model):
             '6212': ['mobiltelefon', 'mobil', 'cell', 'mobile phone'],
             '6230': ['datakommunikation', 'internet', 'bredband', 'fiber', 'data communication'],
             '6250': ['post', 'postage', 'frimärk', 'brev'],
-            '6310': ['försäkring', 'insurance', 'försakring', 'insurance'],
+            '6310': ['försäkringspremie', 'försakring', 'insurance premium'],
             '6530': ['redovisning', 'accounting', 'bokföring', 'revision'],
             '6540': ['it-tjänst', 'it service', 'it konsult', 'server', 'hosting', 'cloud', 'moln', 'saas'],
             '6550': ['konsult', 'consulting', 'advisor', 'rådgivning'],
@@ -285,6 +306,86 @@ class AIQuest(models.Model):
             ('company_ids', 'in', [company_id]),
         ], limit=1)
         return account if account else False
+
+    def _guess_tax_from_account(self, account, company_id):
+        """Look up purchase tax for a guessed expense account.
+        Uses Swedish BAS account code ranges to determine VAT rate.
+        Returns account.tax recordset or False."""
+        if not account:
+            return False
+        code = account.code or ''
+        Tax = self.env['account.tax']
+        company = self.env['res.company'].browse(company_id)
+
+        # Swedish BAS account ranges → VAT rate
+        # 4xxx-8xxx: expense accounts, typically 25% VAT
+        # Some specific ranges have different rates:
+        #   50xx: lokalkostnader (rent) — usually 25%
+        #   54xx: IT/tjänster — usually 25%
+        #   58xx: resor — may have different rates
+        #   61xx: kontor — 25%
+        #   69xx: övriga — varies
+
+        # First: try to find a tax via the account's default taxes (if set)
+        if hasattr(account, 'tax_ids') and account.tax_ids:
+            purchase_taxes = account.tax_ids.filtered(lambda t: t.type_tax_use == 'purchase')
+            if purchase_taxes:
+                return purchase_taxes
+
+        # Second: look for a tax matching this account code in the system
+        # Most Swedish setups: tax named "Moms 25%" with type_tax_use='purchase'
+        if code:
+            code_prefix = code[:2] if len(code) >= 2 else code
+            # Determine VAT rate from code range (Swedish BAS)
+            # Most expense accounts → 25%
+            # 5810, 5820, 5830 (restaurant/hotel) → 25%
+            # 7331 (bilersättning) → 0% or 25% depending
+
+            # Default to 25% for most purchase accounts
+            vat_pct = '25'
+
+            # Account-specific tax lookup (Swedish BAS)
+            # 5612, 6310: försäkring → VAT exempt (0%)
+            if code in ('5612', '6310'):
+                tax = Tax.search([
+                    ('type_tax_use', '=', 'purchase'),
+                    ('amount', '=', 0.0),
+                    ('company_id', '=', company_id),
+                ], limit=1)
+                if tax:
+                    return tax
+                _logger.warning("account_invoice_ai: no 0%% purchase tax found for account %s", code)
+                return False
+            # 5615: leasing → 25% VAT but only half deductible → "I-halv"
+            if code == '5615':
+                # Search for the half-deductible purchase tax (25% with "halv" in name)
+                candidates = Tax.search([
+                    ('type_tax_use', '=', 'purchase'),
+                    ('amount', '=', 25.0),
+                    ('company_id', '=', company_id),
+                ])
+                for t in candidates:
+                    name_str = str(t.name or '')
+                    if 'halv' in name_str.lower():
+                        return t
+                _logger.warning("account_invoice_ai: 'I-halv' tax not found for leasing, "
+                               "using regular 25%%")
+                # Fall through to percentage search below
+
+            # Look up tax by percentage on purchases
+            tax = Tax.search([
+                ('type_tax_use', '=', 'purchase'),
+                ('amount', '=', float(vat_pct)),
+                ('company_id', '=', company_id),
+            ], limit=1, order='sequence')
+            if tax:
+                return tax
+
+        # Fallback: use company default purchase tax
+        if company.account_purchase_tax_id:
+            return company.account_purchase_tax_id
+
+        return False
 
     def map_tax(self, taxes):
         return self.env['account.tax'].browse(unique(
@@ -570,16 +671,36 @@ class AIQuest(models.Model):
 
 
         
-    def fix_number(self,num):
-        comma_used_as_decimal_seprator = False
-        if "," in num or "." in num:
-            last_symbol = self.find_last_symbol(num)
-            fixed_num = fixed_num = f"{''.join(num.split(last_symbol)[0:-1]).replace(',','').replace('.','')}.{num.split(last_symbol)[-1]}"
-            return float(fixed_num.replace(" ",""))
+    def fix_number(self, num):
+        """Convert AI-extracted number string to float.
+        Handles Swedish/European formats: '3 895.00 kr', '3,895.00', '10st' etc."""
+        import re
+        if not num:
+            return 0.0
+        s = str(num)
+        # Strip all non-numeric/separator characters (currency, units, whitespace)
+        cleaned = re.sub(r'[^\d,.\-]', '', s)
+        if not cleaned:
+            return 0.0
+        # Determine which is the decimal separator: rightmost of comma or dot
+        last_comma = cleaned.rfind(',')
+        last_dot = cleaned.rfind('.')
+        if last_comma > last_dot:
+            # Comma is decimal: '3.895,00' or '3895,00'
+            integer_part = cleaned[:last_comma].replace('.', '').replace(',', '')
+            decimal_part = cleaned[last_comma + 1:]
+            result = f"{integer_part or '0'}.{decimal_part or '0'}"
+        elif last_dot >= 0:
+            # Dot is decimal: '3,895.00' or '3 895.00' or '3895.00'
+            integer_part = cleaned[:last_dot].replace(',', '').replace('.', '')
+            decimal_part = cleaned[last_dot + 1:]
+            result = f"{integer_part or '0'}.{decimal_part or '0'}"
         else:
-            return float(num.replace(" ","")) if num else 0
-            
-    def find_last_symbol(self,num):
+            # No separator: '10' or '3895'
+            result = cleaned
+        return float(result)
+
+    def find_last_symbol(self, num):
         # Iterate over the string in reverse order
         for char in reversed(num):
             # Check if the character is a comma or a dot

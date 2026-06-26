@@ -33,13 +33,13 @@ class AccountMove(models.Model):
         count = 0
         for po_ref, inv_name, inv_date, due_date, ref, partial_lines in [
             ('account_commodity_demo.po_001', 'INV-DEMO-001',
-             '2025-03-20', '2025-04-20', 'LEV-2025-0187',
+             '2026-03-20', '2026-07-30', 'LEV-2026-0187',
              {'PLAT-CHEM-1L': (18.0, 20.0)}),  # partial: 18 of 20
             ('account_commodity_demo.po_002', 'INV-DEMO-002',
-             '2025-03-14', '2025-04-14', 'LEV-2025-0155',
+             '2026-03-14', '2026-07-30', 'LEV-2026-0155',
              {}),  # full receipt
             ('account_commodity_demo.po_003', 'INV-DEMO-003',
-             '2025-03-02', '2025-04-01', 'LEV-2025-0102',
+             '2026-03-02', '2026-07-30', 'LEV-2026-0102',
              {}),  # full receipt, mark paid
         ]:
             po_id = xmlid(po_ref)
@@ -59,8 +59,8 @@ class AccountMove(models.Model):
             # Create vendor bill
             bill = self._commodity_demo_create_bill(po, inv_name, inv_date, due_date, ref)
             if bill:
-                self._commodity_demo_attach_pdf(bill, inv_name, po,
-                                                  bool(partial_lines))
+                self._commodity_demo_attach_pdf(bill, inv_name, inv_date, due_date,
+                                                  ref, po, bool(partial_lines))
                 if po_ref.endswith('po_003'):
                     bill.action_post()  # mark PO-003 as paid
                 count += 1
@@ -113,7 +113,7 @@ class AccountMove(models.Model):
             move.picked = True
 
         result = picking.button_validate()
-        if result:
+        if result and isinstance(result, dict):
             # Handle backorder wizard
             wizard_model = result.get('res_model')
             wizard_id = result.get('res_id')
@@ -188,10 +188,12 @@ class AccountMove(models.Model):
     # ── PDF generation ─────────────────────────────────────────────────────
 
     @api.model
-    def _commodity_demo_attach_pdf(self, bill, inv_number, po, partial=False):
+    def _commodity_demo_attach_pdf(self, bill, inv_number, inv_date, due_date,
+                                     ref, po, partial=False):
         """Generate and attach a vendor bill PDF to the account.move."""
         try:
-            pdf_buf = self._commodity_demo_generate_pdf(inv_number, po, partial)
+            pdf_buf = self._commodity_demo_generate_pdf(
+                inv_number, inv_date, due_date, ref, po, partial)
             if pdf_buf:
                 pdf_buf.seek(0)
                 self.env['ir.attachment'].create({
@@ -211,8 +213,17 @@ class AccountMove(models.Model):
         return False
 
     @api.model
-    def _commodity_demo_generate_pdf(self, inv_number, po, partial=False):
-        """Generate a realistic Swedish vendor bill PDF with reportlab."""
+    def _commodity_demo_generate_pdf(self, inv_number, inv_date, due_date,
+                                       ref, po, partial=False):
+        """Generate a realistic Swedish vendor bill PDF with reportlab.
+
+        Scanability requirements (for account_invoice_ai):
+        - Supplier VAT (org.nr) must be extractable → find_partner_based_on_vat()
+        - PO number must appear in text → find_partner_purchase_order()
+        - Product codes (default_code) in table → _find_product() strategy #3
+        - Swedish-format amounts (7200.00 kr) → fix_number()
+        - Explicit VAT rate → AI invoice line extraction
+        """
         try:
             from reportlab.lib.pagesizes import A4
             from reportlab.lib.units import mm
@@ -256,7 +267,8 @@ class AccountMove(models.Model):
                                   fontName='Helvetica', alignment=TA_CENTER))
 
         COMPANY = 'Nordic Supplies AB'
-        ORG = '559123-4567'
+        ORG = '559123-4561'
+        ORG_VAT = 'SE559123456101'
         ADDR = 'Industrivägen 42, 111 22 Stockholm'
 
         supplier = po.partner_id
@@ -287,10 +299,13 @@ class AccountMove(models.Model):
                                 topMargin=32*mm, bottomMargin=22*mm)
         story = []
 
-        # Title
+        # ── Invoice metadata block (all scannable fields) ──────────────
         story.append(Paragraph('LEVERANTÖRSFAKTURA', styles['DocTitle']))
         story.append(Paragraph('Nr: %s' % inv_number, styles['DocSubtitle']))
-        story.append(Paragraph('Datum: %s' % po.date_order, styles['Value']))
+        story.append(Paragraph('Fakturadatum: %s' % inv_date, styles['Value']))
+        story.append(Paragraph('Förfallodatum: %s' % due_date, styles['Value']))
+        story.append(Paragraph('Er order: %s' % po.name, styles['Value']))
+        story.append(Paragraph('Leverantörens referens: %s' % ref, styles['Value']))
         story.append(Spacer(1, 4*mm))
 
         # From / To blocks
@@ -301,12 +316,13 @@ class AccountMove(models.Model):
             Paragraph('%s %s' % (supplier.zip or '', supplier.city or ''),
                       styles['Value']),
             Paragraph('Org.nr: %s' % (supplier.vat or ''), styles['Value']),
+            Paragraph('VAT: %s' % (supplier.vat or ''), styles['Value']),
         ]
         to_rows = [
             Paragraph('Faktura till', styles['SectionHead']),
             Paragraph('<b>%s</b>' % COMPANY, styles['Value']),
             Paragraph(ADDR, styles['Value']),
-            Paragraph('Org.nr: %s' % ORG, styles['Value']),
+            Paragraph('Kund VAT: %s' % ORG_VAT, styles['Value']),
         ]
         max_r = max(len(from_rows), len(to_rows))
         from_rows += [Paragraph('', styles['Value'])] * (max_r - len(from_rows))
@@ -387,8 +403,10 @@ class AccountMove(models.Model):
         # Payment info
         story.append(Spacer(1, 6*mm))
         story.append(Paragraph('Betalningsinformation', styles['SectionHead']))
-        story.append(Paragraph('Förfallodatum: %s' % po.date_order, styles['Value']))
+        story.append(Paragraph('Bankgiro: 123-4567', styles['Value']))
+        story.append(Paragraph('Förfallodatum: %s' % due_date, styles['Value']))
         story.append(Paragraph('Referens: %s' % inv_number, styles['Value']))
+        story.append(Paragraph('OCR: %s' % inv_number.replace('INV-DEMO-', ''), styles['Value']))
         if partial:
             story.append(Paragraph(
                 '<i>OBS: Delleverans. Resterande artiklar levereras separat.</i>',

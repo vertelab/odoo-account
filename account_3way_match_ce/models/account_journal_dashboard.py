@@ -35,4 +35,4 @@ class AccountJournal(models.Model):
         ]
         domain += self.env['account.move']._check_company_domain(self.env.companies)
         domain += ['|'] + domain_sale + domain_purchase
-        return self.env['account.move']._search(domain, bypass_access=True)
+        return self.env['account.move'].sudo()._search(domain)

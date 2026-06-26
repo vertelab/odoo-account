@@ -1,149 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!--
-    Account Commodity Demo Data
-    ===========================
-    Complete demo flow for commodity-based purchasing with 3-way matching.
-    Order matters: commodities → qualities → accounts → suppliers → products → POs
-    -->
-
-    <!-- ============================================================ -->
-    <!-- 1. Commodities (råvarudefinitioner)                           -->
-    <!-- ============================================================ -->
-
-    <record id="commodity_gold" model="product.commodity">
-        <field name="name">Gold</field>
-        <field name="code">XAU</field>
-        <field name="category">precious_metal</field>
-        <field name="uom_id" ref="uom.product_uom_oz"/>
-        <field name="grams_per_unit" eval="31.1035"/>
-        <field name="currency_id" ref="base.USD"/>
-        <field name="api_provider">aurumrates</field>
-        <field name="api_symbol">GC=F</field>
-    </record>
-
-    <record id="commodity_silver" model="product.commodity">
-        <field name="name">Silver</field>
-        <field name="code">XAG</field>
-        <field name="category">precious_metal</field>
-        <field name="uom_id" ref="uom.product_uom_oz"/>
-        <field name="grams_per_unit" eval="31.1035"/>
-        <field name="currency_id" ref="base.USD"/>
-        <field name="api_provider">aurumrates</field>
-        <field name="api_symbol">SI=F</field>
-    </record>
-
-    <!-- ============================================================ -->
-    <!-- 2. Qualities (renhetsgrader)                                  -->
-    <!-- ============================================================ -->
-
-    <record id="quality_gold_24k" model="product.commodity.quality">
-        <field name="commodity_id" ref="account_commodity_demo.commodity_gold"/>
-        <field name="name">24K</field>
-        <field name="purity_percent" eval="99.99"/>
-        <field name="price_coefficient" eval="1.0"/>
-    </record>
-    <record id="quality_gold_22k" model="product.commodity.quality">
-        <field name="commodity_id" ref="account_commodity_demo.commodity_gold"/>
-        <field name="name">22K</field>
-        <field name="purity_percent" eval="91.67"/>
-        <field name="price_coefficient" eval="0.9167"/>
-    </record>
-    <record id="quality_gold_18k" model="product.commodity.quality">
-        <field name="commodity_id" ref="account_commodity_demo.commodity_gold"/>
-        <field name="name">18K</field>
-        <field name="purity_percent" eval="75.0"/>
-        <field name="price_coefficient" eval="0.75"/>
-    </record>
-    <record id="quality_gold_14k" model="product.commodity.quality">
-        <field name="commodity_id" ref="account_commodity_demo.commodity_gold"/>
-        <field name="name">14K</field>
-        <field name="purity_percent" eval="58.5"/>
-        <field name="price_coefficient" eval="0.585"/>
-    </record>
-    <record id="quality_silver_999" model="product.commodity.quality">
-        <field name="commodity_id" ref="account_commodity_demo.commodity_silver"/>
-        <field name="name">999 Silver</field>
-        <field name="purity_percent" eval="99.9"/>
-        <field name="price_coefficient" eval="1.0"/>
-    </record>
-
-    <!-- ============================================================ -->
-    <!-- 3. Revaluation accounts and journal                           -->
-    <!-- ============================================================ -->
-
     <record id="account_commodity_gain" model="account.account">
         <field name="name">Vinst råvaruomvärdering (demo)</field>
-        <field name="code">3995</field>
+        <field name="code">39995</field>
         <field name="account_type">income</field>
     </record>
     <record id="account_commodity_loss" model="account.account">
         <field name="name">Förlust råvaruomvärdering (demo)</field>
-        <field name="code">6995</field>
+        <field name="code">69995</field>
         <field name="account_type">expense</field>
     </record>
     <record id="account_commodity_valuation" model="account.account">
         <field name="name">Lager råvaror guld/silver (demo)</field>
-        <field name="code">1465</field>
+        <field name="code">14650</field>
         <field name="account_type">asset_current</field>
     </record>
-
     <record id="journal_commodity_reval" model="account.journal">
         <field name="name">Råvaruomvärdering (demo)</field>
         <field name="type">general</field>
         <field name="code">CMDTY</field>
         <field name="is_commodity_journal" eval="True"/>
     </record>
-
-    <!-- Update commodities with accounts/journal -->
-    <record id="commodity_gold" model="product.commodity">
+    <record id="account_commodity_price.commodity_gold" model="product.commodity">
         <field name="journal_id" ref="account_commodity_demo.journal_commodity_reval"/>
         <field name="gain_account_id" ref="account_commodity_demo.account_commodity_gain"/>
         <field name="loss_account_id" ref="account_commodity_demo.account_commodity_loss"/>
         <field name="valuation_account_id" ref="account_commodity_demo.account_commodity_valuation"/>
     </record>
-    <record id="commodity_silver" model="product.commodity">
+    <record id="account_commodity_price.commodity_silver" model="product.commodity">
         <field name="journal_id" ref="account_commodity_demo.journal_commodity_reval"/>
         <field name="gain_account_id" ref="account_commodity_demo.account_commodity_gain"/>
         <field name="loss_account_id" ref="account_commodity_demo.account_commodity_loss"/>
         <field name="valuation_account_id" ref="account_commodity_demo.account_commodity_valuation"/>
     </record>
-
-    <!-- ============================================================ -->
-    <!-- 4. Initial spot prices (SEK, approximate as of 2025-03)       -->
-    <!-- ============================================================ -->
-
-    <record id="price_gold_20250310" model="product.commodity.price">
-        <field name="commodity_id" ref="account_commodity_demo.commodity_gold"/>
-        <field name="date">2025-03-10</field>
+    <record id="price_gold_20260310" model="product.commodity.price">
+        <field name="commodity_id" ref="account_commodity_price.commodity_gold"/>
+        <field name="date">2026-03-10</field>
         <field name="price" eval="2350.0"/>
         <field name="currency_id" ref="base.USD"/>
     </record>
-    <record id="price_silver_20250305" model="product.commodity.price">
-        <field name="commodity_id" ref="account_commodity_demo.commodity_silver"/>
-        <field name="date">2025-03-05</field>
+    <record id="price_silver_20260305" model="product.commodity.price">
+        <field name="commodity_id" ref="account_commodity_price.commodity_silver"/>
+        <field name="date">2026-03-05</field>
         <field name="price" eval="28.50"/>
         <field name="currency_id" ref="base.USD"/>
     </record>
-
-    <!-- ============================================================ -->
-    <!-- 5. Supplier Partners                                          -->
-    <!-- ============================================================ -->
-
-    <record id="partner_nordisk_komponent" model="res.partner">
-        <field name="name">Nordisk Komponent AB</field>
-        <field name="is_company" eval="True"/>
-        <field name="company_type">company</field>
-        <field name="street">Terminalgatan 8</field>
-        <field name="city">Göteborg</field>
-        <field name="zip">412 63</field>
-        <field name="country_id" ref="base.se"/>
-        <field name="phone">031-789 45 00</field>
-        <field name="email">johan.ekstrom@nordiskkomponent.se</field>
-        <field name="vat">SE556789123401</field>
-        <field name="supplier_rank" eval="1"/>
-    </record>
-
     <record id="partner_adelmetall" model="res.partner">
         <field name="name">Ädelmetall Nordic AB</field>
         <field name="is_company" eval="True"/>
@@ -154,15 +55,9 @@
         <field name="country_id" ref="base.se"/>
         <field name="phone">08-550 123 00</field>
         <field name="email">order@adelmetall.se</field>
-        <field name="vat">SE559876543201</field>
+        <field name="vat">SE559876543501</field>
         <field name="supplier_rank" eval="1"/>
     </record>
-
-    <!-- ============================================================ -->
-    <!-- 6. Products (commodity raw materials)                         -->
-    <!-- ============================================================ -->
-
-    <!-- Gold wire 24K, 10g spool -->
     <record id="product_gold_wire_24k" model="product.template">
         <field name="name">Guldtråd 24K 10g</field>
         <field name="type">product</field>
@@ -170,26 +65,13 @@
         <field name="list_price" eval="7500.00"/>
         <field name="standard_price" eval="7200.00"/>
         <field name="default_code">GULD-24K-10G</field>
-        <field name="weight">0.010</field>
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="uom_po_id" ref="uom.product_uom_unit"/>
         <field name="is_commodity_raw_material" eval="True"/>
-        <field name="commodity_id" ref="account_commodity_demo.commodity_gold"/>
-        <field name="commodity_quality_id" ref="account_commodity_demo.quality_gold_24k"/>
+        <field name="commodity_id" ref="account_commodity_price.commodity_gold"/>
+        <field name="commodity_quality_id" ref="account_commodity_price.commodity_gold_24k"/>
         <field name="commodity_weight" eval="10.0"/>
-        <field name="commodity_price_auto" eval="False"/>
-        <field name="commodity_price_type">component</field>
-        <field name="description">Guldtråd 24 karat, 99.99% renhet. 10 gram per spole. För industriell guldplätering.</field>
-        <field name="seller_ids" eval="[(0, 0, {
-            'partner_id': ref('account_commodity_demo.partner_nordisk_komponent'),
-            'product_name': 'Guldtråd 24K 10g spole',
-            'price': 7200.00,
-            'currency_id': ref('base.SEK'),
-            'min_qty': 1.0,
-        })]"/>
     </record>
-
-    <!-- Gold plate 18K, 5g sheet -->
     <record id="product_gold_plate_18k" model="product.template">
         <field name="name">Guldplåt 18K 5g</field>
         <field name="type">product</field>
@@ -197,26 +79,13 @@
         <field name="list_price" eval="2850.00"/>
         <field name="standard_price" eval="2700.00"/>
         <field name="default_code">GULD-18K-5G</field>
-        <field name="weight">0.005</field>
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="uom_po_id" ref="uom.product_uom_unit"/>
         <field name="is_commodity_raw_material" eval="True"/>
-        <field name="commodity_id" ref="account_commodity_demo.commodity_gold"/>
-        <field name="commodity_quality_id" ref="account_commodity_demo.quality_gold_18k"/>
+        <field name="commodity_id" ref="account_commodity_price.commodity_gold"/>
+        <field name="commodity_quality_id" ref="account_commodity_price.commodity_gold_18k"/>
         <field name="commodity_weight" eval="5.0"/>
-        <field name="commodity_price_auto" eval="False"/>
-        <field name="commodity_price_type">component</field>
-        <field name="description">Guldplåt 18 karat, 75% renhet. 5 gram per plåt. Anod för galvanisk plätering.</field>
-        <field name="seller_ids" eval="[(0, 0, {
-            'partner_id': ref('account_commodity_demo.partner_nordisk_komponent'),
-            'product_name': 'Guldplåt 18K 5g',
-            'price': 2700.00,
-            'currency_id': ref('base.SEK'),
-            'min_qty': 1.0,
-        })]"/>
     </record>
-
-    <!-- Silver wire 999, 50g spool -->
     <record id="product_silver_wire_999" model="product.template">
         <field name="name">Silvertråd 999 50g</field>
         <field name="type">product</field>
@@ -224,26 +93,13 @@
         <field name="list_price" eval="850.00"/>
         <field name="standard_price" eval="800.00"/>
         <field name="default_code">SILVER-999-50G</field>
-        <field name="weight">0.050</field>
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="uom_po_id" ref="uom.product_uom_unit"/>
         <field name="is_commodity_raw_material" eval="True"/>
-        <field name="commodity_id" ref="account_commodity_demo.commodity_silver"/>
-        <field name="commodity_quality_id" ref="account_commodity_demo.quality_silver_999"/>
+        <field name="commodity_id" ref="account_commodity_price.commodity_silver"/>
+        <field name="commodity_quality_id" ref="account_commodity_price.commodity_silver_999"/>
         <field name="commodity_weight" eval="50.0"/>
-        <field name="commodity_price_auto" eval="False"/>
-        <field name="commodity_price_type">component</field>
-        <field name="description">Silvertråd 99.9% renhet. 50 gram per spole. För silverplätering och lödning.</field>
-        <field name="seller_ids" eval="[(0, 0, {
-            'partner_id': ref('account_commodity_demo.partner_adelmetall'),
-            'product_name': 'Silvertråd 999 50g spole',
-            'price': 800.00,
-            'currency_id': ref('base.SEK'),
-            'min_qty': 1.0,
-        })]"/>
     </record>
-
-    <!-- Plating chemical solution, 1L (not a commodity, just a consumable) -->
     <record id="product_plating_chemical" model="product.template">
         <field name="name">Pläteringsvätska Guld 1L</field>
         <field name="type">product</field>
@@ -251,99 +107,42 @@
         <field name="list_price" eval="1200.00"/>
         <field name="standard_price" eval="1100.00"/>
         <field name="default_code">PLAT-CHEM-1L</field>
-        <field name="weight">1.200</field>
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="uom_po_id" ref="uom.product_uom_unit"/>
-        <field name="description">Cyanidbaserad guldpläteringsvätska. 1 liter. För elektrolytisk plätering, 0.5-2µm skikt.</field>
-        <field name="seller_ids" eval="[(0, 0, {
-            'partner_id': ref('account_commodity_demo.partner_nordisk_komponent'),
-            'product_name': 'Pläteringsvätska Guld 1L',
-            'price': 1100.00,
-            'currency_id': ref('base.SEK'),
-            'min_qty': 1.0,
-        })]"/>
     </record>
-
-    <!-- ============================================================ -->
-    <!-- 7. Purchase Orders                                            -->
-    <!-- ============================================================ -->
-
-    <!-- PO-001: Gold + chemicals from Nordisk Komponent — partial receipt -->
     <record id="po_001" model="purchase.order">
         <field name="name">PO-DEMO-001</field>
         <field name="partner_id" ref="account_commodity_demo.partner_nordisk_komponent"/>
-        <field name="partner_ref">Johan Ekström</field>
-        <field name="date_order">2025-03-10</field>
-        <field name="date_planned">2025-03-18</field>
+        <field name="date_order">2026-03-10</field>
+        <field name="date_planned">2026-03-18</field>
         <field name="state">draft</field>
         <field name="payment_term_id" ref="account.account_payment_term_30days"/>
-        <field name="notes">Leverans till: Nordic Supplies AB, Industrivägen 42, 111 22 Stockholm.
-Ange ordernummer PO-DEMO-001 på följesedel och faktura.</field>
         <field name="order_line" eval="[(5, 0, 0),
-            (0, 0, {
-                'product_id': ref('account_commodity_demo.product_gold_wire_24k'),
-                'name': 'Guldtråd 24K 10g spole',
-                'price_unit': 7200.00,
-                'product_qty': 10.0,
-                'product_uom': ref('uom.product_uom_unit'),
-                'date_planned': '2025-03-18'}),
-            (0, 0, {
-                'product_id': ref('account_commodity_demo.product_gold_plate_18k'),
-                'name': 'Guldplåt 18K 5g',
-                'price_unit': 2700.00,
-                'product_qty': 5.0,
-                'product_uom': ref('uom.product_uom_unit'),
-                'date_planned': '2025-03-18'}),
-            (0, 0, {
-                'product_id': ref('account_commodity_demo.product_plating_chemical'),
-                'name': 'Pläteringsvätska Guld 1L',
-                'price_unit': 1100.00,
-                'product_qty': 20.0,
-                'product_uom': ref('uom.product_uom_unit'),
-                'date_planned': '2025-03-18'})
+            (0, 0, {'product_id': ref('account_commodity_demo.product_gold_wire_24k'), 'product_qty': 10.0, 'price_unit': 7200.00, 'date_planned': '2026-03-18'}),
+            (0, 0, {'product_id': ref('account_commodity_demo.product_gold_plate_18k'), 'product_qty': 5.0, 'price_unit': 2700.00, 'date_planned': '2026-03-18'}),
+            (0, 0, {'product_id': ref('account_commodity_demo.product_plating_chemical'), 'product_qty': 20.0, 'price_unit': 1100.00, 'date_planned': '2026-03-18'})
         ]"/>
     </record>
-
-    <!-- PO-002: Silver wire from Ädelmetall — full receipt -->
     <record id="po_002" model="purchase.order">
         <field name="name">PO-DEMO-002</field>
         <field name="partner_id" ref="account_commodity_demo.partner_adelmetall"/>
-        <field name="partner_ref">Lena Björk</field>
-        <field name="date_order">2025-03-05</field>
-        <field name="date_planned">2025-03-12</field>
+        <field name="date_order">2026-03-05</field>
+        <field name="date_planned">2026-03-12</field>
         <field name="state">draft</field>
         <field name="payment_term_id" ref="account.account_payment_term_30days"/>
-        <field name="notes">Silvertråd för silverplätering. Leverans till lager Stockholm.</field>
         <field name="order_line" eval="[(5, 0, 0),
-            (0, 0, {
-                'product_id': ref('account_commodity_demo.product_silver_wire_999'),
-                'name': 'Silvertråd 999 50g spole',
-                'price_unit': 800.00,
-                'product_qty': 20.0,
-                'product_uom': ref('uom.product_uom_unit'),
-                'date_planned': '2025-03-12'})
+            (0, 0, {'product_id': ref('account_commodity_demo.product_silver_wire_999'), 'product_qty': 20.0, 'price_unit': 800.00, 'date_planned': '2026-03-12'})
         ]"/>
     </record>
-
-    <!-- PO-003: Extra gold plates — already paid -->
     <record id="po_003" model="purchase.order">
         <field name="name">PO-DEMO-003</field>
         <field name="partner_id" ref="account_commodity_demo.partner_nordisk_komponent"/>
-        <field name="partner_ref">Johan Ekström</field>
-        <field name="date_order">2025-02-20</field>
-        <field name="date_planned">2025-02-28</field>
+        <field name="date_order">2026-02-20</field>
+        <field name="date_planned">2026-02-28</field>
         <field name="state">draft</field>
         <field name="payment_term_id" ref="account.account_payment_term_30days"/>
-        <field name="notes">Extra guldplåt för pågående projekt. Expressleverans önskas.</field>
         <field name="order_line" eval="[(5, 0, 0),
-            (0, 0, {
-                'product_id': ref('account_commodity_demo.product_gold_plate_18k'),
-                'name': 'Guldplåt 18K 5g',
-                'price_unit': 2750.00,
-                'product_qty': 8.0,
-                'product_uom': ref('uom.product_uom_unit'),
-                'date_planned': '2025-02-28'})
+            (0, 0, {'product_id': ref('account_commodity_demo.product_gold_plate_18k'), 'product_qty': 8.0, 'price_unit': 2750.00, 'date_planned': '2026-02-28'})
         ]"/>
     </record>
-
 </odoo>
