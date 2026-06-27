@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Payment Tree View -->
+    <record id="view_enable_banking_payment_tree" model="ir.ui.view">
+        <field name="name">enable.banking.payment.tree</field>
+        <field name="model">enable.banking.payment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="journal_id"/>
+                <field name="amount"/>
+                <field name="state"/>
+                <field name="creditor_name"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Payment Form View -->
+    <record id="view_enable_banking_payment_form" model="ir.ui.view">
+        <field name="name">enable.banking.payment.form</field>
+        <field name="model">enable.banking.payment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_send_to_bank"
+                            string="Send to Bank"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_check_status"
+                            string="Check Status"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state not in ('pending_authorization', 'authorized')"/>
+                    <button name="action_cancel"
+                            string="Cancel"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state in ('accepted', 'cancelled', 'rejected')"/>
+                    <field name="state"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="journal_id" widget="selection"/>
+                            <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="payment_count"/>
+                        </group>
+                        <group>
+                            <field name="creditor_name"/>
+                            <field name="creditor_iban"/>
+                            <field name="creditor_bic"/>
+                            <field name="remittance_info"/>
+                            <field name="aspsp_id"/>
+                        </group>
+                    </group>
+                    <group string="API Details" invisible="not enable_banking_payment_id">
+                        <group>
+                            <field name="enable_banking_payment_id"/>
+                            <field name="redirect_url" widget="url"/>
+                            <field name="sent_date"/>
+                        </group>
+                    </group>
+                    <group string="Error" invisible="not error_message">
+                        <field name="error_message"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Payment Action -->
+    <record id="action_enable_banking_payment" model="ir.actions.act_window">
+        <field name="name">Enable Banking Payments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">enable.banking.payment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_enable_banking_payment"
+        name="Enable Banking Payments"
+        parent="account.menu_finance"
+        action="action_enable_banking_payment"
+        sequence="45"/>
+</odoo>

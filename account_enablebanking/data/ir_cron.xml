@@ -9,5 +9,14 @@
             <field name="state">code</field>
             <field name="active" eval="True"/>
         </record>
+        <record model="ir.cron" id="enable_banking_payment_status_check">
+            <field name="name">Check Enable Banking Payment Status</field>
+            <field name="interval_number">15</field>
+            <field name="interval_type">minutes</field>
+            <field name="model_id" ref="account_enablebanking.model_enable_banking_payment"/>
+            <field name="code">model._cron_check_payment_status()</field>
+            <field name="state">code</field>
+            <field name="active" eval="True"/>
+        </record>
     </data>
 </odoo>

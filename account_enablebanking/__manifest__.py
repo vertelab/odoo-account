@@ -35,16 +35,17 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'depends': ['account', 'contacts', 'base', 'product'],
+    'depends': ['account', 'contacts', 'base', 'product', 'mail'],
     'data': [
         'security/ir.model.access.csv',
         'data/ir_config_parameter.xml',
         'views/res_config_view.xml',
         'data/ir_cron.xml',
-        'views/account_journal_view.xml',
+        #'views/account_journal_view.xml',  # Disabled: base view has broken skatteverket_partner_id field
         'views/enable_banking_wizard_view.xml',
         'views/res_bank_view.xml',
-        'views/res_partner_view.xml',
+        #'views/res_partner_view.xml',  # Disabled: view conflicts during install
+        'views/enable_banking_payment_views.xml',
     ],
     'demo': ['demo/demo_kundfaktura.xml'],
     'qweb': [],

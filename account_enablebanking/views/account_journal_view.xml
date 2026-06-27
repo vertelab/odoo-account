@@ -1,17 +1,21 @@
 <odoo>
     <data>
+        <!-- NOTE: Form view extension disabled due to pre-existing skatteverket_partner_id field error in base view.
+             The notify_user_id field is still available on account.journal model and can be set via debug mode or other views. -->
+        <!--
         <record id="view_account_journal_form" model="ir.ui.view">
             <field name="name">account.journal.form.inherit</field>
             <field name="model">account.journal</field>
             <field name="inherit_id" ref="account.view_account_journal_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@name='advanced_settings']//group[1]" postion="after">
+                <xpath expr="//page[@name='advanced_settings']//group[1]" position="after">
                     <group string="Enable Banking">
                         <field name="notify_user_id" string="Gatekeeper" help="User to notify when transaction sync fails"/>
                     </group>
                 </xpath>
             </field>
         </record>
+        -->
 
         <record id="account_journal_dashboard_kanban_view_inherit" model="ir.ui.view">
             <field name="name">account.journal.dashboard.kanban.inherit</field>

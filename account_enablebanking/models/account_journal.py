@@ -107,6 +107,32 @@ class AccountJournal(models.Model):
         return starting_fiscal_year
 
 
+    def action_open_enable_banking_payments(self):
+        """Open the list of Enable Banking payments for this journal."""
+        return {
+            'name': _('Enable Banking Payments'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'enable.banking.payment',
+            'view_mode': 'tree,form',
+            'domain': [('journal_id', '=', self.id)],
+            'context': {'default_journal_id': self.id},
+        }
+
+    def action_create_enable_banking_payment(self):
+        """Create a new Enable Banking payment for this journal."""
+        return {
+            'name': _('New Payment'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'enable.banking.payment',
+            'view_mode': 'form',
+            'target': 'current',
+            'context': {
+                'default_journal_id': self.id,
+                'default_currency_id': self.currency_id.id,
+            },
+        }
+
+
 class EnableBankingTransactions(models.TransientModel):
     _name = "enable.banking.transaction.wizard"
 
