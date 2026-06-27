@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Reports list under Reporting menu -->
+    <record id="action_dynamic_reports" model="ir.actions.act_window">
+        <field name="name">Dynamic Reports</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.report</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_dynamic_reports"
+        name="Dynamic Reports"
+        parent="account.menu_finance"
+        action="action_dynamic_reports"
+        sequence="40"/>
+</odoo>

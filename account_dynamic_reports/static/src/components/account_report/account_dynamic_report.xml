@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="account_dynamic_reports.AccountDynamicReport">
+        <div class="o_account_dynamic_report">
+            <!-- Header -->
+            <div class="o_account_dynamic_report_header">
+                <h2><t t-esc="state.reportName"/></h2>
+                <div class="o_account_dynamic_report_filters">
+                    <div class="o_date_filter">
+                        <label>From</label>
+                        <input type="date" t-model="state.options.date.date_from" t-on-change="onDateChange"/>
+                        <label>To</label>
+                        <input type="date" t-model="state.options.date.date_to" t-on-change="onDateChange"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div t-if="state.isLoading" class="o_loading">
+                <span>Loading report...</span>
+            </div>
+
+            <!-- Error -->
+            <div t-if="state.error" class="o_error alert alert-danger">
+                <t t-esc="state.error"/>
+            </div>
+
+            <!-- Report Table -->
+            <table t-if="!state.isLoading and !state.error" class="o_account_dynamic_report_table table table-sm">
+                <thead>
+                    <tr>
+                        <th class="o_dynamic_report_name_col"></th>
+                        <t t-foreach="state.columns" t-as="col" t-key="col_index">
+                            <th class="text-end" t-esc="col.name"/>
+                        </t>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="visibleLines" t-value="getVisibleLines()"/>
+                    <t t-foreach="visibleLines" t-as="line" t-key="line.id">
+                        <tr t-att-class="getLineClass(line)" t-att-style="getIndentStyle(line.level)">
+                            <td class="o_dynamic_report_name">
+                                <t t-if="line.unfoldable">
+                                    <span class="o_dynamic_report_expand_btn"
+                                          t-on-click="() => toggleLine(line.id)"
+                                          t-esc="getExpandIcon(line)"/>
+                                </t>
+                                <t t-else="">
+                                    <span class="o_dynamic_report_expand_space"/>
+                                </t>
+                                <t t-esc="line.name"/>
+                            </td>
+                            <t t-foreach="line.columns" t-as="col" t-key="col_index">
+                                <td class="text-end" t-att-class="col.class or ''">
+                                    <t t-esc="col.name"/>
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                    <tr t-if="visibleLines.length === 0">
+                        <td t-att-colspan="state.columns.length + 1" class="text-center text-muted">
+                            No data available for this period
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </t>
+
+</templates>

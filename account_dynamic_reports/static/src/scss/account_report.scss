@@ -1,0 +1,116 @@
+.o_account_dynamic_report {
+    padding: 16px;
+
+    .o_account_dynamic_report_header {
+        margin-bottom: 16px;
+
+        h2 {
+            margin-bottom: 8px;
+        }
+
+        .o_date_filter {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+
+            label {
+                margin: 0 4px;
+                font-weight: 500;
+                white-space: nowrap;
+            }
+
+            input[type="date"] {
+                border: 1px solid #ced4da;
+                border-radius: 4px;
+                padding: 4px 8px;
+            }
+        }
+    }
+
+    .o_account_dynamic_report_table {
+        width: 100%;
+        border-collapse: collapse;
+
+        thead th {
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            padding: 8px 12px;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        tbody td {
+            padding: 6px 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .o_dynamic_report_name_col {
+            min-width: 300px;
+        }
+
+        .o_dynamic_report_name {
+            white-space: nowrap;
+
+            .o_dynamic_report_expand_btn {
+                cursor: pointer;
+                display: inline-block;
+                width: 16px;
+                font-size: 10px;
+                color: #6c757d;
+                margin-right: 4px;
+                user-select: none;
+
+                &:hover {
+                    color: #212529;
+                }
+            }
+
+            .o_dynamic_report_expand_space {
+                display: inline-block;
+                width: 20px;
+            }
+        }
+
+        .o_dynamic_report_section_primary {
+            td {
+                font-weight: 700;
+                font-size: 1.1em;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                border-bottom: 2px solid #adb5bd;
+
+                &:first-child {
+                    padding-left: 0;
+                }
+            }
+        }
+
+        .o_dynamic_report_section_secondary {
+            td {
+                font-weight: 600;
+                border-bottom-color: #ced4da;
+            }
+        }
+
+        .o_dynamic_report_unfoldable {
+            td:first-child {
+                cursor: pointer;
+
+                &:hover {
+                    background: rgba(0, 0, 0, 0.02);
+                }
+            }
+        }
+    }
+
+    .text-end {
+        text-align: right;
+    }
+
+    .o_loading {
+        text-align: center;
+        padding: 40px;
+        color: #6c757d;
+    }
+}

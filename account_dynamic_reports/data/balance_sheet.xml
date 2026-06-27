@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Balance Sheet -->
+    <record id="balance_sheet" model="account.report">
+        <field name="name">Balance Sheet</field>
+        <field name="sequence">10</field>
+        <field name="filter_date_range" eval="True"/>
+        <field name="filter_period_comparison" eval="True"/>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_hide_0_lines">optional</field>
+    </record>
+
+    <!-- ===================== ASSETS ===================== -->
+    <record id="bs_assets" model="account.report.line">
+        <field name="name">ASSETS</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="sequence">10</field>
+        <field name="code">BS_ASSETS</field>
+        <field name="hierarchy_level">1</field>
+    </record>
+
+    <!-- Current Assets (class 1) -->
+    <record id="bs_current_assets" model="account.report.line">
+        <field name="name">Current Assets</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_assets"/>
+        <field name="sequence">10</field>
+        <field name="code">BS_CURRENT_ASSETS</field>
+        <field name="hierarchy_level">4</field>
+    </record>
+
+    <record id="bs_cash_bank" model="account.report.line">
+        <field name="name">Cash and Bank</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_current_assets"/>
+        <field name="sequence">10</field>
+        <field name="code">BS_CASH</field>
+        <field name="account_codes_formula">19</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+
+    <record id="bs_receivables" model="account.report.line">
+        <field name="name">Accounts Receivable</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_current_assets"/>
+        <field name="sequence">20</field>
+        <field name="code">BS_RECEIVABLES</field>
+        <field name="account_codes_formula">15</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+
+    <record id="bs_other_current" model="account.report.line">
+        <field name="name">Other Current Assets</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_current_assets"/>
+        <field name="sequence">30</field>
+        <field name="code">BS_OTHER_CURRENT</field>
+        <field name="account_codes_formula">16,17</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+
+    <record id="bs_total_current_assets" model="account.report.line">
+        <field name="name">Total Current Assets</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_current_assets"/>
+        <field name="sequence">99</field>
+        <field name="code">BS_TOTAL_CURRENT</field>
+        <field name="aggregation_formula">BS_CASH.balance + BS_RECEIVABLES.balance + BS_OTHER_CURRENT.balance</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+
+    <!-- Fixed Assets (class 11-12) -->
+    <record id="bs_fixed_assets" model="account.report.line">
+        <field name="name">Fixed Assets</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_assets"/>
+        <field name="sequence">20</field>
+        <field name="code">BS_FIXED_ASSETS</field>
+        <field name="hierarchy_level">4</field>
+    </record>
+
+    <record id="bs_tangible" model="account.report.line">
+        <field name="name">Tangible Fixed Assets</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_fixed_assets"/>
+        <field name="sequence">10</field>
+        <field name="code">BS_TANGIBLE</field>
+        <field name="account_codes_formula">11</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+
+    <record id="bs_financial" model="account.report.line">
+        <field name="name">Financial Fixed Assets</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_fixed_assets"/>
+        <field name="sequence">20</field>
+        <field name="code">BS_FINANCIAL</field>
+        <field name="account_codes_formula">12</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+
+    <record id="bs_total_fixed_assets" model="account.report.line">
+        <field name="name">Total Fixed Assets</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_fixed_assets"/>
+        <field name="sequence">99</field>
+        <field name="code">BS_TOTAL_FIXED</field>
+        <field name="aggregation_formula">BS_TANGIBLE.balance + BS_FINANCIAL.balance</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+
+    <record id="bs_total_assets" model="account.report.line">
+        <field name="name">TOTAL ASSETS</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_assets"/>
+        <field name="sequence">99</field>
+        <field name="code">BS_TOTAL_ASSETS</field>
+        <field name="aggregation_formula">BS_TOTAL_CURRENT.balance + BS_TOTAL_FIXED.balance</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+
+    <!-- ===================== EQUITY & LIABILITIES ===================== -->
+    <record id="bs_equity_liabilities" model="account.report.line">
+        <field name="name">EQUITY &amp; LIABILITIES</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="sequence">20</field>
+        <field name="code">BS_EQUITY_LIAB</field>
+        <field name="hierarchy_level">1</field>
+    </record>
+
+    <!-- Equity (class 20-21) -->
+    <record id="bs_equity" model="account.report.line">
+        <field name="name">Equity</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_equity_liabilities"/>
+        <field name="sequence">10</field>
+        <field name="code">BS_EQUITY</field>
+        <field name="account_codes_formula">20,21</field>
+        <field name="hierarchy_level">4</field>
+    </record>
+
+    <record id="bs_retained_earnings" model="account.report.line">
+        <field name="name">Retained Earnings / Current Year Result</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_equity_liabilities"/>
+        <field name="sequence">15</field>
+        <field name="code">BS_RETAINED</field>
+        <field name="account_codes_formula">3,4,5,6,7,8</field>
+        <field name="hierarchy_level">4</field>
+    </record>
+
+    <record id="bs_total_equity" model="account.report.line">
+        <field name="name">Total Equity</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_equity_liabilities"/>
+        <field name="sequence">19</field>
+        <field name="code">BS_TOTAL_EQUITY</field>
+        <field name="aggregation_formula">BS_EQUITY.balance + BS_RETAINED.balance</field>
+        <field name="hierarchy_level">4</field>
+    </record>
+
+    <!-- Provisions -->
+    <record id="bs_provisions" model="account.report.line">
+        <field name="name">Provisions</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_equity_liabilities"/>
+        <field name="sequence">20</field>
+        <field name="code">BS_PROVISIONS</field>
+        <field name="account_codes_formula">22</field>
+        <field name="hierarchy_level">4</field>
+    </record>
+
+    <!-- Long-term Liabilities (class 23) -->
+    <record id="bs_longterm_liab" model="account.report.line">
+        <field name="name">Long-term Liabilities</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_equity_liabilities"/>
+        <field name="sequence">30</field>
+        <field name="code">BS_LONGTERM_LIAB</field>
+        <field name="account_codes_formula">23</field>
+        <field name="hierarchy_level">4</field>
+    </record>
+
+    <!-- Current Liabilities (class 24-29) -->
+    <record id="bs_current_liab" model="account.report.line">
+        <field name="name">Current Liabilities</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_equity_liabilities"/>
+        <field name="sequence">40</field>
+        <field name="code">BS_CURRENT_LIAB</field>
+        <field name="hierarchy_level">4</field>
+    </record>
+
+    <record id="bs_payables" model="account.report.line">
+        <field name="name">Accounts Payable</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_current_liab"/>
+        <field name="sequence">10</field>
+        <field name="code">BS_PAYABLES</field>
+        <field name="account_codes_formula">24</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+
+    <record id="bs_other_current_liab" model="account.report.line">
+        <field name="name">Other Current Liabilities</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_current_liab"/>
+        <field name="sequence">20</field>
+        <field name="code">BS_OTHER_CURRENT_LIAB</field>
+        <field name="account_codes_formula">25,26,27,28,29</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+
+    <record id="bs_total_current_liab" model="account.report.line">
+        <field name="name">Total Current Liabilities</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_current_liab"/>
+        <field name="sequence">99</field>
+        <field name="code">BS_TOTAL_CURRENT_LIAB</field>
+        <field name="aggregation_formula">BS_PAYABLES.balance + BS_OTHER_CURRENT_LIAB.balance</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+
+    <record id="bs_total_equity_liab" model="account.report.line">
+        <field name="name">TOTAL EQUITY &amp; LIABILITIES</field>
+        <field name="report_id" ref="balance_sheet"/>
+        <field name="parent_id" ref="bs_equity_liabilities"/>
+        <field name="sequence">99</field>
+        <field name="code">BS_TOTAL_EQUITY_LIAB</field>
+        <field name="aggregation_formula">BS_TOTAL_EQUITY.balance + BS_PROVISIONS.balance + BS_LONGTERM_LIAB.balance + BS_TOTAL_CURRENT_LIAB.balance</field>
+        <field name="hierarchy_level">6</field>
+    </record>
+</odoo>
