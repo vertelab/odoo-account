@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 2: Förutbetalda kostnader — BAS 1710
+         Slides: 4 (2 article, 1 infographic, 1 quiz)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s2" model="slide.slide">
+        <field name="name">2. Förutbetalda kostnader — BAS 1710</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="sequence">50</field>
+    </record>
+
+    <!-- SLIDE 2.1: När uppstår en förutbetald kostnad? -->
+    <record id="slide_s2_01" model="slide.slide">
+        <field name="name">När uppstår en förutbetald kostnad?</field>
+        <field name="sequence">60</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<![CDATA[
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #2d3748;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Förutbetalda kostnader</h1>
+        <p class="lead" style="text-align: center;">BAS 1710 — när du betalar för något som hör till framtiden.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Vad är en förutbetald kostnad?</h2>
+        <p>En förutbetald kostnad är en <strong>utgift som betalats under innevarande räkenskapsår men som avser nästkommande år</strong> (eller framtida perioder). Den ska aktiveras som en interimspost på konto <strong>1710 — Förutbetalda kostnader och upplupna intäkter</strong>.</p>
+        <p>1710 är ett <strong>tillgångskonto</strong> i balansräkningen. Det representerar ett värde — du har redan betalat för något du kommer att få nytta av i framtiden.</p>
+    </div>
+</section>
+
+<section class="s_media_list pt32 pb64 o_cc o_cc2">
+    <div class="container">
+        <div class="col-lg-12">
+            <h3>Vanliga situationer</h3>
+            <p class="lead">Här är de vanligaste fallen där förutbetalda kostnader uppstår:</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 s_media_list_item pt16 pb16" data-name="Media item">
+                <div class="row g-0 align-items-center o_cc o_cc1">
+                    <div class="col-lg-3 align-self-stretch text-center pt24 pb24">
+                        <i class="fa fa-building fa-3x text-primary"/>
+                    </div>
+                    <div class="col-lg-9 s_media_list_body">
+                        <h3>Lokalhyra</h3>
+                        <p>Hyra som betalas kvartalsvis eller årsvis i förskott. Exempel: Januarys hyresfaktura för Q1 — två månader avser februari-mars = förutbetald kostnad.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 s_media_list_item pt16 pb16" data-name="Media item">
+                <div class="row g-0 align-items-center o_cc o_cc1">
+                    <div class="col-lg-3 align-self-stretch text-center pt24 pb24">
+                        <i class="fa fa-shield fa-3x text-primary"/>
+                    </div>
+                    <div class="col-lg-9 s_media_list_body">
+                        <h3>Försäkringspremier</h3>
+                        <p>Företagsförsäkring, tjänstepension, ansvarsförsäkring. Betalas ofta årsvis men ska fördelas på månader.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 s_media_list_item pt16 pb16" data-name="Media item">
+                <div class="row g-0 align-items-center o_cc o_cc1">
+                    <div class="col-lg-3 align-self-stretch text-center pt24 pb24">
+                        <i class="fa fa-laptop fa-3x text-primary"/>
+                    </div>
+                    <div class="col-lg-9 s_media_list_body">
+                        <h3>Licenser och programvaruabonnemang</h3>
+                        <p>Årslicenser för mjukvara, SaaS-abonnemang, molntjänster. Faktureras ofta i förskott för hela perioden.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 s_media_list_item pt16 pb16" data-name="Media item">
+                <div class="row g-0 align-items-center o_cc o_cc1">
+                    <div class="col-lg-3 align-self-stretch text-center pt24 pb24">
+                        <i class="fa fa-wrench fa-3x text-primary"/>
+                    </div>
+                    <div class="col-lg-9 s_media_list_body">
+                        <h3>Serviceavtal</h3>
+                        <p>Underhållsavtal, supportkontrakt, service levels. Betalas periodiskt men avser framtida tjänster.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+]]>
+        </field>
+        <field name="description">Lär dig känna igen situationer där förutbetalda kostnader uppstår: hyra, försäkringar, licenser, serviceavtal.</field>
+    </record>
+
+    <!-- SLIDE 2.2: Så bokför du — Steg för steg -->
+    <record id="slide_s2_02" model="slide.slide">
+        <field name="name">Så bokför du — Steg för steg</field>
+        <field name="sequence">70</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.33</field>
+        <field name="html_content" type="html">
+<![CDATA[
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Så bokför du förutbetalda kostnader</h2>
+        <p>Vi använder samma exempel som tidigare: <strong>120 000 kr årshyra, betald i januari</strong>. Här är den fullständiga bokföringen steg för steg.</p>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb64">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-lg-6 pt16 pb16">
+                <h3 class="h4-fs">Steg 1 — Fakturabetalning (januari)</h3>
+                <table class="table table-bordered">
+                    <tr><th>Konto</th><th>Debet</th><th>Kredit</th></tr>
+                    <tr><td>1710 Förutbetald kostnad</td><td>120 000</td><td></td></tr>
+                    <tr><td>2440 Leverantörsskuld</td><td></td><td>120 000</td></tr>
+                </table>
+                <p class="small text-muted mt-3">Hela beloppet hamnar på 1710 — en tillgång i balansräkningen. Ännu ingen kostnad i resultaträkningen.</p>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <h3 class="h4-fs">Steg 2 — Månadsvis periodisering</h3>
+                <table class="table table-bordered">
+                    <tr><th>Konto</th><th>Debet</th><th>Kredit</th></tr>
+                    <tr><td>5010 Lokalhyra</td><td>10 000</td><td></td></tr>
+                    <tr><td>1710 Förutbetald kostnad</td><td></td><td>10 000</td></tr>
+                </table>
+                <p class="small text-muted mt-3">Varje månad: 10 000 kr flyttas från 1710 (BR) till 5010 (RR). Upprepas 12 gånger.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_process_steps pt72 pb72 s_process_steps_connector_line">
+    <div class="container">
+        <h2 class="mb-4 text-center h3-fs">Arbetsflöde — Från faktura till bokslut</h2>
+        <div class="row g-0">
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">1</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Identifiera</h3>
+                    <p>Hitta fakturor som avser framtida perioder</p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">2</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Bokför på 1710</h3>
+                    <p>Debitera 1710, kreditera 2440 vid fakturabetalning</p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">3</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Periodisera</h3>
+                    <p>Varje månad: debet 5010, kredit 1710</p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">4</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Bokslut</h3>
+                    <p>Kvarvarande saldo på 1710 = interimspost i BR</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Efter 12 månader</h3>
+                <p class="lead">1710 = 0 kr · 5010 = 120 000 kr. Kostnaden är fullt periodiserad och resultaträkningen visar rätt kostnad varje månad.</p>
+            </div>
+        </div>
+    </div>
+</section>
+]]>
+        </field>
+        <field name="description">Komplett genomgång av bokföringen: faktura → 1710 → månadsvis periodisering → bokslut. Med debet/kredit-tabeller och processchema.</field>
+    </record>
+
+    <!-- SLIDE 2.3: Periodiseringsflöde — Flödesschema (Infographic) -->
+    <record id="slide_s2_03" model="slide.slide">
+        <field name="name">Periodiseringsflöde — Flödesschema</field>
+        <field name="sequence">80</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.10</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/diagram_flow.png"/>
+        <field name="description">Flödesschema som visualiserar hela periodiseringsprocessen: från faktura till bokslut, med beslutspunkter.</field>
+    </record>
+
+    <!-- SLIDE 2.4: Quiz — BAS 1710 -->
+    <record id="slide_s2_04" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — BAS 1710</field>
+        <field name="sequence">90</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina kunskaper om förutbetalda kostnader och BAS 1710.</field>
+    </record>
+
+    <!-- Quiz S2 -->
+    <record id="slide_s2_04_q1" model="slide.question">
+        <field name="question">Vilket BAS-konto används för förutbetalda kostnader?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s2_04"/>
+    </record>
+    <record id="slide_s2_04_q1_a1" model="slide.answer">
+        <field name="text_value">1710 — Förutbetalda kostnader och upplupna intäkter</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! 1710 är kontot för förutbetalda kostnader. 2990 är för förutbetalda intäkter.</field>
+        <field name="question_id" ref="slide_s2_04_q1"/>
+    </record>
+    <record id="slide_s2_04_q1_a2" model="slide.answer">
+        <field name="text_value">1930 — Företagskonto</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 1930 är bankkonto — används inte för periodisering.</field>
+        <field name="question_id" ref="slide_s2_04_q1"/>
+    </record>
+    <record id="slide_s2_04_q1_a3" model="slide.answer">
+        <field name="text_value">2990 — Förutbetalda intäkter och upplupna kostnader</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 2990 används för förutbetalda intäkter — spegelsidan av 1710.</field>
+        <field name="question_id" ref="slide_s2_04_q1"/>
+    </record>
+
+    <record id="slide_s2_04_q2" model="slide.question">
+        <field name="question">Efter 12 månaders full periodisering av en årshyra på 120 000 kr — vad är saldot på konto 1710?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s2_04"/>
+    </record>
+    <record id="slide_s2_04_q2_a1" model="slide.answer">
+        <field name="text_value">120 000 kr</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 120 000 kr var ingående saldo — det reduceras varje månad.</field>
+        <field name="question_id" ref="slide_s2_04_q2"/>
+    </record>
+    <record id="slide_s2_04_q2_a2" model="slide.answer">
+        <field name="text_value">0 kr</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Efter full periodisering är 1710 nollställt. Hela beloppet har flyttats till kostnadskontot.</field>
+        <field name="question_id" ref="slide_s2_04_q2"/>
+    </record>
+    <record id="slide_s2_04_q2_a3" model="slide.answer">
+        <field name="text_value">10 000 kr</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 10 000 kr är månadsbeloppet — efter 12 månader har alla 12 × 10 000 kr flyttats.</field>
+        <field name="question_id" ref="slide_s2_04_q2"/>
+    </record>
+
+    <record id="slide_s2_04_q3" model="slide.question">
+        <field name="question">Vid bokslut 30/6. Hyran avser helår från 1/1, 120 000 kr. Hur mycket finns kvar på 1710?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s2_04"/>
+    </record>
+    <record id="slide_s2_04_q3_a1" model="slide.answer">
+        <field name="text_value">0 kr</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Endast 6 av 12 månader har gått — halva beloppet finns kvar.</field>
+        <field name="question_id" ref="slide_s2_04_q3"/>
+    </record>
+    <record id="slide_s2_04_q3_a2" model="slide.answer">
+        <field name="text_value">60 000 kr</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! 6 månader kvar (juli-dec) × 10 000 kr = 60 000 kr som avser nästa räkenskapsår.</field>
+        <field name="question_id" ref="slide_s2_04_q3"/>
+    </record>
+    <record id="slide_s2_04_q3_a3" model="slide.answer">
+        <field name="text_value">120 000 kr</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 6 månader à 10 000 kr har redan periodiserats (60 000 kr flyttat till 5010).</field>
+        <field name="question_id" ref="slide_s2_04_q3"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 1: Grundläggande periodisering
+         Slides: 4 (2 article, 1 infographic, 1 quiz)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s1" model="slide.slide">
+        <field name="name">1. Grundläggande periodisering</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="sequence">0</field>
+    </record>
+
+    <!-- SLIDE 1.1: Vad är periodisering? -->
+    <record id="slide_s1_01" model="slide.slide">
+        <field name="name">Vad är periodisering?</field>
+        <field name="sequence">10</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<![CDATA[
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200" data-scroll-background-ratio="1">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #1a365d;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Vad är periodisering?</h1>
+        <p class="lead" style="text-align: center;">Grunden i svensk redovisning — att fördela kostnader och intäkter över rätt period.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Periodiseringsprincipen</h2>
+        <p>Periodisering innebär att en <strong>kostnad eller intäkt fördelas över de perioder den avser</strong>, istället för att bokföras i sin helhet när fakturan anländer. Detta är en grundläggande princip i svensk redovisning och kallas <strong>accrual basis</strong> (bokföringsmässiga grunder).</p>
+        <p>Motsatsen är <strong>kontantmetoden</strong> — att bokföra när betalning sker. Kontantmetoden ger en missvisande bild av företagets resultat eftersom stora utbetalningar kan belasta en enskild månad.</p>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb64">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 pt16 pb16">
+                <h2 class="h3-fs">Två typer av periodisering</h2>
+                <p><strong>Förutbetald kostnad:</strong> Du har betalat för något som avser framtiden. Exempel: årsbetalning av försäkring i januari.</p>
+                <p><strong>Förutbetald intäkt:</strong> Du har fått betalt för tjänster du ännu inte levererat. Exempel: årsavgift för prenumeration.</p>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <table class="table table-bordered">
+                    <tr><th>Månad</th><th>Kostnad</th></tr>
+                    <tr><td>Januari</td><td>10 000 kr</td></tr>
+                    <tr><td>Februari</td><td>10 000 kr</td></tr>
+                    <tr><td colspan="2" style="text-align:center">…</td></tr>
+                    <tr><td>December</td><td>10 000 kr</td></tr>
+                    <tr><td><strong>Totalt</strong></td><td><strong>120 000 kr</strong></td></tr>
+                </table>
+                <p class="small text-muted">Exempel: 120 000 kr årshyra fördelas jämnt över 12 månader (10 000 kr/mån).</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Utan periodisering — vad händer?</h3>
+                <p class="lead">Hela 120 000 kr skulle belasta januari — en kraftigt missvisande bild av företagets resultat. Periodisering ger rättvisande redovisning.</p>
+            </div>
+        </div>
+    </div>
+</section>
+]]>
+        </field>
+        <field name="description">Introduktion till periodiseringsprincipen. Lär dig skillnaden mellan accrual basis och kontantmetoden, och se ett konkret exempel med årshyra.</field>
+    </record>
+
+    <!-- SLIDE 1.2: Lagkrav och regelverk -->
+    <record id="slide_s1_02" model="slide.slide">
+        <field name="name">Lagkrav och regelverk</field>
+        <field name="sequence">20</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<![CDATA[
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Svensk lag och normgivning</h2>
+        <p>Periodisering är inte valfritt — det är <strong>lagstadgat</strong> genom flera regelverk som tillsammans styr hur svenska företag ska redovisa.</p>
+    </div>
+</section>
+
+<section class="s_features pt32 pb64">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-gavel mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Bokföringslagen (BFL 1999:1078)</h3>
+                    <p><strong>5 kap:</strong> Löpande bokföring — alla affärshändelser ska bokföras löpande.<br/><strong>6 kap:</strong> Avslutande av bokföringen — årsbokslut och årsredovisning.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-balance-scale mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Årsredovisningslagen (ÅRL 1995:1554)</h3>
+                    <p><strong>2 kap 4§ — Periodiseringsprincipen:</strong> Intäkter och kostnader som är hänförliga till räkenskapsåret ska tas med oavsett tidpunkten för betalningen.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-book mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">BFNAR — Bokföringsnämndens allmänna råd</h3>
+                    <p><strong>K1 (BFNAR 2006:1):</strong> Förenklat årsbokslut. Små belopp.<br/><strong>K2 (BFNAR 2016:10):</strong> För mindre aktiebolag.<br/><strong>K3 (BFNAR 2012:1):</strong> Huvudregelverk. Full periodisering.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_block pt40 pb24">
+    <div class="container s_allow_columns">
+        <h2>BAS-kontoplanen — nyckelkonton</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="s_card card o_cc o_cc1 my-0">
+                    <div class="card-body">
+                        <h3 class="h5-fs card-title">1710 — Förutbetalda kostnader och upplupna intäkter</h3>
+                        <p class="card-text">Används för <strong>kostnader</strong> du betalat men som avser framtiden. Är en <strong>tillgång</strong> i balansräkningen.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="s_card card o_cc o_cc1 my-0">
+                    <div class="card-body">
+                        <h3 class="h5-fs card-title">2990 — Förutbetalda intäkter och upplupna kostnader</h3>
+                        <p class="card-text">Används för <strong>intäkter</strong> du fått betalt för men ej levererat. Är en <strong>skuld</strong> i balansräkningen.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+]]>
+        </field>
+        <field name="description">Genomgång av BFL, ÅRL, BFNAR (K1/K2/K3) och BAS-kontoplanens nyckelkonton 1710 och 2990.</field>
+    </record>
+
+    <!-- SLIDE 1.3: Regelverkshierarki (Infographic) -->
+    <record id="slide_s1_03" model="slide.slide">
+        <field name="name">Regelverkshierarki — Översikt</field>
+        <field name="sequence">30</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.10</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/diagram_rules.png"/>
+        <field name="description">Mindmap: Hierarkin för svensk redovisning — från lagar (BFL, ÅRL) via normgivning (BFNAR, RFR) till praxis (BAS-kontoplanen).</field>
+    </record>
+
+    <!-- SLIDE 1.4: Quiz — Grunderna -->
+    <record id="slide_s1_04" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — Grunderna</field>
+        <field name="sequence">40</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina kunskaper om periodiseringsprincipen, lagkrav och regelverk.</field>
+    </record>
+
+    <!-- QUIZ QUESTIONS -->
+
+    <record id="slide_s1_04_q1" model="slide.question">
+        <field name="question">Vad innebär periodiseringsprincipen?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s1_04"/>
+    </record>
+    <record id="slide_s1_04_q1_a1" model="slide.answer">
+        <field name="text_value">Alla transaktioner bokförs när betalning sker</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Detta är kontantmetoden — inte periodiseringsprincipen.</field>
+        <field name="question_id" ref="slide_s1_04_q1"/>
+    </record>
+    <record id="slide_s1_04_q1_a2" model="slide.answer">
+        <field name="text_value">Intäkter och kostnader redovisas i den period de hör hemma</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Periodiseringsprincipen enligt ÅRL 2 kap 4§ — oavsett betaltidpunkt.</field>
+        <field name="question_id" ref="slide_s1_04_q1"/>
+    </record>
+    <record id="slide_s1_04_q1_a3" model="slide.answer">
+        <field name="text_value">Alla konton ska ha samma saldo vid årets slut</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det finns inget krav på att alla konton ska ha samma saldo.</field>
+        <field name="question_id" ref="slide_s1_04_q1"/>
+    </record>
+
+    <record id="slide_s1_04_q2" model="slide.question">
+        <field name="question">Vilket regelverk är huvudregelverket för svensk redovisning?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s1_04"/>
+    </record>
+    <record id="slide_s1_04_q2_a1" model="slide.answer">
+        <field name="text_value">K1 (BFNAR 2006:1) — Förenklat årsbokslut</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! K1 är för enskilda firmor och ideella föreningar med förenklat årsbokslut.</field>
+        <field name="question_id" ref="slide_s1_04_q2"/>
+    </record>
+    <record id="slide_s1_04_q2_a2" model="slide.answer">
+        <field name="text_value">K2 (BFNAR 2016:10) — För mindre aktiebolag</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! K2 är ett frivilligt förenklingsregelverk för mindre företag.</field>
+        <field name="question_id" ref="slide_s1_04_q2"/>
+    </record>
+    <record id="slide_s1_04_q2_a3" model="slide.answer">
+        <field name="text_value">K3 (BFNAR 2012:1) — Huvudregelverket</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! K3 är huvudregelverket för svensk redovisning. K2 är ett frivilligt alternativ.</field>
+        <field name="question_id" ref="slide_s1_04_q2"/>
+    </record>
+
+    <record id="slide_s1_04_q3" model="slide.question">
+        <field name="question">En förutbetald kostnad på 120 000 kr för ett år periodiseras månadsvis. Hur mycket kostnadsförs per månad?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s1_04"/>
+    </record>
+    <record id="slide_s1_04_q3_a1" model="slide.answer">
+        <field name="text_value">120 000 kr</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Då skulle hela kostnaden tas på en månad — precis vad periodisering ska undvika.</field>
+        <field name="question_id" ref="slide_s1_04_q3"/>
+    </record>
+    <record id="slide_s1_04_q3_a2" model="slide.answer">
+        <field name="text_value">10 000 kr</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! 120 000 kr ÷ 12 månader = 10 000 kr per månad.</field>
+        <field name="question_id" ref="slide_s1_04_q3"/>
+    </record>
+    <record id="slide_s1_04_q3_a3" model="slide.answer">
+        <field name="text_value">5 000 kr</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 120 000 / 12 = 10 000, inte 5 000.</field>
+        <field name="question_id" ref="slide_s1_04_q3"/>
+    </record>
+
+</odoo>

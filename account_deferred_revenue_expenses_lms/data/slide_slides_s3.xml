@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 3: Förutbetalda intäkter — BAS 2990
+         Slides: 4 (2 article, 1 infographic, 1 quiz)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s3" model="slide.slide">
+        <field name="name">3. Förutbetalda intäkter — BAS 2990</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="sequence">100</field>
+    </record>
+
+    <!-- SLIDE 3.1: När uppstår en förutbetald intäkt? -->
+    <record id="slide_s3_01" model="slide.slide">
+        <field name="name">När uppstår en förutbetald intäkt?</field>
+        <field name="sequence">110</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.20</field>
+        <field name="html_content" type="html">
+<![CDATA[
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #276749;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Förutbetalda intäkter</h1>
+        <p class="lead" style="text-align: center;">BAS 2990 — när du får betalt innan du levererat.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Vad är en förutbetald intäkt?</h2>
+        <p>En förutbetald intäkt uppstår när du <strong>fakturerar och får betalt för tjänster eller produkter du ännu inte har levererat</strong>. Beloppet ska redovisas som en <strong>skuld</strong> på konto <strong>2990 — Förutbetalda intäkter och upplupna kostnader</strong>.</p>
+        <p>2990 är ett <strong>skuldkonto</strong> i balansräkningen. Du är skyldig kunden en tjänst eller produkt — det är inte din intäkt än.</p>
+    </div>
+</section>
+
+<section class="s_media_list pt32 pb64 o_cc o_cc2">
+    <div class="container">
+        <div class="col-lg-12">
+            <h3>Vanliga situationer</h3>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 s_media_list_item pt16 pb16" data-name="Media item">
+                <div class="row g-0 align-items-center o_cc o_cc1">
+                    <div class="col-lg-3 align-self-stretch text-center pt24 pb24">
+                        <i class="fa fa-calendar fa-3x text-success"/>
+                    </div>
+                    <div class="col-lg-9 s_media_list_body">
+                        <h3>Prenumerationer</h3>
+                        <p>SaaS-tjänster, tidningsprenumerationer, medlemskap. Kunden betalar för 12 månader i förskott.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 s_media_list_item pt16 pb16" data-name="Media item">
+                <div class="row g-0 align-items-center o_cc o_cc1">
+                    <div class="col-lg-3 align-self-stretch text-center pt24 pb24">
+                        <i class="fa fa-file-text fa-3x text-success"/>
+                    </div>
+                    <div class="col-lg-9 s_media_list_body">
+                        <h3>Serviceavtal fakturerade i förskott</h3>
+                        <p>Supportavtal, underhållskontrakt, konsulttimmar. Betalning sker periodiskt men tjänsten levereras löpande.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 s_media_list_item pt16 pb16" data-name="Media item">
+                <div class="row g-0 align-items-center o_cc o_cc1">
+                    <div class="col-lg-3 align-self-stretch text-center pt24 pb24">
+                        <i class="fa fa-home fa-3x text-success"/>
+                    </div>
+                    <div class="col-lg-9 s_media_list_body">
+                        <h3>Hyresintäkter</h3>
+                        <p>Fastighetsbolag får hyra i förskott. Intäkten ska periodiseras över hyresperioden.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+]]>
+        </field>
+        <field name="description">Lär dig känna igen situationer där förutbetalda intäkter uppstår: prenumerationer, serviceavtal, hyresintäkter.</field>
+    </record>
+
+    <!-- SLIDE 3.2: Så bokför du — Steg för steg -->
+    <record id="slide_s3_02" model="slide.slide">
+        <field name="name">Så bokför du — Steg för steg</field>
+        <field name="sequence">120</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<![CDATA[
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Så bokför du förutbetalda intäkter</h2>
+        <p>Exempel: <strong>60 000 kr prenumeration, 6 månader, fakturerad i januari</strong>. Samma logik som förutbetalda kostnader — men spegelvänt!</p>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb32">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-lg-6 pt16 pb16">
+                <h3 class="h4-fs">Steg 1 — Fakturering (januari)</h3>
+                <table class="table table-bordered">
+                    <tr><th>Konto</th><th>Debet</th><th>Kredit</th></tr>
+                    <tr><td>1510 Kundfordran</td><td>60 000</td><td></td></tr>
+                    <tr><td>2990 Förutbetald intäkt</td><td></td><td>60 000</td></tr>
+                </table>
+                <p class="small text-muted mt-3">Hela beloppet på 2990 (kredit) = skuld i balansräkningen. Du har fått betalt men inte levererat.</p>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <h3 class="h4-fs">Steg 2 — Månadsvis intäktsföring</h3>
+                <table class="table table-bordered">
+                    <tr><th>Konto</th><th>Debet</th><th>Kredit</th></tr>
+                    <tr><td>2990 Förutbetald intäkt</td><td>10 000</td><td></td></tr>
+                    <tr><td>3010 Försäljning</td><td></td><td>10 000</td></tr>
+                </table>
+                <p class="small text-muted mt-3">Varje månad: 10 000 kr flyttas från 2990 (BR/skuld) till 3010 (RR/intäkt).</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_comparisons pt48 pb64">
+    <div class="container">
+        <div class="mb-4">
+            <h3>Skillnad mot förutbetalda kostnader</h3>
+        </div>
+        <div class="row gap-4 gap-lg-0">
+            <div class="col-lg-6" data-name="Plan">
+                <div class="s_card card h-100 my-0" style="border-width: 2px; border-color: #e53e3e;">
+                    <div class="card-body">
+                        <h5 class="card-title">🔴 Förutbetald KOSTNAD (1710)</h5>
+                        <ul class="list-group list-group-flush text-start">
+                            <li class="list-group-item px-0 bg-transparent">Bokförs i <strong>debet</strong></li>
+                            <li class="list-group-item px-0 bg-transparent">Är en <strong>tillgång</strong></li>
+                            <li class="list-group-item px-0 bg-transparent">Periodisering: debet kostnadskonto</li>
+                            <li class="list-group-item px-0 bg-transparent">Minskar resultatet</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-name="Plan">
+                <div class="s_card card h-100 my-0" style="border-width: 2px; border-color: #38a169;">
+                    <div class="card-body">
+                        <h5 class="card-title">🟢 Förutbetald INTÄKT (2990)</h5>
+                        <ul class="list-group list-group-flush text-start">
+                            <li class="list-group-item px-0 bg-transparent">Bokförs i <strong>kredit</strong></li>
+                            <li class="list-group-item px-0 bg-transparent">Är en <strong>skuld</strong></li>
+                            <li class="list-group-item px-0 bg-transparent">Periodisering: kredit intäktskonto</li>
+                            <li class="list-group-item px-0 bg-transparent">Ökar resultatet</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+]]>
+        </field>
+        <field name="description">Komplett genomgång av bokföringen för förutbetalda intäkter — med jämförelse mot kostnadssidan.</field>
+    </record>
+
+    <!-- SLIDE 3.3: Kostnad vs Intäkt — Jämförelse (Infographic) -->
+    <record id="slide_s3_03" model="slide.slide">
+        <field name="name">Kostnad vs Intäkt — Jämförelse</field>
+        <field name="sequence">130</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.10</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/diagram_compare.png"/>
+        <field name="description">Jämförande flödesschema: förutbetalda kostnader (1710) vs förutbetalda intäkter (2990) sida vid sida.</field>
+    </record>
+
+    <!-- SLIDE 3.4: Quiz — BAS 2990 -->
+    <record id="slide_s3_04" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — BAS 2990</field>
+        <field name="sequence">140</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina kunskaper om förutbetalda intäkter och BAS 2990.</field>
+    </record>
+
+    <record id="slide_s3_04_q1" model="slide.question">
+        <field name="question">När du periodiserar en förutbetald intäkt — vilket konto krediteras varje månad?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s3_04"/>
+    </record>
+    <record id="slide_s3_04_q1_a1" model="slide.answer">
+        <field name="text_value">2990 — Förutbetalda intäkter</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 2990 debiteras vid periodisering (skulden minskar). Intäktskontot krediteras.</field>
+        <field name="question_id" ref="slide_s3_04_q1"/>
+    </record>
+    <record id="slide_s3_04_q1_a2" model="slide.answer">
+        <field name="text_value">3010 — Försäljning (intäktskonto)</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Vid periodisering: Debitera 2990, Kreditera 3010. Intäkten flyttas successivt till resultaträkningen.</field>
+        <field name="question_id" ref="slide_s3_04_q1"/>
+    </record>
+    <record id="slide_s3_04_q1_a3" model="slide.answer">
+        <field name="text_value">1710 — Förutbetalda kostnader</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 1710 är för kostnadssidan — denna fråga handlar om intäkter.</field>
+        <field name="question_id" ref="slide_s3_04_q1"/>
+    </record>
+
+    <record id="slide_s3_04_q2" model="slide.question">
+        <field name="question">En prenumeration på 60 000 kr för 6 månader. Hur mycket intäktsförs per månad?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s3_04"/>
+    </record>
+    <record id="slide_s3_04_q2_a1" model="slide.answer">
+        <field name="text_value">60 000 kr</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det skulle innebära att hela intäkten tas första månaden.</field>
+        <field name="question_id" ref="slide_s3_04_q2"/>
+    </record>
+    <record id="slide_s3_04_q2_a2" model="slide.answer">
+        <field name="text_value">10 000 kr</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! 60 000 ÷ 6 = 10 000 kr per månad.</field>
+        <field name="question_id" ref="slide_s3_04_q2"/>
+    </record>
+    <record id="slide_s3_04_q2_a3" model="slide.answer">
+        <field name="text_value">5 000 kr</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 60 000 / 6 = 10 000, inte 5 000.</field>
+        <field name="question_id" ref="slide_s3_04_q2"/>
+    </record>
+
+    <record id="slide_s3_04_q3" model="slide.question">
+        <field name="question">Vid bokslut — saldo på 2990 = 40 000 kr. Vad betyder det?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s3_04"/>
+    </record>
+    <record id="slide_s3_04_q3_a1" model="slide.answer">
+        <field name="text_value">Företaget har en fordran på 40 000 kr</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 2990 är inte en fordran — det är en skuld. Fordringar finns på 1510.</field>
+        <field name="question_id" ref="slide_s3_04_q3"/>
+    </record>
+    <record id="slide_s3_04_q3_a2" model="slide.answer">
+        <field name="text_value">Företaget har en skuld — tjänster för 40 000 kr är ej levererade</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! 2990 är en skuld i balansräkningen. Företaget har fått betalt men inte levererat tjänster för 40 000 kr.</field>
+        <field name="question_id" ref="slide_s3_04_q3"/>
+    </record>
+    <record id="slide_s3_04_q3_a3" model="slide.answer">
+        <field name="text_value">Företaget har gått med 40 000 kr i vinst</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Saldo på 2990 är en balanspost, inte ett resultat. Resultatet påverkas först när intäkten periodiseras.</field>
+        <field name="question_id" ref="slide_s3_04_q3"/>
+    </record>
+
+</odoo>

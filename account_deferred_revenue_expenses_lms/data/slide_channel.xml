@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
 
-    <!-- Periodisering — Grundkurs -->
+    <!-- ═══════════════════════════════════════════════════════════
+         Periodisering — Grundkurs i förutbetalda kostnader och intäkter
+         4 sektioner, 17 slides (9 article, 3 infographic, 1 video, 4 quiz)
+         ═══════════════════════════════════════════════════════════ -->
+
     <record id="slide_channel_deferred" model="slide.channel">
         <field name="name">Periodisering — Grundkurs i förutbetalda kostnader och intäkter</field>
         <field name="description">

@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 4: Periodisering i Odoo — Praktisk guide
+         Slides: 5 (3 article, 1 video, 1 quiz)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s4" model="slide.slide">
+        <field name="name">4. Periodisering i Odoo — Praktisk guide</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="sequence">150</field>
+    </record>
+
+    <!-- SLIDE 4.1: Kom igång — Skapa en periodiseringsmall -->
+    <record id="slide_s4_01" model="slide.slide">
+        <field name="name">Kom igång — Skapa en periodiseringsmall</field>
+        <field name="sequence">160</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<![CDATA[
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #553c9a;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Periodisering i Odoo</h1>
+        <p class="lead" style="text-align: center;">Praktisk guide till Deferred Revenue &amp; Expenses-modulen.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Modulens tre komponenter</h2>
+    </div>
+</section>
+
+<section class="s_features pt8 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-cog mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Periodiseringsmall</h3>
+                    <p><strong>Accrual Profile</strong> — Definierar vilka konton som används, periodlängd och antal perioder. Mallar kan återanvändas för liknande fakturor.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-list-alt mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Periodisering</h3>
+                    <p><strong>Deferred Entry</strong> — En specifik periodisering kopplad till en fakturarad med totalbelopp och startdatum.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-pencil-square-o mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Stubbar</h3>
+                    <p><strong>Stubs</strong> — En rad per period med datum och belopp. Varje stub kan postas som ett verifikat — en i taget eller alla på en gång.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb64">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 pt16 pb16">
+                <h2 class="h3-fs">Navigation</h2>
+                <p>Gå till <strong>Redovisning → Configuration → Deferred Expenses Template</strong>.</p>
+                <h3 class="h4-fs mt-4">Mallens fält</h3>
+                <table class="table table-bordered">
+                    <tr><th>Fält</th><th>Värde</th></tr>
+                    <tr><td>Periodiseringskonto</td><td>1710 eller 2990</td></tr>
+                    <tr><td>Kostnads-/intäktskonto</td><td>5010 eller 3010</td></tr>
+                    <tr><td>Period Length</td><td>Month / Quarter / Year</td></tr>
+                    <tr><td>Number of Periods</td><td>t.ex. 12 för ett år</td></tr>
+                </table>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <div class="s_card card o_cc o_cc1 my-0">
+                    <div class="card-body">
+                        <h3 class="h5-fs card-title">⚙️ Kryssrutan "Hämta konto från verifikatet"</h3>
+                        <p class="card-text"><strong>☑ Ikryssad:</strong> kostnadskontot hämtas från fakturaraden. Flexibelt när samma mall används för olika konton.</p>
+                        <p class="card-text"><strong>☐ Avmarkerad:</strong> mallens konto används alltid, oavsett fakturaradens konto. Strikt kontroll.</p>
+                    </div>
+                </div>
+                <div class="s_card card o_cc o_cc1 my-0 mt-3">
+                    <div class="card-body">
+                        <h3 class="h5-fs card-title">⚡ Skip Draft State</h3>
+                        <p class="card-text">Kryssa i för att periodiseringen ska bli aktiv direkt istället för att börja som utkast. Rekommenderas för effektivt arbetsflöde.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+]]>
+        </field>
+        <field name="description">Lär dig skapa periodiseringsmallar i Odoo: konton, periodlängd, antal perioder, och viktiga inställningar.</field>
+    </record>
+
+    <!-- SLIDE 4.2: Skapa och posta en periodisering -->
+    <record id="slide_s4_02" model="slide.slide">
+        <field name="name">Skapa och posta en periodisering</field>
+        <field name="sequence">170</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.33</field>
+        <field name="html_content" type="html">
+<![CDATA[
+<section class="s_process_steps pt72 pb72 s_process_steps_connector_line">
+    <div class="container">
+        <h2 class="mb-4 text-center h3-fs">Steg för steg — Skapa en periodisering</h2>
+        <div class="row g-0">
+            <div class="col-lg-2 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">1</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Öppna faktura</h3>
+                    <p>Gå till en leverantörs- eller kundfaktura</p>
+                </div>
+            </div>
+            <div class="col-lg-2 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">2</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Periodisering</h3>
+                    <p>Klicka på 📅 Periodisering-knappen</p>
+                </div>
+            </div>
+            <div class="col-lg-2 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">3</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Välj rad</h3>
+                    <p>Välj fakturarad — belopp och konto förifylls</p>
+                </div>
+            </div>
+            <div class="col-lg-2 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">4</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Välj mall</h3>
+                    <p>Välj periodiseringsmall — frekvens och antal perioder förifylls</p>
+                </div>
+            </div>
+            <div class="col-lg-2 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">5</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Create Stubs</h3>
+                    <p>Klicka för att generera alla periodiseringsrader</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_block pt0 pb64">
+    <div class="container s_allow_columns">
+        <h3>Posta stubbar</h3>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="s_card card o_cc o_cc1 my-0">
+                    <div class="card-body">
+                        <h3 class="h5-fs card-title">En i taget</h3>
+                        <p class="card-text">Öppna periodiseringen under <strong>Redovisning → Deferred Entries</strong>. Klicka <strong>Post</strong> på varje stub för att skapa verifikatet.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="s_card card o_cc o_cc1 my-0">
+                    <div class="card-body">
+                        <h3 class="h5-fs card-title">Alla på en gång</h3>
+                        <p class="card-text">Använd <strong>Post All Stubs</strong> för att posta alla stubbar samtidigt. Snabbt och effektivt — särskilt vid månadsbokslut.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Resultatet</h3>
+                <p class="lead">Efter att stubbarna postats: verifikaten syns i bokföringen, 1710/2990 visar rätt saldo, och resultaträkningen är korrekt periodiserad.</p>
+            </div>
+        </div>
+    </div>
+</section>
+]]>
+        </field>
+        <field name="description">Steg-för-steg guide: öppna faktura → klicka Periodisering → välj rad + mall → skapa stubbar → posta.</field>
+    </record>
+
+    <!-- SLIDE 4.3: Demo — Video -->
+    <record id="slide_s4_03" model="slide.slide">
+        <field name="name">🎥 Demo — Periodisera en faktura i Odoo</field>
+        <field name="sequence">180</field>
+        <field name="slide_category">video</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.15</field>
+        <field name="description">Skärminspelning: hela flödet från att öppna en faktura, skapa periodisering, generera stubbar, till att posta verifikat. Ca 8 minuter.</field>
+    </record>
+
+    <!-- SLIDE 4.4: Tips och bokslutsrutiner -->
+    <record id="slide_s4_04" model="slide.slide">
+        <field name="name">Tips och bokslutsrutiner</field>
+        <field name="sequence">190</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.20</field>
+        <field name="html_content" type="html">
+<![CDATA[
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Tips för effektiv periodisering i Odoo</h2>
+    </div>
+</section>
+
+<section class="s_features pt8 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-rocket mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Använd Skip Draft State</h3>
+                    <p>Periodiseringen blir direkt aktiv — slipper manuellt godkännande. Perfekt för standardflöden.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-list mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Posta i batch vid månadsbokslut</h3>
+                    <p>Använd Post All Stubs för alla periodiseringar samtidigt. En knapptryckning istället för 50+ manuella postningar.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="s_accordion">
+    <div class="container">
+        <h2 class="mb-4">Vanliga frågor</h2>
+        <div class="accordion">
+            <div class="accordion-item">
+                <button class="accordion-header accordion-button justify-content-between gap-2 bg-transparent h6-fs fw-bold" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true">
+                    <span>Vad gör jag vid bokslut?</span>
+                </button>
+                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#periodFAQ">
+                    <div class="accordion-body">
+                        <p>Posta alla stubbar med datum <strong>inom räkenskapsåret</strong>. Framtida stubbar lämnas som planerade — de är redan klara för nästa år. Inga extra bokslutsverifikat behövs — 1710/2990 visar automatiskt rätt saldo.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold" data-bs-toggle="collapse" data-bs-target="#faq2">
+                    <span>Kan jag ändra en redan skapad periodisering?</span>
+                </button>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#periodFAQ">
+                    <div class="accordion-body">
+                        <p>Ej postade stubbar kan raderas och återskapas. Redan postade stubbar har blivit verifikat — dessa måste reverseras manuellt. <strong>Tips:</strong> Dubbelkolla belopp och perioder innan du postar.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold" data-bs-toggle="collapse" data-bs-target="#faq3">
+                    <span>Vad händer om fakturabeloppet ändras?</span>
+                </button>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#periodFAQ">
+                    <div class="accordion-body">
+                        <p>Periodiseringen kopplas till fakturaraden. Om beloppet ändras måste periodiseringen raderas och skapas på nytt. Ej postade stubbar kan raderas utan konsekvenser.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold" data-bs-toggle="collapse" data-bs-target="#faq4">
+                    <span>Kan jag ha olika mallar för kostnader och intäkter?</span>
+                </button>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#periodFAQ">
+                    <div class="accordion-body">
+                        <p>Ja! Skapa separata mallar: en för kostnader (periodiseringskonto 1710, kostnadskonto 5010) och en för intäkter (periodiseringskonto 2990, intäktskonto 3010). Använd tydliga namn som "Hyra 12 mån" och "Prenumeration 6 mån".</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>]]>
+        </field>
+        <field name="description">Praktiska tips: batch-posta vid bokslut, hantera ändringar, FAQ om vanliga problem och lösningar.</field>
+    </record>
+
+    <!-- SLIDE 4.5: Quiz — Odoo -->
+    <record id="slide_s4_05" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — Odoo</field>
+        <field name="sequence">200</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina praktiska kunskaper om periodisering i Odoo.</field>
+    </record>
+
+    <!-- Quiz S4 -->
+    <record id="slide_s4_05_q1" model="slide.question">
+        <field name="question">Vad gör kryssrutan "Hämta konto från verifikatet" på en periodiseringsmall?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s4_05"/>
+    </record>
+    <record id="slide_s4_05_q1_a1" model="slide.answer">
+        <field name="text_value">Hämtar periodiseringskontot från fakturaraden</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Periodiseringskontot (1710/2990) hämtas alltid från mallen.</field>
+        <field name="question_id" ref="slide_s4_05_q1"/>
+    </record>
+    <record id="slide_s4_05_q1_a2" model="slide.answer">
+        <field name="text_value">Hämtar kostnadskontot från fakturaraden</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Ikryssad = kostnadskontot hämtas från fakturaraden istället för från mallen.</field>
+        <field name="question_id" ref="slide_s4_05_q1"/>
+    </record>
+    <record id="slide_s4_05_q1_a3" model="slide.answer">
+        <field name="text_value">Skickar mallens konto tillbaka till fakturan</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det fungerar tvärtom — fakturaradens konto hämtas till periodiseringen.</field>
+        <field name="question_id" ref="slide_s4_05_q1"/>
+    </record>
+
+    <record id="slide_s4_05_q2" model="slide.question">
+        <field name="question">Vad händer med framtida stubbar vid bokslut?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s4_05"/>
+    </record>
+    <record id="slide_s4_05_q2_a1" model="slide.answer">
+        <field name="text_value">De postas automatiskt</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Endast stubbar inom räkenskapsåret ska postas.</field>
+        <field name="question_id" ref="slide_s4_05_q2"/>
+    </record>
+    <record id="slide_s4_05_q2_a2" model="slide.answer">
+        <field name="text_value">De lämnas som planerade för nästa år</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Framtida stubbar lämnas orörda — de är redan planerade och klara för nästa räkenskapsår.</field>
+        <field name="question_id" ref="slide_s4_05_q2"/>
+    </record>
+    <record id="slide_s4_05_q2_a3" model="slide.answer">
+        <field name="text_value">De raderas och måste återskapas nästa år</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Stubbarna raderas inte — de finns kvar som planerade och kan postas när deras datum infaller.</field>
+        <field name="question_id" ref="slide_s4_05_q2"/>
+    </record>
+
+    <record id="slide_s4_05_q3" model="slide.question">
+        <field name="question">Vilken knapp använder du för att generera periodiseringsraderna?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s4_05"/>
+    </record>
+    <record id="slide_s4_05_q3_a1" model="slide.answer">
+        <field name="text_value">Post</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Post används för att skapa verifikat från redan genererade stubbar.</field>
+        <field name="question_id" ref="slide_s4_05_q3"/>
+    </record>
+    <record id="slide_s4_05_q3_a2" model="slide.answer">
+        <field name="text_value">Create Stubs</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Create Stubs genererar alla periodiseringsrader baserat på mallens periodlängd och antal perioder.</field>
+        <field name="question_id" ref="slide_s4_05_q3"/>
+    </record>
+    <record id="slide_s4_05_q3_a3" model="slide.answer">
+        <field name="text_value">Generate Entries</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Knappen heter "Create Stubs" i Odoos deferred-modul.</field>
+        <field name="question_id" ref="slide_s4_05_q3"/>
+    </record>
+
+</odoo>

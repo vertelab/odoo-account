@@ -3,7 +3,7 @@
 
 {
     'name': 'Deferred Revenue & Expenses: Training (LMS)',
-    'version': '18.0.1.0.0',
+    'version': '18.0.2.0.0',
     'summary': 'Swedish periodization training via website_slides',
     'category': 'Accounting/Training',
     'author': 'Vertel AB',
@@ -15,22 +15,23 @@ Deferred Revenue & Expenses LMS
 ===============================
 Training material delivered as website_slides courses.
 
-Topics:
-- Förutbetalda kostnader (BAS 1710)
-- Förutbetalda intäkter (BAS 2990)
-- Periodisering enligt BFL och BFNAR
-- Using the Deferred Revenue & Expenses module in Odoo
+4 sections, 17 slides total:
+- Section 1: Grundläggande periodisering (teori + lagkrav + quiz)
+- Section 2: Förutbetalda kostnader — BAS 1710 (bokföring + quiz)
+- Section 3: Förutbetalda intäkter — BAS 2990 (bokföring + quiz)
+- Section 4: Periodisering i Odoo — praktisk guide (demo + quiz)
+
+Includes Mermaid-generated diagrams and Odoo page builder articles.
     """,
     'depends': [
-        'account_deferred_revenue_expenses',
         'website_slides',
     ],
     'data': [
         'data/slide_channel.xml',
-        'data/slide_slides_basics.xml',
-        'data/slide_slides_expense.xml',
-        'data/slide_slides_income.xml',
-        'data/slide_slides_odoo.xml',
+        'data/slide_slides_s1.xml',
+        'data/slide_slides_s2.xml',
+        'data/slide_slides_s3.xml',
+        'data/slide_slides_s4.xml',
     ],
     'installable': True,
     'application': False,
