@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="account_deferred_wizard_form">
+            <field name="name">account.deferred.wizard.form</field>
+            <field name="model">account.deferred.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Create Deferred Entry">
+                    <field name="company_id" invisible="1"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="move_id" invisible="1"/>
+
+                    <div class="alert alert-info" role="alert" style="margin-bottom: 16px;">
+                        <i class="fa fa-calendar" aria-hidden="true"/>
+                        Spread the selected invoice line amount over multiple periods.
+                    </div>
+
+                    <group col="2">
+                        <field name="profile_id" string="Template"/>
+
+                        <field name="amount" string="Periodiseringsbelopp"/>
+                        <field name="start_date" string="Start Date"/>
+
+                        <field name="period_account_id" string="Periodiseringskonto"/>
+                        <field name="expense_account_id" string="Kostnads-/intäktskonto"/>
+
+                        <field name="frequency" string="Frequency"/>
+                        <field name="period_count" string="Perioder"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Notes">
+                            <field name="notes" placeholder="Optional description…" nolabel="1"/>
+                        </page>
+
+                        <page string="Invoice">
+                            <group>
+                                <field name="move_line_id" string="Invoice Line" options="{'no_create': True, 'no_create_edit': True}" placeholder="Select the line to defer..."/>
+                            </group>
+                        </page>
+                    </notebook>
+
+                    <footer>
+                        <button name="action_create" string="Create Stubs" type="object" class="btn-primary" icon="fa-check"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="account_deferred_wizard_action" model="ir.actions.act_window">
+            <field name="name">Create Deferred Entry</field>
+            <field name="res_model">account.deferred.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_view_types">form</field>
+        </record>
+
+        <record id="account_deferred_wizard_action_line" model="ir.actions.act_window">
+            <field name="name">Periodisera</field>
+            <field name="res_model">account.deferred.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="account.model_account_move_line"/>
+            <field name="binding_view_types">form</field>
+        </record>
+
+    </data>
+</odoo>

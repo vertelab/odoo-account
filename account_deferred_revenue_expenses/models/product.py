@@ -1,15 +1,13 @@
 import logging
-from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+from odoo import models, fields
 
 _logger = logging.getLogger(__name__)
 
-# https://stackoverflow.com/questions/356323/cant-add-all-files-to-git-due-to-permissions
+
 class Product(models.Model):
     _inherit = "product.product"
 
-    deferred_expense_profile_id = fields.Many2one(
-        "account.asset.profile", string="Accrual Template",
-        help="Makes accounting more simple when using deferred template."
+    deferred_profile_id = fields.Many2one(
+        "account.deferred.profile", string="Accrual Template",
+        help="Default accrual profile when this product is used on an invoice line.",
     )
-

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ═══════════════════════════════════════════════════════════
+             DEFERRED ENTRY FORM
+             ═══════════════════════════════════════════════════════════ -->
+        <record model="ir.ui.view" id="account_deferred_form_view">
+            <field name="name">account.deferred.form</field>
+            <field name="model">account.deferred</field>
+            <field name="arch" type="xml">
+                <form string="Deferred Entry">
+                    <header>
+                        <button name="action_confirm" string="Confirm"
+                                type="object" class="oe_highlight"
+                                invisible="state != 'draft'"/>
+                        <button name="action_draft" string="Set to Draft"
+                                type="object"
+                                invisible="state not in ['open', 'close']"
+                                groups="account.group_account_manager"/>
+                        <button name="action_close" string="Close"
+                                type="object"
+                                invisible="state != 'open'"/>
+                        <button name="action_post_all_stubs"
+                                string="Post All Stubs"
+                                type="object"
+                                invisible="state != 'open'"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,open,close"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Closed"
+                                bg_color="bg-muted" invisible="state != 'close'"/>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_open_stubs"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-calendar">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="posted_count"/>
+                                    </span>
+                                    <span class="o_stat_text">/ <field name="line_count"/> Posted</span>
+                                </div>
+                            </button>
+                            <button name="action_open_origin_move"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-file-text-o"
+                                    invisible="not move_id">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Origin</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+
+                        <group>
+                            <group string="General">
+                                <field name="code" string="Reference"/>
+                                <field name="profile_id"/>
+                                <field name="rec_type" string="Type"/>
+                                <field name="partner_id"/>
+                                <field name="company_id" widget="selection"
+                                       groups="base.group_multi_company"/>
+                            </group>
+                            <group string="Amounts">
+                                <field name="amount_total" string="Total Amount"/>
+                                <field name="value_residual" string="Remaining"/>
+                                <field name="date_start" string="Start Date"/>
+                            </group>
+                        </group>
+
+                        <group string="Accounts">
+                            <group>
+                                <field name="account_depreciation_id" string="Periodiseringskonto"/>
+                            </group>
+                            <group>
+                                <field name="account_expense_id" string="Expense/Income Account"/>
+                                <field name="journal_id"/>
+                            </group>
+                        </group>
+
+                        <group string="Schedule">
+                            <group>
+                                <field name="method_period" string="Period Length"/>
+                                <field name="method_number" string="Number of Periods"/>
+                            </group>
+                            <group string="Options">
+                                <field name="allow_reversal"/>
+                                <field name="analytic_distribution"
+                                       widget="analytic_distribution"
+                                       groups="analytic.group_analytic_accounting"/>
+                            </group>
+                        </group>
+
+                        <notebook colspan="4">
+                            <page string="Stubs">
+                                <field name="line_ids" readonly="state == 'close'">
+                                    <list decoration-success="posted == True">
+                                        <field name="sequence" optional="hide"/>
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="amount"/>
+                                        <field name="posted" widget="boolean_fa"/>
+                                        <field name="move_id" string="Move"/>
+                                        <button name="action_create_move"
+                                                type="object"
+                                                icon="fa-plus-circle"
+                                                string="Post"
+                                                invisible="posted or parent.state == 'close'"/>
+                                        <button name="action_open_move"
+                                                type="object"
+                                                icon="fa-folder-open-o"
+                                                string="View"
+                                                invisible="not posted"/>
+                                        <button name="action_unlink_move"
+                                                type="object"
+                                                icon="fa-times"
+                                                string="Unlink"
+                                                invisible="not posted"
+                                                confirm="Remove the journal entry for this stub?"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════════════
+             DEFERRED ENTRY LIST
+             ═══════════════════════════════════════════════════════════ -->
+        <record model="ir.ui.view" id="account_deferred_list_view">
+            <field name="name">account.deferred.list</field>
+            <field name="model">account.deferred</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="code" optional="show"/>
+                    <field name="rec_type" optional="show"/>
+                    <field name="partner_id" optional="show"/>
+                    <field name="amount_total" sum="Total"/>
+                    <field name="value_residual" optional="show"/>
+                    <field name="date_start" optional="show"/>
+                    <field name="posted_count" string="Posted"/>
+                    <field name="line_count" string="Stubs"/>
+                    <field name="state" widget="badge"
+                           decoration-success="state == 'open'"
+                           decoration-muted="state == 'close'"
+                           decoration-info="state == 'draft'"/>
+                    <field name="company_id" groups="base.group_multi_company"
+                           optional="show"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════════════
+             DEFERRED ENTRY SEARCH
+             ═══════════════════════════════════════════════════════════ -->
+        <record model="ir.ui.view" id="account_deferred_search_view">
+            <field name="name">account.deferred.search</field>
+            <field name="model">account.deferred</field>
+            <field name="arch" type="xml">
+                <search string="Search Deferred Entry">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="partner_id"/>
+                    <field name="profile_id"/>
+                    <separator/>
+                    <filter string="Draft" name="draft"
+                            domain="[('state', '=', 'draft')]"/>
+                    <filter string="Running" name="running"
+                            domain="[('state', '=', 'open')]"/>
+                    <filter string="Closed" name="closed"
+                            domain="[('state', '=', 'close')]"/>
+                    <separator/>
+                    <filter string="Expense" name="expense"
+                            domain="[('rec_type', '=', 'deferred_expense')]"/>
+                    <filter string="Income" name="income"
+                            domain="[('rec_type', '=', 'deferred_income')]"/>
+                    <group name="groupby">
+                        <filter name="profile_groupby" string="Profile"
+                                context="{'group_by': 'profile_id'}"/>
+                        <filter name="state_groupby" string="Status"
+                                context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════════════
+             ACTIONS & MENUS
+             ═══════════════════════════════════════════════════════════ -->
+        <record id="account_deferred_action" model="ir.actions.act_window">
+            <field name="name">Deferred Entries</field>
+            <field name="res_model">account.deferred</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="account_deferred_search_view"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'list', 'view_id': ref('account_deferred_list_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('account_deferred_form_view')})]"/>
+        </record>
+
+        <menuitem id="account_deferred_menu"
+                  action="account_deferred_action"
+                  parent="account.menu_finance_entries"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ── Button on account.move.line form view ─────────────── -->
+        <record model="ir.ui.view" id="view_move_line_form_deferred">
+            <field name="name">account.move.line.form.deferred</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_deferred_wizard"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-calendar"
+                                groups="account.group_account_invoice">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Periodisera</span>
+                            </div>
+                        </button>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

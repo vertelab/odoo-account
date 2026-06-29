@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_deferred_profile,access_account_deferred_profile,model_account_deferred_profile,base.group_user,1,1,1,1
+access_account_deferred,access_account_deferred,model_account_deferred,account.group_account_invoice,1,1,1,1
+access_account_deferred_line,access_account_deferred_line,model_account_deferred_line,account.group_account_invoice,1,1,1,1
+access_account_deferred_wizard,access_account_deferred_wizard,model_account_deferred_wizard,base.group_user,1,1,1,1

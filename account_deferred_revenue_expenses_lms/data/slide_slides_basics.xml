@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="slide_basics_01" model="slide.slide">
+        <field name="name">Vad är periodisering?</field>
+        <field name="sequence">10</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="description">
+<![CDATA[
+<h2>Vad är periodisering?</h2>
+
+<p>Periodisering innebär att en kostnad eller intäkt fördelas över de perioder den avser,
+istället för att bokföras i sin helhet när fakturan anländer.</p>
+
+<h3>Varför periodiserar vi?</h3>
+<p>Enligt <strong>Bokföringslagen (BFL)</strong> och <strong>god redovisningssed</strong> ska
+intäkter och kostnader redovisas i den period de hör hemma — oavsett när betalningen sker.
+Detta kallas <strong>periodiseringsprincipen</strong> (accrual basis).</p>
+
+<h3>Två typer</h3>
+<ul>
+<li><strong>Förutbetald kostnad:</strong> Du har betalat för något som avser framtiden.
+Exempel: årsbetalning av försäkring i januari.</li>
+<li><strong>Förutbetald intäkt:</strong> Du har fått betalt för tjänster du ännu inte levererat.
+Exempel: årsavgift för prenumeration.</li>
+</ul>
+
+<h3>Exempel: Hyra</h3>
+<p>Företaget betalar 120 000 kr för ett års hyra i januari.</p>
+<table class="table table-bordered">
+<tr><th>Månad</th><th>Kostnad</th></tr>
+<tr><td>Januari</td><td>10 000 kr</td></tr>
+<tr><td>Februari</td><td>10 000 kr</td></tr>
+<tr><td>…</td><td>…</td></tr>
+<tr><td>December</td><td>10 000 kr</td></tr>
+<tr><td><strong>Totalt</strong></td><td><strong>120 000 kr</strong></td></tr>
+</table>
+<p>Utan periodisering skulle hela beloppet belasta januari — vilket ger en missvisande bild.</p>
+]]>
+        </field>
+    </record>
+
+    <record id="slide_basics_02" model="slide.slide">
+        <field name="name">Lagkrav och regelverk</field>
+        <field name="sequence">20</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="description">
+<![CDATA[
+<h2>Lagkrav och regelverk</h2>
+
+<h3>Bokföringslagen (BFL 1999:1078)</h3>
+<ul>
+<li><strong>5 kap:</strong> Löpande bokföring — alla affärshändelser ska bokföras</li>
+<li><strong>6 kap:</strong> Avslutande av bokföringen — årsbokslut och årsredovisning</li>
+</ul>
+
+<h3>Årsredovisningslagen (ÅRL 1995:1554)</h3>
+<p><strong>2 kap 4§ — Periodiseringsprincipen:</strong> Intäkter och kostnader som är
+hänförliga till räkenskapsåret ska tas med oavsett tidpunkten för betalningen.</p>
+
+<h3>BFNAR — Bokföringsnämndens allmänna råd</h3>
+<ul>
+<li><strong>K1 (BFNAR 2006:1):</strong> Förenklat årsbokslut. Periodisering under 5000 kr per post krävs ej.</li>
+<li><strong>K2 (BFNAR 2016:10):</strong> Schablonregler för mindre aktiebolag.</li>
+<li><strong>K3 (BFNAR 2012:1):</strong> Huvudregelverk. Fullständig periodisering.</li>
+</ul>
+
+<h3>BAS-kontoplanen</h3>
+<ul>
+<li><strong>1710:</strong> Förutbetalda kostnader och upplupna intäkter</li>
+<li><strong>2990:</strong> Förutbetalda intäkter och upplupna kostnader</li>
+</ul>
+]]>
+        </field>
+    </record>
+
+</odoo>

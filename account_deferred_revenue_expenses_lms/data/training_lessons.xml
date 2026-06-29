@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ═══════════════ Basics ═══════════════ -->
+
+        <record id="lesson_basics_what" model="account.deferred.lms.lesson">
+            <field name="name">Vad är periodisering?</field>
+            <field name="sequence">10</field>
+            <field name="category_id" ref="account_deferred_revenue_expenses_lms.category_basics"/>
+            <field name="overview">
+&lt;p&gt;Periodisering innebär att en kostnad eller intäkt fördelas över de perioder den avser,
+istället för att bokföras i sin helhet när fakturan anländer. Detta är en grundläggande
+princip i svensk redovisning.&lt;/p&gt;
+            </field>
+            <field name="theory">
+&lt;h3&gt;Varför periodiserar vi?&lt;/h3&gt;
+&lt;p&gt;Enligt &lt;strong&gt;Bokföringslagen (BFL)&lt;/strong&gt; och &lt;strong&gt;god redovisningssed&lt;/strong&gt; ska
+intäkter och kostnader redovisas i den period de hör hemma — oavsett när betalningen sker.
+Detta kallas &lt;strong&gt;periodiseringsprincipen&lt;/strong&gt; (accrual basis).&lt;/p&gt;
+
+&lt;h3&gt;Två typer av periodisering&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Förutbetald kostnad:&lt;/strong&gt; Du har betalat för något som avser framtiden.
+Exempel: årsbetalning av försäkring i januari.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Förutbetald intäkt:&lt;/strong&gt; Du har fått betalt för tjänster du ännu inte levererat.
+Exempel: årsavgift för prenumeration.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Exempel&lt;/h3&gt;
+&lt;p&gt;Företaget betalar 120&amp;nbsp;000 kr för ett års hyra i januari.&lt;/p&gt;
+&lt;table class="table table-bordered"&gt;
+&lt;tr&gt;&lt;th&gt;Period&lt;/th&gt;&lt;th&gt;Kostnad&lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Januari&lt;/td&gt;&lt;td&gt;10&amp;nbsp;000 kr&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Februari&lt;/td&gt;&lt;td&gt;10&amp;nbsp;000 kr&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2"&gt;…&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;December&lt;/td&gt;&lt;td&gt;10&amp;nbsp;000 kr&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Totalt&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;120&amp;nbsp;000 kr&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;Utan periodisering skulle hela 120&amp;nbsp;000 kr belasta januari — vilket ger en
+missvisande bild av företagets resultat.&lt;/p&gt;
+            </field>
+            <field name="law_refs">
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;BFL 5 kap&lt;/strong&gt; — Löpande bokföring&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ÅRL 2 kap 4§&lt;/strong&gt; — Periodiseringsprincipen&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;BFNAR 2016:10 (K2)&lt;/strong&gt; kap 2 — Grundläggande principer&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;BFNAR 2012:1 (K3)&lt;/strong&gt; — Periodisering&lt;/li&gt;
+&lt;/ul&gt;
+            </field>
+            <field name="bas_accounts">1710, 2990, 1790</field>
+        </record>
+
+        <!-- ═══════════════ Expense ═══════════════ -->
+
+        <record id="lesson_expense" model="account.deferred.lms.lesson">
+            <field name="name">Förutbetalda kostnader — BAS 1710</field>
+            <field name="sequence">10</field>
+            <field name="category_id" ref="account_deferred_revenue_expenses_lms.category_expense"/>
+            <field name="overview">
+&lt;p&gt;Förutbetalda kostnader är utgifter som betalats under innevarande räkenskapsår
+men som avser nästkommande år (eller perioder). De ska aktiveras som en
+interimspost på konto &lt;strong&gt;1710 Förutbetalda kostnader och upplupna
+intäkter&lt;/strong&gt;.&lt;/p&gt;
+            </field>
+            <field name="theory">
+&lt;h3&gt;När uppstår en förutbetald kostnad?&lt;/h3&gt;
+&lt;p&gt;Vanliga situationer:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hyra som betalas i förskott&lt;/li&gt;
+&lt;li&gt;Försäkringspremier&lt;/li&gt;
+&lt;li&gt;Licenser och programvaruabonnemang&lt;/li&gt;
+&lt;li&gt;Serviceavtal&lt;/li&gt;
+&lt;li&gt;Konsulttjänster betalda i förskott&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Hur bokförs det?&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Vid fakturabetalning:&lt;/strong&gt;&lt;/p&gt;
+&lt;table class="table table-bordered"&gt;
+&lt;tr&gt;&lt;th&gt;Konto&lt;/th&gt;&lt;th&gt;Debet&lt;/th&gt;&lt;th&gt;Kredit&lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;1710 Förutbetald kostnad&lt;/td&gt;&lt;td&gt;120 000&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;2440 Leverantörsskuld&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;120 000&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;Vid varje periodisering (månadsvis):&lt;/strong&gt;&lt;/p&gt;
+&lt;table class="table table-bordered"&gt;
+&lt;tr&gt;&lt;th&gt;Konto&lt;/th&gt;&lt;th&gt;Debet&lt;/th&gt;&lt;th&gt;Kredit&lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;5010 Lokalhyra&lt;/td&gt;&lt;td&gt;10 000&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;1710 Förutbetald kostnad&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;10 000&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;Efter 12 månader är 1710-kontot nollställt.&lt;/p&gt;
+            </field>
+            <field name="procedure">
+&lt;h3&gt;Steg-för-steg&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Identifiera fakturan som avser framtida perioder&lt;/li&gt;
+&lt;li&gt;Bokför fakturan med det periodiserade beloppet på 1710&lt;/li&gt;
+&lt;li&gt;Skapa en periodiseringsplan för den aktuella perioden&lt;/li&gt;
+&lt;li&gt;Varje period: debitera kostnadskontot, kreditera 1710&lt;/li&gt;
+&lt;li&gt;Vid bokslut: säkerställ att rätt belopp finns kvar på 1710 för nästa år&lt;/li&gt;
+&lt;/ol&gt;
+            </field>
+            <field name="law_refs">
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;BFL 5 kap&lt;/strong&gt; — Löpande bokföring&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ÅRL 2 kap 4§&lt;/strong&gt; — Periodiseringsprincipen&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;BFL 6 kap&lt;/strong&gt; — Avslutande av bokföringen&lt;/li&gt;
+&lt;/ul&gt;
+            </field>
+            <field name="bas_accounts">1710, 5010, 6310, 5410, 2440</field>
+        </record>
+
+        <!-- ═══════════════ Income ═══════════════ -->
+
+        <record id="lesson_income" model="account.deferred.lms.lesson">
+            <field name="name">Förutbetalda intäkter — BAS 2990</field>
+            <field name="sequence">10</field>
+            <field name="category_id" ref="account_deferred_revenue_expenses_lms.category_income"/>
+            <field name="overview">
+&lt;p&gt;Förutbetalda intäkter uppstår när du fakturerar och får betalt för tjänster
+eller produkter du ännu inte har levererat. Beloppet ska redovisas som en skuld
+på konto &lt;strong&gt;2990 Förutbetalda intäkter och upplupna kostnader&lt;/strong&gt;.&lt;/p&gt;
+            </field>
+            <field name="theory">
+&lt;h3&gt;Exempel&lt;/h3&gt;
+&lt;p&gt;Företaget fakturerar 60&amp;nbsp;000 kr för en 6-månaders prenumeration i januari.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Vid fakturering:&lt;/strong&gt;&lt;/p&gt;
+&lt;table class="table table-bordered"&gt;
+&lt;tr&gt;&lt;th&gt;Konto&lt;/th&gt;&lt;th&gt;Debet&lt;/th&gt;&lt;th&gt;Kredit&lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;1510 Kundfordran&lt;/td&gt;&lt;td&gt;60 000&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;2990 Förutbetald intäkt&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;60 000&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;Vid varje periodisering (månadsvis):&lt;/strong&gt;&lt;/p&gt;
+&lt;table class="table table-bordered"&gt;
+&lt;tr&gt;&lt;th&gt;Konto&lt;/th&gt;&lt;th&gt;Debet&lt;/th&gt;&lt;th&gt;Kredit&lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;2990 Förutbetald intäkt&lt;/td&gt;&lt;td&gt;10 000&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;3010 Försäljning&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;10 000&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+            </field>
+            <field name="procedure">
+&lt;h3&gt;Steg-för-steg&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Identifiera intäkter som avser framtida leveranser&lt;/li&gt;
+&lt;li&gt;Bokför fakturan med beloppet på 2990 (kredit)&lt;/li&gt;
+&lt;li&gt;Skapa en periodiseringsplan&lt;/li&gt;
+&lt;li&gt;Varje period: debitera 2990, kreditera intäktskontot&lt;/li&gt;
+&lt;li&gt;Vid bokslut: kontrollera att rätt belopp finns på 2990 för nästa år&lt;/li&gt;
+&lt;/ol&gt;
+            </field>
+            <field name="law_refs">
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;BFL 5 kap&lt;/strong&gt; — Löpande bokföring&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ÅRL 2 kap 4§&lt;/strong&gt; — Periodiseringsprincipen&lt;/li&gt;
+&lt;/ul&gt;
+            </field>
+            <field name="bas_accounts">2990, 3010, 3310, 1510</field>
+        </record>
+
+        <!-- ═══════════════ Odoo ═══════════════ -->
+
+        <record id="lesson_odoo" model="account.deferred.lms.lesson">
+            <field name="name">Periodisering i Odoo — Praktisk guide</field>
+            <field name="sequence">10</field>
+            <field name="category_id" ref="account_deferred_revenue_expenses_lms.category_odoo"/>
+            <field name="overview">
+&lt;p&gt;Så här använder du Deferred Revenue &amp; Expenses-modulen i Odoo för att
+automatisera din periodisering.&lt;/p&gt;
+            </field>
+            <field name="theory">
+&lt;h3&gt;Modulens komponenter&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Periodiseringsmall (Accrual Profile):&lt;/strong&gt; Definierar vilka konton som
+används, periodlängd och antal perioder.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Periodisering (Deferred Entry):&lt;/strong&gt; En specifik periodisering kopplad
+till en fakturarad med totalbelopp och startdatum.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Stubbar (Stubs):&lt;/strong&gt; En rad per period med datum och belopp.
+Varje stub kan postas som ett verifikat.&lt;/li&gt;
+&lt;/ul&gt;
+            </field>
+            <field name="procedure">
+&lt;h3&gt;Steg-för-steg i Odoo&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Gå till &lt;b&gt;Redovisning → Configuration → Deferred Expenses Template&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;Skapa en ny mall med rätt konton:&lt;br/&gt;
+    Periodiseringskonto = 1710 (eller 2990 för intäkter)&lt;br/&gt;
+    Kostnads-/intäktskonto = 5010 (eller 3010)&lt;/li&gt;
+&lt;li&gt;Öppna en faktura och klicka på knappen &lt;b&gt;Periodisering&lt;/b&gt; i headern&lt;/li&gt;
+&lt;li&gt;Välj fakturarad — belopp och konto förifylls&lt;/li&gt;
+&lt;li&gt;Välj mall — frekvens och antal perioder förifylls&lt;/li&gt;
+&lt;li&gt;Klicka &lt;b&gt;Create Stubs&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;Periodiseringen skapas med alla stubbar. Posta en i taget eller alla på en gång.&lt;/li&gt;
+&lt;/ol&gt;
+            </field>
+            <field name="practice">
+&lt;h3&gt;Tips&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Kryssrutan &lt;b&gt;Hämta konto från verifikatet&lt;/b&gt; på mallen styr om
+kostnadskontot hämtas från fakturaraden eller tvingas från mallen.&lt;/li&gt;
+&lt;li&gt;Använd &lt;b&gt;Skip Draft State&lt;/b&gt; för att periodiseringen ska bli aktiv direkt.&lt;/li&gt;
+&lt;li&gt;Vid bokslut: posta alla stubbar med datum inom räkenskapsåret.
+Framtida stubbar lämnas som planerade.&lt;/li&gt;
+&lt;/ul&gt;
+            </field>
+            <field name="law_refs">
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;BFNAR 2013:2 kap 8&lt;/strong&gt; — Systemdokumentation&lt;/li&gt;
+&lt;/ul&gt;
+            </field>
+            <field name="bas_accounts">1710, 2990, 5010, 3010</field>
+        </record>
+
+    </data>
+</odoo>

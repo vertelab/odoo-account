@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="category_basics" model="account.deferred.lms.category">
+            <field name="name">Grundläggande periodisering</field>
+            <field name="sequence">10</field>
+            <field name="description">
+&lt;p&gt;Grunderna i periodisering: vad det är, varför vi gör det, och hur svensk lag och praxis styr
+periodisering av kostnader och intäkter.&lt;/p&gt;
+            </field>
+        </record>
+
+        <record id="category_expense" model="account.deferred.lms.category">
+            <field name="name">Förutbetalda kostnader</field>
+            <field name="sequence">20</field>
+            <field name="description">
+&lt;p&gt;Hur du hanterar förutbetalda kostnader: hyra, försäkringar, licenser och andra
+återkommande utgifter som spänner över flera perioder. BAS 1710.&lt;/p&gt;
+            </field>
+        </record>
+
+        <record id="category_income" model="account.deferred.lms.category">
+            <field name="name">Förutbetalda intäkter</field>
+            <field name="sequence">30</field>
+            <field name="description">
+&lt;p&gt;Hur du hanterar förutbetalda intäkter: prenumerationer, tjänster som faktureras i förskott.
+BAS 2990.&lt;/p&gt;
+            </field>
+        </record>
+
+        <record id="category_odoo" model="account.deferred.lms.category">
+            <field name="name">Periodisering i Odoo</field>
+            <field name="sequence">40</field>
+            <field name="description">
+&lt;p&gt;Praktisk guide till periodisering med Odoos Deferred Revenue &amp; Expenses-modul:
+skapa mallar, skapa periodiseringar, posta stubbar, och hantera bokslut.&lt;/p&gt;
+            </field>
+        </record>
+
+    </data>
+</odoo>
