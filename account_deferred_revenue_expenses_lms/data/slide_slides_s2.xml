@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
+<odoo>
+    <data noupdate="1">
 
     <!-- ═══════════════════════════════════════════════════
          SEKTION 2: Förutbetalda kostnader — BAS 1710
@@ -24,7 +25,6 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.25</field>
         <field name="html_content" type="html">
-<![CDATA[
 <section class="s_cover parallax o_cc o_cc5 pt200 pb200">
     <span class="s_parallax_bg oe_img_bg" style="background-color: #2d3748;"/>
     <div class="container">
@@ -95,7 +95,6 @@
         </div>
     </div>
 </section>
-]]>
         </field>
         <field name="description">Lär dig känna igen situationer där förutbetalda kostnader uppstår: hyra, försäkringar, licenser, serviceavtal.</field>
     </record>
@@ -110,7 +109,6 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.33</field>
         <field name="html_content" type="html">
-<![CDATA[
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Så bokför du förutbetalda kostnader</h2>
@@ -197,7 +195,6 @@
         </div>
     </div>
 </section>
-]]>
         </field>
         <field name="description">Komplett genomgång av bokföringen: faktura → 1710 → månadsvis periodisering → bokslut. Med debet/kredit-tabeller och processchema.</field>
     </record>
@@ -213,6 +210,19 @@
         <field name="completion_time">0.10</field>
         <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/diagram_flow.png"/>
         <field name="description">Flödesschema som visualiserar hela periodiseringsprocessen: från faktura till bokslut, med beslutspunkter.</field>
+    </record>
+
+    <!-- SLIDE 2.3b: T-konto visualisering — Så rör sig pengarna -->
+    <record id="slide_s2_03b" model="slide.slide">
+        <field name="name">T-konto visualisering — Så rör sig pengarna</field>
+        <field name="sequence">85</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.10</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/diagram_t_account.png"/>
+        <field name="description">T-konto visualisering: Hur beloppet rör sig från balansräkningen (1710) till resultaträkningen (5010) över 12 månader, med debet/kredit-flöden.</field>
     </record>
 
     <!-- SLIDE 2.4: Quiz — BAS 1710 -->
@@ -313,4 +323,59 @@
         <field name="question_id" ref="slide_s2_04_q3"/>
     </record>
 
+    <record id="slide_s2_04_q4" model="slide.question">
+        <field name="question">En förutbetald kostnad på 1710 klassificeras i balansräkningen som:</field>
+        <field name="sequence">4</field>
+        <field name="slide_id" ref="slide_s2_04"/>
+    </record>
+    <record id="slide_s2_04_q4_a1" model="slide.answer">
+        <field name="text_value">En skuld</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! 1710 är en tillgång — du har betalat för något du ännu inte förbrukat.</field>
+        <field name="question_id" ref="slide_s2_04_q4"/>
+    </record>
+    <record id="slide_s2_04_q4_a2" model="slide.answer">
+        <field name="text_value">En tillgång (omläggningstillgång)</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! 1710 är en tillgång i balansräkningen — klassificeras som omsättningstillgång (interimspost).</field>
+        <field name="question_id" ref="slide_s2_04_q4"/>
+    </record>
+    <record id="slide_s2_04_q4_a3" model="slide.answer">
+        <field name="text_value">En kostnad i resultaträkningen</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Kostnaden syns i RR först när beloppet periodiseras (flyttas från 1710 till 5010).</field>
+        <field name="question_id" ref="slide_s2_04_q4"/>
+    </record>
+
+    <record id="slide_s2_04_q5" model="slide.question">
+        <field name="question">Vilket påstående om moms vid förutbetalda kostnader är korrekt?</field>
+        <field name="sequence">5</field>
+        <field name="slide_id" ref="slide_s2_04"/>
+    </record>
+    <record id="slide_s2_04_q5_a1" model="slide.answer">
+        <field name="text_value">Momsen periodiseras tillsammans med kostnaden</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Momsen lyfts i sin helhet vid fakturatillfället — endast kostnadsdelen periodiseras.</field>
+        <field name="question_id" ref="slide_s2_04_q5"/>
+    </record>
+    <record id="slide_s2_04_q5_a2" model="slide.answer">
+        <field name="text_value">Momsen lyfts direkt vid fakturatillfället — endast kostnadsbeloppet periodiseras</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Momsen bokförs mot 2640 och lyfts i sin helhet när fakturan bokförs. Periodiseringen avser endast kostnadsdelen (exkl. moms).</field>
+        <field name="question_id" ref="slide_s2_04_q5"/>
+    </record>
+    <record id="slide_s2_04_q5_a3" model="slide.answer">
+        <field name="text_value">Momsen får inte lyftas förrän kostnaden är helt periodiserad</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Momsen lyfts vid fakturatillfället oavsett periodisering — detta regleras i ML 13 kap.</field>
+        <field name="question_id" ref="slide_s2_04_q5"/>
+    </record>
+
+    </data>
 </odoo>

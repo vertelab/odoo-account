@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
+<odoo>
+    <data noupdate="1">
 
     <!-- ═══════════════════════════════════════════════════
          SEKTION 4: Periodisering i Odoo — Praktisk guide
@@ -24,7 +25,6 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.25</field>
         <field name="html_content" type="html">
-<![CDATA[
 <section class="s_cover parallax o_cc o_cc5 pt200 pb200">
     <span class="s_parallax_bg oe_img_bg" style="background-color: #553c9a;"/>
     <div class="container">
@@ -100,7 +100,6 @@
         </div>
     </div>
 </section>
-]]>
         </field>
         <field name="description">Lär dig skapa periodiseringsmallar i Odoo: konton, periodlängd, antal perioder, och viktiga inställningar.</field>
     </record>
@@ -115,7 +114,6 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.33</field>
         <field name="html_content" type="html">
-<![CDATA[
 <section class="s_process_steps pt72 pb72 s_process_steps_connector_line">
     <div class="container">
         <h2 class="mb-4 text-center h3-fs">Steg för steg — Skapa en periodisering</h2>
@@ -203,7 +201,6 @@
         </div>
     </div>
 </section>
-]]>
         </field>
         <field name="description">Steg-för-steg guide: öppna faktura → klicka Periodisering → välj rad + mall → skapa stubbar → posta.</field>
     </record>
@@ -230,7 +227,6 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.20</field>
         <field name="html_content" type="html">
-<![CDATA[
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Tips för effektiv periodisering i Odoo</h2>
@@ -304,9 +300,167 @@
             </div>
         </div>
     </div>
-</div>]]>
+</div>
         </field>
         <field name="description">Praktiska tips: batch-posta vid bokslut, hantera ändringar, FAQ om vanliga problem och lösningar.</field>
+    </record>
+
+    <!-- SLIDE 4.4b: Praktisk övning — Periodisera själv -->
+    <record id="slide_s4_04b" model="slide.slide">
+        <field name="name">✏️ Gör det själv — Periodisera en faktura</field>
+        <field name="sequence">195</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.50</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #b83280;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Gör det själv!</h1>
+        <p class="lead" style="text-align: center;">Praktisk övning — använd det du lärt dig för att periodisera en riktig faktura.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Övning: Periodisera en försäkringspremie</h2>
+        <p><strong>Scenario:</strong> Ditt företag har fått en faktura på företagsförsäkring. Fakturan avser perioden <strong>1 april 2026 – 31 mars 2027</strong> och är på <strong>48 000 kr exkl. moms (6 000 kr moms)</strong>. Dagens datum är 15 april 2026.</p>
+        <p><strong>Uppgift:</strong> Genomför hela periodiseringsflödet i Odoo steg för steg. Svara på frågorna nedan i takt med att du arbetar.</p>
+    </div>
+</section>
+
+<section class="s_process_steps pt72 pb72 s_process_steps_connector_line">
+    <div class="container">
+        <h2 class="mb-4 text-center h3-fs">Steg-för-steg — Din checklista</h2>
+        <div class="row g-0">
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">1</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Skapa mall</h3>
+                    <p>Skapa en periodiseringsmall "Försäkring 12 mån" med rätt konton</p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">2</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Skapa periodisering</h3>
+                    <p>Periodisera fakturaraden — kontrollera att belopp och startdatum stämmer</p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">3</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Generera stubbar</h3>
+                    <p>Klicka Create Stubs — kontrollera att alla 12 stubbar skapats</p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">4</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Posta och verifiera</h3>
+                    <p>Posta April-stubben. Kontrollera verifikatet och 1710-saldot.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_block pt40 pb32">
+    <div class="container s_allow_columns">
+        <h2>Kontrollfrågor — svara när du är klar</h2>
+    </div>
+</section>
+
+<section class="s_features pt8 pb64">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-question-circle mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Fråga 1 — Mallen</h3>
+                    <p>Vilket konto använde du som <strong>periodiseringskonto</strong> i mallen? Varför?</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-question-circle mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Fråga 2 — Antal stubbar</h3>
+                    <p>Hur många stubbar genererades? Varför just detta antal?</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-question-circle mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Fråga 3 — Belopp per stub</h3>
+                    <p>Vilket belopp har varje stub? Visa beräkningen (48 000 ÷ 12 = ?).</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-question-circle mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Fråga 4 — Bokslut 30/6</h3>
+                    <p>Vid bokslut 30 juni 2026 — vad är saldot på 1710? Hur många månader avser nästa räkenskapsår?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_comparisons pt48 pb64">
+    <div class="container">
+        <div class="mb-4">
+            <h3>Facit — Kontrollera dina svar</h3>
+        </div>
+        <div class="row gap-4 gap-lg-0">
+            <div class="col-lg-6" data-name="Plan">
+                <div class="s_card card h-100 my-0">
+                    <div class="card-body">
+                        <h5 class="card-title">Svar 1–2: Mallen &amp; stubbar</h5>
+                        <ul class="list-group list-group-flush text-start">
+                            <li class="list-group-item px-0 bg-transparent"><strong>Periodiseringskonto:</strong> 1710 (förutbetald kostnad — försäkringen är en kostnad som avser framtida månader)</li>
+                            <li class="list-group-item px-0 bg-transparent"><strong>Kostnadskonto:</strong> t.ex. 6310 Företagsförsäkring</li>
+                            <li class="list-group-item px-0 bg-transparent"><strong>Antal stubbar:</strong> 12 (en per månad, april–mars)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-name="Plan">
+                <div class="s_card card h-100 my-0">
+                    <div class="card-body">
+                        <h5 class="card-title">Svar 3–4: Belopp &amp; bokslut</h5>
+                        <ul class="list-group list-group-flush text-start">
+                            <li class="list-group-item px-0 bg-transparent"><strong>Belopp per stub:</strong> 4 000 kr (48 000 ÷ 12). Moms 6 000 kr hanteras separat på konto 2640.</li>
+                            <li class="list-group-item px-0 bg-transparent"><strong>Bokslut 30/6:</strong> 1710 = 36 000 kr (9 månader kvar: juli–mars). 3 månader (april–juni) är redan periodiserade = 12 000 kr.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Bra jobbat!</h3>
+                <p class="lead">Du har nu genomfört en komplett periodisering i Odoo. Gå vidare till quizen för att testa dina samlade kunskaper.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Praktisk övning: Följ en steg-för-steg checklista för att periodisera en försäkringspremie i Odoo. Med facit för självkontroll.</field>
     </record>
 
     <!-- SLIDE 4.5: Quiz — Odoo -->
@@ -407,4 +561,59 @@
         <field name="question_id" ref="slide_s4_05_q3"/>
     </record>
 
+    <record id="slide_s4_05_q4" model="slide.question">
+        <field name="question">Vad gör funktionen "Skip Draft State" på en periodiseringsmall?</field>
+        <field name="sequence">4</field>
+        <field name="slide_id" ref="slide_s4_05"/>
+    </record>
+    <record id="slide_s4_05_q4_a1" model="slide.answer">
+        <field name="text_value">Periodiseringen hoppar över alla stubbar och postar direkt</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Stubbarna skapas fortfarande — de blir bara direkt aktiva istället för utkast.</field>
+        <field name="question_id" ref="slide_s4_05_q4"/>
+    </record>
+    <record id="slide_s4_05_q4_a2" model="slide.answer">
+        <field name="text_value">Periodiseringen blir aktiv direkt utan manuellt godkännande</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Skip Draft State gör att periodiseringen går direkt till aktiv status istället för att börja som utkast.</field>
+        <field name="question_id" ref="slide_s4_05_q4"/>
+    </record>
+    <record id="slide_s4_05_q4_a3" model="slide.answer">
+        <field name="text_value">Mallen raderas efter att stubbarna skapats</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Mallen finns kvar — den kan återanvändas för andra fakturor.</field>
+        <field name="question_id" ref="slide_s4_05_q4"/>
+    </record>
+
+    <record id="slide_s4_05_q5" model="slide.question">
+        <field name="question">Du har periodiserat en faktura men upptäcker att beloppet var fel. Vad gör du?</field>
+        <field name="sequence">5</field>
+        <field name="slide_id" ref="slide_s4_05"/>
+    </record>
+    <record id="slide_s4_05_q5_a1" model="slide.answer">
+        <field name="text_value">Ändrar beloppet direkt på stubbarna</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Postade stubbar har blivit verifikat och kan inte ändras direkt.</field>
+        <field name="question_id" ref="slide_s4_05_q5"/>
+    </record>
+    <record id="slide_s4_05_q5_a2" model="slide.answer">
+        <field name="text_value">Raderar periodiseringen (om ej postad) och skapar en ny med korrekt belopp</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Ej postade stubbar kan raderas och periodiseringen återskapas. Postade stubbar måste reverseras manuellt.</field>
+        <field name="question_id" ref="slide_s4_05_q5"/>
+    </record>
+    <record id="slide_s4_05_q5_a3" model="slide.answer">
+        <field name="text_value">Låter periodiseringen vara — Odoo justerar automatiskt</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Odoo justerar inte periodiseringsbelopp automatiskt — du måste åtgärda det manuellt.</field>
+        <field name="question_id" ref="slide_s4_05_q5"/>
+    </record>
+
+    </data>
 </odoo>

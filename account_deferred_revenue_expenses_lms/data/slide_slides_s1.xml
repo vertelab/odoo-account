@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
+<odoo>
+    <data noupdate="1">
 
     <!-- ═══════════════════════════════════════════════════
          SEKTION 1: Grundläggande periodisering
@@ -24,7 +25,6 @@
         <field name="is_preview" eval="True"/>
         <field name="completion_time">0.25</field>
         <field name="html_content" type="html">
-<![CDATA[
 <section class="s_cover parallax o_cc o_cc5 pt200 pb200" data-scroll-background-ratio="1">
     <span class="s_parallax_bg oe_img_bg" style="background-color: #1a365d;"/>
     <div class="container">
@@ -74,7 +74,6 @@
         </div>
     </div>
 </section>
-]]>
         </field>
         <field name="description">Introduktion till periodiseringsprincipen. Lär dig skillnaden mellan accrual basis och kontantmetoden, och se ett konkret exempel med årshyra.</field>
     </record>
@@ -89,7 +88,6 @@
         <field name="is_preview" eval="True"/>
         <field name="completion_time">0.25</field>
         <field name="html_content" type="html">
-<![CDATA[
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Svensk lag och normgivning</h2>
@@ -148,7 +146,6 @@
         </div>
     </div>
 </section>
-]]>
         </field>
         <field name="description">Genomgång av BFL, ÅRL, BFNAR (K1/K2/K3) och BAS-kontoplanens nyckelkonton 1710 och 2990.</field>
     </record>
@@ -265,4 +262,59 @@
         <field name="question_id" ref="slide_s1_04_q3"/>
     </record>
 
+    <record id="slide_s1_04_q4" model="slide.question">
+        <field name="question">Vad innebär principen om bokföringsmässiga grunder (accrual basis)?</field>
+        <field name="sequence">4</field>
+        <field name="slide_id" ref="slide_s1_04"/>
+    </record>
+    <record id="slide_s1_04_q4_a1" model="slide.answer">
+        <field name="text_value">Att alla transaktioner bokförs samma dag som de betalas</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det är kontantprincipen — motsatsen till accrual basis.</field>
+        <field name="question_id" ref="slide_s1_04_q4"/>
+    </record>
+    <record id="slide_s1_04_q4_a2" model="slide.answer">
+        <field name="text_value">Att intäkter och kostnader redovisas när de uppstår, oavsett betalningstidpunkt</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Accrual basis (bokföringsmässiga grunder) innebär att transaktionen redovisas när den ekonomiska händelsen inträffar.</field>
+        <field name="question_id" ref="slide_s1_04_q4"/>
+    </record>
+    <record id="slide_s1_04_q4_a3" model="slide.answer">
+        <field name="text_value">Att alla konton måste balansera vid månadsskifte</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Att konton balanserar är dubbel bokföring — inte accrual basis.</field>
+        <field name="question_id" ref="slide_s1_04_q4"/>
+    </record>
+
+    <record id="slide_s1_04_q5" model="slide.question">
+        <field name="question">Vilket av följande är INTE ett giltigt alternativ enligt BFNAR?</field>
+        <field name="sequence">5</field>
+        <field name="slide_id" ref="slide_s1_04"/>
+    </record>
+    <record id="slide_s1_04_q5_a1" model="slide.answer">
+        <field name="text_value">K1 — Förenklat årsbokslut (BFNAR 2006:1)</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! K1 är ett giltigt regelverk för enskilda firmor och ideella föreningar.</field>
+        <field name="question_id" ref="slide_s1_04_q5"/>
+    </record>
+    <record id="slide_s1_04_q5_a2" model="slide.answer">
+        <field name="text_value">K2 — Förenklingsregelverk för mindre aktiebolag (BFNAR 2016:10)</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! K2 är ett giltigt och vanligt alternativ för mindre AB.</field>
+        <field name="question_id" ref="slide_s1_04_q5"/>
+    </record>
+    <record id="slide_s1_04_q5_a3" model="slide.answer">
+        <field name="text_value">K4 — Internationell redovisningsstandard (BFNAR 2020:5)</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! K4 existerar inte. De giltiga nivåerna är K1, K2, K3 och IFRS (via RFR).</field>
+        <field name="question_id" ref="slide_s1_04_q5"/>
+    </record>
+
+    </data>
 </odoo>

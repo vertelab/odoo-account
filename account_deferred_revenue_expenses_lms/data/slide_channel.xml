@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
+<odoo>
+    <data noupdate="1">
 
     <!-- ═══════════════════════════════════════════════════════════
          Periodisering — Grundkurs i förutbetalda kostnader och intäkter
@@ -18,4 +19,5 @@ och praktisk användning av Deferred Revenue &amp; Expenses-modulen i Odoo.
         <field name="is_published" eval="True"/>
     </record>
 
+    </data>
 </odoo>

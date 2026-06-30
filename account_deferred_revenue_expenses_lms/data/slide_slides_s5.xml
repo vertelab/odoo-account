@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 5: Så fungerar Odoo-modulen — Teknisk guide
+         Slides: 5 (2 article, 2 infographic, 1 quiz)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s5" model="slide.slide">
+        <field name="name">5. Så fungerar Odoo-modulen — Teknisk guide</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="sequence">210</field>
+    </record>
+
+    <!-- SLIDE 5.1: Modularkitektur — Översikt (Infographic) -->
+    <record id="slide_s5_01" model="slide.slide">
+        <field name="name">Modularkitektur — Översikt</field>
+        <field name="sequence">220</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.10</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/diagram_module_arch.png"/>
+        <field name="description">Modulens arkitektur: account.deferred.profile (mallar), account.deferred (periodiseringar), account.deferred.line (stubbar), wizard, och integration med account.move (fakturor/verifikat).</field>
+    </record>
+
+    <!-- SLIDE 5.2: Konfiguration — Skapa en periodiseringsmall -->
+    <record id="slide_s5_02" model="slide.slide">
+        <field name="name">Konfiguration — Skapa en periodiseringsmall</field>
+        <field name="sequence">230</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.33</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #6b46c1;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Konfiguration</h1>
+        <p class="lead" style="text-align: center;">Skapa periodiseringsmallar — grunden för automatiserad periodisering.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Var hittar du mallarna?</h2>
+        <p>Navigera till <strong>Redovisning → Configuration → Deferred Expenses Template</strong> (för kostnader) eller <strong>Deferred Revenue Template</strong> (för intäkter). Dessa menyer finns under Accounting-appens konfigurationsmeny.</p>
+        <p>Varje mall definierar <strong>hur</strong> en periodisering ska fungera — från konton till periodlängd. En mall kan återanvändas för hundratals fakturor.</p>
+    </div>
+</section>
+
+<section class="s_features pt32 pb64">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-tag mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Namn &amp; Typ</h3>
+                    <p>Ge mallen ett tydligt namn som "Hyra 12 mån". Välj <strong>Deferred Expense</strong> för kostnader eller <strong>Deferred Income</strong> för intäkter.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-calculator mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Konton</h3>
+                    <p><strong>Periodiseringskonto:</strong> 1710 (kostnad) eller 2990 (intäkt) — balansräkningen.<br/><strong>Kostnads-/intäktskonto:</strong> 5010, 3010 etc. — resultaträkningen.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-clock-o mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Period &amp; Antal</h3>
+                    <p>Välj <strong>Monthly</strong>, <strong>Quarterly</strong> eller <strong>Yearly</strong>. Antal perioder: t.ex. 12 för ett år, 4 för kvartalsvis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb64">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 pt16 pb16">
+                <h2 class="h3-fs">Viktiga inställningar</h2>
+                <table class="table table-bordered">
+                    <tr><th>Inställning</th><th>Effekt</th></tr>
+                    <tr><td><strong>Skip Draft State</strong></td><td>Periodiseringen blir aktiv direkt (rekommenderas)</td></tr>
+                    <tr><td><strong>Hämta konto från verifikatet</strong></td><td>Kostnadskontot hämtas från fakturaraden — flexibelt för olika konton</td></tr>
+                    <tr><td><strong>Allow Reversal</strong></td><td>Postade stubbar kan reverseras istället för raderas</td></tr>
+                    <tr><td><strong>Journal</strong></td><td>Vilken journal periodiseringsverifikaten skapas i (vanligen Diverse)</td></tr>
+                </table>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <div class="s_card card o_cc o_cc1 my-0">
+                    <div class="card-body">
+                        <h3 class="h5-fs card-title">⚡ Pro-tips</h3>
+                        <p class="card-text">Koppla mallen till en <strong>produkt</strong> (via produktformuläret → Accounting-fliken → Deferred Profile). Då väljs mallen automatiskt när du periodiserar en fakturarad med den produkten!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Steg-för-steg: Skapa en periodiseringsmall i Odoo — navigering, fält, konton, perioder, och viktiga inställningar som Skip Draft State.</field>
+    </record>
+
+    <!-- SLIDE 5.3: Dagligt arbete — Skapa en periodisering -->
+    <record id="slide_s5_03" model="slide.slide">
+        <field name="name">Dagligt arbete — Skapa en periodisering</field>
+        <field name="sequence">240</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.33</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Från faktura till periodisering</h2>
+        <p>När en faktura anländer och innehåller en kostnad eller intäkt som avser framtida perioder, använder du <strong>Periodiserings-wizard:en</strong> för att skapa en deferred entry. Här är hela flödet steg för steg.</p>
+    </div>
+</section>
+
+<section class="s_process_steps pt72 pb72 s_process_steps_connector_line">
+    <div class="container">
+        <h2 class="mb-4 text-center h3-fs">Arbetsflöde — Daglig periodisering</h2>
+        <div class="row g-0">
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light">
+                    <h3 class="mb-0 text-primary text-center">1</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Öppna faktura</h3>
+                    <p>Gå till leverantörs- eller kundfakturan i Odoo</p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light">
+                    <h3 class="mb-0 text-primary text-center">2</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Välj fakturarad</h3>
+                    <p>Markera raden med beloppet som ska periodiseras</p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light">
+                    <h3 class="mb-0 text-primary text-center">3</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Klicka Periodisering</h3>
+                    <p>Knappen 📅 <strong>Periodisering</strong> visas på fakturaraden — klicka den</p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light">
+                    <h3 class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light">4</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Fyll i wizard</h3>
+                    <p>Kontrollera belopp, startdatum, mall — klicka Create Stubs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_block pt0 pb32">
+    <div class="container s_allow_columns">
+        <h2>Wizard:en i detalj</h2>
+        <p>När du klickar Periodisering öppnas en popup (wizard) med följande fält:</p>
+    </div>
+</section>
+
+<section class="s_features pt8 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-list-alt mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Template</h3>
+                    <p>Välj periodiseringsmall. Om fakturaradens produkt har en kopplad mall — fylls den i automatiskt.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-money mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Periodiseringsbelopp</h3>
+                    <p>Förifylls med fakturaradens belopp. Kan justeras om bara en del ska periodiseras.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-calendar mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Start Date</h3>
+                    <p>Förifylls med fakturans datum. Ändra om periodiseringen ska börja en annan månad.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-cogs mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Frequency &amp; Perioder</h3>
+                    <p>Hämtas från mallen. Kan tillfälligt justeras i wizard:en för engångsavvikelser.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Komplett genomgång av wizard-flödet: öppna faktura → markera rad → klicka Periodisering → fyll i wizard → Create Stubs. Med fält-för-fält förklaring.</field>
+    </record>
+
+    <!-- SLIDE 5.4: Wizard-flöde — Sequence Diagram (Infographic) -->
+    <record id="slide_s5_04" model="slide.slide">
+        <field name="name">Wizard-flöde — Sequence Diagram</field>
+        <field name="sequence">250</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.10</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/diagram_wizard_flow.png"/>
+        <field name="description">Sequence diagram som visar interaktionen mellan användare, faktura, wizard, mall, periodisering, stubbar och verifikat — från klick till postat verifikat.</field>
+    </record>
+
+    <!-- SLIDE 5.5: Datamodell — Så hänger det ihop -->
+    <record id="slide_s5_05" model="slide.slide">
+        <field name="name">Datamodell — Så hänger det ihop</field>
+        <field name="sequence">260</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Tre modeller — ett sömlöst flöde</h2>
+        <p>Modulen bygger på tre huvudmodeller som tillsammans hanterar hela periodiseringsprocessen — från mall till postat verifikat.</p>
+    </div>
+</section>
+
+<section class="s_features pt32 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-clone mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">account.deferred.profile</h3>
+                    <p><strong>Periodiseringsmall</strong> — Definierar konton (1710/2990, 5010/3010), periodlängd, antal perioder, journal, och beteende (Skip Draft, reversal). Återanvänds för många periodiseringar. Kan kopplas till produkter för automatval.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-file-text-o mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">account.deferred</h3>
+                    <p><strong>Periodisering</strong> — En specifik periodisering kopplad till en fakturarad (move_line_id). Innehåller totalbelopp, startdatum, och en snapshot av mallens konton vid skapandet. Har status (draft → open → close) och spårar kvarvarande belopp (value_residual).</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-list-ol mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">account.deferred.line</h3>
+                    <p><strong>Stub</strong> — En rad per period med datum, belopp, och postad-status. När en stub postas skapas ett account.move (verifikat) med två rader: debet på kostnadskonto, kredit på periodiseringskonto (eller tvärtom för intäkter).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_block pt0 pb32">
+    <div class="container s_allow_columns">
+        <h2>Integration med Odoos standardmodeller</h2>
+    </div>
+</section>
+
+<section class="s_media_list pt16 pb48 o_cc o_cc2">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 s_media_list_item pt16 pb16">
+                <div class="row g-0 align-items-center o_cc o_cc1">
+                    <div class="col-lg-3 align-self-stretch text-center pt24 pb24">
+                        <i class="fa fa-file-text fa-3x text-primary"/>
+                    </div>
+                    <div class="col-lg-9 s_media_list_body">
+                        <h3>account.move (fakturor &amp; verifikat)</h3>
+                        <p>Modulen lägger till en <strong>Periodisering-knapp</strong> på fakturarader (account.move.line) via en action binding i wizard:ens XML. En smart button på fakturaformuläret visar antalet kopplade periodiseringar (deferred_count). När en stub postas skapas ett nytt account.move som postas automatiskt.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 s_media_list_item pt16 pb16">
+                <div class="row g-0 align-items-center o_cc o_cc1">
+                    <div class="col-lg-3 align-self-stretch text-center pt24 pb24">
+                        <i class="fa fa-cube fa-3x text-success"/>
+                    </div>
+                    <div class="col-lg-9 s_media_list_body">
+                        <h3>product.product (produkter)</h3>
+                        <p>Produktformuläret får ett nytt fält: <strong>Deferred Profile</strong>. Koppla en periodiseringsmall till en produkt så väljs mallen automatiskt när du periodiserar fakturarader med den produkten. Perfekt för återkommande kostnader som hyra, försäkring, licenser.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 s_media_list_item pt16 pb16">
+                <div class="row g-0 align-items-center o_cc o_cc1">
+                    <div class="col-lg-3 align-self-stretch text-center pt24 pb24">
+                        <i class="fa fa-pie-chart fa-3x text-warning"/>
+                    </div>
+                    <div class="col-lg-9 s_media_list_body">
+                        <h3>analytic.mixin (analytisk redovisning)</h3>
+                        <p>Både mallar och periodiseringar ärver <strong>analytic.mixin</strong>, vilket innebär att analytisk distribution (dimensioner) kan sättas på mallen och följer med till stub-verifikaten. Kostnader/intäkter kan allokeras per avdelning, projekt eller kund direkt.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Djupdykning i modellerna: account.deferred.profile, account.deferred, account.deferred.line — och hur de integreras med account.move, product.product och analytic.mixin.</field>
+    </record>
+
+    <!-- SLIDE 5.6: Hela arbetsflödet — Översikt (Infographic) -->
+    <record id="slide_s5_06" model="slide.slide">
+        <field name="name">Hela arbetsflödet — Översikt</field>
+        <field name="sequence">270</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.15</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/diagram_workflow.png"/>
+        <field name="description">Komplett arbetsflöde i fyra faser: 1) Konfiguration (engångs), 2) Dagligt arbete (skapa periodisering), 3) Månadsvis (posta stubbar), 4) Bokslut (posta alla).</field>
+    </record>
+
+    <!-- SLIDE 5.7: Quiz — Odoo-modulen -->
+    <record id="slide_s5_07" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — Odoo-modulen</field>
+        <field name="sequence">280</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina tekniska kunskaper om Odoo-modulens arkitektur, wizard och arbetsflöde.</field>
+    </record>
+
+    <!-- Quiz S5 -->
+    <record id="slide_s5_07_q1" model="slide.question">
+        <field name="question">Vilka tre huvudmodeller bygger deferred-modulen på?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s5_07"/>
+    </record>
+    <record id="slide_s5_07_q1_a1" model="slide.answer">
+        <field name="text_value">account.deferred, account.deferred.move, account.deferred.journal</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Modellerna heter account.deferred, account.deferred.line och account.deferred.profile.</field>
+        <field name="question_id" ref="slide_s5_07_q1"/>
+    </record>
+    <record id="slide_s5_07_q1_a2" model="slide.answer">
+        <field name="text_value">account.deferred.profile, account.deferred, account.deferred.line</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Profile = mall, Deferred = periodisering, Line = stubbar. Tre modeller — ett sömlöst flöde.</field>
+        <field name="question_id" ref="slide_s5_07_q1"/>
+    </record>
+    <record id="slide_s5_07_q1_a3" model="slide.answer">
+        <field name="text_value">account.deferred.template, account.deferred.entry, account.deferred.posting</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Modulen använder inte dessa namn — de heter profile, deferred och line.</field>
+        <field name="question_id" ref="slide_s5_07_q1"/>
+    </record>
+
+    <record id="slide_s5_07_q2" model="slide.question">
+        <field name="question">Var hittar du knappen för att öppna periodiseringswizard:en?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s5_07"/>
+    </record>
+    <record id="slide_s5_07_q2_a1" model="slide.answer">
+        <field name="text_value">I toppmenyn under Redovisning → Periodisering</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Wizard:en öppnas direkt från fakturaraden, inte från toppmenyn.</field>
+        <field name="question_id" ref="slide_s5_07_q2"/>
+    </record>
+    <record id="slide_s5_07_q2_a2" model="slide.answer">
+        <field name="text_value">På fakturaraden — en 📅 Periodisering-knapp visas där</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Wizard:en är bunden till account.move.line via en action binding — knappen visas direkt på fakturarader.</field>
+        <field name="question_id" ref="slide_s5_07_q2"/>
+    </record>
+    <record id="slide_s5_07_q2_a3" model="slide.answer">
+        <field name="text_value">Via Settings → Technical → Deferred Entries</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Wizard:en är inte tillgänglig via tekniska menyer — den öppnas från fakturor.</field>
+        <field name="question_id" ref="slide_s5_07_q2"/>
+    </record>
+
+    <record id="slide_s5_07_q3" model="slide.question">
+        <field name="question">Vad händer när du klickar "Post" på en stub?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s5_07"/>
+    </record>
+    <record id="slide_s5_07_q3_a1" model="slide.answer">
+        <field name="text_value">Stubben markeras som postad men inget verifikat skapas</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Ett account.move (verifikat) skapas och postas automatiskt.</field>
+        <field name="question_id" ref="slide_s5_07_q3"/>
+    </record>
+    <record id="slide_s5_07_q3_a2" model="slide.answer">
+        <field name="text_value">Ett verifikat (account.move) skapas och postas automatiskt med periodiseringens debet/kredit</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Stub.action_create_move() skapar ett verifikat med två rader och postar det direkt. Stubben markeras som postad och value_residual uppdateras.</field>
+        <field name="question_id" ref="slide_s5_07_q3"/>
+    </record>
+    <record id="slide_s5_07_q3_a3" model="slide.answer">
+        <field name="text_value">Stubben skickas till bokföring för manuell granskning</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Verifikatet postas automatiskt — ingen manuell granskning krävs (om inte journalen kräver det).</field>
+        <field name="question_id" ref="slide_s5_07_q3"/>
+    </record>
+
+    <record id="slide_s5_07_q4" model="slide.question">
+        <field name="question">Hur kopplar du en periodiseringsmall till en produkt?</field>
+        <field name="sequence">4</field>
+        <field name="slide_id" ref="slide_s5_07"/>
+    </record>
+    <record id="slide_s5_07_q4_a1" model="slide.answer">
+        <field name="text_value">Produktformuläret → Accounting-fliken → Deferred Profile</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Produktmodellen har ett deferred_profile_id-fält. När produkten används på en fakturarad väljs mallen automatiskt i wizard:en.</field>
+        <field name="question_id" ref="slide_s5_07_q4"/>
+    </record>
+    <record id="slide_s5_07_q4_a2" model="slide.answer">
+        <field name="text_value">I mallens formulär — under fliken Products</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det är produktformuläret som pekar på mallen, inte tvärtom.</field>
+        <field name="question_id" ref="slide_s5_07_q4"/>
+    </record>
+    <record id="slide_s5_07_q4_a3" model="slide.answer">
+        <field name="text_value">Via Settings → Technical → Product Templates</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det görs direkt i produktformuläret under Accounting-fliken — ingen teknisk meny krävs.</field>
+        <field name="question_id" ref="slide_s5_07_q4"/>
+    </record>
+
+    <record id="slide_s5_07_q5" model="slide.question">
+        <field name="question">Vad gör "Post All Stubs" på en periodisering?</field>
+        <field name="sequence">5</field>
+        <field name="slide_id" ref="slide_s5_07"/>
+    </record>
+    <record id="slide_s5_07_q5_a1" model="slide.answer">
+        <field name="text_value">Postar alla stubbar — även framtida</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Vid bokslut postar du bara stubbar inom räkenskapsåret. Framtida stubbar lämnas.</field>
+        <field name="question_id" ref="slide_s5_07_q5"/>
+    </record>
+    <record id="slide_s5_07_q5_a2" model="slide.answer">
+        <field name="text_value">Postar alla opostade stubbar — används ofta vid månads- eller årsbokslut</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Post All Stubs loopar igenom alla opostade stubbar och postar dem en efter en. Perfekt vid bokslut.</field>
+        <field name="question_id" ref="slide_s5_07_q5"/>
+    </record>
+    <record id="slide_s5_07_q5_a3" model="slide.answer">
+        <field name="text_value">Raderar alla stubbar och skapar nya</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Post All Stubs postar — den raderar eller återskapar inte. För att generera om stubbar, använd Generate Stubs.</field>
+        <field name="question_id" ref="slide_s5_07_q5"/>
+    </record>
+
+    </data>
+</odoo>
