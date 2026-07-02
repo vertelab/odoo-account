@@ -16,7 +16,6 @@
     'maintainer': 'Vertel AB',
     'depends': ['account', 'analytic'],
     'data': [
-        'data/deferred_migration_data.xml',
         'security/ir.model.access.csv',
         'views/account_deferred_profile_view.xml',
         'views/account_deferred_view.xml',
