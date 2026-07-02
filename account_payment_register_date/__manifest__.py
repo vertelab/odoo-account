@@ -9,7 +9,7 @@
 {
     'name': 'Account: Payment Date Below Memo',
     'version': '18.0.1.0',
-    'summary': 'Move payment_date field below the communication (memo) field',
+    'summary': 'Default payment date to invoice due date, move field below memo',
     'category': 'Accounting',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_payment_register_date',
@@ -17,14 +17,13 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': """
-Payment Register Date — View Fix
-================================
+Payment Register Date
+=====================
 
-* Moves the payment_date field below the communication (memo) field
-  in the manual payment register wizard.
-
-Note: The default value (invoice due date) is handled by the existing
-``payment_date`` module (Linserv). This module only adjusts the view layout.
+* Defaults the payment_date to the earliest invoice due date when opening
+  the manual payment register wizard.
+* Moves the payment_date field below the communication (memo) field in the
+  form view for better UX.
 
 Related ticket: T/10775
     """,
@@ -32,6 +31,7 @@ Related ticket: T/10775
     'data': [
         'views/account_payment_register_views.xml',
     ],
+    'post_init_hook': 'post_init_hook',
     'installable': True,
     'application': False,
     'auto_install': False,
