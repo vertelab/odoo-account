@@ -168,6 +168,9 @@ class AccountDeferredWizard(models.TransientModel):
         }
         deferred = self.env['account.deferred'].create(deferred_vals)
 
+        # Link back to the origin line
+        self.move_line_id.deferred_id = deferred.id
+
         # Generate stubs
         deferred._generate_stubs()
 

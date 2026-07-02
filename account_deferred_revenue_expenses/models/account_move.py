@@ -59,6 +59,12 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
+    deferred_id = fields.Many2one(
+        'account.deferred', string='Deferred Entry',
+        readonly=True, index=True,
+        help="Deferred entry created from this line.",
+    )
+
     def action_open_deferred_wizard(self):
         """Open the deferred entry wizard from a move line."""
         self.ensure_one()
