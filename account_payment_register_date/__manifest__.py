@@ -31,7 +31,6 @@ Related ticket: T/10775
     'data': [
         'views/account_payment_register_views.xml',
     ],
-    'post_init_hook': 'post_init_hook',
     'installable': True,
     'application': False,
     'auto_install': False,

@@ -25,5 +25,6 @@
         'wizards/account_deferred_wizard_view.xml',
     ],
     'installable': True,
+    'post_init_hook': 'hooks.post_init_hook',
     'auto_install': False,
 }
