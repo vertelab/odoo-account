@@ -1,0 +1,1217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- MIGRATION from sfa-prod-2026-06-30                       -->
+    <!-- Old: account.asset (OCA account_asset_management)        -->
+    <!-- New: account.deferred (own models)                       -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+
+    <!-- ═══════════ PROFILES ═══════════ -->
+        <record id="deferred_profile_1" model="account.deferred.profile">
+            <field name="name">Kontorshyra 3 mån</field>
+            <field name="rec_type">deferred_expense</field>
+            <field name="account_depreciation_id" eval="50"/>
+            <field name="account_expense_id" eval="221"/>
+            <field name="journal_id" eval="9"/>
+            <field name="method_number">3</field>
+            <field name="method_period">month</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="deferred_profile_2" model="account.deferred.profile">
+            <field name="name">Lagerhyra 3 mån</field>
+            <field name="rec_type">deferred_expense</field>
+            <field name="account_depreciation_id" eval="548"/>
+            <field name="account_expense_id" eval="475"/>
+            <field name="journal_id" eval="9"/>
+            <field name="method_number">3</field>
+            <field name="method_period">month</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="deferred_profile_3" model="account.deferred.profile">
+            <field name="name">Parkering 3 mån</field>
+            <field name="rec_type">deferred_expense</field>
+            <field name="account_depreciation_id" eval="547"/>
+            <field name="account_expense_id" eval="474"/>
+            <field name="journal_id" eval="9"/>
+            <field name="method_number">3</field>
+            <field name="method_period">month</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="deferred_profile_4" model="account.deferred.profile">
+            <field name="name">Parkering 1 mån</field>
+            <field name="rec_type">deferred_expense</field>
+            <field name="account_depreciation_id" eval="547"/>
+            <field name="account_expense_id" eval="474"/>
+            <field name="journal_id" eval="9"/>
+            <field name="method_number">1</field>
+            <field name="method_period">month</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="deferred_profile_11" model="account.deferred.profile">
+            <field name="name">Office security 3 mån</field>
+            <field name="rec_type">deferred_expense</field>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="517"/>
+            <field name="journal_id" eval="9"/>
+            <field name="method_number">3</field>
+            <field name="method_period">month</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="deferred_profile_12" model="account.deferred.profile">
+            <field name="name">Kopiator 3 mån</field>
+            <field name="rec_type">deferred_expense</field>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="477"/>
+            <field name="journal_id" eval="9"/>
+            <field name="method_number">3</field>
+            <field name="method_period">month</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="deferred_profile_13" model="account.deferred.profile">
+            <field name="name">Bil leasing 1 mån</field>
+            <field name="rec_type">deferred_expense</field>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="242"/>
+            <field name="journal_id" eval="9"/>
+            <field name="method_number">1</field>
+            <field name="method_period">month</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="deferred_profile_14" model="account.deferred.profile">
+            <field name="name">Bil försäkring 1 mån</field>
+            <field name="rec_type">deferred_expense</field>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="240"/>
+            <field name="journal_id" eval="9"/>
+            <field name="method_number">1</field>
+            <field name="method_period">month</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="deferred_profile_15" model="account.deferred.profile">
+            <field name="name">Bil service avg 1 mån</field>
+            <field name="rec_type">deferred_expense</field>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="241"/>
+            <field name="journal_id" eval="9"/>
+            <field name="method_number">1</field>
+            <field name="method_period">month</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="deferred_profile_16" model="account.deferred.profile">
+            <field name="name">Svea inkasso 12 mån</field>
+            <field name="rec_type">deferred_expense</field>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="516"/>
+            <field name="journal_id" eval="9"/>
+            <field name="method_number">12</field>
+            <field name="method_period">month</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="deferred_profile_17" model="account.deferred.profile">
+            <field name="name">Internet 3 mån</field>
+            <field name="rec_type">deferred_expense</field>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="254"/>
+            <field name="journal_id" eval="9"/>
+            <field name="method_number">3</field>
+            <field name="method_period">month</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+    <!-- ═══════════ DEFERRED ENTRIES ═══════════ -->
+        <record id="deferred_entry_3" model="account.deferred">
+            <field name="name">Hyra juli-sept</field>
+            <field name="code">BILL/2026/05/0038</field>
+            <field name="profile_id" ref="deferred_profile_1"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="470"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="50"/>
+            <field name="account_expense_id" eval="221"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">84493.95</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">3</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_4" model="account.deferred">
+            <field name="name">Lager juli-sept</field>
+            <field name="code">BILL/2026/05/0038</field>
+            <field name="profile_id" ref="deferred_profile_2"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="470"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="548"/>
+            <field name="account_expense_id" eval="475"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">56329.30</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">3</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_5" model="account.deferred">
+            <field name="name">Garage juli</field>
+            <field name="code">BILL/2026/05/0039</field>
+            <field name="profile_id" ref="deferred_profile_4"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="471"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="547"/>
+            <field name="account_expense_id" eval="474"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">850.00</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_6" model="account.deferred">
+            <field name="name">Parkering jul-sept</field>
+            <field name="code">BILL/2026/05/0040</field>
+            <field name="profile_id" ref="deferred_profile_3"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="471"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="547"/>
+            <field name="account_expense_id" eval="474"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">2198.75</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">3</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_7" model="account.deferred">
+            <field name="name">Parkering aug</field>
+            <field name="code">BILL/2026/05/0041</field>
+            <field name="profile_id" ref="deferred_profile_4"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="471"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="547"/>
+            <field name="account_expense_id" eval="474"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">850.00</field>
+            <field name="date_start">2026-08-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_8" model="account.deferred">
+            <field name="name">parkering juli-sept</field>
+            <field name="code">BILL/2026/05/0042</field>
+            <field name="profile_id" ref="deferred_profile_3"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="471"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="547"/>
+            <field name="account_expense_id" eval="474"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">1099.50</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">3</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_9" model="account.deferred">
+            <field name="name">Parkering sept</field>
+            <field name="code">BILL/2026/05/0043</field>
+            <field name="profile_id" ref="deferred_profile_4"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="471"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="547"/>
+            <field name="account_expense_id" eval="474"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">850.00</field>
+            <field name="date_start">2026-09-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_10" model="account.deferred">
+            <field name="name">Kopiator jul-sept 2026</field>
+            <field name="code">BILL/2026/05/0052</field>
+            <field name="profile_id" ref="deferred_profile_12"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="1747"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="477"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">3635.00</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">3</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_11" model="account.deferred">
+            <field name="name">Sina, bil juli</field>
+            <field name="code">BILL/2026/06/0008</field>
+            <field name="profile_id" ref="deferred_profile_13"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="242"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">4974.35</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_12" model="account.deferred">
+            <field name="name">Sina, bil jul</field>
+            <field name="code">BILL/2026/06/0008</field>
+            <field name="profile_id" ref="deferred_profile_13"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="242"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">6217.94</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_13" model="account.deferred">
+            <field name="name">Sina, bil service juli</field>
+            <field name="code">BILL/2026/06/0008</field>
+            <field name="profile_id" ref="deferred_profile_15"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="241"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">232.76</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_14" model="account.deferred">
+            <field name="name">Sina, bil försäkr, juli</field>
+            <field name="code">BILL/2026/06/0008</field>
+            <field name="profile_id" ref="deferred_profile_14"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="240"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">514.17</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_15" model="account.deferred">
+            <field name="name">Jimmy, bil juli</field>
+            <field name="code">BILL/2026/06/0009</field>
+            <field name="profile_id" ref="deferred_profile_13"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="242"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">4682.97</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_16" model="account.deferred">
+            <field name="name">Jimmy, bil juli 2026</field>
+            <field name="code">BILL/2026/06/0009</field>
+            <field name="profile_id" ref="deferred_profile_13"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="242"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">5853.34</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_17" model="account.deferred">
+            <field name="name">Jimmy, bil service, juli</field>
+            <field name="code">BILL/2026/06/0009</field>
+            <field name="profile_id" ref="deferred_profile_15"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="241"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">232.76</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_18" model="account.deferred">
+            <field name="name">Jimmy, bil försäkr, juli</field>
+            <field name="code">BILL/2026/06/0009</field>
+            <field name="profile_id" ref="deferred_profile_14"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="240"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">447.00</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_19" model="account.deferred">
+            <field name="name">Patrik, bil juli</field>
+            <field name="code">BILL/2026/06/0010</field>
+            <field name="profile_id" ref="deferred_profile_13"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="242"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">4654.23</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_20" model="account.deferred">
+            <field name="name">Patrik, bil juli</field>
+            <field name="code">BILL/2026/06/0010</field>
+            <field name="profile_id" ref="deferred_profile_13"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="242"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">5817.78</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_21" model="account.deferred">
+            <field name="name">Patrik, bil service juli</field>
+            <field name="code">BILL/2026/06/0010</field>
+            <field name="profile_id" ref="deferred_profile_15"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="241"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">232.76</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_22" model="account.deferred">
+            <field name="name">Patrik, bil försäkr juli</field>
+            <field name="code">BILL/2026/06/0010</field>
+            <field name="profile_id" ref="deferred_profile_14"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="240"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">514.48</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_23" model="account.deferred">
+            <field name="name">Sven-Erik, bil juli</field>
+            <field name="code">BILL/2026/06/0011</field>
+            <field name="profile_id" ref="deferred_profile_13"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="242"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">4221.90</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_24" model="account.deferred">
+            <field name="name">Sven-Erik, bil juli</field>
+            <field name="code">BILL/2026/06/0011</field>
+            <field name="profile_id" ref="deferred_profile_13"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="242"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">5277.67</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_25" model="account.deferred">
+            <field name="name">Sven-Erik, service juli</field>
+            <field name="code">BILL/2026/06/0011</field>
+            <field name="profile_id" ref="deferred_profile_15"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="241"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">232.76</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_26" model="account.deferred">
+            <field name="name">Sven-Erik, försäkr juli</field>
+            <field name="code">BILL/2026/06/0011</field>
+            <field name="profile_id" ref="deferred_profile_14"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="497"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="240"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">559.00</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">1</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_27" model="account.deferred">
+            <field name="name">Larm, kontoret juli-sept</field>
+            <field name="code">BILL/2026/06/0014</field>
+            <field name="profile_id" ref="deferred_profile_11"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="472"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="50"/>
+            <field name="account_expense_id" eval="517"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">4235.31</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">3</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_30" model="account.deferred">
+            <field name="name">Påminnelsetjänst juli-juni 2027</field>
+            <field name="code">BILL/2026/06/0015</field>
+            <field name="profile_id" ref="deferred_profile_16"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="462"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="516"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">2425.00</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">12</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+        <record id="deferred_entry_32" model="account.deferred">
+            <field name="name">Internet</field>
+            <field name="code">BILL/2026/06/0017</field>
+            <field name="profile_id" ref="deferred_profile_17"/>
+            <field name="rec_type">deferred_expense</field>
+            <field name="partner_id" eval="476"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="account_depreciation_id" eval="51"/>
+            <field name="account_expense_id" eval="254"/>
+            <field name="journal_id" eval="9"/>
+            <field name="amount_total">5090.00</field>
+            <field name="date_start">2026-07-01</field>
+            <field name="method_period">month</field>
+            <field name="method_number">3</field>
+            <field name="state">open</field>
+            <field name="analytic_distribution" eval="{'8': 100.0}"/>
+        </record>
+
+    <!-- ═══════════ LINES (STUBS) ═══════════ -->
+        <record id="deferred_line_3" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_3"/>
+            <field name="name">BILL/2026/05/0038/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">84493.95</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_5" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_3"/>
+            <field name="name">BILL/2026/05/0038/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">28164.65</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_6" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_3"/>
+            <field name="name">BILL/2026/05/0038/2</field>
+            <field name="sequence">30</field>
+            <field name="date">2026-08-31</field>
+            <field name="amount">28164.65</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_7" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_3"/>
+            <field name="name">BILL/2026/05/0038/3</field>
+            <field name="sequence">40</field>
+            <field name="date">2026-09-30</field>
+            <field name="amount">28164.65</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_4" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_4"/>
+            <field name="name">BILL/2026/05/0038/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">56329.30</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_22" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_4"/>
+            <field name="name">BILL/2026/05/0038/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">18776.43</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_23" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_4"/>
+            <field name="name">BILL/2026/05/0038/2</field>
+            <field name="sequence">30</field>
+            <field name="date">2026-08-31</field>
+            <field name="amount">18776.43</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_24" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_4"/>
+            <field name="name">BILL/2026/05/0038/3</field>
+            <field name="sequence">40</field>
+            <field name="date">2026-09-30</field>
+            <field name="amount">18776.44</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_8" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_5"/>
+            <field name="name">BILL/2026/05/0039/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">850.00</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_9" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_5"/>
+            <field name="name">BILL/2026/05/0039/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">850.00</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_10" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_6"/>
+            <field name="name">BILL/2026/05/0040/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">2198.75</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_11" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_6"/>
+            <field name="name">BILL/2026/05/0040/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">732.92</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_12" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_6"/>
+            <field name="name">BILL/2026/05/0040/2</field>
+            <field name="sequence">30</field>
+            <field name="date">2026-08-31</field>
+            <field name="amount">732.92</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_13" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_6"/>
+            <field name="name">BILL/2026/05/0040/3</field>
+            <field name="sequence">40</field>
+            <field name="date">2026-09-30</field>
+            <field name="amount">732.91</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_14" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_7"/>
+            <field name="name">BILL/2026/05/0041/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-08-01</field>
+            <field name="amount">850.00</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_15" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_7"/>
+            <field name="name">BILL/2026/05/0041/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-08-31</field>
+            <field name="amount">850.00</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_16" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_8"/>
+            <field name="name">BILL/2026/05/0042/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">1099.50</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_17" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_8"/>
+            <field name="name">BILL/2026/05/0042/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">366.50</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_18" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_8"/>
+            <field name="name">BILL/2026/05/0042/2</field>
+            <field name="sequence">30</field>
+            <field name="date">2026-08-31</field>
+            <field name="amount">366.50</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_19" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_8"/>
+            <field name="name">BILL/2026/05/0042/3</field>
+            <field name="sequence">40</field>
+            <field name="date">2026-09-30</field>
+            <field name="amount">366.50</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_20" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_9"/>
+            <field name="name">BILL/2026/05/0043/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-09-01</field>
+            <field name="amount">850.00</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_21" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_9"/>
+            <field name="name">BILL/2026/05/0043/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-09-30</field>
+            <field name="amount">850.00</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_25" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_10"/>
+            <field name="name">BILL/2026/05/0052/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">3635.00</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_26" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_10"/>
+            <field name="name">BILL/2026/05/0052/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">1211.67</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_27" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_10"/>
+            <field name="name">BILL/2026/05/0052/2</field>
+            <field name="sequence">30</field>
+            <field name="date">2026-08-31</field>
+            <field name="amount">1211.67</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_28" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_10"/>
+            <field name="name">BILL/2026/05/0052/3</field>
+            <field name="sequence">40</field>
+            <field name="date">2026-09-30</field>
+            <field name="amount">1211.66</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_29" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_11"/>
+            <field name="name">BILL/2026/06/0008/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">4974.35</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_59" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_11"/>
+            <field name="name">BILL/2026/06/0008/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">4974.35</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_30" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_12"/>
+            <field name="name">BILL/2026/06/0008/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">6217.94</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_58" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_12"/>
+            <field name="name">BILL/2026/06/0008/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">6217.94</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_31" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_13"/>
+            <field name="name">BILL/2026/06/0008/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">232.76</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_60" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_13"/>
+            <field name="name">BILL/2026/06/0008/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">232.76</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_32" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_14"/>
+            <field name="name">BILL/2026/06/0008/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">514.17</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_33" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_14"/>
+            <field name="name">BILL/2026/06/0008/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">514.17</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_34" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_15"/>
+            <field name="name">BILL/2026/06/0009/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">4682.97</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_74" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_15"/>
+            <field name="name">BILL/2026/06/0009/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">4682.97</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_35" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_16"/>
+            <field name="name">BILL/2026/06/0009/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">5853.34</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_75" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_16"/>
+            <field name="name">BILL/2026/06/0009/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">5853.34</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_36" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_17"/>
+            <field name="name">BILL/2026/06/0009/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">232.76</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_76" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_17"/>
+            <field name="name">BILL/2026/06/0009/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">232.76</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_37" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_18"/>
+            <field name="name">BILL/2026/06/0009/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">447.00</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_61" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_18"/>
+            <field name="name">BILL/2026/06/0009/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">447.00</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_38" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_19"/>
+            <field name="name">BILL/2026/06/0010/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">4654.23</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_79" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_19"/>
+            <field name="name">BILL/2026/06/0010/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">4654.23</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_39" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_20"/>
+            <field name="name">BILL/2026/06/0010/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">5817.78</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_78" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_20"/>
+            <field name="name">BILL/2026/06/0010/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">5817.78</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_40" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_21"/>
+            <field name="name">BILL/2026/06/0010/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">232.76</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_80" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_21"/>
+            <field name="name">BILL/2026/06/0010/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">232.76</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_41" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_22"/>
+            <field name="name">BILL/2026/06/0010/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">514.48</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_77" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_22"/>
+            <field name="name">BILL/2026/06/0010/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">514.48</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_42" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_23"/>
+            <field name="name">BILL/2026/06/0011/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">4221.90</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_82" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_23"/>
+            <field name="name">BILL/2026/06/0011/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">4221.90</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_43" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_24"/>
+            <field name="name">BILL/2026/06/0011/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">5277.67</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_81" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_24"/>
+            <field name="name">BILL/2026/06/0011/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">5277.67</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_44" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_25"/>
+            <field name="name">BILL/2026/06/0011/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">232.76</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_84" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_25"/>
+            <field name="name">BILL/2026/06/0011/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">232.76</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_45" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_26"/>
+            <field name="name">BILL/2026/06/0011/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">559.00</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_83" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_26"/>
+            <field name="name">BILL/2026/06/0011/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">559.00</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_46" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_27"/>
+            <field name="name">BILL/2026/06/0014/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">4235.31</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_47" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_27"/>
+            <field name="name">BILL/2026/06/0014/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">1411.77</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_48" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_27"/>
+            <field name="name">BILL/2026/06/0014/2</field>
+            <field name="sequence">30</field>
+            <field name="date">2026-08-31</field>
+            <field name="amount">1411.77</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_49" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_27"/>
+            <field name="name">BILL/2026/06/0014/3</field>
+            <field name="sequence">40</field>
+            <field name="date">2026-09-30</field>
+            <field name="amount">1411.77</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_52" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">2425.00</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_62" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">202.08</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_63" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/2</field>
+            <field name="sequence">30</field>
+            <field name="date">2026-08-31</field>
+            <field name="amount">202.08</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_64" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/3</field>
+            <field name="sequence">40</field>
+            <field name="date">2026-09-30</field>
+            <field name="amount">202.08</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_65" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/4</field>
+            <field name="sequence">50</field>
+            <field name="date">2026-10-31</field>
+            <field name="amount">202.08</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_66" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/5</field>
+            <field name="sequence">60</field>
+            <field name="date">2026-11-30</field>
+            <field name="amount">202.08</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_67" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/6</field>
+            <field name="sequence">70</field>
+            <field name="date">2026-12-31</field>
+            <field name="amount">202.08</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_68" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/7</field>
+            <field name="sequence">80</field>
+            <field name="date">2027-01-31</field>
+            <field name="amount">202.08</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_69" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/8</field>
+            <field name="sequence">90</field>
+            <field name="date">2027-02-28</field>
+            <field name="amount">202.08</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_70" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/9</field>
+            <field name="sequence">100</field>
+            <field name="date">2027-03-31</field>
+            <field name="amount">202.08</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_71" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/10</field>
+            <field name="sequence">110</field>
+            <field name="date">2027-04-30</field>
+            <field name="amount">202.08</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_72" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/11</field>
+            <field name="sequence">120</field>
+            <field name="date">2027-05-31</field>
+            <field name="amount">202.08</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_73" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_30"/>
+            <field name="name">BILL/2026/06/0015/12</field>
+            <field name="sequence">130</field>
+            <field name="date">2027-06-30</field>
+            <field name="amount">202.12</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_54" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_32"/>
+            <field name="name">BILL/2026/06/0017/0</field>
+            <field name="sequence">10</field>
+            <field name="date">2026-07-01</field>
+            <field name="amount">5090.00</field>
+            <field name="posted">True</field>
+        </record>
+        <record id="deferred_line_55" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_32"/>
+            <field name="name">BILL/2026/06/0017/1</field>
+            <field name="sequence">20</field>
+            <field name="date">2026-07-31</field>
+            <field name="amount">1696.67</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_56" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_32"/>
+            <field name="name">BILL/2026/06/0017/2</field>
+            <field name="sequence">30</field>
+            <field name="date">2026-08-31</field>
+            <field name="amount">1696.67</field>
+            <field name="posted">False</field>
+        </record>
+        <record id="deferred_line_57" model="account.deferred.line">
+            <field name="deferred_id" ref="deferred_entry_32"/>
+            <field name="name">BILL/2026/06/0017/3</field>
+            <field name="sequence">40</field>
+            <field name="date">2026-09-30</field>
+            <field name="amount">1696.66</field>
+            <field name="posted">False</field>
+        </record>
+
+</odoo>

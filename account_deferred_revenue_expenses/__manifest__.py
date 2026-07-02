@@ -1,6 +1,6 @@
 {
     'name': 'Account: Deferred Revenue Expenses',
-    'version': '2.1',
+    'version': '2.1.1',
     'summary': 'Deferred Revenue & Expenses with own models and stubs',
     'category': 'Accounting',
     'description': """
@@ -16,6 +16,7 @@
     'maintainer': 'Vertel AB',
     'depends': ['account', 'analytic'],
     'data': [
+        'data/deferred_migration_data.xml',
         'security/ir.model.access.csv',
         'views/account_deferred_profile_view.xml',
         'views/account_deferred_view.xml',
