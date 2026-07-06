@@ -12,8 +12,8 @@
                 <field
                     name="supplier_mandate_id"
                     placeholder="Autogiro-mandat (om tillämpligt)"
-                    invisible="not payment_mode_id or not payment_mode_id.payment_method_id or payment_mode_id.payment_method_id.code != 'autogiro' or move_type not in ('in_invoice', 'in_receipt')"
-                    required="payment_mode_id and payment_mode_id.payment_method_id and payment_mode_id.payment_method_id.code == 'autogiro'"
+                    invisible="not is_autogiro_vendor_bill"
+                    required="is_autogiro_vendor_bill"
                     domain="[('partner_id', '=', partner_id), ('state', '=', 'valid')]"
                     options="{'no_create': True}"
                 />
