@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Vertel AB
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="account_move_form_autogiro">
+        <field name="name">account.move.form (in account_payment_order_autogiro)</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <!-- Add autogiro mandate field after payment mode on vendor bills -->
+            <field name="payment_mode_id" position="after">
+                <field
+                    name="supplier_mandate_id"
+                    placeholder="Autogiro-mandat (om tillämpligt)"
+                    invisible="not payment_mode_id or not payment_mode_id.payment_method_id or payment_mode_id.payment_method_id.code != 'autogiro' or move_type not in ('in_invoice', 'in_receipt')"
+                    required="payment_mode_id and payment_mode_id.payment_method_id and payment_mode_id.payment_method_id.code == 'autogiro'"
+                    domain="[('partner_id', '=', partner_id), ('state', '=', 'valid')]"
+                    options="{'no_create': True}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
