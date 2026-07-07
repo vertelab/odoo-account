@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Forecast Budget Form Extension -->
+    <record id="mis_budget_by_account_form_forecast" model="ir.ui.view">
+        <field name="name">mis.budget.by.account.form.forecast</field>
+        <field name="model">mis.budget.by.account</field>
+        <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_convert_to_forecast"
+                        string="Convert to Forecast"
+                        type="object"
+                        class="btn-primary"
+                        invisible="is_forecast == True or state != 'draft'"/>
+                <button name="action_set_as_forecast"
+                        string="Enable Forecast"
+                        type="object"
+                        class="btn-primary"
+                        invisible="is_forecast == True"/>
+                <button name="action_unset_forecast"
+                        string="Disable Forecast"
+                        type="object"
+                        invisible="is_forecast == False"/>
+            </xpath>
+            <xpath expr="//group[1]" position="after">
+                <group string="Forecast Settings"
+                       invisible="is_forecast == False"
+                       colspan="4">
+                    <field name="is_forecast" invisible="1"/>
+                    <field name="forecast_cutoff_date"/>
+                    <div class="text-muted" colspan="2">
+                        Periods ending before the cutoff date will show
+                        <strong>actual booked amounts</strong>.
+                        Future periods will show the planned budget.
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Forecast Budget List Extension -->
+    <record id="mis_budget_by_account_list_forecast" model="ir.ui.view">
+        <field name="name">mis.budget.by.account.list.forecast</field>
+        <field name="model">mis.budget.by.account</field>
+        <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_list_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='state']" position="after">
+                <field name="is_forecast" widget="boolean_toggle"
+                       string="Forecast"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Forecast Report Action -->
+    <record id="action_mis_budget_forecast_report" model="ir.actions.act_window">
+        <field name="name">Forecast Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mis.budget.forecast.report</field>
+        <field name="view_mode">pivot,list,graph</field>
+        <field name="context">{"search_default_budget_id": active_id}</field>
+    </record>
+
+    <!-- Forecast Report List View -->
+    <record id="mis_budget_forecast_report_list" model="ir.ui.view">
+        <field name="name">mis.budget.forecast.report.list</field>
+        <field name="model">mis.budget.forecast.report</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" decoration-warning="is_passed == True">
+                <field name="account_code"/>
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="budget_amount" sum="Total Budget"/>
+                <field name="actual_amount" sum="Total Actual"/>
+                <field name="forecast_amount" sum="Total Forecast"
+                       decoration-info="is_forecast == True"/>
+                <field name="deviation" sum="Total Deviation"
+                       decoration-danger="deviation &lt; 0"
+                       decoration-success="deviation &gt; 0"/>
+                <field name="is_passed" column_invisible="1"/>
+                <field name="is_forecast" column_invisible="1"/>
+                <field name="budget_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Forecast Report Pivot View -->
+    <record id="mis_budget_forecast_report_pivot" model="ir.ui.view">
+        <field name="name">mis.budget.forecast.report.pivot</field>
+        <field name="model">mis.budget.forecast.report</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="account_code" type="row"/>
+                <field name="budget_amount" type="measure"/>
+                <field name="actual_amount" type="measure"/>
+                <field name="forecast_amount" type="measure"/>
+                <field name="deviation" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Forecast Report Search -->
+    <record id="mis_budget_forecast_report_search" model="ir.ui.view">
+        <field name="name">mis.budget.forecast.report.search</field>
+        <field name="model">mis.budget.forecast.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="budget_id"/>
+                <field name="account_code"/>
+                <field name="name"/>
+                <separator/>
+                <filter name="passed" string="Past Periods"
+                        domain="[('is_passed', '=', True)]"/>
+                <filter name="future" string="Future Periods"
+                        domain="[('is_passed', '=', False)]"/>
+                <filter name="forecast_only" string="Forecast Budgets"
+                        domain="[('is_forecast', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Add forecast report button on budget form -->
+    <record id="mis_budget_forecast_form_report_button" model="ir.ui.view">
+        <field name="name">mis.budget.forecast.form.report.btn</field>
+        <field name="model">mis.budget.by.account</field>
+        <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="%(account_mis_budget_forecast.action_mis_budget_forecast_report)d"
+                        string="Forecast Report"
+                        type="action"
+                        class="btn-secondary"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Menu: Forecast Report under Accounting > Reporting -->
+    <menuitem id="menu_mis_budget_forecast_report"
+              name="Forecast Report"
+              parent="account.menu_finance_reports"
+              action="action_mis_budget_forecast_report"
+              sequence="60"/>
+</odoo>

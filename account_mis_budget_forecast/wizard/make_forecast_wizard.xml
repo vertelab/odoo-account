@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_make_dynamic_forecast_wizard_form" model="ir.ui.view">
+        <field name="name">make.dynamic.forecast.wizard.form</field>
+        <field name="model">make.dynamic.forecast.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Dynamic Forecast:</strong>
+                        Past periods will automatically show actual booked amounts.
+                        Future periods will show the planned budget.
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="date_type_id"/>
+                        </group>
+                        <group>
+                            <field name="forecast_cutoff_date"/>
+                            <field name="use_previous_year"/>
+                            <field name="percentage_factor"
+                                   widget="percentage"
+                                   invisible="not use_previous_year"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_create_forecast"
+                                string="Create Forecast"
+                                type="object"
+                                class="oe_highlight"/>
+                        <button string="Cancel"
+                                class="btn-secondary"
+                                special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_make_dynamic_forecast" model="ir.actions.act_window">
+        <field name="name">Create Dynamic Forecast</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">make.dynamic.forecast.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_make_dynamic_forecast_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Budget Tree Create Wizard View -->
+    <record id="view_mis_budget_tree_create_wizard_form" model="ir.ui.view">
+        <field name="name">mis.budget.tree.create.wizard.form</field>
+        <field name="model">mis.budget.tree.create.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        This will create budget items for all leaf accounts
+                        defined in the tree structure. Nodes will auto-sum
+                        their children.
+                    </div>
+                    <group>
+                        <group>
+                            <field name="tree_id" invisible="1"/>
+                            <field name="name"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="date_type_id"/>
+                        </group>
+                        <group>
+                            <field name="is_forecast"/>
+                            <field name="forecast_cutoff_date"
+                                   invisible="not is_forecast"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_create_budget"
+                                string="Create Budget"
+                                type="object"
+                                class="oe_highlight"/>
+                        <button string="Cancel"
+                                class="btn-secondary"
+                                special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

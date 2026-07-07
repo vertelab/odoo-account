@@ -61,10 +61,7 @@
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': [
         'sale',
-        'account_financial_report',
         'account_reconcile_oca',
-        'mis_builder', 
-        'mis_builder_budget',
         'account_asset_management'
         #'account_period_vrtl',
         #'account_statement_import_camt',
@@ -79,6 +76,7 @@
         "views/account_account_views.xml",
         "views/product_views.xml",
         "views/account_journal_dashboard_views.xml",
+        "views/res_config_settings_views.xml",
         #"views/license_view.xml",
         #"views/agreement_view.xml",
         #"views/product_template_view.xml",

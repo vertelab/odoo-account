@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo Budget Tree: Swedish Standard Result Budget -->
+    <record id="demo_budget_tree" model="mis.budget.tree">
+        <field name="name">Standard Resultatbudget (BAS)</field>
+    </record>
+
+    <!-- INTÄKTER (node) -->
+    <record id="demo_tree_income" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="name">INTÄKTER</field>
+        <field name="sequence">10</field>
+        <field name="is_leaf" eval="False"/>
+    </record>
+
+    <!-- 30xx Försäljning (node under intäkter) -->
+    <record id="demo_tree_sales" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="parent_id" ref="demo_tree_income"/>
+        <field name="name">Försäljning</field>
+        <field name="sequence">10</field>
+        <field name="is_leaf" eval="False"/>
+    </record>
+
+    <!-- 3010 Försäljning varor (leaf) -->
+    <record id="demo_tree_sales_goods" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="parent_id" ref="demo_tree_sales"/>
+        <field name="name">Försäljning varor</field>
+        <field name="sequence">10</field>
+        <field name="is_leaf" eval="True"/>
+        <field name="account_mask">301</field>
+    </record>
+
+    <!-- 3020 Försäljning tjänster (leaf) -->
+    <record id="demo_tree_sales_services" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="parent_id" ref="demo_tree_sales"/>
+        <field name="name">Försäljning tjänster</field>
+        <field name="sequence">20</field>
+        <field name="is_leaf" eval="True"/>
+        <field name="account_mask">302</field>
+    </record>
+
+    <!-- 39xx Övriga intäkter (leaf) -->
+    <record id="demo_tree_other_income" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="parent_id" ref="demo_tree_income"/>
+        <field name="name">Övriga intäkter</field>
+        <field name="sequence">90</field>
+        <field name="is_leaf" eval="True"/>
+        <field name="account_mask">39</field>
+    </record>
+
+    <!-- KOSTNADER (node) -->
+    <record id="demo_tree_expenses" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="name">KOSTNADER</field>
+        <field name="sequence">20</field>
+        <field name="is_leaf" eval="False"/>
+    </record>
+
+    <!-- 40-49xx Inköp/varukostnader (node) -->
+    <record id="demo_tree_purchases" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="parent_id" ref="demo_tree_expenses"/>
+        <field name="name">Varukostnader &amp; Inköp</field>
+        <field name="sequence">10</field>
+        <field name="is_leaf" eval="False"/>
+    </record>
+
+    <!-- 40xx Inköp (leaf) -->
+    <record id="demo_tree_purchase_goods" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="parent_id" ref="demo_tree_purchases"/>
+        <field name="name">Inköp varor</field>
+        <field name="sequence">10</field>
+        <field name="is_leaf" eval="True"/>
+        <field name="account_mask">40,41</field>
+    </record>
+
+    <!-- 50-59xx Lokalkostnader (node) -->
+    <record id="demo_tree_premises" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="parent_id" ref="demo_tree_expenses"/>
+        <field name="name">Lokalkostnader</field>
+        <field name="sequence">30</field>
+        <field name="is_leaf" eval="False"/>
+    </record>
+
+    <!-- 5010 Lokalhyra (leaf) -->
+    <record id="demo_tree_rent" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="parent_id" ref="demo_tree_premises"/>
+        <field name="name">Lokalhyra</field>
+        <field name="sequence">10</field>
+        <field name="is_leaf" eval="True"/>
+        <field name="account_mask">501</field>
+    </record>
+
+    <!-- 60-69xx Övriga externa kostnader (leaf) -->
+    <record id="demo_tree_other_external" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="parent_id" ref="demo_tree_expenses"/>
+        <field name="name">Övriga externa kostnader</field>
+        <field name="sequence">40</field>
+        <field name="is_leaf" eval="True"/>
+        <field name="account_mask">6</field>
+    </record>
+
+    <!-- 70-76xx Personalkostnader (leaf) -->
+    <record id="demo_tree_personnel" model="mis.budget.tree.line">
+        <field name="tree_id" ref="demo_budget_tree"/>
+        <field name="parent_id" ref="demo_tree_expenses"/>
+        <field name="name">Personalkostnader</field>
+        <field name="sequence">50</field>
+        <field name="is_leaf" eval="True"/>
+        <field name="account_mask">7</field>
+    </record>
+</odoo>

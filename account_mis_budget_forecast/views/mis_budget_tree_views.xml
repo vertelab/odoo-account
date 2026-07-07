@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Budget Tree List View -->
+    <record id="mis_budget_tree_list_view" model="ir.ui.view">
+        <field name="name">mis.budget.tree.list</field>
+        <field name="model">mis.budget.tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Budget Tree Form View -->
+    <record id="mis_budget_tree_form_view" model="ir.ui.view">
+        <field name="name">mis.budget.tree.form</field>
+        <field name="model">mis.budget.tree</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="%(account_mis_budget_forecast.action_create_budget_from_tree)d"
+                            string="Create Budget from Tree"
+                            type="action"
+                            class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Standard Result Budget"/>
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page string="Tree Structure">
+                            <field name="tree_line_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="is_leaf"/>
+                                    <field name="account_mask"
+                                           invisible="parent_id"
+                                           attrs="{'invisible': [('is_leaf', '=', False)], 'required': [('is_leaf', '=', True)]}"/>
+                                    <field name="account_ids"
+                                           invisible="parent_id"
+                                           widget="many2many_tags"
+                                           attrs="{'invisible': [('is_leaf', '=', False)]}"/>
+                                    <field name="parent_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Budget Tree Line Form View -->
+    <record id="mis_budget_tree_line_form_view" model="ir.ui.view">
+        <field name="name">mis.budget.tree.line.form</field>
+        <field name="model">mis.budget.tree.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="tree_id"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="parent_id"/>
+                            <field name="is_leaf"/>
+                        </group>
+                    </group>
+                    <group string="Account Mapping"
+                           invisible="is_leaf == False or parent_id">
+                        <field name="account_mask"
+                               placeholder="e.g. 30,31 → matches 30xx and 31xx"/>
+                        <field name="account_ids" widget="many2many_tags"/>
+                        <div class="text-muted">
+                            Use Account Mask for automatic account matching,
+                            or select Specific Accounts manually.
+                        </div>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action: Create Budget from Tree (Wizard) -->
+    <record id="action_create_budget_from_tree" model="ir.actions.act_window">
+        <field name="name">Create Budget from Tree</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mis.budget.tree.create.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{"default_tree_id": active_id}</field>
+    </record>
+
+    <!-- Menu: Budget Trees under Accounting > Configuration -->
+    <menuitem id="menu_mis_budget_tree"
+              name="Budget Trees"
+              parent="account.account_management_menu"
+              action="action_mis_budget_tree"
+              sequence="50"/>
+
+    <record id="action_mis_budget_tree" model="ir.actions.act_window">
+        <field name="name">Budget Trees</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mis.budget.tree</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

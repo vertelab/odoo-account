@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Budget Item Tree View Extension -->
+    <record id="mis_budget_by_account_item_tree_hierarchy" model="ir.ui.view">
+        <field name="name">mis.budget.by.account.item.tree.hierarchy</field>
+        <field name="model">mis.budget.by.account.item</field>
+        <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_item_list_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='balance']" position="after">
+                <field name="forecast_amount"
+                       optional="show"
+                       string="Forecast"
+                       decoration-info="budget_id.is_forecast == True"/>
+                <field name="hierarchical_balance"
+                       optional="hide"
+                       string="Hier. Bal."
+                       decoration-bf="is_node == True"/>
+                <field name="hierarchical_forecast"
+                       optional="hide"
+                       string="Hier. Forecast"/>
+            </xpath>
+            <xpath expr="//field[@name='account_id']" position="after">
+                <field name="is_node" optional="hide"/>
+                <field name="parent_id" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Budget Item Form View Extension -->
+    <record id="mis_budget_by_account_item_form_hierarchy" model="ir.ui.view">
+        <field name="name">mis.budget.by.account.item.form.hierarchy</field>
+        <field name="model">mis.budget.by.account.item</field>
+        <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_item_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='balance']" position="after">
+                <field name="forecast_amount"
+                       invisible="budget_id.is_forecast == False"/>
+            </xpath>
+            <xpath expr="//group[last()]" position="after">
+                <group string="Hierarchy" colspan="4">
+                    <field name="is_node" invisible="1"/>
+                    <field name="parent_id"
+                           attrs="{'readonly': [('is_node', '=', True)]}"/>
+                    <field name="tree_line_id"/>
+                    <field name="hierarchical_balance"
+                           attrs="{'invisible': [('is_node', '=', False)],
+                                   'readonly': [('is_node', '=', True)]}"/>
+                    <field name="hierarchical_forecast"
+                           attrs="{'invisible': [('is_node', '=', False)],
+                                   'readonly': [('is_node', '=', True)]}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
