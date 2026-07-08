@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add chart fields to fiscal year form -->
+    <record id="view_account_fiscal_year_form_inherit_chart" model="ir.ui.view">
+        <field name="name">account.fiscal.year.form.inherit.chart</field>
+        <field name="model">account.fiscal.year</field>
+        <field name="inherit_id" ref="account_fiscal_year_vrtl.view_account_fiscal_year_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/group[1]" position="after">
+                <group string="Chart of Accounts" name="chart">
+                    <field name="chart_template_id"
+                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="chart_variant_id"
+                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                </group>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="%(account_chart_per_fiscalyear.action_chart_diff)d"
+                        type="action" string="Show Chart Diff"
+                        invisible="state != 'draft'"/>
+                <button name="action_apply_chart_variant" type="object"
+                        string="Apply Chart"
+                        invisible="state != 'draft'"
+                        confirm="Apply chart changes? This will create/modify/deactivate accounts."/>
+            </xpath>
+        </field>
+    </record>
+
+    <act_window id="action_chart_diff"
+                name="Show Chart Diff"
+                res_model="account.chart.diff.wizard"
+                view_mode="form"
+                target="new"/>
+</odoo>

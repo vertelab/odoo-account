@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_chart_template_user,chart.template.user,model_account_chart_template,account.group_account_user,1,0,0,0
+access_account_chart_template_manager,chart.template.manager,model_account_chart_template,account.group_account_manager,1,1,1,1
+access_account_chart_template_line_user,chart.template.line.user,model_account_chart_template_line,account.group_account_user,1,0,0,0
+access_account_chart_template_line_manager,chart.template.line.manager,model_account_chart_template_line,account.group_account_manager,1,1,1,1
+access_account_chart_variant_user,chart.variant.user,model_account_chart_variant,account.group_account_user,1,0,0,0
+access_account_chart_variant_manager,chart.variant.manager,model_account_chart_variant,account.group_account_manager,1,1,1,1
+access_account_chart_variant_line_user,chart.variant.line.user,model_account_chart_variant_line,account.group_account_user,1,0,0,0
+access_account_chart_variant_line_manager,chart.variant.line.manager,model_account_chart_variant_line,account.group_account_manager,1,1,1,1
+access_account_chart_snapshot_user,chart.snapshot.user,model_account_chart_snapshot,account.group_account_user,1,0,0,0
+access_account_chart_snapshot_manager,chart.snapshot.manager,model_account_chart_snapshot,account.group_account_manager,1,1,1,1
+access_account_chart_diff_wizard,chart.diff.wizard,model_account_chart_diff_wizard,base.group_user,1,1,1,1
+access_account_chart_diff_line,chart.diff.line,model_account_chart_diff_line,base.group_user,1,1,1,1
