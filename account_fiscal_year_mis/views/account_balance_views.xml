@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Account Balance Tree View -->
+    <record id="view_account_balance_tree" model="ir.ui.view">
+        <field name="name">account.balance.tree</field>
+        <field name="model">account.balance</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="account_id"/>
+                <field name="debit"/>
+                <field name="credit"/>
+                <field name="balance"/>
+                <field name="fiscalyear_id"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Account Balance Form View -->
+    <record id="view_account_balance_form" model="ir.ui.view">
+        <field name="name">account.balance.form</field>
+        <field name="model">account.balance</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="account_id"/>
+                            <field name="fiscalyear_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="debit"/>
+                            <field name="credit"/>
+                            <field name="balance"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_account_balance_search" model="ir.ui.view">
+        <field name="name">account.balance.search</field>
+        <field name="model">account.balance</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="account_id"/>
+                <field name="fiscalyear_id"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_account_balance" model="ir.actions.act_window">
+        <field name="name">Account Balances</field>
+        <field name="res_model">account.balance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_period_close" model="ir.ui.view">
+        <field name="name">account.period.close.form</field>
+        <field name="model">account.period.close</field>
+        <field name="arch" type="xml">
+            <form string="Close Period">
+                <group>
+                    <p class="oe_grey">
+                        Are you sure you want to close the selected period(s)?
+                        Once closed, no moves can be created or modified in this period.
+                    </p>
+                    <field name="sure"/>
+                </group>
+                <footer>
+                    <button name="data_save" type="object"
+                            string="Close Period" class="oe_highlight"
+                            attrs="{'invisible': [('sure', '=', False)]}"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_close_account_period_journal" model="ir.ui.view">
+        <field name="name">close.account.period.journal.form</field>
+        <field name="model">close.account.period.journal</field>
+        <field name="arch" type="xml">
+            <form string="Close Period Journal">
+                <group>
+                    <p class="oe_grey">
+                        Are you sure you want to close the selected journal entry?
+                    </p>
+                    <field name="sure"/>
+                </group>
+                <footer>
+                    <button name="data_save" type="object"
+                            string="Close" class="oe_highlight"
+                            attrs="{'invisible': [('sure', '=', False)]}"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <act_window id="action_account_period_close"
+                name="Close Period"
+                res_model="account.period.close"
+                view_mode="form"
+                target="new"
+                binding_model="account.period"
+                binding_view_types="list,form"/>
+
+    <act_window id="action_close_account_period_journal"
+                name="Close Journal"
+                res_model="close.account.period.journal"
+                view_mode="form"
+                target="new"
+                binding_model="account.period.journal"
+                binding_view_types="list,form"/>
+</odoo>
