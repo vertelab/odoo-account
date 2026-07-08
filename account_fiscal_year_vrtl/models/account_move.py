@@ -21,26 +21,20 @@ class AccountMove(models.Model):
         return self.env["account.period"].browse()
 
     def _search_period_id(self, operator, value):
-        """Search moves by period — translates to date range search.
-
-        Since we don't have a stored period_id, we convert period search
-        to date range conditions.
-        """
+        """Search moves by period — translates to date range search."""
         if not value:
             return []
 
         if isinstance(value, bool):
             return []
 
-        # Get period(s) by ID
         if operator in ("=", "in", "!=", "not in"):
             if isinstance(value, (int, str)):
                 value = [int(value)]
             periods = self.env["account.period"].browse(value)
             if not periods:
-                return [("id", "=", False)]  # No matching periods → no results
+                return [("id", "=", False)]
 
-            # Build date range domains
             date_domains = []
             for period in periods:
                 date_domains.append([
@@ -54,7 +48,7 @@ class AccountMove(models.Model):
                 return ["|"] * (len(date_domains) - 1) + [
                     dom for pair in date_domains for dom in pair
                 ]
-            else:  # !=, not in
+            else:
                 if len(date_domains) == 1:
                     dom = date_domains[0]
                     return ["!", dom[0], dom[1], dom[2]]
@@ -62,28 +56,54 @@ class AccountMove(models.Model):
                     dom for pair in date_domains for dom in pair
                 ]
 
-        return [("id", "=", False)]  # Unsupported operator → no results
+        return [("id", "=", False)]
+
+    def _is_bypassing_period_lock(self):
+        """Check if this move's journal bypasses period locks."""
+        self.ensure_one()
+        return self.journal_id.bypass_period_lock
 
     @api.model_create_multi
     def create(self, vals_list):
-        """Validate moves are not created in closed periods."""
-        # First, resolve dates
+        """Validate moves are not created in closed periods.
+
+        Bypassed if the journal has bypass_period_lock enabled.
+        """
         for vals in vals_list:
             if vals.get("date"):
                 period = self.env["account.period"].date2period(vals["date"])
                 if period and period.state == "done":
+                    # Check if journal bypasses locks
+                    if vals.get("journal_id"):
+                        journal = self.env["account.journal"].browse(vals["journal_id"])
+                        if journal.bypass_period_lock:
+                            _logger.info(
+                                "Bypassing closed period '%s' for journal '%s'",
+                                period.name, journal.name,
+                            )
+                            continue
                     raise UserError(
-                        _("Cannot create move with date %(date)s: period '%(period)s' is closed.",
+                        _("Cannot create move with date %(date)s: period '%(period)s' is closed. "
+                          "Use a journal with 'Allow in Closed Periods' enabled for closing entries.",
                           date=vals["date"], period=period.name)
                     )
         return super().create(vals_list)
 
     def write(self, vals):
-        """Validate moves are not modified in closed periods."""
+        """Validate moves are not modified in closed periods.
+
+        Bypassed if the journal has bypass_period_lock enabled.
+        """
         if vals.get("date"):
             for move in self:
                 period = self.env["account.period"].date2period(vals["date"])
                 if period and period.state == "done":
+                    if move.journal_id.bypass_period_lock:
+                        _logger.info(
+                            "Bypassing closed period '%s' for move '%s'",
+                            period.name, move.name,
+                        )
+                        continue
                     raise UserError(
                         _("Cannot set date %(date)s on move '%(move)s': period '%(period)s' is closed.",
                           date=vals["date"], move=move.name, period=period.name)
@@ -91,22 +111,30 @@ class AccountMove(models.Model):
         return super().write(vals)
 
     def action_post(self):
-        """Validate moves are not posted in closed periods."""
+        """Validate moves are not posted in closed periods.
+
+        Bypassed if the journal has bypass_period_lock enabled.
+        """
         for move in self:
             if move.date:
                 period = self.env["account.period"].date2period(move.date)
                 if period and period.state == "done":
+                    if move.journal_id.bypass_period_lock:
+                        _logger.info(
+                            "Bypassing closed period '%s' for move '%s'",
+                            period.name, move.name,
+                        )
+                        continue
                     raise UserError(
-                        _("Cannot post move '%(move)s' with date %(date)s: period '%(period)s' is closed.",
+                        _("Cannot post move '%(move)s' with date %(date)s: period '%(period)s' is closed. "
+                          "Use a journal with 'Allow in Closed Periods' enabled for closing entries.",
                           move=move.name, date=move.date, period=period.name)
                     )
         return super().action_post()
 
     def _reverse_moves(self, default_values_list=None, cancel=False):
         """Set date on reversal moves."""
-        res = super()._reverse_moves(default_values_list=default_values_list, cancel=cancel)
-        # Reversal moves get the reversal date, which should be in an open period
-        return res
+        return super()._reverse_moves(default_values_list=default_values_list, cancel=cancel)
 
     @api.onchange("date", "invoice_date")
     def _onchange_date_period(self):
@@ -114,6 +142,9 @@ class AccountMove(models.Model):
         if self.date:
             period = self.env["account.period"].date2period(self.date)
             if period and period.state == "done":
+                # Don't warn if journal bypasses locks
+                if self.journal_id.bypass_period_lock:
+                    return {}
                 return {
                     "warning": {
                         "title": _("Closed Period"),
