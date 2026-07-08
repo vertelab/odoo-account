@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add bypass_period_lock to journal form (Advanced Settings tab) -->
+    <record id="view_account_journal_form_inherit_period" model="ir.ui.view">
+        <field name="name">account.journal.form.inherit.period.lock</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='advanced_settings']" position="inside">
+                <field name="bypass_period_lock"
+                       string="Closing Journal"
+                       help="Allow postings in closed/hash-locked periods. Use for year-end closing entries."/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

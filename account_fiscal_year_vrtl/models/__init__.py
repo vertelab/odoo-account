@@ -3,6 +3,7 @@ from . import (
     account_period,
     account_move,
     account_move_line,
+    account_journal,
     account_account,
     company,
     res_config_settings,

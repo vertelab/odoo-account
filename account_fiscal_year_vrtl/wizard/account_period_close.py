@@ -1,4 +1,4 @@
-"""Period Close Wizard — with optional hash-locking."""
+"""Period Close Wizard — with optional hash-locking and bypass-journal support."""
 
 import logging
 
@@ -26,7 +26,6 @@ class AccountPeriodClose(models.TransientModel):
             if period.state == "done":
                 continue
 
-            # Check if fiscal year is already closed
             if period.fiscalyear_id and period.fiscalyear_id.state == "done":
                 raise UserError(
                     _("Cannot close period '%(period)s': fiscal year '%(fy)s' is already closed.",
@@ -39,17 +38,22 @@ class AccountPeriodClose(models.TransientModel):
                     "Hash-locking moves in period '%s' (%s → %s)...",
                     period.name, period.date_start, period.date_stop,
                 )
-                # Find all posted moves in this period
+                # Find posted moves in this period — EXCLUDING bypass journals
                 moves = self.env["account.move"].search([
                     ("date", ">=", period.date_start),
                     ("date", "<=", period.date_stop),
                     ("state", "=", "posted"),
                     ("company_id", "=", period.company_id.id),
+                    ("journal_id.bypass_period_lock", "=", False),
                 ])
                 if moves:
                     try:
                         moves._hash_moves(force_hash=True)
-                        _logger.info("Hash-locked %d moves in period '%s'", len(moves), period.name)
+                        _logger.info(
+                            "Hash-locked %d moves in period '%s' "
+                            "(excluding bypass-journal entries)",
+                            len(moves), period.name,
+                        )
                     except Exception as e:
                         _logger.error("Failed to hash-lock moves: %s", e)
                         raise UserError(
@@ -57,7 +61,21 @@ class AccountPeriodClose(models.TransientModel):
                               period=period.name, error=str(e))
                         )
 
-            # Close the period
+                # Log bypass-journal moves that were NOT hash-locked
+                bypass_moves = self.env["account.move"].search([
+                    ("date", ">=", period.date_start),
+                    ("date", "<=", period.date_stop),
+                    ("state", "=", "posted"),
+                    ("company_id", "=", period.company_id.id),
+                    ("journal_id.bypass_period_lock", "=", True),
+                ])
+                if bypass_moves:
+                    _logger.info(
+                        "Skipped hash-lock for %d moves in bypass journals: %s",
+                        len(bypass_moves),
+                        ", ".join(bypass_moves.mapped("journal_id.name")),
+                    )
+
             period.state = "done"
             period.fiscalyear_id._set_state()
             _logger.info("Period '%s' closed", period.name)
@@ -73,7 +91,6 @@ class CloseAccountPeriodJournal(models.TransientModel):
 
     def data_save(self):
         """Close the selected period journal entries."""
-        # The period.journal records are passed via context
         active_ids = self.env.context.get("active_ids", [])
         if active_ids:
             journals = self.env["account.period.journal"].browse(active_ids)

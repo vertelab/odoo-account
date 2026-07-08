@@ -32,6 +32,7 @@ Features:
         "views/account_period_views.xml",
         "views/account_move_views.xml",
         "views/account_move_line_views.xml",
+        "views/account_journal_views.xml",
         "views/res_config_settings_views.xml",
         "views/onboarding_template.xml",
         "wizard/account_period_close_view.xml",
