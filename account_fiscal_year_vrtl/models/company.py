@@ -30,34 +30,8 @@ class ResCompany(models.Model):
             "target": "new",
         }
 
-    def compute_fiscalyear_dates(self, current_date):
-        """Get fiscal year dates for a given date.
-
-        Centralized lookup — searches manual fiscal year records first,
-        falls back to calendar year computation.
-
-        Args:
-            current_date: Date to find fiscal year for
-
-        Returns:
-            dict with date_from, date_to keys (and optional record)
-        """
-        self.ensure_one()
-        fy = self.env["account.fiscal.year"].search([
-            ("company_id", "=", self.id),
-            ("date_from", "<=", str(current_date)),
-            ("date_to", ">=", str(current_date)),
-        ], limit=1)
-        if fy:
-            return {
-                "date_from": fy.date_from,
-                "date_to": fy.date_to,
-                "record": fy,
-            }
-
-        # Fallback to calendar year
-        from odoo.tools.date_utils import get_fiscal_year
-        last_day = self.fiscalyear_last_day if hasattr(self, "fiscalyear_last_day") else 31
-        last_month = int(self.fiscalyear_last_month) if hasattr(self, "fiscalyear_last_month") else 12
-        date_from, date_to = get_fiscal_year(current_date, day=last_day, month=last_month)
-        return {"date_from": date_from, "date_to": date_to}
+    # compute_fiscalyear_dates() is inherited from OCA account_fiscal_year
+    # No need to redefine — the OCA version already handles:
+    # 1. Search manual fiscal year records first
+    # 2. Fallback to fiscalyear_last_day/fiscalyear_last_month
+    # 3. Handle gaps between records

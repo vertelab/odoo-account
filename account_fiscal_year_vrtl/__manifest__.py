@@ -21,6 +21,7 @@ Features:
     "license": "AGPL-3",
     "depends": [
         "account",
+        "account_fiscal_year",
         "date_range",
     ],
     "data": [

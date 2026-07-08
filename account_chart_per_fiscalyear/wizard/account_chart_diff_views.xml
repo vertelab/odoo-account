@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_chart_diff_wizard" model="ir.ui.view">
+        <field name="name">account.chart.diff.wizard.form</field>
+        <field name="model">account.chart.diff.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Chart of Accounts Diff">
+                <group>
+                    <field name="fiscalyear_id"/>
+                </group>
+                <group string="Changes" name="changes">
+                    <field name="change_line_ids" nolabel="1">
+                        <tree>
+                            <field name="action" widget="badge"
+                                   decoration-success="action == 'add'"
+                                   decoration-warning="action == 'modify'"
+                                   decoration-danger="action == 'remove'"/>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="account_type"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button name="action_compute_diff" type="object"
+                            string="Compute Diff" class="oe_highlight"/>
+                    <button name="action_apply" type="object"
+                            string="Apply Changes"
+                            confirm="Apply all changes? This cannot be undone."/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
