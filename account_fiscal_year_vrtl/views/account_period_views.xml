@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Period Tree View -->
+    <record id="view_account_period_tree" model="ir.ui.view">
+        <field name="name">account.period.tree</field>
+        <field name="model">account.period</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_stop"/>
+                <field name="closing_date"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="fiscalyear_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Period Form View -->
+    <record id="view_account_period_form" model="ir.ui.view">
+        <field name="name">account.period.form</field>
+        <field name="model">account.period</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_draft" type="object"
+                            string="Re-Open"
+                            invisible="state != 'done'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,done"
+                           statusbar_colors="{'done': 'success'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_stop"/>
+                            <field name="closing_date"/>
+                            <field name="fiscalyear_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="date_range_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Journals" name="journals">
+                            <field name="account_period_journal_ids">
+                                <tree editable="bottom">
+                                    <field name="journal_id"/>
+                                    <field name="closing_date"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'done'"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Period Search -->
+    <record id="view_account_period_search" model="ir.ui.view">
+        <field name="name">account.period.search</field>
+        <field name="model">account.period</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="fiscalyear_id"/>
+                <filter string="Open" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Closed" name="done" domain="[('state', '=', 'done')]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_account_period" model="ir.actions.act_window">
+        <field name="name">Periods</field>
+        <field name="res_model">account.period</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_account_period"
+              parent="account.menu_finance_entries"
+              sequence="80"
+              name="Periods"
+              action="action_account_period"/>
+</odoo>

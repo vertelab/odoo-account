@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Onboarding step template -->
+    <record id="onboarding_step" model="account.onboarding.step">
+        <field name="name">Configure Fiscal Year</field>
+        <field name="step_name">fiscal_year_setup</field>
+        <field name="panel_step_name">fiscal_year</field>
+    </record>
+</odoo>

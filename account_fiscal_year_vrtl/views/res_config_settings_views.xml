@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.fiscal.year</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Fiscal Year &amp; Periods"
+                     string="Fiscal Year &amp; Periods">
+                    <h2>Fiscal Year &amp; Periods</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="period_closing_date"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="period_closing_date" string="Default Period Closing Date"/>
+                                <div class="text-muted">
+                                    Periods with this closing date will be auto-closed when the
+                                    server action "Close Past-Due Periods" is run.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="close_period_hash_lock"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="close_period_hash_lock" string="Hash-Lock on Period Close"/>
+                                <div class="text-muted">
+                                    When enabled, all posted moves will be hash-locked (made
+                                    inalterable) when their period is closed.
+                                    <strong>Warning: This is destructive!</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

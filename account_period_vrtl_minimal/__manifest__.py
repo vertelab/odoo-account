@@ -56,7 +56,7 @@ Added period for accounting. Either 12 months or 4 quarters.
     ],
     'demo': [],
     'qweb': [],
-    'installable': True,
+    'installable': False,
     'application': False,
     'auto_install': False,
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inject Create Balance button and balance stat button into fiscal year form -->
+    <record id="view_account_fiscal_year_form_inherit_mis" model="ir.ui.view">
+        <field name="name">account.fiscal.year.form.inherit.mis</field>
+        <field name="model">account.fiscal.year</field>
+        <field name="inherit_id" ref="account_fiscal_year_vrtl.view_account_fiscal_year_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="create_balance" type="object"
+                        string="Create Balance"
+                        class="oe_highlight"
+                        invisible="state != 'draft'"/>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="open_balances" type="object"
+                        class="oe_stat_button" icon="fa-balance-scale"
+                        invisible="outgoing_balance_count == 0">
+                    <field name="outgoing_balance_count" widget="statinfo"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

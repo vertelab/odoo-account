@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- No period_id or fiscalyear_id fields on move lines -->
+    <!-- This view exists as a placeholder for future extensions -->
+</odoo>

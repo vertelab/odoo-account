@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add period search filter to account.move search view -->
+    <record id="view_account_move_filter" model="ir.ui.view">
+        <field name="name">account.move.search.inherit.period</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_move_filter"/>
+        <field name="arch" type="xml">
+            <field name="date" position="after">
+                <field name="date" string="Period"
+                       filter_domain="[]"
+                       invisible="1"/>
+            </field>
+        </field>
+    </record>
+</odoo>
