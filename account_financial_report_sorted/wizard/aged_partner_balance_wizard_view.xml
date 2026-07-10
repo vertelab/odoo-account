@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Add help tooltips to date fields in Aged Partner Balance wizard -->
+    <record id="aged_partner_balance_wizard_help" model="ir.ui.view">
+        <field name="name">Aged Partner Balance - help texts</field>
+        <field name="model">aged.partner.balance.report.wizard</field>
+        <field name="inherit_id" ref="account_financial_report.aged_partner_balance_wizard" />
+        <field name="arch" type="xml">
+            <field name="date_at" position="attributes">
+                <attribute name="help">
+                    Visar utestående belopp per detta datum. Alla fakturor före eller på detta datum som inte är helt avstämda inkluderas. Exempel: ange dagens datum för aktuell reskontra, eller ett tidigare datum för att se historiskt läge.
+                </attribute>
+            </field>
+            <field name="date_from" position="attributes">
+                <attribute name="help">
+                    Filtrerar bort fakturor som är äldre än detta datum. Används tillsammans med "Datum" för att begränsa perioden. Exempel: ange första dagen i månaden för att bara se fakturor från den månaden och framåt.
+                </attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

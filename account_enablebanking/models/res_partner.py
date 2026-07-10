@@ -10,8 +10,9 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class ResConfigSettings(models.Model):
+class AccountEnableBankingPartner(models.Model):
     _inherit = 'res.partner'
+    _description = 'Enable Banking API credentials per partner'
 
     is_enable_banking_api = fields.Boolean("Enable Enablebanking API")
     enable_banking_api_url = fields.Char("API URL")

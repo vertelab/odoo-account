@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        Extend the OCA Aged Partner Balance QWeb templates:
+        - Add clickable partner names in the simple (summarized) view
+        - Add "Ändra filter" button
+    -->
+
+    <!-- Add inline CSS for table layout (OCA CSS files not served in Odoo 18 production mode) 
+         and "Ändra filter" button below the title in the base report -->
+    <template
+        id="report_aged_partner_balance_add_change_filter"
+        inherit_id="account_financial_report.report_aged_partner_balance_base"
+    >
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <style>
+                .act_as_table { display: table !important; background-color: white; width: 100% !important; }
+                .act_as_row { display: table-row !important; page-break-inside: avoid; }
+                .act_as_cell { display: table-cell !important; page-break-inside: avoid; font-size: 0.9rem !important; }
+                .act_as_thead { display: table-header-group !important; }
+                .act_as_tbody { display: table-row-group !important; }
+                .act_as_row.labels { background-color: #f0f0f0 !important; }
+                .act_as_cell.amount { word-wrap: normal; text-align: right; }
+                .act_as_cell.left { text-align: left; }
+                .act_as_cell.right { text-align: right; }
+                .data_table .act_as_cell { border: 1px solid lightGrey; text-align: center; word-wrap: break-word; }
+                .data_table .act_as_row.labels { font-weight: bold; }
+                .account_title { font-size: 11px; font-weight: bold; }
+                a { color: #00337b; }
+            </style>
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-12 text-right">
+                    <a
+                        href="/web#action=867"
+                        class="btn btn-secondary"
+                        title="Go back to the wizard and change filters"
+                        target="_top"
+                    >
+                        &#8592; Ändra filter
+                    </a>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!--
+        Replace the partner line template (simple view without move lines)
+        with a version that has clickable partner names.
+    -->
+    <template
+        id="report_aged_partner_balance_lines"
+        inherit_id="account_financial_report.report_aged_partner_balance_lines"
+    >
+        <xpath expr="." position="replace">
+        <!-- Display each partner lines -->
+        <div class="act_as_row lines">
+            <!--## partner-->
+            <div class="act_as_cell left">
+                <span
+                    class="partner_clickable"
+                    t-att-data-partner-domain="partner.get('click_domain', '[]')"
+                >
+                    <t t-esc="partner['name']" />
+                </span>
+            </div>
+            <!--## amount_residual-->
+            <div class="act_as_cell amount">
+                <span
+                    t-esc="partner['residual']"
+                    t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                />
+            </div>
+            <!--## current-->
+            <div class="act_as_cell amount">
+                <span
+                    t-esc="partner['current']"
+                    t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                />
+            </div>
+            <t t-if="not age_partner_config">
+                <!--## age_30_days-->
+                <div class="act_as_cell amount">
+                    <span
+                        t-esc="partner['30_days']"
+                        t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                    />
+                </div>
+                <!--## age_60_days-->
+                <div class="act_as_cell amount">
+                    <span
+                        t-esc="partner['60_days']"
+                        t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                    />
+                </div>
+                <!--## age_90_days-->
+                <div class="act_as_cell amount">
+                    <span
+                        t-esc="partner['90_days']"
+                        t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                    />
+                </div>
+                <!--## age_120_days-->
+                <div class="act_as_cell amount">
+                    <span
+                        t-esc="partner['120_days']"
+                        t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                    />
+                </div>
+                <!--## older-->
+                <div class="act_as_cell amount">
+                    <span
+                        t-esc="partner['older']"
+                        t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                    />
+                </div>
+            </t>
+            <t t-foreach="age_partner_config.line_ids" t-as="column_dynamic">
+                <div class="act_as_cell amount">
+                    <span
+                        t-out="partner[column_dynamic]"
+                        t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                    />
+                </div>
+            </t>
+        </div>
+        </xpath>
+    </template>
+</odoo>

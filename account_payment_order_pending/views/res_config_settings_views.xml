@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Vertel AB
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_res_config_settings_account_payment_pending" model="ir.ui.view">
+        <field name="name">res.config.settings.form (in account_payment_order_pending)</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']" position="inside">
+                <block title="Betalorder — Pending-state" id="payment_pending_block">
+                    <setting id="payment_pending_default_setting" help="När aktiverat får alla NYA betalmetoder 'Pending Until Reconciliation' som standard. Befintliga betalmetoder påverkas inte.">
+                        <field name="pending_until_reconciliation_default"/>
+                    </setting>
+                    <div class="alert alert-info mb-0" role="alert" style="margin-bottom: 0;">
+                        <strong>Pending Until Reconciliation</strong> innebär att fakturor i betalorder
+                        inte märks som betalda förrän bankavstämning sker.
+                        Aktivera per betalmetod under <em>Redovisning > Konfiguration > Betalmetoder</em>.
+                    </div>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

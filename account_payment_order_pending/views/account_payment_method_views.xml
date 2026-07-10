@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Vertel AB
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="account_payment_method_form_view_pending">
+        <field name="name">account.payment.method.form (in account_payment_order_pending)</field>
+        <field name="model">account.payment.method</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_method_form" />
+        <field name="arch" type="xml">
+            <field name="bank_account_required" position="after">
+                <field name="pending_until_reconciliation" />
+            </field>
+        </field>
+    </record>
+</odoo>
