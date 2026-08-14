@@ -72,7 +72,7 @@
     <record id="action_account_fiscalyear" model="ir.actions.act_window">
       <field name="name">Fiscal Years</field>
       <field name="res_model">account.fiscalyear</field>
-      <field name="view_mode">tree,form</field>
+      <field name="view_mode">list,form</field>
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">Click to start a new fiscal year.</p>
         <p>
@@ -155,7 +155,7 @@
     <record id="action_account_period_form" model="ir.actions.act_window">
       <field name="name">Account Period</field>
       <field name="res_model">account.period</field>
-      <field name="view_mode">tree,form</field>
+      <field name="view_mode">list,form</field>
       <field name="search_view_id" ref="account_period.view_account_period_search" />
       <field name="view_id" ref="account_period.view_account_period_tree" />
       <field name="help" type="html">
