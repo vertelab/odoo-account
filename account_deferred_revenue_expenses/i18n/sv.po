@@ -52,7 +52,6 @@ msgstr "Transaktion"
 msgid "Product Variant"
 msgstr "Produkt"
 
-# ── account.deferred fields ────────────────────────────────────────
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_deferred__name
@@ -194,7 +193,6 @@ msgstr "Avslutad"
 msgid "Remaining"
 msgstr "Återstår"
 
-# ── account.deferred.line fields ───────────────────────────────────
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_deferred_line__name
@@ -216,7 +214,6 @@ msgstr "Posterad"
 msgid "Journal Entry"
 msgstr "Verifikat"
 
-# ── account.deferred.profile fields ─────────────────────────────────
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_deferred_profile__use_line_account
@@ -268,7 +265,6 @@ msgstr "Periodiserad kostnad"
 msgid "Deferred Income"
 msgstr "Periodiserad intäkt"
 
-# ── Account Move ──────────────────────────────────────────────────
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_move__deferred_count
@@ -285,7 +281,6 @@ msgstr "Skapa periodisering"
 msgid "Periodisera"
 msgstr "Periodisera"
 
-# ── Product ───────────────────────────────────────────────────────
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_product_product__deferred_profile_id
@@ -297,7 +292,6 @@ msgstr "Periodiseringsmall"
 msgid "Default accrual profile when this product is used on an invoice line."
 msgstr "Standardmall för periodisering när denna produkt används på en fakturarad."
 
-# ── Views ─────────────────────────────────────────────────────────
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_form_view
@@ -425,7 +419,6 @@ msgstr "Kostnad"
 msgid "Income"
 msgstr "Intäkt"
 
-# ── Profile views ──────────────────────────────────────────────────
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_profile_form_view
@@ -490,7 +483,6 @@ msgstr "Mall periodiserade kostnader"
 msgid "Deferred Revenue Template"
 msgstr "Mall periodiserade intäkter"
 
-# ── Wizard view ────────────────────────────────────────────────────
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.account_deferred_wizard_form
@@ -552,21 +544,18 @@ msgstr "Skapa stubbar"
 msgid "Cancel"
 msgstr "Avbryt"
 
-# ── Move line views ────────────────────────────────────────────────
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.view_move_line_form_deferred
 msgid "Periodisera"
 msgstr "Periodisera"
 
-# ── Move view ──────────────────────────────────────────────────────
 
 #. module: account_deferred_revenue_expenses
 #: model_terms:ir.ui.view,arch_db:account_deferred_revenue_expenses.view_move_form_extended
 msgid "Periodisering"
 msgstr "Periodisering"
 
-# ── Python messages ────────────────────────────────────────────────
 
 #. module: account_deferred_revenue_expenses
 #. odoo-python
