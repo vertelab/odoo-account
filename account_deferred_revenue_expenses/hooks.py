@@ -35,3 +35,54 @@ def post_init_hook(env):
             "ADD COLUMN deferred_id INT REFERENCES account_deferred(id)"
         )
         _logger.info("Added missing column account_move_line.deferred_id")
+    _cleanup_legacy_rec_type_actions(env)
+
+
+def _cleanup_legacy_rec_type_actions(env):
+    """Heal stale actions/menus left by pre-2.1 module versions.
+
+    Versions before 18.0.2.0.0 stored periodiseringar on ``account.asset``
+    with a ``rec_type`` discriminator and created actions carrying
+    ``rec_type`` domains. After the 2.1 rewrite the field only exists on
+    ``account.deferred`` / ``account.deferred.profile``, so the leftover
+    actions crash with "Invalid field account.asset.rec_type".
+
+    This cleanup is idempotent: it runs on fresh installs (post_init_hook)
+    and on upgrades through the migration post-migrate (18.0.2.2.0), and is
+    a no-op on clean databases:
+    * OCA asset actions are reset to an empty domain when ``rec_type`` is
+      missing from their target model, so the Assets menus open again.
+    * Orphaned legacy deferred actions/menus are deactivated.
+    """
+    # 1) Reset OCA asset actions whose domain references the dropped field.
+    for xmlid in (
+        "account_asset_management.account_asset_action",
+        "account_asset_management.account_asset_profile_action",
+    ):
+        action = env.ref(xmlid, raise_if_not_found=False)
+        if not action:
+            continue
+        if env["ir.model.fields"].search_count(
+            [("model", "=", action.res_model), ("name", "=", "rec_type")]
+        ):
+            # rec_type still exists on the model - the domain is valid.
+            continue
+        if action.domain and "rec_type" in action.domain:
+            action.domain = "[]"
+            _logger.info("Reset rec_type domain on %s", xmlid)
+
+    # 2) Deactivate orphaned legacy deferred actions/menus.
+    for name in (
+        "account_deferred_expense_action",
+        "account_deferred_income_action",
+        "account_deferred_expense_action_menu",
+        "account_deferred_income_action_menu",
+        "account_deferred_expense_profile_menu",
+        "account_deferred_income_profile_menu",
+    ):
+        record = env.ref(
+            "account_deferred_revenue_expenses.%s" % name, raise_if_not_found=False
+        )
+        if record and record.active:
+            record.active = False
+            _logger.info("Deactivated legacy deferred record %s", name)
