@@ -62,9 +62,12 @@ def _cleanup_legacy_rec_type_actions(env):
         action = env.ref(xmlid, raise_if_not_found=False)
         if not action:
             continue
-        if env["ir.model.fields"].search_count(
-            [("model", "=", action.res_model), ("name", "=", "rec_type")]
-        ):
+        # Check the live model (authoritative) instead of ir_model_fields:
+        # during post-migration the stale ir_model_fields row for a removed
+        # field may still exist (it is cleaned later in registry setup), which
+        # would make the old guard skip the reset while the domain is already
+        # invalid -> "Invalid field account.asset.rec_type" crash.
+        if "rec_type" in env[action.res_model]._fields:
             # rec_type still exists on the model - the domain is valid.
             continue
         if action.domain and "rec_type" in action.domain:

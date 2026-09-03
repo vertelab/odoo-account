@@ -1,6 +1,6 @@
 {
     'name': 'Account: Deferred Revenue Expenses',
-    'version': '2.2.1',
+    'version': '2.2.2',
     'summary': 'Deferred Revenue & Expenses with own models and stubs',
     'category': 'Accounting',
     'description': """
