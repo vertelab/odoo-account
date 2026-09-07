@@ -19,6 +19,9 @@
 #
 ##############################################################################
 
+from collections import defaultdict
+from datetime import datetime
+
 from odoo import api, models
 
 
@@ -99,50 +102,75 @@ class AgedPartnerBalanceReportSorted(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data):
-        """
-        Extend OCA report values with click domain on partners
-        so clicking a partner name opens only the invoices
-        included in this specific report run.
-        """
         res = super()._get_report_values(docids, data)
-        aged_partner_balance = res.get("aged_partner_balance", [])
-        wizard = self.env[data["wizard_name"]].browse(data["wizard_id"])
-        account_ids = wizard.account_ids.ids or []
-        date_at = data.get("date_at")
-        only_posted = data.get("only_posted_moves", True)
+        # Build, per (account, partner), the list of account.move ids that make
+        # up that partner's row in THIS report run, so clicking a partner name
+        # opens exactly the invoices/account.moves behind the aged balance.
+        self._attach_move_ids_to_partners(res, data)
+        return res
+
+    def _get_ml_field_domain(self, data):
+        """Reuse OCA's selection domain for move lines (accounts, company,
+        reconciliation, posting state and date_from).
+        """
+        account_ids = data.get("account_ids") or []
+        partner_ids = data.get("partner_ids") or []
         company_id = data.get("company_id")
         date_from = data.get("date_from")
+        only_posted = data.get("only_posted_moves", True)
 
+        domain = self._get_move_lines_domain_not_reconciled(
+            company_id, account_ids, partner_ids, only_posted, date_from
+        )
+        return domain
+
+    def _get_open_moves_per_account_partner(self, data):
+        """Return {(account_id, partner_id): sorted list of account.move ids}
+
+        The moves are those whose open lines (reconciled=False) match the exact
+        selection the report uses (same accounts, company, posting state and
+        date_from), dated <= the report date. This reproduces per account+partner
+        the invoices behind the aged balance shown in this report run.
+        """
+        date_at = data.get("date_at")
+        date_at_date = None
+        if date_at:
+            date_at_date = datetime.strptime(date_at, "%Y-%m-%d").date()
+
+        domain = self._get_ml_field_domain(data)
+        move_lines = self.env["account.move.line"].search_read(
+            domain=domain,
+            fields=["id", "account_id", "partner_id", "move_id", "date"],
+        )
+        mapping = defaultdict(set)
+        for line in move_lines:
+            acc_id = line["account_id"][0] if line["account_id"] else None
+            prt_id = line["partner_id"][0] if line["partner_id"] else None
+            move_id = line["move_id"][0] if line["move_id"] else None
+            if acc_id is None or prt_id is None or move_id is None:
+                continue
+            # The report only counts lines dated <= report date
+            if date_at_date is not None and line["date"] > date_at_date:
+                continue
+            mapping[(acc_id, prt_id)].add(move_id)
+        return {key: sorted(ids) for key, ids in mapping.items()}
+
+    def _attach_move_ids_to_partners(self, res, data):
+        aged_partner_balance = res.get("aged_partner_balance", [])
+        mapping = self._get_open_moves_per_account_partner(data)
         for account in aged_partner_balance:
+            acc_id = account.get("id")
             for partner in account.get("partners", []):
-                domain_list = []
-                domain_list.append([
-                    "partner_id", "=", partner.get("id", 0)
-                ])
-                if account_ids:
-                    domain_list.append([
-                        "account_id", "in", account_ids
-                    ])
-                if date_at:
-                    domain_list.append([
-                        "date", "<=", date_at
-                    ])
-                if date_from:
-                    domain_list.append([
-                        "date", ">", date_from
-                    ])
-                if company_id:
-                    domain_list.append([
-                        "company_id", "=", company_id
-                    ])
-                # Only show unreconciled/partially reconciled lines
-                domain_list.append([
-                    "reconciled", "=", False
-                ])
-                if only_posted:
-                    domain_list.append([
-                        "move_id.state", "=", "posted"
-                    ])
-                import json
-                partner["click_domain"] = json.dumps(domain_list)
+                prt_id = partner.get("id")
+                move_ids = mapping.get((acc_id, prt_id), [])
+                partner["move_ids"] = move_ids
+                if move_ids:
+                    # Same python-domain-string format OCA uses for clickable
+                    # report elements (res-model + domain).
+                    partner["move_click_domain"] = (
+                        "[('id', 'in', [%s])]"
+                        % ", ".join(str(i) for i in move_ids)
+                    )
+                else:
+                    partner["move_click_domain"] = "[('id', 'in', [])]"
         return res

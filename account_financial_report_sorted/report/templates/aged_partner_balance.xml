@@ -58,8 +58,9 @@
             <div class="act_as_cell left">
                 <span
                     class="partner_clickable"
-                    t-att-data-partner-domain="partner.get('click_domain', '[]')"
-                >
+                    res-model="account.move"
+                    t-att-domain="partner['move_click_domain']"
+                    title="Öppna fakturorna bakom denna post">
                     <t t-esc="partner['name']" />
                 </span>
             </div>

@@ -1,8 +1,11 @@
 /** @odoo-module **/
 /**
- * Client-side sorting + partner click handler for Aged Partner Balance report.
- * - Column headers sort the table asc/desc
- * - Partner names open customer invoices filtered to the report's criteria
+ * Client-side column sorting for the Aged Partner Balance report.
+ *
+ * Partner names are clickable and open the account.move invoices behind each
+ * aged partner line. That behaviour is handled by OCA's own report_action
+ * enrichment (useEnrichWithActionLinks wraps any [res-model][domain] element),
+ * so no custom navigation is needed here.
  */
 
 var sortState = {};
@@ -62,38 +65,6 @@ function setupTableSorting() {
                 rows.forEach(function(row) { tbody.appendChild(row); });
                 headers[colIdx].textContent += state.direction === 'asc' ? ' \u25B2' : ' \u25BC';
             });
-        });
-    });
-
-    // Partner name click handler: open customer invoices
-    document.querySelectorAll('.partner_clickable').forEach(function(span) {
-        span.style.cursor = 'pointer';
-        span.style.color = '#0066cc';
-        span.addEventListener('click', function(ev) {
-            ev.preventDefault();
-            ev.stopPropagation();
-            var domain = span.getAttribute('data-partner-domain');
-            if (!domain) return;
-            try {
-                var parsed = JSON.parse(domain);
-                // Extract partner_id from the domain
-                var partnerId = 0;
-                for (var i = 0; i < parsed.length; i++) {
-                    if (parsed[i][0] === 'partner_id' && parsed[i][1] === '=') {
-                        partnerId = parsed[i][2];
-                        break;
-                    }
-                }
-                // Navigate to customer invoices filtered by partner
-                var url = '/odoo/customer-invoices/0/res.partner/' + partnerId + '/invoicing';
-                if (window.parent) {
-                    window.parent.location.href = url;
-                } else {
-                    window.location.href = url;
-                }
-            } catch(e) {
-                // ignore
-            }
         });
     });
 }
