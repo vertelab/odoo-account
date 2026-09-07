@@ -39,6 +39,11 @@ class AccountPaymentOrder(models.Model):
                     "date_uploaded": fields.Date.context_today(self),
                 }
             )
+            # Recompute payment_state on the invoices so they are flagged
+            # 'in_payment' even though no payment/reconciliation was created.
+            moves = self.payment_line_ids.move_line_id.move_id
+            if moves:
+                moves._compute_payment_state()
             return True
         else:
             # Standard mode: keep existing behavior

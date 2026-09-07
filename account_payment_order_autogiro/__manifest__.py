@@ -20,7 +20,7 @@ Beroenden: account_payment_order_pending, account_banking_mandate
     """,
     "version": "18.0.1.0.0",
     "license": "AGPL-3",
-    "author": "Vertel AB",
+    "author": "Vertel Sverige AB",
     "website": "https://vertel.se/apps/odoo-account/account_payment_order_autogiro",
     "category": "Accounting",
     "depends": [

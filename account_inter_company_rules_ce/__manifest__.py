@@ -15,7 +15,7 @@
         'views/res_config_settings_views.xml',
     ],
     'installable': True,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_inter_company_rules_ce',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

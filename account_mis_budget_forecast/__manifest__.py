@@ -23,7 +23,7 @@
     'version': '18.0.1.0.0',
     'summary': 'Dynamic forecast replacing budget with actuals, and hierarchical budget trees.',
     'category': 'Accounting',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

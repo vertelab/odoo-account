@@ -3,7 +3,7 @@
     'version': '18.0.1.0.0',
     'category': 'Accounting',
     'license': 'AGPL-3',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_commodity_demo',
     'summary': 'Demo data for gold/silver commodity purchasing with 3-way matching',
     'description': '''

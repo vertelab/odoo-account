@@ -27,7 +27,7 @@
     'description': """
         Invoice Payment Reminder
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_due_reminder',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

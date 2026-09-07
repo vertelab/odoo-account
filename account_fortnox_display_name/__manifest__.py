@@ -31,7 +31,7 @@
     'description': """
     Replaces name with the fortnox ref dash name if there is a fortnox ref
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_fortnox_display_name',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',

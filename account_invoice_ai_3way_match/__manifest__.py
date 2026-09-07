@@ -20,7 +20,7 @@ module auto-installs and:
     """,
     'depends': ['account_invoice_ai', 'account_3way_match_ce'],
     'data': [],
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_invoice_ai_3way_match',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

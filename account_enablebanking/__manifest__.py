@@ -28,7 +28,7 @@
     Retrieves account Transactions using Enable Banking API.
     """,
     'sequence': '20',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_enablebanking',
     'images': ['/static/description/banner.png'],  # 560x280 px.
     'license': 'AGPL-3',

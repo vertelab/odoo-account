@@ -30,7 +30,7 @@
 
     """,
     #'sequence': 1,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_invoice_scan_llm',
     'images': ['static/description/banner.png'], # 560x280
     'repository': 'https://github.com/vertelab/odoo-account',

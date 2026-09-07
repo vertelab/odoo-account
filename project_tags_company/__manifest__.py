@@ -1,5 +1,6 @@
 {
     'name': 'Project Tags Company',
+'author': 'Vertel Sverige AB',
     'version': '18.0.1.0.0',
     'category': 'Project',
     'summary': 'Add company_id to project.tags',

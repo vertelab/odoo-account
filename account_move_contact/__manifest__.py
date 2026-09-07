@@ -28,7 +28,7 @@
         Adds a contact person field on invoices which is related to the sale orders partner, and adds a many2one field on the invoice view that leads to the sale order.
     """,
     #'sequence': 1,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_move_contact',
     #'images': ['static/description/banner.png'], # 560x280
     'license': 'AGPL-3',

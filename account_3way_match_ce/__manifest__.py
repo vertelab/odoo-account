@@ -28,7 +28,7 @@ Each vendor bill receives one of the following three states:
         'views/account_invoice_view.xml',
         'views/account_journal_dashboard_view.xml'
     ],
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_3way_match_ce',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

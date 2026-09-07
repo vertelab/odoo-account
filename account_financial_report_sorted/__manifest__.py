@@ -30,7 +30,7 @@
         - Clickable partner names to view underlying invoices
         - Back-to-wizard button for filter changes
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_financial_report_sorted',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

@@ -34,7 +34,7 @@
     * Move Analytic distribution
     
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_asset_change',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

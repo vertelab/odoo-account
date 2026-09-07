@@ -26,7 +26,7 @@
     'summary': 'Module that fixes some of the errors that the sepa files triggers for the SEB parser for Swedish payments',
     'category': 'Accounting',
     #'sequence': '1'
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_payment_order_sepa_seb',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

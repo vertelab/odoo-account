@@ -30,7 +30,7 @@
     Adds status and owner to mis report instances so that we have a way of filtering them.
     """,
     #'sequence': '1'
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_mis_report_filter',
     #'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

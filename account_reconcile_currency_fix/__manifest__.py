@@ -1,5 +1,6 @@
 {
     'name': 'Account Reconcile Currency Fix',
+'author': 'Vertel Sverige AB',
     'version': '1.0',
     'category': 'Accounting',
     'depends': ['account_reconcile_oca'],

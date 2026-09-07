@@ -30,7 +30,7 @@
     Adds group to analytic account.
     """,
     #'sequence': '1'
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_analytic_group',
     'images': ['static/description/banner.png'], # 560x280 px
     'license': 'AGPL-3',

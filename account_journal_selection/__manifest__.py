@@ -26,7 +26,7 @@
     'summary': 'Remove Account Selection Limitation On Contacts',
     'category': 'Accounting',
     #'sequence': '1'
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_journal_selection',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

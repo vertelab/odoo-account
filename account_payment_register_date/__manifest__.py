@@ -11,7 +11,7 @@
     'version': '18.0.1.0',
     'summary': 'Default payment date to invoice due date, move field below memo',
     'category': 'Accounting',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_payment_register_date',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

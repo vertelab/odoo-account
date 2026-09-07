@@ -10,7 +10,7 @@
         * Wizard to create deferred entries from invoice lines
         * Stub-based periodization with per-period posting
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_deferred_revenue_expenses',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

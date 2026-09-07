@@ -5,7 +5,7 @@
     'version': '1.0',
     'depends': ['account_fleet', 'account_accountant_ce'],
     'data': [],
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_accountant_fleet_ce',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

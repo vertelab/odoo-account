@@ -30,7 +30,7 @@
     'description': """
         Mailbox for AI Invoices
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_invoice_ai',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',

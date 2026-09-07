@@ -12,7 +12,7 @@
         - Track replacements
         - Search redirection from old to new
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'depends': ['account','analytic'],
     'data': [
         'security/ir.model.access.csv',

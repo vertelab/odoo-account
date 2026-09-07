@@ -10,7 +10,7 @@ Accounting Expense Bridge for Community Edition
     'depends': ['account_accountant_ce', 'hr_expense'],
     'data': [],
     'auto_install': False,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',

@@ -6,7 +6,7 @@
     'version': '18.0.2.6.0',
     'summary': 'Swedish periodization training via website_slides',
     'category': 'Accounting/Training',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

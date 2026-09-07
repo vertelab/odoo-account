@@ -26,7 +26,7 @@
     'summary': 'Account Analytic Extra Criteria',
     'category': 'Accounting',
     #'sequence': '1'
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_analytic_extra_criteria',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

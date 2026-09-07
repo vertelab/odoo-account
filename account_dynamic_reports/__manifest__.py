@@ -7,7 +7,7 @@
     'version': '18.0.1.0.0',
     'summary': 'Dynamic accounting reports for Odoo CE — balance sheet, P&L, general ledger, and more',
     'category': 'Accounting/Reporting',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_dynamic_reports',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

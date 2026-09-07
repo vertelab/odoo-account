@@ -26,7 +26,7 @@
     'summary': 'Adds new fields on a journal.',
     'category': 'Accounting',
     #'sequence': '1',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_journal_select_payable_receivable_account',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

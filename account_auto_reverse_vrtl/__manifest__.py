@@ -1,5 +1,6 @@
 {
     'name': 'Auto Reverse Accounting Entries',
+'author': 'Vertel Sverige AB',
     'version': '1.0',
     'category': 'Accounting',
     'license': 'AGPL-3',

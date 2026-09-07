@@ -3,7 +3,7 @@
     'version': '18.0.1.0.0',
     'summary': 'Commodity price management, inventory revaluation, and BOM integration',
     'category': 'Accounting',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_commodity_price',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

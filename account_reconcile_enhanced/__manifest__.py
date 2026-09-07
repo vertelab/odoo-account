@@ -9,7 +9,7 @@
         regex amount extraction, and enhanced matching rules.""",
     "version": "18.0.1.0.0",
     "license": "AGPL-3",
-    "author": "Odoo Community Association (OCA)",
+    "author": "Vertel Sverige AB, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/account-reconcile",
     "depends": [
         "account_reconcile_oca",

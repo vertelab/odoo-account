@@ -30,7 +30,7 @@
         Lets us generate budget based on the previous year.
         Also lets us add two budgets together into a new one.
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_mis_budget',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
