@@ -2,23 +2,49 @@
 <odoo>
     <data>
 
+        <!-- ── Invoice (account.move) form ───────────────────────────
+             Smart button shows the COUNT of deferred entries linked to
+             this move and opens them. Creation happens from the line. -->
         <record model="ir.ui.view" id="view_move_form_extended">
-            <field name="name">account.move.form</field>
+            <field name="name">account.move.form.deferred</field>
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_move_form" />
             <field name="arch" type="xml">
-                <!-- Add Periodisering smart button -->
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
-                    <button name="action_open_deferred_wizard"
+                    <button name="action_view_deferred_entries"
                             type="object"
                             class="oe_stat_button"
                             icon="fa-calendar"
                             groups="account.group_account_invoice">
                         <div class="o_stat_info">
+                            <field name="deferred_count" class="o_stat_value"/>
                             <span class="o_stat_text">Periodisering</span>
                         </div>
                     </button>
                 </xpath>
+            </field>
+        </record>
+
+        <!-- ── Periodisera button on each invoice line row ──────────
+             Add a per-line action that opens the create wizard with that
+             account.move.line pre-selected (so it knows which line it is).
+             Injected into the editable invoice_line_ids lists. -->
+        <record model="ir.ui.view" id="view_move_form_line_periodisera">
+            <field name="name">account.move.form.deferred.line_button</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+
+                <!-- Product/bill lines list (invoice_tab) -->
+                <xpath expr="//field[@name='invoice_line_ids'][1]//list/field[@name='name']" position="after">
+                    <button name="action_open_deferred_wizard"
+                            type="object"
+                            string="Perio"
+                            class="btn-link"
+                            title="Skapa/visa periodisering för denna rad"
+                            invisible="display_type in ('line_section', 'line_note')"/>
+                </xpath>
+
             </field>
         </record>
 

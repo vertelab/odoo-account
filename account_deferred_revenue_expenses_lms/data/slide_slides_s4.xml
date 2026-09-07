@@ -174,21 +174,21 @@
             <div class="col-lg-6">
                 <div class="s_card card o_cc o_cc1 my-0">
                     <div class="card-body">
-                        <h3 class="h5-fs card-title">🅱️ Modell B — Auto defer (förvald)</h3>
-                        <p class="card-text">Ett <strong>dagligt cron-jobb</strong> ("Deferred: post due periodisation stubs") postar varje stub vars datum förfallit — automatiskt, oberoende av månadsbokslut. Stubben flyttar värdet från periodiseringskontot till kostnads-/intäktskontot. Inga manuella klick krävs.</p>
+                        <h3 class="h5-fs card-title">🅰️ Modell A — Visma-stil (kostnadskonto)</h3>
+                        <p class="card-text">Fakturan bokförs <strong>normalt på kostnads-/intäktskontot</strong> (användaren matar in t.ex. 5010). När fakturan postas <strong>flyttar modulen nettokostnaden till periodiserings-/interimkontot</strong> (t.ex. 1710), så att nettoeffekten på kostnadskontot vid bokningen blir noll och beloppet ligger parkerat. Ett <strong>dagligt cron-jobb</strong> frigör sedan värdet till kostnadskontot över mallens perioder.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="s_card card o_cc o_cc1 my-0">
                     <div class="card-body">
-                        <h3 class="h5-fs card-title">🅰️ Modell A — Explicit prepaid</h3>
-                        <p class="card-text">Redovisaren konterar fakturaraden direkt på periodiseringskontot; stubbar postas <strong>manuellt</strong>: öppna periodiseringen under <strong>Redovisning → Deferred Entries</strong> och klicka <strong>Post</strong> per stub, eller <strong>Post All Stubs</strong> för alla.</p>
+                        <h3 class="h5-fs card-title">🅱️ Modell B — Fortnox-stil (interim, förvald)</h3>
+                        <p class="card-text">Fakturan bokförs <strong>direkt på periodiserings-/interimkontot</strong> (användaren matar in t.ex. 1710) — redan parkerad, ingen omflyttning behövs. Ett <strong>dagligt cron-jobb</strong> frigör sedan värdet till kostnads-/intäktskontot över mallens perioder.</p>
                     </div>
                 </div>
             </div>
         </div>
-        <p class="mt-3">Verifikaten går genom Odoos vanliga postningsmotor, så de respekterar periodlås. En stub vars datum hamnar i en <strong>stängd/låst period</strong> postas inte — den väntar tills perioden öppnas.</p>
+        <p class="mt-3"><strong>I båda modellerna</strong> postas de periodiska återföringsverifikaten av ett <strong>alltid-på dagligt cron</strong> ("Deferred: post due periodisation stubs") genom Odoos vanliga postningsmotor — det finns inget manuellt läge. Moms påverkas aldrig: ingående moms bokförs direkt vid faktureringen. Verifikaten respekterar periodlås — en stub vars datum hamnar i en <strong>stängd/låst period</strong> postas inte utan väntar tills perioden öppnas.</p>
     </div>
 </section>
 
@@ -203,7 +203,7 @@
     </div>
 </section>
         </field>
-        <field name="description">Skapa en periodisering från en faktura och förstå hur verifikaten postas: automatiskt av dagligt cron (Modell B) eller manuellt per stub/alla (Modell A).</field>
+        <field name="description">Skapa en periodisering från en faktura och förstå hur verifikaten postas: i Modell A bokförs fakturan normalt på kostnad och modulen parkerar vid bokning; i Modell B bokförs direkt på interim. Periodiska återföringar sköts alltid av ett dagligt cron.</field>
     </record>
 
     <!-- SLIDE 4.3: Demo — Video -->
@@ -247,8 +247,8 @@
             <div class="col-lg-6">
                 <i class="s_features_icon fa fa-list mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
-                    <h3 class="h5-fs">Automatisk postning (Modell B)</h3>
-                    <p>Ett dagligt cron-jobb postar varje forfallen stub automatiskt. Ingen manuell batch-postning behövs — stubbarna bokas i takt med att perioderna passerar.</p>
+                    <h3 class="h5-fs">Alltid-på daglig cron</h3>
+                    <p>Ett dagligt cron-jobb ("Deferred: post due periodisation stubs") postar varje forfallen stub automatiskt <strong>oavsett Modell A eller B</strong>. Ingen manuell batch-postning behövs — stubbarna bokas i takt med att perioderna passerar.</p>
                 </div>
             </div>
         </div>
@@ -265,7 +265,7 @@
                 </button>
                 <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#periodFAQ">
                     <div class="accordion-body">
-                        <p>I <strong>Modell B</strong> har cron-jobbet redan postat varje stub vars datum förfallit under året — du behöver inte batch-posta manuellt. Stubbar med framtida datum lämnas som planerade för nästa år. I <strong>Modell A</strong> postar du stubbarna manuellt (per stub eller <em>Post All Stubs</em>) innan räkenskapsåret låses. Inga extra bokslutsverifikat behövs — 1710/2990 visar automatiskt rätt saldo.</p>
+                        <p>Efter att räkenskapsåret är igång och perioderna passerat har det <strong>alltid-på dagliga cron-jobbet</strong> redan postat varje stub vars datum förfallit under året — i både Modell A och B. Stubbar med framtida datum lämnas som planerade för nästa år. Inga extra bokslutsverifikat behövs — 1710/2990 visar automatiskt rätt saldo.</p>
                     </div>
                 </div>
             </div>
@@ -285,7 +285,7 @@
                 </button>
                 <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#periodFAQ">
                     <div class="accordion-body">
-                        <p>Ej postade stubbar kan raderas och återskapas. Redan postade stubbar har blivit verifikat — dessa måste reverseras manuellt. <strong>Tips:</strong> Dubbelkolla belopp och perioder innan fakturan bokförs (i Modell B postas stubbarna automatiskt när de förfaller).</p>
+                        <p>Ej postade stubbar kan raderas och återskapas. Redan postade stubbar har blivit verifikat — dessa måste reverseras manuellt. <strong>Tips:</strong> Dubbelkolla belopp och perioder innan fakturan bokförs — i både Modell A och B postar cron-jobbet stubbarna automatiskt när de förfaller.</p>
                     </div>
                 </div>
             </div>
@@ -313,7 +313,7 @@
     </div>
 </div>
         </field>
-        <field name="description">Rutiner kring automatisk postning via cron (Modell B), manuell postning (Modell A), respekt för periodlås och vanliga frågor.</field>
+        <field name="description">Rutiner kring alltid-på daglig cron-postning (Modell A och B), respekt för periodlås, bokslutsflödet och vanliga frågor.</field>
     </record>
 
     <!-- SLIDE 4.4b: Praktisk övning — Periodisera själv -->
@@ -330,15 +330,15 @@
     <span class="s_parallax_bg oe_img_bg" style="background-color: #b83280;"/>
     <div class="container">
         <h1 class="display-3-fs" style="text-align: center;">Gör det själv!</h1>
-        <p class="lead" style="text-align: center;">Praktisk övning (Modell B) — periodisera en faktura och följ hur verifikaten postas automatiskt.</p>
+        <p class="lead" style="text-align: center;">Praktisk övning (Modell B – Fortnox-stil) — periodisera en faktura och följ hur verifikaten postas av det dagliga cron-jobbet.</p>
     </div>
 </section>
 
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
-        <h2>Övning — försäkringspremie (Modell B)</h2>
-        <p><strong>Scenario:</strong> En faktura på företagsförsäkring avser perioden <strong>1 april 2026 – 31 mars 2027</strong> och är på <strong>48 000 kr exkl. moms (6 000 kr moms)</strong>. Företaget använder bokningsmodellen <strong>B – Auto defer</strong>. Dagens datum är 15 april 2026.</p>
-        <p><strong>Uppgift:</strong> Skapa periodiseringen, boka fakturan, och kontrollera att <strong>cron-jobbet</strong> postar forfallna stubbar automatiskt. (Vill du köra övningen manuellt kan du växla företaget till <strong>Modell A</strong> och posta stubbarna själv.)</p>
+        <h2>Övning — försäkringspremie (Modell B, Fortnox-stil)</h2>
+        <p><strong>Scenario:</strong> En faktura på företagsförsäkring avser perioden <strong>1 april 2026 – 31 mars 2027</strong> och är på <strong>48 000 kr exkl. moms (6 000 kr moms)</strong>. Företaget använder bokningsmodellen <strong>B_fortnox_interim_entry</strong> (bokför direkt på interim 1710). Dagens datum är 15 april 2026.</p>
+        <p><strong>Uppgift:</strong> Skapa periodiseringen, koda fakturan direkt på 1710, boka den, och kontrollera att det <strong>alltid-på dagliga cron-jobbet</strong> postar forfallna stubbar. (Skillnaden mot Modell A är bara att fakturan då bokförs normalt på kostnadskontot och att modulen parkerar nettot på 1710 vid bokningen — periodiseringen är densamma.)</p>
     </div>
 </section>
 
@@ -379,7 +379,7 @@
                 </div>
                 <div class="s_process_step_content mt-3 px-3 text-center">
                     <h3 class="h4-fs">Verifiera auto-postning</h3>
-                    <p>Boka fakturan. Cron-jobbet postar forfallna stubbar automatiskt — verifiera verifikaten och 1710-saldot. (Under Modell A postar du själv med Post/Post All Stubs.)</p>
+                    <p>Boka fakturan (kodad på 1710 i Modell B). Det alltid-på dagliga cron-jobbet postar forfallna stubbar automatiskt — verifiera verifikaten och 1710-saldot.</p>
                 </div>
             </div>
         </div>
@@ -451,7 +451,7 @@
                         <h5 class="card-title">Svar 3–4: Belopp &amp; bokslut</h5>
                         <ul class="list-group list-group-flush text-start">
                             <li class="list-group-item px-0 bg-transparent"><strong>Belopp per stub:</strong> 4 000 kr (48 000 ÷ 12). Moms 6 000 kr hanteras separat på konto 2640.</li>
-                            <li class="list-group-item px-0 bg-transparent"><strong>Bokslut 30/6:</strong> 1710 = 36 000 kr (9 månader kvar: juli–mars). 3 stubbar (april–juni) har postats = 12 000 kr — i <strong>Modell B</strong> av cron-jobbet, i <strong>Modell A</strong> manuellt.</li>
+                            <li class="list-group-item px-0 bg-transparent"><strong>Bokslut 30/6:</strong> 1710 = 36 000 kr (9 månader kvar: juli–mars). 3 stubbar (april–juni) har postats = 12 000 kr — bokade av det alltid-på dagliga cron-jobbet.</li>
                         </ul>
                     </div>
                 </div>
@@ -492,29 +492,29 @@
 
     <!-- Quiz S4 -->
     <record id="slide_s4_05_q1" model="slide.question">
-        <field name="question">Vad gör bokningsmodellen "B_auto_defer" (Modell B) för företaget?</field>
+        <field name="question">Vad skiljer bokningsmodellen "B_fortnox_interim_entry" (Modell B) i sättet att boka en periodiserad faktura?</field>
         <field name="sequence">1</field>
         <field name="slide_id" ref="slide_s4_05"/>
     </record>
     <record id="slide_s4_05_q1_a1" model="slide.answer">
-        <field name="text_value">Vid bokning parkerar modulen nettokostnaden på periodiseringskontot och ett dagligt cron postar forfallna stubbar automatiskt</field>
+        <field name="text_value">Fakturan kodas direkt på periodiserings-/interimkontot (t.ex. 1710) som användaren anger; nettobeloppet ligger redan parkerat och det dagliga cron-jobbet frigör det till kostnadskontot</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! I Modell B parkeras nettokostnaden på 1710/interim vid bokning och de periodiska återföringarna postas automatiskt av ett dagligt cron-job.</field>
+        <field name="comment">Correct! I Modell B (Fortnox-stil) bokförs fakturan direkt på interimkontot 1710; ett alltid-på dagligt cron frigör beloppet till kostnadskontot över mallens perioder.</field>
         <field name="question_id" ref="slide_s4_05_q1"/>
     </record>
     <record id="slide_s4_05_q1_a2" model="slide.answer">
-        <field name="text_value">Momsen parkeras på ett balanskonto och periodiseras över tid</field>
+        <field name="text_value">Fakturan bokas normalt på kostnadskontot och modulen parkerar nettot på interimkontot vid bokning</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Moms periodiseras aldrig — ingående moms bokförs direkt vid faktureringen oavsett modell.</field>
+        <field name="comment">Incorrect! Detta är Modell A (A_visma_cost_entry) — bokför normalt på kostnad och modulen parkerar vid bokning. I Modell B kodas fakturan direkt på interimkontot.</field>
         <field name="question_id" ref="slide_s4_05_q1"/>
     </record>
     <record id="slide_s4_05_q1_a3" model="slide.answer">
-        <field name="text_value">Kostnadskontot för varje periodisering hämtas från fakturaraden</field>
+        <field name="text_value">Stubbarna postas manuellt per period</field>
         <field name="sequence">3</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Mallens Kostnads-/intäktskonto är alltid auktoritativt (use_line_account finns inte längre). Fakturaradens konto får aldrig välja återföringskontot.</field>
+        <field name="comment">Incorrect! Det finns inget manuellt läge — i både Modell A och B postas de periodiska återföringarna av ett alltid-på dagligt cron.</field>
         <field name="question_id" ref="slide_s4_05_q1"/>
     </record>
 
@@ -656,29 +656,29 @@
             <div class="col-lg-12">
                 <i class="s_features_icon fa fa-flask mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
-                    <h3 class="h5-fs">Block A — Modell B (auto defer, förvald)</h3>
-                    <p>Skapa en mall som ger <strong>Monthly × 3</strong> med periodiseringskonto 1710 och kostnadskonto (t.ex. 5010). Registrera en leverantörsfaktura "hyra 3 mån" med <strong>nettobelopp 12 000 kr exkl. moms + 3 000 kr ingående moms</strong>, start första täckta månaden, och skapa periodiseringen.</p>
+                    <h3 class="h5-fs">Block A — Modell A (Visma-stil, kostnadskonto)</h3>
+                    <p>Skapa en mall med <strong>Monthly × 3</strong>, periodiseringskonto 1710 och kostnadskonto (t.ex. 5010). Sätt företagets <strong>Deferred Booking Model = A_visma_cost_entry</strong> (Redovisning → Konfiguration → Settings → Deferred (Periodised) Costs). Registrera en leverantörsfaktura "hyra 3 mån" med <strong>nettobok 12 000 kr exkl. moms + 3 000 kr ing moms</strong>, koda fakturaraden <strong>normalt på kostnadskontot (5010)</strong>, och skapa periodiseringen med kostnadskontot som ingång.</p>
                 </div>
             </div>
             <div class="col-lg-12">
                 <i class="s_features_icon fa fa-check-circle mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
                     <h4 class="h6-fs">Förväntat resultat (A)</h4>
-                    <p>När fakturan <strong>postas</strong> hamnar 12 000 kr på <strong>1710/interim</strong> och 3 000 kr på momskontot (inte på kostnadskontot); motleverantörskulden blir 15 000 kr. Stubbar finns med den sista dagen i varje månad. Kör cron manuellt (eller vänta till nästa dag): forfallna stubbar skapar verifikat <strong>DR kostnad / CR interim</strong>, stubben markeras <strong>posted=True</strong> och <strong>Remaining</strong> minskar; efter sista stubben är residualen 0 och state blir <strong>close</strong>.</p>
+                    <p>När fakturan <strong>postas</strong> parkerar modulen <strong>12 000 kr på 1710/interim</strong> (nettoeffekten på kostnadskontot 5010 blir noll) och 3 000 kr hamnar på momskontot; motleverantörsskulden blir 15 000 kr. Stubbar finns sista dagen i varje månad. Kör cron manuellt (eller vänta till nästa dag): förfallna stubbar skapar verifikat <strong>DR kostnad / CR interim</strong> om 4 000 kr vardera, stubben markeras <strong>posted=True</strong> och <strong>Remaining</strong> minskar; efter sista stubben är residualen 0 och state blir <strong>close</strong>.</p>
                 </div>
             </div>
             <div class="col-lg-12">
                 <i class="s_features_icon fa fa-flask mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
-                    <h3 class="h5-fs">Block B — Modell A (explicit prepaid)</h3>
-                    <p>Växla företaget till <strong>A_explicit_prepaid</strong>. Registrera en liknande faktura men kontera fakturaraden <strong>direkt på 1710</strong>.</p>
+                    <h3 class="h5-fs">Block B — Modell B (Fortnox-stil, interim)</h3>
+                    <p>Sätt företagets <strong>Deferred Booking Model = B_fortnox_interim_entry</strong> (förvald). Registrera en liknande faktura men koda fakturaraden <strong>direkt på periodiserings-/interimkontot 1710</strong> och skapa periodiseringen med interim (1710) som ingång.</p>
                 </div>
             </div>
             <div class="col-lg-12">
                 <i class="s_features_icon fa fa-check-circle mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
                     <h4 class="h6-fs">Förväntat resultat (B)</h4>
-                    <p><strong>Ingen</strong> automatisk omkontering sker — fakturaraden ligger kvar på 1710. Stubbarna postas <strong>manuellt</strong> via <em>Post</em> (per stub) eller <em>Post All Stubs</em>.</p>
+                    <p>Vid bokning hamnar <strong>12 000 kr direkt på 1710</strong> (redan parkerad — ingen extra omflyttning behövs) och 3 000 kr på momskontot; motleverantörsskulden 15 000 kr. Det alltid-på dagliga cron-jobbet frigör 4 000 kr/mån (via verifikat DR kostnad / CR interim) tills periodiseringen nått residual 0 och stängts.</p>
                 </div>
             </div>
             <div class="col-lg-12">
@@ -710,7 +710,7 @@
     </div>
 </section>
         </field>
-        <field name="description">Verifieringsguide: kör Modell B (auto-park + cron), Modell A (manuell postning) och en låst-period-stub i en test-databas, och kontrollera de förväntade resultaten.</field>
+        <field name="description">Verifieringsguide: kör Modell A (Visma-stil kostnad → parkerar på interim) och Modell B (Fortnox-stil direkt på interim), plus en låst-period-stub i en test-databas, och kontrollera de förväntade resultaten. Periodiska återföringar sker alltid av det dagliga cron-jobbet.</field>
     </record>
 
     </data>

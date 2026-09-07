@@ -34,15 +34,16 @@ class AccountMove(models.Model):
         }
 
     def action_post(self):
-        """In booking model B (auto defer), park deferred-linked invoice lines on
-        their interim/periodiserings account when the move is posted.
+        """In booking model A (cost-account entry), park deferred-linked invoice lines
+        on their interim/periodiserings account when the move is posted.
 
-        Model A (explicit prepaid) leaves the invoice line account as the
-        accountant coded it; only the release stubs are scheduled. In model B the
-        net cost is moved off the expense/income account and onto the deferred
-        (interim) account at posting, and the periodic releases then move it back
-        to the expense account over time. VAT lines and unrelated lines are never
-        touched.
+        Model A (Visma-style): the bill is booked on the cost/expense account (the
+        account the user entered, e.g. 5010). The module rebooks the deferred line to
+        the interim account at posting so the net effect on the cost account is zero
+        and the prepaid amount sits parked, then the daily cron releases it to the
+        cost account over the profile periods. Model B (Fortnox-style) is coded
+        directly on the interim account already, so no rebook is needed. VAT lines
+        and unrelated lines are never touched in either model.
         """
         lines_to_park = self._deferred_lines_to_park_on_post()
         if lines_to_park:
@@ -52,19 +53,21 @@ class AccountMove(models.Model):
         return super().action_post()
 
     def _deferred_lines_to_park_on_post(self):
-        """Return deferred-linked move lines that should be rebooked onto their
-        interim account at posting under model B (auto defer).
+        """Return deferred-linked move lines that should be parked onto their interim
+        account at posting under model A (cost-account entry / Visma-style).
 
-        Only applies to lines that carry a `deferred_id` (a deferral was scheduled
-        for them) whose account is not already the deferred interim account, on a
-        draft move belonging to a company configured for B. In model A no line is
-        rebooked.
+        In model A the deferred invoice line is coded on the cost/expense account, so
+        we rebook it to the deferred interim account at posting to neutralise the P&L
+        exposure and park the net cost. Only applies to lines carrying a `deferred_id`
+        whose account is not already the deferred interim account, on a draft move of
+        a company configured for model A. In model B (interim entry) the line is
+        already on the interim account, so no line is returned.
         """
         lines = self.env['account.move.line']
         for move in self:
             if move.state != 'draft':
                 continue
-            if move.company_id.deferred_booking_method != 'B_auto_defer':
+            if move.company_id.deferred_booking_method != 'A_visma_cost_entry':
                 continue
             deferred_lines = move.line_ids.filtered('deferred_id')
             for line in deferred_lines:

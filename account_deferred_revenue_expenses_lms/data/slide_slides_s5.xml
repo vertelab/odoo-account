@@ -90,7 +90,7 @@
                 <table class="table table-bordered">
                     <tr><th>Inställning</th><th>Effekt</th></tr>
                     <tr><td><strong>Skip Draft State</strong></td><td>Periodiseringen blir aktiv direkt (rekommenderas)</td></tr>
-                    <tr><td><strong>Deferred Booking Model (företagsnivå)</strong></td><td>Styr om fakturaradens konto automatiskt parkeras på periodiseringskontot vid bokning (Modell B) eller om redovisaren konterar på kontot själv (Modell A).<br/><em>Förs inte längre på mallen</em> — sätts under Redovisning → Konfiguration → Inställningar → Deferred (Periodised) Costs.</td></tr>
+                    <tr><td><strong>Deferred Booking Model (företagsnivå)</strong></td><td>Avgör <strong>vilken bokningsstil</strong> som används vid fakturabokningen av periodiserade kostnader: <strong>A_visma_cost_entry</strong> = boka normalt på kostnad (modulen parkerar nettot på interimkontot vid bokning) eller <strong>B_fortnox_interim_entry</strong> = boka direkt på interimkontot. I båda fallen frigör ett alltid-på dagligt cron de periodiska återföringarna.<br/><em>Förs inte längre på mallen</em> — sätts under Redovisning → Konfiguration → Inställningar → Deferred (Periodised) Costs.</td></tr>
                     <tr><td><strong>Allow Reversal</strong></td><td>Postade stubbar kan reverseras istället för raderas</td></tr>
                     <tr><td><strong>Journal</strong></td><td>Vilken journal periodiseringsverifikaten skapas i (vanligen Diverse)</td></tr>
                 </table>
@@ -218,13 +218,13 @@
         <div class="row">
             <div class="col-lg-12">
                 <h3>Så postas verifikaten — styrs av företagets Deferred Booking Model</h3>
-                <p>Efter att stubbar skapats ska fakturan bokföras. I <strong>Modell B (auto defer, förvald)</strong> parkeras då nettokostnaden automatiskt på periodiseringskontot (account_depreciation_id) och ett <strong>dagligt cron-jobb</strong> ("Deferred: post due periodisation stubs") postar varje förfallen stub när dess datum infaller — oberoende av månadsbokslut. I <strong>Modell A (explicit prepaid)</strong> konterar redovisaren fakturaraden direkt på periodiseringskontot och postar förfallna stubbar manuellt (per stub eller via Post All Stubs).</p>
+                <p>Efter att stubbar skapats ska fakturan bokföras. I <strong>Modell A (A_visma_cost_entry)</strong> bokas fakturan normalt på kostnads-/intäktskontot och modulen <strong>parkerar nettokostnaden på periodiserings-/interimkontot</strong> (account_depreciation_id) vid bokningen. I <strong>Modell B (B_fortnox_interim_entry, förvald)</strong> kodas fakturan direkt på interimkontot. Ett <strong>alltid-på dagligt cron-jobb</strong> ("Deferred: post due periodisation stubs") postar därefter varje förfallen stub när dess datum infaller — oberoende av månadsbokslut och vilken modell som valts (det finns inget manuellt läge).</p>
             </div>
         </div>
     </div>
 </section>
         </field>
-        <field name="description">Komplett genomgång av wizard-flödet: öppna faktura → markera rad → klicka Periodisering → fyll i wizard → Create Stubs → boka fakturan. Med fält-för-fält förklaring och hur Modell B (auto-park + dagligt cron) respektive Modell A (manuell) postar verifikaten.</field>
+        <field name="description">Komplett genomgång av wizard-flödet: öppna faktura → markera rad → klicka Periodisering → fyll i wizard → Create Stubs → boka fakturan. Med fält-för-fält förklaring och hur Modell A (bokas på kostnad, modulen parkerar till interim) respektive Modell B (bokas direkt på interim) postar verifikaten via ett alltid-på dagligt cron.</field>
     </record>
 
     <!-- SLIDE 5.4: Wizard-flöde — Sequence Diagram (Infographic) -->
@@ -287,13 +287,13 @@
 
 <section class="s_text_block pt16 pb24">
     <div class="container s_allow_columns">
-        <h2 class="h3-fs">Vem flyttar fakturaraden till periodiseringskontot? — res.company.deferred_booking_method</h2>
-        <p>En ny företagsinställning <strong>Deferred Booking Model</strong> (under <strong>Redovisning → Konfiguration → Inställningar</strong>, avsnittet "Deferred (Periodised) Costs") avgör hur nettokostnaden hamnar på periodiseringskontot:</p>
+        <h2 class="h3-fs">Vilken bokningsstil — res.company.deferred_booking_method</h2>
+        <p>En ny företagsinställning <strong>Deferred Booking Model</strong> (under <strong>Redovisning → Konfiguration → Inställningar</strong>, avsnittet "Deferred (Periodised) Costs") avgör hur nettokostnaden hamnar på periodiseringskontot och vilket konto användaren anger när periodiseringen skapas:</p>
         <ul>
-            <li><strong>Modell B – Auto defer (förvald):</strong> fakturan konteras normalt på kostnads-/intäktskontot. Vid fakturabokningen <strong>rebookar modulen</strong> den periodiserade fakturaradens konto automatiskt till mallets periodiseringskonto (account_depreciation_id).</li>
-            <li><strong>Modell A – Explicit prepaid:</strong> inget automatisk omläggning sker — redovisaren konterar fakturaraden direkt på periodiseringskontot.</li>
+            <li><strong>Modell A – A_visma_cost_entry:</strong> fakturan bokas normalt på kostnads-/intäktskontot (användaren anger kostnadskontot). Vid fakturabokningen <strong>parkerar modulen nettokostnaden</strong> på periodiserings-/interimkontot (account_depreciation_id) så nettoeffekten på kostnadskontot blir noll.</li>
+            <li><strong>Modell B – B_fortnox_interim_entry (förvald):</strong> fakturan kodas <strong>direkt på periodiserings-/interimkontot</strong> (användaren anger interim 1710) — redan parkerat, ingen omflyttning vid bokning.</li>
         </ul>
-        <p>Valet ligger på <strong>företag</strong>, inte på mallen, och gäller alla mallar i företaget. För postning av stubbarna kör ett <strong>dagligt cron-jobb</strong> ("Deferred: post due periodisation stubs") genom normal postningsmotor och postar varje förfallen stub (date ≤ idag). Postar en stub i en stängd/låst period sker den inte alls — stubben ligger kvar opostad tills perioden är öppen.</p>
+        <p>Valet ligger på <strong>företag</strong>, inte på mallen, och gäller alla mallar i företaget. Under samma inställning: moms periodiseras aldrig (ingående moms bokförs direkt). I bägge modellerna postar ett <strong>alltid-på dagligt cron-jobb</strong> ("Deferred: post due periodisation stubs") varje förfallen stub via normal postningsmotor (date ≤ idag) — det finns inget manuellt läge. Hamnar en stubs datum i en stängd/låst period postas den inte alls — stubben ligger kvar opostad tills perioden är öppen.</p>
     </div>
 </section>
 
@@ -356,7 +356,7 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.15</field>
         <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/diagram_workflow.png"/>
-        <field name="description">Komplett arbetsflöde i fyra faser: 1) Konfiguration (engångs), 2) Dagligt arbete (skapa periodisering + boka faktura). Därefter: i Modell B postar ett dagligt cron varje förfallen stub automatiskt (fortlöpande), och vid bokslut kontrolleras att alla stubbar för räkenskapsåret är postade. I Modell A postas stubbar manuellt (Månadsvis/Bokslut).</field>
+        <field name="description">Komplett arbetsflöde i fyra faser: 1) Konfiguration (engångs), 2) Dagligt arbete (skapa periodisering + boka faktura enligt vald bokningsmodell A eller B). Därefter postar ett alltid-på dagligt cron varje förfallen stub automatiskt (fortlöpande) i bägge modellerna, och vid bokslut kontrolleras att alla stubbar för räkenskapsåret är postade.</field>
     </record>
 
     <!-- SLIDE 5.7: Quiz — Odoo-modulen -->
@@ -512,15 +512,15 @@
     </record>
 
     <record id="slide_s5_07_q6" model="slide.question">
-        <field name="question">Vilken inställning avgör om fakturaradens konto automatiskt parkeras på periodiseringskontot vid bokning (Modell B), istället för att redovisaren konterar på kontot själv (Modell A)?</field>
+        <field name="question">Hur bestäms vilken bokningsstil som används för periodiserade kostnader (t.ex. Modell A kostnad vs Modell B direkt på interim), och är det kopplat till manuell postning?</field>
         <field name="sequence">6</field>
         <field name="slide_id" ref="slide_s5_07"/>
     </record>
     <record id="slide_s5_07_q6_a1" model="slide.answer">
-        <field name="text_value">Företagsinställningen "Deferred Booking Model" under Redovisning → Konfiguration → Inställningar</field>
+        <field name="text_value">Det styrs av företagsinställningen "Deferred Booking Model" (Deferred (Periodised) Costs); periodiska återföringar postas alltid av ett dagligt cron oavsett modell</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! res.company.deferred_booking_method (A_explicit_prepaid / B_auto_defer) avgör om fakturaradens konto rebookas till periodiseringskontot vid bokning.</field>
+        <field name="comment">Correct! res.company.deferred_booking_method (A_visma_cost_entry: boka normalt på kostnad, modulen parkerar till interim vid bokning; B_fortnox_interim_entry: boka direkt på interim) väljer bokningsstil. Det dagliga cron-jobbet postar återföringarna i bägge modellerna — det finns inget manuellt läge.</field>
         <field name="question_id" ref="slide_s5_07_q6"/>
     </record>
     <record id="slide_s5_07_q6_a2" model="slide.answer">

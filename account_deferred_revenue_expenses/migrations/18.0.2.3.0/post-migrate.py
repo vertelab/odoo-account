@@ -18,7 +18,7 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-_DEFAULT_BOOKING_METHOD = 'B_auto_defer'
+_DEFAULT_BOOKING_METHOD = 'B_fortnox_interim_entry'
 
 
 def migrate(cr, version):

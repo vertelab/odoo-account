@@ -9,13 +9,14 @@
                 <block title="Deferred (Periodised) Costs" id="deferred_booking_settings">
                     <setting id="deferred_booking_method"
                              help="How prepaid costs (periodiserade kostnader) are booked in this company.
-Model A (A_explicit_prepaid): the accountant codes the invoice line directly on the interim /
-periodiseringskonto (e.g. 1710). The module only schedules the recurring releases. No automatic
-rebooking happens.
+Model A (A_visma_cost_entry): the bill is booked normally on the expense/income
+account (e.g. 5010); when it is posted, the module parks the net amount on the interim /
+periodiseringskonto so the cost account's net effect is zero at booking, then the daily cron
+releases it month by month.
 
-Model B (B_auto_defer): the bill is coded normally on the expense/income account; when it is
-posted, the module automatically parks the net amount on the interim (deferred) account and
-releases it month by month via the daily posting job.
+Model B (B_fortnox_interim_entry): the bill is booked directly on the interim /
+periodiseringskonto (e.g. 1710) - already parked; the daily cron releases it month by
+month.
 
 VAT is NEVER deferred in either model: input VAT is booked directly and normally at posting.
 Only the net cost is parked and later released.">
