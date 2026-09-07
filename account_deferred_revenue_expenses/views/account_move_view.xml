@@ -35,12 +35,12 @@
             <field name="inherit_id" ref="account.view_move_form" />
             <field name="arch" type="xml">
 
-                <!-- Product/bill lines list (invoice_tab): append an icon button as
-                     the last column so it sits at the row end, before Odoo's trash. -->
+                <!-- Product/bill lines list (invoice_tab): append an ICON-ONLY button as
+                     the last column so it sits at the row end (compact, no label text),
+                     before Odoo's trash. -->
                 <xpath expr="//field[@name='invoice_line_ids'][1]//list" position="inside">
                     <button name="action_open_deferred_wizard"
                             type="object"
-                            string="Periodisera"
                             class="btn btn-link p-0"
                             icon="fa-calendar"
                             title="Periodisera denna rad"
