@@ -135,6 +135,7 @@ class AccountJournal(models.Model):
 
 class EnableBankingTransactions(models.TransientModel):
     _name = "enable.banking.transaction.wizard"
+    _description = "Enable Banking Transaction Wizard"
 
     journal_id = fields.Many2one('account.journal', string="Journal")
     account_uuid = fields.Char(string="Account UUID")
