@@ -30,7 +30,7 @@
                     </header>
                     <sheet>
                         <widget name="web_ribbon" title="Closed"
-                                bg_color="bg-muted" invisible="state != 'close'"/>
+                                bg_color="bg-secondary" invisible="state != 'close'"/>
                         <div class="oe_button_box" name="button_box">
                             <button name="action_open_stubs"
                                     type="object"

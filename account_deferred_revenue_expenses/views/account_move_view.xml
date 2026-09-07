@@ -25,23 +25,25 @@
             </field>
         </record>
 
-        <!-- ── Periodisera button on each invoice line row ──────────
-             Add a per-line action that opens the create wizard with that
-             account.move.line pre-selected (so it knows which line it is).
-             Injected into the editable invoice_line_ids lists. -->
+        <!-- ── Periodisera icon button on each invoice line row ──────────
+             Add a per-line action (shown as an icon at the end of the row, near
+             Odoo's own line controls) that opens the create wizard with that
+             account.move.line pre-selected (so it knows which line it is). -->
         <record model="ir.ui.view" id="view_move_form_line_periodisera">
             <field name="name">account.move.form.deferred.line_button</field>
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_move_form" />
             <field name="arch" type="xml">
 
-                <!-- Product/bill lines list (invoice_tab) -->
-                <xpath expr="//field[@name='invoice_line_ids'][1]//list/field[@name='name']" position="after">
+                <!-- Product/bill lines list (invoice_tab): append an icon button as
+                     the last column so it sits at the row end, before Odoo's trash. -->
+                <xpath expr="//field[@name='invoice_line_ids'][1]//list" position="inside">
                     <button name="action_open_deferred_wizard"
                             type="object"
-                            string="Perio"
-                            class="btn-link"
-                            title="Skapa/visa periodisering för denna rad"
+                            string="Periodisera"
+                            class="btn btn-link p-0"
+                            icon="fa-calendar"
+                            title="Periodisera denna rad"
                             invisible="display_type in ('line_section', 'line_note')"/>
                 </xpath>
 
