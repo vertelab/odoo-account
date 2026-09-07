@@ -30,11 +30,21 @@
                             <group string="Accounts">
                                 <field name="account_depreciation_id" string="Periodiseringskonto"
                                        domain="[('deprecated', '=', False)]"/>
-                                <field name="use_line_account" string="Hämta konto från verifikatet"/>
                                 <field name="account_expense_id"
                                        string="Kostnads-/intäktskonto"
-                                       invisible="use_line_account"
                                        domain="[('deprecated', '=', False)]"/>
+                                <div class="text-muted small">
+                                    Periodiseringskonto = balanskonto (t.ex. 1710/1790) där
+                                    nettokostnaden initialt parkeras. Kostnads-/intäktskonto = det
+                                    resultatkonto som de periodiska återföringarna bokförs till.
+                                    Hur den initiala parkeringen sker (bokför direkt på
+                                    periodiseringskontot, eller bokför på kostnadskontot och låt
+                                    systemet parkera automatiskt vid bokföring) styrs av företagets
+                                    inställning "Deferred Booking Model"
+                                    (Bokföringssettingar → Deferred (Periodised) Costs).
+                                    Moms påverkas ALDRIG — ingående moms bokförs direkt,
+                                    endast nettokostnaden parkeras.
+                                </div>
                             </group>
                         </group>
 

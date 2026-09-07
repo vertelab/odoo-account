@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data noupdate="0">
 
     <!-- ═══════════════════════════════════════════════════
          SEKTION 4: Periodisering i Odoo — Praktisk guide
@@ -85,9 +85,8 @@
             <div class="col-lg-6 pt16 pb16">
                 <div class="s_card card o_cc o_cc1 my-0">
                     <div class="card-body">
-                        <h3 class="h5-fs card-title">⚙️ Kryssrutan "Hämta konto från verifikatet"</h3>
-                        <p class="card-text"><strong>☑ Ikryssad:</strong> kostnadskontot hämtas från fakturaraden. Flexibelt när samma mall används för olika konton.</p>
-                        <p class="card-text"><strong>☐ Avmarkerad:</strong> mallens konto används alltid, oavsett fakturaradens konto. Strikt kontroll.</p>
+                        <h3 class="h5-fs card-title">⚙️ Kostnads-/intäktskontot är alltid mallens</h3>
+                        <p class="card-text">Sedan 18.0.2.3.0 finns <strong>ingen</strong> kryssruta "Hämta konto från verifikatet". Mallens <strong>Kostnads-/intäktskonto är alltid auktoritativt</strong> för de periodiska återföringarna. Huruvida fakturaradens konto parkeras på periodiseringskontot vid bokning styrs i stället av företagets <strong>Deferred Booking Model</strong> (Modell A eller B) under <strong>Redovisning → Konfiguration → Settings</strong> → avsnittet "Deferred (Periodised) Costs".<br/><strong>Moms periodiseras aldrig</strong> — ingående moms bokförs direkt vid faktureringen oavsett modell; endast nettokostnaden parkeras och återförs.</p>
                     </div>
                 </div>
                 <div class="s_card card o_cc o_cc1 my-0 mt-3">
@@ -106,7 +105,7 @@
 
     <!-- SLIDE 4.2: Skapa och posta en periodisering -->
     <record id="slide_s4_02" model="slide.slide">
-        <field name="name">Skapa och posta en periodisering</field>
+        <field name="name">Skapa en periodisering — Modell A/B &amp; postning</field>
         <field name="sequence">170</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
@@ -169,25 +168,27 @@
 
 <section class="s_text_block pt0 pb64">
     <div class="container s_allow_columns">
-        <h3>Posta stubbar</h3>
+        <h3>Så postas verifikaten</h3>
+        <p>Hur de periodiska verifikaten skapas beror på företagets <strong>Deferred Booking Model</strong> (<strong>Redovisning → Konfiguration → Settings</strong> → avsnittet "Deferred (Periodised) Costs"):</p>
         <div class="row">
             <div class="col-lg-6">
                 <div class="s_card card o_cc o_cc1 my-0">
                     <div class="card-body">
-                        <h3 class="h5-fs card-title">En i taget</h3>
-                        <p class="card-text">Öppna periodiseringen under <strong>Redovisning → Deferred Entries</strong>. Klicka <strong>Post</strong> på varje stub för att skapa verifikatet.</p>
+                        <h3 class="h5-fs card-title">🅱️ Modell B — Auto defer (förvald)</h3>
+                        <p class="card-text">Ett <strong>dagligt cron-jobb</strong> ("Deferred: post due periodisation stubs") postar varje stub vars datum förfallit — automatiskt, oberoende av månadsbokslut. Stubben flyttar värdet från periodiseringskontot till kostnads-/intäktskontot. Inga manuella klick krävs.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="s_card card o_cc o_cc1 my-0">
                     <div class="card-body">
-                        <h3 class="h5-fs card-title">Alla på en gång</h3>
-                        <p class="card-text">Använd <strong>Post All Stubs</strong> för att posta alla stubbar samtidigt. Snabbt och effektivt — särskilt vid månadsbokslut.</p>
+                        <h3 class="h5-fs card-title">🅰️ Modell A — Explicit prepaid</h3>
+                        <p class="card-text">Redovisaren konterar fakturaraden direkt på periodiseringskontot; stubbar postas <strong>manuellt</strong>: öppna periodiseringen under <strong>Redovisning → Deferred Entries</strong> och klicka <strong>Post</strong> per stub, eller <strong>Post All Stubs</strong> för alla.</p>
                     </div>
                 </div>
             </div>
         </div>
+        <p class="mt-3">Verifikaten går genom Odoos vanliga postningsmotor, så de respekterar periodlås. En stub vars datum hamnar i en <strong>stängd/låst period</strong> postas inte — den väntar tills perioden öppnas.</p>
     </div>
 </section>
 
@@ -202,7 +203,7 @@
     </div>
 </section>
         </field>
-        <field name="description">Steg-för-steg guide: öppna faktura → klicka Periodisering → välj rad + mall → skapa stubbar → posta.</field>
+        <field name="description">Skapa en periodisering från en faktura och förstå hur verifikaten postas: automatiskt av dagligt cron (Modell B) eller manuellt per stub/alla (Modell A).</field>
     </record>
 
     <!-- SLIDE 4.3: Demo — Video -->
@@ -219,7 +220,7 @@
 
     <!-- SLIDE 4.4: Tips och bokslutsrutiner -->
     <record id="slide_s4_04" model="slide.slide">
-        <field name="name">Tips och bokslutsrutiner</field>
+        <field name="name">Tips och rutiner — auto-postning, bokslut &amp; lås</field>
         <field name="sequence">190</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
@@ -246,8 +247,8 @@
             <div class="col-lg-6">
                 <i class="s_features_icon fa fa-list mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
-                    <h3 class="h5-fs">Posta i batch vid månadsbokslut</h3>
-                    <p>Använd Post All Stubs för alla periodiseringar samtidigt. En knapptryckning istället för 50+ manuella postningar.</p>
+                    <h3 class="h5-fs">Automatisk postning (Modell B)</h3>
+                    <p>Ett dagligt cron-jobb postar varje forfallen stub automatiskt. Ingen manuell batch-postning behövs — stubbarna bokas i takt med att perioderna passerar.</p>
                 </div>
             </div>
         </div>
@@ -264,7 +265,17 @@
                 </button>
                 <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#periodFAQ">
                     <div class="accordion-body">
-                        <p>Posta alla stubbar med datum <strong>inom räkenskapsåret</strong>. Framtida stubbar lämnas som planerade — de är redan klara för nästa år. Inga extra bokslutsverifikat behövs — 1710/2990 visar automatiskt rätt saldo.</p>
+                        <p>I <strong>Modell B</strong> har cron-jobbet redan postat varje stub vars datum förfallit under året — du behöver inte batch-posta manuellt. Stubbar med framtida datum lämnas som planerade för nästa år. I <strong>Modell A</strong> postar du stubbarna manuellt (per stub eller <em>Post All Stubs</em>) innan räkenskapsåret låses. Inga extra bokslutsverifikat behövs — 1710/2990 visar automatiskt rätt saldo.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header accordion-button collapsed justify-content-between gap-2 bg-transparent h6-fs fw-bold" data-bs-toggle="collapse" data-bs-target="#faq2b">
+                    <span>Postar cron-jobbet in i stängda perioder?</span>
+                </button>
+                <div id="faq2b" class="accordion-collapse collapse" data-bs-parent="#periodFAQ">
+                    <div class="accordion-body">
+                        <p>Nej. Verifikaten postas via Odoos <strong>vanliga postningsmotor</strong> som respekterar räkenskapsårets och journalens periodlås. En stub vars datum landar i en <strong>låst/stängd period</strong> lämnas helt enkelt opostad tills perioden öppnas — inget fel uppstår.</p>
                     </div>
                 </div>
             </div>
@@ -274,7 +285,7 @@
                 </button>
                 <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#periodFAQ">
                     <div class="accordion-body">
-                        <p>Ej postade stubbar kan raderas och återskapas. Redan postade stubbar har blivit verifikat — dessa måste reverseras manuellt. <strong>Tips:</strong> Dubbelkolla belopp och perioder innan du postar.</p>
+                        <p>Ej postade stubbar kan raderas och återskapas. Redan postade stubbar har blivit verifikat — dessa måste reverseras manuellt. <strong>Tips:</strong> Dubbelkolla belopp och perioder innan fakturan bokförs (i Modell B postas stubbarna automatiskt när de förfaller).</p>
                     </div>
                 </div>
             </div>
@@ -302,7 +313,7 @@
     </div>
 </div>
         </field>
-        <field name="description">Praktiska tips: batch-posta vid bokslut, hantera ändringar, FAQ om vanliga problem och lösningar.</field>
+        <field name="description">Rutiner kring automatisk postning via cron (Modell B), manuell postning (Modell A), respekt för periodlås och vanliga frågor.</field>
     </record>
 
     <!-- SLIDE 4.4b: Praktisk övning — Periodisera själv -->
@@ -319,15 +330,15 @@
     <span class="s_parallax_bg oe_img_bg" style="background-color: #b83280;"/>
     <div class="container">
         <h1 class="display-3-fs" style="text-align: center;">Gör det själv!</h1>
-        <p class="lead" style="text-align: center;">Praktisk övning — använd det du lärt dig för att periodisera en riktig faktura.</p>
+        <p class="lead" style="text-align: center;">Praktisk övning (Modell B) — periodisera en faktura och följ hur verifikaten postas automatiskt.</p>
     </div>
 </section>
 
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
-        <h2>Övning: Periodisera en försäkringspremie</h2>
-        <p><strong>Scenario:</strong> Ditt företag har fått en faktura på företagsförsäkring. Fakturan avser perioden <strong>1 april 2026 – 31 mars 2027</strong> och är på <strong>48 000 kr exkl. moms (6 000 kr moms)</strong>. Dagens datum är 15 april 2026.</p>
-        <p><strong>Uppgift:</strong> Genomför hela periodiseringsflödet i Odoo steg för steg. Svara på frågorna nedan i takt med att du arbetar.</p>
+        <h2>Övning — försäkringspremie (Modell B)</h2>
+        <p><strong>Scenario:</strong> En faktura på företagsförsäkring avser perioden <strong>1 april 2026 – 31 mars 2027</strong> och är på <strong>48 000 kr exkl. moms (6 000 kr moms)</strong>. Företaget använder bokningsmodellen <strong>B – Auto defer</strong>. Dagens datum är 15 april 2026.</p>
+        <p><strong>Uppgift:</strong> Skapa periodiseringen, boka fakturan, och kontrollera att <strong>cron-jobbet</strong> postar forfallna stubbar automatiskt. (Vill du köra övningen manuellt kan du växla företaget till <strong>Modell A</strong> och posta stubbarna själv.)</p>
     </div>
 </section>
 
@@ -367,8 +378,8 @@
                     <h3 class="mb-0 text-primary text-center">4</h3>
                 </div>
                 <div class="s_process_step_content mt-3 px-3 text-center">
-                    <h3 class="h4-fs">Posta och verifiera</h3>
-                    <p>Posta April-stubben. Kontrollera verifikatet och 1710-saldot.</p>
+                    <h3 class="h4-fs">Verifiera auto-postning</h3>
+                    <p>Boka fakturan. Cron-jobbet postar forfallna stubbar automatiskt — verifiera verifikaten och 1710-saldot. (Under Modell A postar du själv med Post/Post All Stubs.)</p>
                 </div>
             </div>
         </div>
@@ -440,7 +451,7 @@
                         <h5 class="card-title">Svar 3–4: Belopp &amp; bokslut</h5>
                         <ul class="list-group list-group-flush text-start">
                             <li class="list-group-item px-0 bg-transparent"><strong>Belopp per stub:</strong> 4 000 kr (48 000 ÷ 12). Moms 6 000 kr hanteras separat på konto 2640.</li>
-                            <li class="list-group-item px-0 bg-transparent"><strong>Bokslut 30/6:</strong> 1710 = 36 000 kr (9 månader kvar: juli–mars). 3 månader (april–juni) är redan periodiserade = 12 000 kr.</li>
+                            <li class="list-group-item px-0 bg-transparent"><strong>Bokslut 30/6:</strong> 1710 = 36 000 kr (9 månader kvar: juli–mars). 3 stubbar (april–juni) har postats = 12 000 kr — i <strong>Modell B</strong> av cron-jobbet, i <strong>Modell A</strong> manuellt.</li>
                         </ul>
                     </div>
                 </div>
@@ -481,29 +492,29 @@
 
     <!-- Quiz S4 -->
     <record id="slide_s4_05_q1" model="slide.question">
-        <field name="question">Vad gör kryssrutan "Hämta konto från verifikatet" på en periodiseringsmall?</field>
+        <field name="question">Vad gör bokningsmodellen "B_auto_defer" (Modell B) för företaget?</field>
         <field name="sequence">1</field>
         <field name="slide_id" ref="slide_s4_05"/>
     </record>
     <record id="slide_s4_05_q1_a1" model="slide.answer">
-        <field name="text_value">Hämtar periodiseringskontot från fakturaraden</field>
+        <field name="text_value">Vid bokning parkerar modulen nettokostnaden på periodiseringskontot och ett dagligt cron postar forfallna stubbar automatiskt</field>
         <field name="sequence">1</field>
-        <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Periodiseringskontot (1710/2990) hämtas alltid från mallen.</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! I Modell B parkeras nettokostnaden på 1710/interim vid bokning och de periodiska återföringarna postas automatiskt av ett dagligt cron-job.</field>
         <field name="question_id" ref="slide_s4_05_q1"/>
     </record>
     <record id="slide_s4_05_q1_a2" model="slide.answer">
-        <field name="text_value">Hämtar kostnadskontot från fakturaraden</field>
+        <field name="text_value">Momsen parkeras på ett balanskonto och periodiseras över tid</field>
         <field name="sequence">2</field>
-        <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Ikryssad = kostnadskontot hämtas från fakturaraden istället för från mallen.</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Moms periodiseras aldrig — ingående moms bokförs direkt vid faktureringen oavsett modell.</field>
         <field name="question_id" ref="slide_s4_05_q1"/>
     </record>
     <record id="slide_s4_05_q1_a3" model="slide.answer">
-        <field name="text_value">Skickar mallens konto tillbaka till fakturan</field>
+        <field name="text_value">Kostnadskontot för varje periodisering hämtas från fakturaraden</field>
         <field name="sequence">3</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Det fungerar tvärtom — fakturaradens konto hämtas till periodiseringen.</field>
+        <field name="comment">Incorrect! Mallens Kostnads-/intäktskonto är alltid auktoritativt (use_line_account finns inte längre). Fakturaradens konto får aldrig välja återföringskontot.</field>
         <field name="question_id" ref="slide_s4_05_q1"/>
     </record>
 
@@ -516,7 +527,7 @@
         <field name="text_value">De postas automatiskt</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Endast stubbar inom räkenskapsåret ska postas.</field>
+        <field name="comment">Incorrect! Cron-jobbet postar bara stubbar vars datum redan förfallit. Framtida (ännu inte forfallna) stubbar ska lämnas planerade för nästa räkenskapsår.</field>
         <field name="question_id" ref="slide_s4_05_q2"/>
     </record>
     <record id="slide_s4_05_q2_a2" model="slide.answer">
@@ -613,6 +624,93 @@
         <field name="is_correct" eval="False"/>
         <field name="comment">Incorrect! Odoo justerar inte periodiseringsbelopp automatiskt — du måste åtgärda det manuellt.</field>
         <field name="question_id" ref="slide_s4_05_q5"/>
+    </record>
+
+    <!-- SLIDE 4.6: Testexempel — Modell A/B & auto-postning -->
+    <record id="slide_s4_06" model="slide.slide">
+        <field name="name">🧪 Testexempel — Modell A/B &amp; auto-postning</field>
+        <field name="sequence">320</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.40</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #276749;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Testexempel</h1>
+        <p class="lead" style="text-align: center;">Genomför kontroller i en test/staging-databas för att verifiera Modell A/B och auto-postningen med ett dagligt cron.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <p>De här momenten är <strong>verifieringar</strong> du kan göra i en <strong>test-/staging-databas</strong> (t.ex. en bolagskonst för säker testning). Efter varje block står det förväntade resultatet — om allt stämmer fungerar funktionen.</p>
+    </div>
+</section>
+
+<section class="s_features pt8 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <i class="s_features_icon fa fa-flask mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Block A — Modell B (auto defer, förvald)</h3>
+                    <p>Skapa en mall som ger <strong>Monthly × 3</strong> med periodiseringskonto 1710 och kostnadskonto (t.ex. 5010). Registrera en leverantörsfaktura "hyra 3 mån" med <strong>nettobelopp 12 000 kr exkl. moms + 3 000 kr ingående moms</strong>, start första täckta månaden, och skapa periodiseringen.</p>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <i class="s_features_icon fa fa-check-circle mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h4 class="h6-fs">Förväntat resultat (A)</h4>
+                    <p>När fakturan <strong>postas</strong> hamnar 12 000 kr på <strong>1710/interim</strong> och 3 000 kr på momskontot (inte på kostnadskontot); motleverantörskulden blir 15 000 kr. Stubbar finns med den sista dagen i varje månad. Kör cron manuellt (eller vänta till nästa dag): forfallna stubbar skapar verifikat <strong>DR kostnad / CR interim</strong>, stubben markeras <strong>posted=True</strong> och <strong>Remaining</strong> minskar; efter sista stubben är residualen 0 och state blir <strong>close</strong>.</p>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <i class="s_features_icon fa fa-flask mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Block B — Modell A (explicit prepaid)</h3>
+                    <p>Växla företaget till <strong>A_explicit_prepaid</strong>. Registrera en liknande faktura men kontera fakturaraden <strong>direkt på 1710</strong>.</p>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <i class="s_features_icon fa fa-check-circle mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h4 class="h6-fs">Förväntat resultat (B)</h4>
+                    <p><strong>Ingen</strong> automatisk omkontering sker — fakturaraden ligger kvar på 1710. Stubbarna postas <strong>manuellt</strong> via <em>Post</em> (per stub) eller <em>Post All Stubs</em>.</p>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <i class="s_features_icon fa fa-lock mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Block C — Periodlås</h3>
+                    <p>Arrangera en stub vars datum hamnar i en <strong>stängd/låst period</strong> och låt cron-jobbet köra.</p>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <i class="s_features_icon fa fa-check-circle mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h4 class="h6-fs">Förväntat resultat (C)</h4>
+                    <p>Stubben <strong>postas inte</strong> (förblir opostad) och <strong>inget fel</strong> uppstår — verifikaten går genom den vanliga postningsmotorn som respekterar lås. När perioden öppnas igen postas stubben av cron-jobbet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Allt grönt?</h3>
+                <p class="lead">När block A, B och C ger de förväntade resultaten är Modell A/B, auto-parkering vid bokning, det dagliga cron-jobbet och periodlås-hanteringen verifierade.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Verifieringsguide: kör Modell B (auto-park + cron), Modell A (manuell postning) och en låst-period-stub i en test-databas, och kontrollera de förväntade resultaten.</field>
     </record>
 
     </data>

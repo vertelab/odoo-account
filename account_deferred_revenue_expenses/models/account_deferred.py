@@ -1,11 +1,14 @@
 # Copyright 2024- Vertel AB (<https://vertel.se>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 
+import logging
 import math
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountDeferred(models.Model):
@@ -192,6 +195,38 @@ class AccountDeferred(models.Model):
             _check_close = self.value_residual == 0.0
             if _check_close:
                 self.state = 'close'
+        return True
+
+    def _cron_post_due_stubs(self):
+        """Daily job (independent of month-end closing): post every release stub
+        that is due on or before today for running (``open``) deferred entries.
+
+        Each stub is posted through the normal posting engine
+        (``action_create_move`` -> ``account.move.action_post``), so account/period
+        locks are respected automatically. When a due stub falls in a locked or
+        closed period, posting raises a ``UserError``; the stub is then left
+        unposted and the run continues, so a lock never fails the whole job or
+        creates an entry in a closed period.
+        """
+        today = fields.Date.today()
+        entries = self.search([('state', '=', 'open')])
+        for deferred in entries:
+            due_stubs = deferred.line_ids.filtered(
+                lambda l: not l.posted and l.date <= today)
+            for stub in due_stubs:
+                try:
+                    stub.action_create_move()
+                except UserError as e:
+                    # Locked/closed period or another posting constraint: leave
+                    # the stub unposted and keep going.
+                    _logger.warning(
+                        'Deferred %s stub not posted by daily job (date %s): %s',
+                        deferred.name, stub.date, e)
+                    continue
+            if due_stubs:
+                deferred._compute_residual()
+                if deferred.value_residual == 0.0:
+                    deferred.state = 'close'
         return True
 
     # ── Link to origin ────────────────────────────────────────────────

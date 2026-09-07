@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_config_settings_deferred_form" model="ir.ui.view">
+        <field name="name">res.config.settings.deferred.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']/block[@id='invoicing_settings']" position="after">
+                <block title="Deferred (Periodised) Costs" id="deferred_booking_settings">
+                    <setting id="deferred_booking_method"
+                             help="How prepaid costs (periodiserade kostnader) are booked in this company.
+Model A (A_explicit_prepaid): the accountant codes the invoice line directly on the interim /
+periodiseringskonto (e.g. 1710). The module only schedules the recurring releases. No automatic
+rebooking happens.
+
+Model B (B_auto_defer): the bill is coded normally on the expense/income account; when it is
+posted, the module automatically parks the net amount on the interim (deferred) account and
+releases it month by month via the daily posting job.
+
+VAT is NEVER deferred in either model: input VAT is booked directly and normally at posting.
+Only the net cost is parked and later released.">
+                        <field name="deferred_booking_method"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

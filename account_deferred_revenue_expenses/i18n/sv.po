@@ -216,11 +216,6 @@ msgstr "Verifikat"
 
 
 #. module: account_deferred_revenue_expenses
-#: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_deferred_profile__use_line_account
-msgid "Use line account"
-msgstr "Hämta konto från verifikatet"
-
-#. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,field_description:account_deferred_revenue_expenses.field_account_deferred_profile__open_asset
 msgid "Skip Draft State"
 msgstr "Hoppa över Utkast"
@@ -239,11 +234,6 @@ msgstr "Balanskonto (t.ex. 1710 för förutbetalda kostnader, 2990 för förutbe
 #: model:ir.model.fields,help:account_deferred_revenue_expenses.field_account_deferred_profile__account_expense_id
 msgid "P&L account (e.g. 5010 for expense, 3010 for income)."
 msgstr "Resultatkonto (t.ex. 5010 för kostnad, 3010 för intäkt)."
-
-#. module: account_deferred_revenue_expenses
-#: model:ir.model.fields,help:account_deferred_revenue_expenses.field_account_deferred_profile__use_line_account
-msgid "When creating a deferred entry: if checked, the expense/income account is taken from the invoice line. If unchecked, this template's account overwrites the line account."
-msgstr "Vid skapande av periodisering: om ikryssad hämtas kostnads-/intäktskontot från verifikatraden. Om avmarkerad skriver mallens konto över radens konto."
 
 #. module: account_deferred_revenue_expenses
 #: model:ir.model.fields,help:account_deferred_revenue_expenses.field_account_deferred_profile__open_asset

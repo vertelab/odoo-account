@@ -34,12 +34,6 @@ class AccountDeferredProfile(models.Model):
         check_company=True,
         help="P&L account (e.g. 5010 for expense, 3010 for income).",
     )
-    use_line_account = fields.Boolean(
-        string='Use line account', default=True,
-        help='When creating a deferred entry: if checked, the expense/income '
-             'account is taken from the invoice line. '
-             'If unchecked, this template\'s account overwrites the line account.',
-    )
     journal_id = fields.Many2one(
         'account.journal', string='Journal',
         domain="[('type', '=', 'general'), ('company_id', '=', company_id)]",

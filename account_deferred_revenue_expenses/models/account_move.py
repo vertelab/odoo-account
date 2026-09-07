@@ -33,6 +33,47 @@ class AccountMove(models.Model):
             },
         }
 
+    def action_post(self):
+        """In booking model B (auto defer), park deferred-linked invoice lines on
+        their interim/periodiserings account when the move is posted.
+
+        Model A (explicit prepaid) leaves the invoice line account as the
+        accountant coded it; only the release stubs are scheduled. In model B the
+        net cost is moved off the expense/income account and onto the deferred
+        (interim) account at posting, and the periodic releases then move it back
+        to the expense account over time. VAT lines and unrelated lines are never
+        touched.
+        """
+        lines_to_park = self._deferred_lines_to_park_on_post()
+        if lines_to_park:
+            lines_to_park.with_context(check_move_validity=True).write({
+                'account_id': lines_to_park.deferred_id.account_depreciation_id.id,
+            })
+        return super().action_post()
+
+    def _deferred_lines_to_park_on_post(self):
+        """Return deferred-linked move lines that should be rebooked onto their
+        interim account at posting under model B (auto defer).
+
+        Only applies to lines that carry a `deferred_id` (a deferral was scheduled
+        for them) whose account is not already the deferred interim account, on a
+        draft move belonging to a company configured for B. In model A no line is
+        rebooked.
+        """
+        lines = self.env['account.move.line']
+        for move in self:
+            if move.state != 'draft':
+                continue
+            if move.company_id.deferred_booking_method != 'B_auto_defer':
+                continue
+            deferred_lines = move.line_ids.filtered('deferred_id')
+            for line in deferred_lines:
+                interim = line.deferred_id.account_depreciation_id
+                if not interim or line.account_id.id == interim.id:
+                    continue
+                lines |= line
+        return lines
+
     def action_view_deferred_entries(self):
         """View all deferred entries linked to this move."""
         self.ensure_one()

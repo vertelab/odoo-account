@@ -48,11 +48,6 @@ class AccountDeferredWizard(models.TransientModel):
         domain="[('deprecated', '=', False)]",
         help='P&L account receiving the periodic entries.',
     )
-    use_line_account = fields.Boolean(
-        string='Use line account', default=True,
-        help='Checked: use the account from the invoice line. '
-             'Unchecked: use the template expense account.',
-    )
 
     # ── Schedule tab ──────────────────────────────────────────────────
     frequency = fields.Selection([
@@ -102,18 +97,11 @@ class AccountDeferredWizard(models.TransientModel):
             self.amount = abs(self.move_line_id.balance)
             if self.move_line_id.name:
                 self.notes = self.move_line_id.name
-            # Auto-set template from product
+            # Auto-set template from product and cascade its defaults
             product = self.move_line_id.product_id
             if product and product.deferred_profile_id:
                 self.profile_id = product.deferred_profile_id
                 self._onchange_profile_id()
-            # Use line account only if profile allows it
-            if self.profile_id and not self.profile_id.use_line_account:
-                self.expense_account_id = self.profile_id.account_expense_id
-                self.use_line_account = False
-            else:
-                self.expense_account_id = self.move_line_id.account_id
-                self.use_line_account = True
 
     @api.onchange('profile_id')
     def _onchange_profile_id(self):
@@ -121,15 +109,7 @@ class AccountDeferredWizard(models.TransientModel):
             self.frequency = self.profile_id.method_period
             self.period_count = self.profile_id.method_number
             self.period_account_id = self.profile_id.account_depreciation_id
-            self.use_line_account = self.profile_id.use_line_account
-            if not self.use_line_account or not self.expense_account_id:
-                self.expense_account_id = self.profile_id.account_expense_id
-
-    @api.onchange('use_line_account')
-    def _onchange_use_line_account(self):
-        if self.use_line_account and self.move_line_id:
-            self.expense_account_id = self.move_line_id.account_id
-        elif not self.use_line_account and self.profile_id:
+            # Profile's expense account is authoritative (use_line_account removed)
             self.expense_account_id = self.profile_id.account_expense_id
 
     # ── Wizard action ─────────────────────────────────────────────────
@@ -155,7 +135,9 @@ class AccountDeferredWizard(models.TransientModel):
             'partner_id': self.move_line_id.partner_id.id or self.move_id.partner_id.id,
             'company_id': self.company_id.id,
             'account_depreciation_id': self.period_account_id.id,
-            'account_expense_id': self.expense_account_id.id,
+            # Expense/income account is authoritative from the profile
+            # (use_line_account removed): never the invoice line's account.
+            'account_expense_id': profile.account_expense_id.id,
             'journal_id': profile.journal_id.id,
             'amount_total': self.amount,
             'date_start': self.start_date,

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data noupdate="0">
 
     <!-- ═══════════════════════════════════════════════════
          SEKTION 5: Så fungerar Odoo-modulen — Teknisk guide
@@ -90,7 +90,7 @@
                 <table class="table table-bordered">
                     <tr><th>Inställning</th><th>Effekt</th></tr>
                     <tr><td><strong>Skip Draft State</strong></td><td>Periodiseringen blir aktiv direkt (rekommenderas)</td></tr>
-                    <tr><td><strong>Hämta konto från verifikatet</strong></td><td>Kostnadskontot hämtas från fakturaraden — flexibelt för olika konton</td></tr>
+                    <tr><td><strong>Deferred Booking Model (företagsnivå)</strong></td><td>Styr om fakturaradens konto automatiskt parkeras på periodiseringskontot vid bokning (Modell B) eller om redovisaren konterar på kontot själv (Modell A).<br/><em>Förs inte längre på mallen</em> — sätts under Redovisning → Konfiguration → Inställningar → Deferred (Periodised) Costs.</td></tr>
                     <tr><td><strong>Allow Reversal</strong></td><td>Postade stubbar kan reverseras istället för raderas</td></tr>
                     <tr><td><strong>Journal</strong></td><td>Vilken journal periodiseringsverifikaten skapas i (vanligen Diverse)</td></tr>
                 </table>
@@ -212,8 +212,19 @@
         </div>
     </div>
 </section>
+
+<section class="s_call_to_action o_cc o_cc5 pt40 pb40">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Så postas verifikaten — styrs av företagets Deferred Booking Model</h3>
+                <p>Efter att stubbar skapats ska fakturan bokföras. I <strong>Modell B (auto defer, förvald)</strong> parkeras då nettokostnaden automatiskt på periodiseringskontot (account_depreciation_id) och ett <strong>dagligt cron-jobb</strong> ("Deferred: post due periodisation stubs") postar varje förfallen stub när dess datum infaller — oberoende av månadsbokslut. I <strong>Modell A (explicit prepaid)</strong> konterar redovisaren fakturaraden direkt på periodiseringskontot och postar förfallna stubbar manuellt (per stub eller via Post All Stubs).</p>
+            </div>
+        </div>
+    </div>
+</section>
         </field>
-        <field name="description">Komplett genomgång av wizard-flödet: öppna faktura → markera rad → klicka Periodisering → fyll i wizard → Create Stubs. Med fält-för-fält förklaring.</field>
+        <field name="description">Komplett genomgång av wizard-flödet: öppna faktura → markera rad → klicka Periodisering → fyll i wizard → Create Stubs → boka fakturan. Med fält-för-fält förklaring och hur Modell B (auto-park + dagligt cron) respektive Modell A (manuell) postar verifikaten.</field>
     </record>
 
     <!-- SLIDE 5.4: Wizard-flöde — Sequence Diagram (Infographic) -->
@@ -271,6 +282,18 @@
                 </div>
             </div>
         </div>
+    </div>
+</section>
+
+<section class="s_text_block pt16 pb24">
+    <div class="container s_allow_columns">
+        <h2 class="h3-fs">Vem flyttar fakturaraden till periodiseringskontot? — res.company.deferred_booking_method</h2>
+        <p>En ny företagsinställning <strong>Deferred Booking Model</strong> (under <strong>Redovisning → Konfiguration → Inställningar</strong>, avsnittet "Deferred (Periodised) Costs") avgör hur nettokostnaden hamnar på periodiseringskontot:</p>
+        <ul>
+            <li><strong>Modell B – Auto defer (förvald):</strong> fakturan konteras normalt på kostnads-/intäktskontot. Vid fakturabokningen <strong>rebookar modulen</strong> den periodiserade fakturaradens konto automatiskt till mallets periodiseringskonto (account_depreciation_id).</li>
+            <li><strong>Modell A – Explicit prepaid:</strong> inget automatisk omläggning sker — redovisaren konterar fakturaraden direkt på periodiseringskontot.</li>
+        </ul>
+        <p>Valet ligger på <strong>företag</strong>, inte på mallen, och gäller alla mallar i företaget. För postning av stubbarna kör ett <strong>dagligt cron-jobb</strong> ("Deferred: post due periodisation stubs") genom normal postningsmotor och postar varje förfallen stub (date ≤ idag). Postar en stub i en stängd/låst period sker den inte alls — stubben ligger kvar opostad tills perioden är öppen.</p>
     </div>
 </section>
 
@@ -333,7 +356,7 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.15</field>
         <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/diagram_workflow.png"/>
-        <field name="description">Komplett arbetsflöde i fyra faser: 1) Konfiguration (engångs), 2) Dagligt arbete (skapa periodisering), 3) Månadsvis (posta stubbar), 4) Bokslut (posta alla).</field>
+        <field name="description">Komplett arbetsflöde i fyra faser: 1) Konfiguration (engångs), 2) Dagligt arbete (skapa periodisering + boka faktura). Därefter: i Modell B postar ett dagligt cron varje förfallen stub automatiskt (fortlöpande), och vid bokslut kontrolleras att alla stubbar för räkenskapsåret är postade. I Modell A postas stubbar manuellt (Månadsvis/Bokslut).</field>
     </record>
 
     <!-- SLIDE 5.7: Quiz — Odoo-modulen -->
@@ -486,6 +509,33 @@
         <field name="is_correct" eval="False"/>
         <field name="comment">Incorrect! Post All Stubs postar — den raderar eller återskapar inte. För att generera om stubbar, använd Generate Stubs.</field>
         <field name="question_id" ref="slide_s5_07_q5"/>
+    </record>
+
+    <record id="slide_s5_07_q6" model="slide.question">
+        <field name="question">Vilken inställning avgör om fakturaradens konto automatiskt parkeras på periodiseringskontot vid bokning (Modell B), istället för att redovisaren konterar på kontot själv (Modell A)?</field>
+        <field name="sequence">6</field>
+        <field name="slide_id" ref="slide_s5_07"/>
+    </record>
+    <record id="slide_s5_07_q6_a1" model="slide.answer">
+        <field name="text_value">Företagsinställningen "Deferred Booking Model" under Redovisning → Konfiguration → Inställningar</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! res.company.deferred_booking_method (A_explicit_prepaid / B_auto_defer) avgör om fakturaradens konto rebookas till periodiseringskontot vid bokning.</field>
+        <field name="question_id" ref="slide_s5_07_q6"/>
+    </record>
+    <record id="slide_s5_07_q6_a2" model="slide.answer">
+        <field name="text_value">En kryssruta "Hämta konto från verifikatet" på periodiseringsmallen</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Den kryssrutan har tagits bort sedan 18.0.2.3.0 — mallets kostnads-/intäktskonto är alltid auktoritativt, och radkontots hantering avgörs av företagsinställningen.</field>
+        <field name="question_id" ref="slide_s5_07_q6"/>
+    </record>
+    <record id="slide_s5_07_q6_a3" model="slide.answer">
+        <field name="text_value">Produktens redovisningskonto</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Produktens konto kopplas inte samman med hur fakturaraden parkeras på periodiseringskontot — det styrs av företagets Deferred Booking Model.</field>
+        <field name="question_id" ref="slide_s5_07_q6"/>
     </record>
 
     </data>
