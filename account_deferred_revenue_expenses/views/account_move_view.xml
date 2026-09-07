@@ -36,13 +36,13 @@
             <field name="arch" type="xml">
 
                 <!-- Product/bill lines list (invoice_tab): append an ICON-ONLY button as
-                     the last column so it sits at the row end (compact, no label text),
-                     before Odoo's trash. -->
+                     the last column; ms-auto pushes it to the right edge of its cell so it
+                     sits tight next to Odoo's trash instead of leaving a gap. -->
                 <xpath expr="//field[@name='invoice_line_ids'][1]//list" position="inside">
                     <button name="action_open_deferred_wizard"
                             type="object"
-                            class="btn btn-link p-0"
                             icon="fa-calendar"
+                            class="btn btn-link p-1 ms-auto"
                             title="Periodisera denna rad"
                             invisible="display_type in ('line_section', 'line_note')"/>
                 </xpath>

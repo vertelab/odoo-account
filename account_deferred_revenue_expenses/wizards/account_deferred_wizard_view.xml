@@ -10,6 +10,9 @@
                     <field name="company_id" invisible="1"/>
                     <field name="company_currency_id" invisible="1"/>
                     <field name="move_id" invisible="1"/>
+                    <!-- The source invoice line is always known (wizard is opened from a
+                         specific line); keep it hidden rather than exposing an Invoice tab. -->
+                    <field name="move_line_id" invisible="1"/>
 
                     <div class="alert alert-info" role="alert"
                          style="color: #084298; background-color: #cfe2ff; border-color: #b6d4fe; margin-bottom: 16px;">
@@ -33,12 +36,6 @@
                     <notebook>
                         <page string="Notes">
                             <field name="notes" placeholder="Optional description…" nolabel="1"/>
-                        </page>
-
-                        <page string="Invoice">
-                            <group>
-                                <field name="move_line_id" string="Invoice Line" options="{'no_create': True, 'no_create_edit': True}" placeholder="Select the line to defer..."/>
-                            </group>
                         </page>
                     </notebook>
 
