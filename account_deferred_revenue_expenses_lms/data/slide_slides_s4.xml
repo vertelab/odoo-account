@@ -718,74 +718,74 @@
          Skärnbilder (infographic) som visar det verkliga flödet i Odoo.
          ═══════════════════════════════════════════════════════════ -->
 
-    <!-- 4.x1 Välj en mall -->
+    <!-- 4.x1 Kalenderikonen öppnar periodiserings-fönstret (steg 1) -->
     <record id="slide_s4_img_01" model="slide.slide">
-        <field name="name">🖥️ Skärmbild 1 — Välj en mall</field>
+        <field name="name">🖥️ Steg 1 — Klicka på kalender-ikonen för att öppna periodiserings-fönstret</field>
         <field name="sequence">1000</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
         <field name="is_published" eval="True"/>
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.10</field>
-        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step01_choose_profile.png"/>
-        <field name="description">I periodiserings-wizarden väljer du den mall (deferred profile) som ska användas för raden.</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step01_open_wizard_calendar.png"/>
+        <field name="description">Klicka på kalender-ikonen på fakturaraden för att öppna periodiserings-fönstret för just den raden.</field>
     </record>
 
-    <!-- 4.x2 Ändra fälten så att de stämmer -->
+    <!-- 4.x2 Välj en mall (steg 2) -->
     <record id="slide_s4_img_02" model="slide.slide">
-        <field name="name">🖥️ Skärmbild 2 — Ändra fälten så att det stämmer</field>
+        <field name="name">🖥️ Steg 2 — Välj en mall</field>
         <field name="sequence">1010</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
         <field name="is_published" eval="True"/>
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.10</field>
-        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step02_adjust_fields.png"/>
-        <field name="description">Justera belopp, startdatum, frekvens och konton i periodiserings-wizarden så att de stämmer med fakturan och mallen.</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step02_choose_profile.png"/>
+        <field name="description">I periodiserings-wizarden väljer du den mall (deferred profile) som ska användas för raden.</field>
     </record>
 
-    <!-- 4.x3 Skapa stubbar -->
+    <!-- 4.x3 Ändra fälten så att de stämmer (steg 3) -->
     <record id="slide_s4_img_03" model="slide.slide">
-        <field name="name">🖥️ Skärmbild 3 — Tryck på Create Stubs</field>
+        <field name="name">🖥️ Steg 3 — Ändra fälten så att det stämmer</field>
         <field name="sequence">1020</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
         <field name="is_published" eval="True"/>
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.10</field>
-        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step03_create_stubs.png"/>
-        <field name="description">Tryck på Create Stubs för att generera en periodiseringsrad (stub) per period enligt mallen.</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step03_adjust_fields.png"/>
+        <field name="description">Justera belopp, startdatum, frekvens och konton i periodiserings-wizarden så att de stämmer med fakturan och mallen.</field>
     </record>
 
-    <!-- 4.x4 Kalenderikonen öppnar periodiserings-fönstret -->
+    <!-- 4.x4 Skapa stubbar (steg 4) -->
     <record id="slide_s4_img_04" model="slide.slide">
-        <field name="name">🖥️ Skärmbild 4 — Kalenderikonen öppnar periodiserings-fönstret</field>
+        <field name="name">🖥️ Steg 4 — Tryck på skapa stubbar</field>
         <field name="sequence">1030</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
         <field name="is_published" eval="True"/>
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.10</field>
-        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step04_calendar_icon.png"/>
-        <field name="description">Klicka på kalender-ikonen på fakturaraden för att öppna periodiserings-fönstret för den raden.</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step04_create_stubs.png"/>
+        <field name="description">Tryck på Create Stubs för att generera en periodiseringsrad (stub) per period enligt mallen.</field>
     </record>
 
-    <!-- 4.x5 Det första verifikatet -->
+    <!-- 4.x5 Posta alla vs cron (steg 5) -->
     <record id="slide_s4_img_05" model="slide.slide">
-        <field name="name">🖥️ Skärmbild 5 — Det första verifikatet</field>
+        <field name="name">🖥️ Steg 5 — Posta alla stubbar (och cron)</field>
         <field name="sequence">1040</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
         <field name="is_published" eval="True"/>
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.10</field>
-        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step05_first_move.png"/>
-        <field name="description">Det här är det första journalverifikatet som skapas för den periodiserade kosten — radsidan (1710/5010) och momsen bokförs enligt mallen.</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step05_post_all_or_cron.png"/>
+        <field name="description">Du kan posta alla verifikat på en gång med Post All Stubs, eller manuellt knapp för knapp — men vanligtvis postar Odoo dem automatiskt när respektive stubbs datum har passerats (dagligt cron).</field>
     </record>
 
-    <!-- 4.x6 Visa-knappen går till verifikatet -->
+    <!-- 4.x6 Visa-knappen går till verifikatet (steg 6) -->
     <record id="slide_s4_img_06" model="slide.slide">
-        <field name="name">🖥️ Skärmbild 6 — Klicka på Visa för att gå till verifikatet</field>
+        <field name="name">🖥️ Steg 6 — Klicka på Visa för att gå till verifikatet</field>
         <field name="sequence">1050</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
@@ -796,17 +796,17 @@
         <field name="description">Klicka på Visa-knappen (öppna) på en stub för att gå till det skapade verifikatet.</field>
     </record>
 
-    <!-- 4.x7 Posta alla vs cron -->
+    <!-- 4.x7 Det första verifikatet (steg 7) -->
     <record id="slide_s4_img_07" model="slide.slide">
-        <field name="name">🖥️ Skärmbild 7 — Posta alla stubs (och cron)</field>
+        <field name="name">🖥️ Steg 7 — Det första verifikatet</field>
         <field name="sequence">1060</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
         <field name="is_published" eval="True"/>
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.10</field>
-        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step07_post_all_or_cron.png"/>
-        <field name="description">Du kan posta alla verifikat på en gång med Post All Stubs, eller manuellt knapp för knapp — men vanligtvis postar Odoo dem automatiskt när respektive stubbs datum har passerats (dagligt cron).</field>
+        <field name="image_1920" type="base64" file="account_deferred_revenue_expenses_lms/static/src/img/step07_first_verifikat.png"/>
+        <field name="description">Det här är det första journalverifikatet som skapas för den periodiserade kosten — radsidan (1710/5010) och momsen bokförs enligt mallen.</field>
     </record>
 
     </data>
