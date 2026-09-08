@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Vertel AB
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!--
+        Autogiro payment mode.
+        Created once at install; journals are linked manually per environment
+        (variable_journal_ids), so noupdate="1" prevents overwriting them
+        on module upgrades.
+
+        Depends on l10n_se_credit_transfer which provides the payment method
+        with code 'autogiro' (xmlid l10n_se_credit_transfer.autogiro).
+    -->
+    <record id="payment_mode_autogiro" model="account.payment.mode">
+        <field name="name">Autogiro</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="payment_method_id" ref="l10n_se_credit_transfer.autogiro" />
+        <field name="bank_account_link">variable</field>
+        <field name="show_bank_account">full</field>
+        <field name="payment_order_ok" eval="True" />
+    </record>
+</odoo>

@@ -16,9 +16,10 @@ Funktioner:
 - Automatiskt 'pending'-beteende (ärver från account_payment_order_pending)
 - Integration med OCA account_banking_mandate
 
-Beroenden: account_payment_order_pending, account_banking_mandate
+Beroenden: account_payment_order_pending, account_banking_mandate,
+account_banking_sepa_direct_debit, l10n_se_credit_transfer (payment method 'autogiro')
     """,
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB",
     "website": "https://vertel.se/apps/odoo-account/account_payment_order_autogiro",
@@ -27,9 +28,11 @@ Beroenden: account_payment_order_pending, account_banking_mandate
         "account_payment_order_pending",
         "account_banking_mandate",
         "account_banking_sepa_direct_debit",
+        "l10n_se_credit_transfer",
     ],
     "data": [
         "security/ir.model.access.csv",
+        "data/account_payment_mode.xml",
         "views/account_move_views.xml",
     ],
     "installable": True,
