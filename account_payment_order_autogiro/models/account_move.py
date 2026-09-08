@@ -7,18 +7,6 @@ from odoo import api, fields, models
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    # Extend mandate support for supplier invoices (autogiro for payables)
-    supplier_mandate_id = fields.Many2one(
-        "account.banking.mandate",
-        string="Autogiro-mandat (leverantör)",
-        ondelete="restrict",
-        readonly=False,
-        check_company=True,
-        domain="[('state', '=', 'valid')]",
-        help="Autogiro-mandat som ger leverantören rätt att dra betalningen "
-        "automatiskt från företagets bankkonto.",
-    )
-
     is_autogiro_vendor_bill = fields.Boolean(
         string="Autogiro leverantörsfaktura",
         compute="_compute_is_autogiro_vendor_bill",
@@ -39,12 +27,38 @@ class AccountMove(models.Model):
                 and code == "autogiro"
             )
 
-    def _compute_payment_mode_id(self):
-        """Override to also set supplier_mandate_id when autogiro is used."""
-        res = super()._compute_payment_mode_id()
+    is_autogiro_pending_bank = fields.Boolean(
+        string="Autogiro pågående mot bank",
+        copy=False,
+        help="Tekniskt/funktionellt fält: när True har fakturan bekräftats för "
+        "Autogiro-betalning via Pay-menyn och väntar på bankavstämning. "
+        "Fakturan visas som 'Pågående' (in_payment) tills en banktransaktion "
+        "avstämts mot den, då den blir 'Betald' (paid) och flaggan nollställs.",
+    )
+
+    def _compute_payment_state(self):
+        """Run standard computation, then surface 'in_payment' for invoices that
+        are pending bank reconciliation on an Autogiro payment.
+
+        Odoo 18 only derives 'in_payment' from real reconciles / matched
+        payments. A bill confirmed for Autogiro via the Pay wizard carries no
+        such artifact until the bank outflow is reconciled, so it would
+        otherwise stay 'not_paid'. This override (mirroring the pattern proven
+        in account_payment_order_pending) forces 'in_payment' from the stored
+        is_autogiro_pending_bank signal until a reconcile settles the invoice,
+        at which point the derived state wins and the flag is cleared.
+        """
+        res = super()._compute_payment_state()
+
         for move in self:
-            if move.is_autogiro_vendor_bill:
-                # Auto-set supplier mandate from partner if available
-                if not move.supplier_mandate_id:
-                    move.supplier_mandate_id = move.partner_id.valid_mandate_id
+            if move.is_autogiro_pending_bank:
+                if move.payment_state == "not_paid":
+                    # Not yet settled by a bank reconcile -> show as pending.
+                    move.payment_state = "in_payment"
+                else:
+                    # A reconcile settled (or partially reconciled) the bill.
+                    # Stop forcing in_payment and forget the pending signal so
+                    # the derived state (paid/partial/...) is authoritative.
+                    move.is_autogiro_pending_bank = False
+
         return res
