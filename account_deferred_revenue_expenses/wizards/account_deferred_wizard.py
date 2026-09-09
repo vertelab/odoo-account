@@ -125,7 +125,21 @@ class AccountDeferredWizard(models.TransientModel):
         if not self.profile_id:
             raise UserError(_('No accrual template found. Set one on the product or select a template.'))
 
+        # T/11321 #1/#4: never silently periodise the same invoice line twice.
+        if self.move_line_id.deferred_id:
+            raise UserError(_(
+                'This invoice line has already been periodised in the deferred '
+                'entry "%(name)s". Create a deferred entry from another line or '
+                'reuse the existing one.'
+            ) % {'name': self.move_line_id.deferred_id.name})
+
         profile = self.profile_id
+
+        # REQ-3: the analytic distribution travels with the origin line when it
+        # carries one; the profile value is only a fallback.
+        analytic_distribution = (self.move_line_id.analytic_distribution
+                                 or profile.analytic_distribution
+                                 or False)
 
         deferred_vals = {
             'name': self.notes or self.move_line_id.name or _('Deferred Entry'),
@@ -135,16 +149,17 @@ class AccountDeferredWizard(models.TransientModel):
             'partner_id': self.move_line_id.partner_id.id or self.move_id.partner_id.id,
             'company_id': self.company_id.id,
             'account_depreciation_id': self.period_account_id.id,
-            # Expense/income account is authoritative from the profile
-            # (use_line_account removed): never the invoice line's account.
-            'account_expense_id': profile.account_expense_id.id,
+            # T/11321 #7: honour the account the accountant picked in the wizard.
+            # The profile value is only the onchange default, not a forcing rule.
+            'account_expense_id': (self.expense_account_id.id
+                                   or profile.account_expense_id.id),
             'journal_id': profile.journal_id.id,
             'amount_total': self.amount,
             'date_start': self.start_date,
             'method_period': self.frequency,
             'method_number': self.period_count,
             'allow_reversal': profile.allow_reversal,
-            'analytic_distribution': profile.analytic_distribution,
+            'analytic_distribution': analytic_distribution,
             'move_line_id': self.move_line_id.id,
             'state': 'open' if profile.open_asset else 'draft',
         }

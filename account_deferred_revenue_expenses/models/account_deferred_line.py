@@ -64,7 +64,9 @@ class AccountDeferredLine(models.Model):
                     'partner_id': deferred.partner_id.id,
                     'debit': self.amount if self.amount >= 0 else 0.0,
                     'credit': 0.0 if self.amount >= 0 else -self.amount,
-                    'analytic_distribution': deferred.analytic_distribution or False,
+                    'analytic_distribution': (deferred.move_line_id.analytic_distribution
+                                              or deferred.analytic_distribution
+                                              or False),
                     'currency_id': deferred.currency_id.id,
                 }),
             ],

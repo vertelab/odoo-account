@@ -132,6 +132,30 @@ class AccountDeferred(models.Model):
     def action_draft(self):
         self.state = 'draft'
 
+    # ── Schedule wizards ────────────────────────────────────────────────
+
+    @api.onchange('date_start', 'method_period', 'method_number')
+    def _onchange_schedule(self):
+        """T/11321 #3: keep the not-yet-posted stubs in sync with the schedule.
+
+        The stubs are generated from ``date_start`` + period at creation. If the
+        accountant changes the start date (or the number/length of periods)
+        afterwards, we regenerate the not-yet-posted stubs so every period line
+        follows. Already-posted stubs (booked to a locked accounting period) are
+        never rewritten.
+        """
+        for rec in self:
+            if not rec.date_start or not rec.id or not rec.line_ids:
+                continue
+            if rec.line_ids.filtered('posted'):
+                # Something is already booked: changing the schedule is no longer
+                # linear, so leave the stubs untouched. A manual regenerate is
+                # still available via the smart button on the form.
+                continue
+            # Drop the not-yet-booked stub rows and rebuild them from the schedule.
+            rec.line_ids.unlink()
+            rec._generate_stubs()
+
     def action_generate_stubs(self):
         """(Re)generate stubs — deletes existing unposted ones first."""
         for rec in self:
