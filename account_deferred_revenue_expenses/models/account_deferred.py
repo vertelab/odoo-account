@@ -136,63 +136,75 @@ class AccountDeferred(models.Model):
 
     @api.onchange('date_start', 'method_period', 'method_number')
     def _onchange_schedule(self):
-        """T/11321 #3: keep the not-yet-posted stubs in sync with the schedule.
+        """T/11321 #3: live re-sync of the not-yet-posted stubs on the form.
 
-        The stubs are generated from ``date_start`` + period at creation. If the
-        accountant changes the start date (or the number/length of periods)
-        afterwards, we regenerate the not-yet-posted stubs so every period line
-        follows. Already-posted stubs (booked to a locked accounting period) are
-        never rewritten.
+        We only warn when it cannot be done automatically (something is already
+        booked); the actual rebuild happens on save via :meth:`write`. Keeping the
+        work in ``write`` (instead of an onchange returning a ``line_ids`` cmd
+        list) gives a reliable round-trip through the ORM — an onchange cannot
+        reliably replace rows of an embedded ``list`` that sits on a different
+        notebook page in Odoo 18.
         """
-        for rec in self:
-            if not rec.date_start or not rec.id or not rec.line_ids:
-                continue
-            if rec.line_ids.filtered('posted'):
-                # Something is already booked: changing the schedule is no longer
-                # linear, so leave the stubs untouched. A manual regenerate is
-                # still available via the smart button on the form.
-                continue
-            # Drop the not-yet-booked stub rows and rebuild them from the schedule.
-            rec.line_ids.unlink()
-            rec._generate_stubs()
+        if self.line_ids.filtered('posted'):
+            warning = {
+                'title': _('Some stubs are already posted'),
+                'message': _(
+                    'Changing the schedule is not applied to the posted stubs. '
+                    'Only the not-yet-posted stubs will be regenerated when you '
+                    'save.'),
+            }
+            return {'warning': warning}
 
-    def action_generate_stubs(self):
-        """(Re)generate stubs — deletes existing unposted ones first."""
+    def write(self, vals):
+        res = super().write(vals)
         for rec in self:
-            rec.line_ids.filtered(lambda l: not l.posted).unlink()
-            rec._generate_stubs()
+            if any(f in vals for f in ('date_start', 'method_period', 'method_number')):
+                # Only re-plan on real entries that actually carry stubs.
+                if rec.id and rec.line_ids:
+                    rec._generate_stubs()
+        return res
 
     def _generate_stubs(self):
-        """Create the periodization lines."""
+        """Rebuild the not-yet-posted stubs from the schedule on ``self``.
+
+        Keeps any posted stub (already booked) untouched and only regenerates the
+        open rows. Safe to re-run — used at creation (wizard/confirm), when the
+        schedule fields are edited on a saved entry (``write``) and by the manual
+        re-plan action.
+        """
+        self.ensure_one()
+        if not self.date_start or not self.method_number:
+            return
+        posted = self.line_ids.filtered('posted')
+        self.line_ids = ([(6, 0, posted.ids)] if posted else [(5, 0, 0)])\
+            + self._new_stub_vals()
+
+    def _new_stub_vals(self):
+        """Compute the ``(0,0,vals)`` commands for the schedule on ``self``."""
         self.ensure_one()
         delta_map = {'month': 'months', 'quarter': 'months', 'year': 'years'}
-        delta_kwargs = {delta_map[self.method_period]: 1}
-
         period_amount = self.amount_total / self.method_number
-        # Round per-period to avoid residual
         period_amount = self.currency_id.round(period_amount)
         residual = self.amount_total - (period_amount * self.method_number)
 
-        lines = []
+        vals = []
         for i in range(self.method_number):
             if self.method_period == 'quarter':
                 date = self.date_start + relativedelta(months=3 * i)
             else:
                 date = self.date_start + relativedelta(**{delta_map[self.method_period]: i})
-
             amount = period_amount
-            # Add residual to last period
             if i == self.method_number - 1 and residual:
                 amount = self.currency_id.round(amount + residual)
-
-            lines.append((0, 0, {
+            vals.append((0, 0, {
                 'name': _('Period %d/%d') % (i + 1, self.method_number),
                 'sequence': (i + 1) * 10,
                 'date': date,
                 'amount': amount,
             }))
+        return vals
 
-        self.write({'line_ids': lines})
+
 
     def action_open_stubs(self):
         """Smart button: open stubs tree."""
