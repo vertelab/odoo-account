@@ -538,5 +538,34 @@
         <field name="question_id" ref="slide_s5_07_q6"/>
     </record>
 
+    <!-- SLIDE 5.8: Livscykel — Running stängs när allt är upplöst (article) -->
+    <record id="slide_s5_08" model="slide.slide">
+        <field name="name">Lifecycle — posta alla stubbar stänger posten</field>
+        <field name="sequence">285</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_deferred_revenue_expenses_lms.slide_channel_deferred"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.33</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Varför försvinner en post ur listan när man postar?</h2>
+        <p>Varje deferred entry har en status <strong>Draft</strong> → <strong>Running</strong> → <strong>Closed</strong>. Så länge det finns ej-postade stubbar ligger posten i <strong>Running</strong> och visas i periodiseringslistan. När <strong>alla</strong> stubbar är postade — och <code>value_residual</code> är noll — stängs posten automatiskt och tas bort ur “Running”.</p>
+        <p>Det är <strong>avsiktligt</strong>: en helt upplöst periodisering ska inte längre framstå som pågående. Posten hittar du igen genom att i listan byta filter till <strong>Closed</strong>.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt32 pb64">
+    <div class="container s_allow_columns">
+        <h2>Hur undviker man att stänga i förtid?</h2>
+        <p>Knappen <strong>Post All Stubs</strong> postar samtliga ej-postade stubbar direkt. Använd den därför bara för korta periodiseringar där alla perioder redan förfallit — annars stängs posten omedelbart och försvinner ur Running-översikten.</p>
+        <p>Vill du att en periodisering ska lösas upp över tid (vanligast, t.ex. Model B: 6 månaders hyra), <strong>använd inte Post All</strong>. Låt i stället den <strong>dagliga cron:en</strong> posta varje förfallen stub löpande. Då ligger posten kvar som <strong>Running</strong> med kvarvarande belopp tills den sista perioden postats.</p>
+    </div>
+</section>
+        </field>
+    </record>
+
+
     </data>
 </odoo>

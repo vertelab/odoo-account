@@ -3,7 +3,7 @@
 
 {
     'name': 'Deferred Revenue & Expenses: Training (LMS)',
-    'version': '18.0.2.6.0',
+    'version': '18.0.2.7.0',
     'summary': 'Swedish periodization training via website_slides',
     'category': 'Accounting/Training',
     'author': 'Vertel Sverige AB',
