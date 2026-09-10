@@ -124,6 +124,17 @@ class TestPaymentOrderPending(AccountTestInvoicingCommon):
             "in_payment",
             "Invoice on an uploaded pending payment order should be in_payment",
         )
+        # The payments are posted (in_process) but NOT reconciled with the
+        # invoices — both records reach 'paid' only via bank reconciliation.
+        self.assertTrue(order.payment_ids, "Pending order should have payments")
+        self.assertTrue(
+            all(p.state == "in_process" for p in order.payment_ids),
+            "Pending-order payments must be in_process, not paid/draft",
+        )
+        self.assertFalse(
+            invoice.matched_payment_ids,
+            "Pending-order invoice must not be reconciled yet",
+        )
 
     def test_non_pending_order_invoice_is_paid(self):
         """A standard (non-pending) payment order posts and reconciles —
@@ -169,3 +180,7 @@ class TestPaymentOrderPending(AccountTestInvoicingCommon):
         order.generated2uploaded()
         self.assertEqual(order.state, "uploaded")
         self.assertEqual(invoice.payment_state, "in_payment")
+        self.assertTrue(
+            all(p.state == "in_process" for p in order.payment_ids),
+            "Pending-order payments must be in_process after upload",
+        )

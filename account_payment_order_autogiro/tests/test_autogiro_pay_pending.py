@@ -93,23 +93,28 @@ class TestAutogiroPayPending(AccountTestInvoicingCommon):
         return wizard
 
     def test_autogiro_confirm_does_not_settle_invoice(self):
-        """Req 1: confirming Pay with Autogiro leaves the invoice in_payment,
-        with no posted payment settling it to 'paid'."""
-        # Try to fake as close to a real wizard: journal + autogiro line.
-        # The deterministic core is that a bare invoice carries no settle; the
-        # signal is what surfaces in_payment, and a fake/confirmed wizard with
-        # autogiro must not add a settle.
+        """Req 1: confirming Pay with Autogiro creates + posts the payment
+        (in_process) but skips reconciliation, leaving the invoice in_payment
+        (Pågående), not settled to 'paid'."""
         invoice = self._create_supplier_invoice("AUTOGIRO-001")
         wizard = self._open_pay_wizard(invoice)
 
-        # Simulate the accountant choosing the Autogiro method for this
-        # vendor bill (outbound). This must be a pending (non-settling) pay.
-        # Instead of a full posting run (requires a DB that posts), assert the
-        # decision helper treats the single Autogiro outbound bill as a
-        # pending pay, and that direct signal-write yields in_payment.
+        # The accountant selects the Autogiro method for this vendor bill.
+        autogiro_line = wizard.available_payment_method_line_ids.filtered(
+            lambda line: line.payment_method_id == self.autogiro_method
+        )[:1]
+        if autogiro_line:
+            wizard.payment_method_line_id = autogiro_line
+
+        # The decision helper must treat this as an Autogiro pending pay.
         self.assertTrue(self.autogiro_method.pending_until_reconciliation)
-        invoice.write({"is_autogiro_pending_bank": True})
-        invoice._compute_payment_state()
+        self.assertTrue(wizard._is_autogiro_pending_pay())
+
+        # Confirm: creates + posts the payment but skips reconciliation.
+        res = wizard.action_create_payments()
+
+        # The invoice must read in_payment (not paid/not_paid).
+        invoice.invalidate_recordset(["payment_state"])
         self.assertEqual(
             invoice.payment_state,
             "in_payment",
@@ -119,6 +124,23 @@ class TestAutogiroPayPending(AccountTestInvoicingCommon):
             invoice.payment_state,
             "paid",
             "Autogiro confirm must not settle the bill to paid",
+        )
+
+        # A payment was created, posted (in_process), and NOT reconciled.
+        payments = self.env["account.payment"].search(
+            [("partner_id", "=", self.partner.id)],
+            order="id desc",
+            limit=1,
+        )
+        self.assertTrue(payments, "A payment must have been created")
+        self.assertEqual(
+            payments.state,
+            "in_process",
+            "The Autogiro payment must be in_process, not paid/draft",
+        )
+        self.assertFalse(
+            invoice.matched_payment_ids,
+            "The invoice must not be reconciled with the payment yet",
         )
 
     def test_reconciliation_to_paid_clears_pending_signal(self):
