@@ -20,7 +20,7 @@
 ##############################################################################
 
 from collections import defaultdict
-from datetime import datetime
+from datetime import date, datetime
 
 from odoo import api, models
 
@@ -30,6 +30,11 @@ class AgedPartnerBalanceReportSorted(models.AbstractModel):
 
     _inherit = "report.account_financial_report.aged_partner_balance"
     _description = "Aged Partner Balance Report (Sorted)"
+
+    # Document types the "Invoiced" smart button on the contact uses; see
+    # res.partner.action_view_partner_invoices and
+    # account.action_move_out_invoice_type.
+    INVOICE_MOVE_TYPES = ("out_invoice", "out_refund")
 
     def _create_account_list(
         self,
@@ -109,51 +114,77 @@ class AgedPartnerBalanceReportSorted(models.AbstractModel):
         self._attach_move_ids_to_partners(res, data)
         return res
 
-    def _get_ml_field_domain(self, data):
-        """Reuse OCA's selection domain for move lines (accounts, company,
-        reconciliation, posting state and date_from).
-        """
-        account_ids = data.get("account_ids") or []
-        partner_ids = data.get("partner_ids") or []
-        company_id = data.get("company_id")
-        date_from = data.get("date_from")
-        only_posted = data.get("only_posted_moves", True)
+    def _get_report_computed_lines(self, data):
+        """OCA's own move-line selection for this report run.
 
-        domain = self._get_move_lines_domain_not_reconciled(
-            company_id, account_ids, partner_ids, only_posted, date_from
+        Calls the report's ``_get_move_lines_data`` with the exact arguments the
+        report used, so the result already carries the as-of-date handling
+        (``_recalculate_move_lines`` adds back amounts reconciled after a
+        backdated report date).
+        """
+        date_at = data.get("date_at")
+        date_at_object = (
+            datetime.strptime(date_at, "%Y-%m-%d").date() if date_at else date.today()
         )
-        return domain
+        age_partner_configuration = self.env[
+            "account.age.report.configuration"
+        ].browse(data.get("age_partner_config_id"))
+        ag_pb_data, _accounts, _partners, _journals = self.with_context(
+            age_partner_config=age_partner_configuration
+        )._get_move_lines_data(
+            data.get("company_id"),
+            data.get("account_ids") or [],
+            data.get("partner_ids") or [],
+            date_at_object,
+            data.get("date_from"),
+            data.get("only_posted_moves", True),
+            True,  # show_move_line_details: we need the underlying lines
+        )
+        return ag_pb_data
 
     def _get_open_moves_per_account_partner(self, data):
         """Return {(account_id, partner_id): sorted list of account.move ids}
 
-        The moves are those whose open lines (reconciled=False) match the exact
-        selection the report uses (same accounts, company, posting state and
-        date_from), dated <= the report date. This reproduces per account+partner
-        the invoices behind the aged balance shown in this report run.
+        The moves are exactly the invoices behind the partner's balance for this
+        report run: the report's own computed lines (as of the report date,
+        including lines settled after a backdated date) restricted to invoice
+        documents. Bank/payment entries that merely happen to be unreconciled on
+        the receivable account are never listed.
         """
-        date_at = data.get("date_at")
-        date_at_date = None
-        if date_at:
-            date_at_date = datetime.strptime(date_at, "%Y-%m-%d").date()
+        ag_pb_data = self._get_report_computed_lines(data)
 
-        domain = self._get_ml_field_domain(data)
-        move_lines = self.env["account.move.line"].search_read(
-            domain=domain,
-            fields=["id", "account_id", "partner_id", "move_id", "date"],
+        # (account_id, partner_id) -> underlying account.move.line ids
+        line_ids_by_key = defaultdict(list)
+        for acc_id, partner_map in ag_pb_data.items():
+            if not isinstance(acc_id, int):
+                continue
+            for prt_id, prt_data in partner_map.items():
+                if not isinstance(prt_id, int) or not isinstance(prt_data, dict):
+                    continue
+                for ml in prt_data.get("move_lines") or []:
+                    line = ml.get("line_rec")
+                    if line:
+                        line_ids_by_key[(acc_id, prt_id)].append(line.id)
+
+        if not line_ids_by_key:
+            return {}
+
+        # Resolve line -> move in one batch (prefetch), then keep invoices only.
+        lines = self.env["account.move.line"].browse(
+            [lid for line_ids in line_ids_by_key.values() for lid in line_ids]
         )
-        mapping = defaultdict(set)
-        for line in move_lines:
-            acc_id = line["account_id"][0] if line["account_id"] else None
-            prt_id = line["partner_id"][0] if line["partner_id"] else None
-            move_id = line["move_id"][0] if line["move_id"] else None
-            if acc_id is None or prt_id is None or move_id is None:
-                continue
-            # The report only counts lines dated <= report date
-            if date_at_date is not None and line["date"] > date_at_date:
-                continue
-            mapping[(acc_id, prt_id)].add(move_id)
-        return {key: sorted(ids) for key, ids in mapping.items()}
+        line_to_move = {line.id: line.move_id for line in lines}
+
+        mapping = {}
+        for key, line_ids in line_ids_by_key.items():
+            mapping[key] = sorted(
+                {
+                    line_to_move[lid].id
+                    for lid in line_ids
+                    if line_to_move[lid].move_type in self.INVOICE_MOVE_TYPES
+                }
+            )
+        return mapping
 
     def _attach_move_ids_to_partners(self, res, data):
         aged_partner_balance = res.get("aged_partner_balance", [])
