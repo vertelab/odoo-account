@@ -31,10 +31,40 @@ class AgedPartnerBalanceReportSorted(models.AbstractModel):
     _inherit = "report.account_financial_report.aged_partner_balance"
     _description = "Aged Partner Balance Report (Sorted)"
 
-    # Document types the "Invoiced" smart button on the contact uses; see
-    # res.partner.action_view_partner_invoices and
-    # account.action_move_out_invoice_type.
-    INVOICE_MOVE_TYPES = ("out_invoice", "out_refund")
+    # Invoice documents only. For receivables this is the same set the
+    # "Invoiced" smart button on the contact shows
+    # (res.partner.action_view_partner_invoices / account.action_move_out_invoice_type);
+    # the supplier directions are kept so the report still works when it is run
+    # on payable accounts.
+    INVOICE_MOVE_TYPES = ("out_invoice", "out_refund", "in_invoice", "in_refund")
+
+    def _get_move_lines_domain_not_reconciled(
+        self, company_id, account_ids, partner_ids, only_posted_moves, date_from
+    ):
+        """OCA's open-line domain, narrowed to invoice documents.
+
+        The Aged Partner Balance ages *receivables*: open customer invoices and
+        credit notes. An unapplied payment or customer advance sitting on the
+        receivable account is not a receivable and must not be aged here — it is
+        shown in the Open Items / Partner Ledger reports instead. Filtering the
+        domain (rather than the result) keeps the aged amounts, the partner rows
+        and the clickable invoice list consistent with each other.
+        """
+        domain = super()._get_move_lines_domain_not_reconciled(
+            company_id, account_ids, partner_ids, only_posted_moves, date_from
+        )
+        domain.append(("move_id.move_type", "in", list(self.INVOICE_MOVE_TYPES)))
+        return domain
+
+    def _get_new_move_lines_domain(
+        self, new_ml_ids, account_ids, company_id, partner_ids, only_posted_moves
+    ):
+        """Same narrowing for the lines re-added when the report is backdated."""
+        domain = super()._get_new_move_lines_domain(
+            new_ml_ids, account_ids, company_id, partner_ids, only_posted_moves
+        )
+        domain.append(("move_id.move_type", "in", list(self.INVOICE_MOVE_TYPES)))
+        return domain
 
     def _create_account_list(
         self,

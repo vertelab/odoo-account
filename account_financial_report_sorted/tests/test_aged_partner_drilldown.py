@@ -28,8 +28,13 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
 @tagged("post_install", "-at_install")
 class TestAgedPartnerDrilldown(TransactionCase):
-    """The partner drill-down must list the invoices behind the balance for the
-    report date, and must never list bank/payment entries (T/11301, T/11336).
+    """The Aged Partner Balance ages *invoices* only (T/11301, T/11336):
+
+    - the aged amounts and the partner rows must not include unapplied
+      payments / customer advances sitting on the receivable account,
+    - the clickable partner list must show exactly the invoices behind the
+      aged amount, for the report date (backdating included),
+    - the Open Items report (where an advance *does* belong) is unaffected.
     """
 
     @classmethod
@@ -45,6 +50,7 @@ class TestAgedPartnerDrilldown(TransactionCase):
             )
         )
         cls.report = cls.env["report.account_financial_report.aged_partner_balance"]
+        cls.open_items_report = cls.env["report.account_financial_report.open_items"]
         cls.company = cls.env.company
         cls.sale_journal = cls.env["account.journal"].search(
             [("type", "=", "sale"), ("company_id", "=", cls.company.id)], limit=1
@@ -100,8 +106,8 @@ class TestAgedPartnerDrilldown(TransactionCase):
     def _post_deposit(self, partner, amount, date):
         """Post a bank/deposit journal entry on the partner's receivable account.
 
-        This is the kind of unreconciled ``entry`` line that must never show up
-        as an "invoice" in the drill-down.
+        This is an advance / unapplied payment: not a receivable, so it must not
+        be aged in this report (it belongs in Open Items / Partner Ledger).
         """
         receivable = partner.property_account_receivable_id
         entry = self.env["account.move"].create(
@@ -135,8 +141,7 @@ class TestAgedPartnerDrilldown(TransactionCase):
         entry.action_post()
         return entry
 
-    def _drilldown_move_ids(self, partner, date_at):
-        """Run the report and return the partner's clickable move ids."""
+    def _prepare_report_data(self, partner, date_at):
         wizard = self.env["aged.partner.balance.report.wizard"].create(
             {
                 "date_at": date_at,
@@ -149,37 +154,48 @@ class TestAgedPartnerDrilldown(TransactionCase):
         data = wizard._prepare_report_data()
         # Simulate the web client, which sends the date back as a string.
         data["date_at"] = date_at.strftime(DEFAULT_SERVER_DATE_FORMAT)
+        return wizard, data
+
+    def _report_row(self, partner, date_at):
+        wizard, data = self._prepare_report_data(partner, date_at)
         res = self.report._get_report_values(wizard.ids, data)
         for account in res.get("aged_partner_balance", []):
             for row in account.get("partners", []):
                 if row.get("id") == partner.id:
-                    return row.get("move_ids")
+                    return row
         return None
 
     # ------------------------------------------------------------------- tests
 
-    def test_open_invoice_listed_and_deposit_excluded(self):
-        """An open invoice is listed; an open bank/deposit entry is not."""
+    def test_deposit_is_not_aged_but_invoice_is(self):
+        """The aged amount is the invoice only; the deposit is not netted in."""
         today = fields.Date.context_today(self.env.user)
-        partner = self._new_partner("Drilldown Open Invoice")
+        partner = self._new_partner("Aged Invoice And Deposit")
         invoice = self._post_invoice(
             partner, 1000.0, today - timedelta(days=10), today - timedelta(days=5)
         )
         self._post_deposit(partner, 500.0, today - timedelta(days=3))
 
-        move_ids = self._drilldown_move_ids(partner, today)
+        row = self._report_row(partner, today)
 
+        self.assertTrue(row, "The partner has an open invoice and must be reported")
+        self.assertAlmostEqual(
+            row["residual"],
+            1000.0,
+            2,
+            "Only the invoice may be aged; the 500 deposit must not reduce it",
+        )
         self.assertEqual(
-            move_ids,
+            row["move_ids"],
             [invoice.id],
-            "Only the open invoice should be listed, not the deposit entry",
+            "Only the open invoice should be clickable, not the deposit entry",
         )
 
     def test_backdated_lists_invoice_paid_after_report_date(self):
         """A backdated run lists an invoice that was open then but is paid now."""
         today = fields.Date.context_today(self.env.user)
         report_date = today - timedelta(days=30)
-        partner = self._new_partner("Drilldown Backdated")
+        partner = self._new_partner("Aged Backdated")
         invoice = self._post_invoice(
             partner, 1000.0, today - timedelta(days=60), report_date
         )
@@ -203,28 +219,38 @@ class TestAgedPartnerDrilldown(TransactionCase):
             "Precondition: the invoice must be settled after the report date",
         )
 
-        self.assertEqual(
-            self._drilldown_move_ids(partner, report_date),
-            [invoice.id],
-            "A paid-after-report-date invoice must still be listed when backdating",
-        )
-        # Fully settled today -> the invoice is not part of the balance, so the
-        # partner has no clickable invoice list at all (no row / empty list).
+        backdated = self._report_row(partner, report_date)
+        self.assertTrue(backdated, "The invoice was open at the report date")
+        self.assertAlmostEqual(backdated["residual"], 1000.0, 2)
+        self.assertEqual(backdated["move_ids"], [invoice.id])
+
+        # Fully settled today -> nothing left to age for this partner.
         self.assertFalse(
-            self._drilldown_move_ids(partner, today),
-            "The settled invoice is no longer open today, so it is not listed",
+            self._report_row(partner, today),
+            "The settled invoice is no longer open today, so it is not aged",
         )
 
-    def test_deposit_only_partner_gets_empty_list(self):
-        """A partner whose balance is only deposits gets no invoice list."""
+    def test_deposit_only_partner_is_not_aged(self):
+        """A partner whose balance is only an advance is not reported at all."""
         today = fields.Date.context_today(self.env.user)
-        partner = self._new_partner("Drilldown Deposit Only")
-        self._post_deposit(partner, 750.0, today - timedelta(days=2))
+        partner = self._new_partner("Aged Deposit Only")
+        entry = self._post_deposit(partner, 750.0, today - timedelta(days=2))
 
-        move_ids = self._drilldown_move_ids(partner, today)
+        self.assertFalse(
+            self._report_row(partner, today),
+            "An unapplied payment is not a receivable and must not be aged",
+        )
 
-        self.assertEqual(
-            move_ids,
-            [],
-            "Bank/deposit entries must never be listed as invoices",
+        # ... but the Open Items report must still see it (that is where an
+        # advance belongs, and it backs the 1510 reconciliation).
+        receivable = partner.property_account_receivable_id
+        domain = self.open_items_report._get_move_lines_domain_not_reconciled(
+            self.company.id, [receivable.id], [partner.id], True, False
+        )
+        open_lines = self.env["account.move.line"].search(domain).filtered(
+            lambda line: line.move_id == entry
+        )
+        self.assertTrue(
+            open_lines,
+            "The deposit must remain visible in the Open Items report",
         )
