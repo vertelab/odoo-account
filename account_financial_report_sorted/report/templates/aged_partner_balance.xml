@@ -126,4 +126,27 @@
         </div>
         </xpath>
     </template>
+
+    <!--
+        Show the total 100 % under the Residual column of the Percents row.
+
+        The Percents row shows each age bucket as a share of the account's
+        residual. The buckets sum to the residual, so the shares sum to 100 % —
+        but a single bucket can exceed 100 % when another bucket is negative
+        (a credit note lowers the net residual below the positive buckets).
+        That is correct, but it reads as an error without a visible 100 % to
+        compare against. The Residual cell of the Percents row is empty in OCA;
+        fill it with the total so the row is self-explanatory.
+    -->
+    <template
+        id="report_aged_partner_balance_account_ending_cumul"
+        inherit_id="account_financial_report.report_aged_partner_balance_account_ending_cumul"
+    >
+        <xpath
+            expr="//t[@t-if='not show_move_line_details']/div[hasclass('act_as_cell','right')][text()='Percents' or text()='Procent']/following-sibling::div[hasclass('act_as_cell','amount')][@style='width: 9.64%;'][1]"
+            position="replace"
+        >
+            <div class="act_as_cell amount" style="width: 9.64%;">100 %</div>
+        </xpath>
+    </template>
 </odoo>
