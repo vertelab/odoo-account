@@ -165,6 +165,15 @@ class TestAgedPartnerDrilldown(TransactionCase):
                     return row
         return None
 
+    def _report_account(self, partner, date_at):
+        """The account row (which carries the "Percents" figures)."""
+        wizard, data = self._prepare_report_data(partner, date_at)
+        res = self.report._get_report_values(wizard.ids, data)
+        for account in res.get("aged_partner_balance", []):
+            if any(row.get("id") == partner.id for row in account.get("partners", [])):
+                return account
+        return None
+
     # ------------------------------------------------------------------- tests
 
     def test_deposit_is_not_aged_but_invoice_is(self):
@@ -254,3 +263,132 @@ class TestAgedPartnerDrilldown(TransactionCase):
             open_lines,
             "The deposit must remain visible in the Open Items report",
         )
+
+    def test_percent_row_sums_to_100_with_negative_bucket(self):
+        """The "Percents" row must add up to 100 %, credit notes included.
+
+        OCA computes ``abs(bucket / residual * 100)`` per bucket, so a negative
+        bucket (a credit note) is turned into a positive share and the row sums
+        to more than 100 %. The buckets already sum to the residual, so the
+        percentage row must simply be ``bucket / residual * 100`` — a negative
+        bucket lowers the total.
+        """
+        today = fields.Date.context_today(self.env.user)
+        partner = self._new_partner("Aged Percent Sign")
+
+        # A past-due invoice (lands in "older") and a credit note dated the
+        # same day, so both are open at the report date. The credit note makes
+        # the account residual smaller than the invoice, which is exactly the
+        # situation where OCA's abs() pushes the row over 100 %.
+        self._post_invoice(partner, 1000.0, today - timedelta(days=200), today - timedelta(days=200))
+        credit = self.env["account.move"].create(
+            {
+                "move_type": "out_refund",
+                "partner_id": partner.id,
+                "journal_id": self.sale_journal.id,
+                "invoice_date": today - timedelta(days=200),
+                "date": today - timedelta(days=200),
+                "invoice_date_due": today - timedelta(days=200),
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": "Credit line",
+                            "quantity": 1.0,
+                            "price_unit": 400.0,
+                            "account_id": self.income_account.id,
+                            "tax_ids": [(5, 0, 0)],
+                        },
+                    )
+                ],
+            }
+        )
+        credit.action_post()
+
+        account = self._report_account(partner, today)
+        self.assertTrue(account, "The partner must appear in the report")
+
+        # The residual is the net (1000 - 400); the buckets are the gross.
+        self.assertAlmostEqual(account["residual"], 600.0, 2)
+        self.assertAlmostEqual(account["older"], 600.0, 2)
+
+        percent_keys = (
+            "percent_current",
+            "percent_30_days",
+            "percent_60_days",
+            "percent_90_days",
+            "percent_120_days",
+            "percent_older",
+        )
+        total_percent = sum(account[key] for key in percent_keys)
+        self.assertAlmostEqual(
+            total_percent,
+            100.0,
+            2,
+            "The percentage row must add up to 100 %%, got %.2f %%" % total_percent,
+        )
+
+    def test_percent_row_keeps_negative_sign(self):
+        """A negative bucket must show as a negative percentage.
+
+        With OCA's ``abs()`` a credit note sitting in its own bucket shows as a
+        positive share. Keeping the sign is what makes the row sum to 100 %.
+        """
+        today = fields.Date.context_today(self.env.user)
+        partner = self._new_partner("Aged Percent Negative")
+
+        # Invoice due 200 days ago (older bucket) and a credit note due
+        # yesterday (current bucket): two different buckets, one negative.
+        self._post_invoice(partner, 1000.0, today - timedelta(days=200), today - timedelta(days=200))
+        credit = self.env["account.move"].create(
+            {
+                "move_type": "out_refund",
+                "partner_id": partner.id,
+                "journal_id": self.sale_journal.id,
+                "invoice_date": today - timedelta(days=1),
+                "date": today - timedelta(days=1),
+                "invoice_date_due": today - timedelta(days=1),
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": "Credit line",
+                            "quantity": 1.0,
+                            "price_unit": 400.0,
+                            "account_id": self.income_account.id,
+                            "tax_ids": [(5, 0, 0)],
+                        },
+                    )
+                ],
+            }
+        )
+        credit.action_post()
+
+        account = self._report_account(partner, today)
+        self.assertTrue(account, "The partner must appear in the report")
+
+        # current = -400 (credit note), older = +1000 (invoice), residual = 600.
+        self.assertAlmostEqual(account["current"], -400.0, 2)
+        self.assertAlmostEqual(account["older"], 1000.0, 2)
+        self.assertAlmostEqual(account["residual"], 600.0, 2)
+
+        # -400 / 600 * 100 = -66.67 %  (OCA would have shown +66.67 %)
+        self.assertLess(
+            account["percent_current"],
+            0.0,
+            "A negative bucket must produce a negative percentage",
+        )
+        self.assertAlmostEqual(account["percent_current"], -66.67, 2)
+        self.assertAlmostEqual(account["percent_older"], 166.67, 2)
+
+        total_percent = (
+            account["percent_current"]
+            + account["percent_30_days"]
+            + account["percent_60_days"]
+            + account["percent_90_days"]
+            + account["percent_120_days"]
+            + account["percent_older"]
+        )
+        self.assertAlmostEqual(total_percent, 100.0, 2)

@@ -21,7 +21,7 @@
 
 {
     'name': 'Account Financial Report Sorted',
-    'version': '1.1.0',
+    'version': '1.2.0',
     'summary': 'Fixes sorting and UX for Aged Partner Balance report',
     'category': 'account',
     'description': """

@@ -38,6 +38,70 @@ class AgedPartnerBalanceReportSorted(models.AbstractModel):
     # on payable accounts.
     INVOICE_MOVE_TYPES = ("out_invoice", "out_refund", "in_invoice", "in_refund")
 
+    def _calculate_percent(self, aged_partner_data):
+        """OCA's "Percents" row, with the sign kept.
+
+        OCA computes ``abs(bucket / residual * 100)`` for every bucket. Two
+        things go wrong with that:
+
+        * ``abs()`` turns a *negative* bucket (credit note, customer advance)
+          into a positive share, so the percentages of an account can add up to
+          more than 100 % (e.g. 100.22 % when a credit note sits in one bucket).
+        * the same ``abs()`` makes a small net residual explode: a partner with
+          a 1 000 SEK net but 11 791 SEK of advances shows 1179 %.
+
+        The buckets already sum to ``residual`` (``_calculate_amounts`` adds
+        every line's residual to exactly one bucket), so dividing *without*
+        ``abs()`` makes the percentages add up to exactly 100 % — a negative
+        bucket lowers the total, which is the correct reading. This matches how
+        the report is used: the percentage row is the composition of the
+        residual, and a credit note is a negative part of it.
+        """
+        interval_lines = self.env.context["age_partner_config"].line_ids
+        for account in aged_partner_data:
+            if abs(account["residual"]) > 0.01:
+                total = account["residual"]
+                account.update(
+                    {
+                        "percent_current": round(
+                            (account["current"] / total) * 100, 2
+                        ),
+                        "percent_30_days": round(
+                            (account["30_days"] / total) * 100, 2
+                        ),
+                        "percent_60_days": round(
+                            (account["60_days"] / total) * 100, 2
+                        ),
+                        "percent_90_days": round(
+                            (account["90_days"] / total) * 100, 2
+                        ),
+                        "percent_120_days": round(
+                            (account["120_days"] / total) * 100, 2
+                        ),
+                        "percent_older": round(
+                            (account["older"] / total) * 100, 2
+                        ),
+                    }
+                )
+                for interval_line in interval_lines:
+                    account[f"percent_{interval_line.id}"] = round(
+                        (account[interval_line] / total) * 100, 2
+                    )
+            else:
+                account.update(
+                    {
+                        "percent_current": 0.0,
+                        "percent_30_days": 0.0,
+                        "percent_60_days": 0.0,
+                        "percent_90_days": 0.0,
+                        "percent_120_days": 0.0,
+                        "percent_older": 0.0,
+                    }
+                )
+                for interval_line in interval_lines:
+                    account[f"percent_{interval_line.id}"] = 0.0
+        return aged_partner_data
+
     def _get_move_lines_domain_not_reconciled(
         self, company_id, account_ids, partner_ids, only_posted_moves, date_from
     ):
