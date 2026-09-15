@@ -1,7 +1,17 @@
+# Odoo Account (vertelab/odoo-account) — Python dependencies
+#
+# Installeras av repo_apply (salt odoo.repo_apply) — se odoo-ai/requirements.txt
+# for bakgrund om varfor verifiering och versionstak finns.
+#
+# OBS om `pathlib`: den togs bort 2026-09-14. `pathlib` ar en del av
+# Pythons standardbibliotek sedan 3.4 och kan INTE installeras via pip.
+# Att lista den gjorde att verify_requirements.py rapporterade ett
+# obligatoriskt paket som permanent saknat — en falsk rod flagga som
+# dolde de verkliga saknade paketen.
+
 zeep
 langchain
 langchain_community
-pathlib
 pdftotext
 eml_parser
 numpy_financial
