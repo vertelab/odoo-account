@@ -16,20 +16,30 @@ class TestBillApproval(TransactionCase):
         cls.approver = cls.env["res.users"].create({
             "name": "Test Approver",
             "login": "test_approver_bill",
+            "email": "test_approver_bill@example.com",
             "company_id": cls.company.id,
             "company_ids": [(6, 0, [cls.company.id])],
-            "groups_id": [(4, cls.env.ref(
-                "account_bill_approval.group_bill_approval_user"
-            ).id)],
+            "groups_id": [(6, 0, [
+                cls.env.ref("base.group_user").id,
+                cls.env.ref("account.group_account_invoice").id,
+                cls.env.ref(
+                    "account_bill_approval.group_bill_approval_user"
+                ).id,
+            ])],
         })
         cls.other_approver = cls.env["res.users"].create({
             "name": "Other Approver",
             "login": "test_approver_bill_2",
+            "email": "test_approver_bill_2@example.com",
             "company_id": cls.company.id,
             "company_ids": [(6, 0, [cls.company.id])],
-            "groups_id": [(4, cls.env.ref(
-                "account_bill_approval.group_bill_approval_user"
-            ).id)],
+            "groups_id": [(6, 0, [
+                cls.env.ref("base.group_user").id,
+                cls.env.ref("account.group_account_invoice").id,
+                cls.env.ref(
+                    "account_bill_approval.group_bill_approval_user"
+                ).id,
+            ])],
         })
         cls.vendor = cls.env["res.partner"].create({
             "name": "Test Vendor AB",

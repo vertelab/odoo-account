@@ -7,6 +7,7 @@
     <record id="group_bill_approval_user" model="res.groups">
         <field name="name">Bill Approver</field>
         <field name="category_id" ref="base.module_category_accounting"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         <field name="comment">Users that can be assigned as approvers on
             vendor bills and approve or reject them.</field>
     </record>

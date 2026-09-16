@@ -150,6 +150,22 @@ class AccountMove(models.Model):
         self.ensure_one()
         return MOVE_TYPE_LABELS.get(self.move_type, self.move_type)
 
+    def _bill_approval_log(self, body):
+        """Post a chatter message without requiring a sender address.
+
+        ``message_post`` raises when it cannot determine the author's
+        e-mail address. An approval must not fail for that reason, so a
+        fallback address is passed explicitly.
+        """
+        self.ensure_one()
+        email_from = (
+            self.env.user.email
+            or self.env.user.partner_id.email
+            or self.env.company.email
+            or "odoo@localhost"
+        )
+        self.message_post(body=body, email_from=email_from)
+
     def _bill_approval_notify(self, line):
         """Send the approval request mail to one approver."""
         self.ensure_one()
@@ -168,7 +184,7 @@ class AccountMove(models.Model):
             "body_html": body,
         })
         mail.send()
-        self.message_post(body=_(
+        self._bill_approval_log(_(
             "%(bill)s approval request has been sent to %(user)s.",
             bill=self._bill_approval_label(),
             user=line.user_id.name,

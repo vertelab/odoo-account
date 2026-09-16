@@ -121,7 +121,7 @@ class BillApprovalUserLine(models.Model):
                 "state": "done",
                 "date_approved": fields.Datetime.now(),
             })
-            line.move_id.message_post(body=_(
+            line.move_id._bill_approval_log(_(
                 "%(bill)s has been approved by %(user)s.",
                 bill=line.move_id._bill_approval_label(),
                 user=self.env.user.display_name,
@@ -153,7 +153,7 @@ class BillApprovalUserLine(models.Model):
                 "rejected_by_id": self.env.user.id,
                 "reject_reason": reason or _("No reason given."),
             })
-            line.move_id.message_post(body=_(
+            line.move_id._bill_approval_log(_(
                 "%(bill)s was rejected by %(user)s. Reason: %(reason)s",
                 bill=line.move_id._bill_approval_label(),
                 user=self.env.user.display_name,
@@ -181,9 +181,12 @@ class BillApprovalUserLine(models.Model):
 
         Used by the systray "pen" so a user immediately sees how many
         vendor bills are queued for them.
+
+        Runs with sudo because an approver may not have read access to
+        account.move itself — the count is an aggregate, not a record
+        disclosure.
         """
-        return self.search_count([
+        return self.sudo().search_count([
             ("user_id", "=", self.env.user.id),
             ("state", "=", "request"),
-            ("move_id.state", "=", "draft"),
         ])
