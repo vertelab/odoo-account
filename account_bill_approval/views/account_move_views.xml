@@ -10,7 +10,7 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//field[@name='invoice_date']" position="after">
+            <xpath expr="//group[@id='header_right_group']//field[@name='invoice_date']" position="after">
                 <field name="bill_approval_state" widget="badge"
                        decoration-success="bill_approval_state == 'approved'"
                        decoration-warning="bill_approval_state == 'pending'"
@@ -21,7 +21,7 @@
             </xpath>
 
             <xpath expr="//notebook" position="inside">
-                <page name="bill_approvers" string="Approvers"
+                <page name="bill_approval" string="Approvals"
                       invisible="move_type not in ('in_invoice', 'in_refund')">
                     <field name="approving_user_ids"
                            context="{'filter_bill_approval_user': 0}">
