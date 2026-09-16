@@ -42,6 +42,30 @@ class AccountReconcileModel(models.Model):
         "will trigger the fee model.",
     )
 
+    def _get_invoice_matching_amls_domain(self, st_line, partner):
+        """Match on the commercial entity, not the exact contact.
+
+        The statement line partner is often a child contact (e.g. an invoice
+        address) while the invoice's receivable/payable line is booked on the
+        parent company. Matching on ``partner_id = <child>`` then yields no
+        candidates at all, which silently disables invoice matching (and with
+        it the early payment discount handling).
+
+        Widen the partner criterion to the commercial partner whenever the
+        statement line partner is a child contact.
+        """
+        domain = super()._get_invoice_matching_amls_domain(st_line, partner)
+        if partner and partner.commercial_partner_id != partner:
+            domain = [
+                criterion
+                for criterion in domain
+                if not (isinstance(criterion, tuple) and criterion[0] == "partner_id")
+            ]
+            domain.append(
+                ("partner_id", "child_of", partner.commercial_partner_id.id)
+            )
+        return domain
+
     @api.depends("rule_type", "active")
     def _compute_can_be_proposed(self):
         for rec in self:

@@ -7,7 +7,7 @@
         Enhanced reconciliation features for OCA reconcile:
         multi-account transfer, tax write-off, edit mode, auto-reconcile wizard,
         regex amount extraction, and enhanced matching rules.""",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/account-reconcile",
