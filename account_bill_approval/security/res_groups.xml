@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB
+     SPDX-License-Identifier: AGPL-3 -->
+<odoo>
+
+    <!-- Approver: may act on bills assigned to them -->
+    <record id="group_bill_approval_user" model="res.groups">
+        <field name="name">Bill Approver</field>
+        <field name="category_id" ref="base.module_category_accounting"/>
+        <field name="comment">Users that can be assigned as approvers on
+            vendor bills and approve or reject them.</field>
+    </record>
+
+    <!-- Read-only: may follow the approval status -->
+    <record id="group_bill_approval_readonly" model="res.groups">
+        <field name="name">Bill Approval / Read-only</field>
+        <field name="category_id" ref="base.module_category_accounting"/>
+        <field name="comment">Can see the approval status of vendor bills but
+            cannot approve, reject or configure approvers.</field>
+    </record>
+
+    <!-- Manager: configures who approves, and on which vendors -->
+    <record id="group_bill_approval_manager" model="res.groups">
+        <field name="name">Bill Approval / Manager</field>
+        <field name="category_id" ref="base.module_category_accounting"/>
+        <field name="implied_ids" eval="[(4, ref('group_bill_approval_user'))]"/>
+        <field name="comment">Configures default approvers per vendor and
+            manages the approval workflow.</field>
+    </record>
+
+    <!-- Accounting managers get approval management out of the box -->
+    <record id="account.group_account_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_bill_approval_manager'))]"/>
+    </record>
+
+</odoo>

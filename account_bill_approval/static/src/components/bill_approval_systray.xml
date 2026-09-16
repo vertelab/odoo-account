@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 Vertel AB
+     SPDX-License-Identifier: AGPL-3 -->
+<templates xml:space="preserve">
+
+    <t t-name="account_bill_approval.BillApprovalSystray">
+        <button t-on-click="onClick"
+                class="btn btn-link position-relative o_bill_approval_systray"
+                t-att-title="state.count ? 'Bills waiting for your approval' : 'No bills waiting for approval'">
+            <i class="fa fa-pencil-square-o fa-lg" role="img" aria-label="Bill approvals"/>
+            <t t-if="state.count">
+                <span class="badge rounded-pill text-bg-danger position-absolute top-0 start-100 translate-middle o_bill_approval_systray_badge">
+                    <t t-esc="state.count"/>
+                </span>
+            </t>
+        </button>
+    </t>
+
+</templates>

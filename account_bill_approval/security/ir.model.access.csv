@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bill_approval_user_line_approver,bill.approval.user.line approver,model_bill_approval_user_line,account_bill_approval.group_bill_approval_user,1,1,1,0
+access_bill_approval_user_line_readonly,bill.approval.user.line readonly,model_bill_approval_user_line,account_bill_approval.group_bill_approval_readonly,1,0,0,0
+access_bill_approval_user_line_manager,bill.approval.user.line manager,model_bill_approval_user_line,account_bill_approval.group_bill_approval_manager,1,1,1,1
+access_bill_approval_user_line_account_invoice,bill.approval.user.line invoicing,model_bill_approval_user_line,account.group_account_invoice,1,1,1,0
+access_vendor_bill_approval_user,vendor.bill.approval.user,model_vendor_bill_approval_user,account_bill_approval.group_bill_approval_user,1,1,1,0
+access_vendor_bill_approval_reject,vendor.bill.approval.reject,model_vendor_bill_approval_reject,account_bill_approval.group_bill_approval_user,1,1,1,0
