@@ -137,29 +137,45 @@ def _backfill_company(cr):
 
 
 def _transfer_ownership(cr):
-    """Move ir_model_data ownership from the legacy to the new module.
+    """Remove the legacy module's ir_model_data rows for the model.
 
-    This is what keeps the table alive when the legacy module is
-    uninstalled.
+    Declaring the same model in the new module makes Odoo create its own
+    ``ir_model_data`` row pointing at the *same* ``ir.model`` record. The
+    legacy row therefore has to be **deleted**, not renamed — renaming
+    would violate the unique (module, name) constraint.
+
+    Once the legacy rows are gone, ``ir.model.unlink()`` can no longer
+    find the model when the legacy module is uninstalled, so
+    ``_drop_table()`` is never reached and the table survives.
     """
     for model, name_pattern in OWNERSHIP_ROWS:
         if name_pattern.endswith("%"):
             cr.execute("""
-                UPDATE ir_model_data
-                SET module = %s
+                DELETE FROM ir_model_data
                 WHERE module = %s
                   AND model = %s
                   AND name LIKE %s
-            """, (NEW_MODULE, LEGACY_MODULE, model, name_pattern))
+                  AND EXISTS (
+                      SELECT 1 FROM ir_model_data AS new
+                      WHERE new.module = %s
+                        AND new.model = ir_model_data.model
+                        AND new.name = ir_model_data.name
+                  )
+            """, (LEGACY_MODULE, model, name_pattern, NEW_MODULE))
         else:
             cr.execute("""
-                UPDATE ir_model_data
-                SET module = %s
+                DELETE FROM ir_model_data
                 WHERE module = %s
                   AND model = %s
                   AND name = %s
-            """, (NEW_MODULE, LEGACY_MODULE, model, name_pattern))
+                  AND EXISTS (
+                      SELECT 1 FROM ir_model_data AS new
+                      WHERE new.module = %s
+                        AND new.model = ir_model_data.model
+                        AND new.name = ir_model_data.name
+                  )
+            """, (LEGACY_MODULE, model, name_pattern, NEW_MODULE))
         _logger.info(
-            "account_bill_approval_migration: transferred %s %s row(s) "
+            "account_bill_approval_migration: removed %s legacy %s row(s) "
             "(%s)", cr.rowcount, model, name_pattern,
         )
