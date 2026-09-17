@@ -22,7 +22,7 @@ Funktioner:
 Beroenden: account_payment_order_pending, l10n_se_credit_transfer
 (payment method 'autogiro')
     """,
-    "version": "18.0.1.2.0",
+    "version": "18.0.1.3.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB",
     "website": "https://vertel.se/apps/odoo-account/account_payment_order_autogiro",

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Vertel AB (https://vertel.se)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="account_payment_view_pending_settlement" model="ir.ui.view">
+        <field name="name">account.payment.view.pending.settlement</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form" />
+        <field name="arch" type="xml">
+            <button name="button_open_statement_lines" position="after">
+                <button
+                    name="button_open_pending_settlement_moves"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-book"
+                    invisible="pending_settlement_move_count == 0"
+                >
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_text">
+                            <field name="pending_settlement_move_count" />
+                            <span> Journal Entry</span>
+                        </span>
+                    </div>
+                </button>
+            </button>
+        </field>
+    </record>
+</odoo>

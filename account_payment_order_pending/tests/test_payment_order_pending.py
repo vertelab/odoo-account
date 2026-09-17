@@ -9,15 +9,67 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 @tagged("-at_install", "post_install")
 class TestPaymentOrderPending(AccountTestInvoicingCommon):
-    """Verify that invoices on a 'pending until reconciliation' payment
-    order get payment_state = 'in_payment' when the order is uploaded,
-    even though no payment/reconciliation is created.
+    """Verify the four requirements of a 'pending until reconciliation' order:
 
-    Standard (non-pending) orders keep OCA behaviour (paid after upload).
+    1. A bill linked to a payment order reads 'in_payment' from the moment it
+       is linked — not only once the order is uploaded.
+    2. The bill becomes 'paid' when the bank transaction is reconciled
+       against it.
+    3. The payment follows the bill: it is booked and becomes 'paid' at that
+       same moment.
+    4. No journal entry is created for the payments while the order is merely
+       uploaded: nothing may be booked before the bank confirms the movement.
+
+    Standard (non-pending) orders keep OCA behaviour: posted and reconciled
+    at upload time.
     """
 
     @classmethod
+    def get_default_groups(cls):
+        """Extend the account test defaults with the groups this database
+        requires for res.company / res.partner creation.
+
+        AccountTestInvoicingCommon.setUpClass() switches cls.env to the
+        'accountman' test user (built from get_default_groups) and then creates
+        an independent test company. That creation is restricted to
+        Administration/Access Rights here, so the test user must carry those
+        groups from the start — adding them after super().setUpClass() is too
+        late, the AccessError has already been raised.
+        """
+        groups = super().get_default_groups()
+        return groups | cls.env.ref("base.group_erp_manager") | cls.env.ref(
+            "base.group_partner_manager"
+        )
+
+    @classmethod
     def setUpClass(cls):
+        # sfa_core makes product.category.category_type_id required (NOT NULL
+        # at the database level). ProductCommon.setUpClass() creates
+        # 'Test Category' without it, which raises NotNullViolation. The
+        # constraint is an SFA business rule, not something this module's tests
+        # exercise, so a default type is injected into every product.category
+        # create for the duration of the test class.
+        from odoo import SUPERUSER_ID, api
+        from odoo import registry as registry_module
+        from odoo.tests.common import get_db_name
+
+        categ_type_id = False
+        with registry_module(get_db_name()).cursor() as cr:
+            env = api.Environment(cr, SUPERUSER_ID, {})
+            categ_type_id = env["product.category.type"].search([], limit=1).id
+
+        if categ_type_id:
+            ProductCategory = registry_module(get_db_name())["product.category"]
+            orig_create = ProductCategory.create
+
+            @api.model_create_multi
+            def create(self, vals_list):
+                for vals in vals_list:
+                    vals.setdefault("category_type_id", categ_type_id)
+                return orig_create(self, vals_list)
+
+            cls.classPatch(ProductCategory, "create", create)
+
         super().setUpClass()
         cls.company = cls.company_data["company"]
         cls.env.user.company_id = cls.company.id
@@ -44,6 +96,18 @@ class TestPaymentOrderPending(AccountTestInvoicingCommon):
 
         cls.product = cls.env["product.product"].create(
             {"name": "Test product", "type": "service"}
+        )
+
+        # The automatic reconciliation of account_reconcile_oca relies on
+        # account.reconcile.model rules. The demo rules live on the main
+        # company, so an equivalent rule is created for the test company.
+        cls.reconcile_model = cls.env["account.reconcile.model"].create(
+            {
+                "name": "Test Invoices/Bills Perfect Match",
+                "rule_type": "invoice_matching",
+                "company_id": cls.company.id,
+                "auto_reconcile": True,
+            }
         )
 
         # Remove any leftover draft payment orders
@@ -92,9 +156,8 @@ class TestPaymentOrderPending(AccountTestInvoicingCommon):
         invoice._post(soft=False)
         return invoice
 
-    def _add_to_order(self, invoice, mode):
-        """Post the invoice, set its payment mode, add to a payment order
-        and return the (uploaded) order."""
+    def _add_to_order(self, invoice, mode, upload=True):
+        """Link the invoice to a payment order and optionally upload it."""
         invoice.payment_mode_id = mode.id
         invoice.create_account_payment_line()
         order = invoice.line_ids.payment_line_ids.order_id
@@ -104,42 +167,161 @@ class TestPaymentOrderPending(AccountTestInvoicingCommon):
         order.payment_mode_id_change()
         order.draft2open()
         order.open2generated()
-        order.generated2uploaded()
+        if upload:
+            order.generated2uploaded()
         return order
 
-    def test_pending_order_invoice_gets_in_payment(self):
-        """An invoice added to a pending payment order that is uploaded
-        must have payment_state = 'in_payment'."""
-        # Mark the manual method as pending-until-reconciliation
+    def _reconcile_bank_transaction(self, invoice, amount):
+        """Create a bank transaction for the invoice and reconcile it, the way
+        the bank reconciliation widget does.
+
+        The reconciliation models (account.reconcile.model, rule_type
+        'invoice_matching') match the transaction against the bill
+automatically on create. account_reconcile_oca skips that step in test
+        mode unless this context flag is set, so it is passed explicitly —
+        otherwise the test would exercise a flow that never happens in
+        production.
+        """
+        st_line = (
+            self.env["account.bank.statement.line"]
+            .with_context(_test_account_reconcile_oca=True)
+            .create(
+                {
+                    "journal_id": self.bank_journal.id,
+                    "date": fields.Date.today(),
+                    "payment_ref": invoice.name or "bank transaction",
+                    "amount": -amount,
+                    "partner_id": invoice.commercial_partner_id.id,
+                }
+            )
+        )
+        if st_line.is_reconciled:
+            return st_line
+
+        payable = invoice.line_ids.filtered(
+            lambda line: line.account_id.account_type == "liability_payable"
+            and not line.reconciled
+        )
+        counterpart = st_line.move_id.line_ids.filtered(
+            lambda line: line.account_id == payable.account_id
+            and not line.reconciled
+        )
+        if payable and counterpart:
+            (payable + counterpart).reconcile()
+        return st_line
+
+    # ------------------------------------------------------------------
+    # Requirement 1 — in_payment from the moment the bill is linked
+    # ------------------------------------------------------------------
+
+    def test_linked_invoice_is_in_payment_before_upload(self):
+        """A bill linked to a pending order reads 'in_payment' immediately,
+        before the order is uploaded."""
         self.manual_method.pending_until_reconciliation = True
-        mode = self._create_mode("Test Pending Mode", self.manual_method)
+        mode = self._create_mode("Test Pending Linked", self.manual_method)
 
-        invoice = self._create_supplier_invoice("PEND-001")
-        order = self._add_to_order(invoice, mode)
+        invoice = self._create_supplier_invoice("PEND-LINKED-001")
+        order = self._add_to_order(invoice, mode, upload=False)
+        self.assertEqual(order.state, "generated")
 
-        self.assertEqual(order.state, "uploaded")
-        self.assertTrue(order.payment_method_id.pending_until_reconciliation)
+        invoice._compute_payment_state()
         self.assertEqual(
             invoice.payment_state,
             "in_payment",
-            "Invoice on an uploaded pending payment order should be in_payment",
-        )
-        # The payments are posted (in_process) but NOT reconciled with the
-        # invoices — both records reach 'paid' only via bank reconciliation.
-        self.assertTrue(order.payment_ids, "Pending order should have payments")
-        self.assertTrue(
-            all(p.state == "in_process" for p in order.payment_ids),
-            "Pending-order payments must be in_process, not paid/draft",
-        )
-        self.assertFalse(
-            invoice.matched_payment_ids,
-            "Pending-order invoice must not be reconciled yet",
+            "A bill linked to a pending order must be in_payment immediately",
         )
 
-    def test_non_pending_order_invoice_is_paid(self):
-        """A standard (non-pending) payment order posts and reconciles —
-        the invoice becomes paid after upload."""
-        # Manual method stays non-pending (default)
+    def test_unlinked_invoice_is_not_paid(self):
+        """A bill not linked to anything keeps the standard state."""
+        invoice = self._create_supplier_invoice("PEND-UNLINKED-001")
+        self.assertEqual(invoice.payment_state, "not_paid")
+
+    # ------------------------------------------------------------------
+    # Requirement 4 — no journal entry while merely uploaded
+    # ------------------------------------------------------------------
+
+    def test_uploaded_pending_order_creates_no_journal_entry(self):
+        """Uploading a pending order must not book anything."""
+        self.manual_method.pending_until_reconciliation = True
+        mode = self._create_mode("Test Pending NoJE", self.manual_method)
+
+        invoice = self._create_supplier_invoice("PEND-NOJE-001")
+        order = self._add_to_order(invoice, mode)
+
+        self.assertEqual(order.state, "uploaded")
+        self.assertTrue(order.payment_ids, "Pending order should have payments")
+        for payment in order.payment_ids:
+            self.assertFalse(
+                payment.move_id,
+                "A pending order must not create a journal entry at upload",
+            )
+            self.assertEqual(
+                payment.state,
+                "draft",
+                "Pending-order payments must stay in draft at upload",
+            )
+        self.assertEqual(invoice.payment_state, "in_payment")
+        self.assertFalse(
+            invoice.matched_payment_ids,
+            "The bill must not be reconciled yet",
+        )
+
+    # ------------------------------------------------------------------
+    # Requirements 2 and 3 — paid at bank reconciliation, payment follows
+    # ------------------------------------------------------------------
+
+    def test_bank_reconciliation_settles_bill_and_payment(self):
+        """Reconciling the bank transaction settles the bill and books the
+        payment, which then follows the bill to 'paid'."""
+        self.manual_method.pending_until_reconciliation = True
+        mode = self._create_mode("Test Pending Settled", self.manual_method)
+
+        invoice = self._create_supplier_invoice("PEND-SETTLED-001")
+        order = self._add_to_order(invoice, mode)
+        payment = order.payment_ids
+        self.assertFalse(payment.move_id, "Sanity: nothing booked yet")
+
+        self._reconcile_bank_transaction(invoice, payment.amount)
+
+        self.assertTrue(
+            invoice.currency_id.is_zero(invoice.amount_residual),
+            "Sanity: the bill must be fully reconciled",
+        )
+        self.assertEqual(
+            invoice.payment_state,
+            "paid",
+            "A bill settled against the bank must be paid",
+        )
+        self.assertTrue(
+            payment.move_id,
+            "The payment must be booked once the bank confirms the movement",
+        )
+        self.assertEqual(
+            payment.state,
+            "paid",
+            "The payment must follow the bill to paid",
+        )
+
+    def test_payment_not_booked_before_bank_confirmation(self):
+        """The journal entry appears only at bank reconciliation, never at
+        upload."""
+        self.manual_method.pending_until_reconciliation = True
+        mode = self._create_mode("Test Pending Timing", self.manual_method)
+
+        invoice = self._create_supplier_invoice("PEND-TIMING-001")
+        order = self._add_to_order(invoice, mode)
+        payment = order.payment_ids
+
+        self.assertFalse(payment.move_id, "No journal entry at upload")
+        self._reconcile_bank_transaction(invoice, payment.amount)
+        self.assertTrue(payment.move_id, "Journal entry created at reconcile")
+
+    # ------------------------------------------------------------------
+    # Standard (non-pending) behaviour must be untouched
+    # ------------------------------------------------------------------
+
+    def test_non_pending_order_posts_and_reconciles(self):
+        """A standard order keeps OCA behaviour: posted and reconciled."""
         mode = self._create_mode("Test Normal Mode", self.manual_method)
 
         invoice = self._create_supplier_invoice("NONPEND-002")
@@ -147,40 +329,12 @@ class TestPaymentOrderPending(AccountTestInvoicingCommon):
 
         self.assertEqual(order.state, "uploaded")
         self.assertFalse(order.payment_method_id.pending_until_reconciliation)
-        # A standard (non-pending) order posts and reconciles, so the invoice
-        # must NOT remain 'not_paid' — it becomes 'paid' (or 'in_payment' when
-        # the payments are not fully marked matched in this test DB, which is
-        # OCA's own standard behaviour, not our override).
+        self.assertTrue(
+            all(p.move_id for p in order.payment_ids),
+            "A standard order must book its payments at upload",
+        )
         self.assertNotEqual(
             invoice.payment_state,
             "not_paid",
-            "Invoice on a non-pending uploaded order should not stay not_paid",
-        )
-
-    def test_pending_order_invoice_not_paid_before_upload(self):
-        """Before the order is uploaded, a pending-order invoice has not yet
-        been flagged in_payment (it stays not_paid until upload)."""
-        self.manual_method.pending_until_reconciliation = True
-        mode = self._create_mode("Test Pending Mode 2", self.manual_method)
-
-        invoice = self._create_supplier_invoice("PEND-003")
-        invoice.payment_mode_id = mode.id
-        invoice.create_account_payment_line()
-        order = invoice.line_ids.payment_line_ids.order_id
-        order.journal_id = self.bank_journal.id
-        order.payment_mode_id_change()
-
-        # Only confirm + generate, do NOT upload yet
-        order.draft2open()
-        order.open2generated()
-        self.assertEqual(order.state, "generated")
-        # No payments/reconciles exist, nothing flags in_payment prematurely
-        self.assertNotEqual(invoice.payment_state, "in_payment")
-
-        order.generated2uploaded()
-        self.assertEqual(order.state, "uploaded")
-        self.assertEqual(invoice.payment_state, "in_payment")
-        self.assertTrue(
-            all(p.state == "in_process" for p in order.payment_ids),
-            "Pending-order payments must be in_process after upload",
+            "A standard order must not leave the bill unpaid",
         )

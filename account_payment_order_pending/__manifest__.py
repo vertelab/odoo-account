@@ -12,18 +12,27 @@ Lägger till en flagga `pending_until_reconciliation` på betalmetoder
 (account.payment.method). När flaggan är True:
 
 - Betalorderns `generated2uploaded()` hoppar över `post_and_reconcile()`
-- Inga betalningar bokförs eller matchas vid uppladdning
-- Fakturor sätts till status "in_payment" (pågående) via en override av
-  `_compute_payment_state`, trots att ingen betalning/avstämning skapats
-- Leverantörsskulden kvarstår tills bankkontoutdrag avstämts
+- Betalningarna bokförs men matchas inte mot fakturorna vid uppladdning
+- Fakturor som är kopplade till en betalning eller betalorder visas som
+  "Pågående" (in_payment) tills banktransaktionen är avstämd
+- När banken bekräftar avstäms fakturan automatiskt och blir "Betald"
+  (paid); betalningen följer fakturans status
 
 Implementation
 --------------
-- `account.move._compute_payment_state()` överrids: fakturor vars betalrader
-  ligger på en betalorder i state `generated`/`uploaded` med en betalmetod som
-  har `pending_until_reconciliation = True` tvingas till `in_payment`.
-- `account.payment.order.generated2uploaded()` triggar omberäkningen av
-  `payment_state` på fakturorna efter att betalordern satts `uploaded`.
+- `account.move._compute_payment_state()` överrids: en faktura som är kopplad
+  till en betalorder (`line_ids.payment_line_ids`) eller till en betalning
+  (`matched_payment_ids`) och som ännu inte är avstämd
+  (`amount_residual != 0`) visas som `in_payment`. Ingen extra flagga lagras —
+  tillståndet härleds ur de länkar som redan finns.
+- `account.partial.reconcile.create()` överrids: när en banktransaktion
+  avstäms mot en betalning avstäms även fakturans rad mot betalningens rad,
+  precis som `AccountPaymentOrder.post_and_reconcile()` gör i standardflödet.
+  Hooken ligger på Odoo-kärnan, inte på någon avstämnings-UI, så den fångar
+  alla vägar (account_reconcile_oca, standardwidgeten eller ett direkt
+  `reconcile()`-anrop).
+- Betalningen synkas automatiskt: `account.payment._compute_state()` sätter
+  betalningen till `paid` så snart alla avstämda fakturor är `paid`.
 
 Användning
 ----------
@@ -31,12 +40,12 @@ Användning
 2. Gå till Redovisning > Konfiguration > Betalmetoder
 3. Välj en betalmetod (t.ex. Swedish Credit Transfer)
 4. Bocka i 'Pending Until Reconciliation'
-5. När betalorder skapas med denna metod märks fakturorna som pågående
-   (in_payment) och märks inte som betalda förrän bankavstämning sker.
+5. När fakturan kopplas till en betalorder eller betalning visas den som
+   "Pågående" och blir "Betald" först när banktransaktionen avstämts.
 
 Beroenden: account_payment_order (OCA/bank-payment)
     """,
-    "version": "18.0.1.2.0",
+    "version": "18.0.1.5.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB",
     "website": "https://vertel.se/apps/odoo-account/account_payment_order_pending",
@@ -46,6 +55,7 @@ Beroenden: account_payment_order (OCA/bank-payment)
     ],
     "data": [
         "views/account_payment_method_views.xml",
+        "views/account_payment_views.xml",
         "views/res_config_settings_views.xml",
     ],
     "tests": [

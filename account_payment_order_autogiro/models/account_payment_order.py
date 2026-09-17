@@ -11,6 +11,19 @@ _logger = logging.getLogger(__name__)
 class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
+    def generate_payment_file(self):
+        """Autogiro needs no payment file.
+
+        Autogiro is a direct debit: the bank collects the money on its own
+        schedule, so nothing is handed over at upload time. Without this
+        override the OCA base implementation raises "No handler for this
+        payment method" and the order cannot leave 'open'.
+        """
+        self.ensure_one()
+        if self.payment_method_id.code == "autogiro":
+            return (False, False)
+        return super().generate_payment_file()
+
     # Override generated2uploaded for autogiro-specific behavior
     def generated2uploaded(self):
         """For autogiro payment orders, skip post_and_reconcile entirely.
