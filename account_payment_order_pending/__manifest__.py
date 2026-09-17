@@ -45,7 +45,7 @@ Användning
 
 Beroenden: account_payment_order (OCA/bank-payment)
     """,
-    "version": "18.0.1.5.0",
+    "version": "18.0.1.7.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB",
     "website": "https://vertel.se/apps/odoo-account/account_payment_order_pending",

@@ -1,33 +1,33 @@
 # Copyright 2026 Vertel AB (https://vertel.se)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import models
+from odoo import api, fields, models
 
 
 class AccountMove(models.Model):
-    """Show a bill as 'in_payment' (pågående) from the moment it is linked to
-    a payment or a payment order, until the bank transaction is reconciled.
+    """Mark a bill as awaiting bank settlement.
 
-    Odoo's standard computation only yields 'in_payment' when the move carries
-    a real partial reconcile or a matched payment. A bill that is merely queued
-    for payment — on a payment order, or on a payment that has not reached the
-    bank yet — has none of those, so it would read 'not_paid' even though the
-    money is on its way.
+    A bill paid with a `pending_until_reconciliation` method reads 'in_payment'
+    until the bank confirms the movement. Two routes lead there:
 
-    This override derives the pending state from the links that already exist
-    (payment lines and matched payments). No extra flag is stored, so there is
-    nothing to keep in sync:
+    * a payment order, where the bill is linked through payment lines;
+    * the "Pay" button, where no payment and no payment order are created at
+      all — the bill is simply flagged and the bank transaction settles it
+      directly.
 
-    * linked to a payment order  -> account.payment.line exists
-    * linked to a payment        -> account.move.matched_payment_ids
-
-    Once the bank transaction is reconciled, the standard computation becomes
-    authoritative again: the move is settled (amount_residual == 0) and is left
-    alone. The settlement itself is performed by
-    AccountPartialReconcile._settle_pending_payment_orders().
+    The flag covers the second route. It is cleared as soon as the bill is
+    settled, so the derived state takes over.
     """
 
     _inherit = "account.move"
+
+    is_pending_bank = fields.Boolean(
+        string="Väntar på bank",
+        copy=False,
+        help="Satt när fakturan skickats till banken via Pay-knappen med en "
+        "betalmetod som väntar på avstämning. Fakturan visas som 'Pågående' "
+        "tills banktransaktionen avstämts, då flaggan nollställs.",
+    )
 
     def _is_pending_bank_settlement(self):
         """Return True when the move is queued for a bank payment but not
@@ -42,13 +42,20 @@ class AccountMove(models.Model):
         if self.currency_id.is_zero(self.amount_residual):
             return False
 
+        # Flagged by the "Pay" button (no payment, no payment order).
+        if self.is_pending_bank:
+            return True
+
         # Linked to a payment order (queued for payment on the bank).
         if self.line_ids.payment_line_ids:
             return True
 
-        # Linked to a payment that is not settled against the bank yet.
+        # Linked to a payment that is not settled against the bank yet. A
+        # payment made with the "Pay" button stays 'draft' until the bank
+        # confirms the movement, so 'draft' counts as pending too.
         pending_payments = self.matched_payment_ids.filtered(
-            lambda p: p.state in ("in_process", "paid")
+            lambda p: p.state in ("draft", "in_process", "paid")
+            and p._is_pending_order_payment()
         )
         if pending_payments:
             return True
@@ -59,6 +66,14 @@ class AccountMove(models.Model):
         """Run the standard computation, then surface 'in_payment' for moves
         that are queued for a bank payment but not settled yet."""
         res = super()._compute_payment_state()
+
+        # A settled bill no longer waits for the bank: clear the flag so the
+        # derived state is authoritative from now on.
+        for move in self.filtered(
+            lambda m: m.is_pending_bank
+            and m.currency_id.is_zero(m.amount_residual)
+        ):
+            move.is_pending_bank = False
 
         pending = self.filtered(
             lambda m: m.payment_state == "not_paid"

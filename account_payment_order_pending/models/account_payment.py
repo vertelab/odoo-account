@@ -11,17 +11,21 @@ _logger = logging.getLogger(__name__)
 class AccountPayment(models.Model):
     """Let a payment follow its bill's state without ever being booked.
 
-    A payment order whose method has `pending_until_reconciliation = True`
-    books nothing at upload time (see AccountPaymentOrder.generated2uploaded).
-    When the bank transaction is imported, the reconciliation models match it
-    directly against the bill, so the bill reaches 'paid' on its own — the
-    payment plays no part in the accounting.
+    A payment made with a `pending_until_reconciliation` method books nothing:
+    nothing may be booked before the bank confirms the movement. This covers
+    both routes into a payment:
 
-    The payment is therefore a marker only. It must show 'in_process'
-    (pågående behandling) while the bill is pending and 'paid' once the bill is
-    settled, but it must never create a journal entry: the bank transaction
-    already covers the bill, so booking the payment too would duplicate the
-    movement on the payable account and leave that account out of balance.
+    * a payment order (see AccountPaymentOrder.generated2uploaded), where the
+      payment is created by the order and carries a payment_order_id;
+    * the "Pay" button on a bill (account.payment.register), where the payment
+      is created directly and has no payment order.
+
+    In both cases the bank transaction settles the bill on its own, so the
+    payment plays no part in the accounting. It is a marker only: it must show
+    'in_process' (pågående behandling) while the bill is pending and 'paid'
+    once the bill is settled, but it must never create a journal entry —
+    booking it would duplicate the bank transaction on the payable account and
+    leave that account out of balance.
 
     Note the state values: account.payment has no 'in_payment' — that value
     belongs to account.move.payment_state. The payment's own pending value is
@@ -30,13 +34,8 @@ class AccountPayment(models.Model):
     Odoo's account.payment.write() books a payment as soon as 'state' is set to
     'in_process' or 'paid' on a payment without a move_id. The journal entry is
     built in _generate_journal_entry(), and _check_move_id() forbids leaving
-    'draft' without one. Both are bypassed here for payments belonging to a
-    pending order, so their state follows the bill while nothing is booked.
-
-    Odoo's _compute_state() only promotes a payment that is 'in_process' and
-    reconciled, and its stat buttons read the reconciled bills and statement
-    lines. A pending payment has neither, so they are derived here from the
-    payment lines and the bill's reconciliation instead.
+    'draft' without one. Both are bypassed here for pending payments, so their
+    state follows the bill while nothing is booked.
     """
 
     _inherit = "account.payment"
@@ -59,22 +58,35 @@ class AccountPayment(models.Model):
     )
 
     def _is_pending_order_payment(self):
-        """True when this payment belongs to a pending-until-reconciliation
-        order and therefore must not be booked."""
+        """True when this payment must not be booked.
+
+        Two routes qualify: a payment belonging to a payment order whose method
+        defers the booking, and a payment made directly with such a method (the
+        "Pay" button on a bill). The decision is based on the method, not on
+        the presence of an order.
+        """
         self.ensure_one()
+        order = self.payment_order_id
+        if order and order.payment_method_id.pending_until_reconciliation:
+            return True
         return bool(
-            self.payment_order_id
-            and self.payment_order_id.payment_method_id.pending_until_reconciliation
+            self.payment_method_line_id.payment_method_id.pending_until_reconciliation
         )
 
     def _get_pending_bills(self):
-        """The bills this payment is queued for, taken from the payment lines.
+        """The bills this payment is queued for.
 
-        A pending payment has no reconciliation, so the bills cannot be read
-        from reconciled_bill_ids — the payment lines are the only link.
+        A payment order links them through the payment lines. A payment made
+        with the "Pay" button has none, so the link is read from the bills that
+        point at this payment instead.
         """
         self.ensure_one()
-        return self.payment_line_ids.move_line_id.move_id
+        bills = self.payment_line_ids.move_line_id.move_id
+        if bills:
+            return bills
+        return self.env["account.move"].search(
+            [("matched_payment_ids", "in", self.ids)]
+        )
 
     def _get_pending_settlement_moves(self):
         """The bank transaction entries that settled this payment's bills.
@@ -101,7 +113,7 @@ class AccountPayment(models.Model):
     def _generate_journal_entry(
         self, write_off_line_vals=None, force_balance=None, line_ids=None
     ):
-        """Skip the journal entry for payments of a pending order.
+        """Skip the journal entry for payments that must not be booked.
 
         These payments are markers: the bank transaction settles the bill, so
         there is nothing for the payment to book. Their state is still written
@@ -120,11 +132,11 @@ class AccountPayment(models.Model):
 
     @api.constrains("state", "move_id")
     def _check_move_id(self):
-        """Allow a pending-order payment to be confirmed without an entry.
+        """Allow a pending payment to be confirmed without an entry.
 
         Odoo requires a journal entry for any payment that leaves 'draft'.
-        A pending-order payment is a marker: the bank transaction settles the
-        bill, so the payment is never booked and legitimately has no entry.
+        A pending payment is a marker: the bank transaction settles the bill,
+        so the payment is never booked and legitimately has no entry.
         """
         super(
             AccountPayment,
@@ -135,14 +147,15 @@ class AccountPayment(models.Model):
         "payment_order_id",
         "payment_order_id.state",
         "payment_order_id.payment_method_id.pending_until_reconciliation",
+        "payment_method_line_id.payment_method_id.pending_until_reconciliation",
         "payment_line_ids.move_line_id.move_id.payment_state",
     )
     def _compute_state(self):
-        """Derive the state of a pending-order payment from its bill.
+        """Derive the state of a pending payment from its bill.
 
         Odoo only promotes a payment that is 'in_process' and reconciled. A
-        pending-order payment is neither: it is never booked and never
-        reconciled, so its state is read from the bill it points at.
+        pending payment is neither: it is never booked and never reconciled, so
+        its state is read from the bill it points at.
         """
         super()._compute_state()
 
@@ -189,14 +202,15 @@ class AccountPayment(models.Model):
     @api.depends(
         "payment_order_id",
         "payment_order_id.payment_method_id.pending_until_reconciliation",
+        "payment_method_line_id.payment_method_id.pending_until_reconciliation",
         "payment_line_ids.move_line_id.move_id",
     )
     def _compute_stat_buttons_from_reconciliation(self):
         """Show the bill and the settlement entry of a pending payment.
 
         Odoo derives the stat buttons from the reconciliations, which a pending
-        payment never has. Both are taken from the payment lines instead, so
-        the standard 'Bill' button and the 'Journal Entry' button open them.
+        payment never has. Both are taken from the bills instead, so the
+        standard 'Bill' button and the 'Journal Entry' button open them.
         """
         super()._compute_stat_buttons_from_reconciliation()
 
