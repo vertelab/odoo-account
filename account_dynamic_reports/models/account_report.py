@@ -25,6 +25,20 @@ ACCOUNT_CODES_TERM_REGEX = re.compile(
 class AccountReport(models.Model):
     _inherit = 'account.report'
 
+    custom_handler_model_id = fields.Many2one(
+        comodel_name='ir.model',
+        string='Custom Handler',
+        domain=[('model', 'like', 'account.report%handler')],
+        help='Model implementing _custom_expression_eval(expr, options), used by '
+             'expressions whose engine is "custom".',
+    )
+
+    @property
+    def custom_handler_model_name(self):
+        """Technical name of the custom handler model, if any."""
+        self.ensure_one()
+        return self.custom_handler_model_id.model if self.custom_handler_model_id else None
+
     # ========================================================================
     # REPORT GENERATION — Core engine
     # ========================================================================
@@ -51,7 +65,11 @@ class AccountReport(models.Model):
         line_cache = {}
         hide_if_zero_lines = self.env['account.report.line']
 
-        for line in self.line_ids:
+        # Walk the line tree parent-first. A flat iteration over line_ids
+        # (ordered by sequence, id) is not enough: a child may carry a lower
+        # sequence than its parent, or a lower id when both share a sequence,
+        # which would render the child before the parent it belongs to.
+        for line in self._iter_lines_depth_first():
             parent_id = None
             if line.parent_id:
                 if line.parent_id not in line_cache:
@@ -77,6 +95,26 @@ class AccountReport(models.Model):
             lines = self._hide_zero_lines(lines, hide_if_zero_lines)
 
         return lines
+
+    def _iter_lines_depth_first(self):
+        """Yield this report's lines parent-first, depth-first.
+
+        Roots and siblings are ordered by (sequence, id); every parent is
+        yielded before its children, so callers can rely on a parent already
+        being present when a child is processed.
+        """
+        self.ensure_one()
+        all_lines = self.line_ids
+
+        def walk(line):
+            yield line
+            children = all_lines.filtered(lambda l: l.parent_id == line)
+            for child in children.sorted(lambda l: (l.sequence, l.id)):
+                yield from walk(child)
+
+        roots = all_lines.filtered(lambda l: not l.parent_id)
+        for root in roots.sorted(lambda l: (l.sequence, l.id)):
+            yield from walk(root)
 
     def _get_columns(self, options):
         """Get columns for the report based on options (date range, comparison, etc.)."""
@@ -363,14 +401,24 @@ class AccountReport(models.Model):
         return 0.0
 
     def _eval_custom(self, expr, options):
-        """Evaluate a custom (Python) expression."""
-        # Delegate to custom_handler_model if set
-        if self.custom_handler_model_id:
-            handler_model = self.env[self.custom_handler_model_name]
-            if hasattr(handler_model, '_custom_expression_eval'):
-                return handler_model._custom_expression_eval(expr, options)
-        return 0.0
+        """Evaluate a custom (Python) expression.
 
+        The expression's ``formula`` names the method to call on the report's
+        custom handler; ``subformula`` is passed through so one method can
+        serve several columns. Defaults to ``_custom_expression_eval`` when no
+        formula is set.
+        """
+        if not self.custom_handler_model_id:
+            return 0.0
+        handler_model = self.env[self.custom_handler_model_name]
+        method_name = expr.formula or '_custom_expression_eval'
+        if not hasattr(handler_model, method_name):
+            _logger.warning(
+                "Custom handler %s has no method %s (report %s)",
+                self.custom_handler_model_name, method_name, self.name,
+            )
+            return 0.0
+        return getattr(handler_model, method_name)(expr, options)
     def _generate_common_warnings(self, options, warnings):
         """Generate warnings for the report (e.g., unposted entries)."""
         date_to = options.get('date', {}).get('date_to', fields.Date.today())

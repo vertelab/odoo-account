@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Unrealized Currency Gains/Losses
+
+        Shows the unrealized exchange difference on open receivables and
+        payables in a foreign currency, so the amount can be reviewed at year
+        end. Odoo books *realized* differences automatically on reconciliation
+        (journal "Exchange Difference"); this report covers the entries that are
+        still open, which no CE report shows.
+
+        The amounts are computed by
+        account.currency.revaluation.report.handler._custom_expression_eval,
+        dispatched on the expression's subformula.
+    -->
+    <record id="currency_revaluation_report" model="account.report">
+        <field name="name">Unrealized Currency Gains/Losses</field>
+        <field name="sequence">60</field>
+        <field name="filter_date_range" eval="True"/>
+        <field name="filter_period_comparison" eval="False"/>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_hide_0_lines">optional</field>
+        <field name="custom_handler_model_id" ref="model_account_currency_revaluation_report_handler"/>
+    </record>
+
+    <record id="currency_revaluation_report_balance_currency" model="account.report.column">
+        <field name="name">Balance in Foreign Currency</field>
+        <field name="expression_label">balance_currency</field>
+        <field name="figure_type">monetary</field>
+        <field name="report_id" ref="currency_revaluation_report"/>
+    </record>
+    <record id="currency_revaluation_report_balance_operation" model="account.report.column">
+        <field name="name">Balance at Operation Rate</field>
+        <field name="expression_label">balance_operation</field>
+        <field name="figure_type">monetary</field>
+        <field name="report_id" ref="currency_revaluation_report"/>
+    </record>
+    <record id="currency_revaluation_report_balance_current" model="account.report.column">
+        <field name="name">Balance at Current Rate</field>
+        <field name="expression_label">balance_current</field>
+        <field name="figure_type">monetary</field>
+        <field name="report_id" ref="currency_revaluation_report"/>
+    </record>
+    <record id="currency_revaluation_report_adjustment" model="account.report.column">
+        <field name="name">Adjustment</field>
+        <field name="expression_label">adjustment</field>
+        <field name="figure_type">monetary</field>
+        <field name="report_id" ref="currency_revaluation_report"/>
+    </record>
+
+    <!-- ===================== ACCOUNTS TO ADJUST ===================== -->
+    <record id="curr_reval_to_adjust" model="account.report.line">
+        <field name="name">Accounts To Adjust</field>
+        <field name="report_id" ref="currency_revaluation_report"/>
+        <field name="sequence">10</field>
+        <field name="code">CURR_REVAL_TO_ADJUST</field>
+        <field name="hierarchy_level">1</field>
+    </record>
+
+    <record id="curr_reval_to_adjust_balance_currency" model="account.report.expression">
+        <field name="label">balance_currency</field>
+        <field name="engine">custom</field>
+        <field name="formula">_custom_expression_eval</field>
+        <field name="subformula">balance_currency</field>
+        <field name="report_line_id" ref="curr_reval_to_adjust"/>
+        <field name="auditable" eval="False"/>
+    </record>
+    <record id="curr_reval_to_adjust_balance_operation" model="account.report.expression">
+        <field name="label">balance_operation</field>
+        <field name="engine">custom</field>
+        <field name="formula">_custom_expression_eval</field>
+        <field name="subformula">balance_operation</field>
+        <field name="report_line_id" ref="curr_reval_to_adjust"/>
+        <field name="auditable" eval="False"/>
+    </record>
+    <record id="curr_reval_to_adjust_balance_current" model="account.report.expression">
+        <field name="label">balance_current</field>
+        <field name="engine">custom</field>
+        <field name="formula">_custom_expression_eval</field>
+        <field name="subformula">balance_current</field>
+        <field name="report_line_id" ref="curr_reval_to_adjust"/>
+        <field name="auditable" eval="False"/>
+    </record>
+    <record id="curr_reval_to_adjust_adjustment" model="account.report.expression">
+        <field name="label">adjustment</field>
+        <field name="engine">custom</field>
+        <field name="formula">_custom_expression_eval</field>
+        <field name="subformula">adjustment</field>
+        <field name="report_line_id" ref="curr_reval_to_adjust"/>
+        <field name="auditable" eval="False"/>
+    </record>
+
+    <!-- ===================== EXCLUDED ACCOUNTS ===================== -->
+    <record id="curr_reval_excluded" model="account.report.line">
+        <field name="name">Excluded Accounts</field>
+        <field name="report_id" ref="currency_revaluation_report"/>
+        <field name="sequence">20</field>
+        <field name="code">CURR_REVAL_EXCLUDED</field>
+        <field name="hierarchy_level">1</field>
+    </record>
+
+    <record id="curr_reval_excluded_balance_currency" model="account.report.expression">
+        <field name="label">balance_currency</field>
+        <field name="engine">custom</field>
+        <field name="formula">_custom_expression_eval_excluded</field>
+        <field name="subformula">balance_currency</field>
+        <field name="report_line_id" ref="curr_reval_excluded"/>
+        <field name="auditable" eval="False"/>
+    </record>
+    <record id="curr_reval_excluded_balance_operation" model="account.report.expression">
+        <field name="label">balance_operation</field>
+        <field name="engine">custom</field>
+        <field name="formula">_custom_expression_eval_excluded</field>
+        <field name="subformula">balance_operation</field>
+        <field name="report_line_id" ref="curr_reval_excluded"/>
+        <field name="auditable" eval="False"/>
+    </record>
+    <record id="curr_reval_excluded_balance_current" model="account.report.expression">
+        <field name="label">balance_current</field>
+        <field name="engine">custom</field>
+        <field name="formula">_custom_expression_eval_excluded</field>
+        <field name="subformula">balance_current</field>
+        <field name="report_line_id" ref="curr_reval_excluded"/>
+        <field name="auditable" eval="False"/>
+    </record>
+    <record id="curr_reval_excluded_adjustment" model="account.report.expression">
+        <field name="label">adjustment</field>
+        <field name="engine">custom</field>
+        <field name="formula">_custom_expression_eval_excluded</field>
+        <field name="subformula">adjustment</field>
+        <field name="report_line_id" ref="curr_reval_excluded"/>
+        <field name="auditable" eval="False"/>
+    </record>
+
+    <!-- ===================== MENU / ACTION ===================== -->
+    <record id="action_currency_revaluation_report" model="ir.actions.client">
+        <field name="name">Unrealized Currency Gains/Losses</field>
+        <field name="tag">account_dynamic_report</field>
+        <field name="context" eval="{'report_id': ref('currency_revaluation_report')}"/>
+    </record>
+
+    <menuitem id="menu_currency_revaluation_report"
+        name="Unrealized Currency Gains/Losses"
+        parent="account.account_reports_partners_reports_menu"
+        action="action_currency_revaluation_report"
+        sequence="30"/>
+</odoo>
