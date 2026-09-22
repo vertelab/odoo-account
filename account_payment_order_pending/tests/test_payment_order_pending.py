@@ -210,6 +210,56 @@ automatically on create. account_reconcile_oca skips that step in test
             (payable + counterpart).reconcile()
         return st_line
 
+    def _settle_bill_from_bank(self, invoice):
+        """Settle the bill the way an accountant does when no reconciliation
+        model matches: book the bank outflow against the payable account and
+        reconcile it with the bill.
+
+        The statement line itself is left alone — Odoo requires exactly one
+        bank/cash item on it — so the counterpart is a separate journal entry,
+        which is what a manual write-off produces.
+        """
+        payable = invoice.line_ids.filtered(
+            lambda line: line.account_id.account_type == "liability_payable"
+            and not line.reconciled
+        )
+        if not payable:
+            return
+        amount = abs(sum(payable.mapped("amount_residual")))
+        move = self.env["account.move"].create(
+            {
+                "journal_id": self.bank_journal.id,
+                "date": fields.Date.today(),
+                "ref": invoice.name or "bank settlement",
+                "line_ids": [
+                    Command.create(
+                        {
+                            "name": invoice.name or "bank settlement",
+                            "account_id": payable.account_id.id,
+                            "debit": amount,
+                            "credit": 0.0,
+                            "partner_id": invoice.commercial_partner_id.id,
+                        }
+                    ),
+                    Command.create(
+                        {
+                            "name": invoice.name or "bank settlement",
+                            "account_id": self.bank_journal.default_account_id.id,
+                            "debit": 0.0,
+                            "credit": amount,
+                            "partner_id": invoice.commercial_partner_id.id,
+                        }
+                    ),
+                ],
+            }
+        )
+        move._post(soft=False)
+        counterpart = move.line_ids.filtered(
+            lambda line: line.account_id == payable.account_id
+        )
+        (payable + counterpart).reconcile()
+        return move
+
     # ------------------------------------------------------------------
     # Requirement 1 — in_payment from the moment the bill is linked
     # ------------------------------------------------------------------
@@ -257,8 +307,9 @@ automatically on create. account_reconcile_oca skips that step in test
             )
             self.assertEqual(
                 payment.state,
-                "draft",
-                "Pending-order payments must stay in draft at upload",
+                "in_process",
+                "A pending-order payment follows its bill: 'in_process' "
+                "(pågående behandling) at upload, never booked",
             )
         self.assertEqual(invoice.payment_state, "in_payment")
         self.assertFalse(
@@ -281,7 +332,10 @@ automatically on create. account_reconcile_oca skips that step in test
         payment = order.payment_ids
         self.assertFalse(payment.move_id, "Sanity: nothing booked yet")
 
-        self._reconcile_bank_transaction(invoice, payment.amount)
+        # Settle against the bill's residual, not the payment amount: the
+        # invoice carries VAT (the line has no explicit tax, so the company
+        # default applies), so the two differ.
+        self._settle_bill_from_bank(invoice)
 
         self.assertTrue(
             invoice.currency_id.is_zero(invoice.amount_residual),
@@ -292,9 +346,11 @@ automatically on create. account_reconcile_oca skips that step in test
             "paid",
             "A bill settled against the bank must be paid",
         )
-        self.assertTrue(
+        # The payment is a marker only: the bank transaction settles the bill,
+        # so the payment is never booked — it just follows the bill.
+        self.assertFalse(
             payment.move_id,
-            "The payment must be booked once the bank confirms the movement",
+            "A pending payment must never be booked, not even at reconciliation",
         )
         self.assertEqual(
             payment.state,
@@ -303,8 +359,8 @@ automatically on create. account_reconcile_oca skips that step in test
         )
 
     def test_payment_not_booked_before_bank_confirmation(self):
-        """The journal entry appears only at bank reconciliation, never at
-        upload."""
+        """A pending payment is never booked — not at upload, and not at bank
+        reconciliation either: the bank transaction settles the bill."""
         self.manual_method.pending_until_reconciliation = True
         mode = self._create_mode("Test Pending Timing", self.manual_method)
 
@@ -313,8 +369,11 @@ automatically on create. account_reconcile_oca skips that step in test
         payment = order.payment_ids
 
         self.assertFalse(payment.move_id, "No journal entry at upload")
-        self._reconcile_bank_transaction(invoice, payment.amount)
-        self.assertTrue(payment.move_id, "Journal entry created at reconcile")
+        self._settle_bill_from_bank(invoice)
+        self.assertFalse(
+            payment.move_id, "Still no journal entry after the bank settles"
+        )
+        self.assertEqual(invoice.payment_state, "paid")
 
     # ------------------------------------------------------------------
     # Standard (non-pending) behaviour must be untouched
@@ -338,3 +397,89 @@ automatically on create. account_reconcile_oca skips that step in test
             "not_paid",
             "A standard order must not leave the bill unpaid",
         )
+
+    # ------------------------------------------------------------------
+    # Pending state must be releasable — a bill may not get stuck
+    # ------------------------------------------------------------------
+
+    def test_cancelled_order_releases_the_bill(self):
+        """Cancelling the payment order must release the bill.
+
+        OCA's action_cancel() cancels the payments and sets the order state,
+        but it does not unlink the payment lines. Without checking the order
+        state the bill would keep reading 'in_payment' after the order was
+        abandoned, with no way to clear it.
+        """
+        self.manual_method.pending_until_reconciliation = True
+        mode = self._create_mode("Test Pending Cancelled", self.manual_method)
+
+        invoice = self._create_supplier_invoice("PEND-CANCEL-001")
+        order = self._add_to_order(invoice, mode)
+        self.assertEqual(invoice.payment_state, "in_payment")
+
+        order.action_cancel()
+
+        self.assertEqual(order.state, "cancel")
+        self.assertTrue(
+            invoice.line_ids.payment_line_ids,
+            "Sanity: OCA keeps the payment lines on cancel",
+        )
+        self.assertEqual(
+            invoice.payment_state,
+            "not_paid",
+            "A cancelled order must not leave the bill 'in_payment'",
+        )
+
+    def test_draft_order_still_holds_the_bill(self):
+        """A bill linked to a draft (not yet uploaded) order is still queued.
+
+        Requirement K1: the bill reads 'in_payment' from the moment it is
+        linked to an order, not only once the order is uploaded. Only a
+        cancelled order releases it.
+        """
+        self.manual_method.pending_until_reconciliation = True
+        mode = self._create_mode("Test Pending Draft", self.manual_method)
+
+        invoice = self._create_supplier_invoice("PEND-DRAFT-001")
+        order = self._add_to_order(invoice, mode, upload=False)
+
+        self.assertEqual(order.state, "generated")
+        self.assertEqual(invoice.payment_state, "in_payment")
+
+    def test_draft_bill_does_not_read_in_payment(self):
+        """A bill reset to draft must not read 'in_payment'.
+
+        The 'Pay' button flags the bill (is_pending_bank). Resetting the bill
+        to draft or cancelling it must clear that flag — otherwise the bill is
+        stuck as 'in_payment' with no UI to clear it.
+        """
+        invoice = self._create_supplier_invoice("PEND-DRAFTBILL-001")
+        invoice.write({"is_pending_bank": True})
+        invoice._compute_payment_state()
+        self.assertEqual(invoice.payment_state, "in_payment")
+
+        invoice.button_draft()
+
+        self.assertEqual(invoice.state, "draft")
+        self.assertFalse(
+            invoice.is_pending_bank,
+            "The flag must be cleared when the bill leaves 'posted'",
+        )
+        self.assertEqual(
+            invoice.payment_state,
+            "not_paid",
+            "A draft bill is not waiting for the bank",
+        )
+
+    def test_cancelled_bill_does_not_read_in_payment(self):
+        """A cancelled bill must not read 'in_payment' either."""
+        invoice = self._create_supplier_invoice("PEND-CANCELBILL-001")
+        invoice.write({"is_pending_bank": True})
+        invoice._compute_payment_state()
+        self.assertEqual(invoice.payment_state, "in_payment")
+
+        invoice.button_cancel()
+
+        self.assertEqual(invoice.state, "cancel")
+        self.assertFalse(invoice.is_pending_bank)
+        self.assertEqual(invoice.payment_state, "not_paid")

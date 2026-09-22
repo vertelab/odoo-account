@@ -34,10 +34,16 @@ class AccountMove(models.Model):
         settled yet.
 
         A settled move (amount_residual == 0) is never pending: the standard
-        computation is authoritative for it.
+        computation is authoritative for it. Neither is a move that is no
+        longer posted: a draft or cancelled bill is not waiting for the bank,
+        it is simply not booked. Without that guard the flag (and a cancelled
+        payment order) would keep a draft/cancelled bill reading 'in_payment'
+        forever, with no way out in the UI.
         """
         self.ensure_one()
         if not self.is_invoice(include_receipts=True):
+            return False
+        if self.state != "posted":
             return False
         if self.currency_id.is_zero(self.amount_residual):
             return False
@@ -46,8 +52,14 @@ class AccountMove(models.Model):
         if self.is_pending_bank:
             return True
 
-        # Linked to a payment order (queued for payment on the bank).
-        if self.line_ids.payment_line_ids:
+        # Linked to a payment order that is still queued for the bank. A
+        # cancelled order keeps its payment lines (OCA's action_cancel does not
+        # unlink them), so the order state must be checked — otherwise the bill
+        # stays 'in_payment' after the order is abandoned.
+        queued_lines = self.line_ids.payment_line_ids.filtered(
+            lambda line: line.order_id.state != "cancel"
+        )
+        if queued_lines:
             return True
 
         # Linked to a payment that is not settled against the bank yet. A
@@ -62,16 +74,34 @@ class AccountMove(models.Model):
 
         return False
 
+    @api.depends(
+        "line_ids.payment_line_ids",
+        "line_ids.payment_line_ids.state",
+        "is_pending_bank",
+    )
     def _compute_payment_state(self):
         """Run the standard computation, then surface 'in_payment' for moves
-        that are queued for a bank payment but not settled yet."""
+        that are queued for a bank payment but not settled yet.
+
+        The extra dependencies matter: core does not depend on the payment
+        lines or on our flag, so without them a bill would keep its
+        'in_payment' value after the payment order was cancelled (the payment
+        lines stay linked, only their state changes) or after the flag was
+        cleared elsewhere.
+        """
         res = super()._compute_payment_state()
 
         # A settled bill no longer waits for the bank: clear the flag so the
-        # derived state is authoritative from now on.
+        # derived state is authoritative from now on. A bill that is no longer
+        # posted does not wait for the bank either — it was reset to draft or
+        # cancelled, and the flag would otherwise keep it 'in_payment' with no
+        # way to clear it from the UI.
         for move in self.filtered(
             lambda m: m.is_pending_bank
-            and m.currency_id.is_zero(m.amount_residual)
+            and (
+                m.currency_id.is_zero(m.amount_residual)
+                or m.state != "posted"
+            )
         ):
             move.is_pending_bank = False
 

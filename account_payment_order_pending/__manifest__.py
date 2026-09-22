@@ -12,7 +12,7 @@ Lägger till en flagga `pending_until_reconciliation` på betalmetoder
 (account.payment.method). När flaggan är True:
 
 - Betalorderns `generated2uploaded()` hoppar över `post_and_reconcile()`
-- Betalningarna bokförs men matchas inte mot fakturorna vid uppladdning
+- Inget verifikat skapas för betalningarna vid uppladdning
 - Fakturor som är kopplade till en betalning eller betalorder visas som
   "Pågående" (in_payment) tills banktransaktionen är avstämd
 - När banken bekräftar avstäms fakturan automatiskt och blir "Betald"
@@ -23,19 +23,21 @@ Implementation
 - `account.move._compute_payment_state()` överrids: en faktura som är kopplad
   till en betalorder (`line_ids.payment_line_ids`) eller till en betalning
   (`matched_payment_ids`) och som ännu inte är avstämd
-  (`amount_residual != 0`) visas som `in_payment`. Ingen extra flagga lagras —
-  tillståndet härleds ur de länkar som redan finns.
-- `account.partial.reconcile.create()` överrids: när en banktransaktion
-  avstäms mot en betalning avstäms även fakturans rad mot betalningens rad,
-  precis som `AccountPaymentOrder.post_and_reconcile()` gör i standardflödet.
-  Hooken ligger på Odoo-kärnan, inte på någon avstämnings-UI, så den fångar
-  alla vägar (account_reconcile_oca, standardwidgeten eller ett direkt
-  `reconcile()`-anrop).
+  (`amount_residual != 0`) visas som `in_payment`.
+- `account.move.is_pending_bank` bär den väg där ingen betalning skapas alls:
+  "Pay"-knappen med en pending-metod flaggar fakturan i stället för att skapa
+  en betalning. Flaggan nollställs när fakturan är avstämd, eller när den
+  lämnar `posted` (draft/avbruten) — annars skulle en återställd faktura
+  fastna som "Pågående".
+- En annullerad betalorder räknas inte som väntande: OCA:s `action_cancel()`
+  tar inte bort betalningsraderna, så orderns state kontrolleras. Utan det
+  stannar fakturan som "Pågående" efter att ordern övergivits.
 - Betalningen synkas automatiskt: `account.payment._compute_state()` sätter
   betalningen till `paid` så snart alla avstämda fakturor är `paid`.
 
 Användning
 ----------
+
 1. Aktivera utvecklarläge
 2. Gå till Redovisning > Konfiguration > Betalmetoder
 3. Välj en betalmetod (t.ex. Swedish Credit Transfer)
@@ -45,7 +47,7 @@ Användning
 
 Beroenden: account_payment_order (OCA/bank-payment)
     """,
-    "version": "18.0.1.7.0",
+    "version": "18.0.1.8.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB",
     "website": "https://vertel.se/apps/odoo-account/account_payment_order_pending",
