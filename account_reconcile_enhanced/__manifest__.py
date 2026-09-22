@@ -10,7 +10,7 @@
     "version": "18.0.1.1.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB, Odoo Community Association (OCA)",
-    "website": "https://github.com/OCA/account-reconcile",
+    "website": "https://vertel.se/apps/odoo-account/account_reconcile_enhanced",
     "depends": [
         "account_reconcile_oca",
         "account_reconcile_model_oca",
