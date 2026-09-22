@@ -32,7 +32,7 @@
         Long description of module's purpose
     """,
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se/apps/odoo-',
+    'website': 'https://vertel.se/apps/odoo-account/account_import_excel',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'depends': ["account"],

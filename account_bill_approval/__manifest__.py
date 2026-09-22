@@ -6,7 +6,7 @@
     "category": "Accounting",
     "summary": "Approve vendor bills with freely selectable approvers",
     "author": "Vertel AB",
-    "website": "https://vertel.se",
+    "website": "https://vertel.se/apps/odoo-account/account_bill_approval",
     "license": "AGPL-3",
     "depends": [
         "account",

@@ -24,7 +24,7 @@
     'summary': 'Dynamic forecast replacing budget with actuals, and hierarchical budget trees.',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se',
+    'website': 'https://vertel.se/apps/odoo-account/account_mis_budget_forecast',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',

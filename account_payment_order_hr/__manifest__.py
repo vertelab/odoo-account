@@ -32,7 +32,7 @@
         Long description of module's purpose
     """,
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se/apps/odoo-',
+    'website': 'https://vertel.se/apps/odoo-account/account_payment_order_hr',
     'images': ['static/description/banner.png'], 
     'license': 'AGPL-3',
     'depends': ["account_payment_order_tier_validation"],

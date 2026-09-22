@@ -1,6 +1,7 @@
 {
     'name': 'Account Reconcile OCA UX Fix',
     'author': 'Vertel Sverige AB',
+    'website': 'https://vertel.se/apps/odoo-account/account_reconcile_oca_ux_fix',
     'version': '18.0.1.0.0',
     'category': 'Accounting',
     'summary': 'Behåll kundfiltret i Reconcile-fliken efter Manual operation',

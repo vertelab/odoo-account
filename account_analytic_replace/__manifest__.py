@@ -13,6 +13,7 @@
         - Search redirection from old to new
     """,
     'author': 'Vertel Sverige AB',
+    'website': 'https://vertel.se/apps/odoo-account/account_analytic_replace',
     'depends': ['account','analytic'],
     'data': [
         'security/ir.model.access.csv',

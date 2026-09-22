@@ -6,7 +6,7 @@
     "category": "Accounting",
     "summary": "One-shot migration from purchase_vendor_bill_approval",
     "author": "Vertel AB",
-    "website": "https://vertel.se",
+    "website": "https://vertel.se/apps/odoo-account/account_bill_approval_migration",
     "license": "AGPL-3",
     "depends": [
         "account_bill_approval",

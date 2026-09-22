@@ -7,7 +7,7 @@
     'summary': 'Swedish periodization training via website_slides',
     'category': 'Accounting/Training',
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se',
+    'website': 'https://vertel.se/apps/odoo-account/account_deferred_revenue_expenses_lms',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'description': """
