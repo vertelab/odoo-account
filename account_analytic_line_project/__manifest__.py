@@ -23,13 +23,21 @@
     'name': 'Account: Analytic Line Project',
     'version': '18.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds project to account analytic line.',
+    'summary': 'Adds a project field to analytic lines.',
     'category': 'Accounting',
-    'description': """
+    'description': '''
+Analytic Line Project
+=====================
+
     Account Analytic Line Project
-    ========================================================
-    Adds project to account analytic line.
-    """,
+        ========================================================
+        Adds project to account analytic line.
+
+    Features:
+
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.analytic.line, project.project.
+    ''',
     #'sequence': '1'
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_analytic_line_project',

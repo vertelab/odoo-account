@@ -21,12 +21,22 @@
 
 {
     'name': 'Account: Enable Banking API',
-    'version': '0.1',
-    'summary': 'Retrieves account Transactions using Enable Banking API.',
+    'version': '18.0.1.0.0',
+    'summary': 'Imports bank transactions through the Enable Banking API.',
     'category': 'Accounting',
-    'description': """
-    Retrieves account Transactions using Enable Banking API.
-    """,
+    'description': '''
+Enable Banking API
+==================
+
+    Imports bank transactions through the Enable Banking API.
+
+    Features:
+
+        - Web integration: Exposes HTTP endpoints for external systems.
+        - Automation: Scheduled jobs: Sync Enable Banking Transactions, Check Enable Banking Payment Status.
+        - UI Integration: Extends 6 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.journal, account.payment.order, code, enable.banking.payment.
+    ''',
     'sequence': '20',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_enablebanking',

@@ -3,10 +3,20 @@
 
 {
     'name': 'Account: Reconcile Enhanced',
-    'summary': """
-        Enhanced reconciliation features for OCA reconcile:
-        multi-account transfer, tax write-off, edit mode, auto-reconcile wizard,
-        regex amount extraction, and enhanced matching rules.""",
+    'summary': """Adds enhanced reconciliation tools to the OCA reconcile widget.""",
+    'description': '''
+Reconcile Enhanced
+==================
+
+    Adds enhanced reconciliation tools to the OCA reconcile widget.
+
+    Features:
+
+        - Automation: Scheduled jobs: Bank Transaction Fee, International Transfer Fee, Card Processing Fee.
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.bank.statement.line, account.move.line, account.reconcile.model, account.reconcile.model.line.
+    ''',
     'version': '18.0.1.1.0',
     'license': 'AGPL-3',
     'author': 'Vertel Sverige AB, Odoo Community Association (OCA)',

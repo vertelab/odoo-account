@@ -21,12 +21,20 @@
 
 {
     'name': 'Account: Asset Grant',
-    'version': '1.0',
-    'summary': 'Handles Account Asset Grant',
+    'version': '18.0.1.0.0',
+    'summary': 'Adds asset grants with their own depreciation handling.',
     'category': 'Accounting',
-    'description': """
-        Handles Account Asset Grant
-    """,
+    'description': '''
+Asset Grant
+===========
+
+    Adds asset grants with their own depreciation handling.
+
+    Features:
+
+        - UI Integration: Extends 3 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.asset, account.asset.grant, account.asset.line.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_asset_management_grant',
     'images': ['static/description/banner.png'], # 560x280 px

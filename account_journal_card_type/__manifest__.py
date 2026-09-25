@@ -21,9 +21,9 @@
 
 {
     'name': 'Account: Journal Card Type',
-    'version': '0.1',
+    'version': '18.0.1.0.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds a new card type and card transactions',
+    'summary': 'Adds card types and card transactions to journals.',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel Sverige AB',
@@ -33,9 +33,17 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': """
-       Adds a new card type and card transactions
-    """,
+    'description': '''
+Journal Card Type
+=================
+
+    Adds card types and card transactions to journals.
+
+    Features:
+
+        - UI Integration: Extends 5 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.card.statement, account.card.statement.line, account.journal, account.move.
+    ''',
     'depends': [
         'account',
         # 'account_statement_import'

@@ -24,9 +24,17 @@
     'version': '18.0.0.0.0',
     'summary': "Adds a contact field on invoices.",
     'category': 'Accounting',
-    'description': """
-        Adds a contact person field on invoices which is related to the sale orders partner, and adds a many2one field on the invoice view that leads to the sale order.
-    """,
+    'description': '''
+Move Contact
+============
+
+    Adds a contact person field on invoices which is related to the sale orders partner, and adds a many2one field on the invoice view that leads to the sale order.
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.move, sale.advance.payment.inv, sale.order.
+    ''',
     #'sequence': 1,
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_move_contact',

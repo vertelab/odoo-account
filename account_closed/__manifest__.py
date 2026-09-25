@@ -21,12 +21,20 @@
 
 {
     'name': 'Account: Close Account',
-    'version': '1.0',
-    'summary': 'A module to restrict post when account is closed',
+    'version': '18.0.1.0.0',
+    'summary': 'Blocks posting into a closed accounting period.',
     'category': 'Accounting',
-    'description': """
-        A module to restrict post when account is closed
-    """,
+    'description': '''
+Close Account
+=============
+
+    Blocks posting into a closed accounting period.
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.account, account.move.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_closed',
     'images': ['static/description/banner.png'], # 560x280 px.

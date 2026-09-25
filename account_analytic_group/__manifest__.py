@@ -22,13 +22,21 @@
 {
     'name': 'Account: Analytic Group',
     'version': '18.0.0.0.0',
-    'summary': 'Adds group to analytic account.',
+    'summary': 'Adds a group field to analytic accounts.',
     'category': 'Accounting',
-    'description': """
+    'description': '''
+Analytic Group
+==============
+
     Account Analytic Group
-    ========================================================
-    Adds group to analytic account.
-    """,
+        ========================================================
+        Adds group to analytic account.
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.analytic.account, analytic.mixin.
+    ''',
     #'sequence': '1'
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_analytic_group',

@@ -23,12 +23,20 @@
 #
 {
     'name': 'Account: Payment Order HR',
-    'version': '1.0',
-    'summary': """Add responsible user and boss to payment orders.""",
+    'version': '18.0.1.0.0',
+    'summary': """Adds responsible user and manager to payment orders.""",
     'category': '', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
-    'description': """
-        Long description of module's purpose
-    """,
+    'description': '''
+Payment Order HR
+================
+
+    Adds responsible user and manager to payment orders.
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.payment.order.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_payment_order_hr',
     'images': ['static/description/banner.png'], 

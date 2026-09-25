@@ -21,36 +21,35 @@
 
 {
     'name': 'Account: Accounting CE',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     # Version ledger: 17.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'License Manager.',
+    'summary': 'Adds fiscal year management to Community Edition accounting.',
     'category': 'Accounting',
-    'description': """
-    Accounting for Community Edition
-    
-    This module depends on the following modules:
-    
-    Vertel
-    vertelab/odoo-account/account_period_vrtl
+    'description': '''
+Accounting CE
+=============
 
     OCA
-    https://github.com/OCA/account-financial-reporting/tree/17.0/account_financial_report
-    https://github.com/OCA/account-reconcile/tree/17.0/account_reconcile_oca
-    https://github.com/OCA/bank-statement-import/tree/17.0/account_statement_import_camt
-    https://github.com/OCA/mis-builder/tree/17.0/mis_builder
-    https://github.com/OCA/mis-builder/tree/17.0/mis_builder_budget
+        https://github.com/OCA/account-financial-reporting/tree/17.0/account_financial_report
+        https://github.com/OCA/account-reconcile/tree/17.0/account_reconcile_oca
+        https://github.com/OCA/bank-statement-import/tree/17.0/account_statement_import_camt
+        https://github.com/OCA/mis-builder/tree/17.0/mis_builder
+        https://github.com/OCA/mis-builder/tree/17.0/mis_builder_budget
 
     account_banking_sepa_credit_transfer
-    account_banking_sepa_direct_debit
-    # account_bank_payment
-    https://github.com/OCA/bank-payment
-    
+        account_banking_sepa_direct_debit
+        # account_bank_payment
+        https://github.com/OCA/bank-payment
+
     https://pypi.org/project/Unidecode/
-    pip3 install unidecode:
-    root@odoo16server:~$ pip3 install Unidecode
+        pip3 install unidecode:
+        root@odoo16server:~$ pip3 install Unidecode
 
+    Features:
 
-    """,
+        - UI Integration: Extends 6 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.fiscal.year.
+    ''',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_accountant_ce',

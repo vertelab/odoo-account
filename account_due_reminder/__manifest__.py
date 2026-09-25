@@ -21,12 +21,21 @@
 
 {
     'name': 'Account: Invoice Payment Reminder',
-    'version': '1.0',
-    'summary': 'Invoice Payment Reminder',
+    'version': '18.0.1.0.0',
+    'summary': 'Sends automatic payment reminders for overdue invoices.',
     'category': 'Accounting',
-    'description': """
-        Invoice Payment Reminder
-    """,
+    'description': '''
+Invoice Payment Reminder
+========================
+
+    Sends automatic payment reminders for overdue invoices.
+
+    Features:
+
+        - Automation: Scheduled jobs: Account Report Followup; Execute followup, Payment Reminder, 15 Days.
+        - UI Integration: Extends 4 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.move, account.payment.plan, account.payment.term, mail.activity.type.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_due_reminder',
     'license': 'AGPL-3',

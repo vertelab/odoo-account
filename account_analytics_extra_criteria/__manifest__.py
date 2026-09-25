@@ -23,7 +23,7 @@
     'name': 'Account: Analytic Extra Criteria',
     'version': '18.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Account Analytic Extra Criteria',
+    'summary': 'Adds extra analytic criteria fields to journal items.',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel Sverige AB',
@@ -33,11 +33,17 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': """
-Account Analytic Extra Criteria
-========================================================
-Added extra criteria for account analytics
-    """,
+    'description': '''
+Analytic Extra Criteria
+=======================
+
+    Adds extra analytic criteria fields to journal items.
+
+    Features:
+
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.analytic.distribution.model, account.move.line.
+    ''',
     'depends': ['analytic', 'account', 'hr'],
     'data': [
         'views/account_analytic_view.xml',

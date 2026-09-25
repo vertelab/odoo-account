@@ -23,12 +23,21 @@
 #
 {
     'name': 'Account: Invoice Scan LLM',
-    'version': '1.0',
-    'summary': 'Scan invoices with an LLM and create vendor bills.',
+    'version': '18.0.1.0.0',
+    'summary': 'Scans invoices with an LLM and creates vendor bills.',
     'category': 'Accounting',
-    'description': """
+    'description': '''
+Invoice Scan LLM
+================
 
-    """,
+    Scans invoices with an LLM and creates vendor bills.
+
+    Features:
+
+        - Web integration: Exposes HTTP endpoints for external systems.
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.move.
+    ''',
     #'sequence': 1,
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_invoice_scan_llm',

@@ -4,28 +4,31 @@
 {
     'name': 'Account: Deferred Revenue Training (LMS)',
     'version': '18.0.2.7.0',
-    'summary': 'Swedish periodization training via website_slides',
+    'summary': 'Swedish periodization training published through website_slides.',
     'category': 'Accounting/Training',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_deferred_revenue_expenses_lms',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
-    'description': """
-Deferred Revenue & Expenses LMS
+    'description': '''
+Deferred Revenue Training (LMS)
 ===============================
-Training material delivered as website_slides courses.
 
-5 sections, 27 slides total (5 quiz questions per section):
-- Section 1: Grundläggande periodisering (teori + lagkrav + quiz)
-- Section 2: Förutbetalda kostnader — BAS 1710 (bokföring + T-konto + quiz)
-- Section 3: Förutbetalda intäkter — BAS 2990 (bokföring + quiz)
-- Section 4: Periodisering i Odoo — praktisk guide (demo + övning + quiz)
-- Section 5: Så fungerar Odoo-modulen — teknisk guide (arkitektur + wizard + datamodell + quiz)
+    5 sections, 27 slides total (5 quiz questions per section):
+    - Section 1: Grundläggande periodisering (teori + lagkrav + quiz)
+    - Section 2: Förutbetalda kostnader — BAS 1710 (bokföring + T-konto + quiz)
+    - Section 3: Förutbetalda intäkter — BAS 2990 (bokföring + quiz)
+    - Section 4: Periodisering i Odoo — praktisk guide (demo + övning + quiz)
+    - Section 5: Så fungerar Odoo-modulen — teknisk guide (arkitektur + wizard + datamodell + quiz)
 
-Includes 8 Mermaid-generated diagrams (rules hierarchy, process flow, compare,
-T-account visualization, module architecture, wizard flow, data model, workflow)
-and Odoo page builder articles with annotated walkthroughs.
-    """,
+    Includes 8 Mermaid-generated diagrams (rules hierarchy, process flow, compare,
+    T-account visualization, module architecture, wizard flow, data model, workflow)
+    and Odoo page builder articles with annotated walkthroughs.
+
+    Features:
+
+        - Automation: Scheduled jobs: Periodisering — Grundkurs i förutbetalda kostnader och intäkter, 2. Förutbetalda kostnader — BAS 1710, När uppstår en förutbetald kostnad?.
+    ''',
     'depends': [
         'website_slides',
     ],

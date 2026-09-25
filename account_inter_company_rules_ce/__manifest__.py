@@ -1,12 +1,19 @@
 {
     'name': 'Account: Inter Company Rules (CE)',
-    'version': '1.0',
-    'summary': 'Intercompany SO/PO/INV rules for Community Edition',
+    'version': '18.0.1.0.0',
+    'summary': 'Adds intercompany sale, purchase and invoice rules for Community Edition.',
     'category': 'Productivity',
-    'description': ''' Module for synchronization of Documents between several companies. For example, this allow you to have a Sales Order created automatically when a Purchase Order is validated with another company of the system as vendor, and inversely.
+    'description': '''
+Inter Company Rules (CE)
+========================
 
-    Supported documents are invoices/credit notes.
-''',
+    Module for synchronization of Documents between several companies. For example, this allow you to have a Sales Order created automatically when a Purchase Order is validated with another company of the system as vendor, and inversely.
+
+    Features:
+
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.journal, account.move, account.move.line, account.move.send.
+    ''',
     'depends': [
         'account',
     ],

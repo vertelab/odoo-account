@@ -23,12 +23,21 @@
 #
 {
     'name': 'Account: Simple Excel Import',
-    'version': '1.0',
-    'summary': """Import journal entries from Excel spreadsheets.""",
+    'version': '18.0.1.0.0',
+    'summary': """Imports journal entries from Excel spreadsheets.""",
     'category': '', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
-    'description': """
-        Long description of module's purpose
-    """,
+    'description': '''
+Simple Excel Import
+===================
+
+    Imports journal entries from Excel spreadsheets.
+
+    Features:
+
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on existing Odoo models.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_import_excel',
     'images': ['static/description/banner.png'],

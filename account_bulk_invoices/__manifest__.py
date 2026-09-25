@@ -21,12 +21,20 @@
 
 {
     'name': 'Account: Bulk Invoices',
-    'version': '1.0',
-    'summary': 'A wizard to create bulk invoices',
+    'version': '18.0.1.0.0',
+    'summary': 'Creates invoices in bulk through a wizard.',
     'category': 'Accounting',
-    'description': """
-        A wizard to create bulk invoices
-    """,
+    'description': '''
+Bulk Invoices
+=============
+
+    Creates invoices in bulk through a wizard.
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.move.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_bulk_invoices',
     'images': ['static/description/banner.png'], # 560x280 px.

@@ -23,12 +23,21 @@
 #
 {
     'name': 'Account: Mass Invoice Generation',
-    'version': '1.0',
-    'summary': 'Generate invoices in bulk for multiple partners.',
+    'version': '18.0.1.0.0',
+    'summary': 'Generates invoices in bulk for multiple partners.',
     'category': 'Accounting',
-    'description': """
-        Module to select an invoice and create bulk invoices for different partners
-    """,
+    'description': '''
+Mass Invoice Generation
+=======================
+
+    Module to select an invoice and create bulk invoices for different partners
+
+    Features:
+
+        - Automation: Scheduled jobs: Bulk Create Invoice.
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.move, bulk.account.move.wizard.
+    ''',
     #'sequence': 1,
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_mass_invoice_generation',

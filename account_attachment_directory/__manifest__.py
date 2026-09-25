@@ -21,22 +21,27 @@
 
 {
     'name': 'Account: Attachment Directory',
-    'version': '1.0',
-    'summary': 'Loads attachments from a directory and store them on a account move.',
+    'version': '18.0.1.0.0',
+    'summary': 'Loads attachments from a directory and stores them on journal entries.',
     'category': 'Accounting',
-    'description': """
+    'description': '''
+Attachment Directory
+====================
+
     Account Attachment Directory
-    ============================
-    Loads attachments from a directory and store them on a account move. 
-    The filename is important for finding the correct Account Move and nameing the file as an attachment. Use the form <Account Move Name>_<filename.extension>.
-    Use dash (-) instead of '/'. Example LEV-2025-11-004_MyFile.pdf will be an attachment on Account move LEV/2025/11/0004 and have the name MyFile.pdf
+        ============================
+        Loads attachments from a directory and store them on a account move. 
+        The filename is important for finding the correct Account Move and nameing the file as an attachment. Use the form <Account Move Name>_<filename.extension>.
+        Use dash (-) instead of '/'. Example LEV-2025-11-004_MyFile.pdf will be an attachment on Account move LEV/2025/11/0004 and have the name MyFile.pdf
 
     service account_attachment_direcory [start,stop,status]
-    You have to restart the service when the dairectory is changed
+        You have to restart the service when the dairectory is changed
 
-    Look for errors in the error-directory and the log
+    Features:
 
-    """,
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on existing Odoo models.
+    ''',
     #'sequence': '1'
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_attachment_directory',

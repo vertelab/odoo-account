@@ -21,9 +21,9 @@
 
 {
     'name': 'Account: Asset Stock Lot',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Create an asset connected to a Lot number.',
+    'summary': 'Creates an asset linked to a stock lot number.',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel Sverige AB',
@@ -33,9 +33,17 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': """
-Create an asset connected to a Lot number.
-    """,
+    'description': '''
+Asset Stock Lot
+===============
+
+    Creates an asset linked to a stock lot number.
+
+    Features:
+
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.asset, account.asset.profile, product.product, product.template.
+    ''',
     'depends': ['account','account_asset_management','stock','sale','purchase'],
     'data': [
         'views/stock_view.xml',

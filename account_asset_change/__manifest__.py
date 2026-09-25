@@ -21,19 +21,21 @@
 
 {
     'name': 'Account: Asset Change',
-    'version': '1.0',
-    'summary': 'Implement Asset changes .',
+    'version': '18.0.1.0.0',
+    'summary': 'Tracks and documents changes made to assets.',
     'category': 'Accounting',
-    'description': """
-    Modify or change the asset
-    
-    * Dispose
-    * Sell
-    * Modify
-    * Pause
-    * Move Analytic distribution
-    
-    """,
+    'description': '''
+Asset Change
+============
+
+    Tracks and documents changes made to assets.
+
+    Features:
+
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.account, account.analytic.account, account.analytic.line, account.asset.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_asset_change',
     'images': ['static/description/banner.png'], # 560x280 px.

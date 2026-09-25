@@ -23,14 +23,20 @@
 #
 {
     'name': 'Account: Fortnox Display Name',
-    'version': '1.0',
-    'summary': """
-    Replaces name with the fortnox ref dash name if there is a fortnox ref
-    """,
+    'version': '18.0.1.0.0',
+    'summary': """Shows the Fortnox reference in the invoice display name.""",
     'category': 'Accounting',
-    'description': """
+    'description': '''
+Fortnox Display Name
+====================
+
     Replaces name with the fortnox ref dash name if there is a fortnox ref
-    """,
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.move.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_fortnox_display_name',
     'images': ['static/description/banner.png'],

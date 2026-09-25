@@ -21,26 +21,34 @@
 {
     'name': 'Account: MIS Budget Forecast & Hierarchy',
     'version': '18.0.1.0.0',
-    'summary': 'Dynamic forecast replacing budget with actuals, and hierarchical budget trees.',
+    'summary': 'Replaces budgets with actuals and adds hierarchical budget forecasts.',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_mis_budget_forecast',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': """
-Adds two features to MIS Budget:
+    'description': '''
+MIS Budget Forecast & Hierarchy
+===============================
 
-1. Dynamic Forecast
-   A budget marked as forecast automatically replaces budget amounts with
-   actual booked figures for elapsed periods, while keeping budget figures
-   for future periods. Inspired by Fortnox Rapport & Analys.
+    1. Dynamic Forecast
+       A budget marked as forecast automatically replaces budget amounts with
+       actual booked figures for elapsed periods, while keeping budget figures
+       for future periods. Inspired by Fortnox Rapport & Analys.
 
-2. Hierarchical Budget Trees
-   Configure budget trees with nodes and leaves. Nodes auto-sum their
-   children. Leaves map to accounts via account-code masks.
-   Inspired by Visma.net ERP budget tree.
-    """,
+    2. Hierarchical Budget Trees
+       Configure budget trees with nodes and leaves. Nodes auto-sum their
+       children. Leaves map to accounts via account-code masks.
+       Inspired by Visma.net ERP budget tree.
+
+    Features:
+
+        - Automation: Scheduled jobs: Standard Resultatbudget (BAS), INTÄKTER, Försäljning.
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 3 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.account, mail.thread, mis.budget.by.account, mis.budget.by.account.item.
+    ''',
     'depends': ['account_mis_budget', 'mis_builder_budget', 'date_range', 'account'],
     'data': [
         'security/ir.model.access.csv',

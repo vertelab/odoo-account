@@ -21,15 +21,25 @@
 
 {
     'name': 'Account: Invoice AI Mailbox',
-    'version': '1.0.3',
-    'summary': 'Mailbox for Invoices AI',
+    'version': '18.0.1.0.3',
+    'summary': 'Adds a mailbox for AI-assisted invoice handling.',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'account',
-    'description': """
-        Mailbox for AI Invoices
-    """,
+    'description': '''
+Invoice AI Mailbox
+==================
+
+    Adds a mailbox for AI-assisted invoice handling.
+
+    Features:
+
+        - Automation: Scheduled jobs: Mail Analyst, Analyse incoming invoices, Supervisor for Analyse incoming invoices.
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 5 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.journal, account.move, ai.agent, ai.quest.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_invoice_ai',
     'images': ['static/description/banner.png'],

@@ -21,15 +21,22 @@
 
 {
     'name': 'Account: Financial Report Sorted',
-    'version': '1.3.6',
-    'summary': 'Fixes sorting and UX for Aged Partner Balance report',
+    'version': '18.0.1.3.6',
+    'summary': 'Fixes sorting and UX for the Aged Partner Balance report.',
     'category': 'account',
-    'description': """
-        Extends OCA account_financial_report with:
-        - Alphabetically sorted partners in Aged Partner Balance
-        - Clickable partner names to view underlying invoices
-        - Back-to-wizard button for filter changes
-    """,
+    'description': '''
+Financial Report Sorted
+=======================
+
+    Extends OCA account_financial_report with:
+            - Alphabetically sorted partners in Aged Partner Balance
+            - Clickable partner names to view underlying invoices
+            - Back-to-wizard button for filter changes
+
+    Features:
+
+        - Focused Fix: A small, targeted improvement to standard Odoo behaviour.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_financial_report_sorted',
     'license': 'AGPL-3',

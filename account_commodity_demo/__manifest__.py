@@ -5,32 +5,35 @@
     'license': 'AGPL-3',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_commodity_demo',
-    'summary': 'Demo data for gold/silver commodity purchasing with 3-way matching',
+    'summary': 'Demo data for gold and silver commodity purchasing with 3-way matching.',
     'description': '''
-Commodity Purchase Flow Demo
+Commodity Demo (3-Way Match)
 ============================
 
-Self-contained demo module for gold/silver commodity purchasing,
-inventory receipt, and vendor bill 3-way matching.
+    Self-contained demo module for gold/silver commodity purchasing,
+    inventory receipt, and vendor bill 3-way matching.
 
-Creates:
-- 4 commodity products (gold wire 24K, gold plate 18K, silver wire 999,
-  plating chemical)
-- 2 Swedish suppliers (Nordisk Komponent AB, Ädelmetall Nordic AB)
-- Gold (XAU) and Silver (XAG) commodities with quality variants
-  (24K, 22K, 18K, 14K, 999 Silver)
-- Initial spot prices fetched from AurumRates API
-- 3 purchase orders with confirmed receipts
-- 3 vendor bills with auto-generated PDF invoice attachments
-- Partial receipt scenario for 3-way matching testing
+    Creates:
+    - 4 commodity products (gold wire 24K, gold plate 18K, silver wire 999,
+      plating chemical)
+    - 2 Swedish suppliers (Nordisk Komponent AB, Ädelmetall Nordic AB)
+    - Gold (XAU) and Silver (XAG) commodities with quality variants
+      (24K, 22K, 18K, 14K, 999 Silver)
+    - Initial spot prices fetched from AurumRates API
+    - 3 purchase orders with confirmed receipts
+    - 3 vendor bills with auto-generated PDF invoice attachments
+    - Partial receipt scenario for 3-way matching testing
 
-Dependencies:
-- account_commodity_price (commodity/quality/price models)
-- purchase (purchase orders, receipts)
-- stock (inventory valuation)
+    Dependencies:
+    - account_commodity_price (commodity/quality/price models)
+    - purchase (purchase orders, receipts)
+    - stock (inventory valuation)
 
-All data is idempotent — safe to reinstall.
-''',
+    Features:
+
+        - Automation: Scheduled jobs: Vinst råvaruomvärdering (demo), Förlust råvaruomvärdering (demo), Lager råvaror guld/silver (demo).
+        - Extends Odoo: Builds on account.move.
+    ''',
     'depends': ['account_commodity_price', 'purchase', 'stock'],
     'post_init_hook': 'post_init_hook',
     'data': [

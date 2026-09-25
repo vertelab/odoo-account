@@ -4,7 +4,19 @@
     'name': 'Account: Vendor Bill Approval',
     'version': '18.0.1.0.0',
     'category': 'Accounting',
-    'summary': 'Approve vendor bills with freely selectable approvers',
+    'summary': 'Approve vendor bills with freely selectable approvers.',
+    'description': '''
+Vendor Bill Approval
+====================
+
+    Approve vendor bills with freely selectable approvers.
+
+    Features:
+
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.move, bill.approval.user.line, move_id, user_id.
+    ''',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_bill_approval',
     'license': 'AGPL-3',

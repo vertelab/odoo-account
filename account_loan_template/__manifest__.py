@@ -21,12 +21,21 @@
 
 {
     'name': 'Account: Loan Template',
-    'version': '1.0',
-    'summary': 'Account Loan Template',
+    'version': '18.0.1.0.0',
+    'summary': 'Create loan templates that generate loan entries automatically.',
     'category': 'Accounting',
-    'description': """
-        Account Loan Template
-    """,
+    'description': '''
+Loan Template
+=============
+
+    Create loan templates that generate loan entries automatically.
+
+    Features:
+
+        - Automation: Scheduled jobs: Loan, Interest, Account Loan Template.
+        - UI Integration: Extends 3 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.loan, account.loan.template, account.move, account.move.line.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_loan_template',
     'images': ['static/description/banner.png'], # 560x280 px

@@ -1,15 +1,25 @@
 {
     'name': 'Account: Deferred Revenue Expenses',
     'version': '18.0.2.7.0',
-    'summary': 'Deferred Revenue & Expenses with own models and stubs',
+    'summary': 'Handles deferred revenue and expenses with dedicated models.',
     'category': 'Accounting',
-    'description': """
-        Account Deferred Revenue Expenses
-        =================================
-        * Separate models: account.deferred, account.deferred.line, account.deferred.profile
-        * Wizard to create deferred entries from invoice lines
-        * Stub-based periodization with per-period posting
-    """,
+    'description': '''
+Deferred Revenue Expenses
+=========================
+
+    Account Deferred Revenue Expenses
+            =================================
+            * Separate models: account.deferred, account.deferred.line, account.deferred.profile
+            * Wizard to create deferred entries from invoice lines
+            * Stub-based periodization with per-period posting
+
+    Features:
+
+        - Automation: Scheduled jobs: Deferred: post due periodisation stubs, Kontorshyra 3 mån, Lagerhyra 3 mån.
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 6 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.deferred, account.deferred.line, account.deferred.profile, account.move.
+    ''',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_deferred_revenue_expenses',
     'license': 'AGPL-3',

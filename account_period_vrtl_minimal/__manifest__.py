@@ -21,9 +21,9 @@
 
 {
     'name': 'Account: Period',
-    'version': '1.2',
+    'version': '18.0.1.2.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Divide the year in 12 months or 4 quarters.',
+    'summary': 'Divides the fiscal year into 12 months or 4 quarters (minimal version).',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel Sverige AB',
@@ -33,11 +33,19 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': """
-Account Period
-==============
-Added period for accounting. Either 12 months or 4 quarters.
-    """,
+    'description': '''
+Period
+======
+
+    Added period for accounting. Either 12 months or 4 quarters.
+
+    Features:
+
+        - Automation: Scheduled jobs: automatic close account period.
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 7 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.account, account.balance, account.bank.statement, account.bank.statement.line.
+    ''',
     'depends': ['account', 'date_range', 'mis_builder_budget'],
     'data': [
         'security/ir.model.access.csv',

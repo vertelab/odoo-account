@@ -2,14 +2,21 @@
     'name': 'Account: Reconcile Currency Fix',
 'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_reconcile_currency_fix',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     'category': 'Accounting',
-    'summary': 'Fix currency formatting in the OCA reconciliation widget.',
-    'description': """
-Correct currency formatting for amounts in the OCA reconciliation widget.
-The widget formats debit, credit and currency amounts with the line's own
-currency instead of the company currency.
-    """,
+    'summary': 'Fixes currency formatting in the OCA reconciliation widget.',
+    'description': '''
+Reconcile Currency Fix
+======================
+
+    Correct currency formatting for amounts in the OCA reconciliation widget.
+    The widget formats debit, credit and currency amounts with the line's own
+    currency instead of the company currency.
+
+    Features:
+
+        - Focused Fix: A small, targeted improvement to standard Odoo behaviour.
+    ''',
     'depends': ['account_reconcile_oca'],
     'data': [],
     'assets': {

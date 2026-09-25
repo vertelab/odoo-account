@@ -21,9 +21,9 @@
 
 {
     'name': 'Account: Journal Select Payable Receivable Account',
-    'version': '1.1',
+    'version': '18.0.1.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds new fields on a journal.',
+    'summary': 'Adds dedicated payable and receivable account fields on journals.',
     'category': 'Accounting',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
@@ -33,14 +33,21 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': """
-	Adds two new fields on a journal so that we can control which Payable Receivable Account Odoo uses when it balances an Invoice/Journal Entry.
-	Odoo uses the first payable/receivable account it can find using the search method, so if you have more than one you can't control which one is used.
+    'description': '''
+Journal Select Payable Receivable Account
+=========================================
 
-	Payable are used on on everything except Customer Invoice, Customer Credit Note, Sales Receipt.
-	Receivable are used on Customer Invoice, Customer Credit Note, Sales Receipt.
-	
-    """,
+    Adds two new fields on a journal so that we can control which Payable Receivable Account Odoo uses when it balances an Invoice/Journal Entry.
+    	Odoo uses the first payable/receivable account it can find using the search method, so if you have more than one you can't control which one is used.
+
+    Payable are used on on everything except Customer Invoice, Customer Credit Note, Sales Receipt.
+    	Receivable are used on Customer Invoice, Customer Credit Note, Sales Receipt.
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.journal, account.move.
+    ''',
     'depends': ['account'],
     'data': [
         'views/journal_view.xml',

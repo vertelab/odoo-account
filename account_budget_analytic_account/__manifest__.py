@@ -21,9 +21,9 @@
 
 {
     'name': 'Account: MIS Builder for Analytic Account',
-    'version': '0.2',
+    'version': '18.0.1.0.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'MIS Builder for Analytic Account.',
+    'summary': 'Builds MIS budgets per analytic account.',
     'category': 'Accounting',
     #'sequence': '1'
     'author': 'Vertel Sverige AB',
@@ -33,9 +33,17 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': """
-        MIS Builder for Analytic Account
-    """,
+    'description': '''
+MIS Builder for Analytic Account
+================================
+
+    Builds MIS budgets per analytic account.
+
+    Features:
+
+        - UI Integration: Extends 6 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.account, account.analytic.account, budget_id, mis.budget.abstract.
+    ''',
     'depends': ['account', 'mis_builder','account_mis_budget','mis_builder_budget', 'analytic', 'base', 'hr'],
     'data': [
         "security/mis_budget_by_analytic_account.xml",
