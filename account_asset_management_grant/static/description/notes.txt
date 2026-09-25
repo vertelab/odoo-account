@@ -7,10 +7,10 @@ odoo-account/account_asset_management_grant/static/description/banner.png
 odoo-account/account_asset_management_grant/static/description/icon.png
 
 
-Icon: "money"
-icon_money.png
-icon_money_50.png
-icon_money_50_neg.png
+Icon: "building-o"
+icon_building-o.png
+icon_building-o_50.png
+icon_building-o_50_neg.png
 https://fontawesome.com/v6/icons
 
 

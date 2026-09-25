@@ -7,10 +7,10 @@ odoo-account/account_dynamic_reports/static/description/banner.png
 odoo-account/account_dynamic_reports/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "pie-chart"
+icon_pie-chart.png
+icon_pie-chart_50.png
+icon_pie-chart_50_neg.png
 https://fontawesome.com/v6/icons
 
 

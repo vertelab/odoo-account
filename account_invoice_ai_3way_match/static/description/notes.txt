@@ -7,10 +7,10 @@ odoo-account/account_invoice_ai_3way_match/static/description/banner.png
 odoo-account/account_invoice_ai_3way_match/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "microchip"
+icon_microchip.png
+icon_microchip_50.png
+icon_microchip_50_neg.png
 https://fontawesome.com/v6/icons
 
 

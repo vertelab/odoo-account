@@ -7,10 +7,10 @@ odoo-account/account_loan_template/static/description/banner.png
 odoo-account/account_loan_template/static/description/icon.png
 
 
-Icon: "money"
-icon_money.png
-icon_money_50.png
-icon_money_50_neg.png
+Icon: "calculator"
+icon_calculator.png
+icon_calculator_50.png
+icon_calculator_50_neg.png
 https://fontawesome.com/v6/icons
 
 

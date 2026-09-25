@@ -7,10 +7,10 @@ Be aware of these!
 [project]/[module]/static/description/icon.png
 
 
-Icon: "money"
-icon_money.png
-icon_money_50.png
-icon_money_50_neg.png
+Icon: "bank"
+icon_bank.png
+icon_bank_50.png
+icon_bank_50_neg.png
 Icons may be found at: https://fontawesome.com/v5/cheatsheet
 
 

@@ -7,10 +7,10 @@ Be aware of these!
 [project]/[module]/static/description/icon.png
 
 
-Icon: "money"
-icon_money.png
-icon_money_50.png
-icon_money_50_neg.png
+Icon: "cube"
+icon_cube.png
+icon_cube_50.png
+icon_cube_50_neg.png
 https://fontawesome.com/v4/icon/money
 
 

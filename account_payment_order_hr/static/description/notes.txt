@@ -7,10 +7,10 @@ odoo-account/account_payment_order_hr/static/description/banner.png
 odoo-account/account_payment_order_hr/static/description/icon.png
 
 
-Icon: "money"
-icon_money.png
-icon_money_50.png
-icon_money_50_neg.png
+Icon: "credit-card"
+icon_credit-card.png
+icon_credit-card_50.png
+icon_credit-card_50_neg.png
 https://fontawesome.com/v6/icons
 
 

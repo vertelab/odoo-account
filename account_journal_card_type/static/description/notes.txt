@@ -5,9 +5,9 @@ Be aware of these!
 [project]/[module]/static/description/banner.png
 [project]/[module]/static/description/icon.png
 
-Icon: "database"
-icon_database.png
-icon_database_50.png
+Icon: "book"
+icon_book.png
+icon_book_50.png
 icon_database_50_neg.png (Included)
 SEK_icon.png
 SEK_icon_60.png

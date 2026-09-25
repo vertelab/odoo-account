@@ -7,10 +7,10 @@ odoo-account/account_bill_approval/static/description/banner.png
 odoo-account/account_bill_approval/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "check-square-o"
+icon_check-square-o.png
+icon_check-square-o_50.png
+icon_check-square-o_50_neg.png
 https://fontawesome.com/v4/icon/file-text-o
 
 

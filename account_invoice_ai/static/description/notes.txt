@@ -7,10 +7,10 @@ Be aware of these!
 [project]/[module]/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "envelope-o"
+icon_envelope-o.png
+icon_envelope-o_50.png
+icon_envelope-o_50_neg.png
 https://fontawesome.com/v4/icon/money
 
 Odoo banner: 560 x 280

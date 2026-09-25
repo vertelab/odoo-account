@@ -7,10 +7,10 @@ Be aware of these!
 [project]/[module]/static/description/icon.png
 
 
-Icon: "database"
-icon_database.png
-icon_database_50.png
-icon_database_50_neg.png
+Icon: "credit-card"
+icon_credit-card.png
+icon_credit-card_50.png
+icon_credit-card_50_neg.png
 Icons may be found at: https://fontawesome.com/v5/cheatsheet
 
 

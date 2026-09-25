@@ -7,10 +7,10 @@ Be aware of these!
 [project]/[module]/static/description/icon.png
 
 
-Icon: "money"
-icon_money.png
-icon_money_50.png
-icon_money_50_neg.png
+Icon: "balance-scale"
+icon_balance-scale.png
+icon_balance-scale_50.png
+icon_balance-scale_50_neg.png
 https://fontawesome.com/v4/icon/money
 
 

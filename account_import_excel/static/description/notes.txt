@@ -7,10 +7,10 @@ odoo-account/account_import_excel/static/description/banner.png
 odoo-account/account_import_excel/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "file-excel-o"
+icon_file-excel-o.png
+icon_file-excel-o_50.png
+icon_file-excel-o_50_neg.png
 https://fontawesome.com/v6/icons
 
 

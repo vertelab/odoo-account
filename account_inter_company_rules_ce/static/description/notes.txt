@@ -7,10 +7,10 @@ odoo-account/account_inter_company_rules_ce/static/description/banner.png
 odoo-account/account_inter_company_rules_ce/static/description/icon.png
 
 
-Icon: "database"
-icon_database.png
-icon_database_50.png
-icon_database_50_neg.png
+Icon: "building"
+icon_building.png
+icon_building_50.png
+icon_building_50_neg.png
 https://fontawesome.com/v6/icons
 
 

@@ -7,10 +7,10 @@ Be aware of these!
 [project]/[module]/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "address-book-o"
+icon_address-book-o.png
+icon_address-book-o_50.png
+icon_address-book-o_50_neg.png
 Icons may be found at: https://fontawesome.com/v5/cheatsheet
 
 

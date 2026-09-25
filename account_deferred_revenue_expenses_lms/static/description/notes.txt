@@ -7,10 +7,10 @@ odoo-account/account_deferred_revenue_expenses_lms/static/description/banner.png
 odoo-account/account_deferred_revenue_expenses_lms/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "calendar"
+icon_calendar.png
+icon_calendar_50.png
+icon_calendar_50_neg.png
 https://fontawesome.com/v6/icons
 
 

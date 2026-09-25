@@ -7,10 +7,10 @@ odoo-account/account_analytic_group/static/description/banner.png
 odoo-account/account_analytic_group/static/description/icon.png
 
 
-Icon: "database"
-icon_database.png
-icon_database_50.png
-icon_database_50_neg.png
+Icon: "sitemap"
+icon_sitemap.png
+icon_sitemap_50.png
+icon_sitemap_50_neg.png
 https://fontawesome.com/v6/icons
 
 

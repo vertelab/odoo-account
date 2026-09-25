@@ -8,9 +8,9 @@ odoo-account/account_move_directory/static/description/icon.png
 
 
 Icon: "folder-open-o"
-icon_open_folder.png
-icon_open_folder_50.png
-icon_open_folder_50_neg.png
+icon_folder-open-o.png
+icon_folder-open-o_50.png
+icon_folder-open-o_50_neg.png
 https://fontawesome.com/v6/icons
 
 

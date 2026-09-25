@@ -7,10 +7,10 @@ odoo-account/account_attachment_directory/static/description/banner.png
 odoo-account/account_attachment_directory/static/description/icon.png
 
 
-Icon: "folder-open-o"
-icon_open_folder.png
-icon_open_folder_50.png
-icon_open_folder_50_neg.png
+Icon: "paperclip"
+icon_paperclip.png
+icon_paperclip_50.png
+icon_paperclip_50_neg.png
 https://fontawesome.com/v6/icons
 
 

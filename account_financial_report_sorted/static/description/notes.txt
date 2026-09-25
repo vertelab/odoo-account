@@ -7,10 +7,10 @@ odoo-account/account_financial_report_sorted/static/description/banner.png
 odoo-account/account_financial_report_sorted/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "sort"
+icon_sort.png
+icon_sort_50.png
+icon_sort_50_neg.png
 https://fontawesome.com/v6/icons
 
 

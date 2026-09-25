@@ -7,10 +7,10 @@ odoo-account/account_commodity_price/static/description/banner.png
 odoo-account/account_commodity_price/static/description/icon.png
 
 
-Icon: "money"
-icon_money.png
-icon_money_50.png
-icon_money_50_neg.png
+Icon: "tag"
+icon_tag.png
+icon_tag_50.png
+icon_tag_50_neg.png
 https://fontawesome.com/v6/icons
 
 

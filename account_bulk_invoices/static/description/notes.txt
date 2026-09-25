@@ -8,9 +8,9 @@ Be aware of these!
 
 
 Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+icon_file-text-o.png
+icon_file-text-o_50.png
+icon_file-text-o_50_neg.png
 https://fontawesome.com/v4/icon/money
 
 

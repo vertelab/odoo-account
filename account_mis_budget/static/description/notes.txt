@@ -7,10 +7,10 @@ odoo-account/account_mis_budget/static/description/banner.png
 odoo-account/account_mis_budget/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "bar-chart"
+icon_bar-chart.png
+icon_bar-chart_50.png
+icon_bar-chart_50_neg.png
 https://fontawesome.com/v6/icons
 
 

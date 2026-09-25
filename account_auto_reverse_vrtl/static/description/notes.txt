@@ -7,10 +7,10 @@ odoo-account/account_auto_reverse_vrtl/static/description/banner.png
 odoo-account/account_auto_reverse_vrtl/static/description/icon.png
 
 
-Icon: "database"
-icon_database.png
-icon_database_50.png
-icon_database_50_neg.png
+Icon: "magic"
+icon_magic.png
+icon_magic_50.png
+icon_magic_50_neg.png
 https://fontawesome.com/v6/icons
 
 

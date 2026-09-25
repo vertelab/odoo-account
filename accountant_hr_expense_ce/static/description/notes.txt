@@ -7,10 +7,10 @@ odoo-account/accountant_hr_expense_ce/static/description/banner.png
 odoo-account/accountant_hr_expense_ce/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "users"
+icon_users.png
+icon_users_50.png
+icon_users_50_neg.png
 https://fontawesome.com/v6/icons
 
 

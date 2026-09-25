@@ -7,10 +7,10 @@ odoo-account/account_bill_approval_migration/static/description/banner.png
 odoo-account/account_bill_approval_migration/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "exchange"
+icon_exchange.png
+icon_exchange_50.png
+icon_exchange_50_neg.png
 https://fontawesome.com/v6/icons
 
 

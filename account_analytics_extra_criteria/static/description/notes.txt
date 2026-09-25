@@ -7,10 +7,10 @@ Be aware of these!
 [project]/[module]/static/description/icon.png
 
 
-Icon: "database"
-icon_database.png
-icon_database_50.png
-icon_database_50_neg.png
+Icon: "plus-square-o"
+icon_plus-square-o.png
+icon_plus-square-o_50.png
+icon_plus-square-o_50_neg.png
 Icons may be found at: https://fontawesome.com/v5/cheatsheet
 
 

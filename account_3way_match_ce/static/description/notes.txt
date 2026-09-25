@@ -7,10 +7,10 @@ odoo-account/account_3way_match_ce/static/description/banner.png
 odoo-account/account_3way_match_ce/static/description/icon.png
 
 
-Icon: "file-text-o"
-icon_file_text.png
-icon_file_text_50.png
-icon_file_text_50_neg.png
+Icon: "object-group"
+icon_object-group.png
+icon_object-group_50.png
+icon_object-group_50_neg.png
 https://fontawesome.com/v6/icons
 
 
