@@ -12,9 +12,6 @@
                 <xpath expr="//field[@name='country_code']" position="after">
                     <field name="invoicing_date_warning" invisible="1"/>
                 </xpath>
-                <field name="payment_reference" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
                 <notebook position="inside">
                     <page id="payment_done_tab" string="Payment" invisible="payment_state != 'paid'">
                         <group id="payment_done_group" col="1">
@@ -22,7 +19,6 @@
                             <field name="payment_state"/>
                             <field name="payment_date"/>
                             <field name="payment_move_id"/>
-                            <field name="payment_reference" readonly="1"/>
                         </group>
                     </page>
                 </notebook>
