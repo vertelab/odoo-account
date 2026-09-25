@@ -30,7 +30,7 @@ MIS Report Filter
 =================
 
     Mis report filter.
-        Adds status and owner to mis report instances so that we have a way of filtering them.
+            Adds status and owner to mis report instances so that we have a way of filtering them.
 
     Features:
 

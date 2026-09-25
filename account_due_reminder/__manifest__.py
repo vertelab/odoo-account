@@ -32,7 +32,7 @@ Invoice Payment Reminder
 
     Features:
 
-        - Automation: Scheduled jobs: Account Report Followup; Execute followup, Payment Reminder, 15 Days.
+        - Automation: Scheduled jobs: Account Report Followup; Execute followup.
         - UI Integration: Extends 4 view(s) in the Odoo interface.
         - Extends Odoo: Builds on account.move, account.payment.plan, account.payment.term, mail.activity.type.
     ''',

@@ -15,7 +15,6 @@ Dynamic Reports
     Features:
 
         - Web integration: Exposes HTTP endpoints for external systems.
-        - Automation: Scheduled jobs: Unrealized Currency Gains/Losses, Balance in Foreign Currency, Balance at Operation Rate.
         - UI Integration: Extends 1 view(s) in the Odoo interface.
         - Extends Odoo: Builds on account.currency.revaluation.report.handler, account.report.
     ''',

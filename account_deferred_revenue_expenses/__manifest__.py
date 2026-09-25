@@ -8,14 +8,14 @@ Deferred Revenue Expenses
 =========================
 
     Account Deferred Revenue Expenses
-            =================================
-            * Separate models: account.deferred, account.deferred.line, account.deferred.profile
-            * Wizard to create deferred entries from invoice lines
-            * Stub-based periodization with per-period posting
+                =================================
+                * Separate models: account.deferred, account.deferred.line, account.deferred.profile
+                * Wizard to create deferred entries from invoice lines
+                * Stub-based periodization with per-period posting
 
     Features:
 
-        - Automation: Scheduled jobs: Deferred: post due periodisation stubs, Kontorshyra 3 mån, Lagerhyra 3 mån.
+        - Automation: Scheduled jobs: Deferred: post due periodisation stubs.
         - Guided Wizards: Step-by-step dialogs for data entry.
         - UI Integration: Extends 6 view(s) in the Odoo interface.
         - Extends Odoo: Builds on account.deferred, account.deferred.line, account.deferred.profile, account.move.

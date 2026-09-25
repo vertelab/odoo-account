@@ -8,15 +8,15 @@
 ================
 
     In the manufacturing industry, people often receive the vendor bills before
-    receiving their purchase, but they don't want to pay the bill until the goods
-    have been delivered.
+        receiving their purchase, but they don't want to pay the bill until the goods
+        have been delivered.
 
     The solution to this situation is to create the vendor bill when you get it
-    (based on ordered quantities) but only pay the invoice when the received
-    quantities (on the PO lines) match the recorded vendor bill.
+        (based on ordered quantities) but only pay the invoice when the received
+        quantities (on the PO lines) match the recorded vendor bill.
 
     This module introduces a "release to pay" mechanism that marks for each vendor
-    bill whether it can be paid or not.
+        bill whether it can be paid or not.
 
     Each vendor bill receives one of the following three states:
 

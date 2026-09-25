@@ -6,44 +6,47 @@
   <title>Account: Asset Stock Lot &mdash; Vertel for Odoo</title>
   <style>
     :root { --navy:#0F172A; --darkBg:#1E293B; --white:#F8FAFC; --gray:#94A3B8;
-             --lightGray:#E2E8F0; --accent:#10B981; --purple:#875A7B; }
+             --lightGray:#E2E8F0; --brand:#930a57; --brand2:#8105a7; }
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family:Inter,system-ui,-apple-system,sans-serif; color:var(--darkBg);
             background:var(--white); line-height:1.6; }
-    .hero { background:linear-gradient(135deg,var(--purple),#5A3A5B); color:var(--white);
+    .hero { background:linear-gradient(135deg,var(--brand),var(--brand2)); color:var(--white);
              padding:48px 32px; text-align:center; }
     .hero h1 { font-size:2.25rem; font-weight:800; margin-bottom:8px; }
-    .hero .subtitle { font-size:1.1rem; color:#C4A6C7; }
-    .hero .meta { margin-top:16px; font-size:0.85rem; color:#A87CA0; }
+    .hero .subtitle { font-size:1.1rem; color:#f3d7e6; }
+    .hero .meta { margin-top:16px; font-size:0.85rem; color:#e8b8d2; }
     .hero .meta span { margin:0 8px; }
     .container { max-width:860px; margin:0 auto; padding:40px 24px; }
     section { margin-bottom:40px; }
     section h2 { font-size:1.5rem; font-weight:700; color:var(--navy);
-                  margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--accent); }
+                  margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--brand); }
     section p, section li { font-size:1rem; color:#334155; }
+    section p { margin-bottom:12px; }
     section ul { padding-left:24px; }
     section li { margin-bottom:8px; }
     .feature-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
                      gap:16px; margin-top:16px; }
     .feature-card { background:#F1F5F9; border-radius:8px; padding:20px;
-                     border-left:4px solid var(--accent); }
+                     border-left:4px solid var(--brand); }
     .feature-card h4 { font-size:1rem; font-weight:600; color:var(--navy); margin-bottom:6px; }
-    .feature-card p { font-size:0.9rem; color:#475569; }
-    .screenshots { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
-    .screenshots img { width:100%; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    .feature-card p { font-size:0.9rem; color:#475569; margin:0; }
+    .screenshots { display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start; }
+    .screenshots figure { margin:0; text-align:center; }
+    .screenshots img { display:block; border-radius:8px;
+                        box-shadow:0 2px 8px rgba(0,0,0,0.08);
                         border:1px solid var(--lightGray); }
+    .screenshots figcaption { margin-top:8px; font-size:0.8rem; color:var(--gray); }
     footer { background:var(--navy); color:var(--white); text-align:center;
               padding:32px 24px; font-size:0.9rem; }
-    footer a { color:var(--accent); text-decoration:none; }
-    footer .generated { margin-top:12px; font-size:0.75rem; color:var(--gray); }
+    footer a { color:#f3d7e6; text-decoration:none; }
   </style>
 </head>
 <body>
 <div class="hero">
   <h1>Account: Asset Stock Lot</h1>
-  <p class="subtitle">Create an asset connected to a Lot number.</p>
+  <p class="subtitle">Creates an asset linked to a stock lot number.</p>
   <div class="meta">
-    <span>Version 1.0</span><span>&middot;</span>
+    <span>Odoo 18.0</span><span>&middot;</span>
     <span>Accounting</span><span>&middot;</span>
     <span>by Vertel Sverige AB</span>
   </div>
@@ -51,27 +54,33 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Create an asset connected to a Lot number.</p>
-    <p>It works with assets, contacts and partners, product templates and products.</p>
+    <p>Creates an asset linked to a stock lot number.</p>
+    <p>It extends Odoo's assets, product templates.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>UI Integration</h4><p>Extends 2 view(s) in the Odoo interface.</p></div>
-      <div class="feature-card"><h4>Extends Odoo</h4><p>Builds on account.asset, account.asset.profile, product.product, product.template.</p></div>
+      <div class="feature-card"><h4>Actions</h4><p>Adds action_view_stock_pickings, action_view_assets, button_validate.</p></div>
+      <div class="feature-card"><h4>UI integration</h4><p>Extends 2 view(s) in the Odoo interface.</p></div>
     </div>
   </section>
   <section id="screenshots">
     <h2>Module Graphics</h2>
     <div class="screenshots">
-      <img src="icon.png" alt="Account: Asset Stock Lot">
-      <img src="banner.png" alt="Account: Asset Stock Lot">
+      <figure>
+        <img src="icon.png" alt="Account: Asset Stock Lot icon" width="140" height="140">
+        <figcaption>Icon &mdash; 140 &times; 140 px</figcaption>
+      </figure>
+      <figure>
+        <img src="banner.png" alt="Account: Asset Stock Lot banner" width="560" height="280">
+        <figcaption>Banner &mdash; 560 &times; 280 px</figcaption>
+      </figure>
     </div>
   </section>
   <section id="dependencies">
     <h2>Dependencies</h2>
     <ul><li><code>account</code></li><li><code>account_asset_management</code></li><li><code>stock</code></li><li><code>sale</code></li><li><code>purchase</code></li></ul>
-    <p><small>This module requires <strong>Odoo 1.0</strong> or later.</small></p>
+    <p><small>Requires <strong>Odoo 18.0</strong> or later.</small></p>
   </section>
   <section id="installation">
     <h2>Installation</h2>
@@ -88,7 +97,6 @@
   <p><strong>Account: Asset Stock Lot</strong> &mdash; by <a href="https://vertel.se">Vertel Sverige AB</a></p>
   <p><a href="https://vertel.se">vertel.se</a> &middot;
      <a href="mailto:info@vertel.se">info@vertel.se</a></p>
-  <p class="generated">Part of odoo-account</p>
 </footer>
 </body>
 </html>

@@ -33,18 +33,17 @@ MIS Budget Forecast & Hierarchy
 ===============================
 
     1. Dynamic Forecast
-       A budget marked as forecast automatically replaces budget amounts with
-       actual booked figures for elapsed periods, while keeping budget figures
-       for future periods. Inspired by Fortnox Rapport & Analys.
+           A budget marked as forecast automatically replaces budget amounts with
+           actual booked figures for elapsed periods, while keeping budget figures
+           for future periods. Inspired by Fortnox Rapport & Analys.
 
     2. Hierarchical Budget Trees
-       Configure budget trees with nodes and leaves. Nodes auto-sum their
-       children. Leaves map to accounts via account-code masks.
-       Inspired by Visma.net ERP budget tree.
+           Configure budget trees with nodes and leaves. Nodes auto-sum their
+           children. Leaves map to accounts via account-code masks.
+           Inspired by Visma.net ERP budget tree.
 
     Features:
 
-        - Automation: Scheduled jobs: Standard Resultatbudget (BAS), INTÄKTER, Försäljning.
         - Guided Wizards: Step-by-step dialogs for data entry.
         - UI Integration: Extends 3 view(s) in the Odoo interface.
         - Extends Odoo: Builds on account.account, mail.thread, mis.budget.by.account, mis.budget.by.account.item.

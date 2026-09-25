@@ -38,10 +38,10 @@ Journal Select Payable Receivable Account
 =========================================
 
     Adds two new fields on a journal so that we can control which Payable Receivable Account Odoo uses when it balances an Invoice/Journal Entry.
-    	Odoo uses the first payable/receivable account it can find using the search method, so if you have more than one you can't control which one is used.
+        	Odoo uses the first payable/receivable account it can find using the search method, so if you have more than one you can't control which one is used.
 
     Payable are used on on everything except Customer Invoice, Customer Credit Note, Sales Receipt.
-    	Receivable are used on Customer Invoice, Customer Credit Note, Sales Receipt.
+        	Receivable are used on Customer Invoice, Customer Credit Note, Sales Receipt.
 
     Features:
 

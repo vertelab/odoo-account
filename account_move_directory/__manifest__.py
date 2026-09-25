@@ -29,17 +29,16 @@ Move Directory
 ==============
 
     Account Move Directory
-        ============================
-        Loads moves from a directory and store them on a account move. 
-        The filename is important for finding the correct Account Move and nameing the file as an move. Use the form <Account Move Name>_<filename.extension>.
-        Use dash (-) instead of '/'. Example LEV-2025-11-004_MyFile.pdf will be an move on Account move LEV/2025/11/0004 and have the name MyFile.pdf
+            ============================
+            Loads moves from a directory and store them on a account move. 
+            The filename is important for finding the correct Account Move and nameing the file as an move. Use the form <Account Move Name>_<filename.extension>.
+            Use dash (-) instead of '/'. Example LEV-2025-11-004_MyFile.pdf will be an move on Account move LEV/2025/11/0004 and have the name MyFile.pdf
 
     service account_move_direcory [start,stop,status]
-        You have to restart the service when the dairectory is changed
+            You have to restart the service when the dairectory is changed
 
     Features:
 
-        - Automation: Scheduled jobs: extf:datev:csv, sie:4.
         - UI Integration: Extends 2 view(s) in the Odoo interface.
         - Extends Odoo: Builds on edi.message.
     ''',

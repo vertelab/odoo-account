@@ -32,7 +32,6 @@ Loan Template
 
     Features:
 
-        - Automation: Scheduled jobs: Loan, Interest, Account Loan Template.
         - UI Integration: Extends 3 view(s) in the Odoo interface.
         - Extends Odoo: Builds on account.loan, account.loan.template, account.move, account.move.line.
     ''',

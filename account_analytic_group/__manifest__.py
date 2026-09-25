@@ -29,8 +29,8 @@ Analytic Group
 ==============
 
     Account Analytic Group
-        ========================================================
-        Adds group to analytic account.
+            ========================================================
+            Adds group to analytic account.
 
     Features:
 

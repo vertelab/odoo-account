@@ -13,19 +13,19 @@ Commodity Price
 ===============
 
     Manage commodity prices (gold, silver, copper, oil, etc.) with:
-    - Price history per commodity with quality/purity variants
-    - Automatic price fetching via API (AurumRates, GoldAPI.io)
-    - Inventory revaluation on price changes with accounting entries
-    - BOM integration for raw material costing
-    - Journal per commodity with gain/loss accounts
-    - Kanban dashboard with real-time figures
+        - Price history per commodity with quality/purity variants
+        - Automatic price fetching via API (AurumRates, GoldAPI.io)
+        - Inventory revaluation on price changes with accounting entries
+        - BOM integration for raw material costing
+        - Journal per commodity with gain/loss accounts
+        - Kanban dashboard with real-time figures
 
     Similar to currency exchange rates (res.currency.rate) but for
-    commodities with quality variants and inventory impact.
+        commodities with quality variants and inventory impact.
 
     Features:
 
-        - Automation: Scheduled jobs: Fetch Commodity Prices, Gold, 24K.
+        - Automation: Scheduled jobs: Fetch Commodity Prices.
         - Guided Wizards: Step-by-step dialogs for data entry.
         - Reports: Adds printable reports.
         - UI Integration: Extends 6 view(s) in the Odoo interface.

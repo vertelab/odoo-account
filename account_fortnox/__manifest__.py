@@ -32,11 +32,9 @@
 Odoo - Fortnox Integration
 ==========================
 
-    Syncs invoices, payments and journal entries with Fortnox.
-
     The module connects Odoo with the Fortnox accounting platform. It exports
-    invoices and payment information and keeps the two systems in sync through
-    scheduled jobs and API endpoints.
+        invoices and payment information and keeps the two systems in sync through
+        scheduled jobs and API endpoints.
 
     Features:
 

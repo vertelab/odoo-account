@@ -12,7 +12,6 @@ Reconcile Enhanced
 
     Features:
 
-        - Automation: Scheduled jobs: Bank Transaction Fee, International Transfer Fee, Card Processing Fee.
         - Guided Wizards: Step-by-step dialogs for data entry.
         - UI Integration: Extends 1 view(s) in the Odoo interface.
         - Extends Odoo: Builds on account.bank.statement.line, account.move.line, account.reconcile.model, account.reconcile.model.line.

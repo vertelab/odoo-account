@@ -9,37 +9,11 @@
 Payment Order Pending
 =====================
 
-    Lägger till en flagga `pending_until_reconciliation` på betalmetoder
-    (account.payment.method). När flaggan är True:
+    Adds a ``pending_until_reconciliation`` flag to payment methods
+(account.payment.method).
 
-    Implementation
-    - `account.move._compute_payment_state()` överrids: en faktura som är kopplad
-      till en betalorder (`line_ids.payment_line_ids`) eller till en betalning
-      (`matched_payment_ids`) och som ännu inte är avstämd
-      (`amount_residual != 0`) visas som `in_payment`.
-    - `account.move.is_pending_bank` bär den väg där ingen betalning skapas alls:
-      "Pay"-knappen med en pending-metod flaggar fakturan i stället för att skapa
-      en betalning. Flaggan nollställs när fakturan är avstämd, eller när den
-      lämnar `posted` (draft/avbruten) — annars skulle en återställd faktura
-      fastna som "Pågående".
-    - En annullerad betalorder räknas inte som väntande: OCA:s `action_cancel()`
-      tar inte bort betalningsraderna, så orderns state kontrolleras. Utan det
-      stannar fakturan som "Pågående" efter att ordern övergivits.
-    - Betalningen synkas automatiskt: `account.payment._compute_state()` sätter
-      betalningen till `paid` så snart alla avstämda fakturor är `paid`.
-
-    1. Aktivera utvecklarläge
-    2. Gå till Redovisning > Konfiguration > Betalmetoder
-    3. Välj en betalmetod (t.ex. Swedish Credit Transfer)
-    4. Bocka i 'Pending Until Reconciliation'
-    5. När fakturan kopplas till en betalorder eller betalning visas den som
-       "Pågående" och blir "Betald" först när banktransaktionen avstämts.
-
-    Features:
-
-        - Guided Wizards: Step-by-step dialogs for data entry.
-        - UI Integration: Extends 3 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on account.move, account.payment, account.payment.method, account.payment.order.
+When the flag is set, payment orders using that method stay pending until
+they are reconciled.
     ''',
     "version": "18.0.1.8.0",
     "license": "AGPL-3",

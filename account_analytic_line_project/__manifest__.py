@@ -30,8 +30,8 @@ Analytic Line Project
 =====================
 
     Account Analytic Line Project
-        ========================================================
-        Adds project to account analytic line.
+            ========================================================
+            Adds project to account analytic line.
 
     Features:
 

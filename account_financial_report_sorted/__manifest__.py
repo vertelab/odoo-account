@@ -29,9 +29,9 @@ Financial Report Sorted
 =======================
 
     Extends OCA account_financial_report with:
-            - Alphabetically sorted partners in Aged Partner Balance
-            - Clickable partner names to view underlying invoices
-            - Back-to-wizard button for filter changes
+                - Alphabetically sorted partners in Aged Partner Balance
+                - Clickable partner names to view underlying invoices
+                - Back-to-wizard button for filter changes
 
     Features:
 

@@ -34,7 +34,6 @@ Mass Invoice Generation
 
     Features:
 
-        - Automation: Scheduled jobs: Bulk Create Invoice.
         - UI Integration: Extends 1 view(s) in the Odoo interface.
         - Extends Odoo: Builds on account.move, bulk.account.move.wizard.
     ''',

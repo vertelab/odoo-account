@@ -13,9 +13,9 @@ Auto Reverse Entries
     This module extends the account module to allow automatic reversal of journal entries on a specified date.
 
     Features:
-    - Set a future date for automatic reversal of journal entries
-    - Entries are automatically reversed without manual intervention
-    - Helps in managing accruals, provisions, and temporary entries
+        - Set a future date for automatic reversal of journal entries
+        - Entries are automatically reversed without manual intervention
+        - Helps in managing accruals, provisions, and temporary entries
 
     Features:
 

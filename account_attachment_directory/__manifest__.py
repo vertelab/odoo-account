@@ -29,13 +29,13 @@ Attachment Directory
 ====================
 
     Account Attachment Directory
-        ============================
-        Loads attachments from a directory and store them on a account move. 
-        The filename is important for finding the correct Account Move and nameing the file as an attachment. Use the form <Account Move Name>_<filename.extension>.
-        Use dash (-) instead of '/'. Example LEV-2025-11-004_MyFile.pdf will be an attachment on Account move LEV/2025/11/0004 and have the name MyFile.pdf
+            ============================
+            Loads attachments from a directory and store them on a account move. 
+            The filename is important for finding the correct Account Move and nameing the file as an attachment. Use the form <Account Move Name>_<filename.extension>.
+            Use dash (-) instead of '/'. Example LEV-2025-11-004_MyFile.pdf will be an attachment on Account move LEV/2025/11/0004 and have the name MyFile.pdf
 
     service account_attachment_direcory [start,stop,status]
-        You have to restart the service when the dairectory is changed
+            You have to restart the service when the dairectory is changed
 
     Features:
 

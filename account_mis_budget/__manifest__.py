@@ -31,11 +31,10 @@ MIS Budget
 ==========
 
     Lets us generate budget based on the previous year.
-            Also lets us add two budgets together into a new one.
+                Also lets us add two budgets together into a new one.
 
     Features:
 
-        - Automation: Scheduled jobs: Assets (class 1), Equity and Liabilities (class 2), Income (class 3).
         - Guided Wizards: Step-by-step dialogs for data entry.
         - UI Integration: Extends 8 view(s) in the Odoo interface.
         - Extends Odoo: Builds on mail.thread, mis.budget, mis.budget.by.account, mis.budget.by.account.item.

@@ -15,19 +15,19 @@ Deferred Revenue Training (LMS)
 ===============================
 
     5 sections, 27 slides total (5 quiz questions per section):
-    - Section 1: Grundläggande periodisering (teori + lagkrav + quiz)
-    - Section 2: Förutbetalda kostnader — BAS 1710 (bokföring + T-konto + quiz)
-    - Section 3: Förutbetalda intäkter — BAS 2990 (bokföring + quiz)
-    - Section 4: Periodisering i Odoo — praktisk guide (demo + övning + quiz)
-    - Section 5: Så fungerar Odoo-modulen — teknisk guide (arkitektur + wizard + datamodell + quiz)
+        - Section 1: Grundläggande periodisering (teori + lagkrav + quiz)
+        - Section 2: Förutbetalda kostnader — BAS 1710 (bokföring + T-konto + quiz)
+        - Section 3: Förutbetalda intäkter — BAS 2990 (bokföring + quiz)
+        - Section 4: Periodisering i Odoo — praktisk guide (demo + övning + quiz)
+        - Section 5: Så fungerar Odoo-modulen — teknisk guide (arkitektur + wizard + datamodell + quiz)
 
     Includes 8 Mermaid-generated diagrams (rules hierarchy, process flow, compare,
-    T-account visualization, module architecture, wizard flow, data model, workflow)
-    and Odoo page builder articles with annotated walkthroughs.
+        T-account visualization, module architecture, wizard flow, data model, workflow)
+        and Odoo page builder articles with annotated walkthroughs.
 
     Features:
 
-        - Automation: Scheduled jobs: Periodisering — Grundkurs i förutbetalda kostnader och intäkter, 2. Förutbetalda kostnader — BAS 1710, När uppstår en förutbetald kostnad?.
+        - Demo Data: Ships pre-configured demo data for the industry.
     ''',
     'depends': [
         'website_slides',

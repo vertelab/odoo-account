@@ -9,11 +9,11 @@ Analytic Replace
 ================
 
     Adds replace functionality to Analytic Plans:
-            - Set current plan to Unavailable
-            - Create new replacement plan
-            - Copy all analytic accounts
-            - Track replacements
-            - Search redirection from old to new
+                - Set current plan to Unavailable
+                - Create new replacement plan
+                - Copy all analytic accounts
+                - Track replacements
+                - Search redirection from old to new
 
     Features:
 

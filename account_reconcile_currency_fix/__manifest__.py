@@ -10,8 +10,8 @@ Reconcile Currency Fix
 ======================
 
     Correct currency formatting for amounts in the OCA reconciliation widget.
-    The widget formats debit, credit and currency amounts with the line's own
-    currency instead of the company currency.
+        The widget formats debit, credit and currency amounts with the line's own
+        currency instead of the company currency.
 
     Features:
 

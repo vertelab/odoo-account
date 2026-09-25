@@ -35,7 +35,6 @@ Invoice AI Mailbox
 
     Features:
 
-        - Automation: Scheduled jobs: Mail Analyst, Analyse incoming invoices, Supervisor for Analyse incoming invoices.
         - Guided Wizards: Step-by-step dialogs for data entry.
         - UI Integration: Extends 5 view(s) in the Odoo interface.
         - Extends Odoo: Builds on account.journal, account.move, ai.agent, ai.quest.

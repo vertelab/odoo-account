@@ -9,27 +9,10 @@
 Reconcile OCA UX Fix
 ====================
 
-    Åtgärdar T/11503: kundfiltret i fliken Reconcile nollställs när man varit i
-    fliken Manual operation och går tillbaka.
+    Fixes a UX issue in the Reconcile tab: the customer filter was reset when
+switching to the Manual operation tab and back again.
 
-    Rotorsak (belagd i källkoden 2026-09-16)
-    OCA:s ``ReconcileController`` (account_reconcile_oca) åsidosätter sin förälders
-    ``getLocalState`` med en snävare variant som bara exporterar ``selectedRecordId``.
-    Föräldern ``KanbanController`` exporterar ``modelState`` — och sökfiltret bor i
-    ``searchModel`` som ``WithSearch`` exporterar som *global* state.
-
-    Vid återgång till Reconcile-fliken kör ``reloadFormController()``
-    ``model.root.load()`` utan att sökfiltret appliceras igen, eftersom det inte
-    finns i den lokala staten.
-
-    Fix
-    Patchen utökar ``getLocalState`` att även exportera ``searchModel``, så filtret
-    bevaras över flikbytet. Implementerad som en ``patch()`` på komponentprototypen
-    — OCA:s källkod redigeras inte, så fixen överlever OCA-uppdateringar.
-
-    Features:
-
-        - Focused Fix: A small, targeted improvement to standard Odoo behaviour.
+The fix preserves the selected filter across tab switches.
     ''',
     'depends': ['account_reconcile_oca'],
     'data': [],

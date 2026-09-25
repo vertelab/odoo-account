@@ -8,10 +8,10 @@ Invoice AI 3-Way Match Bridge
 =============================
 
     Glue module that automatically links AI-scanned vendor bills to purchase
-    orders so the 3-way match (PO vs receipt vs invoice) works end-to-end.
+        orders so the 3-way match (PO vs receipt vs invoice) works end-to-end.
 
     When both account_invoice_ai and account_3way_match_ce are installed, this
-    module auto-installs and:
+        module auto-installs and:
 
     Features:
 
