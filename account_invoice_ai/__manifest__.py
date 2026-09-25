@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Acount: chat with cases',
+    'name': 'Account: Invoice AI Mailbox',
     'version': '1.0.3',
     'summary': 'Mailbox for Invoices AI',
     # Categories can be used to filter modules in modules listing
@@ -53,12 +53,12 @@
         'views/ai_quest_session_views.xml',
         'views/ai_agent_view.xml',
     ],
-    "external_dependencies": {
-        "python": [
-            "eml_parser",
+    'external_dependencies': {
+        'python': [
+            'eml_parser',
             #"pyarrow",
-            "pytesseract", 
-            "PyMuPDF",
+            'pytesseract', 
+            'PyMuPDF',
             #"faiss-cpu",
         ],
     },

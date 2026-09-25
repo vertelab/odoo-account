@@ -1,5 +1,5 @@
 {
-    'name': 'Commodity Demo: Gold Plating 3-Way Match',
+    'name': 'Account: Commodity Demo (3-Way Match)',
     'version': '18.0.1.0.0',
     'category': 'Accounting',
     'license': 'AGPL-3',

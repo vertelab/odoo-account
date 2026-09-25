@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account: Mis report filter &mdash; Vertel for Odoo</title>
+  <style>
+    :root { --navy:#0F172A; --darkBg:#1E293B; --white:#F8FAFC; --gray:#94A3B8;
+             --lightGray:#E2E8F0; --accent:#10B981; --purple:#875A7B; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:Inter,system-ui,-apple-system,sans-serif; color:var(--darkBg);
+            background:var(--white); line-height:1.6; }
+    .hero { background:linear-gradient(135deg,var(--purple),#5A3A5B); color:var(--white);
+             padding:48px 32px; text-align:center; }
+    .hero h1 { font-size:2.25rem; font-weight:800; margin-bottom:8px; }
+    .hero .subtitle { font-size:1.1rem; color:#C4A6C7; }
+    .hero .meta { margin-top:16px; font-size:0.85rem; color:#A87CA0; }
+    .hero .meta span { margin:0 8px; }
+    .container { max-width:860px; margin:0 auto; padding:40px 24px; }
+    section { margin-bottom:40px; }
+    section h2 { font-size:1.5rem; font-weight:700; color:var(--navy);
+                  margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--accent); }
+    section p, section li { font-size:1rem; color:#334155; }
+    section ul { padding-left:24px; }
+    section li { margin-bottom:8px; }
+    .feature-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+                     gap:16px; margin-top:16px; }
+    .feature-card { background:#F1F5F9; border-radius:8px; padding:20px;
+                     border-left:4px solid var(--accent); }
+    .feature-card h4 { font-size:1rem; font-weight:600; color:var(--navy); margin-bottom:6px; }
+    .feature-card p { font-size:0.9rem; color:#475569; }
+    .screenshots { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+    .screenshots img { width:100%; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.08);
+                        border:1px solid var(--lightGray); }
+    footer { background:var(--navy); color:var(--white); text-align:center;
+              padding:32px 24px; font-size:0.9rem; }
+    footer a { color:var(--accent); text-decoration:none; }
+    footer .generated { margin-top:12px; font-size:0.75rem; color:var(--gray); }
+  </style>
+</head>
+<body>
+<div class="hero">
+  <h1>Account: Mis report filter</h1>
+  <p class="subtitle">Account report filter.</p>
+  <div class="meta">
+    <span>Version 1.1</span><span>&middot;</span>
+    <span>Accounting</span><span>&middot;</span>
+    <span>by Vertel Sverige AB</span>
+  </div>
+</div>
+<div class="container">
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>Account report filter.</p>
+    <p>Mis report filter.
+    Adds status and owner to mis report instances so that we have a way of filtering them.</p>
+  </section>
+  <section id="features">
+    <h2>Key Features</h2>
+    <div class="feature-grid">
+      <div class="feature-card"><h4>UI Integration</h4><p>Extends 1 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Extends Odoo</h4><p>Builds on mis.report, mis.report.instance.</p></div>
+    </div>
+  </section>
+  <section id="screenshots">
+    <h2>Module Graphics</h2>
+    <div class="screenshots">
+      <img src="icon.png" alt="Account: Mis report filter">
+      <img src="banner.png" alt="Account: Mis report filter">
+    </div>
+  </section>
+  <section id="dependencies">
+    <h2>Dependencies</h2>
+    <ul><li><code>mis_builder</code></li></ul>
+    <p><small>This module requires <strong>Odoo 1.1</strong> or later.</small></p>
+  </section>
+  <section id="installation">
+    <h2>Installation</h2>
+    <p>Install the module <code>account_mis_report_filter</code> from the Odoo Apps menu,
+       or deploy it via the Vertel SaltStack pipeline.</p>
+  </section>
+  <section id="support">
+    <h2>Support &amp; Contact</h2>
+    <p>Vertel Sverige AB &mdash; <a href="https://vertel.se">vertel.se</a> &middot;
+       <a href="mailto:info@vertel.se">info@vertel.se</a></p>
+  </section>
+</div>
+<footer>
+  <p><strong>Account: Mis report filter</strong> &mdash; by <a href="https://vertel.se">Vertel Sverige AB</a></p>
+  <p><a href="https://vertel.se">vertel.se</a> &middot;
+     <a href="mailto:info@vertel.se">info@vertel.se</a></p>
+  <p class="generated">Part of odoo-account</p>
+</footer>
+</body>
+</html>

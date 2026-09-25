@@ -35,15 +35,15 @@
     'website': 'https://vertel.se/apps/odoo-account/account_import_excel',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
-    'depends': ["account"],
-     "external_dependencies": {
-       "python": ["openpyxl"],
+    'depends': ['account'],
+     'external_dependencies': {
+       'python': ['openpyxl'],
      },
     'data': 
     [
-        "security/ir.model.access.csv",
-        "wizard/import_excel_wizard_views.xml",
-        "views/account_move_views.xml",
+        'security/ir.model.access.csv',
+        'wizard/import_excel_wizard_views.xml',
+        'views/account_move_views.xml',
     ],
     'demo': [],
     'application': False,

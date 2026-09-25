@@ -48,15 +48,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="64.5"
-     inkscape:cy="-31.5"
+     inkscape:cx="9.5"
+     inkscape:cy="-30.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1128"
      inkscape:window-height="962"
-     inkscape:window-x="395"
-     inkscape:window-y="53"
+     inkscape:window-x="390"
+     inkscape:window-y="71"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0" />
   <metadata
@@ -85,37 +85,20 @@
        style="stroke-width:4.60939169" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.574px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="68.866341"
-       y="84.419815"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.5px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="70.0"
+       y="81.734192"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan
-         sodipodi:role="line"
-         x="68.866341"
-         y="84.419815"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.9095px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
-         id="tspan833">Account</tspan><tspan
-         sodipodi:role="line"
-         x="68.866341"
-         y="106.12289"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.9095px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
-         id="tspan1325">Move</tspan><tspan
-         sodipodi:role="line"
-         x="68.866341"
-         y="127.82597"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.9095px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1px"
-         id="tspan5233">Contact</tspan></text>
-    <text
-       id="text845-2"
-       y="46.425255"
-       x="10.932983"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:37.134px;line-height:1.25;font-family:'Futura PT';-inkscape-font-specification:'Futura PT, Medium';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:0.994609;stroke:none;stroke-width:1"
-       xml:space="preserve"><tspan
-         style="fill:#ffffff;fill-opacity:0.994609;stroke-width:1"
-         y="46.425255"
-         x="10.932983"
-         id="tspan843-9"
-         sodipodi:role="line"></tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="76.2" style="font-size:34.5px;text-anchor:middle;fill:#ffffff">Move</tspan><tspan sodipodi:role="line" x="70.0" y="117.6" style="font-size:34.5px;text-anchor:middle;fill:#ffffff">Contact</tspan></text>
+    <image
+       width="25.4"
+       height="29.0"
+       preserveAspectRatio="none"
+       style="stroke-width:1.14035;image-rendering:optimizeQuality"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAA5CAYAAAB0+HhyAAAABHNCSVQICAgIfAhkiAAABAZJREFUaIHlmE9L404Yx5+pqa7Z0ovupYhaxbZUvIgXQag3T74AD+JtPfgK4qWCIHhpofgH5KdHX0AvHgTXqwdbVxdcyCauGgTZ0ixYmzSaZA82kk37s51p0tTu5zbpPPM833SePM8MgjIIIRSNRqM0TdPQRBRFUS4uLi40TdMaXiwYDAYzmUxGdwlRFMWdnZ2diYmJiYaEpNPptFsizMiyLC8vLy8TiUAIIbcFWFlZWVnB1UFZH6iqqh0fH38heit10NXV1TU1NTVl8qcihJDH4/EYz+LxeBwAAEuQ9R9RFEWxM3ArgUAgYPbHcRw/PT09fXt7K1j/mdXV1dW6F3ZbCM/zPABAOBwOC4JQIWZtbW2NSEipVHJFCMCLmJubmxsiMW4L4TiON/8+MjIycn19fW0Vs76+vo4QQm8u3gpby8zQ0NDQ1dXVT6uYZDKZfHPxVhMC8CKG53keS0wrCgEAGBwcHOQ4jrOKSaVSqarbrFWFAAD09/f3VxOzubm5WTG5lYUAvIhhWfaHVQzDMMzrpFapI7Xo6+vrY1mWNds+PDwUfD6fDwDAo+u67mTgdiEIghCLxWJ3d3d3xjOfz/dxfn5+HqBKr9Vs/H6/f2lpaane+WdnZ18DgUDAGM/MzMxsb29vu14QG+X09DQDAOCp5dhuRFEUBUEQ7FrP+ApXCKnVBTSKJElSPB6P2/1RQQghZD4vPz09PXV2dnba6aQaoVAoNDc3N+f1er04dr29vZ8WFxc/G+NsNpsdHx8fb3qONMrY2NiYOd5MJuNOjtiNUT0q6ojTOWI3RrxEdWRhYWEhEolEbI2ozNHR0dHh4eEhkbF5z9X6mtA0TauqqtpZC8xcXl5+f8u/rTlivvGwG4qiOkjssAPSNE2TZVkmcVYPxWKxSGJH1TwHW5BlWZ6dnZ0dHh4eJnFYi5OTkxNiY5wccZu2rSMGbSOkIkf0Os5ZDMMw0Wg06kRABwcHB/v7+/v1zn+NF/eoS9M07VQN0XVdZ1mWfcv/v5cjtbaWqqpqoVAoOBWQKIq/Seywe61SqVSanJycHBgYGCBxWIvz8/NznPnGi6d0Hb/7/VYGx6FT/O9R973SNkKwcwQhhDY2NjZGR0dHnQgonU6nE4lEgsi4LeoIbvfbqmDf/T4/Pz/n83nRqYDu7+/vSeywc0RRFCUSiYTN9692wnEcR2JHdPnwqwyJrVNU5AjmTnMdI953X0dcu8R2Cuzut1V591tLb/u7X4qiqFwul2t6RHXS0dFR9SaSAgCQJEnu7u7+APDSFPb09PQ0M7hGkCRJBijnyO7u7n/uhkPO3t7e7uvA7/f7t7a2th4fH4tOdrZ2ks/n8wzDMMaF+l+Z7fV6ve+lG1bLGOM/DOSBjBe9BMIAAAAASUVORK5CYII="
+       id="image2838"
+       x="7"
+       y="9.5" />
   </g>
 </svg>

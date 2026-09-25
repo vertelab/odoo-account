@@ -7,9 +7,9 @@
    viewBox="0 0 560 280"
    version="1.1"
    id="SVGRoot"
-   inkscape:version="1.4.4 (1:1.4.4+202605061436+dcaf3e7d9e)"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="banner_560x280.svg"
-   inkscape:export-filename="banner.png"
+   inkscape:export-filename="/usr/share/odoo-account/account_invoice_ai/static/description/banner.png"
    inkscape:export-xdpi="92.61972"
    inkscape:export-ydpi="92.61972"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -61,23 +61,15 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1715"
-     inkscape:window-height="754"
-     inkscape:window-x="934"
-     inkscape:window-y="477"
+     inkscape:window-width="1625"
+     inkscape:window-height="773"
+     inkscape:window-x="295"
+     inkscape:window-y="104"
      inkscape:window-maximized="0"
-     inkscape:pagecheckerboard="0"
-     inkscape:showpageshadow="2"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:export-bgcolor="#ffffff00">
+     inkscape:pagecheckerboard="0">
     <inkscape:grid
        type="xygrid"
-       id="grid2236"
-       originx="0"
-       originy="0"
-       spacingy="1"
-       spacingx="1"
-       units="px" />
+       id="grid2236" />
   </sodipodi:namedview>
   <metadata
      id="metadata1505">
@@ -160,16 +152,11 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="522.73328"
-       y="77.199997"
+       x="552"
+       y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan
-         sodipodi:role="line"
-         x="522.73328"
-         y="77.199997"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:1px"
-         id="tspan847">Account Invoice AI</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="552" y="77.2" style="font-size:15px;text-anchor:end;fill:#000000">Account: Invoice AI Mailbox</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -182,13 +169,13 @@
            y="-32" /></flowRegion><flowPara
          id="flowPara850" /></flowRoot>
     <image
-       width="35.604408"
-       height="23.498911"
+       width="22.8"
+       height="26.0"
        preserveAspectRatio="none"
        style="stroke-width:1.40431;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAABHNCSVQICAgIfAhkiAAABNJJREFU WIXVWF+oFFUY/76ZOzM7Z3bOetmNe3cT2Uu9lD340D/LpyBECFJ8CsL+EmYIFVQPklYiaRgRPRRC +FJQiYRPdpP+oESEWSLYg2R7EXZXybm7O+uemTmzM18PurLcu9eZ3btl/p7mnPP7vvn9mPm+c2YQ rkFRFAsAJuDWQjeO4w4AAAIA5PP5vZzzlxHRuLm6hgMRSdd1P3Qc53VERKNcLrduNRM9EJGcm5vL KQCg3KomAAAQUQcAJXVNtNvtDxzH2f0valqEQqHwdjab3Z6Gm9qI7/u/xXHcGF3W8BBC/DxWI0TU EUIcHUaEpmlFwzAeMU1zDQCg7/unfd//PgzDWtocQohv4jhuK4piJ3FTGXFdd18URU4aLiJm8vn8 Htu2tyIi683btg1E5LXb7U8cx9lBRF5SrjiOG67r7l2xYsWeJK6SRPB9/4v5+fl3ky0AICJbuXLl D5zzV/tN9K2bnPNXSqXSt4hopcnZaDTe833/8yTekkbCMDznOM7ztVrtCSLqJiVCRLVYLH6padqD vTnP8461Wq39rVZrv+d5s715wzDWFYvFQ4ioJuUlom6tVnvy8uXLz4ZheG4p3qJXy3GcF4UQs2EY VpJu0g/LsjZnMpnHemMhxGcXL158GgAiAADbtp8zTXN9bz2TyWywLGvzlStXvkqT33Xdg67rHtQ0 rcwYezSfzx/oX1/0RDzPOzGsCURUJycnd/bGzWbznUuXLl03sRQmJyd3IeJQx6IwDOeEECcWzifW SBoYhvGApmmrAQAajcYb8/Pzu4johiYAADRNuzuTyawdh4axGLEsa2PvOpPJrEZEBQBQVdVSUixj bGMSJw3Gcto1DON6gZumuWVqasrvdruhlPKM67oH0sYuB2N5Irqu39k/Zoy9wDl/KU2sYRh3wLVT +HIwDiOKqqrFkYMVZWrYgh+YZ7kJAIDiOE616w8MJmpAQndLg7EYkVL+OWpwEATniSheroix1IiU 8vebEduPsXStTqdzxLbtrQAArut+HEVRDQAgCIKTPU4QBKcajcabAACqqhY559sAAIQQR8ahYSxG PM/7Loqiqqqqt7fb7U+DIDi1kCOlPC2lPA0AoOv6Gs75tiiKqkKIY+PQsMiIYRhlKeXZYZIQUdhs Nvfm8/mPJiYmyr0/G0tB07QZAIBms7mPiORwkq9qXDiHiGjOzMyIBcKEEGLWdd33Pc/7KU1yRVGM Uql0XNf1+9PwpZS/1mq1dXEcB2n4pmmu5Zy/xhhbv/AToVKpWAOLHRGZZVmbpqenfywUCjsHcRYi juOgXq9v7Ha755O43W73r3q9/nhaE4VCYcf09PRxy7I2DfrOAUjoWog4wTl/K5fLPZPmhlEU1avV 6kO+7x8FABpAId/3Z6vV6sO9hpCEXC63hXO+O2nTHPhqDRD494ULF8pEdENePwzDuC+bzW7Wdf0u AEAp5R+dTudr3/d/SZsDEc1Vq1ZVVFWduhGvUqlYqbqWqqq3McY2dDqdw2lFBEFwsr/9jgLG2Pok Ez2k3hAZY/eOLmk0mKaZ+p6p95FsNrudMfbUaJJGg6IoPC23ZySG5MK3VFVN9efjPwYBAClE5Akh Dt1sNaNCCHGYiDwEuPrzQNf1e5bq0f9XEJGQUp4lou4/jW0Ea46B2HIAAAAASUVORK5CYII= "
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAA5CAYAAAB0+HhyAAAABHNCSVQICAgIfAhkiAAABD9JREFUaIHtmk2II0UUx/+vKondmaEnncyQZBYM4kFZ9SBeFIR1HMGTB48eZMGDhxXBkzCorCIseFGQAUF0DyJ7ES9ePLjognoQvKh78WNXZyad4GRmOumYdJtUd3nYBHvGzKa7Jl8T/N3qUe/V+6er6lVXh/AvtLCwcFYIkcYESaVSnWaz+ROA4CRxCAB0Xb+rWCx+CuDBUSSnQL3Van3iuu77juN8rxKAA0ChUPiIc35utLnFQkulUg/pun6ecx64rvt13AAcABUKhStBcKInOxKIKKFp2joA8jzvWhzfBAAIIcK2wHXdr0aX3mGI6A5N0x4NmXzcmuKsbzBN8yIA2Lb9etS4iaMGKaVfrVafUE/19nDOV0ulktVvCyG2bdt+Lp/PfxwEwZm+vSeG27b9WpS4bHiX8dNsNq9VKpV1xpgVtpum+Wo2m70UJcZMCAGAdrv9c6VSWSeinbA9k8lsRBEzM0KAW2Kq1eo6Y2w7bO+JeQu9cjEIBkCOO8E4tNvtXy3LWmOMbYXtmUzm5Vwu9/ZxfjP1RPq4rnvTsqzHGWO/h+1LS0sv5XK5dwb5zKQQ4JCYm2F7T8y7ODLNZlYIALiu+0e5XF4bIObF5eXlzbBtpoUAgOd52+VyeY2IboTthmFcyOfzG/02w212glnB87xty7IeY4z9FrYvLi6+whhbBGZw1zoOz/PKOzs75wBU+jYp5YJpms8CA44ok4aIDMMwXoja3/O8HzRNW+230+n0k/v7++8lMOGpRXR4OM557ujCjcmdwBQWu5TSDoKgPKp4/dePiQvxfd9ttVoXAXRGGXcqa6RWq11uNBrfZDKZZ4QQyTi+jLEVwzCeP2qf2mLvdDq/7O7uvhHXL5VKPTBIyMwXxKicmjoyDKWpZZrmeSK6d9TJAIAQ4kvHcb6I6xdbCGMsnc1mL0spxzIthRBPO44T+0eKnYyUEuMS0YvPVfxUEgoAeCqDRYGI2ip+sY8oUkpvb2/vKQB3qww4DN/3v1PxS0Bh13Ic5yqAqyoDjou5qiNzgdIxfmVlZYOIzo4hH3S73c9t274S10+pjhiGcUnK8RwIhBAPqwhRrSNx3WLFV0FljfhE9JfSaBEgorqKX+ypJaX8u1KpPEJEJZUBh+H7/o8qfkp1xHXd6wCuqww4LuZm+50bISrvI1QsFjeJ6L6RZwOg2+1+VqvVjv18cByxhRCRruv6hbh+UeGcnwEQW8ipuPuNgso7u2CM2eNIBgA453+q+KnUkc7W1tY9RLQ6vHd8fN+/MbzXf1G6fOh2uzUANRXfcTFXa2Qu+F/IrDFXQubz7peIEqVSaW8ayUSBiAbeRCYAIJFIeEIIrd+Xc56bWGYnJJlMekBvjdTr9Q+mm446jUbjQ6D358xOp/NtMpnM6Lp+fxAEsT6FTQvGmN1sNt88ODjYBCAPVXUiSuL0VHpfSun3G/8AU7lz1tmYeUsAAAAASUVORK5CYII="
        id="image7153"
-       x="280.15286"
+       x="292.9"
        y="131.30089" />
   </g>
 </svg>

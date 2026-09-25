@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Deferred Revenue & Expenses: Training (LMS)',
+    'name': 'Account: Deferred Revenue Training (LMS)',
     'version': '18.0.2.7.0',
     'summary': 'Swedish periodization training via website_slides',
     'category': 'Accounting/Training',

@@ -1,5 +1,5 @@
 {
-    'name': 'Vendor Bill: Release to Pay (CE)',
+    'name': 'Account: 3-Way Match (CE)',
     'category': 'Supply Chain/Purchase',
     'summary': '3-way matching on vendor bills for Community Edition',
     'description': """

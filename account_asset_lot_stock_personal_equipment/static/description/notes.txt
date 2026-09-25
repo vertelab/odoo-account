@@ -8,10 +8,10 @@ Be aware of these!
 
 
 Icon: "money"
-https://fontawesome.com/v4/icon/money
 icon_money.png
 icon_money_50.png
 icon_money_50_neg.png
+https://fontawesome.com/v4/icon/money
 
 
 Odoo banner: 560 x 280

@@ -1,5 +1,5 @@
 {
-    'name': 'Inter Company Module for Sale/Purchase Orders and Invoices (CE)',
+    'name': 'Account: Inter Company Rules (CE)',
     'version': '1.0',
     'summary': 'Intercompany SO/PO/INV rules for Community Edition',
     'category': 'Productivity',

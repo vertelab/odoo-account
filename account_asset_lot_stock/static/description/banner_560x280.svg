@@ -9,7 +9,7 @@
    id="SVGRoot"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="banner_560x280.svg"
-   inkscape:export-filename="/home/jakob/Dokument/Odoo17/odoo-account/account_asset_lot_stock/static/description/banner.png"
+   inkscape:export-filename="/usr/share/odoo-account/account_asset_lot_stock/static/description/banner.png"
    inkscape:export-xdpi="92.61972"
    inkscape:export-ydpi="92.61972"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -152,16 +152,11 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="522.73328"
-       y="77.199997"
+       x="552"
+       y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan
-         sodipodi:role="line"
-         x="522.73328"
-         y="77.199997"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:1px"
-         id="tspan847">Account Asset Lot Stock</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="552" y="77.2" style="font-size:15px;text-anchor:end;fill:#000000">Account: Asset Stock Lot</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -174,13 +169,13 @@
            y="-32" /></flowRegion><flowPara
          id="flowPara850" /></flowRoot>
     <image
-       width="35.604408"
-       height="23.498911"
+       width="39.4"
+       height="26.0"
        preserveAspectRatio="none"
        style="stroke-width:1.40431;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAABHNCSVQICAgIfAhkiAAABNJJREFU WIXVWF+oFFUY/76ZOzM7Z3bOetmNe3cT2Uu9lD340D/LpyBECFJ8CsL+EmYIFVQPklYiaRgRPRRC +FJQiYRPdpP+oESEWSLYg2R7EXZXybm7O+uemTmzM18PurLcu9eZ3btl/p7mnPP7vvn9mPm+c2YQ rkFRFAsAJuDWQjeO4w4AAAIA5PP5vZzzlxHRuLm6hgMRSdd1P3Qc53VERKNcLrduNRM9EJGcm5vL KQCg3KomAAAQUQcAJXVNtNvtDxzH2f0valqEQqHwdjab3Z6Gm9qI7/u/xXHcGF3W8BBC/DxWI0TU EUIcHUaEpmlFwzAeMU1zDQCg7/unfd//PgzDWtocQohv4jhuK4piJ3FTGXFdd18URU4aLiJm8vn8 Htu2tyIi683btg1E5LXb7U8cx9lBRF5SrjiOG67r7l2xYsWeJK6SRPB9/4v5+fl3ky0AICJbuXLl D5zzV/tN9K2bnPNXSqXSt4hopcnZaDTe833/8yTekkbCMDznOM7ztVrtCSLqJiVCRLVYLH6padqD vTnP8461Wq39rVZrv+d5s715wzDWFYvFQ4ioJuUlom6tVnvy8uXLz4ZheG4p3qJXy3GcF4UQs2EY VpJu0g/LsjZnMpnHemMhxGcXL158GgAiAADbtp8zTXN9bz2TyWywLGvzlStXvkqT33Xdg67rHtQ0 rcwYezSfzx/oX1/0RDzPOzGsCURUJycnd/bGzWbznUuXLl03sRQmJyd3IeJQx6IwDOeEECcWzifW SBoYhvGApmmrAQAajcYb8/Pzu4johiYAADRNuzuTyawdh4axGLEsa2PvOpPJrEZEBQBQVdVSUixj bGMSJw3Gcto1DON6gZumuWVqasrvdruhlPKM67oH0sYuB2N5Irqu39k/Zoy9wDl/KU2sYRh3wLVT +HIwDiOKqqrFkYMVZWrYgh+YZ7kJAIDiOE616w8MJmpAQndLg7EYkVL+OWpwEATniSheroix1IiU 8vebEduPsXStTqdzxLbtrQAArut+HEVRDQAgCIKTPU4QBKcajcabAACqqhY559sAAIQQR8ahYSxG PM/7Loqiqqqqt7fb7U+DIDi1kCOlPC2lPA0AoOv6Gs75tiiKqkKIY+PQsMiIYRhlKeXZYZIQUdhs Nvfm8/mPJiYmyr0/G0tB07QZAIBms7mPiORwkq9qXDiHiGjOzMyIBcKEEGLWdd33Pc/7KU1yRVGM Uql0XNf1+9PwpZS/1mq1dXEcB2n4pmmu5Zy/xhhbv/AToVKpWAOLHRGZZVmbpqenfywUCjsHcRYi juOgXq9v7Ha755O43W73r3q9/nhaE4VCYcf09PRxy7I2DfrOAUjoWog4wTl/K5fLPZPmhlEU1avV 6kO+7x8FABpAId/3Z6vV6sO9hpCEXC63hXO+O2nTHPhqDRD494ULF8pEdENePwzDuC+bzW7Wdf0u AEAp5R+dTudr3/d/SZsDEc1Vq1ZVVFWduhGvUqlYqbqWqqq3McY2dDqdw2lFBEFwsr/9jgLG2Pok Ez2k3hAZY/eOLmk0mKaZ+p6p95FsNrudMfbUaJJGg6IoPC23ZySG5MK3VFVN9efjPwYBAClE5Akh Dt1sNaNCCHGYiDwEuPrzQNf1e5bq0f9XEJGQUp4lou4/jW0Ea46B2HIAAAAASUVORK5CYII= "
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAhCAYAAACbffiEAAAABHNCSVQICAgIfAhkiAAABNJJREFUWIXVWF+oFFUY/76ZOzM7Z3bOetmNe3cT2Uu9lD340D/LpyBECFJ8CsL+EmYIFVQPklYiaRgRPRRC+FJQiYRPdpP+oESEWSLYg2R7EXZXybm7O+uemTmzM18PurLcu9eZ3btl/p7mnPP7vvn9mPm+c2YQrkFRFAsAJuDWQjeO4w4AAAIA5PP5vZzzlxHRuLm6hgMRSdd1P3Qc53VERKNcLrduNRM9EJGcm5vLKQCg3KomAAAQUQcAJXVNtNvtDxzH2f0valqEQqHwdjab3Z6Gm9qI7/u/xXHcGF3W8BBC/DxWI0TUEUIcHUaEpmlFwzAeMU1zDQCg7/unfd//PgzDWtocQohv4jhuK4piJ3FTGXFdd18URU4aLiJm8vn8Htu2tyIi683btg1E5LXb7U8cx9lBRF5SrjiOG67r7l2xYsWeJK6SRPB9/4v5+fl3ky0AICJbuXLlD5zzV/tN9K2bnPNXSqXSt4hopcnZaDTe833/8yTekkbCMDznOM7ztVrtCSLqJiVCRLVYLH6padqDvTnP8461Wq39rVZrv+d5s715wzDWFYvFQ4ioJuUlom6tVnvy8uXLz4ZheG4p3qJXy3GcF4UQs2EYVpJu0g/LsjZnMpnHemMhxGcXL158GgAiAADbtp8zTXN9bz2TyWywLGvzlStXvkqT33Xdg67rHtQ0rcwYezSfzx/oX1/0RDzPOzGsCURUJycnd/bGzWbznUuXLl03sRQmJyd3IeJQx6IwDOeEECcWzifWSBoYhvGApmmrAQAajcYb8/Pzu4johiYAADRNuzuTyawdh4axGLEsa2PvOpPJrEZEBQBQVdVSUixjbGMSJw3Gcto1DON6gZumuWVqasrvdruhlPKM67oH0sYuB2N5Irqu39k/Zoy9wDl/KU2sYRh3wLVT+HIwDiOKqqrFkYMVZWrYgh+YZ7kJAIDiOE616w8MJmpAQndLg7EYkVL+OWpwEATniSheroix1IiU8vebEduPsXStTqdzxLbtrQAArut+HEVRDQAgCIKTPU4QBKcajcabAACqqhY559sAAIQQR8ahYSxGPM/7Loqiqqqqt7fb7U+DIDi1kCOlPC2lPA0AoOv6Gs75tiiKqkKIY+PQsMiIYRhlKeXZYZIQUdhsNvfm8/mPJiYmyr0/G0tB07QZAIBms7mPiORwkq9qXDiHiGjOzMyIBcKEEGLWdd33Pc/7KU1yRVGMUql0XNf1+9PwpZS/1mq1dXEcB2n4pmmu5Zy/xhhbv/AToVKpWAOLHRGZZVmbpqenfywUCjsHcRYijuOgXq9v7Ha755O43W73r3q9/nhaE4VCYcf09PRxy7I2DfrOAUjoWog4wTl/K5fLPZPmhlEU1avV6kO+7x8FABpAId/3Z6vV6sO9hpCEXC63hXO+O2nTHPhqDRD494ULF8pEdENePwzDuC+bzW7Wdf0uAEAp5R+dTudr3/d/SZsDEc1Vq1ZVVFWduhGvUqlYqbqWqqq3McY2dDqdw2lFBEFwsr/9jgLG2PokEz2k3hAZY/eOLmk0mKaZ+p6p95FsNrudMfbUaJJGg6IoPC23ZySG5MK3VFVN9efjPwYBAClE5AkhDt1sNaNCCHGYiDwEuPrzQNf1e5bq0f9XEJGQUp4lou4/jW0Ea46B2HIAAAAASUVORK5CYII="
        id="image7153"
-       x="280.15286"
+       x="284.6"
        y="131.30089" />
   </g>
 </svg>

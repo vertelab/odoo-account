@@ -1,6 +1,6 @@
 # account_analytic_replace/__manifest__.py
 {
-    'name': 'Account Analytic Replace',
+    'name': 'Account: Analytic Replace',
     'version': '18.0.1.0.0',
     'category': 'Accounting',
     'summary': 'Replace Analytic Plans and Accounts with automatic search redirection',

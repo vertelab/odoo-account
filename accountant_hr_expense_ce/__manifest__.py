@@ -1,5 +1,5 @@
 {
-    'name': 'Accounting - Expense (CE)',
+    'name': 'Account: Expense Bridge (CE)',
     'category': 'Accounting/Accounting',
     'summary': 'Bridge accounting and expense for Community Edition',
     'version': '1.0',

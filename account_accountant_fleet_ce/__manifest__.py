@@ -1,5 +1,5 @@
 {
-    'name': 'Accounting/Fleet bridge (CE)',
+    'name': 'Account: Accounting Fleet Bridge (CE)',
     'category': 'Accounting/Accounting',
     'summary': 'Manage accounting with fleet features for Community Edition',
     'version': '1.0',

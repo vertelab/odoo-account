@@ -1,5 +1,5 @@
 {
-    'name': 'AI Invoice 3-Way Match Bridge',
+    'name': 'Account: Invoice AI 3-Way Match Bridge',
     'category': 'Accounting/Accounting',
     'summary': 'Bridge between AI invoice scanning and 3-way purchase matching',
     'description': """

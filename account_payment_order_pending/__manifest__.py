@@ -2,9 +2,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
-    "name": "Account Payment Order Pending State",
-    "summary": "Håll fakturor som 'pågående' (in_payment) tills bankavstämning för betalorder",
-    "description": """
+    'name': 'Account: Payment Order Pending',
+    'summary': "Håll fakturor som 'pågående' (in_payment) tills bankavstämning för betalorder",
+    'description': """
 Pending State för Betalorder
 ============================
 
@@ -55,15 +55,15 @@ Beroenden: account_payment_order (OCA/bank-payment)
     "depends": [
         "account_payment_order",
     ],
-    "data": [
-        "views/account_payment_method_views.xml",
-        "views/account_payment_views.xml",
-        "views/res_config_settings_views.xml",
+    'data': [
+        'views/account_payment_method_views.xml',
+        'views/account_payment_views.xml',
+        'views/res_config_settings_views.xml',
     ],
-    "tests": [
-        "tests/test_payment_order_pending.py",
+    'tests': [
+        'tests/test_payment_order_pending.py',
     ],
-    "installable": True,
-    "application": False,
-    "auto_install": False,
+    'installable': True,
+    'application': False,
+    'auto_install': False,
 }

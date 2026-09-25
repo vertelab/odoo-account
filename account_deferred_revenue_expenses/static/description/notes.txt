@@ -5,7 +5,10 @@ Be aware of these!
 [project]/[module]/static/description/banner.png
 [project]/[module]/static/description/icon.png
 
-Icon: "coins" (Included)
+Icon: "money"
+icon_money.png
+icon_money_50.png
+icon_money_50_neg.png (Included)
 SEK_icon.png
 SEK_icon_60.png
 SEK_icon_60_neg.png

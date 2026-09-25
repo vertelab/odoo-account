@@ -1,5 +1,5 @@
 {
-    'name': 'Auto Reverse Accounting Entries',
+    'name': 'Account: Auto Reverse Entries',
 'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_auto_reverse_vrtl',
     'version': '1.0',

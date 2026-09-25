@@ -1,5 +1,5 @@
 {
-    'name': 'Account Reconcile Currency Fix',
+    'name': 'Account: Reconcile Currency Fix',
 'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_reconcile_currency_fix',
     'version': '1.0',

@@ -45,11 +45,11 @@
         'account_asset_management'
     ],
     'data': [
-	"security/ir.model.access.csv",
-    "views/account_asset_views.xml",
-    "wizard/account_asset_change_views.xml",
+	'security/ir.model.access.csv',
+    'views/account_asset_views.xml',
+    'wizard/account_asset_change_views.xml',
     ],
-    "demo": [
+    'demo': [
     ],
     'installable': True,
     'application': False,
