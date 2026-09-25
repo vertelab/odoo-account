@@ -24,7 +24,7 @@
 {
     'name': 'Account: Mass Invoice Generation',
     'version': '1.0',
-    'summary': '',
+    'summary': 'Generate invoices in bulk for multiple partners.',
     'category': 'Accounting',
     'description': """
         Module to select an invoice and create bulk invoices for different partners

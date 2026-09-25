@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account: enable Banking API',
+    'name': 'Account: Enable Banking API',
     'version': '0.1',
     'summary': 'Retrieves account Transactions using Enable Banking API.',
     'category': 'Accounting',

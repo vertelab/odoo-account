@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Account: Mis report filter',
+    'name': 'Account: MIS Report Filter',
     'version': '1.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Account report filter',

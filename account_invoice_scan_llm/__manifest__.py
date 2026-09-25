@@ -24,7 +24,7 @@
 {
     'name': 'Account: Invoice Scan LLM',
     'version': '1.0',
-    'summary': '',
+    'summary': 'Scan invoices with an LLM and create vendor bills.',
     'category': 'Accounting',
     'description': """
 
