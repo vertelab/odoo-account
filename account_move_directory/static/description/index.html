@@ -54,15 +54,16 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Loads journal entries from a directory into Odoo.</p>
-    <p>It introduces the model(s) <code>EDIMessage</code> to handle this workflow.</p>
-    <p>It extends Odoo's settings.</p>
+    <p>Loads journal entries from a directory on the server into Odoo through the EDI framework. Files placed in the directory are read and converted into journal entries.</p>
+    <p>The directory is configured in the settings, and the EDI messages show their state.</p>
+    <p><strong>Typical use:</strong> Use it to import entries produced by an external system.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: EDIMessage.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 2 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Directory import</h4><p>A configurable directory that is read for journal entries.</p></div>
+      <div class="feature-card"><h4>EDI integration</h4><p>Uses the EDI message framework with state tracking.</p></div>
+      <div class="feature-card"><h4>Settings</h4><p>The directory is configured in the settings.</p></div>
     </div>
   </section>
   <section id="screenshots">

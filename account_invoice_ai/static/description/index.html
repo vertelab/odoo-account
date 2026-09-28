@@ -54,15 +54,17 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Adds a mailbox for AI-assisted invoice handling.</p>
-    <p>It extends Odoo's attachments, contacts, invoices and journal entries, journals.</p>
+    <p>Adds a mailbox where AI agents pick up incoming invoices, read them and prepare the corresponding vendor bills for review.</p>
+    <p>Each processed document gets metadata, duplicate checks and period checks, and is linked to its AI session so the handling can be audited.</p>
+    <p><strong>Typical use:</strong> Use it to automate the first pass of incoming vendor invoices.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Guided wizards</h4><p>Step-by-step dialogs for data entry.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_view_ai_session, action_rerun, action_view_move.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 5 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>AI mailbox</h4><p>A mailbox that AI agents monitor for incoming invoices.</p></div>
+      <div class="feature-card"><h4>Duplicate and period checks</h4><p>Flags possible duplicates and period issues before posting.</p></div>
+      <div class="feature-card"><h4>Invoice metadata</h4><p>Extracted invoice data is stored on the attachment and the bill.</p></div>
+      <div class="feature-card"><h4>Agent configuration</h4><p>The AI agent and quest used are configurable.</p></div>
     </div>
   </section>
   <section id="screenshots">

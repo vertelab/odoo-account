@@ -54,19 +54,18 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Manages commodity prices, inventory revaluation and BOM integration.</p>
-    <p>It introduces the model(s) <code>ProductCommodity</code>, <code>ProductCommodityQuality</code>, <code>ProductCommodityPrice</code> to handle this workflow.</p>
-    <p>It extends Odoo's invoices and journal entries, product templates, products, journals.</p>
+    <p>Manages commodities whose value follows a market price — such as gold and silver. A commodity has a price source (an API provider and symbol), a unit of measure with grams per unit, and accounts for valuation gains and losses.</p>
+    <p>Prices can be fetched automatically, stock is revalued when the price changes, and commodities integrate with bills of materials.</p>
+    <p><strong>Typical use:</strong> Use it when inventory value must track a live market price.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: ProductCommodity, ProductCommodityQuality, ProductCommodityPrice.</p></div>
-      <div class="feature-card"><h4>Automation</h4><p>Scheduled jobs: Fetch Commodity Prices.</p></div>
-      <div class="feature-card"><h4>Guided wizards</h4><p>Step-by-step dialogs for data entry.</p></div>
-      <div class="feature-card"><h4>Reports</h4><p>Adds printable reports.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_fetch_price, action_revaluate, action_apply_commodity_price.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 6 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Commodity model</h4><p>A <code>product.commodity</code> model with category, unit of measure and grams per unit.</p></div>
+      <div class="feature-card"><h4>Price sources</h4><p>Prices are fetched from an API provider and symbol, with a price history.</p></div>
+      <div class="feature-card"><h4>Revaluation accounts</h4><p>Gain, loss, valuation and price-difference accounts per commodity.</p></div>
+      <div class="feature-card"><h4>Quality grades</h4><p>Commodity quality grades are supported.</p></div>
+      <div class="feature-card"><h4>BOM integration</h4><p>Commodities can be used in bills of materials.</p></div>
     </div>
   </section>
   <section id="screenshots">

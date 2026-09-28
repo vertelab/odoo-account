@@ -54,16 +54,16 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Automatically reverses accounting entries on a specified date.</p>
-    <p>It introduces the model(s) <code>AccountMoveExtension</code>, <code>AccountMoveExtension</code> to handle this workflow.</p>
-    <p>It extends Odoo's invoices and journal entries.</p>
+    <p>Automatically reverses accounting entries on a date you set. Each entry can carry an auto-reverse date, and Odoo reverses it automatically on that date.</p>
+    <p>If the reversal fails, the reason is recorded on the entry.</p>
+    <p><strong>Typical use:</strong> Use it for accruals and prepayments that must reverse on a known date.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: AccountMoveExtension, AccountMoveExtension.</p></div>
-      <div class="feature-card"><h4>Automation</h4><p>Scheduled jobs: Auto Reverse Invoices, Auto Reverse Invoices.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 2 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Auto-reverse date</h4><p>A date field on journal entries that triggers automatic reversal.</p></div>
+      <div class="feature-card"><h4>Failure tracking</h4><p>Failed reversals are flagged with a reason.</p></div>
+      <div class="feature-card"><h4>Scheduled job</h4><p>A scheduled job performs the reversals.</p></div>
     </div>
   </section>
   <section id="screenshots">

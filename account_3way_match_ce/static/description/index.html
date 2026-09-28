@@ -54,13 +54,16 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Adds 3-way matching on vendor bills for Community Edition.</p>
-    <p>It extends Odoo's journals, invoices and journal entries, invoice and journal lines.</p>
+    <p>Brings Enterprise-style <i>3-way matching</i> to Community Edition: a vendor bill is only released for payment once it has been matched against its purchase order and the received goods.</p>
+    <p>Each bill gets a payment-release state, and journals show how many bills are waiting to be released.</p>
+    <p><strong>Typical use:</strong> Use it when you want purchase-order control over vendor payments without the Enterprise edition.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 2 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Release to pay</h4><p>A payment-release state on vendor bills, with a manual override for exceptions.</p></div>
+      <div class="feature-card"><h4>Can be paid</h4><p>A computed flag that blocks payment until the bill is released.</p></div>
+      <div class="feature-card"><h4>Journal dashboard</h4><p>The accounting dashboard shows bills awaiting release.</p></div>
     </div>
   </section>
   <section id="screenshots">

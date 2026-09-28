@@ -54,17 +54,18 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Syncs invoices and payments with Fortnox.</p>
-    <p>It introduces the model(s) <code>CustomFiscalPosition</code>, <code>AccountInvoice</code>, <code>Partner</code> to handle this workflow.</p>
-    <p>It extends Odoo's fiscal positions, journals, invoices and journal entries, payment terms.</p>
+    <p>Integrates Odoo with Fortnox, the Swedish accounting service. Customer invoices and payments can be sent to Fortnox, and the Fortnox reference and status are stored back on the Odoo record.</p>
+    <p>Journals, payment terms, VAT types and products can be mapped to their Fortnox counterparts.</p>
+    <p><strong>Typical use:</strong> Use it when bookkeeping is done in Fortnox but invoicing in Odoo.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: CustomFiscalPosition, AccountInvoice, Partner.</p></div>
-      <div class="feature-card"><h4>API integration</h4><p>Exposes HTTP endpoints for external systems.</p></div>
-      <div class="feature-card"><h4>Automation</h4><p>Scheduled jobs: Fortnox Invoice Status.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 7 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Invoice sync</h4><p>Sends customer invoices to Fortnox and stores the returned reference and status.</p></div>
+      <div class="feature-card"><h4>Payment sync</h4><p>Payments are synchronised with Fortnox.</p></div>
+      <div class="feature-card"><h4>Journal mapping</h4><p>Journals can be flagged as Fortnox journals.</p></div>
+      <div class="feature-card"><h4>VAT and product mapping</h4><p>Fortnox VAT types and product codes are mapped.</p></div>
+      <div class="feature-card"><h4>Company settings</h4><p>The Fortnox connection is configured per company.</p></div>
     </div>
   </section>
   <section id="screenshots">

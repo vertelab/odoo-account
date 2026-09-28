@@ -54,12 +54,15 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Migrates data from purchase_vendor_bill_approval to the new approval module.</p>
+    <p>Migrates existing approval data from the old <code>purchase_vendor_bill_approval</code> module into the new <code>account_bill_approval</code> structure.</p>
+    <p>It is a one-time migration module with no user interface.</p>
+    <p><strong>Typical use:</strong> Use it once when upgrading from the old approval module.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Focused improvement</h4><p>A small, targeted improvement to standard Odoo behaviour.</p></div>
+      <div class="feature-card"><h4>Data migration</h4><p>Moves old approval records to the new module.</p></div>
+      <div class="feature-card"><h4>No UI</h4><p>Runs on install; nothing to configure.</p></div>
     </div>
   </section>
   <section id="screenshots">

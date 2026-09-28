@@ -54,16 +54,17 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Adds card types and card transactions to journals.</p>
-    <p>It introduces the model(s) <code>AccountCardStatement</code>, <code>AccountCardStatementLine</code> to handle this workflow.</p>
-    <p>It extends Odoo's invoices and journal entries, journals.</p>
+    <p>Adds corporate card handling to journals. A card statement collects the card transactions for a period, and each transaction is linked to its journal entry.</p>
+    <p>Statements track the total amount and residual, and support credit repayment lines.</p>
+    <p><strong>Typical use:</strong> Use it when company cards must be reconciled per statement.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: AccountCardStatement, AccountCardStatementLine.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds button_journal_entries, action_post, action_cancel.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 5 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Card statements</h4><p>A statement model that groups card transactions for a period.</p></div>
+      <div class="feature-card"><h4>Card transactions</h4><p>Each transaction links to its journal entry and amount.</p></div>
+      <div class="feature-card"><h4>Residual tracking</h4><p>Statements show total and residual amounts.</p></div>
+      <div class="feature-card"><h4>Credit repayment</h4><p>Supports repayment lines for credit cards.</p></div>
     </div>
   </section>
   <section id="screenshots">

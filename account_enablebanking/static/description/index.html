@@ -54,18 +54,17 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Imports bank transactions through the Enable Banking API.</p>
-    <p>It introduces the model(s) <code>EnableBankingPayment</code>, <code>AccountEnableBankingPartner</code> to handle this workflow.</p>
-    <p>It extends Odoo's journals, contacts, settings.</p>
+    <p>Imports bank transactions through the Enable Banking API. A wizard connects to the bank, selects an account and a date range, and pulls the transactions into the matching journal.</p>
+    <p>Payments can also be initiated through the same integration, and the connection is configured in the accounting settings.</p>
+    <p><strong>Typical use:</strong> Use it for automatic bank feeds in supported countries.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: EnableBankingPayment, AccountEnableBankingPartner.</p></div>
-      <div class="feature-card"><h4>API integration</h4><p>Exposes HTTP endpoints for external systems.</p></div>
-      <div class="feature-card"><h4>Automation</h4><p>Scheduled jobs: Sync Enable Banking Transactions, Check Enable Banking Payment Status.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_sync_transactions_with_enable_banking, action_sync_balances_with_enable_banking, action_open_enable_banking_payments.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 6 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Transaction import</h4><p>A wizard that imports transactions for a bank account and date range.</p></div>
+      <div class="feature-card"><h4>Bank connection</h4><p>Banks are configured with an account UUID and session handling.</p></div>
+      <div class="feature-card"><h4>Payment initiation</h4><p>Payments can be sent through Enable Banking.</p></div>
+      <div class="feature-card"><h4>Settings</h4><p>The integration is configured in the accounting settings.</p></div>
     </div>
   </section>
   <section id="screenshots">

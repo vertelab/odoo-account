@@ -54,16 +54,16 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Adds asset grants with their own depreciation handling.</p>
-    <p>It introduces the model(s) <code>AccountAssetGrant</code> to handle this workflow.</p>
-    <p>It extends Odoo's asset depreciation lines, assets.</p>
+    <p>Adds <i>grants</i> to assets — amounts that offset an asset’s cost and are depreciated separately. Each grant has its own amount, date and currency, and can be skipped in a given period.</p>
+    <p>The asset form shows the grants and their moves.</p>
+    <p><strong>Typical use:</strong> Use it when assets are partly funded by grants or subsidies.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: AccountAssetGrant.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_view_grants, action_view_grant_moves, action_create_grant.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 3 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Grant model</h4><p>A dedicated <code>account.asset.grant</code> model with amount, date and currency.</p></div>
+      <div class="feature-card"><h4>Separate depreciation</h4><p>Grant moves are tracked apart from the asset’s own depreciation.</p></div>
+      <div class="feature-card"><h4>Skip a period</h4><p>A grant can be skipped in a period.</p></div>
     </div>
   </section>
   <section id="screenshots">

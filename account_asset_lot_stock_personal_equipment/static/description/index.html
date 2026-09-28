@@ -54,16 +54,14 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Links a created asset to a piece of equipment.</p>
-    <p>It introduces the model(s) <code>PersonalEquipment</code>, <code>PersonalEquipment</code> to handle this workflow.</p>
-    <p>It extends Odoo's assets.</p>
+    <p>Links an asset created from a stock lot to a piece of personal equipment, so equipment assigned to an employee is tied to its accounting asset.</p>
+    <p><strong>Typical use:</strong> Use it when employees are issued equipment that must be depreciated.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: PersonalEquipment, PersonalEquipment.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_view_equipment, action_view_assets.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 2 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Equipment link</h4><p>An asset reference on personal equipment.</p></div>
+      <div class="feature-card"><h4>Employee view</h4><p>The employee form shows the linked equipment and assets.</p></div>
     </div>
   </section>
   <section id="screenshots">

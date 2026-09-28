@@ -54,13 +54,15 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Adds a group field to analytic accounts.</p>
-    <p>It extends Odoo's analytic accounts.</p>
+    <p>Adds a <i>group</i> field to analytic accounts, so related analytic accounts can be grouped together and reported on as a set.</p>
+    <p>The field is added through the analytic mixin, so it is available wherever analytic accounts are used.</p>
+    <p><strong>Typical use:</strong> Use it when analytic accounts need a coarser grouping than the account itself.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 1 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Group field</h4><p>A group reference on analytic accounts, added via the analytic mixin.</p></div>
+      <div class="feature-card"><h4>Access rights</h4><p>Ships the security needed for the new field.</p></div>
     </div>
   </section>
   <section id="screenshots">

@@ -54,16 +54,17 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Replaces budgets with actuals and adds hierarchical budget forecasts.</p>
-    <p>It introduces the model(s) <code>MisBudgetTree</code>, <code>MisBudgetTreeLine</code>, <code>MisBudgetForecastReport</code> to handle this workflow.</p>
+    <p>Extends MIS budgets with hierarchical budget trees and forecasts. Budget items can be arranged in a tree with parent and child nodes, and forecasts can be built on top of the hierarchy.</p>
+    <p>It also replaces budget values with actuals where appropriate.</p>
+    <p><strong>Typical use:</strong> Use it when budgets must be structured hierarchically and forecast.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: MisBudgetTree, MisBudgetTreeLine, MisBudgetForecastReport.</p></div>
-      <div class="feature-card"><h4>Guided wizards</h4><p>Step-by-step dialogs for data entry.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_view_children, action_set_as_forecast, action_unset_forecast.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 3 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Budget trees</h4><p>Hierarchical budget trees with parent/child nodes and account masks.</p></div>
+      <div class="feature-card"><h4>Forecasts</h4><p>Hierarchical forecast values on top of the budget tree.</p></div>
+      <div class="feature-card"><h4>Hierarchical balance</h4><p>Computed balances that roll up the tree.</p></div>
+      <div class="feature-card"><h4>Forecast report</h4><p>A dedicated forecast report.</p></div>
     </div>
   </section>
   <section id="screenshots">

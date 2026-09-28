@@ -54,18 +54,19 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Divides the fiscal year into 12 months or 4 quarters.</p>
-    <p>It introduces the model(s) <code>AccountPeriod</code>, <code>AccountPeriodJournal</code>, <code>AccountBalanceRecord</code> to handle this workflow.</p>
-    <p>It extends Odoo's company settings, invoice and journal lines, invoices and journal entries, settings.</p>
+    <p>Divides the fiscal year into periods — 12 months or 4 quarters — and adds period-aware accounting. Each period has a start and end date and a closing date, and can be closed to prevent further posting.</p>
+    <p>It adds period journals, balances per period, and integrates periods with bank statements, journal entries and MIS budgets.</p>
+    <p><strong>Typical use:</strong> Use it when accounting must be reported and closed month by month or quarter by quarter.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: AccountPeriod, AccountPeriodJournal, AccountBalanceRecord.</p></div>
-      <div class="feature-card"><h4>Automation</h4><p>Scheduled jobs: automatic close account period.</p></div>
-      <div class="feature-card"><h4>Guided wizards</h4><p>Step-by-step dialogs for data entry.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_draft, action_post.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 8 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Fiscal periods</h4><p>A period model per fiscal year, with start, end and closing dates.</p></div>
+      <div class="feature-card"><h4>Period journals</h4><p>Journals can be tied to periods, with closing handling.</p></div>
+      <div class="feature-card"><h4>Balances per period</h4><p>Account balances can be viewed per period.</p></div>
+      <div class="feature-card"><h4>Closing</h4><p>Periods can be closed so no further entries are posted.</p></div>
+      <div class="feature-card"><h4>Bank statements</h4><p>Bank statements are linked to periods.</p></div>
+      <div class="feature-card"><h4>Onboarding</h4><p>Ships an onboarding template for setting periods up.</p></div>
     </div>
   </section>
   <section id="screenshots">

@@ -54,15 +54,17 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Keeps bills in an in-payment state until the bank reconciliation is done.</p>
-    <p>It extends Odoo's invoices and journal entries, payments.</p>
+    <p>Keeps bills in an <i>in payment</i> state until the bank reconciliation is done, instead of marking them paid as soon as the payment order is sent.</p>
+    <p>This closes the gap between sending a payment and the bank actually settling it.</p>
+    <p><strong>Typical use:</strong> Use it when you want payments to be confirmed by the bank before bills are marked paid.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Guided wizards</h4><p>Step-by-step dialogs for data entry.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds button_open_pending_settlement_moves, action_move_journal_line.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 3 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Pending bank state</h4><p>Bills stay pending until the bank reconciliation completes.</p></div>
+      <div class="feature-card"><h4>Settlement moves</h4><p>Settlement moves are tracked and counted.</p></div>
+      <div class="feature-card"><h4>Payment method option</h4><p>The behaviour is configurable per payment method.</p></div>
+      <div class="feature-card"><h4>Settings</h4><p>Enabled from the settings.</p></div>
     </div>
   </section>
   <section id="screenshots">

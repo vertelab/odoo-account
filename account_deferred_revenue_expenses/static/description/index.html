@@ -54,18 +54,17 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Handles deferred revenue and expenses with dedicated models.</p>
-    <p>It introduces the model(s) <code>Product</code>, <code>AccountDeferred</code>, <code>AccountDeferredProfile</code> to handle this workflow.</p>
-    <p>It extends Odoo's products, invoices and journal entries, invoice and journal lines, settings.</p>
+    <p>Handles deferred revenue and expenses with dedicated models. A deferred record spreads an amount over a period, using either a straight-line or a revenue-based booking method.</p>
+    <p>Deferred profiles define the accounts and journals to use, and can be set on products so new lines are deferred automatically.</p>
+    <p><strong>Typical use:</strong> Use it for subscriptions and prepayments that must be recognised over several periods.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: Product, AccountDeferred, AccountDeferredProfile.</p></div>
-      <div class="feature-card"><h4>Automation</h4><p>Scheduled jobs: Deferred: post due periodisation stubs.</p></div>
-      <div class="feature-card"><h4>Guided wizards</h4><p>Step-by-step dialogs for data entry.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_open_deferred_wizard, action_post, action_view_deferred_entries.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 6 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Deferred records</h4><p>A dedicated model for deferred revenue and expenses with booking method and period.</p></div>
+      <div class="feature-card"><h4>Deferred profiles</h4><p>Profiles define the accounts, journals and recognition rules.</p></div>
+      <div class="feature-card"><h4>Product defaults</h4><p>A deferred profile can be set on a product.</p></div>
+      <div class="feature-card"><h4>Recognition lines</h4><p>Deferred lines are generated and posted over time.</p></div>
     </div>
   </section>
   <section id="screenshots">

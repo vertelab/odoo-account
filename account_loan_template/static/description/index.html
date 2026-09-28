@@ -54,16 +54,17 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Create loan templates that generate loan entries automatically.</p>
-    <p>It introduces the model(s) <code>AccountLoanTemplate</code> to handle this workflow.</p>
-    <p>It extends Odoo's invoices and journal entries, invoice and journal lines.</p>
+    <p>Adds loan templates that generate loan entries automatically. A template defines the amount, rate, number of periods, period length and rounding, and creates a loan with its schedule.</p>
+    <p>Templates make recurring loan setups fast to reproduce.</p>
+    <p><strong>Typical use:</strong> Use it when you set up similar loans repeatedly.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: AccountLoanTemplate.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_post.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 3 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Loan template</h4><p>A template model with amount, rate, periods and period length.</p></div>
+      <div class="feature-card"><h4>Automatic entries</h4><p>Generates the loan and its entries from the template.</p></div>
+      <div class="feature-card"><h4>Rate options</h4><p>Supports rate type and residual rate.</p></div>
+      <div class="feature-card"><h4>Loan integration</h4><p>Templates are available from the loan form.</p></div>
     </div>
   </section>
   <section id="screenshots">

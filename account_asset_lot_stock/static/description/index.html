@@ -54,14 +54,16 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Creates an asset linked to a stock lot number.</p>
-    <p>It extends Odoo's assets, product templates.</p>
+    <p>Creates an asset directly from a stock lot. When goods are received, the lot can be turned into an asset with its own asset profile, so physical items and their accounting follow each other.</p>
+    <p>The asset is linked back to the lot, the product and the supplier.</p>
+    <p><strong>Typical use:</strong> Use it for serialised or lot-tracked equipment that must be depreciated.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_view_stock_pickings, action_view_assets, button_validate.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 2 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Asset from lot</h4><p>Creates an asset from a stock lot with a chosen asset profile.</p></div>
+      <div class="feature-card"><h4>Lot and product links</h4><p>The asset references its lot, product and supplier.</p></div>
+      <div class="feature-card"><h4>Stock views</h4><p>Lots and pickings show their related assets.</p></div>
     </div>
   </section>
   <section id="screenshots">

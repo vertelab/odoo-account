@@ -54,16 +54,16 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Scans invoices with an LLM and creates vendor bills.</p>
-    <p>It introduces the model(s) <code>AccountInvoice</code>, <code>scaffold_test</code> to handle this workflow.</p>
-    <p>It extends Odoo's invoices and journal entries, contacts.</p>
+    <p>Scans uploaded invoices with a large language model and creates vendor bills from the result. The extracted JSON and a vector representation are stored on the bill for later search.</p>
+    <p>It exposes HTTP endpoints and templates for the scanning flow.</p>
+    <p><strong>Typical use:</strong> Use it to automate vendor bill creation from PDF invoices.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: AccountInvoice, scaffold_test.</p></div>
-      <div class="feature-card"><h4>API integration</h4><p>Exposes HTTP endpoints for external systems.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 2 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>LLM scanning</h4><p>Extracts invoice data with an LLM and creates the vendor bill.</p></div>
+      <div class="feature-card"><h4>Stored JSON and vector</h4><p>The scan result and its vector are stored on the record.</p></div>
+      <div class="feature-card"><h4>Endpoints</h4><p>HTTP endpoints and templates for the scanning flow.</p></div>
     </div>
   </section>
   <section id="screenshots">

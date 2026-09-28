@@ -54,18 +54,18 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Sends automatic payment reminders for overdue invoices.</p>
-    <p>It introduces the model(s) <code>PaymentReminderLine</code>, <code>PaymentTerms</code>, <code>AccountPaymentPlan</code> to handle this workflow.</p>
-    <p>It extends Odoo's invoices and journal entries, payment terms.</p>
-    <p>The module adds Send reminders in bulk, Create a payment plan, Mark a debt as a loss, configurable delays, email templates.</p>
+    <p>Sends automatic payment reminders for overdue invoices. Reminder lines define how many days after the due date a reminder is sent, and which email or SMS template to use.</p>
+    <p>Reminders can attach the invoices, add followers, and create an activity for follow-up.</p>
+    <p><strong>Typical use:</strong> Use it to chase overdue customer invoices automatically.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: PaymentReminderLine, PaymentTerms, AccountPaymentPlan.</p></div>
-      <div class="feature-card"><h4>Automation</h4><p>Scheduled jobs: Account Report Followup; Execute followup.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds send reminders in bulk, create a payment plan, mark a debt as a loss.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 4 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Reminder lines</h4><p>Configurable reminder steps with a delay in days per payment term.</p></div>
+      <div class="feature-card"><h4>Email and SMS</h4><p>Each step can send an email and/or an SMS from a template.</p></div>
+      <div class="feature-card"><h4>Attach invoices</h4><p>The reminder email can attach the overdue invoices.</p></div>
+      <div class="feature-card"><h4>Follow-up activity</h4><p>A reminder can create an activity with a summary and note.</p></div>
+      <div class="feature-card"><h4>Extra followers</h4><p>Additional recipients can be added per step.</p></div>
     </div>
   </section>
   <section id="screenshots">

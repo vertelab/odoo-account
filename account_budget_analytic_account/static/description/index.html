@@ -54,15 +54,16 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Builds MIS budgets per analytic account.</p>
-    <p>It introduces the model(s) <code>MisBudgetByAnalyticAccount</code>, <code>MisBudgetByAnalyticAccountItem</code>, <code>MisBudgetByAnalyticAccount</code> to handle this workflow.</p>
+    <p>Adds MIS Builder budgets that are broken down per analytic account. A budget can be defined on analytic accounts instead of (or as well as) general accounts, with debit, credit and balance per line.</p>
+    <p>It integrates with MIS report instances so budgets can be compared against actuals.</p>
+    <p><strong>Typical use:</strong> Use it when you budget and follow up by analytic account.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: MisBudgetByAnalyticAccount, MisBudgetByAnalyticAccountItem, MisBudgetByAnalyticAccount.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_aggregate_account_analytic, action_read_budget_by_analytic_account, action_view_analytic_account_item.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 6 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Budget per analytic account</h4><p>A dedicated <code>mis.budget.by.analytic.account</code> model.</p></div>
+      <div class="feature-card"><h4>Budget items</h4><p>Each budget has items with debit, credit and balance per analytic account.</p></div>
+      <div class="feature-card"><h4>Report integration</h4><p>Budgets are available in MIS report instances.</p></div>
     </div>
   </section>
   <section id="screenshots">

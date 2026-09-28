@@ -54,13 +54,15 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Handles Autogiro direct debit for vendor bills with a pending state.</p>
-    <p>It extends Odoo's invoices and journal entries.</p>
+    <p>Handles Swedish Autogiro direct debit for vendor bills. A vendor bill can be flagged as an Autogiro bill and is kept in a pending state until the debit is settled.</p>
+    <p><strong>Typical use:</strong> Use it for Swedish suppliers paid by Autogiro.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_create_payments.</p></div>
+      <div class="feature-card"><h4>Autogiro flag</h4><p>Marks a vendor bill as an Autogiro direct debit.</p></div>
+      <div class="feature-card"><h4>Pending state</h4><p>Autogiro bills stay pending until settlement.</p></div>
+      <div class="feature-card"><h4>Payment register</h4><p>Integrates with the payment register.</p></div>
     </div>
   </section>
   <section id="screenshots">

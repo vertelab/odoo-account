@@ -54,18 +54,17 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Divides the fiscal year into 12 months or 4 quarters (minimal version).</p>
-    <p>It introduces the model(s) <code>AccountFiscalyear</code>, <code>AccountPeriod</code>, <code>AccountBalanceRecord</code> to handle this workflow.</p>
-    <p>It extends Odoo's bank statement lines, company settings, invoice and journal lines, invoices and journal entries.</p>
+    <p>A minimal version of the period module: it divides the fiscal year into 12 months or 4 quarters and links entries to periods, without the extra balance and journal features.</p>
+    <p>It uses date ranges for the period types.</p>
+    <p><strong>Typical use:</strong> Use it when you only need periods and closing, not the full period toolset.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: AccountFiscalyear, AccountPeriod, AccountBalanceRecord.</p></div>
-      <div class="feature-card"><h4>Automation</h4><p>Scheduled jobs: automatic close account period.</p></div>
-      <div class="feature-card"><h4>Guided wizards</h4><p>Step-by-step dialogs for data entry.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_draft, action_post.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 7 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Fiscal periods</h4><p>A period model per fiscal year with start and end dates.</p></div>
+      <div class="feature-card"><h4>Date ranges</h4><p>Period types are driven by date ranges.</p></div>
+      <div class="feature-card"><h4>Balances per period</h4><p>Account balances can be viewed per period.</p></div>
+      <div class="feature-card"><h4>Bank statements</h4><p>Bank statements are linked to periods.</p></div>
     </div>
   </section>
   <section id="screenshots">

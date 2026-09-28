@@ -54,14 +54,14 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Blocks posting into a closed accounting period.</p>
-    <p>It extends Odoo's invoices and journal entries.</p>
+    <p>Blocks posting entries into a closed accounting period. Accounts carry a closed state, and Odoo refuses to post into them once closed.</p>
+    <p><strong>Typical use:</strong> Use it to lock accounts once a period has been finalised.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_post.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 1 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Closed state</h4><p>A closed state on accounts that blocks posting.</p></div>
+      <div class="feature-card"><h4>Account view</h4><p>The closed state is managed from the account form.</p></div>
     </div>
   </section>
   <section id="screenshots">

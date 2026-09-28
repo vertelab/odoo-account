@@ -54,17 +54,17 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Approve vendor bills with freely selectable approvers.</p>
-    <p>It introduces the model(s) <code>BillApprovalUserLine</code> to handle this workflow.</p>
-    <p>It extends Odoo's contacts, invoices and journal entries.</p>
+    <p>Adds an approval flow to vendor bills with freely selectable approvers. Each bill gets an approval state and a list of users who must approve it before it can be posted.</p>
+    <p>Approvers are chosen per bill, and requests, approvals and rejections are tracked with dates and reasons.</p>
+    <p><strong>Typical use:</strong> Use it when vendor bills need sign-off before posting.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: BillApprovalUserLine.</p></div>
-      <div class="feature-card"><h4>Guided wizards</h4><p>Step-by-step dialogs for data entry.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_send_request, action_approve, action_reject.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 2 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Selectable approvers</h4><p>Choose the approving users per vendor bill.</p></div>
+      <div class="feature-card"><h4>Approval state</h4><p>A dedicated approval state on the bill, separate from its accounting state.</p></div>
+      <div class="feature-card"><h4>Request and reject</h4><p>Tracks when approval was requested, granted or rejected, and by whom, with a rejection reason.</p></div>
+      <div class="feature-card"><h4>Approver setup</h4><p>Approvers are configured on the partner.</p></div>
     </div>
   </section>
   <section id="screenshots">
