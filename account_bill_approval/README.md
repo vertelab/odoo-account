@@ -26,6 +26,10 @@ must be selectable at registration time (T/11311).
   a bill, and change the default approvers of a vendor. Approvers may still
   approve or reject their own lines. The rule is enforced by ACL, by record
   rules and by a model-level check, so it cannot be bypassed through RPC.
+- **Reassigning resets the line** — pointing a line at another user clears
+  the previous approver's state, timestamps and rejection trail, and puts
+  the line back to *New*. A new approver never inherits an approval they
+  did not give, nor a request that was never sent to them.
 - **Systray pen** — shows how many bills are waiting for *your* approval.
 - **Multi-company** — `company_id` is stored on every approval line.
 - **Chatter trail** — every request, approval and rejection is logged with

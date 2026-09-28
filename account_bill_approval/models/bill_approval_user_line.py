@@ -135,6 +135,22 @@ class BillApprovalUserLine(models.Model):
         }
         if not set(vals) <= approver_actions:
             self._bill_approval_check_manager(_("change"))
+
+        # Reassigning a line to another user must not carry the previous
+        # approver's state along. Otherwise the new approver would inherit
+        # an approval they never gave (state 'done'), or a request that was
+        # never sent to them (state 'request'). Reset to a clean 'new' and
+        # drop the timestamps and the rejection trail.
+        if "user_id" in vals:
+            vals = dict(vals)
+            vals.update({
+                "state": "new",
+                "date_requested": False,
+                "date_approved": False,
+                "date_rejected": False,
+                "rejected_by_id": False,
+                "reject_reason": False,
+            })
         return super().write(vals)
 
     # ------------------------------------------------------------------

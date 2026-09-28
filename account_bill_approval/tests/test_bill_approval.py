@@ -1,5 +1,6 @@
 # Copyright 2026 Vertel AB
 # SPDX-License-Identifier: AGPL-3
+from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
@@ -44,6 +45,20 @@ class TestBillApproval(TransactionCase):
         cls.vendor = cls.env["res.partner"].create({
             "name": "Test Vendor AB",
             "bill_approving_user_ids": [(6, 0, [cls.approver.id])],
+        })
+        cls.third_approver = cls.env["res.users"].create({
+            "name": "Third Approver",
+            "login": "test_approver_bill_3",
+            "email": "test_approver_bill_3@example.com",
+            "company_id": cls.company.id,
+            "company_ids": [(6, 0, [cls.company.id])],
+            "groups_id": [(6, 0, [
+                cls.env.ref("base.group_user").id,
+                cls.env.ref("account.group_account_invoice").id,
+                cls.env.ref(
+                    "account_bill_approval.group_bill_approval_user"
+                ).id,
+            ])],
         })
         cls.bill = cls.env["account.move"].create({
             "move_type": "in_invoice",
@@ -390,3 +405,94 @@ class TestBillApproval(TransactionCase):
             "bill_approving_user_ids": [(6, 0, [self.approver.id])],
         })
         self.assertIn(self.approver, self.vendor.bill_approving_user_ids)
+
+    # ------------------------------------------------------------------
+    # Reassigning an approver must reset the line
+    # ------------------------------------------------------------------
+    def test_reassign_resets_requested_state(self):
+        """A request sent to A must not follow the line over to B."""
+        line = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+        })
+        line.write({
+            "state": "request",
+            "date_requested": fields.Datetime.now(),
+        })
+        line.write({"user_id": self.other_approver.id})
+        self.assertEqual(line.state, "new")
+        self.assertFalse(line.date_requested)
+
+    def test_reassign_resets_approved_state(self):
+        """A new approver must not inherit a previous approval.
+
+        Without this the bill would silently stay 'approved' even though
+        the new approver never saw it.
+        """
+        line = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+        })
+        line.write({
+            "state": "done",
+            "date_approved": fields.Datetime.now(),
+        })
+        self.assertEqual(self.bill.bill_approval_state, "approved")
+        line.write({"user_id": self.other_approver.id})
+        self.assertEqual(line.state, "new")
+        self.assertFalse(line.date_approved)
+        self.assertEqual(self.bill.bill_approval_state, "pending")
+        self.assertFalse(self.bill.invoice_approved_check)
+
+    def test_reassign_clears_rejection(self):
+        """The rejection trail belongs to the previous approver."""
+        line = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+        })
+        line.write({
+            "state": "rejected",
+            "date_rejected": fields.Datetime.now(),
+            "rejected_by_id": self.approver.id,
+            "reject_reason": "Wrong amount",
+        })
+        line.write({"user_id": self.other_approver.id})
+        self.assertEqual(line.state, "new")
+        self.assertFalse(line.date_rejected)
+        self.assertFalse(line.rejected_by_id)
+        self.assertFalse(line.reject_reason)
+
+    def test_reassign_does_not_touch_other_lines(self):
+        """Only the reassigned line is reset."""
+        first = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+            "state": "done",
+        })
+        second = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.other_approver.id,
+            "state": "request",
+        })
+        manager = self.env["res.users"].create({
+            "name": "Approval Manager",
+            "login": "test_approval_manager_reset",
+            "email": "test_approval_manager_reset@example.com",
+            "company_id": self.company.id,
+            "company_ids": [(6, 0, [self.company.id])],
+            "groups_id": [(6, 0, [
+                self.env.ref("base.group_user").id,
+                self.env.ref("account.group_account_invoice").id,
+                self.env.ref(
+                    "account_bill_approval.group_bill_approval_manager"
+                ).id,
+            ])],
+        })
+        third = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.env.user.id,
+        })
+        third.with_user(manager).write({"user_id": self.third_approver.id})
+        self.assertEqual(third.state, "new")
+        self.assertEqual(first.state, "done")
+        self.assertEqual(second.state, "request")
