@@ -25,12 +25,12 @@
                     </group>
                     <group string="Report Lines">
                         <field name="line_ids">
-                            <tree>
+                            <list>
                                 <field name="sequence"/>
                                 <field name="name"/>
                                 <field name="code"/>
                                 <field name="parent_id"/>
-                            </tree>
+                            </list>
                         </field>
                     </group>
                 </sheet>
@@ -39,12 +39,12 @@
     </record>
 
     <record id="view_account_report_tree_dynamic" model="ir.ui.view">
-        <field name="name">account.report.tree.dynamic</field>
+        <field name="name">account.report.list.dynamic</field>
         <field name="model">account.report</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>

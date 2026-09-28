@@ -9,9 +9,9 @@
                 <div class="o_account_dynamic_report_filters">
                     <div class="o_date_filter">
                         <label>From</label>
-                        <input type="date" t-model="state.options.date.date_from" t-on-change="onDateChange"/>
+                        <input type="date" t-model="state.dateFrom" t-on-change="onDateChange"/>
                         <label>To</label>
-                        <input type="date" t-model="state.options.date.date_to" t-on-change="onDateChange"/>
+                        <input type="date" t-model="state.dateTo" t-on-change="onDateChange"/>
                     </div>
                 </div>
             </div>

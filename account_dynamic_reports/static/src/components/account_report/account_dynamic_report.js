@@ -1,18 +1,17 @@
 /** @odoo-module **/
 
 import { registry } from "@web/core/registry";
-import { Component, useState, onWillStart, onMounted } from "@odoo/owl";
+import { Component, useState, onWillStart } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
-import { useBus } from "@web/core/utils/hooks";
+import { rpc } from "@web/core/network/rpc";
 
 class AccountDynamicReport extends Component {
     static template = "account_dynamic_reports.AccountDynamicReport";
-    static props = {};
+    static props = { action: { type: Object, optional: true }, context: { type: Object, optional: true }, actionId: { type: Number, optional: true }, updateActionState: { type: Function, optional: true } };
 
     setup() {
         this.orm = useService("orm");
         this.action = useService("action");
-        this.rpc = useService("rpc");
         
         this.state = useState({
             reportName: "",
@@ -21,6 +20,8 @@ class AccountDynamicReport extends Component {
             expandedLines: new Set(),
             isLoading: true,
             error: null,
+            dateFrom: null,
+            dateTo: null,
             options: {
                 date: {
                     date_from: null,
@@ -36,9 +37,14 @@ class AccountDynamicReport extends Component {
     }
 
     async loadReport() {
-        const context = this.props.context || {};
+        const context = this.props.action?.context || this.props.context || {};
         const reportId = context.report_id;
-        
+
+        // Keep the nested options object in sync with the flat date fields
+        // (OWL t-model does not reliably bind deep paths).
+        this.state.options.date.date_from = this.state.dateFrom;
+        this.state.options.date.date_to = this.state.dateTo;
+
         if (!reportId) {
             this.state.error = "No report ID in context";
             this.state.isLoading = false;
@@ -53,7 +59,7 @@ class AccountDynamicReport extends Component {
             }
 
             // Get report lines and columns via custom RPC
-            const result = await this.rpc("/account_dynamic_report/get_lines", {
+            const result = await rpc("/account_dynamic_report/get_lines", {
                 report_id: reportId,
                 options: this.state.options,
             });

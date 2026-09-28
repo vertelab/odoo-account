@@ -3,9 +3,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Account: Dynamic Reports',
-    'version': '18.0.1.0.0',
-    'summary': 'Dynamic balance sheet, P&L and general ledger reports for Community Edition.',
+    'name': 'Accounting: Dynamic Reports',
+    'version': '18.0.1.1.5',
+    'summary': 'Dynamic accounting reports for Odoo CE — balance sheet, P&L, general ledger, and more',
     'description': '''
 Dynamic Reports
 ===============
@@ -28,7 +28,9 @@ Dynamic Reports
     'data': [
         'security/ir.model.access.csv',
         'data/balance_sheet.xml',
+        'data/currency_revaluation.xml',
         'data/report_actions.xml',
+        'views/account_report_views.xml',
 
     ],
     'assets': {
