@@ -23,6 +23,8 @@ must be selectable at registration time (T/11311).
 - **Multi-company** — `company_id` is stored on every approval line.
 - **Chatter trail** — every request, approval and rejection is logged with
   the reason.
+- **Request wizard** — the "Request Approval" wizard lists only the
+  pending approvers of the bill it was opened from.
 ## Groups
 
 | Group | Purpose |

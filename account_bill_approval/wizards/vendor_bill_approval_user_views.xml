@@ -10,7 +10,12 @@
             <form string="Send Vendor Bill Approval Request">
                 <group>
                     <field name="move_id" readonly="1"/>
-                    <field name="line_ids" widget="many2many_checkboxes"/>
+                    <!-- Restrict the checkboxes to *this* bill's pending lines.
+                         Without the domain the many2many_checkboxes widget lists
+                         every bill.approval.user.line in the database. -->
+                    <field name="line_ids" widget="many2many_checkboxes"
+                           domain="[('move_id', '=', move_id),
+                                    ('state', 'in', ('new', 'rejected'))]"/>
                 </group>
                 <footer>
                     <button name="action_send" type="object"

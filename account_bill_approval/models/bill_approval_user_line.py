@@ -62,6 +62,31 @@ class BillApprovalUserLine(models.Model):
         ondelete="restrict",
     )
     reject_reason = fields.Text(string="Rejection Reason", readonly=True)
+    display_name = fields.Char(
+        string="Display Name",
+        compute="_compute_display_name",
+        store=False,
+    )
+
+    # ------------------------------------------------------------------
+    # Display
+    # ------------------------------------------------------------------
+    @api.depends("user_id", "state", "move_id")
+    def _compute_display_name(self):
+        """Show the approver together with the status.
+
+        The default ``_rec_name = 'user_id'`` renders every line as a bare
+        person name, which is indistinguishable when the same user is an
+        approver on several bills. The wizard picks lines by checkbox, so
+        the label must be unambiguous.
+        """
+        state_labels = dict(self._fields["state"].selection)
+        for line in self:
+            name = line.user_id.display_name or _("Unknown Approver")
+            label = state_labels.get(line.state, line.state or "")
+            if label:
+                name = "%s (%s)" % (name, label)
+            line.display_name = name
 
     # ------------------------------------------------------------------
     # Constraints

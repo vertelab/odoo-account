@@ -49,6 +49,11 @@ class TestBillApproval(TransactionCase):
             "move_type": "in_invoice",
             "partner_id": cls.vendor.id,
             "invoice_date": "2026-01-01",
+            # A reference is set so that SFA's ``supplier_reference_trigger``
+            # does not intercept ``action_post`` with its confirmation
+            # wizard (it returns an action instead of posting when the
+            # vendor invoice number is missing).
+            "ref": "TEST-INV-001",
             "invoice_line_ids": [(0, 0, {
                 "name": "Test line",
                 "quantity": 1.0,
@@ -201,3 +206,79 @@ class TestBillApproval(TransactionCase):
         })
         with self.assertRaises(ValidationError):
             line.unlink()
+
+    # ------------------------------------------------------------------
+    # Request wizard (regression: it used to list every line in the DB)
+    # ------------------------------------------------------------------
+    def test_request_wizard_only_offers_own_lines(self):
+        """The wizard must default to this bill's pending lines only."""
+        own = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+        })
+        # An unrelated bill with its own approver must not leak in.
+        other_bill = self.env["account.move"].create({
+            "move_type": "in_invoice",
+            "partner_id": self.vendor.id,
+            "invoice_date": "2026-01-01",
+            "ref": "TEST-INV-OTHER-1",
+            "invoice_line_ids": [(0, 0, {
+                "name": "Other line",
+                "quantity": 1.0,
+                "price_unit": 50.0,
+                "account_id": self.env["account.account"].search(
+                    [("account_type", "=", "expense")], limit=1
+                ).id,
+            })],
+        })
+        foreign = self.env["bill.approval.user.line"].create({
+            "move_id": other_bill.id,
+            "user_id": self.other_approver.id,
+        })
+
+        wizard = self.env["vendor.bill.approval.user"].create({
+            "move_id": self.bill.id,
+        })
+        self.assertIn(own, wizard.line_ids)
+        self.assertNotIn(
+            foreign, wizard.line_ids,
+            "The wizard must not offer another bill's approval lines.",
+        )
+
+    def test_request_wizard_rejects_foreign_lines(self):
+        """A crafted RPC call must not send requests for another bill."""
+        other_bill = self.env["account.move"].create({
+            "move_type": "in_invoice",
+            "partner_id": self.vendor.id,
+            "invoice_date": "2026-01-01",
+            "ref": "TEST-INV-OTHER-2",
+            "invoice_line_ids": [(0, 0, {
+                "name": "Other line",
+                "quantity": 1.0,
+                "price_unit": 50.0,
+                "account_id": self.env["account.account"].search(
+                    [("account_type", "=", "expense")], limit=1
+                ).id,
+            })],
+        })
+        foreign = self.env["bill.approval.user.line"].create({
+            "move_id": other_bill.id,
+            "user_id": self.other_approver.id,
+        })
+        wizard = self.env["vendor.bill.approval.user"].create({
+            "move_id": self.bill.id,
+            "line_ids": [(6, 0, foreign.ids)],
+        })
+        with self.assertRaises(UserError):
+            wizard.action_send()
+        # The foreign line must be untouched.
+        self.assertEqual(foreign.state, "new")
+
+    def test_line_display_name_includes_state(self):
+        line = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+            "state": "request",
+        })
+        self.assertIn(self.approver.name, line.display_name)
+        self.assertIn("Requested", line.display_name)
