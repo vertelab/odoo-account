@@ -152,11 +152,11 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.4167px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="369.0"
+       x="518.0"
        y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="369.0" y="77.2" style="font-size:20.4167px;text-anchor:middle;fill:#000000">Invoice AI 3-Way Match Bridge</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="518.0" y="77.2" style="font-size:20.4167px;text-anchor:end;fill:#000000">Invoice AI 3-Way Match Bridge</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -168,14 +168,5 @@
            x="206"
            y="-32" /></flowRegion><flowPara
          id="flowPara850" /></flowRoot>
-    <image
-       width="22.8"
-       height="26.0"
-       preserveAspectRatio="none"
-       style="stroke-width:1.40431;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAC/klEQVR4nO2aO2hUQRSGP0UIGBOwsPNxMCKKhZBUooURQcVY+ehEGzFCICCImE7EFBYiaIL4aoIWPpoQNKbIimKb4IMoMcFf0UIURBILCx/F7mYn4643c5e9u1zzwcLM4Vz2P9yZf2ZnFlLCgpBkMzsKdAErKyMHgO/AINAu6ctcH1o010QzawUuxxAWSj2wN9feN9eHFgZ8wY4gOeWzMyQ5pJAlgULKpT4kOaSQmma+kFqjqGuZ2QjQmOv2STqdnKSieiacbq+k837OrELMbADYDtQ54WWVkRdEk9M+Z2Zngf2SBvJBf2h9ACaobb6R1TjlBme9EUntAGZ2m8LQGktCXQQPnfZNSX1+QtE5IulAxSTFQFLk4pga10pNIaXs150j/ZJ6k5NUVM+g042eI2bWA2wGNjrhWnAxd8PaYmbHgU5Jj/NB/42sAtYloawMlpLdwDa6Qd9+2+Cvlf1zEuoimHTa0St7HknNFZMUA0lronJS41qpKaSU/Z4BGnLdJ5LuJSepqJ4LTve+pCE/x7ffU0ALhR//+ZyqFgJ0Ou02MxsFuiWN5oP+0NrF7CJqkSaypytr3aBfyG5gBTCdkKg4XAKWA3fcoL+OTJHd5zdQQ0iKPEhMjWulppBS9nuIwvB67m7OqoGZdTjdp65b5fHt9yCwATjphHuAqhYCXHTaI2Y2BFyXNLMz99/IMWBTEsrKoDn3eYHzE8OfI4eBVuBnYrLCuQtsBfrdoG+/48C4ma0GFufCX5NQF8F6p/0xt0zMotQ2/n3FJMVA0uuonNTb7xYK9yHvJL1KTlJRPe651lixEePbbyvZTdkVCveLPUAH1eWB0x42s1vAgKRP+aA/tLqBqwRekibMNuAa2cP2GfxCuoAjSSmKSQZoB4bdoG+/GSCTu4/Iz5G3icj7N3uc9ktJ8hNK2e+jCgmKhXsPUorU2O9/Wciviqkozu+Q5JBC3gQKKZfxkOSQQm4Az8K0xOYHcCLkgdB/B9VROGmp1KI5DWQkTUZmzlPD/AGbmM3TSviD5wAAAABJRU5ErkJggg=="
-       id="image7153"
-       x="292.9"
-       y="131.30089" />
   </g>
 </svg>

@@ -152,11 +152,11 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.4167px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="369.0"
+       x="518.0"
        y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="369.0" y="77.2" style="font-size:20.4167px;text-anchor:middle;fill:#000000">Vendor Bill Approval Migration</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="518.0" y="77.2" style="font-size:20.4167px;text-anchor:end;fill:#000000">Vendor Bill Approval Migration</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -168,14 +168,5 @@
            x="206"
            y="-32" /></flowRegion><flowPara
          id="flowPara850" /></flowRoot>
-    <image
-       width="22.8"
-       height="26.0"
-       preserveAspectRatio="none"
-       style="stroke-width:1.40431;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAB90lEQVR4nO2ZsUtVURzHP/fxbMnBsUm+o2Nri4ZDtQQV1dLQ4KDQ5BaESwg1SYN/QIuDgpBNObW2BBZIIYo/EpUgSEcptOG8R9fnve/afbd73pHzWS6c32/4frjn3Pu7XIhEIpFIRUgalnTjPL2N/x2mR+aAVUnPihr7XWSwdZ2V9LxbY7+LpJmR9CKvGJIIwFNJc1mF0EQApiXNS0rSi01JQ8AVP5kKuZyz/gS4JGnSzE4AEkn79K9IEa+BCTM7TiSd+E7TIwvA46bvFBXwCPgd4mHP4tpFENkFbocu8g0YM7ONBrDmOUxZtoFRM9sCSAqavSLpHXAzo7QJjJvZTnshxK31FbeddtKLoYmsA9fNbK+zEJLIJ5zE96xioYikEUkbkl5WHq2Y9tTxEXcmfuQ1dn2zSxoB3uNmsatVpfsHFoEDYMrMDrs15j61OiQAVs3sVlUJqyZza2VI9D1nREKUgA6RUCUgdUbOIfET+FxHqBKsJRD2nWjTuAgS4M7ICoFLgBP54DtEFTSACWDZd5BeaR/2Jm4cuOc3TmmO0o/fAZzM3ZzmdeBVDaHK8OXUrNWSWQLuZDSHM2uZ2S/gIfDGS5oeODNrpWRW6o9TnszptyXzAHhbb5zy5H4htmTu81fmuJZEJen6qZu6M7O4/3mRSCQSqYQ/8fl9PdSeqpIAAAAASUVORK5CYII="
-       id="image7153"
-       x="292.9"
-       y="131.30089" />
   </g>
 </svg>

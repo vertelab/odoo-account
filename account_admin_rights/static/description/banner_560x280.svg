@@ -152,11 +152,11 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="369.0"
+       x="518.0"
        y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="369.0" y="77.2" style="font-size:26.6667px;text-anchor:middle;fill:#000000">Admin Rights</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="518.0" y="77.2" style="font-size:26.6667px;text-anchor:end;fill:#000000">Admin Rights</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -168,14 +168,5 @@
            x="206"
            y="-32" /></flowRegion><flowPara
          id="flowPara850" /></flowRoot>
-    <image
-       width="22.4"
-       height="26.0"
-       preserveAspectRatio="none"
-       style="stroke-width:1.40431;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAACNElEQVR4nO2ZMWgUQRSGP0NCGhER1BRRnggRtLNKaWGstFGxsRdRiTYWGlTQwlIlRTBgEbA0YhNEhIClQS3EShT/gBaxEiKokESLWyHFzt682T3cyHxw3PFm3pv3sbN7uyxkMpkqNvWiqJmNAIeBYWAI6AOWgC/AvKR3Ta/ZmIiZDQBngfPAvi7TBUwDdyX9aGL9RkTMbAyYAvY6Uz8DFyU9rttDX90CZjYOPMUvAZ2t98jMrtfto9YRMbObwLW6TRRMSTqXmpwsYmangYep+QHGJU2mJCaJFFelt8BgYMoiMAk8K36vAbuAMeACMBLIWwVGJb3y9pQqMgscDwzfAa5I+hXI7QcmgBuB9V9IOuTtyS1iZgeB14Hhq5JuR9Y5A9wPDB+R9NzTV8pV61Qg/iRWAkDSNPDAuUaQFJFjJbE14HJCrQngZ0n8qJm5dotLxMwGgf0lQwuSPnhqAUhaAuZLhoaKTzTeI7IzEF9w1lnPy0C8pyLbA/GvzjoxuTs8RbwiA4H4qrPOelaca5VS+16rLWSRtvHfiET96ZjZSTr3VnuA0ZIp74FPiT0MAwdK4m+Aj8CcpJluRbqKFA9O99ztNcstSZUPXzEii8DuxlpK4zuwRdLv0ISYc+RfSwBsBrZVTdhIJ3vl7tlIIpVkkbaRRdpGFmkbWaRtZJG2kUXaRhZpGzEi33rdRAQrwHLVhBiR2WZ6qcVc6MXRX/ojilwqvk8AW2s25GUZmKPz7j6TydTgD0j8e+P1lI39AAAAAElFTkSuQmCC"
-       id="image7153"
-       x="293.1"
-       y="131.30089" />
   </g>
 </svg>

@@ -152,11 +152,11 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="369.0"
+       x="518.0"
        y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="369.0" y="77.2" style="font-size:26.6667px;text-anchor:middle;fill:#000000">Analytic Line Project</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="518.0" y="77.2" style="font-size:26.6667px;text-anchor:end;fill:#000000">Analytic Line Project</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -168,14 +168,5 @@
            x="206"
            y="-32" /></flowRegion><flowPara
          id="flowPara850" /></flowRoot>
-    <image
-       width="22.4"
-       height="26.0"
-       preserveAspectRatio="none"
-       style="stroke-width:1.40431;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABRUlEQVR4nO3YPU7EMBCG4ddW+l0QDd1cYDs6JDqkrZA4ATU/BdyEAsIFOACio6XZaisu4AMgSC5AKMIiRBUSLxN75+ksRdb3FVbGBmPMRnAisgOcAdvaYXp6A8oCeAD2dbMMduhE5ANw2kkGajzplwBwhXaCX55CCPMuH4rIDXC+Wvu1RfpnVmRsnIg02iFi8EAORRoPLLRTRLAogGPgFNhSDtPXO3CnHcJky4nICXANTHWj9FYBl05EKmCim2Ww2pN+CYBJrOm3Bu4j7dXVATBbLWIVeQ0hXETaq5OvMf67SDZDYzZFspp+s+CBpXaICJYFcET7QDfVzdJbBZTaIUy2nIjs0p6RlG+IZQE8AnvKYYaa2w9xbDQesW9jTMr2iD12Gof9BXiOsM9aboh/MfsZIBZPe99OXe2BK9IuU9N2MMZsgk+UnzaA19011gAAAABJRU5ErkJggg=="
-       id="image7153"
-       x="293.1"
-       y="131.30089" />
   </g>
 </svg>

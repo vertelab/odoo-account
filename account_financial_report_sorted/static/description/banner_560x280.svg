@@ -152,11 +152,11 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="369.0"
+       x="518.0"
        y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="369.0" y="77.2" style="font-size:26.6667px;text-anchor:middle;fill:#000000">Financial Report Sorted</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="518.0" y="77.2" style="font-size:26.6667px;text-anchor:end;fill:#000000">Financial Report Sorted</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -168,14 +168,5 @@
            x="206"
            y="-32" /></flowRegion><flowPara
          id="flowPara850" /></flowRoot>
-    <image
-       width="22.8"
-       height="26.0"
-       preserveAspectRatio="none"
-       style="stroke-width:1.40431;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABtElEQVR4nO3aMUoDQRSA4T8iWIoopH1HUPAIHsLCA2hEO28iJoKFRa6hN1A8wmtFRKwTWYtkwMIkM2/eSxHmL8Nkd74NJLszgVartaxe5MFF5BAYA33gRlUfo84VBhGRI+AJ2Ju/1AEDVR1FnG8r4qD/IGB20e5E5DzinO6QBYhUGMYVsgKRCsG4QTIRKXeMC6QQkXLFVEOMiJQbpgpSiUi5YMwQJ0SqGmOCOCNSVZhiSBAiZcYUQYIRKRMm+15rfgP4TCzibx1woar3OYNLPpEx60PA7CLfiojkDC6B9E3TqWsb2M8ZWAK5Br5N07E1BYaq+pIzuOh5RER6wI5lVoYmqvqzpnO1Wq3WmtuYr9+Se61TYATsWmZlaAI8qOogZ3AJ5AM4sM6qouOcX/eSW5T3islYmwKfOQNLIGfAl2k6tjrgSlU1Z3A2RFXfgBPWg+mAy5J14qInRFV9JR6TEMOSNxU/swdjTAgwrqIEYcwIqFjXcsZUIaBypdEJU40Ah7XfSowLApxW440YNwQ47o8UYlwR4LxjlYlxR0DAHuIKTAgCgnZ1F2DCELBBfxhotVrL+wU8hcnmMqWLPQAAAABJRU5ErkJggg=="
-       id="image7153"
-       x="292.9"
-       y="131.30089" />
   </g>
 </svg>

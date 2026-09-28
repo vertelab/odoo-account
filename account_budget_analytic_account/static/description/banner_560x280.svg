@@ -152,11 +152,11 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.4167px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="369.0"
+       x="518.0"
        y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="369.0" y="77.2" style="font-size:19.4167px;text-anchor:middle;fill:#000000">MIS Builder for Analytic Account</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="518.0" y="77.2" style="font-size:19.4167px;text-anchor:end;fill:#000000">MIS Builder for Analytic Account</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -168,14 +168,5 @@
            x="206"
            y="-32" /></flowRegion><flowPara
          id="flowPara850" /></flowRoot>
-    <image
-       width="22.4"
-       height="26.0"
-       preserveAspectRatio="none"
-       style="stroke-width:1.40431;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAD1ElEQVR4nO2aXYgWVRjHfzuuRgrLClo3QU+gF7Vl4IXVlRJhVwVl7r67duWNZFA3+XVRRtFNUgQrXYWkSay0uipRRCERrSCBhcYqRfUvUG/8BNMoP7o4M9vs+86873ycmXXD39XMM+c85/nPmTlzznkG/id01dGImW0DLgIXgJ+Bo5LO+WyjLiE3E8y/AWPAiKTvyrYxnULiHAPeAPZJ6lQ2kaBIpQpYAowC35vZsiIOSvWImfUBy4GlwMPAXUAvsEXS+7Fyee7ydWAbsFXS31krdedoIApqIbAOaAB9KcXK9PQsYDPwqJk9I+lilkqZhZjZAmAD8CIwr0iEOVkBjJvZSkmnOhXOdOfMrB84AWykHhERDwCfm1lPp4JthZjZXDMbAfYACzwFl5eHgL1mNqtdoVQh4btwCBjwHFgRngA2tSuQKCQUMQ48UkFQRdlqZg+mXWwRYmZzgU+BxVVGVYA5wHDaxaQe2QEU+ijVwAozW550YYoQMxvg1ngn2vFqknFSSPid2F5bOMV53MzuaTbGe2Qj0zfE5qEL6G82BjA5Sq2vO6ISPNVsiHpkHfV+scuy1MymTHgjIY1pCKYMPcCiuCEIp+Jps9hbmfviJwFuljkT6Y2fdOMWRVXzS9UNdOOWmZUiaVHnUuUIcMvTGU8AzJ/uIHzQZWbXcOtkn+wHnpN0PTKYWS/wGm4W65O3Jf3RZWYXaBoBPDECPN8k5mncts9sj+30SZoIcFuZVdAAdseXqJIOAquBfzy2cwncO3Lao9NmksQcwJ+Yv4Az4IT84MFhOxrARwli+ikv5idJN8AJOVrSWRYGaRWzn/JixqODAPiqhKM8VCHmUHQQSPodOFImwhykiRkgv5jLwGfRSTSN/7hkgHkYBHY1iRkjv5hPJF2JTiIhO4CzPqLMyBDJYhrAtQz1bwLvxg1B6OQy8I6/ODORJGYfrmc6iRmT9GPcEN98GMalw+qkiJirwCvNxkkhkv4E1uK6rU6GgJ0JYtIes9cltdzwKRt0kr4G3vMaZjbW0CpmL25giIv5ApfNaiFpy3QDcNBjkFlJEjPKf2ImgKG0ZGmLkHC2Ogh8W0m47VmDe7zj8YwCq4CVks6nVUxNhprZncBu4FlPQWZhGHi5SIq6bVbXzALgTVySxffiK85V4CVJHxR1kCk9Hea+PwTuL9pQG74BXpA0UcZJ5jy7mc3GPb9bgHvLNBpyHHhL0h4PvvL/MBAKWoUbEJ4E7shR/QpwANe7Xxb9XSOJsn8+9ACP4Tb5lgB349b/83DP/SXgV+AkcBg4kudvhtvMZP4Fkegh/a4IB6MAAAAASUVORK5CYII="
-       id="image7153"
-       x="293.1"
-       y="131.30089" />
   </g>
 </svg>

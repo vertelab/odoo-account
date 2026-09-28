@@ -152,11 +152,11 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="369.0"
+       x="518.0"
        y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="369.0" y="77.2" style="font-size:26.6667px;text-anchor:middle;fill:#000000">3-Way Match (CE)</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="518.0" y="77.2" style="font-size:26.6667px;text-anchor:end;fill:#000000">3-Way Match (CE)</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -168,14 +168,5 @@
            x="206"
            y="-32" /></flowRegion><flowPara
          id="flowPara850" /></flowRoot>
-    <image
-       width="22.8"
-       height="26.0"
-       preserveAspectRatio="none"
-       style="stroke-width:1.40431;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAACIUlEQVR4nO2av2sUQRiGn5UFwYD5CwwvaCDBLtbWKliksbOwEAKSwj8gpdiLsbCwtbKzMOkkFjYJCGK0uOILgpWNCqnEpLjZzWTZvcze7S7rZB84mF/73fdy787OzWwi6Yhqts3s9oT+TpG0Bdwq67vQcS6tEY2QFPgM7Hht94F5V16QtN55VtUsFOovskIiadPM8mQljYCrXWU2C2aWZOVorBWNkETSAfDVa7sJXHLlPWCj86yqeQLc8OrbWSFlfAMVb6KMn2a21WJitZD0uNCUP1OisVbK2FbLXtsH4NCVTVLbT/bvZvYlcOxuoZ7/Iol7Tjz3OhfNbATgRLybKc2zeWVmD6e50F9eRWOtaISkNcdvMJ6SZ+UNMNdAnJy6QvaamI4l/Z01RpFza602uCzpWuDYH2Z2WNbRByH33CeEO0CptaOxVjRC+mCtj8Drir5l4FFIkD4I2TezzbIOt0QKEhKNtQYhfWMQ0jfqzlqrkpYa+N6LDcQ4RV0ha00n0BTRWCsaIWdZawdYDIz1lJNV7B9gJfC6X4HjJjJRiFv7j0ICSfrtVf9lOzFdcW6sNXVcSXcbiBNqz9aEzAFvW4pdSjTWikZIImmf6k3sXTMLOh+RdB240nB+RVYBefV8EzvltAgYH/TUxu2oh+6qT4U7HxnO2f8LhuPpvhGNkETSJ+C91/aAk1c4vgEvu01pImuA/w/1WVZIhtecekY0Qo4BWcF5+qtGsxgAAAAASUVORK5CYII="
-       id="image7153"
-       x="292.9"
-       y="131.30089" />
   </g>
 </svg>

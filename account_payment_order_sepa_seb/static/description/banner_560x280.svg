@@ -152,11 +152,11 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.4167px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="369.0"
+       x="518.0"
        y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="369.0" y="77.2" style="font-size:24.4167px;text-anchor:middle;fill:#000000">Payment Order Sepa SEB</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="518.0" y="77.2" style="font-size:24.4167px;text-anchor:end;fill:#000000">Payment Order Sepa SEB</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -168,14 +168,5 @@
            x="206"
            y="-32" /></flowRegion><flowPara
          id="flowPara850" /></flowRoot>
-    <image
-       width="39.4"
-       height="26.0"
-       preserveAspectRatio="none"
-       style="stroke-width:1.40431;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAB5ElEQVR4nO2Zv0scQRTHP3scZymI9k8TbSTlFaIExcZgFWtRG01jExD/iDQKGsFWS0sttE4QWwttFHlYish2NoFYuBPO04l7u6szu8yn2mHevv1+39ud/RVRICIyBCwCC0Bv2/QxsA3sqep9kccFiPImEJEGMAMsARMpdomBXWBbVc/yHt+Q2YiIDPIofh7oy5imsC51ZCSp/lfgGzDe6f7/ISZnl1IJSapvzv2s1U9Lpi5Zjbxh9dMS00GXnol75+qn5dUuRfCk+mblee/qpyXG0qVIRH7gV/XT8qRLkYj8da0oJzGwWwUjANRcCyiKyhipAzvAnGshGbgHVs2gDqwAY8CAK0UZWVPVTTMw95EuYBhouFLVITeqeuVaxJvw0iPKJfDBEv9FVQ+TuI/AhS2xqv7LLSLLwIYl9EhVp1piD4BpS+x3VV1/aaIyq1Yw4hvBiG8EI74RjPhGMOIbwYhvBCO+EYz4RjDiG5UxYj4HTfL4wt8AZoFuS/w+cJ1sdyexNn62bH8CPlvirpO8hmlALLG/gVPgBthS1VszEYlIEzihfN05VtVRM6gBTcpnAmCkdVCjnCbA379q+YhEZMy1iJz8Ac7rwC/XSgrgrqzXRzs9VTFS2hXrGZUxUgf6XYsoggcjRHlxljRXagAAAABJRU5ErkJggg=="
-       id="image7153"
-       x="284.6"
-       y="131.30089" />
   </g>
 </svg>

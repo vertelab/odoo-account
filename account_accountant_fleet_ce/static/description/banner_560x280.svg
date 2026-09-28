@@ -152,11 +152,11 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.4167px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="369.0"
+       x="518.0"
        y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="369.0" y="77.2" style="font-size:21.4167px;text-anchor:middle;fill:#000000">Accounting Fleet Bridge (CE)</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="518.0" y="77.2" style="font-size:21.4167px;text-anchor:end;fill:#000000">Accounting Fleet Bridge (CE)</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"
@@ -168,14 +168,5 @@
            x="206"
            y="-32" /></flowRegion><flowPara
          id="flowPara850" /></flowRoot>
-    <image
-       width="22.4"
-       height="26.0"
-       preserveAspectRatio="none"
-       style="stroke-width:1.40431;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAADfElEQVR4nO2aXYhVVRiGnzmMIJkKRloKzSeC1ZWYaBRdHIXSmwIF/0LDQrS7bgRFkLooIrqpyygiyQTxQjAluwiPIwgOin9BU5C9/nSRoJE56Wg6Xqw9MLPda+219zl7fo4+l9/3rb3el7XXOmutfeARY4uOog3MrBOYDjzWejncAa5Iulm0YZQRM+sAVgDvAq8AE4t2VIAB4CzwLfCFpBsxjXKNmNlMYBewuCl55bgIrJfUnVcYNGJmXcARoKtFwspwG1gpaX+oyGskmQvHgRdaLKwMfcACSb/6CmqBxm8zNkwATAI+CRWEjGxsrZamed3MZviSmUbM7ElgYWWSylEDlvmSnZ54nfBCsF7SriZEZWJmE4E9wBueksXAzqyE79UKLbXXgO+i1RVA0i3gy0BJ3ZfwGfE2ALolDeTLKs1R4K4n12VmlpV4wEgyoZ4PdNQoqqwIkv4BTgdK6lnBrBHJLBxCI0ZQk4T6qGcFs4yE5sdV3D6oag4HcvWsYNERqXp+DJI3T2ang8OMmNlTwLOBDhqlpRVA0nXgVKCkng6kRyRvh9soJqkpQn3V04EiRq4C54rrKU0jkKunA51m9gQwH5gGvBpo/Cew2rOMV8GUQO4ZM9sEXAZ6JZ3vMLO7hDeP44HjNca/CYAX28EE0B6jAQw30gtsAOYCc4A1wMlR0JRFP+6EuAB3f/AacHBoQYeZDQA/Aisk/Tc0aWYTgG+AN0dCrYd+YKmkI+mEmX0KbAE3IteAtWkTAJLuAO8Af1SrNcjHWSYStpLs/WrAPkl/+54iqR93WTZaePuWdA/YDc7IhYiHxdRUxaWYfA2YFfGwmJqqeDonPxOckeVm9rivKrmoG83JviYnvwqckenA14ngYSSX158Dz7VcXjw7zGx+VsLMtpNcWw0uvwA9wEfAMeAebs3eBiypXmsu/wIfAntxu/C5wHvAusGCoUbGNW25RRnXtI0R391vFj8BB6oS4uEDYGpEXXcRIyckfVZKTknMbAtxRk61zav1UBqJ+kzcYvoi624UMXKmjJIm+Tm2rob7cpvHedwpcqT5KqLmL+D7GvAWbv/iow93grzdCmVFkPQDYTP/Axsk9dUk/QYswv1OpOkBXpbUU4HOWDYD7wPp/6f8jjvLH4LUB8/kun5eEv9FUu8ICI3CzCYDL+F+VwScTI66jxiT3AfhiN8ebvZeLAAAAABJRU5ErkJggg=="
-       id="image7153"
-       x="293.1"
-       y="131.30089" />
   </g>
 </svg>
