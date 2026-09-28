@@ -30,6 +30,10 @@ must be selectable at registration time (T/11311).
   the previous approver's state, timestamps and rejection trail, and puts
   the line back to *New*. A new approver never inherits an approval they
   did not give, nor a request that was never sent to them.
+- **The form refreshes after acting** — *Approve Bill* returns a reload
+  action instead of ``True``. ``bill_approval_state`` is a stored computed
+  field, and returning ``True`` left the form showing its previous value
+  even though the database was already up to date.
 - **Systray pen** — shows how many bills are waiting for *your* approval.
 - **Multi-company** — `company_id` is stored on every approval line.
 - **Chatter trail** — every request, approval and rejection is logged with

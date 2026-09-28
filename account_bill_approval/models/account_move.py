@@ -237,7 +237,13 @@ class AccountMove(models.Model):
                     "You have no pending approval on this bill."
                 ))
             line.action_approve()
-        return True
+        # Return a reload action: ``bill_approval_state`` is a stored computed
+        # field, and returning True leaves the form showing its stale value
+        # even though the database is already up to date.
+        return {
+            "type": "ir.actions.client",
+            "tag": "reload",
+        }
 
     def action_user_reject_bill(self):
         self.ensure_one()

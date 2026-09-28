@@ -44,4 +44,10 @@ class VendorBillApprovalUser(models.TransientModel):
                 ", ".join(foreign.mapped("user_id.display_name")),
             ))
         self.line_ids.action_send_request()
-        return {"type": "ir.actions.act_window_close"}
+        # Closing the wizard does not refresh the bill form behind it, so
+        # the stored computed ``bill_approval_state`` would keep showing its
+        # previous value. Reload the underlying record as well.
+        return {
+            "type": "ir.actions.act_window_close",
+            "infos": {"bill_approval_refresh": True},
+        }

@@ -496,3 +496,35 @@ class TestBillApproval(TransactionCase):
         self.assertEqual(third.state, "new")
         self.assertEqual(first.state, "done")
         self.assertEqual(second.state, "request")
+
+    # ------------------------------------------------------------------
+    # Header buttons must ask the client to refresh the form
+    # ------------------------------------------------------------------
+    def test_approve_button_returns_reload(self):
+        """``bill_approval_state`` is a stored computed field.
+
+        Returning True leaves the form showing the stale value even though
+        the database is already updated, so the button must return an
+        action that makes the client reload.
+        """
+        line = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+            "state": "request",
+        })
+        result = self.bill.with_user(self.approver).action_user_approve_bill()
+        self.assertIsInstance(result, dict)
+        self.assertEqual(result.get("type"), "ir.actions.client")
+        self.assertEqual(result.get("tag"), "reload")
+        self.assertEqual(line.state, "done")
+
+    def test_reject_button_opens_wizard(self):
+        """The reject button already returns an action; keep it that way."""
+        self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+            "state": "request",
+        })
+        result = self.bill.with_user(self.approver).action_user_reject_bill()
+        self.assertIsInstance(result, dict)
+        self.assertEqual(result.get("res_model"), "vendor.bill.approval.reject")
