@@ -2,17 +2,22 @@
     'name': 'Account: Reconcile OCA UX Fix',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_reconcile_oca_ux_fix',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.1.0',
     'category': 'Accounting',
-    'summary': 'Keeps the partner filter in the reconcile tab after manual operation.',
+    'summary': 'Keeps the search filter in the reconcile tab after manual operation.',
     'description': '''
 Reconcile OCA UX Fix
 ====================
 
-    Fixes a UX issue in the Reconcile tab: the customer filter was reset when
+    Fixes a UX issue in the Reconcile tab: the search filter was reset when
 switching to the Manual operation tab and back again.
 
-The fix preserves the selected filter across tab switches.
+The cause is that the selected record changes on the tab switch. The newly
+selected record belongs to another partner, and its form view installs a new
+`search_default_partner_id` filter, which replaces the filter the user set.
+
+The fix keeps the currently selected record when the controller re-selects
+after a form reload, so the record does not change and the filter survives.
     ''',
     'depends': ['account_reconcile_oca'],
     'data': [],
