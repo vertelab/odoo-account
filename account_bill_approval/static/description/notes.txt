@@ -7,7 +7,7 @@ odoo-account/account_bill_approval/static/description/banner.png
 odoo-account/account_bill_approval/static/description/icon.png
 
 
-Icon: "check-square-o"
+Icon: "Account: Vendor Bill Approval"
 icon_check-square-o.png
 icon_check-square-o_50.png
 icon_check-square-o_50_neg.png

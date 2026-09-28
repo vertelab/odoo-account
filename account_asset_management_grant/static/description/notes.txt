@@ -7,7 +7,7 @@ odoo-account/account_asset_management_grant/static/description/banner.png
 odoo-account/account_asset_management_grant/static/description/icon.png
 
 
-Icon: "building-o"
+Icon: "Account: Asset Grant"
 icon_building-o.png
 icon_building-o_50.png
 icon_building-o_50_neg.png
@@ -18,8 +18,8 @@ Odoo banner: 560 x 280
 Odoo icon: 140 x 140
 
 HEX
-#875A7B   (Odoo purple)
-#10B981   (accent)
+#930a57   (magenta - background gradient start)
+#8a077f   (purple - background gradient end)
 
 Source: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
 

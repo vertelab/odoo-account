@@ -7,7 +7,7 @@ odoo-account/account_budget_analytic_account/static/description/banner.png
 odoo-account/account_budget_analytic_account/static/description/icon.png
 
 
-Icon: "pie-chart"
+Icon: "Account: MIS Builder for Analytic Account"
 icon_pie-chart.png
 icon_pie-chart_50.png
 icon_pie-chart_50_neg.png
@@ -18,8 +18,8 @@ Odoo banner: 560 x 280
 Odoo icon: 140 x 140
 
 HEX
-#875A7B   (Odoo purple)
-#10B981   (accent)
+#930a57   (magenta - background gradient start)
+#8a077f   (purple - background gradient end)
 
 Source: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
 

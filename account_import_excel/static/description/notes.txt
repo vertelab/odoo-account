@@ -7,7 +7,7 @@ odoo-account/account_import_excel/static/description/banner.png
 odoo-account/account_import_excel/static/description/icon.png
 
 
-Icon: "file-excel-o"
+Icon: "Account: Simple Excel Import"
 icon_file-excel-o.png
 icon_file-excel-o_50.png
 icon_file-excel-o_50_neg.png
@@ -18,8 +18,8 @@ Odoo banner: 560 x 280
 Odoo icon: 140 x 140
 
 HEX
-#875A7B   (Odoo purple)
-#10B981   (accent)
+#930a57   (magenta - background gradient start)
+#8a077f   (purple - background gradient end)
 
 Source: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
 

@@ -7,7 +7,7 @@ odoo-account/account_payment_order_hr/static/description/banner.png
 odoo-account/account_payment_order_hr/static/description/icon.png
 
 
-Icon: "credit-card"
+Icon: "Account: Payment Order HR"
 icon_credit-card.png
 icon_credit-card_50.png
 icon_credit-card_50_neg.png
@@ -18,8 +18,8 @@ Odoo banner: 560 x 280
 Odoo icon: 140 x 140
 
 HEX
-#875A7B   (Odoo purple)
-#10B981   (accent)
+#930a57   (magenta - background gradient start)
+#8a077f   (purple - background gradient end)
 
 Source: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
 
