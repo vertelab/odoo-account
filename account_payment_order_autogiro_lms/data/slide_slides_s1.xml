@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 1: Översikt och beslutsguide
+         Slides: 4 (2 article, 1 infographic, 1 quiz)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s1" model="slide.slide">
+        <field name="name">1. Översikt och beslutsguide</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="sequence">0</field>
+    </record>
+
+    <!-- SLIDE 1.1: Varför fyra vägar? -->
+    <record id="slide_s1_01" model="slide.slide">
+        <field name="name">Varför fyra vägar?</field>
+        <field name="sequence">10</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200" data-scroll-background-ratio="1">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #1a365d;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Varför fyra vägar?</h1>
+        <p class="lead" style="text-align: center;">Samma knapp, fyra olika utfall. Skillnaden avgör om fakturan är Betald eller Pågående.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Problemet</h2>
+        <p>I Odoo ser betalning av en leverantörsfaktura nästan likadan ut oavsett hur du gör. Du väljer en betalmetod, bekräftar, och Odoo säger att något hände. Men <strong>vad</strong> som hände skiljer sig åt — och därför också vilket tillstånd fakturan får.</p>
+        <p>En faktura som <em>ser</em> betald ut kan i själva verket stå som <strong>Pågående</strong>, vilket betyder att pengarna ännu inte lämnat kontot och att en bankavstämning återstår. Utan den kunskapen blir bokslutet fel: leverantörsskulden ser nollad ut i ena vyn och levande i den andra.</p>
+    </div>
+</section>
+
+<section class="s_features pt32 pb64">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-check-circle mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Betald</h3>
+                    <p>Fakturans utestående belopp är noll och en bokförd betalning finns. Leverantörsskulden är slutligt nollad. Inget mer arbete krävs.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-hourglass-half mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Pågående</h3>
+                    <p>Betalningen är påbörjad men inte bekräftad av banken. Fakturan väntar på bankavstämning. Den blir <strong>inte</strong> Betald förrän bankraden stämts av mot fakturan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Den enda frågan som avgör</h3>
+                <p class="lead">Har banken bekräftat att pengarna rörde sig? Om ja — fakturan är Betald. Om nej — fakturan är Pågående och ska stämmas av.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Introduktion: varför fyra betalvägar ger olika utfall, och skillnaden mellan Betald och Pågående i bokslutet.</field>
+    </record>
+
+    <!-- SLIDE 1.2: De fyra vägarna i korthet -->
+    <record id="slide_s1_02" model="slide.slide">
+        <field name="name">De fyra vägarna i korthet</field>
+        <field name="sequence">20</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Översikt — fyra vägar, två utfall</h2>
+        <p>Alla fyra vägar slutar i antingen <strong>Betald</strong> eller <strong>Pågående</strong>. Det som skiljer är om en betalning bokförs direkt eller om banken måste bekräfta först.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt16 pb48">
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 8%;">Väg</th>
+                    <th style="width: 34%;">Hur</th>
+                    <th style="width: 26%;">Vad bokförs</th>
+                    <th style="width: 32%;">Fakturans utfall</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>a</strong></td>
+                    <td>Vanlig betalorder</td>
+                    <td>Betalningen bokförs och stäms av vid uppladdning</td>
+                    <td><span class="badge rounded-pill text-bg-success">Betald</span> direkt</td>
+                </tr>
+                <tr>
+                    <td><strong>b</strong></td>
+                    <td>Betalorder med Autogiro som betaltyp</td>
+                    <td>Ingenting bokförs vid uppladdning</td>
+                    <td><span class="badge rounded-pill text-bg-warning">Pågående</span> till bankavstämning</td>
+                </tr>
+                <tr>
+                    <td><strong>c</strong></td>
+                    <td>Manuell betalning (Pay) med datum</td>
+                    <td>Betalningen bokförs direkt med valt betalningsdatum</td>
+                    <td><span class="badge rounded-pill text-bg-success">Betald</span> direkt</td>
+                </tr>
+                <tr>
+                    <td><strong>d</strong></td>
+                    <td>Manuell betalning med Autogiro <em>(undantag)</em></td>
+                    <td>Ingenting — ingen betalning skapas alls</td>
+                    <td><span class="badge rounded-pill text-bg-warning">Pågående</span> till bankavstämning</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="small text-muted">Lägg märke till mönstret: väg <strong>a</strong> och <strong>c</strong> bokför direkt och ger Betald. Väg <strong>b</strong> och <strong>d</strong> väntar på banken och ger Pågående. Skillnaden mellan a/b och c/d är bara <em>hur</em> betalningen startas — betalorder eller Pay-knappen.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt32 pb64">
+    <div class="container s_allow_columns">
+        <h2>Varför Autogiro väntar</h2>
+        <p>Autogiro är ett <strong>direktdebitering</strong>: banken drar pengarna på eget initiativ. Företaget skickar ingen betalfil och kan inte veta när debiteringen sker. Därför får ingenting bokföras förrän banken faktiskt har dragit pengarna — annars skulle leverantörsskulden nollas innan pengarna rört sig.</p>
+        <p>Detta gäller både när Autogiro används via betalorder (väg b) och via Pay-knappen (väg d).</p>
+    </div>
+</section>
+        </field>
+        <field name="description">Jämförelsetabell över de fyra vägarna: hur de startas, vad som bokförs och vilket tillstånd fakturan får.</field>
+    </record>
+
+    <!-- SLIDE 1.3: Beslutsguide (Infographic) -->
+    <record id="slide_s1_03" model="slide.slide">
+        <field name="name">Beslutsguide — vilken väg ska jag välja?</field>
+        <field name="sequence">30</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.10</field>
+        <field name="image_1920" type="base64" file="account_payment_order_autogiro_lms/static/src/img/diagram_decision.png"/>
+        <field name="description">Beslutsguide: från leverantörsfaktura till rätt betalväg. Frågorna är (1) Autogiro eller vanlig betalning? och (2) betalorder eller Pay-knappen? — fyra kombinationer, fyra vägar.</field>
+    </record>
+
+    <!-- SLIDE 1.4: Quiz — översikt -->
+    <record id="slide_s1_04" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — översikt</field>
+        <field name="sequence">40</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina kunskaper om skillnaden mellan Betald och Pågående och om de fyra betalvägarna.</field>
+    </record>
+
+    <!-- QUIZ QUESTIONS -->
+
+    <record id="slide_s1_04_q1" model="slide.question">
+        <field name="question">Vad betyder det att en leverantörsfaktura står som Pågående?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s1_04"/>
+    </record>
+    <record id="slide_s1_04_q1_a1" model="slide.answer">
+        <field name="text_value">Betalningen är påbörjad men banken har inte bekräftat den ännu</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Pågående betyder att något är på väg men inte bekräftat — fakturan blir Betald först vid bankavstämning.</field>
+        <field name="question_id" ref="slide_s1_04_q1"/>
+    </record>
+    <record id="slide_s1_04_q1_a2" model="slide.answer">
+        <field name="text_value">Fakturan är bokförd men ännu inte godkänd av attestanten</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Godkännande/attest är en annan process. Pågående handlar om betalningen, inte om attest.</field>
+        <field name="question_id" ref="slide_s1_04_q1"/>
+    </record>
+    <record id="slide_s1_04_q1_a3" model="slide.answer">
+        <field name="text_value">Fakturan är delbetald och har ett kvarvarande belopp</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Delbetalning är ett eget tillstånd (Delvis betald). Pågående betyder att hela betalningen väntar på banken.</field>
+        <field name="question_id" ref="slide_s1_04_q1"/>
+    </record>
+
+    <record id="slide_s1_04_q2" model="slide.question">
+        <field name="question">Varför skiljer sig utfallet mellan väg a och väg b?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s1_04"/>
+    </record>
+    <record id="slide_s1_04_q2_a1" model="slide.answer">
+        <field name="text_value">Väg b använder Autogiro, där banken drar pengarna själv och inget får bokföras förrän den gjort det</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Autogiro är en direktdebitering — därför väntar väg b på bankens bekräftelse.</field>
+        <field name="question_id" ref="slide_s1_04_q2"/>
+    </record>
+    <record id="slide_s1_04_q2_a2" model="slide.answer">
+        <field name="text_value">Väg b har en annan momssats</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Momssatsen påverkar inte betalvägen.</field>
+        <field name="question_id" ref="slide_s1_04_q2"/>
+    </record>
+    <record id="slide_s1_04_q2_a3" model="slide.answer">
+        <field name="text_value">Väg b saknar förfallodatum</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Förfallodatumet styr när betalningen ska ske, inte hur den bokförs.</field>
+        <field name="question_id" ref="slide_s1_04_q2"/>
+    </record>
+
+    <record id="slide_s1_04_q3" model="slide.question">
+        <field name="question">Vilken är den avgörande frågan för om fakturan blir Betald eller Pågående?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s1_04"/>
+    </record>
+    <record id="slide_s1_04_q3_a1" model="slide.answer">
+        <field name="text_value">Har banken bekräftat att pengarna rörde sig?</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Bankens bekräftelse är hela skillnaden.</field>
+        <field name="question_id" ref="slide_s1_04_q3"/>
+    </record>
+    <record id="slide_s1_04_q3_a2" model="slide.answer">
+        <field name="text_value">Är fakturan kopplad till ett projekt?</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Projektkoppling påverkar bokföringen men inte betaltillståndet.</field>
+        <field name="question_id" ref="slide_s1_04_q3"/>
+    </record>
+    <record id="slide_s1_04_q3_a3" model="slide.answer">
+        <field name="text_value">Är beloppet under eller över ett gränsvärde?</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Beloppet påverkar inte om betalningen bokförs direkt eller väntar på banken.</field>
+        <field name="question_id" ref="slide_s1_04_q3"/>
+    </record>
+
+    <record id="slide_s1_04_q4" model="slide.question">
+        <field name="question">Varför är det viktigt att känna igen Pågående vid bokslut?</field>
+        <field name="sequence">4</field>
+        <field name="slide_id" ref="slide_s1_04"/>
+    </record>
+    <record id="slide_s1_04_q4_a1" model="slide.answer">
+        <field name="text_value">Fakturan är inte slutligt betald — leverantörsskulden är kvar och en bankavstämning återstår</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Pågående fakturor har kvarvarande skuld och kräver avstämning innan bokslutet är korrekt.</field>
+        <field name="question_id" ref="slide_s1_04_q4"/>
+    </record>
+    <record id="slide_s1_04_q4_a2" model="slide.answer">
+        <field name="text_value">Fakturan behöver bokföras om från grunden</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Fakturan är redan bokförd — det är betalningen som väntar.</field>
+        <field name="question_id" ref="slide_s1_04_q4"/>
+    </record>
+    <record id="slide_s1_04_q4_a3" model="slide.answer">
+        <field name="text_value">Fakturan är felaktigt registrerad och ska makuleras</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Pågående är ett normalt tillstånd, inte ett fel.</field>
+        <field name="question_id" ref="slide_s1_04_q4"/>
+    </record>
+
+    <record id="slide_s1_04_q5" model="slide.question">
+        <field name="question">Vilka två vägar bokför betalningen direkt utan att vänta på banken?</field>
+        <field name="sequence">5</field>
+        <field name="slide_id" ref="slide_s1_04"/>
+    </record>
+    <record id="slide_s1_04_q5_a1" model="slide.answer">
+        <field name="text_value">Väg a (vanlig betalorder) och väg c (manuell betalning med datum)</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Båda bokför betalningen direkt och ger Betald.</field>
+        <field name="question_id" ref="slide_s1_04_q5"/>
+    </record>
+    <record id="slide_s1_04_q5_a2" model="slide.answer">
+        <field name="text_value">Väg b och väg d</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Väg b och d är just de som väntar på banken (Autogiro).</field>
+        <field name="question_id" ref="slide_s1_04_q5"/>
+    </record>
+    <record id="slide_s1_04_q5_a3" model="slide.answer">
+        <field name="text_value">Alla fyra vägar bokför direkt</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Autogiro-vägarna (b och d) väntar medvetet på bankens bekräftelse.</field>
+        <field name="question_id" ref="slide_s1_04_q5"/>
+    </record>
+
+    </data>
+</odoo>

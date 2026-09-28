@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 3: Manuell betalning — datum och Autogiro
+         Slides: 5 (2 article, 1 infographic, 1 article, 1 quiz)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s3" model="slide.slide">
+        <field name="name">3. Manuell betalning — datum och Autogiro</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="sequence">90</field>
+    </record>
+
+    <!-- SLIDE 3.1: Väg c — Manuell betalning med datum -->
+    <record id="slide_s3_01" model="slide.slide">
+        <field name="name">Väg c — Manuell betalning med datum</field>
+        <field name="sequence">100</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.30</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #2c5282;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Väg c — Manuell betalning med datum</h1>
+        <p class="lead" style="text-align: center;">Pay-knappen på fakturan. Betalningsdatum under memo, default = förfallodatum. Fakturan blir Betald direkt.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>När används den?</h2>
+        <p>När en <strong>enstaka</strong> faktura ska betalas direkt från fakturan, utan att gå via en betalorder. Du klickar <strong>Pay</strong> (Registrera betalning) på fakturan och bekräftar i wizarden.</p>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb32">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-lg-6 pt16 pb16">
+                <h3 class="h4-fs">Betalningsdatum i wizarden</h3>
+                <p>Fältet <strong>Betalningsdatum</strong> ligger <strong>under memo-fältet</strong>, inte uppe i högra hörnet. Det gör att du ser datumet i den ordning du faktiskt arbetar: belopp → memo → datum.</p>
+                <p>Fältet är <strong>förifyllt med fakturans förfallodatum</strong> — inte dagens datum. I de flesta fall behöver du inte ändra något.</p>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <table class="table table-bordered">
+                    <tr><th>Fält</th><th>Standardvärde</th></tr>
+                    <tr><td>Belopp</td><td>Fakturans utestående belopp</td></tr>
+                    <tr><td>Memo</td><td>Fakturanummer</td></tr>
+                    <tr><td><strong>Betalningsdatum</strong></td><td><strong>Fakturans förfallodatum</strong></td></tr>
+                    <tr><td>Betalmetod</td><td>Journalens standardmetod</td></tr>
+                </table>
+                <p class="small text-muted">Har flera fakturor valts samtidigt används dagens datum som fallback, eftersom de kan ha olika förfallodatum.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_block pt32 pb48">
+    <div class="container s_allow_columns">
+        <h2>Datumet hamnar på verifikatet</h2>
+        <p>Det datum du ser i wizarden är det datum som skrivs in på <strong>verifikatet</strong> som skapas. Betalningsdatumet i wizarden blir betalningens datum, som blir verifikatets datum. Det finns ingen separat datumkedja att hålla reda på.</p>
+    </div>
+</section>
+
+<section class="s_text_image pt24 pb64">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-lg-6 pt16 pb16">
+                <h3 class="h4-fs">Vad bokförs?</h3>
+                <p>En <strong>bokförd betalning</strong> skapas och stäms av mot fakturans leverantörsskuld. Leverantörsskulden nollas mot bankkontot — fakturan blir <span class="badge rounded-pill text-bg-success">Betald</span> direkt.</p>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <h3 class="h4-fs">Vid bankavstämning</h3>
+                <p>Verifikatet ligger sedan och väntar på bankraden. Vid bankavstämningen <strong>knyts verifikatet mot bankraden</strong> så att bokföringen stämmer mot kontoutdraget.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Sammanfattning väg c</h3>
+                <p class="lead">Pay → betalningsdatum (under memo, default förfallodatum) → <strong>betalning bokförd direkt</strong> → fakturan <strong>Betald</strong> → verifikatet knyts mot bankraden vid bankavstämning.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Väg c: manuell betalning via Pay-knappen — betalningsdatum under memo med förfallodatum som default, fakturan blir Betald direkt och verifikatet knyts mot bankraden.</field>
+    </record>
+
+    <!-- SLIDE 3.2: Väg d — Manuell betalning med Autogiro -->
+    <record id="slide_s3_02" model="slide.slide">
+        <field name="name">Väg d — Manuell betalning med Autogiro (undantag)</field>
+        <field name="sequence">110</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.30</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #6b46c1;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Väg d — Manuell betalning med Autogiro</h1>
+        <p class="lead" style="text-align: center;">Undantaget: Pay-knappen skapar ingen betalning alls. Fakturan flaggas och står Pågående.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Undantaget</h2>
+        <p>Det här är den väg som förvånar mest. Du klickar <strong>Pay</strong> på en Autogiro-faktura, wizarden ser ut som vanligt, du bekräftar — och <strong>ingenting bokförs</strong>. Ingen betalning skapas, inget verifikat, ingen avstämning.</p>
+        <p>Anledningen är densamma som i väg b: Autogiro innebär att banken drar pengarna själv. Det finns ingen betalning att registrera — bara en faktura att <strong>flagga</strong> som väntande på bank.</p>
+    </div>
+</section>
+
+<section class="s_features pt32 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-times-circle mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Vad som INTE händer</h3>
+                    <ul class="list-group list-group-flush text-start">
+                        <li class="list-group-item px-0 bg-transparent">Ingen betalning skapas</li>
+                        <li class="list-group-item px-0 bg-transparent">Inget verifikat bokförs</li>
+                        <li class="list-group-item px-0 bg-transparent">Ingen avstämning sker</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <i class="s_features_icon fa fa-flag mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Vad som händer</h3>
+                    <ul class="list-group list-group-flush text-start">
+                        <li class="list-group-item px-0 bg-transparent">Fakturan flaggas som väntande på bank</li>
+                        <li class="list-group-item px-0 bg-transparent">Fakturan blir <span class="badge rounded-pill text-bg-warning">Pågående</span></li>
+                        <li class="list-group-item px-0 bg-transparent">Vid bankavstämning → <span class="badge rounded-pill text-bg-success">Betald</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_block pt32 pb48">
+    <div class="container s_allow_columns">
+        <h2>Autogiro förväljs automatiskt</h2>
+        <p>Om fakturans betalningssätt redan är Autogiro <strong>förväljer wizarden Autogiro-metoden</strong> åt dig. Du behöver inte leta upp den i listan.</p>
+        <p>Det är bara ett <strong>förval</strong> — metoden är fortfarande redigerbar. Om du väljer en annan betalmetod gäller den vanliga vägen (väg c) i stället.</p>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Sammanfattning väg d</h3>
+                <p class="lead">Pay (Autogiro) → <strong>inget skapas, inget bokförs</strong> → fakturan flaggas och står <strong>Pågående</strong> → bankavstämning → <strong>Betald</strong>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Väg d (undantaget): Pay-knappen med Autogiro skapar ingen betalning och bokför ingenting — fakturan flaggas och står Pågående till bankavstämning.</field>
+    </record>
+
+    <!-- SLIDE 3.3: Pay-knappen — datum vs Autogiro (Infographic) -->
+    <record id="slide_s3_03" model="slide.slide">
+        <field name="name">Pay-knappen — datum vs Autogiro</field>
+        <field name="sequence">120</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.10</field>
+        <field name="image_1920" type="base64" file="account_payment_order_autogiro_lms/static/src/img/diagram_pay_outcome.png"/>
+        <field name="description">Samma Pay-wizard, två utfall. Vänster: vanlig betalmetod → betalning bokförd med valt datum → Betald. Höger: Autogiro → inget skapas → flaggad och Pågående.</field>
+    </record>
+
+    <!-- SLIDE 3.4: Tillståndsdiagram -->
+    <record id="slide_s3_04" model="slide.slide">
+        <field name="name">Fakturans väg genom tillstånden</field>
+        <field name="sequence">125</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.10</field>
+        <field name="image_1920" type="base64" file="account_payment_order_autogiro_lms/static/src/img/diagram_states.png"/>
+        <field name="description">Tillståndsdiagram: Ej betald → Pågående → Betald. Väg a och c hoppar direkt till Betald. Väg b och d går via Pågående och når Betald först vid bankavstämning.</field>
+    </record>
+
+    <!-- SLIDE 3.5: Quiz — manuell betalning -->
+    <record id="slide_s3_05" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — manuell betalning</field>
+        <field name="sequence">130</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina kunskaper om manuell betalning — med datum och med Autogiro.</field>
+    </record>
+
+    <record id="slide_s3_05_q1" model="slide.question">
+        <field name="question">Var ligger betalningsdatum-fältet i wizarden för manuell betalning?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s3_05"/>
+    </record>
+    <record id="slide_s3_05_q1_a1" model="slide.answer">
+        <field name="text_value">Under memo-fältet</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Fältet flyttades under memo så att det följer arbetsordningen.</field>
+        <field name="question_id" ref="slide_s3_05_q1"/>
+    </record>
+    <record id="slide_s3_05_q1_a2" model="slide.answer">
+        <field name="text_value">Överst i högra hörnet, ovanför memo</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det var den gamla placeringen — den är flyttad.</field>
+        <field name="question_id" ref="slide_s3_05_q1"/>
+    </record>
+    <record id="slide_s3_05_q1_a3" model="slide.answer">
+        <field name="text_value">Det finns inget betalningsdatum i wizarden</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Fältet finns och ligger under memo.</field>
+        <field name="question_id" ref="slide_s3_05_q1"/>
+    </record>
+
+    <record id="slide_s3_05_q2" model="slide.question">
+        <field name="question">Vilket datum är betalningsdatum förifyllt med?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s3_05"/>
+    </record>
+    <record id="slide_s3_05_q2_a1" model="slide.answer">
+        <field name="text_value">Fakturans förfallodatum</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Förfallodatumet är default — det är oftast det datum betalningen avser.</field>
+        <field name="question_id" ref="slide_s3_05_q2"/>
+    </record>
+    <record id="slide_s3_05_q2_a2" model="slide.answer">
+        <field name="text_value">Dagens datum</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Dagens datum används bara som fallback vid flera fakturor med olika förfallodatum.</field>
+        <field name="question_id" ref="slide_s3_05_q2"/>
+    </record>
+    <record id="slide_s3_05_q2_a3" model="slide.answer">
+        <field name="text_value">Fakturans fakturadatum</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det är förfallodatumet, inte fakturadatumet, som är default.</field>
+        <field name="question_id" ref="slide_s3_05_q2"/>
+    </record>
+
+    <record id="slide_s3_05_q3" model="slide.question">
+        <field name="question">Vad händer när du bekräftar Pay på en faktura med Autogiro som betalmetod?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s3_05"/>
+    </record>
+    <record id="slide_s3_05_q3_a1" model="slide.answer">
+        <field name="text_value">Ingen betalning skapas och inget bokförs — fakturan flaggas och blir Pågående</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Det är undantaget i väg d.</field>
+        <field name="question_id" ref="slide_s3_05_q3"/>
+    </record>
+    <record id="slide_s3_05_q3_a2" model="slide.answer">
+        <field name="text_value">En betalning bokförs och fakturan blir Betald</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det är väg c (vanlig betalmetod). Med Autogiro bokförs ingenting.</field>
+        <field name="question_id" ref="slide_s3_05_q3"/>
+    </record>
+    <record id="slide_s3_05_q3_a3" model="slide.answer">
+        <field name="text_value">En betalorder skapas automatiskt</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Pay-knappen skapar ingen betalorder — den vägen är helt separat.</field>
+        <field name="question_id" ref="slide_s3_05_q3"/>
+    </record>
+
+    <record id="slide_s3_05_q4" model="slide.question">
+        <field name="question">Förväljs Autogiro i wizarden, och kan du byta metod?</field>
+        <field name="sequence">4</field>
+        <field name="slide_id" ref="slide_s3_05"/>
+    </record>
+    <record id="slide_s3_05_q4_a1" model="slide.answer">
+        <field name="text_value">Ja, Autogiro förväljs för Autogiro-fakturor — och metoden kan bytas</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Det är ett förval, inte en låsning.</field>
+        <field name="question_id" ref="slide_s3_05_q4"/>
+    </record>
+    <record id="slide_s3_05_q4_a2" model="slide.answer">
+        <field name="text_value">Nej, Autogiro låses när fakturan är en Autogiro-faktura</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Metoden är alltid redigerbar — förvalet sparar bara ett klick.</field>
+        <field name="question_id" ref="slide_s3_05_q4"/>
+    </record>
+    <record id="slide_s3_05_q4_a3" model="slide.answer">
+        <field name="text_value">Autogiro förväljs aldrig — du måste alltid välja själv</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Förvalet finns och gör att du slipper leta upp metoden.</field>
+        <field name="question_id" ref="slide_s3_05_q4"/>
+    </record>
+
+    <record id="slide_s3_05_q5" model="slide.question">
+        <field name="question">Vad krävs för att en Pågående faktura från väg d ska bli Betald?</field>
+        <field name="sequence">5</field>
+        <field name="slide_id" ref="slide_s3_05"/>
+    </record>
+    <record id="slide_s3_05_q5_a1" model="slide.answer">
+        <field name="text_value">Att banktransaktionen stäms av mot fakturans utestående belopp</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Samma steg som i väg b — bankavstämningen stänger flödet.</field>
+        <field name="question_id" ref="slide_s3_05_q5"/>
+    </record>
+    <record id="slide_s3_05_q5_a2" model="slide.answer">
+        <field name="text_value">Att du klickar Pay igen</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Pay igen skulle bara flagga fakturan på nytt — det är avstämningen som saknas.</field>
+        <field name="question_id" ref="slide_s3_05_q5"/>
+    </record>
+    <record id="slide_s3_05_q5_a3" model="slide.answer">
+        <field name="text_value">Att fakturan bokförs om</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Fakturan är redan bokförd — betalningen väntar på banken.</field>
+        <field name="question_id" ref="slide_s3_05_q5"/>
+    </record>
+
+    </data>
+</odoo>

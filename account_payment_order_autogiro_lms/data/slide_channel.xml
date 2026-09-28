@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         Betalning av leverantörsfakturor — Betalorder och Autogiro
+         4 sektioner, 25 slides (artiklar, infographics, quiz)
+         ═══════════════════════════════════════════════════════════ -->
+
+    <record id="slide_channel_payment" model="slide.channel">
+        <field name="name">Betalning av leverantörsfakturor — Betalorder och Autogiro</field>
+        <field name="description">
+Utbildning i hur betalning av leverantörsfakturor faktiskt beter sig i Odoo 18.
+De fyra betalvägarna ser nästan identiska ut i gränssnittet men lämnar fakturan
+i olika tillstånd — Betald eller Pågående. Kursen går igenom varje väg, vad som
+bokförs och när en bankavstämning krävs.
+        </field>
+        <field name="channel_type">training</field>
+        <field name="enroll">public</field>
+        <field name="is_published" eval="True"/>
+    </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEKTION 2: Betalorder — vanlig och Autogiro
+         Slides: 5 (2 article, 1 infographic, 1 quiz, 1 article)
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- SECTION HEADER -->
+    <record id="slide_category_s2" model="slide.slide">
+        <field name="name">2. Betalorder — vanlig och Autogiro</field>
+        <field name="is_category" eval="True"/>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="sequence">50</field>
+    </record>
+
+    <!-- SLIDE 2.1: Väg a — Vanlig betalorder -->
+    <record id="slide_s2_01" model="slide.slide">
+        <field name="name">Väg a — Vanlig betalorder</field>
+        <field name="sequence">60</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.30</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #2d3748;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Väg a — Vanlig betalorder</h1>
+        <p class="lead" style="text-align: center;">Betalningen bokförs och stäms av vid uppladdning. Fakturan blir Betald.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>När används den?</h2>
+        <p>När flera leverantörsfakturor ska betalas samtidigt och skickas till banken som en <strong>betalorder</strong> — ett samlat betaluppdrag. Det är standardvägen för vanliga bankbetalningar (IBAN, Bankgiro och liknande) där företaget själv skickar betalfilen.</p>
+    </div>
+</section>
+
+<section class="s_process_steps pt48 pb72 s_process_steps_connector_line">
+    <div class="container">
+        <h2 class="mb-4 text-center h3-fs">Steg för steg</h2>
+        <div class="row g-0">
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">1</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Lägg på order</h3>
+                    <p>Fakturorna läggs på en betalorder med rätt betalmetod</p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">2</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Generera fil</h3>
+                    <p>Betalordern går från utkast till genererad</p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">3</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Ladda upp</h3>
+                    <p>Filen skickas till banken — <strong>här bokförs betalningen</strong></p>
+                </div>
+            </div>
+            <div class="col-lg-3 s_process_step position-relative pt24 pb24">
+                <div class="s_process_step_number d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary-light" data-name="Step Number">
+                    <h3 class="mb-0 text-primary text-center">4</h3>
+                </div>
+                <div class="s_process_step_content mt-3 px-3 text-center">
+                    <h3 class="h4-fs">Klart</h3>
+                    <p>Fakturorna är <span class="badge rounded-pill text-bg-success">Betalda</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_block pt32 pb64">
+    <div class="container s_allow_columns">
+        <h2>Vad händer vid uppladdning?</h2>
+        <p>När betalordern laddas upp skapas en <strong>bokförd betalning</strong> per faktura och den stäms av mot fakturans leverantörsskuld. Leverantörsskulden nollas och fakturan blir <strong>Betald</strong>.</p>
+        <p>Detta är den enda av de fyra vägarna där hela kedjan — betalning, bokföring och avstämning — sker i ett enda steg utan inblandning av banken i efterhand.</p>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Sammanfattning väg a</h3>
+                <p class="lead">Betalorder → uppladdning → <strong>betalning bokförd och avstämd</strong> → fakturan <strong>Betald</strong>. Ingen bankavstämning behövs i efterhand.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Väg a: vanlig betalorder där betalningen bokförs och stäms av vid uppladdning, så fakturan blir Betald direkt.</field>
+    </record>
+
+    <!-- SLIDE 2.2: Väg b — Betalorder med Autogiro -->
+    <record id="slide_s2_02" model="slide.slide">
+        <field name="name">Väg b — Betalorder med Autogiro som betaltyp</field>
+        <field name="sequence">70</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.30</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc5 pt200 pb200">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #553c9a;"/>
+    <div class="container">
+        <h1 class="display-3-fs" style="text-align: center;">Väg b — Betalorder med Autogiro</h1>
+        <p class="lead" style="text-align: center;">Samma betalorder, men ingenting bokförs vid uppladdning. Fakturan står Pågående.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Samma flöde — annat utfall</h2>
+        <p>Du gör exakt som i väg a: lägger fakturorna på en betalorder och laddar upp. Men betalmetoden är <strong>Autogiro</strong>, och då händer något annat.</p>
+        <p>Autogiro innebär att <strong>banken drar pengarna själv</strong>. Företaget skickar ingen betalfil — det finns inget att skicka. Därför <strong>bokförs ingenting</strong> när ordern laddas upp.</p>
+    </div>
+</section>
+
+<section class="s_text_image pt40 pb32">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-lg-6 pt16 pb16">
+                <h3 class="h4-fs">Vad händer vid uppladdning?</h3>
+                <ul class="list-group list-group-flush text-start">
+                    <li class="list-group-item px-0 bg-transparent">Betalordern sätts till <strong>uppladdad</strong></li>
+                    <li class="list-group-item px-0 bg-transparent">Ingen betalning bokförs</li>
+                    <li class="list-group-item px-0 bg-transparent">Ingen avstämning sker</li>
+                    <li class="list-group-item px-0 bg-transparent">Fakturan blir <span class="badge rounded-pill text-bg-warning">Pågående</span></li>
+                </ul>
+            </div>
+            <div class="col-lg-6 pt16 pb16">
+                <h3 class="h4-fs">Vad händer vid bankavstämning?</h3>
+                <ul class="list-group list-group-flush text-start">
+                    <li class="list-group-item px-0 bg-transparent">Banktransaktionen bokförs mot fakturans leverantörsskuld</li>
+                    <li class="list-group-item px-0 bg-transparent">Leverantörsskulden nollas</li>
+                    <li class="list-group-item px-0 bg-transparent">Fakturan blir <span class="badge rounded-pill text-bg-success">Betald</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_block pt32 pb64">
+    <div class="container s_allow_columns">
+        <h2>Varför inte bokföra direkt?</h2>
+        <p>Om betalningen bokfördes vid uppladdning skulle leverantörsskulden nollas <strong>innan</strong> banken dragit pengarna. Bokslutet skulle då visa en skuld som är borta medan pengarna fortfarande finns kvar på kontot — och om debiteringen misslyckas (täckt konto, uppsagt medgivande) finns ingen skuld kvar att kräva in.</p>
+        <p>Därför väntar väg b medvetet på bankens bekräftelse.</p>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Sammanfattning väg b</h3>
+                <p class="lead">Betalorder (Autogiro) → uppladdning → <strong>inget bokförs</strong> → fakturan <strong>Pågående</strong> → bankavstämning → <strong>Betald</strong>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Väg b: betalorder med Autogiro som betaltyp — ingenting bokförs vid uppladdning och fakturan står Pågående till bankavstämning.</field>
+    </record>
+
+    <!-- SLIDE 2.3: Samma order, olika utfall (Infographic) -->
+    <record id="slide_s2_03" model="slide.slide">
+        <field name="name">Samma betalorder — olika utfall</field>
+        <field name="sequence">80</field>
+        <field name="slide_category">infographic</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.10</field>
+        <field name="image_1920" type="base64" file="account_payment_order_autogiro_lms/static/src/img/diagram_order_outcome.png"/>
+        <field name="description">Jämförelse: identisk betalorder, två utfall. Vänster: vanlig betalmetod → bokförd och avstämd → Betald. Höger: Autogiro → inget bokförs → Pågående till bankavstämning.</field>
+    </record>
+
+    <!-- SLIDE 2.4: Så känner du igen en Pågående faktura -->
+    <record id="slide_s2_04" model="slide.slide">
+        <field name="name">Så känner du igen en Pågående faktura</field>
+        <field name="sequence">85</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.20</field>
+        <field name="html_content" type="html">
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Var ser du skillnaden?</h2>
+        <p>En Pågående faktura är inte dold någonstans — den visas med ett eget tillstånd. Lär dig var du hittar den, så undviker du att tro att bokslutet är klart när det inte är det.</p>
+    </div>
+</section>
+
+<section class="s_features pt32 pb64">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-list mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">I fakturalistan</h3>
+                    <p>Tillståndskolumnen visar <strong>Pågående</strong> i stället för Betald. Fakturan har fortfarande ett utestående belopp.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-file-text-o mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">På fakturan</h3>
+                    <p>Statusfältet visar Pågående och det utestående beloppet är kvar — det är din signal att bankavstämning återstår.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <i class="s_features_icon fa fa-university mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">I bankavstämningen</h3>
+                    <p>Bankraden ligger och väntar på att matchas mot fakturan. När den matchas blir fakturan Betald.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc5 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Kom ihåg</h3>
+                <p class="lead">Pågående betyder inte "nästan klar" — det betyder <strong>arbete kvar</strong>. En Pågående faktura vid bokslut kräver att bankavstämningen blir gjord.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Var du ser skillnaden mellan Betald och Pågående: fakturalistan, fakturan och bankavstämningen.</field>
+    </record>
+
+    <!-- SLIDE 2.5: Quiz — betalorder -->
+    <record id="slide_s2_05" model="slide.slide">
+        <field name="name">🧪 Testa dina kunskaper — betalorder</field>
+        <field name="sequence">90</field>
+        <field name="slide_category">quiz</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="False"/>
+        <field name="completion_time">0.25</field>
+        <field name="quiz_first_attempt_reward">100</field>
+        <field name="quiz_second_attempt_reward">75</field>
+        <field name="quiz_third_attempt_reward">50</field>
+        <field name="quiz_fourth_attempt_reward">25</field>
+        <field name="description">Testa dina kunskaper om betalorder — vanlig och med Autogiro.</field>
+    </record>
+
+    <record id="slide_s2_05_q1" model="slide.question">
+        <field name="question">Vad händer med fakturan när en vanlig betalorder laddas upp?</field>
+        <field name="sequence">1</field>
+        <field name="slide_id" ref="slide_s2_05"/>
+    </record>
+    <record id="slide_s2_05_q1_a1" model="slide.answer">
+        <field name="text_value">Betalningen bokförs och stäms av — fakturan blir Betald</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Vanlig betalorder bokför och stämmer av vid uppladdning.</field>
+        <field name="question_id" ref="slide_s2_05_q1"/>
+    </record>
+    <record id="slide_s2_05_q1_a2" model="slide.answer">
+        <field name="text_value">Fakturan blir Pågående till bankavstämning</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det är väg b (Autogiro) som blir Pågående. Vanlig betalorder bokför direkt.</field>
+        <field name="question_id" ref="slide_s2_05_q1"/>
+    </record>
+    <record id="slide_s2_05_q1_a3" model="slide.answer">
+        <field name="text_value">Ingenting händer förrän banken bekräftar</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Vid vanlig betalorder sker bokföringen vid uppladdning, inte vid bankens bekräftelse.</field>
+        <field name="question_id" ref="slide_s2_05_q1"/>
+    </record>
+
+    <record id="slide_s2_05_q2" model="slide.question">
+        <field name="question">Varför bokförs ingenting när en Autogiro-betalorder laddas upp?</field>
+        <field name="sequence">2</field>
+        <field name="slide_id" ref="slide_s2_05"/>
+    </record>
+    <record id="slide_s2_05_q2_a1" model="slide.answer">
+        <field name="text_value">Banken drar pengarna själv — inget får bokföras förrän den gjort det</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Autogiro är en direktdebitering som banken initierar.</field>
+        <field name="question_id" ref="slide_s2_05_q2"/>
+    </record>
+    <record id="slide_s2_05_q2_a2" model="slide.answer">
+        <field name="text_value">Betalordern saknar betalfil och kan därför inte bokföras</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Det är en konsekvens av Autogiro, inte orsaken — och betalfilen är just det som inte behövs.</field>
+        <field name="question_id" ref="slide_s2_05_q2"/>
+    </record>
+    <record id="slide_s2_05_q2_a3" model="slide.answer">
+        <field name="text_value">Betalmetoden är felkonfigurerad</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Beteendet är avsiktligt och korrekt för Autogiro.</field>
+        <field name="question_id" ref="slide_s2_05_q2"/>
+    </record>
+
+    <record id="slide_s2_05_q3" model="slide.question">
+        <field name="question">Vad krävs för att en Pågående Autogiro-faktura ska bli Betald?</field>
+        <field name="sequence">3</field>
+        <field name="slide_id" ref="slide_s2_05"/>
+    </record>
+    <record id="slide_s2_05_q3_a1" model="slide.answer">
+        <field name="text_value">Att banktransaktionen stäms av mot fakturans utestående belopp</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Bankavstämningen är steget som stänger flödet.</field>
+        <field name="question_id" ref="slide_s2_05_q3"/>
+    </record>
+    <record id="slide_s2_05_q3_a2" model="slide.answer">
+        <field name="text_value">Att en ny betalorder skapas</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Ingen ny order behövs — bankraden ska matchas mot fakturan.</field>
+        <field name="question_id" ref="slide_s2_05_q3"/>
+    </record>
+    <record id="slide_s2_05_q3_a3" model="slide.answer">
+        <field name="text_value">Att fakturan bokförs om manuellt</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Fakturan är redan bokförd. Det är avstämningen som saknas.</field>
+        <field name="question_id" ref="slide_s2_05_q3"/>
+    </record>
+
+    <record id="slide_s2_05_q4" model="slide.question">
+        <field name="question">Vad är den enda skillnaden mellan väg a och väg b?</field>
+        <field name="sequence">4</field>
+        <field name="slide_id" ref="slide_s2_05"/>
+    </record>
+    <record id="slide_s2_05_q4_a1" model="slide.answer">
+        <field name="text_value">Betalmetoden — Autogiro väntar på banken, vanlig betalning bokför direkt</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Samma betalorder, men betalmetodens egenskap avgör utfallet.</field>
+        <field name="question_id" ref="slide_s2_05_q4"/>
+    </record>
+    <record id="slide_s2_05_q4_a2" model="slide.answer">
+        <field name="text_value">Antalet fakturor på ordern</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Antalet fakturor påverkar inte bokföringen.</field>
+        <field name="question_id" ref="slide_s2_05_q4"/>
+    </record>
+    <record id="slide_s2_05_q4_a3" model="slide.answer">
+        <field name="text_value">Om ordern är genererad eller inte</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Båda vägarna genererar en fil/order — skillnaden ligger i betalmetoden.</field>
+        <field name="question_id" ref="slide_s2_05_q4"/>
+    </record>
+
+    <record id="slide_s2_05_q5" model="slide.question">
+        <field name="question">Varför är det farligt att bokföra en Autogiro-betalning redan vid uppladdning?</field>
+        <field name="sequence">5</field>
+        <field name="slide_id" ref="slide_s2_05"/>
+    </record>
+    <record id="slide_s2_05_q5_a1" model="slide.answer">
+        <field name="text_value">Leverantörsskulden nollas innan pengarna rört sig — misslyckas debiteringen finns ingen skuld kvar att kräva in</field>
+        <field name="sequence">1</field>
+        <field name="is_correct" eval="True"/>
+        <field name="comment">Correct! Det är precis därför väg b väntar på bankens bekräftelse.</field>
+        <field name="question_id" ref="slide_s2_05_q5"/>
+    </record>
+    <record id="slide_s2_05_q5_a2" model="slide.answer">
+        <field name="text_value">Banken tar ut en extra avgift</field>
+        <field name="sequence">2</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Avgifter är inte skälet — det handlar om att skulden försvinner för tidigt.</field>
+        <field name="question_id" ref="slide_s2_05_q5"/>
+    </record>
+    <record id="slide_s2_05_q5_a3" model="slide.answer">
+        <field name="text_value">Momsen blir fel</field>
+        <field name="sequence">3</field>
+        <field name="is_correct" eval="False"/>
+        <field name="comment">Incorrect! Momsen påverkas inte av när betalningen bokförs.</field>
+        <field name="question_id" ref="slide_s2_05_q5"/>
+    </record>
+
+    </data>
+</odoo>
