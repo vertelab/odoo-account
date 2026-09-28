@@ -246,8 +246,12 @@ class AccountMove(models.Model):
             "context": {"default_move_id": self.id, "default_line_id": line.id},
         }
 
-    def action_post(self):
-        """Block posting while approvals are outstanding."""
+    def _bill_approval_check_pending(self):
+        """Raise when the bill still has outstanding approvals.
+
+        Kept as a separate helper so the guard can be invoked from every
+        posting entry point.
+        """
         for move in self.filtered(lambda mv: mv.move_type in BILL_MOVE_TYPES):
             pending = move.approving_user_ids.filtered(
                 lambda line: line.state in ("new", "request", "rejected")
@@ -258,4 +262,21 @@ class AccountMove(models.Model):
                     "confirmed. Outstanding: %s",
                     ", ".join(pending.mapped("user_id.display_name")),
                 ))
+
+    def action_post(self):
+        """Block posting while approvals are outstanding."""
+        self._bill_approval_check_pending()
         return super().action_post()
+
+    def _post(self, soft=True):
+        """Block posting while approvals are outstanding.
+
+        ``action_post`` is not the only way to post a move. The
+        ``validate.account.move`` wizard used by ``supplier_reference_trigger``
+        (and by Odoo's own abnormal-amount/date checks) calls
+        ``move_ids._post()`` directly, which bypasses the whole
+        ``action_post`` chain. Guarding ``_post`` as well closes that hole,
+        so an approval can no longer be skipped by confirming a wizard.
+        """
+        self._bill_approval_check_pending()
+        return super()._post(soft=soft)

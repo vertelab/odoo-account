@@ -18,7 +18,9 @@ must be selectable at registration time (T/11311).
   ("reject and reopen"). The rejecting user cannot approve the same line
   again; a new line has to be added.
 - **Posting guard** — a vendor bill cannot be posted while approvals are
-  outstanding.
+  outstanding. The guard covers both ``action_post()`` and the internal
+  ``_post()``, so confirmation wizards (Odoo's abnormal amount/date check,
+  SFA's missing-reference check) cannot bypass the approval.
 - **Systray pen** — shows how many bills are waiting for *your* approval.
 - **Multi-company** — `company_id` is stored on every approval line.
 - **Chatter trail** — every request, approval and rejection is logged with

@@ -114,6 +114,28 @@ class TestBillApproval(TransactionCase):
         self.bill.action_post()
         self.assertEqual(self.bill.state, "posted")
 
+    def test_post_guard_blocks_direct_post(self):
+        """``_post()`` must be guarded too, not just ``action_post()``.
+
+        The ``validate.account.move`` wizard (used by
+        ``supplier_reference_trigger`` and Odoo's own abnormal checks) calls
+        ``move_ids._post()`` directly, bypassing ``action_post`` entirely.
+        """
+        self.bill.approving_user_ids = [(0, 0, {"user_id": self.approver.id})]
+        with self.assertRaises(ValidationError):
+            self.bill._post()
+        self.assertEqual(self.bill.state, "draft")
+
+    def test_post_guard_blocks_validate_wizard(self):
+        """Confirming the validate wizard must not skip the approval."""
+        self.bill.approving_user_ids = [(0, 0, {"user_id": self.approver.id})]
+        wizard = self.env["validate.account.move"].create({
+            "move_ids": [(6, 0, self.bill.ids)],
+        })
+        with self.assertRaises(ValidationError):
+            wizard.validate_move()
+        self.assertEqual(self.bill.state, "draft")
+
     # ------------------------------------------------------------------
     # Approve / reject
     # ------------------------------------------------------------------
