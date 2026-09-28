@@ -22,6 +22,7 @@ account_move_line_group_by | Module that gives us the capability to group accoun
 account_move_report_vat | Adds vat number to sale pdf, also adds some page breaks to invoice pdf.
 account_move_tier_validation_control | Adds two new fields on a res.user that we can use to control who and up to which amount a user can validate for account.move.
 account_move_tier_validation_implement | Adds two new fields on an account.move that is used for setting up tier validation for account move.
+account_payment_order_autogiro_lms | Swedish LMS training course on how paying a vendor bill behaves in Odoo 18 — the four payment paths (ordinary payment order, payment order with Autogiro, manual payment with a date, manual payment with Autogiro), what each one posts, and when a bank reconciliation is required. Training content only; the SFA-specific companion course lives in the se_sfa repo and auto-installs with this one.
 account_payment_order_date | ??
 account_payment_order_filter | TODO MOVE TO DIFFRENT REPO
 account_payment_order_filter_currency | Adds a way to exclude some invoices from showing when making a payment order. Also adds a filter for currency when finding lines for the payment order. TODO split these two functions
