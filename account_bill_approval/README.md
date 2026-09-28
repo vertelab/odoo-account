@@ -21,6 +21,11 @@ must be selectable at registration time (T/11311).
   outstanding. The guard covers both ``action_post()`` and the internal
   ``_post()``, so confirmation wizards (Odoo's abnormal amount/date check,
   SFA's missing-reference check) cannot bypass the approval.
+- **Who may configure approvers** — only users with the
+  **Bill Approval / Manager** right can add, remove or reassign approvers on
+  a bill, and change the default approvers of a vendor. Approvers may still
+  approve or reject their own lines. The rule is enforced by ACL, by record
+  rules and by a model-level check, so it cannot be bypassed through RPC.
 - **Systray pen** — shows how many bills are waiting for *your* approval.
 - **Multi-company** — `company_id` is stored on every approval line.
 - **Chatter trail** — every request, approval and rejection is logged with

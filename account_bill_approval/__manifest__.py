@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3
 {
     'name': 'Account: Vendor Bill Approval',
-    'version': '18.0.1.2.0',
+    'version': '18.0.1.3.0',
     'category': 'Accounting',
     'summary': 'Approve vendor bills with freely selectable approvers.',
     'description': '''
@@ -26,6 +26,7 @@ Vendor Bill Approval
     'data': [
         'security/res_groups.xml',
         'security/ir.model.access.csv',
+        'security/bill_approval_rules.xml',
         'views/account_move_views.xml',
         'views/res_partner_views.xml',
         'wizards/vendor_bill_approval_user_views.xml',

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Vertel AB
+     SPDX-License-Identifier: AGPL-3 -->
+<odoo>
+
+    <!-- Approvers may act on their own lines (approve/reject), but may not
+         add, remove or reassign approvers. Those actions are reserved for
+         Bill Approval / Manager (see the ACL and the model-level check). -->
+    <record id="rule_bill_approval_own_lines" model="ir.rule">
+        <field name="name">Bill Approver: own lines only</field>
+        <field name="model_id" ref="model_bill_approval_user_line"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_bill_approval_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Managers see and manage every approval line. -->
+    <record id="rule_bill_approval_manager_all" model="ir.rule">
+        <field name="name">Bill Approval Manager: all lines</field>
+        <field name="model_id" ref="model_bill_approval_user_line"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_bill_approval_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+</odoo>

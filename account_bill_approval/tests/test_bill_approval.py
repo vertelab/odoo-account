@@ -304,3 +304,89 @@ class TestBillApproval(TransactionCase):
         })
         self.assertIn(self.approver.name, line.display_name)
         self.assertIn("Requested", line.display_name)
+
+    # ------------------------------------------------------------------
+    # Access control: only Bill Approval / Manager configures approvers
+    # ------------------------------------------------------------------
+    def test_non_manager_cannot_add_approver(self):
+        """A plain approver must not be able to add approvers."""
+        with self.assertRaises(UserError):
+            self.env["bill.approval.user.line"].with_user(
+                self.approver
+            ).create({
+                "move_id": self.bill.id,
+                "user_id": self.other_approver.id,
+            })
+
+    def test_non_manager_cannot_remove_approver(self):
+        line = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.other_approver.id,
+        })
+        with self.assertRaises(UserError):
+            line.with_user(self.approver).unlink()
+
+    def test_non_manager_cannot_change_approver(self):
+        line = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+        })
+        with self.assertRaises(UserError):
+            line.with_user(self.other_approver).write({
+                "user_id": self.approver.id,
+            })
+
+    def test_approver_can_still_approve(self):
+        """The state-only write done by approving must stay allowed."""
+        line = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+            "state": "request",
+        })
+        line.with_user(self.approver).action_approve()
+        self.assertEqual(line.state, "done")
+
+    def test_approver_can_still_reject(self):
+        line = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+            "state": "request",
+        })
+        line.with_user(self.approver).action_reject(reason="Nope")
+        self.assertEqual(line.state, "rejected")
+
+    def test_non_manager_cannot_set_vendor_defaults(self):
+        with self.assertRaises(UserError):
+            self.vendor.with_user(self.approver).write({
+                "bill_approving_user_ids": [(6, 0, [self.approver.id])],
+            })
+
+    def test_manager_can_configure_approvers(self):
+        manager = self.env["res.users"].create({
+            "name": "Approval Manager",
+            "login": "test_approval_manager",
+            "email": "test_approval_manager@example.com",
+            "company_id": self.company.id,
+            "company_ids": [(6, 0, [self.company.id])],
+            "groups_id": [(6, 0, [
+                self.env.ref("base.group_user").id,
+                self.env.ref("account.group_account_invoice").id,
+                # Needed to write on res.partner in this test.
+                self.env.ref("sales_team.group_sale_salesman").id,
+                self.env.ref(
+                    "account_bill_approval.group_bill_approval_manager"
+                ).id,
+            ])],
+        })
+        line = self.env["bill.approval.user.line"].with_user(
+            manager
+        ).create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+        })
+        self.assertTrue(line)
+        line.with_user(manager).unlink()
+        self.vendor.with_user(manager).write({
+            "bill_approving_user_ids": [(6, 0, [self.approver.id])],
+        })
+        self.assertIn(self.approver, self.vendor.bill_approving_user_ids)

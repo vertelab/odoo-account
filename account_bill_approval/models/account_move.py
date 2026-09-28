@@ -54,6 +54,18 @@ class AccountMove(models.Model):
         store=True,
         tracking=True,
     )
+    bill_approval_manager_user_ids = fields.Many2many(
+        comodel_name="res.users",
+        string="Bill Approval Managers",
+        compute="_compute_bill_approval_manager_user_ids",
+        help="Technical field: users allowed to configure approvers.",
+    )
+
+    @api.depends_context("uid")
+    def _compute_bill_approval_manager_user_ids(self):
+        managers = self.env.user.bill_approval_manager_user_ids
+        for move in self:
+            move.bill_approval_manager_user_ids = managers
 
     # ------------------------------------------------------------------
     # Computes

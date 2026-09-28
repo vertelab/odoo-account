@@ -18,12 +18,16 @@
                        invisible="move_type not in ('in_invoice', 'in_refund')"/>
                 <field name="approver_check_ok" invisible="1"/>
                 <field name="to_approve" invisible="1"/>
+                <field name="bill_approval_manager_user_ids" invisible="1"/>
             </xpath>
 
             <xpath expr="//notebook" position="inside">
                 <page name="bill_approval" string="Approvals"
                       invisible="move_type not in ('in_invoice', 'in_refund')">
+                    <!-- Only Bill Approval / Manager may add or remove
+                         approvers. Everyone else sees the list read-only. -->
                     <field name="approving_user_ids"
+                           readonly="uid not in bill_approval_manager_user_ids"
                            context="{'filter_bill_approval_user': 0}">
                         <list editable="bottom">
                             <field name="user_id"

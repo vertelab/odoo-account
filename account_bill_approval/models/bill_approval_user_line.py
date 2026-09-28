@@ -89,6 +89,55 @@ class BillApprovalUserLine(models.Model):
             line.display_name = name
 
     # ------------------------------------------------------------------
+    # Access control
+    # ------------------------------------------------------------------
+    @api.model
+    def _bill_approval_check_manager(self, action):
+        """Only Bill Approval / Manager may configure approvers.
+
+        The ACL already denies create/write/unlink to everyone else, but
+        ACLs can be widened by other modules. This check makes the rule
+        explicit and gives a clear error message. ``sudo`` calls (cron,
+        migration) are allowed through.
+        """
+        if self.env.su:
+            return
+        if not self.env.user.has_group(
+            "account_bill_approval.group_bill_approval_manager"
+        ):
+            raise UserError(_(
+                "Only users with the 'Bill Approval / Manager' right can "
+                "%(action)s approvers on a vendor bill.",
+                action=action,
+            ))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        self._bill_approval_check_manager(_("add"))
+        return super().create(vals_list)
+
+    # NOTE: ``unlink`` is defined further down, next to the other
+    # approval-flow methods. Do not add a second definition here — a later
+    # definition in the same class silently overrides an earlier one.
+
+    def write(self, vals):
+        # Approving or rejecting only touches state/date fields and is
+        # performed by the assigned approver, so it must stay allowed.
+        # The record rule already restricts a plain approver to their own
+        # lines; the reassignment of an approver stays Manager-only.
+        approver_actions = {
+            "state",
+            "date_requested",
+            "date_approved",
+            "date_rejected",
+            "rejected_by_id",
+            "reject_reason",
+        }
+        if not set(vals) <= approver_actions:
+            self._bill_approval_check_manager(_("change"))
+        return super().write(vals)
+
+    # ------------------------------------------------------------------
     # Constraints
     # ------------------------------------------------------------------
     @api.constrains("move_id", "user_id")
@@ -195,6 +244,7 @@ class BillApprovalUserLine(models.Model):
                 raise ValidationError(_(
                     "Approved lines cannot be deleted."
                 ))
+        self._bill_approval_check_manager(_("remove"))
         return super().unlink()
 
     # ------------------------------------------------------------------
