@@ -85,18 +85,18 @@
        style="stroke-width:4.60939169" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.25px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.5px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="70.0"
        y="81.734192"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="65.75" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Auto</tspan><tspan sodipodi:role="line" x="70.0" y="94.85" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Reverse</tspan><tspan sodipodi:role="line" x="70.0" y="123.95" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Entries</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="69.5" style="font-size:20.5px;text-anchor:middle;fill:#ffffff">Account</tspan><tspan sodipodi:role="line" x="70.0" y="94.1" style="font-size:20.5px;text-anchor:middle;fill:#ffffff">Auto Reverse</tspan><tspan sodipodi:role="line" x="70.0" y="118.7" style="font-size:20.5px;text-anchor:middle;fill:#ffffff">Entries</tspan></text>
     <image
-       width="25.0"
+       width="29.0"
        height="29.0"
        preserveAspectRatio="none"
        style="stroke-width:1.14035;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAADkklEQVR4nO3ZT6hUZRjH8U9aGi1MCFqYXh/DSiHatAqCNCuhqFvZQqTaVBZEm8A2Eekigsg2LiLctKlWln8SKgrb9G9R4qI/1OahKDMRAguiSFvMGTv3NOfMmblz750Jf3CZOc/7vM/7fud5/97DeU2YMnNJZl4/gjirMnPVEPUubeO3qIXPBtw/aAd6aBp3tXXOzJWZeQy/Zub+zLy4yb8NyH2YzsylDY1OZeaNDeWLsQVbiu+NysyVOILrCtM0DjbBXFATaBmexjasLMy/4TB2RsQ3Ff8nMBUROyr2FdiJe3FZYT6FfXg2In5ugFjbo2vvYToi/mgFUgRcipvxHK7B4zgcESd7+L5fgFzdo2wZNuOlwvQk3omI0wNCNMLUgpSCP4LbI+KemvLlOIkLsb6arZLfizhbzVofiF/wAp7HRSX7u7i7DNNmjryN/Q3ld+hA0BnLdTpY/P1HDRAbI2I3tuKvUtlm7C/P274gEXEcb/RofHlmbkP5F340Mx/KzMt7hPoIHw8I8VXRhzdrYJ7qPvQdWpVGp3SW0GncZGa6yzqDT3EABxuGW1+Iku8KfIKpknlvRGyn3dAqazWi+KyD6Madwhqs6bXkDgFxpAJxCru7DwNlpBJ8vU5mthcdhhN4RScLnzfUHQaivCKewqaIODZrkFJDD2Nv8bgzInb18R85BIMPrV46pDMnqFmVSh2bEwhGABIRJ/AZfoiIo3V+DZvdntlCMJqM0FmdDtUV9tmxd2XmAyXfgSH4dyObrQ6YuaKcU4tjxyK8mpnwgSEgGMFk7yozF0fE3xVbm7NTV2dwHFeUbK0gGCFIVQNC9FJrCEY3R2ZoLiEyc1NmXlK1jxxkHjKxFbdVjSMFmWuIzFyNO/Fgcc85p1FO9rkcTuuwB7eUzH/iZTwTEadHAjIfE7s4eN6gs199gcci4rtu+SjOWvO6OmXmazpX7tfL9lltiPMNUWhf0eYMDQ2yQBDwVkScrRqHGloLCFGrgZffcYRgQJBxhWAAkHGGoCXIuEPQAmQSIOgDMikQNIBMEgQ1IJMGQQ+QSYSgAjKpEJSOKNl5rXUU64aMtWAQzMzItSYUgpkgX+P7IWIsOAQlkIj4HbfipwHqjwUElckeEd9io3YwYwNB/evpq/AhVtTUGysIajbE4lK/AT/2KB47CPrcEDNzrU5muv+PHUsI2r1nv1LnZf8S7IiIL+e8V+f1P9A/y5Ps4qQCpzAAAAAASUVORK5CYII="
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABHUlEQVR4nO3aMWoCQRSH8W9scwJtPIK1ZWLnNSxyAU8iWGpnlxMExdYTWC8BDyBIUoiaYhFkeIqT7Lp/l/cDm3EH3sfqbrEbsiyjDhpVD1AUD1FjhZwq+hyBDfBaVEhVAtACFkA3dbNSyFkAPlI3KYYANFM3qIaE1A2qIck8RI2HqPEQNR6ixkPUeIgaD1HjIWo8RI2HqPEQNR6ixkPUeIgaK+Tn4VPYbj3d2sYHWyGbMqcryFe8YIUsHzDIf33GC1bIlPz0qToAk3jRClkBs9LH+bsxsI4Xr1213smD1MyBofXFtZBv4I38FB5LGirFARgBfWBvHRDueKmmAwyAHtAGXoqb76YdkJH/sScYP6dL94Q8hVrf2Z9SbUJ+AdkmSVZIj0z4AAAAAElFTkSuQmCC"
        id="image2838"
        x="7"
        y="9.5" />

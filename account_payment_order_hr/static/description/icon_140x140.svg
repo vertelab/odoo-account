@@ -85,18 +85,18 @@
        style="stroke-width:4.60939169" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.5px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.25px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="70.0"
        y="81.734192"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="78.6" style="font-size:28.5px;text-anchor:middle;fill:#ffffff">Payment</tspan><tspan sodipodi:role="line" x="70.0" y="112.8" style="font-size:28.5px;text-anchor:middle;fill:#ffffff">Order HR</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="65.75" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Account</tspan><tspan sodipodi:role="line" x="70.0" y="94.85" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Payment</tspan><tspan sodipodi:role="line" x="70.0" y="123.95" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Order HR</tspan></text>
     <image
-       width="43.9"
+       width="29.0"
        height="29.0"
        preserveAspectRatio="none"
        style="stroke-width:1.14035;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABL0lEQVR4nO2asUoDQRCGv8QrBF8hhikULUNewcYmVXwMC1/FwtcQLO0tTdBGCy3mEVJZ2MQmCylOub0YdnaYD45bjrnj/9hht7iFINgLA1UdAXNgDBwUzpPLF/AMPDTAB3BYNs/OvAypXwJgMiyd4L9oNvcn4EJEvkuGyUVVp8ACIM3Ia20SACKyTGM3rRUi1ggRa6Tld6aqJ0WT7EgSGW+uanHTWiFijRCxRohYI0SskXb2OxG5LpqkJ6q6BkczEiLWCBFrhIg1QsQabkSatodp2/+FUxH57Fi7zaOIXOaEy8HNjLgRaW0t4PaPd1YZtdu8d6zrRauIiNx0/UBO7T5x01pJ5FxVj4om6YGqTtJ4kLF8msZVa1X3E7SFtwY4A66AY+o8wrEA7ksHCdzyAzZVNkQcRz+8AAAAAElFTkSuQmCC"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABHUlEQVR4nO3aMWoCQRSH8W9scwJtPIK1ZWLnNSxyAU8iWGpnlxMExdYTWC8BDyBIUoiaYhFkeIqT7Lp/l/cDm3EH3sfqbrEbsiyjDhpVD1AUD1FjhZwq+hyBDfBaVEhVAtACFkA3dbNSyFkAPlI3KYYANFM3qIaE1A2qIck8RI2HqPEQNR6ixkPUeIgaD1HjIWo8RI2HqPEQNR6ixkPUeIgaK+Tn4VPYbj3d2sYHWyGbMqcryFe8YIUsHzDIf33GC1bIlPz0qToAk3jRClkBs9LH+bsxsI4Xr1213smD1MyBofXFtZBv4I38FB5LGirFARgBfWBvHRDueKmmAwyAHtAGXoqb76YdkJH/sScYP6dL94Q8hVrf2Z9SbUJ+AdkmSVZIj0z4AAAAAElFTkSuQmCC"
        id="image2838"
        x="7"
        y="9.5" />

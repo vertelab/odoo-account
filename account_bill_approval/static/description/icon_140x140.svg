@@ -85,18 +85,18 @@
        style="stroke-width:4.60939169" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.5px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.25px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="70.0"
        y="81.734192"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="80.2" style="font-size:24.5px;text-anchor:middle;fill:#ffffff">Vendor Bill</tspan><tspan sodipodi:role="line" x="70.0" y="109.6" style="font-size:24.5px;text-anchor:middle;fill:#ffffff">Approval</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="65.75" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Account</tspan><tspan sodipodi:role="line" x="70.0" y="94.85" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Vendor Bill</tspan><tspan sodipodi:role="line" x="70.0" y="123.95" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Approval</tspan></text>
     <image
-       width="25.4"
+       width="29.0"
        height="29.0"
        preserveAspectRatio="none"
        style="stroke-width:1.14035;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAADgklEQVR4nO2ZT4hNURzHP2Mm/2aGBRuL4WeS/AkR+TuKUiM1ZJQFho2GvR0yUiywoCgrCwyaKGEYrzQiG6JkI9FvUCysTGHSDIt733TunTf3nnPfeTNT3rdenfd7v985v887f+4590BZZZX1X6gi6UdVnQ1sAuqAmjT/IvQb+Ao8F5EXWSoomJiqLgDOAo3Zc8us1yKyzDWoKm5Q1SagHaj2kVUG/YwbVLUGOALMBzpE5GrcpyoW0AB0AONLlGSaXgJbTIOqTgEeAStDU5OqzhGRNtOvwgiYALwnmA95vQKOAk9FpNd/3oNtTwbqgQ8i8suwxyFMHTdhTJCDwEXD8RHQJCJ9nvO2UgjRBaxKcBuEGWcYtxvlX8DeMQ4BcExVd0AUZJFRfiwi3zznZyVVrQUekg6RVxNEQaYb5U+e8nJSCNEFrHYIewNRkEqjPOAhLycZPeEC0QWcgyjIqMmAWOMQ1gVsE5E/MAZAioT4nTeMKkj4xH5AkRBQYIti0XgtcAHYTPAk3i8iXzLUU0PQE2sdwgpCgGOPGMNgD8Eq1wg8UdW6xMCh9eR7wgsEOIAkDIN6oNsWxqhnnW3bBLuMYSHAEkRVq0keBlYwIUQn7hBbkyDAvkfaSB8GiTAGRINlm2AJAfYgyy39CsKEPVoyCLAH6XRIIAIzEhBgD3IWuOKQSB5mHgHEeodYZwiwBBGRAWAf7jBvGQEIcFh+DZgh5+UEVaa7DGoIhKouVdV3qrozLdjpgRjC7AWuucRZqBDEYiAHzMViR+y81wphWvAHM9xwugNMs60k06bRY88kzQlxqSjz7ldE+glg2jNWkSPjxC6korbxIUwLcN0xNEfwhsYLBHg4j4Qwe7CH8Q4Bng5WBsyNFNeSQIDHE2IIs5vhYUoGAZ6PugbMzdhPxUL8TXMwQcx3u7UZG8zD7AIOA93AKRwhVHVqzPQjLcY8s38CFobldapaISKp/0QhhTAnw08Wxfdnn9MCzB7JGeV6oDVjEkVJVScCJ2LmXCFfUybIJaDf+H5eVQ+oaqmu24ZIVWcAd4ElhvmeiPSkxUaSVNXTwKGYz0fgGdE55FvjgFnABmCSYe8FVojIu7QK4iCVwC1gq8cks6oPaBaR+zbOkeU3nKTNwBmiw2yk1QNstIWAhOvm8JjaSnA9PZMilmQL9QPfCa4IbgOXR+uSqayyyhrj+gdfCk2i+k12GAAAAABJRU5ErkJggg=="
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABHUlEQVR4nO3aMWoCQRSH8W9scwJtPIK1ZWLnNSxyAU8iWGpnlxMExdYTWC8BDyBIUoiaYhFkeIqT7Lp/l/cDm3EH3sfqbrEbsiyjDhpVD1AUD1FjhZwq+hyBDfBaVEhVAtACFkA3dbNSyFkAPlI3KYYANFM3qIaE1A2qIck8RI2HqPEQNR6ixkPUeIgaD1HjIWo8RI2HqPEQNR6ixkPUeIgaK+Tn4VPYbj3d2sYHWyGbMqcryFe8YIUsHzDIf33GC1bIlPz0qToAk3jRClkBs9LH+bsxsI4Xr1213smD1MyBofXFtZBv4I38FB5LGirFARgBfWBvHRDueKmmAwyAHtAGXoqb76YdkJH/sScYP6dL94Q8hVrf2Z9SbUJ+AdkmSVZIj0z4AAAAAElFTkSuQmCC"
        id="image2838"
        x="7"
        y="9.5" />

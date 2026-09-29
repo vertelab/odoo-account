@@ -85,18 +85,18 @@
        style="stroke-width:4.60939169" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.5px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.25px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="70.0"
        y="81.734192"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="78.6" style="font-size:28.5px;text-anchor:middle;fill:#ffffff">Asset</tspan><tspan sodipodi:role="line" x="70.0" y="112.8" style="font-size:28.5px;text-anchor:middle;fill:#ffffff">Stock Lot</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="65.75" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Account</tspan><tspan sodipodi:role="line" x="70.0" y="94.85" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Asset</tspan><tspan sodipodi:role="line" x="70.0" y="123.95" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Stock Lot</tspan></text>
     <image
-       width="43.9"
+       width="29.0"
        height="29.0"
        preserveAspectRatio="none"
        style="stroke-width:1.14035;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAEnklEQVR4nO2aW4hVVRjHf2c8mU0jKZF2kz4wdAzBF6nESgi6kSWkmXnpKvkQFVaMhDV0gQx7kyLqwZeZcQhTJwlCh5p56KGHaDIvEFH8xaYmgqgcxi469rDW7qw5s8/e5+zZR2difrAfzt7f+r7vv/daa6/zrQ3/Ewr1cizpWmAWcNTMfq9XnIhchfjk1/tjrj99GjgAtAH7zexUnjEjxixE0qXAamADsCTF/A/gA6Ad6DWzs2ONH5FJiKQLgeW45O8CpmZwcwLoANrM7FiWPEKqFiKpANyE6zargRkJ5j8DncC3wIPA0pRYfbiu12lmA9XmFJIqRNJ8Sv3eEkyHgA99QgfN7Ezgw3z7dUBzgo8zQLf30WVmQ2n5RcQKkXQZsMYHvz6h/TDQ6wPvMbOTaQElLcZ1yTW4Wa0Sg8Be7/tTMxtO8vufEEnTgHt9kDuBYkK7oz5Ah5n9kJZ8HJKKwO24m7UCaEww/xHYhRtPX8cZFLzTJ4HXgJkJzgZw/b7NzPpqT70ykpqAlThRtwINCeafARvN7JvwZEHSo8DOCo2GgC7c3e8O+329kHQlsBYnalEFs36g2cwGoxMFSceABYHRMNBDqd8Pcp6QtBDX1dcCV5dd3mRm70U/isC84OLfwFbg7Xq9gWvBzI4AWyTtBN4FlgWXw7wpAlOC31OBN4FWSXtwT6U3bcaoB37F8ADuidwYY1Ks+CNgOvCIP/olRW/gI7llGoNfMdxDacVwQbVtk6bYiKuAFqBF0iHcU9plZj9lyHUUfsVwM25w30/yiqEi1QgJWeSP7ZI+wYnal2VCkNRMacVwTYLpELAft9D8qJJRrUIiGoDb/DEkaZ8PlDhFS5qFe6NvABYn+I9mznaCFYOkig2yCglpxK2h1gEDkjqBdjP70ge/CPfmXg/ckRLzMKWu219LEnkICbkc2Axs9u+nQ7jl/vSENv2UVgyxy49qyFtIyHX+iOMkpQVhTx7Tez2FlHMaOIjr9115v3DPlZBncH+afqlXgHMixMx21DtG0nJ5QjEpZLwxKWS8MSlkvDEpZLwxYYT4gl7IiEp+A67gPK6RtApX3QwZkXcDrrQ/LpG0TNLnwG5Gl612h7ZF4EVgPnD3OcswBV+Ye4P4nE4Bj5nZd+HJsIi9EnidssJXHphZVfswkuYArwIPMXr8nsUVsrea2fHytiMC+AH1BNAKzM6QcyxpQiTNBF4AngKmxZh0Ay1m9lUlH5X2R5qA54HngKYq861IJSF+K+NpnIgZMSZ9wBYz606LkXanZgMvAxsZw5+wciGSGoCHgVeAOTFNjuPGbke1G6bV9t15wDbgvmrsywmFSFrufS2MMf0VN07fMrO/aolR066upCW4IvfSWtqZWUHSDcB24JYYkz+BHcA2M/utFt8RWbenV+Du6oI0W89e4p/mMK4k9JKZnciSS0TmDwYkTQEex42hKzK4+Bg3kA9nzSEkjy8fGoFncRX7pIpixBe4qbRnrLFDcvsWxW9ptwKbiN/X+B63G/Z+np9uROT+dZCkubgd4lU4Qf24Qf6Omf2Td7yIen7mdDFwCTBwPrbuJiz/AvPPaVeeMhhFAAAAAElFTkSuQmCC"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABHUlEQVR4nO3aMWoCQRSH8W9scwJtPIK1ZWLnNSxyAU8iWGpnlxMExdYTWC8BDyBIUoiaYhFkeIqT7Lp/l/cDm3EH3sfqbrEbsiyjDhpVD1AUD1FjhZwq+hyBDfBaVEhVAtACFkA3dbNSyFkAPlI3KYYANFM3qIaE1A2qIck8RI2HqPEQNR6ixkPUeIgaD1HjIWo8RI2HqPEQNR6ixkPUeIgaK+Tn4VPYbj3d2sYHWyGbMqcryFe8YIUsHzDIf33GC1bIlPz0qToAk3jRClkBs9LH+bsxsI4Xr1213smD1MyBofXFtZBv4I38FB5LGirFARgBfWBvHRDueKmmAwyAHtAGXoqb76YdkJH/sScYP6dL94Q8hVrf2Z9SbUJ+AdkmSVZIj0z4AAAAAElFTkSuQmCC"
        id="image2838"
        x="7"
        y="9.5" />

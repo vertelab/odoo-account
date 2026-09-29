@@ -149,6 +149,15 @@
          x="319.77063"
          y="171.78708"
          id="tspan2041" /></text>
+    <image
+       width="22.4"
+       height="26.0"
+       preserveAspectRatio="none"
+       style="stroke-width:1.40431;image-rendering:optimizeQuality"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABHklEQVR4nO3aPWoCURSG4ffaugLTODuwThnTZRsp3IArESxNly4rEMU2K0gdAi5AEC3En2IQwuUoXp1xPofzgM11LpyX0ZliJmRZRh00qh6gKB6ixgrZV/TZAXPgpaiQqgTgCZgCz6mblUKOAvCVukkxBKCVukE1JKRuUA1J5iFqPESNh6jxEDUeosZD1HiIGg9R4yFqPESNh6jxEDUeosZD1Fgh67tPYTv3dGsRH2yFzMucriB/8YIVMrvDILcaxwtWyAf56VO1BUbxohXyDXyWPs71hsBPvHjqqtUjD1IzAfrWF6dCVkCX/BTuShoqxRYYAG/AxjogXPBSTQd4B16BNtAsbr6zlsAv+R97hPFz+u+SkIdQ6zv7Q6pNyAGlzkKW/gOhSgAAAABJRU5ErkJggg=="
+       id="image7153"
+       x="293.1"
+       y="131.30089" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -156,7 +165,7 @@
        y="77.2"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="518.0" y="77.2" style="font-size:26.6667px;text-anchor:end;fill:#000000">Expense Bridge (CE)</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="518.0" y="77.2" style="font-size:26.6667px;text-anchor:end;fill:#000000">Account Expense</tspan><tspan sodipodi:role="line" x="518.0" y="110.53" style="font-size:26.6667px;text-anchor:end;fill:#000000">Bridge (CE)</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot844"

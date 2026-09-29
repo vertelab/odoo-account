@@ -85,18 +85,18 @@
        style="stroke-width:4.60939169" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.25px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.25px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="70.0"
        y="81.734192"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="65.75" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Simpel</tspan><tspan sodipodi:role="line" x="70.0" y="94.85" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Excel</tspan><tspan sodipodi:role="line" x="70.0" y="123.95" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Import</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="68.75" style="font-size:21.25px;text-anchor:middle;fill:#ffffff">Account</tspan><tspan sodipodi:role="line" x="70.0" y="94.25" style="font-size:21.25px;text-anchor:middle;fill:#ffffff">Simple</tspan><tspan sodipodi:role="line" x="70.0" y="119.75" style="font-size:21.25px;text-anchor:middle;fill:#ffffff">Excel Import</tspan></text>
     <image
-       width="25.4"
+       width="29.0"
        height="29.0"
        preserveAspectRatio="none"
        style="stroke-width:1.14035;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAADsklEQVR4nO2aS4gcVRSGvzEaxRjcxEd8wI+ahUhwIQaRKCouoogBRVBBiKiJMYNuhBAFiYgSUFRMxFnogI+N+FgoahLRiHEtiiYuovijKBjHheAEJyaOi1uVvlNWd1d33eopB39ouu65p+qcj3Or6t7bPUZBtpcBE8AaYEmxvwEdBD4DJiW9N+xFxooG228CN9dIrI4+Bm6TdHDQE48rsa2pn8/QugbYa/usQU8sq8hs1PwK+LRGYt20KTr+Azil0H8AuErSz1Uv2A/keUnjA6VYQcUYwDvAW8wFOgBcLemnKtcsG1ojl6TdwPWE6uRaAXxi++wq12gFCICkvfwb5gICzDn9zm8NCNSDaRUIdIU5nwBzbrfzWgcCPWH2dINpJQj0rczyon9rQaArzHnA60XfVoNAV5grbK+N/VoPAsdgivO/O+PG8aNLp6uutL2jom88nbk87pgvkGk6S4SV2WdQnRY35mtofZD6gvNVkY3Z93UkWrzNC4ikKeCWQc/L7qVNZX3/iadWFS0YkNpDy/Y6eo/zPZL2Z75rgV6z2AlJR4fJI8U98hi9k7sb2J8djwPX9vB9ERgK5P+hFekl4FTgVuDMyL6bUIl9ke1t4BtgA7A4s00TKjHLkNWABCCStgLY3kl40eUbGsuBGyT9Ffm+YHucDgTAg5Im6uaRbGhJ2gU8F5lWAltin2y5+kRk+jAFBKS/RzYT9sJyPWz7oqi9A1iaHf8O3JUqcFIQSTPA7cCfmWkxMGl7ke2bgHgN8YCkH1PFTv7UkvQ1oTK5VgGPA9sj27uSXk4Zt6nH73ZgV9TeDOT7ub8B96QO2AiIpFlgHTBV0n2fpF9Sx2zyhfgr8H3BZuCNJoI1CfIQcGnBJuD+JoI1AmJ7FfBIZPohOt5m+8LUMZOD2F4CvEZn1vA+YTtnJmufBLxq+4SUcZuoyNOEnwQADgHjkvYBj0Y+lzC3YrWVFMT2jcD6yLRVUn7DPwl8HvVtsX1ZqtjJQGyfQZjF5voSeCZvSDpCmJIcyUyLgFdsn5wifsqKTNLZa/obWJ8lf0ySvgC2RaYVwFMpgteaxts+kfDSG2PucncM+Mg2kpZmvqcD3xEqEWuj7TuAGUnLhs0lxcKq+IssBJCivcwWX6NWLnVBZoFvK/oe7eN7uE4itUAkHabzqO3nO1XVdxgtmM2HBQPSb2ittv3sKBKpqNXdOspADgH5S+ri7NNGTceNsqG1c0SJ1NWcPMsqsoHwWB3VH88G1TQB4t7Y+A8tuwGE8pMKqgAAAABJRU5ErkJggg=="
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABHUlEQVR4nO3aMWoCQRSH8W9scwJtPIK1ZWLnNSxyAU8iWGpnlxMExdYTWC8BDyBIUoiaYhFkeIqT7Lp/l/cDm3EH3sfqbrEbsiyjDhpVD1AUD1FjhZwq+hyBDfBaVEhVAtACFkA3dbNSyFkAPlI3KYYANFM3qIaE1A2qIck8RI2HqPEQNR6ixkPUeIgaD1HjIWo8RI2HqPEQNR6ixkPUeIgaK+Tn4VPYbj3d2sYHWyGbMqcryFe8YIUsHzDIf33GC1bIlPz0qToAk3jRClkBs9LH+bsxsI4Xr1213smD1MyBofXFtZBv4I38FB5LGirFARgBfWBvHRDueKmmAwyAHtAGXoqb76YdkJH/sScYP6dL94Q8hVrf2Z9SbUJ+AdkmSVZIj0z4AAAAAElFTkSuQmCC"
        id="image2838"
        x="7"
        y="9.5" />

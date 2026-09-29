@@ -85,18 +85,18 @@
        style="stroke-width:4.60939169" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.25px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.25px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="70.0"
        y="81.734192"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="79.9" style="font-size:25.25px;text-anchor:middle;fill:#ffffff">Invoice</tspan><tspan sodipodi:role="line" x="70.0" y="110.2" style="font-size:25.25px;text-anchor:middle;fill:#ffffff">AI Mailbox</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="65.75" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Account</tspan><tspan sodipodi:role="line" x="70.0" y="94.85" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Invoice</tspan><tspan sodipodi:role="line" x="70.0" y="123.95" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">AI Mailbox</tspan></text>
     <image
-       width="25.4"
+       width="29.0"
        height="29.0"
        preserveAspectRatio="none"
        style="stroke-width:1.14035;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAADnElEQVR4nO2ZT4hVVRzHP/NyRqVFkBQJod9aVZtocsIahFmkoruw0k1NrQpDUlIkrGVqUQOCguLCKdv0D90YFtTMZoxBZhPVIhC/hAa1EQSx5k+2uOfGmTPvvXnvzp15b+h94MK7v9+553y/nD/v3HugQ4cO/wu68h+2BewA1gF3tUpQg8wAvwFfSTIEI7ZfB44BPS2TVoxJ4E1JJ7tsbwMuEPXOMuMOsL0CHGL5moBM+zsrgCej4PfANkmTrdHUGLZ7gG+AgRDqrQCrojJX290EQND4cxRaXUnKPLiEehbKPfFNaqTPdrsvvTnPxDepkXuBLUunpRi2twAPx7HUCGSrWNtiuxv4II1XM9Jv+43Fl1SYo8DjabCaEYAh21sXV0/z2N4F7KuWq2WkBzhve+eiqWoS2y8Bn1Ljz7vL9p3ofhpYkZR5HzgkaWZxJNYnrKLvAQeT1CytaY+cAc4lsYPARdtryhY5H6HNi8w1cY5M63+kRiaBF4GzSfxZYMJ2b4k66xLamghtx3xCpnHWDmTOHJE0LellYC8wFaXWA2O2B8sUXA3brwBjoc2cKWCvpEFJ0+kztSY7ko6Rbcp+j8KrgGHbJ8J6Xiq2u22fIBs28R7wOjAQNFWlphEASZeAJ4DRJLUbGLG9tpDiKoS6RkPdMSNAb9BSk7pGACT9STZOP0pS/WTzpr9htTUIdUyQ7J+AIWBz0FCXeY0ASJqRtB/YCdyKUmvJeqbwTiA8OxLqyrkF7JL0VqPLfkNGciR9DmwErkThbuC47WHbKxuty/ZK28PA8VBHzhVgo6TPmtHWlBEAST8BfWRvaDGDwHe275uvDtv3k/VCugJ+C/SFNpqiaSMAkm4A24EPk1Q/cNl2X61nbT8FXAaeTlJDZK/ZN4poSrcjDSPpH+CA7R+B00A+rNYDl2wfAY5Iug1gezXwdrjidv8GXpP0cVEtsAAjOZLO2v4VOA88ENX7LrDb9miIDQDpNucP4DlJPyxUR6GhlSJpnGzejCepNWRfL3cw18Q4sKEME1CSEQBJ14BNZEPnZp2iN0OZTeGZUljw0IqRNAUctX0KeBV4AXgspH8BvgDOFJ3Q9SjVSE4QOhSuJaG0odVqOkbajY6RdqMC/BXdP2L77laJaZRwrPBoFLrdZXuMuS80y42xCnC41SpK4HBF0gVgD7O/mCwXpoA9kr6Oj6cfAp4nO+xp9zOSGeAa8KWkq60W06FDhyXkX9jZGe2E045WAAAAAElFTkSuQmCC"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABHUlEQVR4nO3aMWoCQRSH8W9scwJtPIK1ZWLnNSxyAU8iWGpnlxMExdYTWC8BDyBIUoiaYhFkeIqT7Lp/l/cDm3EH3sfqbrEbsiyjDhpVD1AUD1FjhZwq+hyBDfBaVEhVAtACFkA3dbNSyFkAPlI3KYYANFM3qIaE1A2qIck8RI2HqPEQNR6ixkPUeIgaD1HjIWo8RI2HqPEQNR6ixkPUeIgaK+Tn4VPYbj3d2sYHWyGbMqcryFe8YIUsHzDIf33GC1bIlPz0qToAk3jRClkBs9LH+bsxsI4Xr1213smD1MyBofXFtZBv4I38FB5LGirFARgBfWBvHRDueKmmAwyAHtAGXoqb76YdkJH/sScYP6dL94Q8hVrf2Z9SbUJ+AdkmSVZIj0z4AAAAAElFTkSuQmCC"
        id="image2838"
        x="7"
        y="9.5" />

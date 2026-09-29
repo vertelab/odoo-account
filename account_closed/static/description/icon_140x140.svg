@@ -85,18 +85,18 @@
        style="stroke-width:4.60939169" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:33.25px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.25px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="70.0"
        y="81.734192"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="76.7" style="font-size:33.25px;text-anchor:middle;fill:#ffffff">Close</tspan><tspan sodipodi:role="line" x="70.0" y="116.6" style="font-size:33.25px;text-anchor:middle;fill:#ffffff">Account</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="65.75" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Account</tspan><tspan sodipodi:role="line" x="70.0" y="94.85" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Close</tspan><tspan sodipodi:role="line" x="70.0" y="123.95" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Account</tspan></text>
     <image
-       width="25.0"
+       width="29.0"
        height="29.0"
        preserveAspectRatio="none"
        style="stroke-width:1.14035;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAEtklEQVR4nO2a3W+URRTGf1sraJS2Jto0Xp0E9YIoWj8wQVOLEoEGbKUo1ogR/4JiuDKiaFCujPgHGPGjFg0gaELFxkibSDSaiN5gRM25UKzWFmnFqsHWi3m3zHt25u1uS+1uw5NsmnPmeeecZzsfZ2bfHICqtgDPA9cD1ZQvTgPvAVtEZMhvyCUi3geq5iKzaeIrYJmI/JN3VOH+E5UkAuBGoMN3VOOGk4/jQB/w7/+UVDGoAzYACz1fKu9q0nPiG6BRRP6e9dRKhKruwU2BPC722+2QOlKOIhL0ZDVaIeU0nFIQkczcKm2SR3FBSLnhgpBygxVy0ZxkUQRUNTM3K6RJVRfMYj4zwaqsRlvpLgG+VNV+ymtPqQPaswihkn1J8qkozNvJXrEICRkDtgJXA5cAy4DDkedPAY/hxnAdsBl3igthD27ILkz+vhPhlRJ/EqE50iYiH3r258kp8gCwzvNPAO0i8rHn262qPwH+8wDdIvKwZx8HNqoqwIPTjJ9CqIy3SSAi48CTxt1vROS5vcBR434uEn/7DOKnYIWcyOB+WwLXtn0f4Vl/KfFTsEKuyeBeO4Wd1bY4wrP+UuKnYIU0q+pKS1LVHO6SwkeTqt4V4N4DLDfupyLxn55B/BRyqjphfH8mgbuBYWAp8CzQEnh+GOgEDiZ2G7ALuCLA7QJ24IbT4kRER4BXbPyXRaQzS0ilICVkXm+IFYnYPe8Z3KY2BDQCt2T0Mci5DXAVcGUG9whuib0OKFgophkfCAv5AmgVkZN5h6p2AK8H+B8B60VkJOHV4CZ+s+GNYXZsVV0D7MeVIT4+S7gDHndjEj96VrJD6wxwny8CQES6cSuHj1FgU15EwhsBNgF/GO42u2OLSA+Fy+8IsM4XkXDfJr6EB4UcFpGfI9xXjd0X4orIj8Anxt0V6fNNY/eIyGCE+1rEDxQKGQqyHH4z9i8ZXNs2HOHZeDbGJETk14x4BUJuyuA2GntpBveGKexi+igJVshtqlpwNlbVauCFAHdtgHs/haK3J2WGz8sRr4pLRmjVektVn8GNyfzytxNYEeB2qeoWYF9ib8CVKBZrgb2qug34DlcA7gDWzCh7DyEhC3CJ7yzi+RrgleQzFdYnn1nBvNnZ542QWIlyGnfgH8atOHdk9HGScyXKvbhLgxDGgV7gB1wZv5Lz+EWGhPQCD4nI5NqvqquBvcBlhrsPeERE/kp4l+LOEa2GdwpoEZFPvT6XA4eA2pmKgMJvZBB3M5LawETkA+AJwx0AHs+LSHhjuOshuzt3+iIS7lHcoey8IFSijEa49h6qz6+z8hCR34F+4z4Q6fPdqRIsFlZI1mnRtmVxcxltWYgeAVT1qqwHrZBVqnp5hPuAsZtVdVEgYC1wp3HbOZNHm7FXq2pMzKMRP1AopB7Yr6oNJrlW4CXDbcDdLC7yeDW4iqDecHfZGxdVXRHosxY4qKr1httOYYmUQk5Vz1L4S9UI7jWOQVxhd2tGHwO4k18Od+priPAmcHPnBK5EaSI+BEdxLwgMATcDtwc4L4rIVl/IMdxLKpWGzSKyO29U4e5Ux+csnenha9x+NYkqETmEu+U+Bpydg6RKwQjwBnC3fWfmP3NDdIrDCXPWAAAAAElFTkSuQmCC"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABHUlEQVR4nO3aMWoCQRSH8W9scwJtPIK1ZWLnNSxyAU8iWGpnlxMExdYTWC8BDyBIUoiaYhFkeIqT7Lp/l/cDm3EH3sfqbrEbsiyjDhpVD1AUD1FjhZwq+hyBDfBaVEhVAtACFkA3dbNSyFkAPlI3KYYANFM3qIaE1A2qIck8RI2HqPEQNR6ixkPUeIgaD1HjIWo8RI2HqPEQNR6ixkPUeIgaK+Tn4VPYbj3d2sYHWyGbMqcryFe8YIUsHzDIf33GC1bIlPz0qToAk3jRClkBs9LH+bsxsI4Xr1213smD1MyBofXFtZBv4I38FB5LGirFARgBfWBvHRDueKmmAwyAHtAGXoqb76YdkJH/sScYP6dL94Q8hVrf2Z9SbUJ+AdkmSVZIj0z4AAAAAElFTkSuQmCC"
        id="image2838"
        x="7"
        y="9.5" />

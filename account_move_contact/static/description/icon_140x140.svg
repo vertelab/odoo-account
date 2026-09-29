@@ -85,18 +85,18 @@
        style="stroke-width:4.60939169" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.5px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.25px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="70.0"
        y="81.734192"
        id="text2035"
        inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="76.2" style="font-size:34.5px;text-anchor:middle;fill:#ffffff">Move</tspan><tspan sodipodi:role="line" x="70.0" y="117.6" style="font-size:34.5px;text-anchor:middle;fill:#ffffff">Contact</tspan></text>
+       inkscape:export-ydpi="92"><tspan sodipodi:role="line" x="70.0" y="65.75" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Account</tspan><tspan sodipodi:role="line" x="70.0" y="94.85" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Move</tspan><tspan sodipodi:role="line" x="70.0" y="123.95" style="font-size:24.25px;text-anchor:middle;fill:#ffffff">Contact</tspan></text>
     <image
-       width="25.4"
+       width="29.0"
        height="29.0"
        preserveAspectRatio="none"
        style="stroke-width:1.14035;image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAADwElEQVR4nO2aX4hVVRSHvxknrzOaUYYWZK3IYh4sMR96MMiisB6SnsLGUvpDYY8SmYxiYIgURD0ESWU9hEH1UEG+WQmFEIgwhiFJ/prANCERdCztzviw9zh7bmc6d+997sxl8IPD3eectc7a666991lnndNBgKQeoB/oA24GOpl66sAg8DGw3cz+LhLqGG14J74B7pmU7qXxPfCgmf3TeCL8xzfT3k4A3AtsKjrRFbT7gvYQLpQXW9ipZqkBa4Buv/8k8GqjUOjIwqD9qZm90LKuRSIJ4Dm/a0UynRO0z7WkR+mEc2JGkUA7rEqVcMWRdmPaONJVLhKPpE7getzEPGVm/1Z8/UW+WQdkZiOVRkTSXZI+AU4DJ4HjwFlJeyQ9UKGpX/z2K7ABKhxakjYCB4HVwNzgVA14BNgraaekq6qy6VkIFTkiqR/Y0cT1ngfer8JmI9mOSFoGbItQWSupr1wsjioi0k+QRTfJ1grsjiPLET/eVyao3iHp9hzbjeRG5EagJ1F3UblIU5yA/PtIjn7O6nWn/60DR3I7AvCHv1hhRlrCYKpRM/up8VjW0DKz87jHz1j+BAZybDdSRYryJnBfrI6ZDacalLTYN+vAETMbzl5+zewrYHeEyn7grUyzh/x2GHgZqktRngU+b0JuP7CqqAqSwQ2Qfx/plfQEsAR4HHgaOFogehJ4BbgfuFbSOkl359huJGmOSJoH7AJW+UMjwIfAZjP7SFIvcBtuNRvETezZwBbgJVwiiaQDwFozO5zjBCRERNJs4DvGnACXojwDHJX0DrAA+AFX8OvC5WLHcOlMLdBbBnwraUFK50NSIrIFWDzBuR7gRb81y3zgdWBdQl8uExURSbOA9TkGJ+CpjNzrZ4gfWg8x/qGpKjqARyPku/1WM7OdED+0VkTKx7ASd3MtpagiHxuRpZHyMfTmKMdG5NYcYyXcJGmmmV0oE5Q0WgeuA1+a2V+xjlwT3b3m6QSuwz9flPBe0N4BbIodWnMi5WO5OkGnG+LnSKWFtgLqqYqxjhxKNdQEZ4DfUpVjHWlJTcqzy8wmLSIfAF+nGvsfBkgvEY1A5PJrZsOSHsO9BnsYt4rF1rRChnDJ5dtmdjZCb5//rQNfQELS6Cvr7/ptSjCzFY3Hps37kSuOtBvT0pGwztSSV3IZ1MoEwg7/Dtzi22skzaA9PhyYhfuEY5TCpDJ0ZDdjH6zMYeyTiXbjs6KD4dB6DfhxcvqSzACu+PEfLjtiZkO4Atp2QIyfM1PJMK429gaw3MzOFAldAjyG65xVAH9AAAAAAElFTkSuQmCC"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABHUlEQVR4nO3aMWoCQRSH8W9scwJtPIK1ZWLnNSxyAU8iWGpnlxMExdYTWC8BDyBIUoiaYhFkeIqT7Lp/l/cDm3EH3sfqbrEbsiyjDhpVD1AUD1FjhZwq+hyBDfBaVEhVAtACFkA3dbNSyFkAPlI3KYYANFM3qIaE1A2qIck8RI2HqPEQNR6ixkPUeIgaD1HjIWo8RI2HqPEQNR6ixkPUeIgaK+Tn4VPYbj3d2sYHWyGbMqcryFe8YIUsHzDIf33GC1bIlPz0qToAk3jRClkBs9LH+bsxsI4Xr1213smD1MyBofXFtZBv4I38FB5LGirFARgBfWBvHRDueKmmAwyAHtAGXoqb76YdkJH/sScYP6dL94Q8hVrf2Z9SbUJ+AdkmSVZIj0z4AAAAAElFTkSuQmCC"
        id="image2838"
        x="7"
        y="9.5" />
