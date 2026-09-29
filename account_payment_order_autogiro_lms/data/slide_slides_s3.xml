@@ -98,9 +98,9 @@
         <field name="description">Väg c: manuell betalning via Pay-knappen — betalningsdatum under memo med förfallodatum som default, fakturan blir Betald direkt och verifikatet knyts mot bankraden.</field>
     </record>
 
-    <!-- SLIDE 3.2: Väg d — Manuell betalning med Autogiro -->
+    <!-- SLIDE 3.2: Väg d — Manuell betalning med pending-metod -->
     <record id="slide_s3_02" model="slide.slide">
-        <field name="name">Väg d — Manuell betalning med Autogiro (undantag)</field>
+        <field name="name">Väg d — Manuell betalning med pending-metod (undantag)</field>
         <field name="sequence">110</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
@@ -111,7 +111,7 @@
 <section class="s_cover parallax o_cc o_cc5 pt200 pb200">
     <span class="s_parallax_bg oe_img_bg" style="background-color: #6b46c1;"/>
     <div class="container">
-        <h1 class="display-3-fs" style="text-align: center;">Väg d — Manuell betalning med Autogiro</h1>
+        <h1 class="display-3-fs" style="text-align: center;">Väg d — Manuell betalning med pending-metod</h1>
         <p class="lead" style="text-align: center;">Undantaget: Pay-knappen skapar ingen betalning alls. Fakturan flaggas och står Pågående.</p>
     </div>
 </section>
