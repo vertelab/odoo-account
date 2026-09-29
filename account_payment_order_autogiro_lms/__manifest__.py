@@ -29,14 +29,22 @@ bill in different states, which is what the course exists to explain.
 
     The four paths:
 
-        a) Vanlig betalorder        — posted and reconciled at upload; bill Paid
-        b) Betalorder med Autogiro  — nothing posted; bill In Payment until the
-                                      bank statement is reconciled
-        c) Manuell betalning (Pay)  — payment date below memo, defaulting to the
-                                      invoice due date; bill Paid immediately,
-                                      entry linked to the bank line later
-        d) Manuell betalning med    — no payment and no entry created; bill
-           Autogiro (undantag)        flagged and In Payment until reconciliation
+        a) Betalorder, metod utan      — posted and reconciled at upload; bill Paid
+           pending-flagga
+        b) Betalorder, metod med       — nothing posted; bill In Payment until the
+           pending-flagga (Autogiro)     bank statement is reconciled
+        c) Manuell betalning (Pay)     — payment date below memo, defaulting to the
+                                       invoice due date; bill Paid immediately,
+                                       entry linked to the bank line later
+        d) Manuell betalning, metod    — no payment and no entry created; bill
+           med pending-flagga            flagged and In Payment until reconciliation
+
+    What decides between a and b (and between c and d) is the payment method's
+"Pending Until Reconciliation" flag — not the name of the payment type. Autogiro
+is the common case, but IBAN, Bankgiro and SEPA can carry the flag too, so a
+"normal" bank payment may also wait for the bank. The course says so explicitly,
+because the flag is a per-method configuration and different methods in the same
+company can behave differently.
 
     Every statement about the outcome of a path is tied to a named test in
 account_payment_order_pending or account_payment_order_autogiro, so the course

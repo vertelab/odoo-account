@@ -115,7 +115,7 @@
                 <i class="s_features_icon fa fa-clock-o mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
                     <h3 class="h5-fs">1. Banken har inte dragit ännu</h3>
-                    <p><strong>Normalt.</strong> Autogiro-debiteringen sker på bankens schema. Fakturan står Pågående tills banken genomfört dragningen och raden kan stämmas av. Vänta — inget är fel.</p>
+                    <p><strong>Normalt.</strong> Betalningen är skickad men banken har inte bekräftat den ännu. Vid Autogiro sker debiteringen på bankens schema; vid IBAN/Bankgiro/SEPA väntar fakturan på att bankraden kan stämmas av. Vänta — inget är fel.</p>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -242,7 +242,7 @@
     </record>
 
     <record id="slide_s4_04_q3" model="slide.question">
-        <field name="question">Vad är den vanligaste och helt normala orsaken till att en Autogiro-faktura står Pågående?</field>
+        <field name="question">Vad är den vanligaste och helt normala orsaken till att en faktura med pending-metod står Pågående?</field>
         <field name="sequence">3</field>
         <field name="slide_id" ref="slide_s4_04"/>
     </record>
@@ -250,7 +250,7 @@
         <field name="text_value">Banken har inte genomfört debiteringen ännu</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Autogiro sker på bankens schema — väntan är normalt.</field>
+        <field name="comment">Correct! Autogiro (och andra pending-metoder) sker på bankens schema — väntan är normalt.</field>
         <field name="question_id" ref="slide_s4_04_q3"/>
     </record>
     <record id="slide_s4_04_q3_a2" model="slide.answer">
@@ -264,7 +264,7 @@
         <field name="text_value">Betalmetoden är felkonfigurerad</field>
         <field name="sequence">3</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Beteendet är avsiktligt för Autogiro.</field>
+        <field name="comment">Incorrect! Beteendet är avsiktligt för metoder med pending-flaggan på.</field>
         <field name="question_id" ref="slide_s4_04_q3"/>
     </record>
 
@@ -301,17 +301,17 @@
         <field name="slide_id" ref="slide_s4_04"/>
     </record>
     <record id="slide_s4_04_q5_a1" model="slide.answer">
-        <field name="text_value">Väg b (betalorder Autogiro) och väg d (manuell betalning Autogiro)</field>
+        <field name="text_value">Väg b och väg d — båda använder en betalmetod med pending-flaggan på</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Båda Autogiro-vägarna väntar på bankens bekräftelse.</field>
+        <field name="comment">Correct! Båda vägarna använder en pending-metod och väntar på bankens bekräftelse.</field>
         <field name="question_id" ref="slide_s4_04_q5"/>
     </record>
     <record id="slide_s4_04_q5_a2" model="slide.answer">
         <field name="text_value">Väg a och väg b</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Väg a bokför och stämmer av vid uppladdning — ingen väntan.</field>
+        <field name="comment">Incorrect! Väg a använder en metod utan pending-flagga och bokför vid uppladdning — ingen väntan.</field>
         <field name="question_id" ref="slide_s4_04_q5"/>
     </record>
     <record id="slide_s4_04_q5_a3" model="slide.answer">

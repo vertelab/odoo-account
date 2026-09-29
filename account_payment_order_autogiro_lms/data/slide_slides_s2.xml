@@ -15,9 +15,9 @@
         <field name="sequence">50</field>
     </record>
 
-    <!-- SLIDE 2.1: Väg a — Vanlig betalorder -->
+    <!-- SLIDE 2.1: Väg a — Betalorder som bokför direkt -->
     <record id="slide_s2_01" model="slide.slide">
-        <field name="name">Väg a — Vanlig betalorder</field>
+        <field name="name">Väg a — Betalorder som bokför direkt</field>
         <field name="sequence">60</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
@@ -28,7 +28,7 @@
 <section class="s_cover parallax o_cc o_cc5 pt200 pb200">
     <span class="s_parallax_bg oe_img_bg" style="background-color: #2d3748;"/>
     <div class="container">
-        <h1 class="display-3-fs" style="text-align: center;">Väg a — Vanlig betalorder</h1>
+        <h1 class="display-3-fs" style="text-align: center;">Väg a — Betalorder som bokför direkt</h1>
         <p class="lead" style="text-align: center;">Betalningen bokförs och stäms av vid uppladdning. Fakturan blir Betald.</p>
     </div>
 </section>
@@ -36,7 +36,8 @@
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>När används den?</h2>
-        <p>När flera leverantörsfakturor ska betalas samtidigt och skickas till banken som en <strong>betalorder</strong> — ett samlat betaluppdrag. Det är standardvägen för vanliga bankbetalningar (IBAN, Bankgiro och liknande) där företaget själv skickar betalfilen.</p>
+        <p>När flera leverantörsfakturor ska betalas samtidigt och skickas till banken som en <strong>betalorder</strong> — ett samlat betaluppdrag — <em>och</em> betalmetoden inte har pending-flaggan påslagen. Då bokförs betalningen direkt vid uppladdning.</p>
+        <p class="small text-muted"><strong>Obs:</strong> i många miljöer är även IBAN och Bankgiro inställda att vänta på banken. Kontrollera metoden under <strong>Redovisning → Konfiguration → Betalmetoder</strong> om du är osäker på vilken väg som gäller.</p>
     </div>
 </section>
 
@@ -103,12 +104,12 @@
     </div>
 </section>
         </field>
-        <field name="description">Väg a: vanlig betalorder där betalningen bokförs och stäms av vid uppladdning, så fakturan blir Betald direkt.</field>
+        <field name="description">Väg a: betalorder vars metod saknar pending-flagga — betalningen bokförs och stäms av vid uppladdning, så fakturan blir Betald direkt.</field>
     </record>
 
     <!-- SLIDE 2.2: Väg b — Betalorder med Autogiro -->
     <record id="slide_s2_02" model="slide.slide">
-        <field name="name">Väg b — Betalorder med Autogiro som betaltyp</field>
+        <field name="name">Väg b — Betalorder som väntar på banken</field>
         <field name="sequence">70</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
@@ -119,7 +120,7 @@
 <section class="s_cover parallax o_cc o_cc5 pt200 pb200">
     <span class="s_parallax_bg oe_img_bg" style="background-color: #553c9a;"/>
     <div class="container">
-        <h1 class="display-3-fs" style="text-align: center;">Väg b — Betalorder med Autogiro</h1>
+        <h1 class="display-3-fs" style="text-align: center;">Väg b — Betalorder som väntar på banken</h1>
         <p class="lead" style="text-align: center;">Samma betalorder, men ingenting bokförs vid uppladdning. Fakturan står Pågående.</p>
     </div>
 </section>
@@ -127,8 +128,9 @@
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Samma flöde — annat utfall</h2>
-        <p>Du gör exakt som i väg a: lägger fakturorna på en betalorder och laddar upp. Men betalmetoden är <strong>Autogiro</strong>, och då händer något annat.</p>
+        <p>Du gör exakt som i väg a: lägger fakturorna på en betalorder och laddar upp. Men betalmetoden har <strong>pending-flaggan påslagen</strong> (typiskt Autogiro), och då händer något annat.</p>
         <p>Autogiro innebär att <strong>banken drar pengarna själv</strong>. Företaget skickar ingen betalfil — det finns inget att skicka. Därför <strong>bokförs ingenting</strong> när ordern laddas upp.</p>
+        <p class="small text-muted">Samma sak gäller varje metod med pending-flaggan på — inte bara Autogiro. Flaggan, inte betalsättet, är det som styr.</p>
     </div>
 </section>
 
@@ -175,7 +177,7 @@
     </div>
 </section>
         </field>
-        <field name="description">Väg b: betalorder med Autogiro som betaltyp — ingenting bokförs vid uppladdning och fakturan står Pågående till bankavstämning.</field>
+        <field name="description">Väg b: betalorder vars metod har pending-flaggan påslagen (t.ex. Autogiro) — ingenting bokförs vid uppladdning och fakturan står Pågående till bankavstämning.</field>
     </record>
 
     <!-- SLIDE 2.3: Samma order, olika utfall (Infographic) -->
@@ -188,7 +190,7 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.10</field>
         <field name="image_1920" type="base64" file="account_payment_order_autogiro_lms/static/src/img/diagram_order_outcome.png"/>
-        <field name="description">Jämförelse: identisk betalorder, två utfall. Vänster: vanlig betalmetod → bokförd och avstämd → Betald. Höger: Autogiro → inget bokförs → Pågående till bankavstämning.</field>
+        <field name="description">Jämförelse: identisk betalorder, två utfall. Vänster: metod utan pending-flagga → bokförd och avstämd → Betald. Höger: metod med pending-flagga (Autogiro) → inget bokförs → Pågående till bankavstämning.</field>
     </record>
 
     <!-- SLIDE 2.4: Så känner du igen en Pågående faktura -->
@@ -267,7 +269,7 @@
     </record>
 
     <record id="slide_s2_05_q1" model="slide.question">
-        <field name="question">Vad händer med fakturan när en vanlig betalorder laddas upp?</field>
+        <field name="question">Vad händer med fakturan när en betalorder med metod <em>utan</em> pending-flagga laddas upp?</field>
         <field name="sequence">1</field>
         <field name="slide_id" ref="slide_s2_05"/>
     </record>
@@ -275,21 +277,21 @@
         <field name="text_value">Betalningen bokförs och stäms av — fakturan blir Betald</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Vanlig betalorder bokför och stämmer av vid uppladdning.</field>
+        <field name="comment">Correct! En metod utan pending-flagga bokför och stämmer av vid uppladdning.</field>
         <field name="question_id" ref="slide_s2_05_q1"/>
     </record>
     <record id="slide_s2_05_q1_a2" model="slide.answer">
         <field name="text_value">Fakturan blir Pågående till bankavstämning</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Det är väg b (Autogiro) som blir Pågående. Vanlig betalorder bokför direkt.</field>
+        <field name="comment">Incorrect! Det är väg b (metod med pending-flagga) som blir Pågående. En metod utan flaggan bokför direkt.</field>
         <field name="question_id" ref="slide_s2_05_q1"/>
     </record>
     <record id="slide_s2_05_q1_a3" model="slide.answer">
         <field name="text_value">Ingenting händer förrän banken bekräftar</field>
         <field name="sequence">3</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Vid vanlig betalorder sker bokföringen vid uppladdning, inte vid bankens bekräftelse.</field>
+        <field name="comment">Incorrect! När metoden saknar pending-flagga sker bokföringen vid uppladdning, inte vid bankens bekräftelse.</field>
         <field name="question_id" ref="slide_s2_05_q1"/>
     </record>
 

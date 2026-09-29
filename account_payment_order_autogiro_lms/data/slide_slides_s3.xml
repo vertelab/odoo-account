@@ -119,8 +119,8 @@
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Undantaget</h2>
-        <p>Det här är den väg som förvånar mest. Du klickar <strong>Pay</strong> på en Autogiro-faktura, wizarden ser ut som vanligt, du bekräftar — och <strong>ingenting bokförs</strong>. Ingen betalning skapas, inget verifikat, ingen avstämning.</p>
-        <p>Anledningen är densamma som i väg b: Autogiro innebär att banken drar pengarna själv. Det finns ingen betalning att registrera — bara en faktura att <strong>flagga</strong> som väntande på bank.</p>
+        <p>Det här är den väg som förvånar mest. Du klickar <strong>Pay</strong> på en faktura och väljer en betalmetod med <strong>pending-flaggan påslagen</strong> (typiskt Autogiro), wizarden ser ut som vanligt, du bekräftar — och <strong>ingenting bokförs</strong>. Ingen betalning skapas, inget verifikat, ingen avstämning.</p>
+        <p>Anledningen är densamma som i väg b: Autogiro innebär att banken drar pengarna själv, och varje metod med pending-flaggan på väntar på banken. Det finns ingen betalning att registrera — bara en faktura att <strong>flagga</strong> som väntande på bank.</p>
     </div>
 </section>
 
@@ -157,6 +157,7 @@
     <div class="container s_allow_columns">
         <h2>Autogiro förväljs automatiskt</h2>
         <p>Om fakturans betalningssätt redan är Autogiro <strong>förväljer wizarden Autogiro-metoden</strong> åt dig. Du behöver inte leta upp den i listan.</p>
+        <p class="small text-muted">Förvalet gäller Autogiro specifikt. Andra metoder med pending-flagga (IBAN, Bankgiro, SEPA) förväljs inte automatiskt — där väljer du metoden själv, och utfallet blir detsamma.</p>
         <p>Det är bara ett <strong>förval</strong> — metoden är fortfarande redigerbar. Om du väljer en annan betalmetod gäller den vanliga vägen (väg c) i stället.</p>
     </div>
 </section>
@@ -172,7 +173,7 @@
     </div>
 </section>
         </field>
-        <field name="description">Väg d (undantaget): Pay-knappen med Autogiro skapar ingen betalning och bokför ingenting — fakturan flaggas och står Pågående till bankavstämning.</field>
+        <field name="description">Väg d (undantaget): Pay-knappen med en metod som har pending-flaggan på (Autogiro) skapar ingen betalning och bokför ingenting — fakturan flaggas och står Pågående till bankavstämning.</field>
     </record>
 
     <!-- SLIDE 3.3: Pay-knappen — datum vs Autogiro (Infographic) -->
@@ -185,7 +186,7 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.10</field>
         <field name="image_1920" type="base64" file="account_payment_order_autogiro_lms/static/src/img/diagram_pay_outcome.png"/>
-        <field name="description">Samma Pay-wizard, två utfall. Vänster: vanlig betalmetod → betalning bokförd med valt datum → Betald. Höger: Autogiro → inget skapas → flaggad och Pågående.</field>
+        <field name="description">Samma Pay-wizard, två utfall. Vänster: metod utan pending-flagga → betalning bokförd med valt datum → Betald. Höger: metod med pending-flagga (Autogiro) → inget skapas → flaggad och Pågående.</field>
     </record>
 
     <!-- SLIDE 3.4: Tillståndsdiagram -->
@@ -272,7 +273,7 @@
     </record>
 
     <record id="slide_s3_05_q3" model="slide.question">
-        <field name="question">Vad händer när du bekräftar Pay på en faktura med Autogiro som betalmetod?</field>
+        <field name="question">Vad händer när du bekräftar Pay med en betalmetod som har pending-flaggan påslagen?</field>
         <field name="sequence">3</field>
         <field name="slide_id" ref="slide_s3_05"/>
     </record>
@@ -287,7 +288,7 @@
         <field name="text_value">En betalning bokförs och fakturan blir Betald</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Det är väg c (vanlig betalmetod). Med Autogiro bokförs ingenting.</field>
+        <field name="comment">Incorrect! Det är väg c (metod utan pending-flagga). Med flaggan på bokförs ingenting.</field>
         <field name="question_id" ref="slide_s3_05_q3"/>
     </record>
     <record id="slide_s3_05_q3_a3" model="slide.answer">
@@ -311,7 +312,7 @@
         <field name="question_id" ref="slide_s3_05_q4"/>
     </record>
     <record id="slide_s3_05_q4_a2" model="slide.answer">
-        <field name="text_value">Nej, Autogiro låses när fakturan är en Autogiro-faktura</field>
+        <field name="text_value">Nej, metoden låses inte — förvalet är bara ett förslag</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
         <field name="comment">Incorrect! Metoden är alltid redigerbar — förvalet sparar bara ett klick.</field>

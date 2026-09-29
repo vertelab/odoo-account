@@ -38,6 +38,9 @@
                      border-left:4px solid var(--brand); }
     .feature-card h4 { font-size:1rem; font-weight:600; color:var(--navy); margin-bottom:6px; }
     .feature-card p { font-size:0.9rem; color:#475569; margin:0; }
+    .note { background:#fffaf0; border-left:4px solid var(--amber); border-radius:8px;
+             padding:16px 20px; margin-top:16px; }
+    .note p { margin:0; font-size:0.95rem; }
     .screenshots { display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start; }
     .screenshots figure { margin:0; text-align:center; }
     .screenshots img { display:block; border-radius:8px;
@@ -73,13 +76,16 @@
         <tr><th style="width:8%;">Path</th><th style="width:34%;">How</th><th style="width:26%;">What is posted</th><th style="width:32%;">Bill outcome</th></tr>
       </thead>
       <tbody>
-        <tr><td><b>a</b></td><td>Ordinary payment order</td><td>Payment posted and reconciled at upload</td><td><span class="pill pill-paid">Betald</span> immediately</td></tr>
-        <tr><td><b>b</b></td><td>Payment order, Autogiro method</td><td>Nothing posted at upload</td><td><span class="pill pill-pending">Pågående</span> until bank reconciliation</td></tr>
-        <tr><td><b>c</b></td><td>Manual payment (Pay) with date</td><td>Payment posted immediately with the chosen date</td><td><span class="pill pill-paid">Betald</span> immediately</td></tr>
-        <tr><td><b>d</b></td><td>Manual payment, Autogiro <i>(exception)</i></td><td>Nothing &mdash; no payment is created at all</td><td><span class="pill pill-pending">Pågående</span> until bank reconciliation</td></tr>
+        <tr><td><b>a</b></td><td>Payment order, method <i>without</i> the pending flag</td><td>Payment posted and reconciled at upload</td><td><span class="pill pill-paid">Betald</span> immediately</td></tr>
+        <tr><td><b>b</b></td><td>Payment order, method <i>with</i> the pending flag</td><td>Nothing posted at upload</td><td><span class="pill pill-pending">Pågående</span> until bank reconciliation</td></tr>
+        <tr><td><b>c</b></td><td>Manual payment (Pay), method without the pending flag</td><td>Payment posted immediately with the chosen date</td><td><span class="pill pill-paid">Betald</span> immediately</td></tr>
+        <tr><td><b>d</b></td><td>Manual payment (Pay), method with the pending flag <i>(exception)</i></td><td>Nothing &mdash; no payment is created at all</td><td><span class="pill pill-pending">Pågående</span> until bank reconciliation</td></tr>
       </tbody>
     </table>
     <p><small>Paths <b>a</b> and <b>c</b> post immediately and yield <i>Betald</i>. Paths <b>b</b> and <b>d</b> wait for the bank and yield <i>Pågående</i>. The difference between a/b and c/d is only how the payment is started &mdash; payment order or the Pay button.</small></p>
+    <div class="note">
+      <p><strong>What decides is the flag, not the name.</strong> A method's <i>Pending Until Reconciliation</i> setting (Accounting &rarr; Configuration &rarr; Payment Methods) determines whether it takes path a or b. Autogiro is the common case, but IBAN, Bankgiro and SEPA can carry the flag too &mdash; so a payment that looks "ordinary" may still wait for the bank. The flag is per method, so different methods in the same company can behave differently.</p>
+    </div>
   </section>
   <section id="features">
     <h2>Key Features</h2>
