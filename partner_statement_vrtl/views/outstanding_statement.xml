@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Vertel AB (<https://vertel.se>)
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!--
+        Add a "Reconciled" column and relabel "Open Amount" to "Remaining".
+
+        OCA's template (partner_statement.outstanding_balance) renders:
+            Reference number | Date | Due Date | Description
+            | Original | Open Amount | Balance
+
+        The "Open Amount" cell is the 6th <td> in each body row and the 6th
+        <th> in the header. We insert the reconciled cell immediately before
+        it, so both header and body stay aligned.
+    -->
+    <template
+        id="outstanding_balance_vrtl"
+        inherit_id="partner_statement.outstanding_balance"
+        priority="99"
+    >
+        <!-- Header: relabel and insert -->
+        <xpath expr="//thead/tr/th[6]" position="replace">
+            <th class="amount">Reconciled</th>
+            <th class="amount">Remaining</th>
+        </xpath>
+
+        <!-- Body: insert the reconciled cell before the open_amount cell -->
+        <xpath expr="//tbody/tr/td[6]" position="before">
+            <td class="amount">
+                <span
+                    t-out="line['reconciled_amount']"
+                    t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                />
+            </td>
+        </xpath>
+    </template>
+</odoo>
