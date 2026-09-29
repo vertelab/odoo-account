@@ -269,7 +269,7 @@
     </record>
 
     <record id="slide_s2_05_q1" model="slide.question">
-        <field name="question">Vad händer med fakturan när en betalorder med metod <em>utan</em> pending-flagga laddas upp?</field>
+        <field name="question">Vad händer med fakturan när en betalorder vars metod saknar pending-flagga laddas upp?</field>
         <field name="sequence">1</field>
         <field name="slide_id" ref="slide_s2_05"/>
     </record>
