@@ -108,3 +108,5 @@ graphify-out/
 PLAN*
 
 .shazam/
+*.pyc
+openspec/
