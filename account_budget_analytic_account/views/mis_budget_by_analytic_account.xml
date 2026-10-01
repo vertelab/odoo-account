@@ -75,12 +75,12 @@
         <field name="name">mis.budget.by.analytic.account.tree (in mis_builder_budget)</field>
         <field name="model">mis.budget.by.analytic.account</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="date_from" />
                 <field name="date_to" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
 
