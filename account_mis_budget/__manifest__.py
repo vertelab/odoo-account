@@ -23,23 +23,14 @@
 #
 {
     'name': 'Account: MIS Budget',
-    'version': '18.0.1.0.0',
-    'summary': 'Builds a budget from the previous year actuals.',
+    'version': '0.1',
+    'summary': 'Lets us generate budget based on the previous year.',
     'category': 'Accounting', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
-    'description': '''
-MIS Budget
-==========
-
-    Lets us generate budget based on the previous year.
-                Also lets us add two budgets together into a new one.
-
-    Features:
-
-        - Guided Wizards: Step-by-step dialogs for data entry.
-        - UI Integration: Extends 8 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on mail.thread, mis.budget, mis.budget.by.account, mis.budget.by.account.item.
-    ''',
-    'author': 'Vertel Sverige AB',
+    'description': """
+        Lets us generate budget based on the previous year.
+        Also lets us add two budgets together into a new one.
+    """,
+    'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_mis_budget',
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',

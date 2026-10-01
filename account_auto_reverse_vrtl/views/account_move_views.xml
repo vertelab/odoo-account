@@ -4,6 +4,7 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
+            <!-- Odoo 18: the field is `checked` (renamed from `to_check` in 17.0). -->
             <xpath expr="//field[@name='checked']" position="before">
                 <field name="auto_reverse_date" invisible="move_type not in ('out_invoice', 'in_invoice')"/>
                 <field name="reverse_failed" invisible="not reverse_failed"/>

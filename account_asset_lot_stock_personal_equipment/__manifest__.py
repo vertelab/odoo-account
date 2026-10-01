@@ -21,29 +21,21 @@
 
 {
     'name': 'Account: Asset Stock Lot Equipment',
-    'version': '18.0.1.0.0',
+    'version': '0.1',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Links a created asset to a piece of equipment.',
+    'summary': 'Connect Created Asset to equipment.',
     'category': 'Accounting',
     #'sequence': '1'
-    'author': 'Vertel Sverige AB',
+    'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-account/account_asset_lot_stock_personal_equipment',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'description': '''
-Asset Stock Lot Equipment
-=========================
-
-    Links a created asset to a piece of equipment.
-
-    Features:
-
-        - UI Integration: Extends 2 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on account.asset, hr.personal.equipment, stock.lot.
-    ''',
+    'description': """
+Create an asset connected to a Lot number and equipment.
+    """,
     'depends': ['account_asset_lot_stock','hr_personal_equipment_stock'],
     'data': [
         #'security/ir.model.access.csv',
@@ -56,3 +48,4 @@ Asset Stock Lot Equipment
     'application': False,
     'auto_install': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
