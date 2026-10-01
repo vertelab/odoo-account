@@ -6,11 +6,11 @@
       <field name="name">scaffold_test list</field>
       <field name="model">scaffold_test.scaffold_test</field>
       <field name="arch" type="xml">
-        <tree>
+        <list>
           <field name="name"/>
           <field name="value"/>
           <field name="value2"/>
-        </tree>
+        </list>
       </field>
     </record>
 -->

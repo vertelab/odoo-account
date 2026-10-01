@@ -42,12 +42,12 @@
       <field name="name">account.fiscalyear.tree</field>
       <field name="model">account.fiscalyear</field>
       <field name="arch" type="xml">
-        <tree string="Fiscalyear">
+        <list string="Fiscalyear">
           <field name="code" />
           <field name="name" />
           <field name="company_id" groups="base.group_multi_company" />
           <field name="state" />
-        </tree>
+        </list>
       </field>
     </record>
     
@@ -125,7 +125,7 @@
       <field name="name">account.period.tree</field>
       <field name="model">account.period</field>
       <field name="arch" type="xml">
-        <tree string="Account Period">
+        <list string="Account Period">
           <field name="name" />
           <field name="code" />
           <field name="date_start" />
@@ -133,7 +133,7 @@
           <field name="special" />
           <field name="company_id" groups="base.group_multi_company" />
           <field name="state" />
-        </tree>
+        </list>
       </field>
     </record>
 

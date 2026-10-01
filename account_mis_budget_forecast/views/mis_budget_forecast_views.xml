@@ -65,7 +65,7 @@
         <field name="name">mis.budget.forecast.report.list</field>
         <field name="model">mis.budget.forecast.report</field>
         <field name="arch" type="xml">
-            <tree editable="bottom" decoration-warning="is_passed == True">
+            <list editable="bottom" decoration-warning="is_passed == True">
                 <field name="account_code"/>
                 <field name="name"/>
                 <field name="date_from"/>
@@ -80,7 +80,7 @@
                 <field name="is_passed" column_invisible="1"/>
                 <field name="is_forecast" column_invisible="1"/>
                 <field name="budget_id" column_invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 

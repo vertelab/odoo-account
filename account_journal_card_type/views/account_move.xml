@@ -6,10 +6,10 @@
             <field name="inherit_id" ref="account.view_invoice_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//tree" position="attributes">
-                    <attribute name="decoration-danger">to_check == True</attribute>
+                    <attribute name="decoration-danger">checked == True</attribute>
                 </xpath>
                 <field name="state" position="after">
-                    <field name="to_check" optional="show"/>
+                    <field name="checked" optional="show"/>
                 </field>
 
             </field>
@@ -21,10 +21,10 @@
             <field name="inherit_id" ref="account.view_move_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//tree" position="attributes">
-                    <attribute name="decoration-danger">to_check == True</attribute>
+                    <attribute name="decoration-danger">checked == True</attribute>
                 </xpath>
                 <field name="state" position="after">
-                    <field name="to_check" optional="show"/>
+                    <field name="checked" optional="show"/>
                 </field>
                 
             </field>
@@ -52,7 +52,7 @@
                         <group id="other_tab_entry_group_receipt">
                             <group name="misc_group_receipt">
                                 <field name="invoice_origin" invisible="move_type != 'in_receipt'"/>
-                                <field name="to_check" invisible="move_type != 'in_receipt'"/>
+                                <field name="checked" invisible="move_type != 'in_receipt'"/>
                             </group>
                         </group>
                         <!-- Internal note -->

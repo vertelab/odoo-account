@@ -38,7 +38,6 @@
                         <field name="display_inactive_currency_warning" invisible="1"/>
                         <field name="statement_line_id" invisible="1"/>
                         <field name="statement_id" invisible="1"/>
-                        <field name="payment_id" invisible="1"/>
                         <field name="tax_country_id" invisible="1"/>
                         <field name="tax_calculation_rounding_method" invisible="1"/>
                         <field name="tax_cash_basis_created_move_ids" invisible="1"/>
@@ -135,7 +134,7 @@
                                            'default_display_type': 'product',
                                            'quick_encoding_vals': quick_encoding_vals,
                                        }" readonly="state != 'draft'">
-                                    <tree editable="bottom" string="Journal Items" default_order="sequence, id">
+                                    <list editable="bottom" string="Journal Items" default_order="sequence, id">
                                         <control>
                                             <create name="add_line_control" string="Add a line"/>
                                             <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
@@ -157,7 +156,7 @@
                                                context="{'partner_id': partner_id, 'move_type': parent.move_type}"
                                                groups="account.group_account_readonly"
                                                options="{'no_quick_create': True}"
-                                               domain="[('deprecated', '=', False), ('account_type', 'not in', ('asset_receivable', 'liability_payable', 'off_balance')), ('company_id', 'parent_of', parent.company_id)]"
+                                               domain="[('deprecated', '=', False), ('account_type', 'not in', ('asset_receivable', 'liability_payable', 'off_balance')), ('company_ids', 'parent_of', parent.company_id)]"
                                                required="display_type not in ('line_note', 'line_section')"/>
                                         <field name="analytic_distribution" widget="analytic_distribution"
                                                groups="analytic.group_analytic_accounting"
@@ -190,7 +189,7 @@
                                         <field name="company_id" column_invisible="True"/>
                                         <field name="company_currency_id" column_invisible="True"/>
                                         <field name="display_type" force_save="1" column_invisible="True"/>
-                                    </tree>
+                                    </list>
                                     <kanban class="o_kanban_mobile">
                                         <!-- Displayed fields -->
                                         <field name="name"/>
@@ -270,7 +269,7 @@
                                                 <field name="discount" string="Disc.%"/>
                                             </group>
                                             <group>
-                                                <field name="account_id" domain="[('company_id', 'parent_of', company_id), ('deprecated', '=', False)]" options="{'no_create': True}" context="{'partner_id': partner_id, 'move_type': parent.move_type}"/>
+                                                <field name="account_id" domain="[('company_ids', 'parent_of', company_id), ('deprecated', '=', False)]" options="{'no_create': True}" context="{'partner_id': partner_id, 'move_type': parent.move_type}"/>
                                                 <field name="tax_ids" widget="many2many_tags"/>
                                                 <field name="analytic_distribution" widget="analytic_distribution" groups="analytic.group_analytic_accounting"/>
                                             </group>
@@ -338,7 +337,7 @@
                                         <field name="auto_post_until"
                                                invisible="auto_post in ('no', 'at_date')"
                                                readonly="state != 'draft'"/>
-                                        <field name="to_check"/>
+                                        <field name="checked"/>
                                     </group>
                                 </group>
                             </page>
@@ -354,7 +353,7 @@
                                         <field name="auto_post_until"
                                                invisible="auto_post in ('no', 'at_date')"
                                                readonly="state != 'draft'"/>
-                                        <field name="to_check"
+                                        <field name="checked"
                                                invisible="move_type != 'entry'" />
                                     </group>
                                     <group>

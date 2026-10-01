@@ -62,7 +62,7 @@
         <field name="model">mis.budget.by.analytic.account.item</field>
         <field name="arch" type="xml">
             <!-- #if VERSION <= "17.0" -->
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="budget_id" invisible="1" />
                 <field name="budget_date_from" invisible="1" />
                 <field name="budget_date_to" invisible="1" />
@@ -79,7 +79,7 @@
                 <field name="balance" />
                 <field name="state" />
                 <button name="action_read_budget_by_analytic_account" type="object" string="View" class="float-end btn-secondary"/>
-            </tree>
+            </list>
             <!-- #elif VERSION >= "18.0" -->
             <list editable="bottom">
                 <field name="budget_id" invisible="1" />

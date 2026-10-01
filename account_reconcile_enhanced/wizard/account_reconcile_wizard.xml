@@ -75,7 +75,7 @@
                                    invisible="is_rec_pay_account == False"/>
                             <field name="label"/>
                             <field name="tax_id"/>
-                            <field name="to_check"/>
+                            <field name="checked"/>
                         </group>
                     </group>
 
@@ -94,7 +94,7 @@
                                    invisible="is_rec_pay_account == False"/>
                             <field name="label"/>
                             <field name="tax_id"/>
-                            <field name="to_check"/>
+                            <field name="checked"/>
                         </group>
                     </group>
 

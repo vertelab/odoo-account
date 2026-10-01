@@ -6,13 +6,13 @@
             <field name="model">account.card.statement</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name"/>
                     <field name="date"/>
                     <field name="account_move_id"/>
                     <field name="journal_id"/>
                     <field name="account_card_statement_line_ids"/>
-                </tree>
+                </list>
             </field>
         </record>
         
@@ -33,14 +33,14 @@
                         </group>
                         <group>
                             <field name="account_card_statement_line_ids">
-                                <tree>
+                                <list>
                                     <field name="date"/>
                                     <field name="person"/>
                                     <field name="card_number"/>
                                     <field name="description"/>
                                     <field name="amount"/>
                                     <field name="currency"/>
-                                </tree>
+                                </list>
                             </field>
                         </group>
                    </sheet>
@@ -58,7 +58,7 @@
             <field name="model">account.card.statement.line</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                 <tree>
+                 <list>
                      <field name="account_card_statement_id" optional="hide"/>
                      <field name="account_move_id" optional="show"/>
                      <field name="date" optional="show"/>
@@ -80,7 +80,7 @@
                      <field name="card_number" optional="show"/>
                      <field name="card_name" optional="show"/>
                      <field name="accounting_status" optional="hide"/>
-                 </tree>
+                 </list>
             </field>
         </record>
 
