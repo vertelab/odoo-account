@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3
 {
     'name': 'Account: Vendor Bill Approval Migration',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.1.0',
     'category': 'Accounting',
     'summary': 'Migrates data from purchase_vendor_bill_approval to the new approval module.',
     'description': '''

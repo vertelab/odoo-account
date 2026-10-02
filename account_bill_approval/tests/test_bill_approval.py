@@ -386,8 +386,10 @@ class TestBillApproval(TransactionCase):
             "groups_id": [(6, 0, [
                 self.env.ref("base.group_user").id,
                 self.env.ref("account.group_account_invoice").id,
-                # Needed to write on res.partner in this test.
-                self.env.ref("sales_team.group_sale_salesman").id,
+                # Needed to write on res.partner in this test. Use a base
+                # group: 'sales_team' is not a dependency of this module, so
+                # 'sales_team.group_sale_salesman' is not guaranteed to exist.
+                self.env.ref("base.group_partner_manager").id,
                 self.env.ref(
                     "account_bill_approval.group_bill_approval_manager"
                 ).id,

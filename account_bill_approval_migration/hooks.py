@@ -19,6 +19,16 @@ This hook therefore:
    module can no longer drop the table.
 
 Step 4 is the critical one. Without it the data is gone.
+
+Note that the ownership hand-over protects the *data* only. Both modules
+declare ``bill.approval.user.line`` with ``_name``, and Odoo keeps one
+registry class per model name — the module loaded last wins. Since modules
+load in name order, ``purchase_vendor_bill_approval`` wins and its class
+replaces the one from ``account_bill_approval``, so the new fields
+(``date_rejected``, ``company_id``, ``rejected_by_id``, ``reject_reason``)
+and ``ret_bill_approval_count`` are missing at runtime until the legacy
+module is uninstalled. The vendor bill form then fails in the browser with
+``"bill.approval.user.line"."date_rejected" field is undefined``.
 """
 
 import logging
@@ -61,6 +71,40 @@ def post_init_hook(env):
 
     cr.commit()
     _logger.info("account_bill_approval_migration: migration complete")
+
+    _warn_legacy_still_installed(env)
+
+
+def _warn_legacy_still_installed(env):
+    """Tell the operator to finish the migration.
+
+    The ownership hand-over protects the *data*, but it does not make the two
+    modules coexist: both declare ``bill.approval.user.line`` with ``_name``,
+    and Odoo keeps only the class of the module loaded last
+    (``purchase_vendor_bill_approval``, because modules load in name order).
+    Until the legacy module is uninstalled the running model is missing
+    ``date_rejected``, ``company_id``, ``rejected_by_id``,
+    ``reject_reason`` and ``ret_bill_approval_count``, and the vendor bill
+    form raises an Owl error in the browser.
+    """
+    legacy = env["ir.module.module"].sudo().search(
+        [("name", "=", LEGACY_MODULE), ("state", "=", "installed")],
+    )
+    if not legacy:
+        return
+
+    _logger.critical(
+        "account_bill_approval_migration: the migration is done, but %s is "
+        "still installed. It declares bill.approval.user.line with '_name' "
+        "and is loaded after account_bill_approval, so its model class "
+        "replaces the new one and 'date_rejected', 'company_id', "
+        "'rejected_by_id', 'reject_reason' and 'ret_bill_approval_count' are "
+        "missing at runtime (the vendor bill form fails with \"'date_rejected' "
+        "field is undefined\" in the browser).\n"
+        "UNINSTALL %s NOW — the table and all rows survive, the ownership "
+        "was transferred to %s.",
+        LEGACY_MODULE, LEGACY_MODULE, "account_bill_approval",
+    )
 
 
 # ----------------------------------------------------------------------

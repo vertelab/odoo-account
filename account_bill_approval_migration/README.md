@@ -41,6 +41,33 @@ The hook is idempotent: re-running it changes nothing.
 
 **Never uninstall the legacy module before step 3.**
 
+## Why step 3 is not optional
+
+Until the legacy module is uninstalled the interface is broken, even though
+the data is safe. Both modules declare the model
+`bill.approval.user.line` with `_name`, and Odoo keeps exactly **one**
+registry class per model name: the class of the module loaded last replaces
+the other one entirely (a class that sets `_name` without listing it in
+`_inherit` replaces the existing class instead of extending it). Modules are
+loaded in name order, so `purchase_vendor_bill_approval` is loaded after
+`account_bill_approval` and wins.
+
+The running model then loses `date_rejected`, `company_id`,
+`rejected_by_id`, `reject_reason` and `ret_bill_approval_count` while the
+database table and the views still use them. The vendor bill form fails in
+the browser with:
+
+```
+Caused by: Error: "bill.approval.user.line"."date_rejected" field is undefined.
+```
+
+and the systray pen logs `The method
+'bill.approval.user.line.ret_bill_approval_count' does not exist`.
+
+`account_bill_approval` therefore refuses to install while the legacy module
+is installed without this bridge (`pre_init_hook`) and logs a critical error
+if the combination is already in place (`post_init_hook`).
+
 ## Cleanup
 
 The backup table `bill_approval_user_line_backup` is intentionally left

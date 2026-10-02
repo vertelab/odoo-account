@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3
 {
     'name': 'Account: Vendor Bill Approval',
-    'version': '18.0.1.5.0',
+    'version': '18.0.1.6.0',
     'category': 'Accounting',
     'summary': 'Approve vendor bills with freely selectable approvers.',
     'description': '''
@@ -31,6 +31,8 @@ Vendor Bill Approval
         'views/res_partner_views.xml',
         'wizards/vendor_bill_approval_user_views.xml',
     ],
+    'pre_init_hook': 'pre_init_hook',
+    'post_init_hook': 'post_init_hook',
     'assets': {
         'web.assets_backend': [
             'account_bill_approval/static/src/components/*.js',
