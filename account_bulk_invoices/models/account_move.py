@@ -17,7 +17,7 @@ class AccountMove(models.Model):
             'company_id': self.company_id.id,
             'invoice_user_id': self.invoice_user_id.id,
             'auto_post': self.auto_post,
-            'to_check': self.to_check,
+            'checked': self.checked,
             'invoice_date_due': self.invoice_date_due,
             'payment_reference': self.payment_reference,
             'invoice_payment_term_id': self.invoice_payment_term_id.id,
