@@ -16,7 +16,7 @@ Reconcile Enhanced
         - UI Integration: Extends 1 view(s) in the Odoo interface.
         - Extends Odoo: Builds on account.bank.statement.line, account.move.line, account.reconcile.model, account.reconcile.model.line.
     ''',
-    'version': '18.0.1.1.0',
+    'version': '18.0.1.1.1',
     'license': 'AGPL-3',
     'author': 'Vertel Sverige AB, Odoo Community Association (OCA)',
     'website': 'https://vertel.se/apps/odoo-account/account_reconcile_enhanced',
