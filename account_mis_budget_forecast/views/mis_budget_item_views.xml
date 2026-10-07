@@ -39,15 +39,10 @@
             <xpath expr="//group[last()]" position="after">
                 <group string="Hierarchy" colspan="4">
                     <field name="is_node" invisible="1"/>
-                    <field name="parent_id"
-                           attrs="{'readonly': [('is_node', '=', True)]}"/>
+                    <field name="parent_id" readonly="is_node == True"/>
                     <field name="tree_line_id"/>
-                    <field name="hierarchical_balance"
-                           attrs="{'invisible': [('is_node', '=', False)],
-                                   'readonly': [('is_node', '=', True)]}"/>
-                    <field name="hierarchical_forecast"
-                           attrs="{'invisible': [('is_node', '=', False)],
-                                   'readonly': [('is_node', '=', True)]}"/>
+                    <field name="hierarchical_balance" invisible="is_node == False" readonly="is_node == True"/>
+                    <field name="hierarchical_forecast" invisible="is_node == False" readonly="is_node == True"/>
                 </group>
             </xpath>
         </field>
