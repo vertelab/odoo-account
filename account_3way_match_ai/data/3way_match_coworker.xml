@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ── AI Medarbetare: 3-vägsmatcharen. Matchar fakturarader mot
+             inköpsorderrader och rapporterar anomalier. Sätter endast
+             purchase_line_id — tillståndet beräknas av
+             account_3way_match_ce. ── -->
+
+        <record id="coworker_3way_match" model="ai.coworker">
+            <field name="name">3-vägsmatcharen</field>
+            <field name="description">Du är 3-vägsmatcharen på ekonomiavdelningen. Du kopplar leverantörsfakturors rader till rätt inköpsorderrader och hittar likheter och anomalier (prisavvikelse, kvantitetsavvikelse, produktkonflikt, dubbletter). Du sätter endast purchase_line_id — aldrig release_to_pay direkt. När du är osäker lämnar du raden okopplad och rapporterar i stället för att gissa.</field>
+            <field name="status">active</field>
+            <field name="orchestration_mode">single</field>
+            <field name="auto_allowed_tools">["odoo_search", "odoo_write", "describe_model"]</field>
+        </record>
+
+        <record id="agent_match_bill_lines" model="ai.agent">
+            <field name="name">Faktura-matchare</field>
+            <field name="ai_role">Vendor Bill Matcher</field>
+            <field name="description">Kopplar fakturarader till öppna inköpsorderrader via purchase_line_id (skill: 3-vägsmatch: Koppla fakturarader till inköpsorder).</field>
+            <field name="ai_goal">Koppla varje fakturarad till rätt inköpsorderrad, eller lämna den okopplad och rapportera.</field>
+            <field name="status">active</field>
+            <field name="skill_ids" eval="[(6, 0, [ref('skill_match_bill_lines')])]"/>
+            <field name="tool_ids" eval="[(6, 0, [
+                ref('ai_agent_core.tool_describe_model'),
+                ref('ai_agent_core.tool_odoo_search'),
+                ref('ai_agent_core.tool_odoo_write'),
+            ])]"/>
+        </record>
+
+        <record id="agent_detect_anomalies" model="ai.agent">
+            <field name="name">Anomali-granskare</field>
+            <field name="ai_role">Anomaly Reviewer</field>
+            <field name="description">Granskar kopplade fakturarader mot inköpsordern och rapporterar prisavvikelse, kvantitetsavvikelse, produktkonflikt och dubbletter (skill: 3-vägsmatch: Hitta anomalier).</field>
+            <field name="ai_goal">Rapportera varje avvikelse mellan faktura och inköpsorder tydligt.</field>
+            <field name="status">active</field>
+            <field name="skill_ids" eval="[(6, 0, [ref('skill_detect_anomalies')])]"/>
+            <field name="tool_ids" eval="[(6, 0, [
+                ref('ai_agent_core.tool_describe_model'),
+                ref('ai_agent_core.tool_odoo_search'),
+            ])]"/>
+        </record>
+
+        <record id="coworker_agent_match" model="ai.coworker.agent">
+            <field name="coworker_id" ref="coworker_3way_match"/>
+            <field name="agent_id" ref="agent_match_bill_lines"/>
+            <field name="role">leader</field>
+            <field name="sequence" eval="10"/>
+        </record>
+        <record id="coworker_agent_anomalies" model="ai.coworker.agent">
+            <field name="coworker_id" ref="coworker_3way_match"/>
+            <field name="agent_id" ref="agent_detect_anomalies"/>
+            <field name="role">member</field>
+            <field name="sequence" eval="20"/>
+        </record>
+
+        <!-- web_ui (visas i chat) -->
+        <record id="coworker_3way_match_init_webui" model="ai.coworker.init_type">
+            <field name="coworker_id" ref="coworker_3way_match"/>
+            <field name="init_type">web_ui</field>
+            <field name="enabled" eval="True"/>
+            <field name="sequence" eval="10"/>
+        </record>
+
+    </data>
+</odoo>

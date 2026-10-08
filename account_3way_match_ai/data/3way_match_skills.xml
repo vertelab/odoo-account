@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ── Skills: matchningens recept. Injiceras i medarbetarens
+             systemprompt via ai.skill.recipe_text. ── -->
+
+        <record id="skill_match_bill_lines" model="ai.skill">
+            <field name="name">3-vägsmatch: Koppla fakturarader till inköpsorder</field>
+            <field name="category">accounting</field>
+            <field name="description">Koppla en leverantörsfakturas rader till rätt öppna inköpsorderrader via purchase_line_id.</field>
+            <field name="trigger_keywords">3way,3-vägsmatch,matcha,inköpsorder,purchase_line_id,release_to_pay</field>
+            <field name="recipe_text">När du ska matcha en leverantörsfaktura mot inköpsordrar:
+1. Kontrollera att fakturan är en leverantörsfaktura (move_type in_invoice/in_refund). Annars: gör inget.
+2. Hitta öppna inköpsordrar för fakturans leverantör:
+   odoo_search purchase.order med domain [('partner_id','=',partner_id),('state','in',('purchase','done')),('invoice_status','!=','invoiced')].
+3. Bygg en karta produkt_id -> [inköpsorderrader] från dessa ordrar (endast rader med product_id).
+4. För varje fakturarad (hoppa över line_section/line_note):
+   a. Är purchase_line_id redan satt? Hoppa över raden (rör den inte).
+   b. Saknar raden product_id? Försök hitta produkten på radens namn; sätt den om säkert.
+   c. Finns produkten på exakt EN öppen inköpsorderrad? Sätt radens purchase_line_id till den.
+   d. Finns produkten på FLERA inköpsorderrader? Koppla INTE — rapportera produktkonflikt.
+   e. Finns ingen träff? Lämna okopplad — rapportera.
+5. Skriv aldrig release_to_pay eller release_to_pay_manual direkt. Tillståndet beräknas av account_3way_match_ce när purchase_line_id sätts.
+6. Svara kort: antal kopplade rader, antal okopplade, och vilka anomalier du hittade.
+</field>
+        </record>
+
+        <record id="skill_detect_anomalies" model="ai.skill">
+            <field name="name">3-vägsmatch: Hitta anomalier</field>
+            <field name="category">accounting</field>
+            <field name="description">Identifiera prisavvikelse, kvantitetsavvikelse, produktkonflikt och dubbletter mellan faktura och inköpsorder.</field>
+            <field name="trigger_keywords">anomali,avvikelse,prisavvikelse,kvantitetsavvikelse,dubblett,produktkonflikt</field>
+            <field name="recipe_text">När du granskar en fakturarad mot dess kopplade inköpsorderrad, leta efter:
+1. PRISAVVIKELSE: jämför fakturaradens price_unit med inköpsorderradens price_unit (efter valutaomräkning). Skiljer de sig: rapportera prisavvikelse.
+2. KVANTITETSAVVIKELSE: jämför fakturerad kvantitet med mottagen (qty_received) och beställd (product_qty). Överstiger fakturerad kvantitet någon av dem: rapportera kvantitetsavvikelse.
+3. PRODUKTKONFLIKT: om flera öppna inköpsorderrader har samma produkt är kopplingen tvetydig. Rapportera produktkonflikt och gör ingen automatisk koppling.
+4. DUBBLETT: sök efter en befintlig leverantörsfaktura med samma referens (ref) hos samma leverantör. Finns den: rapportera dubblett.
+Rapportera varje anomali tydligt med fakturan, raden och vad som avviker. Gissa aldrig bort en anomali.
+</field>
+        </record>
+
+    </data>
+</odoo>

@@ -9,7 +9,7 @@ class TestReleaseToPayInvoice(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user.group_ids |= cls.quick_ref('purchase.group_purchase_user')
+        cls.user.groups_id |= cls.env.ref('purchase.group_purchase_user')
         cls.partner = cls.env['res.partner'].create({'name': 'Zizizapartner'})
         cls.product = cls.env['product.product'].create({
             'name': 'VR Computer',
@@ -31,7 +31,7 @@ class TestReleaseToPayInvoice(AccountTestInvoicingCommon):
                     'name': self.product.name,
                     'product_id': self.product.id,
                     'product_qty': ordered_qty,
-                    'product_uom_id': self.product.uom_id.id,
+                    'product_uom': self.product.uom_id.id,
                     'price_unit': order_price,
                     'date_planned': fields.Datetime.now(),
                 })]
@@ -76,6 +76,56 @@ class TestReleaseToPayInvoice(AccountTestInvoicingCommon):
         self.check_release_to_pay_scenario(10, [('receive',{'qty': 5}), ('invoice', {'qty': 5, 'rslt': 'exception', 'price':42})])
         self.check_release_to_pay_scenario(10, [('receive',{'qty': 5}), ('invoice', {'qty': 5, 'rslt': 'exception', 'price':42})], invoicing_policy='purchase')
 
+    def test_empty_bill_is_no(self):
+        """En leverantörsfaktura utan fakturerbara rader ska vara 'no'."""
+        move = self.env['account.move'].create({
+            'move_type': 'in_invoice',
+            'partner_id': self.partner.id,
+            'invoice_line_ids': [Command.create({'display_type': 'line_section', 'name': 'Section'})],
+        })
+        self.assertEqual(move.release_to_pay, 'no')
+
+    def test_line_without_purchase_order_is_exception(self):
+        """En fakturarad utan koppling till inköpsorder ska vara 'exception'."""
+        move = self.env['account.move'].create({
+            'move_type': 'in_invoice',
+            'partner_id': self.partner.id,
+            'invoice_line_ids': [Command.create({
+                'product_id': self.product.id,
+                'name': self.product.name,
+                'quantity': 1,
+                'price_unit': 100.0,
+            })],
+        })
+        line = move.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))
+        self.assertFalse(line.purchase_line_id)
+        self.assertEqual(line.can_be_paid, 'exception')
+        self.assertEqual(move.release_to_pay, 'exception')
+
+    def test_manual_override(self):
+        """Manuell överstyrning ska styra tillståndet och sätta force-flaggan."""
+        move = self.env['account.move'].create({
+            'move_type': 'in_invoice',
+            'partner_id': self.partner.id,
+            'invoice_line_ids': [Command.create({
+                'product_id': self.product.id,
+                'name': self.product.name,
+                'quantity': 1,
+                'price_unit': 100.0,
+            })],
+        })
+        # Utan koppling är beräknat tillstånd 'exception'.
+        self.assertEqual(move.release_to_pay, 'exception')
+        # Användaren tvingar 'no'.
+        move.release_to_pay_manual = 'no'
+        move._onchange_release_to_pay_manual()
+        self.assertTrue(move.force_release_to_pay)
+        self.assertEqual(move.release_to_pay, 'no')
+        # Utan överstyrning speglar det manuella fältet det beräknade.
+        move.force_release_to_pay = False
+        move._compute_release_to_pay_manual()
+        self.assertEqual(move.release_to_pay_manual, move.release_to_pay)
+
     def test_amount_currency_edit(self):
         move_form = Form(self.env['account.move'].with_context(default_move_type='out_invoice'))
         move_form.invoice_date = fields.Date.from_string('2023-01-01')
@@ -85,7 +135,7 @@ class TestReleaseToPayInvoice(AccountTestInvoicingCommon):
             line_form.quantity = 1
             line_form.price_unit = 10
         move_form.save()
-        with move_form.journal_line_ids.edit(0) as line_form:
+        with move_form.line_ids.edit(0) as line_form:
             line_form.amount_currency = -30
         move_form.save()
-        self.assertEqual(move_form.journal_line_ids.edit(0).amount_currency, -30)
+        self.assertEqual(move_form.line_ids.edit(0).amount_currency, -30)
