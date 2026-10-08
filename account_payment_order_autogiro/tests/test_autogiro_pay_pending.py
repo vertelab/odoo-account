@@ -54,7 +54,10 @@ class TestAutogiroPayPending(AccountTestInvoicingCommon):
         categ_type_id = False
         with registry_module(get_db_name()).cursor() as cr:
             env = api.Environment(cr, SUPERUSER_ID, {})
-            categ_type_id = env["product.category.type"].search([], limit=1).id
+            # Modellen finns bara när sfa_core är installerad; utan den är
+            # uppslaget ett KeyError, inte ett tomt resultat.
+            if "product.category.type" in env:
+                categ_type_id = env["product.category.type"].search([], limit=1).id
 
         if categ_type_id:
             ProductCategory = registry_module(get_db_name())["product.category"]
