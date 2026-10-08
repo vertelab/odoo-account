@@ -1,4 +1,4 @@
-# Copyright (C) 2026 Vertel AB (<https://vertel.se>).
+# Copyright (C) 2026 Vertel Sverige AB (<https://vertel.se>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
@@ -9,7 +9,7 @@
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_payment_order_autogiro_lms',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'description': '''
 Payment Order & Autogiro Training (LMS)
 =======================================
