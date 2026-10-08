@@ -80,4 +80,4 @@ DROP TABLE bill_approval_user_line_backup;
 
 ## License
 
-AGPL-3. Copyright 2026 Vertel AB.
+AGPL-3. Copyright 2026 Vertel Sverige AB.

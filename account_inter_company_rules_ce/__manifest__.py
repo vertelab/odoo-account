@@ -25,6 +25,6 @@ Inter Company Rules (CE)
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_inter_company_rules_ce',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
 }

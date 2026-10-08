@@ -18,7 +18,7 @@ Accounting Fleet Bridge (CE)
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_accountant_fleet_ce',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'installable': True,
     'auto_install': False,

@@ -19,7 +19,7 @@ Expense Bridge (CE)
     'auto_install': False,
     'author': 'Vertel Sverige AB',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'installable': True,
 }

@@ -1,4 +1,4 @@
-/** Copyright 2026 Vertel AB
+/** Copyright 2026 Vertel Sverige AB
  *  SPDX-License-Identifier: AGPL-3
  *
  *  Systray "pen": shows how many vendor bills are waiting for the

@@ -23,7 +23,7 @@ Deferred Revenue Expenses
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_deferred_revenue_expenses',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'depends': ['account', 'analytic'],
     'data': [
         'security/ir.model.access.csv',

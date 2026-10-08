@@ -1,23 +1,11 @@
-# Copyright 2026 Vertel AB
+# Copyright 2026 Vertel Sverige AB
 # SPDX-License-Identifier: AGPL-3
 {
     'name': 'Account: Vendor Bill Approval',
-    'version': '18.0.1.6.0',
+    'version': '18.0.1.0.0',
     'category': 'Accounting',
-    'summary': 'Approve vendor bills with freely selectable approvers.',
-    'description': '''
-Vendor Bill Approval
-====================
-
-    Approve vendor bills with freely selectable approvers.
-
-    Features:
-
-        - Guided Wizards: Step-by-step dialogs for data entry.
-        - UI Integration: Extends 2 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on account.move, bill.approval.user.line, move_id, user_id.
-    ''',
-    'author': 'Vertel AB',
+    'summary': 'Approve vendor bills with freely selectable approvers',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_bill_approval',
     'license': 'AGPL-3',
     'depends': [
@@ -26,13 +14,10 @@ Vendor Bill Approval
     'data': [
         'security/res_groups.xml',
         'security/ir.model.access.csv',
-        'security/bill_approval_rules.xml',
         'views/account_move_views.xml',
         'views/res_partner_views.xml',
         'wizards/vendor_bill_approval_user_views.xml',
     ],
-    'pre_init_hook': 'pre_init_hook',
-    'post_init_hook': 'post_init_hook',
     'assets': {
         'web.assets_backend': [
             'account_bill_approval/static/src/components/*.js',

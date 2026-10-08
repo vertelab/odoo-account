@@ -69,4 +69,4 @@ legacy Linserv module, so existing data can be reused. See
 
 ## License
 
-AGPL-3. Copyright 2026 Vertel AB.
+AGPL-3. Copyright 2026 Vertel Sverige AB.

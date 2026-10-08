@@ -22,7 +22,7 @@ Invoice AI 3-Way Match Bridge
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_invoice_ai_3way_match',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'installable': True,
     'auto_install': True,

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2026 Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2026 Vertel Sverige AB (<https://vertel.se>).
 #
 ##############################################################################
 
@@ -14,7 +14,7 @@
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_payment_register_date',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'description': '''
 Payment Date Below Memo

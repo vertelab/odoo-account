@@ -1,3 +1,3 @@
-# Copyright 2026 Vertel AB
+# Copyright 2026 Vertel Sverige AB
 # SPDX-License-Identifier: AGPL-3
 from .hooks import post_init_hook

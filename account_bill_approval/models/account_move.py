@@ -1,4 +1,4 @@
-# Copyright 2026 Vertel AB
+# Copyright 2026 Vertel Sverige AB
 # SPDX-License-Identifier: AGPL-3
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
