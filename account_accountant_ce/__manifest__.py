@@ -20,37 +20,44 @@
 ##############################################################################
 
 {
-    'name': 'Account: Accounting CE',
-    'version': '18.0.1.0.0',
-    # Version ledger: 17.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds fiscal year management to Community Edition accounting.',
+    'name': 'Account: Accounting UI (CE)',
+    'version': '18.0.1.1.0',
+    # Version ledger: 18.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'summary': 'Community accounting UI adjustments: "Accounting" naming and two form fields.',
     'category': 'Accounting',
     'description': '''
-Accounting CE
-=============
+Accounting UI (CE)
+==================
 
-    OCA
-            https://github.com/OCA/account-financial-reporting/tree/17.0/account_financial_report
-            https://github.com/OCA/account-reconcile/tree/17.0/account_reconcile_oca
-            https://github.com/OCA/bank-statement-import/tree/17.0/account_statement_import_camt
-            https://github.com/OCA/mis-builder/tree/17.0/mis_builder
-            https://github.com/OCA/mis-builder/tree/17.0/mis_builder_budget
+    UI adjustments that make Community accounting read as "Accounting"
+    instead of "Invoicing", plus two fields that Community only shows in
+    list views.
 
-    account_banking_sepa_credit_transfer
-            account_banking_sepa_direct_debit
-            # account_bank_payment
-            https://github.com/OCA/bank-payment
+    What this module does:
 
-    https://pypi.org/project/Unidecode/
-            pip3 install unidecode:
-            root@odoo16server:~$ pip3 install Unidecode
+        - Renames the accounting app category from "Invoicing" to
+          "Accounting" (Apps list and user form).
+        - Renames the top-level menu from "Invoicing" to "Accounting".
+        - Renames the settings app title from "Invoicing" to "Accounting".
+        - Shows "Allow Reconciliation" (`reconcile`) on the account form.
+        - Shows the inalterability hash (`inalterable_hash`) on journal
+          entries for developers (`base.group_no_one`).
+        - Restricts the partner accounting entries group to
+          `account.group_account_basic`.
 
-    Features:
+    What this module does NOT do:
 
-        - UI Integration: Extends 6 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on account.fiscal.year.
+        - It owns no models. Fiscal year management comes from OCA
+          `account_fiscal_year` (AGPL-3.0), which this module depends on.
+        - It does not redefine any `account` group. Community's group
+          architecture (`account/security/account_security.xml`) is left
+          untouched.
+
+    Dependencies:
+
+        account_fiscal_year
+                https://github.com/OCA/account-financial-tools
     ''',
-    #'sequence': '1',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_accountant_ce',
     'images': ['static/description/banner.png'], # 560x280 px.
@@ -59,27 +66,15 @@ Accounting CE
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': [
-        'sale',
-        'account_reconcile_oca',
-        'account_asset_management'
-        #'account_period_vrtl',
-        #'account_statement_import_camt',
-        #'account_banking_sepa_credit_transfer',
+        'account_fiscal_year',
     ],
     'data': [
-	'security/ir.model.access.csv',
         'security/account_accountant_security.xml',
         'data/account_accountant_data.xml',
-        'views/account_fiscal_year_view.xml',
         'views/account_move_views.xml',
         'views/account_account_views.xml',
         'views/product_views.xml',
-        'views/account_journal_dashboard_views.xml',
         'views/res_config_settings_views.xml',
-        #"views/license_view.xml",
-        #"views/agreement_view.xml",
-        #"views/product_template_view.xml",
-        #"data/cron_demo.xml",
     ],
     'demo': [
     ],
