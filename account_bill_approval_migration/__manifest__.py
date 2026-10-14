@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3
 {
     'name': 'Account: Vendor Bill Approval Migration',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.2.0',
     'category': 'Accounting',
     'summary': 'One-shot migration from purchase_vendor_bill_approval',
     'author': 'Vertel Sverige AB',
