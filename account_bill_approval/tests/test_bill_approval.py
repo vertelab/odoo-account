@@ -78,19 +78,37 @@ class TestBillApproval(TransactionCase):
                 ).id,
             })],
         })
+        # An accounting user WITHOUT the 'Bill Approver' group. Such a user
+        # can be written onto a line through RPC, or may sit on a line from
+        # before the picker was restricted.
+        cls.non_approver = cls.env["res.users"].create({
+            "name": "Non Approver",
+            "login": "test_non_approver_bill",
+            "email": "test_non_approver_bill@example.com",
+            "company_id": cls.company.id,
+            "company_ids": [(6, 0, [cls.company.id])],
+            "groups_id": [(6, 0, [
+                cls.env.ref("base.group_user").id,
+                cls.env.ref("account.group_account_invoice").id,
+            ])],
+        })
 
     # ------------------------------------------------------------------
     # T/11311 — approvers must be freely selectable
     # ------------------------------------------------------------------
     def test_approver_is_freely_selectable(self):
-        """A user not configured on the vendor can still be added."""
+        """Any member of the 'Bill Approver' group can be added.
+
+        The vendor list is a suggestion, not a restriction: an approver
+        who is not configured on the vendor can still be put on the bill.
+        """
         self.bill.approving_user_ids = [(0, 0, {
             "user_id": self.other_approver.id,
         })]
         self.assertIn(
             self.other_approver,
             self.bill.approving_user_ids.mapped("user_id"),
-            "Any user must be selectable as approver (T/11311).",
+            "Any user with the 'Bill Approver' right must be selectable.",
         )
 
     def test_vendor_approvers_are_only_a_suggestion(self):
@@ -530,3 +548,95 @@ class TestBillApproval(TransactionCase):
         result = self.bill.with_user(self.approver).action_user_reject_bill()
         self.assertIsInstance(result, dict)
         self.assertEqual(result.get("res_model"), "vendor.bill.approval.reject")
+
+    # ------------------------------------------------------------------
+    # Approve and reject must require the same right
+    # ------------------------------------------------------------------
+    def test_approver_picker_is_restricted_to_the_group(self):
+        """The picker must only offer members of 'Bill Approver'.
+
+        Without the restriction any user could be picked, and a user
+        outside the group can approve but cannot reject: the reject wizard
+        is gated on the group. Restricting the picker is what keeps the two
+        actions symmetric.
+        """
+        users = self.env["res.users"].with_context(
+            filter_bill_approval_user=1
+        ).search([("id", "in", [
+            self.approver.id, self.non_approver.id,
+        ])])
+        self.assertIn(self.approver, users)
+        self.assertNotIn(
+            self.non_approver, users,
+            "A user without the 'Bill Approver' right must not be offered.",
+        )
+
+    def test_picker_restriction_is_opt_in(self):
+        """Without the context key every user is still visible."""
+        users = self.env["res.users"].search([("id", "=", self.non_approver.id)])
+        self.assertIn(self.non_approver, users)
+
+    def test_non_approver_cannot_approve(self):
+        """A line pointing at a non-member must not be approvable.
+
+        Such a line can exist from before the picker was restricted, or be
+        written through RPC. Approving it while rejecting is impossible
+        would be an asymmetry, so both are refused.
+        """
+        line = self.env["bill.approval.user.line"].sudo().create({
+            "move_id": self.bill.id,
+            "user_id": self.non_approver.id,
+            "state": "request",
+        })
+        with self.assertRaises(UserError):
+            line.with_user(self.non_approver).action_approve()
+        self.assertEqual(line.state, "request")
+
+    def test_non_approver_cannot_reject(self):
+        """The same line must not be rejectable either."""
+        line = self.env["bill.approval.user.line"].sudo().create({
+            "move_id": self.bill.id,
+            "user_id": self.non_approver.id,
+            "state": "request",
+        })
+        with self.assertRaises(UserError):
+            line.with_user(self.non_approver).action_reject(reason="No")
+        self.assertEqual(line.state, "request")
+
+    def test_group_member_can_approve_and_reject(self):
+        """A group member keeps both actions available."""
+        line = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.approver.id,
+            "state": "request",
+        })
+        line.with_user(self.approver).action_approve()
+        self.assertEqual(line.state, "done")
+
+        other = self.env["bill.approval.user.line"].create({
+            "move_id": self.bill.id,
+            "user_id": self.other_approver.id,
+            "state": "request",
+        })
+        other.with_user(self.other_approver).action_reject(reason="Wrong amount")
+        self.assertEqual(other.state, "rejected")
+
+    def test_group_check_allows_sudo(self):
+        """Cron and migration code must not be blocked by the group check.
+
+        The helper returns early under ``sudo``. The assignment check
+        (``line.user_id != env.user``) still applies, because sudo does not
+        change ``env.user`` — so the test asserts the group check itself is
+        skipped, not that the whole flow is.
+        """
+        line = self.env["bill.approval.user.line"].sudo().create({
+            "move_id": self.bill.id,
+            "user_id": self.non_approver.id,
+            "state": "request",
+        })
+        # ``sudo()`` must not raise, even though the assigned user is not a
+        # member of the 'Bill Approver' group.
+        line.sudo()._bill_approval_check_approver()
+        # The same call as the non-member is refused.
+        with self.assertRaises(UserError):
+            line.with_user(self.non_approver)._bill_approval_check_approver()

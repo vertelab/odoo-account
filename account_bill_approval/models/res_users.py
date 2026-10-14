@@ -35,9 +35,14 @@ class ResUsers(models.Model):
     def _bill_approval_user_domain(self):
         """Users allowed to be picked as bill approvers.
 
-        Returns a domain, or ``None`` when no restriction applies.
-        The group is intentionally *not* required: any user may be an
-        approver, the group only marks the default pool.
+        Restricted to the 'Bill Approver' group. The restriction is
+        required for symmetry: the reject wizard is gated on that group,
+        so an approver outside it could approve but never reject. The
+        pickers apply this domain through the ``filter_bill_approval_user``
+        context key, and ``action_approve``/``action_reject`` enforce it
+        again on the line itself.
+
+        Returns a domain, or ``None`` when the group does not exist.
         """
         group = self.env.ref(
             "account_bill_approval.group_bill_approval_user",
@@ -49,11 +54,11 @@ class ResUsers(models.Model):
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None):
-        """Support the legacy ``filter_bill_approval_user`` context key.
+        """Support the ``filter_bill_approval_user`` context key.
 
-        Unlike the legacy module this filter is *opt-in*: it is only
-        applied when the caller explicitly asks for it, so approvers can
-        be selected freely by default (T/11311).
+        The approver pickers set this key, so only members of the
+        'Bill Approver' group are offered. It stays opt-in: callers that
+        do not ask for it see every user.
         """
         if self.env.context.get("filter_bill_approval_user"):
             domain = self._bill_approval_user_domain()

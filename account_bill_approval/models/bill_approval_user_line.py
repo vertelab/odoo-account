@@ -111,6 +111,31 @@ class BillApprovalUserLine(models.Model):
                 action=action,
             ))
 
+    @api.model
+    def _bill_approval_check_approver(self):
+        """Only members of the 'Bill Approver' group may act on a line.
+
+        The approver pickers are restricted to this group, but a line can
+        still point at a non-member: it may have been created before the
+        restriction, or written through RPC. Such a user can approve (the
+        write lands on this model, which ``account.group_account_invoice``
+        may write) but cannot reject, because the reject wizard is gated on
+        the group. That asymmetry is what this check removes: either the
+        user may do both, or neither.
+
+        ``sudo`` calls (cron, migration) are allowed through.
+        """
+        if self.env.su:
+            return
+        if not self.env.user.has_group(
+            "account_bill_approval.group_bill_approval_user"
+        ):
+            raise UserError(_(
+                "You are listed as an approver on this bill, but you do "
+                "not have the 'Bill Approver' right. Ask a Bill Approval "
+                "Manager to grant it, or to assign another approver."
+            ))
+
     @api.model_create_multi
     def create(self, vals_list):
         self._bill_approval_check_manager(_("add"))
@@ -194,6 +219,7 @@ class BillApprovalUserLine(models.Model):
 
     def action_approve(self):
         """Approve the bill on behalf of the current user."""
+        self._bill_approval_check_approver()
         for line in self:
             if line.user_id != self.env.user:
                 raise UserError(_(
@@ -224,6 +250,7 @@ class BillApprovalUserLine(models.Model):
         The rejecting user is blocked from approving the same line again;
         a new approval line has to be added instead.
         """
+        self._bill_approval_check_approver()
         for line in self:
             if line.user_id != self.env.user:
                 raise UserError(_(

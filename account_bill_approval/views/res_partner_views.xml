@@ -13,10 +13,13 @@
                 <group name="bill_approval" string="Default Bill Approvers">
                     <!-- Only Bill Approval / Manager may configure the
                          default approvers of a vendor. -->
+                    <!-- Restricted to the 'Bill Approver' group for the same
+                         reason as on the bill: an approver without the
+                         group cannot reject. -->
                     <field name="bill_approving_user_ids" widget="many2many_tags"
                            readonly="uid not in bill_approval_manager_user_ids"
                            options="{'no_create': True}"
-                           context="{'filter_bill_approval_user': 0}"/>
+                           context="{'filter_bill_approval_user': 1}"/>
                 </group>
             </xpath>
         </field>
