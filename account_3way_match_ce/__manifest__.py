@@ -1,6 +1,6 @@
 {
     'name': 'Account: 3-Way Match (CE)',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.1.0',
     'category': 'Supply Chain/Purchase',
     'summary': 'Adds 3-way matching on vendor bills for Community Edition.',
     'description': '''
@@ -33,7 +33,7 @@
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_3way_match_ce',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'installable': True,
     'auto_install': False,

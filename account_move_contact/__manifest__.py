@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>)
+#    Copyright (C) 2021- Vertel Sverige AB (<https://vertel.se>)
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify

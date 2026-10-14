@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2026- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2026- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -43,7 +43,7 @@ investigation.
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/partner_statement_vrtl',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'depends': [
         'partner_statement',
     ],

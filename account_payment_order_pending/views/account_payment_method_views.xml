@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Copyright 2026 Vertel AB
+<!-- Copyright 2026 Vertel Sverige AB
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
     <record model="ir.ui.view" id="account_payment_method_form_view_pending">

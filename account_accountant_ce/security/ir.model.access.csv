@@ -1,3 +1,1 @@
-"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-account_accountant_ce.access_account_fiscal_year,access_account_fiscal_year,account_accountant_ce.model_account_fiscal_year,base.group_user,1,1,1,1
-
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink

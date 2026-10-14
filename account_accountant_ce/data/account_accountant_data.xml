@@ -1,36 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <!-- Switch root menu "Invoicing" to "Accounting" -->
-        <!-- Top menu item -->
-        <menuitem name="Accounting"
-            id="menu_accounting"
-            groups="account.group_account_readonly,account.group_account_invoice"
-            web_icon="account,static/description/icon.svg"
-            sequence="60"/>
-        <!-- move existing submenus to point to the new parent -->
-        <record id="account.menu_finance_receivables" model="ir.ui.menu">
-            <field name="parent_id" ref="menu_accounting"/>
-        </record>
-        <record id="account.menu_finance_payables" model="ir.ui.menu">
-            <field name="parent_id" ref="menu_accounting"/>
-        </record>
-        <record id="account.menu_finance_entries" model="ir.ui.menu">
-            <field name="parent_id" ref="menu_accounting"/>
-        </record>
-        <record id="account.menu_finance_reports" model="ir.ui.menu">
-            <field name="parent_id" ref="menu_accounting"/>
-        </record>
-        <record id="account.menu_finance_configuration" model="ir.ui.menu">
-            <field name="parent_id" ref="menu_accounting"/>
-        </record>
-        <record id="account.menu_board_journal_1" model="ir.ui.menu">
-            <field name="parent_id" ref="menu_accounting"/>
-        </record>
+    <!--
+        Rename the top-level "Invoicing" menu to "Accounting".
 
-        <record id="account_asset_management.menu_finance_assets" model="ir.ui.menu">
-            <field name="parent_id" ref="menu_accounting"/>
-        </record>
-
-        <menuitem id="account.menu_account_config" name="Settings" parent="account.menu_finance_configuration" sequence="0" groups="base.group_system"/>
-
+        The root menu is renamed in place instead of creating a second root
+        menu and reparenting every child to it. Renaming keeps all children
+        (Dashboard, Customers, Vendors, Accounting, Reporting, Configuration,
+        and any menu contributed by other installed modules such as
+        account_asset_management) where they already are, and avoids leaving
+        an empty "Invoicing" root menu behind.
+    -->
+    <record id="account.menu_finance" model="ir.ui.menu">
+        <field name="name">Accounting</field>
+        <field name="sequence">60</field>
+    </record>
 </odoo>

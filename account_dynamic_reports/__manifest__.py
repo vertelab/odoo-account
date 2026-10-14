@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2026- Vertel AB
+# Copyright (C) 2026- Vertel Sverige AB
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
@@ -22,7 +22,7 @@ Dynamic Reports
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_dynamic_reports',
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['account'],
     'data': [
