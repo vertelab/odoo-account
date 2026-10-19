@@ -28,7 +28,7 @@
         <xpath expr="//tbody/tr/td[6]" position="before">
             <td class="amount">
                 <span
-                    t-out="line['reconciled_amount']"
+                    t-out="line.get('reconciled_amount', 0.0)"
                     t-options="{'widget': 'monetary', 'display_currency': display_currency}"
                 />
             </td>

@@ -21,7 +21,7 @@
 
 {
     'name': 'Partner Statement (Vertel)',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.2.3',
     'summary': 'Consistent sign convention and remaining amount for partner statements',
     'category': 'Accounting/Accounting',
     'description': """
@@ -34,6 +34,8 @@ Features:
   notes, unapplied prepayments) are negative.
 * An explicit Reconciled column (original minus remaining).
 * An explicit Remaining column computed from reconciliations.
+* The same column set in the XLSX export (OCA's spreadsheet layout has
+  no Reconciled column, so HTML/PDF and Excel disagreed).
 
 Background (T/11336): prepayments that have been reconciled against
 invoices disappear from the OCA open-items reports, and the remaining
@@ -46,6 +48,7 @@ investigation.
     'maintainer': 'Vertel Sverige AB',
     'depends': [
         'partner_statement',
+        'report_xlsx_helper',
     ],
     'data': [
         'views/outstanding_statement.xml',
