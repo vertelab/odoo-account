@@ -27,6 +27,30 @@
             <button name="action_register_payment" position="attributes">
                 <attribute name="invisible" add="is_pending_bank" separator="or" />
             </button>
+            <!-- OCA's account_payment_order adds "Add to Payment Order" /
+                 "Add to Debit Order" next to the Pay button. They queue the
+                 bill into a payment order, which is exactly what is already
+                 done — adding it a second time would create a duplicate
+                 payment line.
+
+                 Both buttons share the method name create_account_payment_line
+                 and are told apart only by their string, which Odoo refuses to
+                 use as a selector. A <button name=...> selector patches the
+                 first match and silently leaves the other, so both are matched
+                 positionally: the first is the Debit Order (customer) button,
+                 the second the Payment Order (vendor) one. -->
+            <xpath
+                expr="(//button[@name='create_account_payment_line'])[1]"
+                position="attributes"
+            >
+                <attribute name="invisible" add="is_pending_bank" separator="or" />
+            </xpath>
+            <xpath
+                expr="(//button[@name='create_account_payment_line'])[2]"
+                position="attributes"
+            >
+                <attribute name="invisible" add="is_pending_bank" separator="or" />
+            </xpath>
         </field>
     </record>
 
