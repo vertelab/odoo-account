@@ -76,7 +76,7 @@ class AccountPaymentRegister(models.TransientModel):
             if not moves:
                 return self._notify_already_pending(already_pending)
 
-        moves.write({"is_pending_bank": True})
+        moves.write({"is_pending_bank_manual": True})
         moves._compute_payment_state()
 
         # Nothing is created, so there is no payment to redirect to: return to

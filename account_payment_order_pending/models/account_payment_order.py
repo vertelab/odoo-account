@@ -1,4 +1,4 @@
-# Copyright 2026 Vertel Sverige AB (https://vertel.se)
+# Copyright 2026 Vertel AB (https://vertel.se)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 import logging
@@ -48,9 +48,12 @@ class AccountPaymentOrder(models.Model):
             )
             # Recompute payment_state on the invoices so they are flagged
             # 'in_payment' even though no journal entry exists, then let the
-            # payments follow them.
+            # payments follow them. is_pending_bank is a stored computed field
+            # that now depends on the payment lines, so it is refreshed here in
+            # the same pass — that is what hides the Pay button for this route.
             moves = self.payment_line_ids.move_line_id.move_id
             if moves:
+                moves._compute_is_pending_bank()
                 moves._compute_payment_state()
             self.payment_ids._compute_state()
             return True

@@ -15,7 +15,7 @@ Payment Order Pending
 When the flag is set, payment orders using that method stay pending until
 they are reconciled.
     ''',
-    "version": "18.0.1.9.0",
+    "version": "18.0.1.10.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB",
     "website": "https://vertel.se/apps/odoo-account/account_payment_order_pending",

@@ -1,4 +1,4 @@
-# Copyright 2026 Vertel Sverige AB (https://vertel.se)
+# Copyright 2026 Vertel AB (https://vertel.se)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import Command, fields
@@ -454,7 +454,7 @@ automatically on create. account_reconcile_oca skips that step in test
         stuck as 'in_payment' with no UI to clear it.
         """
         invoice = self._create_supplier_invoice("PEND-DRAFTBILL-001")
-        invoice.write({"is_pending_bank": True})
+        invoice.write({"is_pending_bank_manual": True})
         invoice._compute_payment_state()
         self.assertEqual(invoice.payment_state, "in_payment")
 
@@ -474,7 +474,7 @@ automatically on create. account_reconcile_oca skips that step in test
     def test_cancelled_bill_does_not_read_in_payment(self):
         """A cancelled bill must not read 'in_payment' either."""
         invoice = self._create_supplier_invoice("PEND-CANCELBILL-001")
-        invoice.write({"is_pending_bank": True})
+        invoice.write({"is_pending_bank_manual": True})
         invoice._compute_payment_state()
         self.assertEqual(invoice.payment_state, "in_payment")
 

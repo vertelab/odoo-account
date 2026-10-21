@@ -1,4 +1,4 @@
-# Copyright 2026 Vertel Sverige AB (https://vertel.se)
+# Copyright 2026 Vertel AB (https://vertel.se)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models
@@ -24,10 +24,43 @@ class AccountMove(models.Model):
     is_pending_bank = fields.Boolean(
         string="Väntar på bank",
         copy=False,
-        help="Satt när fakturan skickats till banken via Pay-knappen med en "
-        "betalmetod som väntar på avstämning. Fakturan visas som 'Pågående' "
-        "tills banktransaktionen avstämts, då flaggan nollställs.",
+        compute="_compute_is_pending_bank",
+        store=True,
+        readonly=False,
+        help="Satt när fakturan väntar på att banken ska stämma av betalningen. "
+        "Gäller både Pay-knappen (flaggan skrivs direkt) och betalorder "
+        "(härleds från betalningsraderna). Fakturan visas som 'Pågående' "
+        "tills banktransaktionen avstämts.",
     )
+
+    # The manual flag written by the Pay button. Kept separate from the stored
+    # computed field above so a payment order can never be "un-flagged" by a
+    # recompute: the compute ORs this value in.
+    is_pending_bank_manual = fields.Boolean(
+        string="Väntar på bank (manuellt)",
+        copy=False,
+        help="Tekniskt fält: sätts av Pay-knappen när ingen betalorder finns. "
+        "Slås ihop med betalorder-signalen i is_pending_bank.",
+    )
+
+    @api.depends(
+        "is_pending_bank_manual",
+        "state",
+        "amount_residual",
+        "line_ids.payment_line_ids",
+        "line_ids.payment_line_ids.order_id.state",
+        "matched_payment_ids.state",
+    )
+    def _compute_is_pending_bank(self):
+        """Keep the stored flag in sync with both routes into the bank.
+
+        The Pay button writes is_pending_bank_manual; a payment order links the
+        bill through payment lines. Storing the union means the form view can
+        simply read the field, and the Pay button disappears for both routes.
+        """
+        for move in self:
+            move.is_pending_bank = move._is_pending_bank_settlement()
+
 
     def _is_pending_bank_settlement(self):
         """Return True when the move is queued for a bank payment but not
@@ -49,7 +82,7 @@ class AccountMove(models.Model):
             return False
 
         # Flagged by the "Pay" button (no payment, no payment order).
-        if self.is_pending_bank:
+        if self.is_pending_bank_manual:
             return True
 
         # Linked to a payment order that is still queued for the bank. A
@@ -77,7 +110,7 @@ class AccountMove(models.Model):
     @api.depends(
         "line_ids.payment_line_ids",
         "line_ids.payment_line_ids.state",
-        "is_pending_bank",
+        "is_pending_bank_manual",
     )
     def _compute_payment_state(self):
         """Run the standard computation, then surface 'in_payment' for moves
@@ -91,19 +124,19 @@ class AccountMove(models.Model):
         """
         res = super()._compute_payment_state()
 
-        # A settled bill no longer waits for the bank: clear the flag so the
-        # derived state is authoritative from now on. A bill that is no longer
-        # posted does not wait for the bank either — it was reset to draft or
-        # cancelled, and the flag would otherwise keep it 'in_payment' with no
-        # way to clear it from the UI.
+        # A settled bill no longer waits for the bank: clear the manual flag so
+        # the derived state is authoritative from now on. A bill that is no
+        # longer posted does not wait for the bank either — it was reset to
+        # draft or cancelled, and the flag would otherwise keep it 'in_payment'
+        # with no way to clear it from the UI.
         for move in self.filtered(
-            lambda m: m.is_pending_bank
+            lambda m: m.is_pending_bank_manual
             and (
                 m.currency_id.is_zero(m.amount_residual)
                 or m.state != "posted"
             )
         ):
-            move.is_pending_bank = False
+            move.is_pending_bank_manual = False
 
         pending = self.filtered(
             lambda m: m.payment_state == "not_paid"
