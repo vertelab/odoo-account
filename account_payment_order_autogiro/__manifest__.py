@@ -1,4 +1,4 @@
-# Copyright 2026 Vertel Sverige AB (https://vertel.se)
+# Copyright 2026 Vertel AB (https://vertel.se)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
@@ -17,7 +17,7 @@ Features:
     - Marks payment orders as pending until the bank confirms the debit.
     - Prevents premature reconciliation of vendor bills.
     ''',
-    "version": "18.0.1.6.0",
+    "version": "18.0.1.7.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB",
     "website": "https://vertel.se/apps/odoo-account/account_payment_order_autogiro",

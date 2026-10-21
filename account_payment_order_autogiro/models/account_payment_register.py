@@ -1,4 +1,4 @@
-# Copyright 2026 Vertel Sverige AB (https://vertel.se)
+# Copyright 2026 Vertel AB (https://vertel.se)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models
@@ -65,6 +65,17 @@ class AccountPaymentRegister(models.TransientModel):
             return super().action_create_payments()
 
         moves = self.line_ids.move_id
+
+        # A bill already queued for the bank is not queued twice. The Pay
+        # button is hidden in the form view, but the wizard can still be
+        # reached from a list view, an action or the API — re-flagging would
+        # silently do nothing while looking like a successful payment.
+        already_pending = moves.filtered("is_pending_bank")
+        if already_pending:
+            moves = moves - already_pending
+            if not moves:
+                return self._notify_already_pending(already_pending)
+
         moves.write({"is_pending_bank": True})
         moves._compute_payment_state()
 
@@ -81,6 +92,37 @@ class AccountPaymentRegister(models.TransientModel):
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
+
+    def _notify_already_pending(self, moves):
+        """Tell the user the bills are already queued for the bank.
+
+        Re-flagging does nothing, so confirming the wizard a second time must
+        not look like a successful payment. The bills are opened instead, with
+        a toast explaining the state.
+        """
+        names = ", ".join(moves.mapped("name") or moves.mapped("display_name"))
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": self.env._("Redan skickad till banken"),
+                "message": self.env._(
+                    "%(bills)s väntar redan på bankavstämning och kan inte "
+                    "betalas igen. Fakturan blir betald när "
+                    "banktransaktionen stäms av.",
+                    bills=names,
+                ),
+                "type": "warning",
+                "sticky": False,
+                "next": {
+                    "type": "ir.actions.act_window",
+                    "res_model": "account.move",
+                    "view_mode": "form",
+                    "res_id": moves[:1].id,
+                    "target": "current",
+                },
+            },
+        }
 
     def _is_autogiro_pending_pay(self):
         """True when this wizard confirm is an outbound pay with a
