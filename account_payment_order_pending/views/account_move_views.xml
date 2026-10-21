@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Vertel AB (https://vertel.se)
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- Hide the "Pay" buttons while the bill is queued for the bank.
+
+         Odoo allows 'in_payment' in the Pay button's invisible expression on
+         purpose: a partially paid bill can legitimately read 'in_payment' and
+         still need another payment. Our pending flow uses the same state as a
+         marker for "sent to the bank, awaiting settlement" while
+         amount_residual still holds the full amount, so the button stays
+         visible and clicking it again does nothing but re-set the flag.
+
+         is_pending_bank is the precise signal: it is only set by the Pay
+         wizard for a pending-until-reconciliation method, and it is cleared
+         automatically once the bill is settled, reset to draft or cancelled.
+         A genuine partial payment does not set it, so its Pay button stays.
+
+         Both Pay buttons are matched by name: Odoo 18 ships
+         account_invoice_payment_btn and account_invoice_payment_secondary_btn,
+         and the latter only appears when the bill has outstanding payments. -->
+    <record id="account_move_form_hide_pay_when_pending" model="ir.ui.view">
+        <field name="name">account.move.form (hide Pay when pending bank)</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <button name="action_register_payment" position="attributes">
+                <attribute name="invisible" add="is_pending_bank" separator="or" />
+            </button>
+        </field>
+    </record>
+
+    <!-- Surface the flag in the button box so the accountant can see why the
+         Pay button disappeared and that the bill is awaiting the bank. -->
+    <record id="account_move_form_pending_bank_stat" model="ir.ui.view">
+        <field name="name">account.move.form (pending bank stat button)</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    class="oe_stat_button"
+                    icon="fa-clock-o"
+                    invisible="not is_pending_bank"
+                    readonly="1"
+                >
+                    <field name="is_pending_bank" widget="boolean" />
+                    <span class="o_stat_text">Väntar på bank</span>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

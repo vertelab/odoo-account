@@ -1,4 +1,4 @@
-# Copyright 2026 Vertel Sverige AB (https://vertel.se)
+# Copyright 2026 Vertel AB (https://vertel.se)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
@@ -15,7 +15,7 @@ Payment Order Pending
 When the flag is set, payment orders using that method stay pending until
 they are reconciled.
     ''',
-    "version": "18.0.1.8.0",
+    "version": "18.0.1.9.0",
     "license": "AGPL-3",
     "author": "Vertel Sverige AB",
     "website": "https://vertel.se/apps/odoo-account/account_payment_order_pending",
@@ -24,6 +24,7 @@ they are reconciled.
         "account_payment_order",
     ],
     'data': [
+        'views/account_move_views.xml',
         'views/account_payment_method_views.xml',
         'views/account_payment_views.xml',
         'views/res_config_settings_views.xml',
