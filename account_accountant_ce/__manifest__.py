@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Accounting UI (CE)',
-    'version': '18.0.1.1.0',
+    'version': '18.0.1.1.1',
     # Version ledger: 18.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Community accounting UI adjustments: "Accounting" naming and two form fields.',
     'category': 'Accounting',
@@ -39,6 +39,9 @@ Accounting UI (CE)
           "Accounting" (Apps list and user form).
         - Renames the top-level menu from "Invoicing" to "Accounting".
         - Renames the settings app title from "Invoicing" to "Accounting".
+        - Keeps the account sub-menus (Dashboard, Customers, Vendors,
+          Accounting, Assets, Reporting, Configuration) as children of that
+          root, so the UI shows one accounting app and not seven roots.
         - Shows "Allow Reconciliation" (`reconcile`) on the account form.
         - Shows the inalterability hash (`inalterable_hash`) on journal
           entries for developers (`base.group_no_one`).
@@ -67,10 +70,14 @@ Accounting UI (CE)
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': [
         'account_fiscal_year',
+        # `menu_finance_assets` is reparented in data/account_asset_menu.xml,
+        # so the module that owns that menu must be loaded first.
+        'account_asset_management',
     ],
     'data': [
         'security/account_accountant_security.xml',
         'data/account_accountant_data.xml',
+        'data/account_asset_menu.xml',
         'views/account_move_views.xml',
         'views/account_account_views.xml',
         'views/product_views.xml',

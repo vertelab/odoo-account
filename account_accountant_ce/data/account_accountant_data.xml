@@ -14,4 +14,68 @@
         <field name="name">Accounting</field>
         <field name="sequence">60</field>
     </record>
+
+    <!--
+        Remove the leftover root menu from the pre-18.0.1.1.0 implementation.
+
+        Background — this is what produced two "Accounting" apps:
+
+        Up to 18.0.1.0.x this module created its own root menu
+        (account_accountant_ce.menu_accounting) and reparented the six account
+        sub-menus onto it. 18.0.1.1.0 dropped that approach and renamed
+        account.menu_finance instead, but three things were left behind:
+
+          1. The ir.model.data row for menu_accounting was still in the
+             database, so the menu itself survived as an empty root.
+          2. The sub-menus still had parent_id pointing at that old root,
+             because Odoo never resets a field whose XML record disappears.
+          3. Any module that had hung a menu under the old root (l10n_se
+             account training, for example) kept it there.
+
+        The net effect: a renamed account.menu_finance with no children, plus
+        an orphan "Accounting" root holding the real content.
+
+        This file deletes the stale menu record and its xmlid, after moving
+        the sub-menus back under account.menu_finance below. Deleting an
+        ir.ui.menu cascades to its children, so the reparenting has to happen
+        first — which is why both live in this one file, in this order.
+    -->
+    <delete id="account_accountant_ce.menu_accounting" model="ir.ui.menu"/>
+
+    <!--
+        Restore the parent of the account sub-menus.
+
+        These records are the missing half of the rename above. They put the
+        sub-menus back under account.menu_finance. They are idempotent and
+        repair any database that ran an upgrade while the old root existed.
+
+        Note that account.menu_finance_entries is not renamed here: core
+        already calls it "Accounting", and that is the sub-menu that sits
+        inside the app. Only the root is renamed.
+    -->
+    <record id="account.menu_board_journal_1" model="ir.ui.menu">
+        <field name="parent_id" ref="account.menu_finance"/>
+    </record>
+    <record id="account.menu_finance_receivables" model="ir.ui.menu">
+        <field name="parent_id" ref="account.menu_finance"/>
+    </record>
+    <record id="account.menu_finance_payables" model="ir.ui.menu">
+        <field name="parent_id" ref="account.menu_finance"/>
+    </record>
+    <record id="account.menu_finance_entries" model="ir.ui.menu">
+        <field name="parent_id" ref="account.menu_finance"/>
+    </record>
+    <record id="account.menu_finance_reports" model="ir.ui.menu">
+        <field name="parent_id" ref="account.menu_finance"/>
+    </record>
+    <record id="account.menu_finance_configuration" model="ir.ui.menu">
+        <field name="parent_id" ref="account.menu_finance"/>
+    </record>
+
+    <!--
+        Assets comes from OCA account_asset_management, which declares it as a
+        child of account.menu_finance. It was reparented by the old
+        implementation too, so it needs the same repair. That record lives in
+        data/account_asset_menu.xml and the module is a hard dependency.
+    -->
 </odoo>
