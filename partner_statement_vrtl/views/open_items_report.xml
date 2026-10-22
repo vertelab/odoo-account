@@ -3,34 +3,19 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
     <!--
-        Repair the Open Items report layout.
-
-        OCA's report.css is SCSS behind a .css extension, so the browser
-        drops it and the act_as_table/act_as_row/act_as_cell layout rules
-        never apply. Every cell becomes a block and the report reads as one
-        value per line. This template loads a flat stylesheet after OCA's
-        own <link> tags (position="inside" appends to the end of the div).
-    -->
-    <template
-        id="open_items_layout_vrtl"
-        inherit_id="account_financial_report.internal_layout"
-        priority="99"
-    >
-        <xpath expr="//div[hasclass('o_account_financial_reports_page')]" position="inside">
-            <link
-                rel="stylesheet"
-                href="/partner_statement_vrtl/static/src/css/open_items_report.css"
-            />
-        </xpath>
-    </template>
-
-    <!--
         Drop the "Cur." column from the Open Items report.
 
         It only repeats the currency name (SEK, NOK, ...) that is already
         shown next to every amount, so it adds no information. Removing the
-        header cell and the matching body cell keeps the 11 remaining
-        columns aligned.
+        header cell and the matching body cell keeps the remaining columns
+        aligned.
+
+        Note: the report layout itself (act_as_table/act_as_row/act_as_cell)
+        is fixed upstream. OCA commit 29377356 flattened report.css and
+        report_html.css, which had been shipped as SCSS behind a .css
+        extension and were therefore discarded by the browser. That fix is
+        in account_financial_report >= 18.0.1.4.28, so no local stylesheet
+        override is needed any more.
     -->
     <template
         id="open_items_lines_header_vrtl"

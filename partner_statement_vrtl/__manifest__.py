@@ -21,7 +21,7 @@
 
 {
     'name': 'Partner Statement (Vertel)',
-    'version': '18.0.1.4.0',
+    'version': '18.0.1.5.0',
     'summary': 'Consistent sign convention and remaining amount for partner statements',
     'category': 'Accounting/Accounting',
     'description': """
