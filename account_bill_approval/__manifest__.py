@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3
 {
     'name': 'Account: Vendor Bill Approval',
-    'version': '18.0.1.7.0',
+    'version': '18.0.1.8.0',
     'category': 'Accounting',
     'summary': 'Approve vendor bills with freely selectable approvers',
     'author': 'Vertel Sverige AB',

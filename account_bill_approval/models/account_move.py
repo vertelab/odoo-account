@@ -126,8 +126,53 @@ class AccountMove(models.Model):
         return [("id", "in" if positive else "not in", move_ids)]
 
     # ------------------------------------------------------------------
-    # Onchange — approvers are freely selectable (T/11311)
+    # Vendor-derived approvers (T/11311)
     # ------------------------------------------------------------------
+    def _bill_approval_sync_partner_approvers(self):
+        """Make the vendor-derived approvers match the current vendor.
+
+        The vendor is the source of truth for *its* approvers, so every
+        line tagged ``source='partner'`` is dropped and re-created from
+        ``partner_id.bill_approving_user_ids``. Lines added by hand
+        (``source='manual'``) are never touched.
+
+        Dropping is unconditional: a line whose request was already sent
+        (``state='request'``) or already approved (``state='done'``) is
+        removed as well, so the approval state is recalculated for the new
+        vendor. That is intentional — switching vendor replaces the
+        approval flow, it does not merge the two.
+
+        This also covers the A -> B -> A case where the same user is an
+        approver on both vendors: the line is dropped and re-created, so
+        the list looks unchanged but always reflects the current vendor.
+
+        Two separate writes are used on purpose. ``_check_unique_approver``
+        rejects a duplicate (move_id, user_id) pair, and a single write
+        carrying both the unlink and the create could be validated with
+        both rows present.
+        """
+        for move in self:
+            if move.move_type not in BILL_MOVE_TYPES:
+                continue
+            derived = move.approving_user_ids.filtered(
+                lambda line: line.source == "partner"
+            )
+            if derived:
+                move.approving_user_ids = [(3, line.id) for line in derived]
+            # Re-read: the unlink above changed the recordset.
+            existing = move.approving_user_ids.mapped("user_id")
+            new_lines = [
+                (0, 0, {
+                    "user_id": user.id,
+                    "state": "new",
+                    "source": "partner",
+                })
+                for user in move.partner_id.bill_approving_user_ids
+                if user not in existing
+            ]
+            if new_lines:
+                move.approving_user_ids = new_lines
+
     @api.onchange("partner_id")
     def onchange_partner_set_approvers(self):
         """Pre-fill approvers from the vendor, but never lock the field.
@@ -135,25 +180,30 @@ class AccountMove(models.Model):
         The vendor's ``bill_approving_user_ids`` is only a *suggestion*:
         the user may add or remove approvers on the bill itself.
         """
-        for move in self:
-            if move.move_type not in BILL_MOVE_TYPES:
-                continue
-            # Drop only untouched, not-yet-requested lines coming from a
-            # previous vendor selection; keep anything the user acted on.
-            stale = move.approving_user_ids.filtered(
-                lambda line: line.state == "new"
-            )
-            if stale:
-                move.approving_user_ids = [(3, line.id) for line in stale]
-            if not move.partner_id:
-                continue
-            new_lines = []
-            for user in move.partner_id.bill_approving_user_ids:
-                if user in move.approving_user_ids.mapped("user_id"):
-                    continue
-                new_lines.append((0, 0, {"user_id": user.id, "state": "new"}))
-            if new_lines:
-                move.approving_user_ids = new_lines
+        self._bill_approval_sync_partner_approvers()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Fill in the vendor's default approvers on creation.
+
+        The onchange above only runs in the form view. Bills created by
+        import, RPC or a copy would otherwise start with an empty approver
+        list, and the 'Request Approval' button would stay hidden.
+        """
+        moves = super().create(vals_list)
+        moves.filtered(
+            lambda m: m.move_type in BILL_MOVE_TYPES
+        )._bill_approval_sync_partner_approvers()
+        return moves
+
+    def write(self, vals):
+        """Re-sync the vendor approvers when the vendor changes."""
+        res = super().write(vals)
+        if "partner_id" in vals:
+            self.filtered(
+                lambda m: m.move_type in BILL_MOVE_TYPES
+            )._bill_approval_sync_partner_approvers()
+        return res
 
     # ------------------------------------------------------------------
     # Helpers

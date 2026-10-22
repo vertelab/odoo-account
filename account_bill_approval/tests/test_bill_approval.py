@@ -14,6 +14,21 @@ class TestBillApproval(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.company
+        # A purchase tax so the test lines carry VAT. Without it
+        # ``sfa_vendor_bill_vat_nonstandard_check`` opens its confirmation
+        # wizard instead of posting, and the posting tests never reach
+        # ``state == 'posted'``.
+        cls.sale_tax = cls.env["account.tax"].search([
+            ("type_tax_use", "=", "purchase"),
+            ("amount", "=", 25.0),
+            ("company_id", "=", cls.company.id),
+        ], limit=1) or cls.env["account.tax"].create({
+            "name": "Test Purchase VAT 25%",
+            "amount": 25.0,
+            "amount_type": "percent",
+            "type_tax_use": "purchase",
+            "company_id": cls.company.id,
+        })
         cls.approver = cls.env["res.users"].create({
             "name": "Test Approver",
             "login": "test_approver_bill",
@@ -69,15 +84,25 @@ class TestBillApproval(TransactionCase):
             # wizard (it returns an action instead of posting when the
             # vendor invoice number is missing).
             "ref": "TEST-INV-001",
+            # A 25% tax is set so that SFA's
+            # ``sfa_vendor_bill_vat_nonstandard_check`` does not intercept
+            # ``action_post`` either: a line without VAT triggers its
+            # "VAT must be checked" wizard, and the move would stay draft.
             "invoice_line_ids": [(0, 0, {
                 "name": "Test line",
                 "quantity": 1.0,
                 "price_unit": 100.0,
+                "tax_ids": [(6, 0, cls.sale_tax.ids)],
                 "account_id": cls.env["account.account"].search(
                     [("account_type", "=", "expense")], limit=1
                 ).id,
             })],
         })
+        # Since T/11311 ``create()`` pre-fills the vendor's default
+        # approvers, so this bill already carries ``cls.approver``. The
+        # tests below build their own approver lines, so the pre-filled
+        # one is removed here to keep each test's starting point explicit.
+        cls.bill.approving_user_ids.unlink()
         # An accounting user WITHOUT the 'Bill Approver' group. Such a user
         # can be written onto a line through RPC, or may sit on a line from
         # before the picker was restricted.
@@ -196,7 +221,7 @@ class TestBillApproval(TransactionCase):
 
     def test_reject_reopens_bill(self):
         """Väg B: rejecting puts the bill back into draft."""
-        line = self.env["bill.approval.user.line"].create({
+        self.env["bill.approval.user.line"].create({
             "move_id": self.bill.id,
             "user_id": self.approver.id,
             "state": "done",
@@ -640,3 +665,140 @@ class TestBillApproval(TransactionCase):
         # The same call as the non-member is refused.
         with self.assertRaises(UserError):
             line.with_user(self.non_approver)._bill_approval_check_approver()
+
+    # ------------------------------------------------------------------
+    # T/11311 — vendor approvers are synced on create and on vendor change
+    # ------------------------------------------------------------------
+    def _new_bill(self, partner):
+        """Create a vendor bill for ``partner`` with one expense line."""
+        return self.env["account.move"].create({
+            "move_type": "in_invoice",
+            "partner_id": partner.id,
+            "invoice_date": "2026-01-01",
+            "ref": "TEST-INV-SYNC",
+            "invoice_line_ids": [(0, 0, {
+                "name": "Sync line",
+                "quantity": 1.0,
+                "price_unit": 100.0,
+                "tax_ids": [(6, 0, self.sale_tax.ids)],
+                "account_id": self.env["account.account"].search(
+                    [("account_type", "=", "expense")], limit=1
+                ).id,
+            })],
+        })
+
+    def test_create_fills_vendor_approvers(self):
+        """``create()`` must pre-fill the approvers, not only the onchange.
+
+        Bills created by import, RPC or a copy never run the onchange, so
+        the approver list used to stay empty and the 'Request Approval'
+        button stayed hidden.
+        """
+        bill = self._new_bill(self.vendor)
+        lines = bill.approving_user_ids
+        self.assertEqual(len(lines), 1)
+        self.assertEqual(lines.user_id, self.approver)
+        self.assertEqual(lines.state, "new")
+        self.assertEqual(lines.source, "partner")
+
+    def test_create_leaves_customer_invoice_alone(self):
+        """Only vendor bills get approvers."""
+        invoice = self.env["account.move"].create({
+            "move_type": "out_invoice",
+            "partner_id": self.vendor.id,
+            "invoice_line_ids": [(0, 0, {
+                "name": "Sale line",
+                "quantity": 1.0,
+                "price_unit": 100.0,
+            })],
+        })
+        self.assertFalse(invoice.approving_user_ids)
+
+    def test_vendor_change_replaces_approvers(self):
+        """Switching vendor drops the old vendor's approvers."""
+        other_vendor = self.env["res.partner"].create({
+            "name": "Other Vendor AB",
+            "bill_approving_user_ids": [(6, 0, [self.other_approver.id])],
+        })
+        bill = self._new_bill(self.vendor)
+        self.assertEqual(bill.approving_user_ids.user_id, self.approver)
+
+        bill.partner_id = other_vendor
+        self.assertEqual(bill.approving_user_ids.user_id, self.other_approver)
+        self.assertNotIn(self.approver, bill.approving_user_ids.user_id)
+
+    def test_vendor_change_keeps_manual_approvers(self):
+        """Lines added by hand survive a vendor change."""
+        other_vendor = self.env["res.partner"].create({
+            "name": "Other Vendor AB",
+            "bill_approving_user_ids": [(6, 0, [self.other_approver.id])],
+        })
+        bill = self._new_bill(self.vendor)
+        bill.approving_user_ids = [(0, 0, {
+            "user_id": self.third_approver.id,
+            "source": "manual",
+        })]
+        bill.partner_id = other_vendor
+
+        users = bill.approving_user_ids.mapped("user_id")
+        self.assertIn(self.third_approver, users, "Manual line was dropped.")
+        self.assertIn(self.other_approver, users)
+        self.assertNotIn(self.approver, users)
+
+    def test_same_approver_on_two_vendors_survives_round_trip(self):
+        """A -> B -> A with the same approver must not lose the line.
+
+        The line is dropped and re-created each time, so the list looks
+        unchanged while always reflecting the current vendor.
+        """
+        vendor_b = self.env["res.partner"].create({
+            "name": "Vendor B AB",
+            "bill_approving_user_ids": [(6, 0, [self.approver.id])],
+        })
+        bill = self._new_bill(self.vendor)
+        self.assertEqual(bill.approving_user_ids.user_id, self.approver)
+
+        bill.partner_id = vendor_b
+        self.assertEqual(bill.approving_user_ids.user_id, self.approver)
+        self.assertEqual(len(bill.approving_user_ids), 1)
+
+        bill.partner_id = self.vendor
+        self.assertEqual(bill.approving_user_ids.user_id, self.approver)
+        self.assertEqual(len(bill.approving_user_ids), 1)
+
+    def test_vendor_change_cancels_a_sent_request(self):
+        """A requested line is dropped too — the request does not survive."""
+        other_vendor = self.env["res.partner"].create({
+            "name": "Other Vendor AB",
+            "bill_approving_user_ids": [(6, 0, [self.other_approver.id])],
+        })
+        bill = self._new_bill(self.vendor)
+        bill.approving_user_ids.action_send_request()
+        self.assertEqual(bill.approving_user_ids.state, "request")
+
+        bill.partner_id = other_vendor
+        self.assertEqual(bill.approving_user_ids.user_id, self.other_approver)
+        self.assertEqual(bill.approving_user_ids.state, "new")
+
+    def test_vendor_change_drops_an_approved_line(self):
+        """An approved line is dropped as well; the state is recalculated."""
+        other_vendor = self.env["res.partner"].create({
+            "name": "Other Vendor AB",
+            "bill_approving_user_ids": [(6, 0, [self.other_approver.id])],
+        })
+        bill = self._new_bill(self.vendor)
+        bill.approving_user_ids.action_send_request()
+        bill.approving_user_ids.with_user(self.approver).action_approve()
+        self.assertEqual(bill.bill_approval_state, "approved")
+
+        bill.partner_id = other_vendor
+        self.assertNotIn(self.approver, bill.approving_user_ids.user_id)
+        self.assertEqual(bill.bill_approval_state, "pending")
+
+    def test_vendor_without_approvers_clears_derived_lines(self):
+        """A vendor with no approvers leaves the list empty."""
+        plain_vendor = self.env["res.partner"].create({"name": "Plain AB"})
+        bill = self._new_bill(self.vendor)
+        bill.partner_id = plain_vendor
+        self.assertFalse(bill.approving_user_ids)
+        self.assertEqual(bill.bill_approval_state, "none")

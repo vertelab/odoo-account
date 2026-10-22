@@ -52,6 +52,18 @@ class BillApprovalUserLine(models.Model):
         required=True,
         index=True,
     )
+    source = fields.Selection(
+        selection=[
+            ("partner", "From Vendor"),
+            ("manual", "Added Manually"),
+        ],
+        string="Source",
+        default="manual",
+        required=True,
+        help="Where the approver came from. Lines tagged 'From Vendor' are "
+             "replaced when the bill's vendor changes; lines added by hand "
+             "are kept.",
+    )
     date_requested = fields.Datetime(string="Requested On", readonly=True)
     date_approved = fields.Datetime(string="Approved On", readonly=True)
     date_rejected = fields.Datetime(string="Rejected On", readonly=True)
@@ -283,7 +295,13 @@ class BillApprovalUserLine(models.Model):
 
     def unlink(self):
         for line in self:
-            if line.state == "done":
+            # Vendor-derived lines are replaced wholesale when the bill's
+            # vendor changes (see
+            # ``account.move._bill_approval_sync_partner_approvers``). An
+            # approval given for the *previous* vendor must not survive
+            # that switch, so those lines may be removed even when they
+            # are already approved. A line added by hand stays protected.
+            if line.state == "done" and line.source != "partner":
                 raise ValidationError(_(
                     "Approved lines cannot be deleted."
                 ))

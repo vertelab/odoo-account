@@ -41,6 +41,7 @@
                                    decoration-success="state == 'done'"
                                    decoration-warning="state == 'request'"
                                    decoration-danger="state == 'rejected'"/>
+                            <field name="source" optional="hide"/>
                             <field name="date_requested" readonly="1"/>
                             <field name="date_approved" readonly="1"/>
                             <field name="date_rejected" readonly="1"/>
