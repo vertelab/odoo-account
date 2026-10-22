@@ -3,7 +3,6 @@
 
 {
     'name': 'Account: Payment Order Pending',
-    'version': '18.0.1.0.0',
     'summary': "Keeps bills in an in-payment state until the bank reconciliation is done.",
     'description': '''
 Payment Order Pending

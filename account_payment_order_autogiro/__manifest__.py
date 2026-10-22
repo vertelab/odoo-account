@@ -3,7 +3,6 @@
 
 {
     'name': 'Account: Payment Order Autogiro',
-    'version': '18.0.1.0.0',
     'summary': 'Handles Autogiro direct debit for vendor bills with a pending state.',
     'description': '''
 Payment Order Autogiro
