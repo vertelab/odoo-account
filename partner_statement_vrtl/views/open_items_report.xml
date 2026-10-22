@@ -23,4 +23,52 @@
             />
         </xpath>
     </template>
+
+    <!--
+        Drop the "Cur." column from the Open Items report.
+
+        It only repeats the currency name (SEK, NOK, ...) that is already
+        shown next to every amount, so it adds no information. Removing the
+        header cell and the matching body cell keeps the 11 remaining
+        columns aligned.
+    -->
+    <template
+        id="open_items_lines_header_vrtl"
+        inherit_id="account_financial_report.report_open_items_lines_header"
+        priority="99"
+    >
+        <xpath
+            expr="//div[hasclass('act_as_row')]/t[@t-if='foreign_currency']/div[1]"
+            position="replace"
+        />
+    </template>
+
+    <template
+        id="open_items_lines_vrtl"
+        inherit_id="account_financial_report.report_open_items_lines"
+        priority="99"
+    >
+        <!-- Lines with a foreign currency: drop the currency name cell -->
+        <xpath
+            expr="//div[hasclass('act_as_row')]/t[@t-if='foreign_currency']/t[@t-if=&quot;line['currency_id']&quot;]/div[1]"
+            position="replace"
+        />
+        <!-- Lines without a foreign currency: drop the matching empty cell -->
+        <xpath
+            expr="//div[hasclass('act_as_row')]/t[@t-if='foreign_currency']/t[@t-if=&quot;not line['currency_id']&quot;]/div[1]"
+            position="replace"
+        />
+    </template>
+
+    <template
+        id="open_items_ending_cumul_vrtl"
+        inherit_id="account_financial_report.report_open_items_ending_cumul"
+        priority="99"
+    >
+        <!-- Ending balance rows: drop the empty currency name cell -->
+        <xpath
+            expr="//div[hasclass('act_as_row')]/t[@t-if='foreign_currency']/div[1]"
+            position="replace"
+        />
+    </template>
 </odoo>
