@@ -21,7 +21,7 @@
 
 {
     'name': 'Partner Statement (Vertel)',
-    'version': '18.0.1.2.3',
+    'version': '18.0.1.3.0',
     'summary': 'Consistent sign convention and remaining amount for partner statements',
     'category': 'Accounting/Accounting',
     'description': """
@@ -52,6 +52,7 @@ investigation.
     ],
     'data': [
         'views/outstanding_statement.xml',
+        'views/open_items_report.xml',
     ],
     'installable': True,
     'auto_install': False,

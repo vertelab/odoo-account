@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Vertel Sverige AB (<https://vertel.se>)
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!--
+        Repair the Open Items report layout.
+
+        OCA's report.css is SCSS behind a .css extension, so the browser
+        drops it and the act_as_table/act_as_row/act_as_cell layout rules
+        never apply. Every cell becomes a block and the report reads as one
+        value per line. This template loads a flat stylesheet after OCA's
+        own <link> tags (position="inside" appends to the end of the div).
+    -->
+    <template
+        id="open_items_layout_vrtl"
+        inherit_id="account_financial_report.internal_layout"
+        priority="99"
+    >
+        <xpath expr="//div[hasclass('o_account_financial_reports_page')]" position="inside">
+            <link
+                rel="stylesheet"
+                href="/partner_statement_vrtl/static/src/css/open_items_report.css"
+            />
+        </xpath>
+    </template>
+</odoo>

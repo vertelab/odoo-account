@@ -1,0 +1,90 @@
+/* Vertel: flat CSS (no nesting) so the browser actually loads it.
+ *
+ * OCA ships account_financial_report/static/src/css/report.css with SCSS
+ * syntax (nested rules and "&") behind a .css extension. It is pulled in
+ * with a plain <link rel="stylesheet">, so the browser discards the whole
+ * file and .act_as_table / .act_as_row / .act_as_cell never receive
+ * display:table / table-row / table-cell. Every cell then renders as a
+ * block on its own line and the report is unreadable.
+ *
+ * We re-declare the layout rules here, flattened, and load them after
+ * OCA's stylesheet.
+ */
+
+.act_as_table {
+    display: table !important;
+    background-color: white;
+    width: 100%;
+}
+
+.act_as_row {
+    display: table-row !important;
+    page-break-inside: avoid;
+}
+
+.act_as_cell {
+    display: table-cell !important;
+    page-break-inside: avoid;
+}
+
+.act_as_thead {
+    display: table-header-group !important;
+}
+
+.act_as_tbody {
+    display: table-row-group !important;
+}
+
+/* Flattened from .list_table .act_as_row { &.labels, ... } */
+.list_table .act_as_row.labels,
+.list_table .act_as_row.initial_balance,
+.list_table .act_as_row.lines {
+    border-color: grey !important;
+    border-bottom: 1px solid lightGrey !important;
+}
+
+.list_table .act_as_cell,
+.data_table .act_as_cell {
+    border: 1px solid lightGrey;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.list_table .act_as_row.labels,
+.data_table .act_as_row.labels {
+    font-weight: bold;
+    background-color: #f0f0f0 !important;
+}
+
+/* Flattened from .list_table .act_as_cell { &.first_column } */
+.list_table .act_as_cell.first_column {
+    padding-left: 0;
+}
+
+/* Flattened from .act_as_cell { &.amount | &.left | &.right } */
+.act_as_cell.amount {
+    word-wrap: normal;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.act_as_cell.left {
+    text-align: left;
+}
+
+.act_as_cell.right {
+    text-align: right;
+}
+
+.account_title {
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.account_title span {
+    font-size: 1rem !important;
+}
+
+.act_as_cell {
+    font-size: 0.9rem !important;
+}
