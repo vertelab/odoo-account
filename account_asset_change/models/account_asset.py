@@ -12,6 +12,13 @@ from odoo.tools.date_utils import end_of
 
 _logger = logging.getLogger(__name__)
 
+#: Matching thresholds used by ``action_match_moves``.  An entry is only a
+#: candidate when it touches both depreciation accounts, carries exactly the
+#: line's amount, and is dated within this window of the line date.
+MATCH_DATE_WINDOW_DAYS = 45
+MATCH_MIN_SCORE = 40
+
+
 class AccountAsset(models.Model):
     _inherit = 'account.asset'
 
@@ -187,6 +194,302 @@ class AccountAsset(models.Model):
             'context': self.env.context,
         }
     
+    def action_match_moves(self):
+        """Bind existing journal entries to this asset's unbound lines.
+
+        Server action: runs directly on the selected assets, no wizard.  Every
+        stub line on the asset without a ``move_id`` — both the ``create``
+        (acquisition) line and the ``depreciate`` lines — is scored against
+        the candidate entries in the ledger, and the best pairs are bound.
+
+        The matching rules live in :meth:`_match_find_pairs`; the binding is
+        done through the same write path as the change-entry wizard, so the
+        amount check and the ``asset_id`` sync on the entry's lines apply.
+
+        Returns a notification with the result, which is what a server action
+        from the list view should show.
+        """
+        total_bound = 0
+        total_unmatched = 0
+        details = []
+
+        for asset in self:
+            pairs, unmatched = asset._match_find_pairs()
+            bound = asset._match_apply_pairs(pairs)
+            total_bound += bound
+            total_unmatched += unmatched
+            if pairs or unmatched:
+                details.append(_(
+                    '%(asset)s: %(bound)s bound, %(left)s unmatched',
+                    asset=asset.display_name,
+                    bound=bound,
+                    left=unmatched))
+
+        if not details:
+            raise UserError(_(
+                'Nothing to match: every depreciation line of the selected '
+                'asset(s) is already bound to an entry.'))
+
+        message = '\n'.join(details)
+        _logger.info(
+            'asset_match: bound %s line(s) across %s asset(s) by %s',
+            total_bound, len(self), self.env.user.login)
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Match entries'),
+                'message': message,
+                'type': 'success' if total_bound else 'warning',
+                'sticky': bool(total_unmatched),
+                'next': {'type': 'ir.actions.client', 'tag': 'reload'},
+            },
+        }
+
+    @api.model
+    def _match_is_throwaway_asset(self, asset):
+        """Return True when *asset* looks like an auto-created artefact.
+
+        OCA's ``account.move.action_post()`` creates an asset for every move
+        line whose account carries an ``asset_profile_id``.  So posting a
+        manual acquisition entry silently produces a second asset next to the
+        one the accountant is working on.
+
+        Such an asset has exactly one depreciation line (``create``), that
+        line is bound to the entry, and the asset is still in draft — nobody
+        has worked on it.
+        """
+        if not asset or asset.state != 'draft':
+            return False
+        lines = asset.depreciation_line_ids
+        if len(lines) != 1:
+            return False
+        return lines.type == 'create' and bool(lines.move_id)
+
+    def _match_find_pairs(self):
+        """Return ``(pairs, unmatched_count)`` for this asset.
+
+        ``pairs`` is a list of ``(score, asset_line, move)`` sorted by score.
+        Only entries that pass the three gates (accounts, amount, date
+        window) and are not already bound elsewhere are considered.
+        """
+        self.ensure_one()
+        asset = self
+        profile = asset.profile_id
+        currency = asset.currency_id
+
+        depr_account = profile.account_depreciation_id
+        exp_account = profile.account_expense_depreciation_id
+        if not (depr_account and exp_account):
+            _logger.warning(
+                'asset_match: asset %s has no depreciation/expense account, '
+                'skipped', asset.id)
+            return [], 0
+
+        # Every stub line on the asset that has no entry yet.  That includes
+        # the ``create`` line (the acquisition), which is matched against the
+        # acquisition entry on the asset account.
+        lines = asset.depreciation_line_ids.filtered(
+            lambda al: al.type in ('create', 'depreciate') and not al.move_id)
+        if not lines:
+            return [], 0
+
+        # Candidate entries touch any of the three accounts the board uses:
+        # the asset account (acquisition), the depreciation account and the
+        # depreciation expense account.
+        asset_account = asset.account_asset_id or profile.account_asset_id
+        search_accounts = depr_account | exp_account
+        if asset_account:
+            search_accounts |= asset_account
+        candidates = self.env['account.move'].search([
+            ('company_id', '=', asset.company_id.id),
+            ('line_ids.account_id', 'in', search_accounts.ids),
+            ('state', 'in', ('draft', 'posted')),
+        ])
+        if not candidates:
+            return [], len(lines)
+
+        # An entry already bound to a line of *another* asset is not a
+        # candidate — it belongs there.
+        #
+        # Exception: OCA's ``action_post()`` auto-creates an asset when a move
+        # line is booked on an account that has an ``asset_profile_id``.  A
+        # manually booked acquisition entry therefore often owns a throw-away
+        # asset whose only line is the ``create`` line pointing at the entry.
+        # Such an asset is an artefact of the posting, not a real asset — the
+        # entry is still a valid candidate for *this* asset.  We detect it by
+        # the asset having exactly one line, of type ``create``, and no
+        # journal entries of its own beyond the one we are looking at.
+        taken = set()
+        for bound_line in self.env['account.asset.line'].search([
+            ('move_id', '!=', False),
+            ('asset_id', '!=', asset.id),
+        ]):
+            owner = bound_line.asset_id
+            if self._match_is_throwaway_asset(owner):
+                continue
+            taken.add(bound_line.move_id.id)
+        candidates = candidates.filtered(lambda m: m.id not in taken)
+
+        window = MATCH_DATE_WINDOW_DAYS
+        pairs = []
+        for line in lines:
+            for move in candidates:
+                score = asset._match_score(
+                    line, move, depr_account, exp_account, currency, window)
+                if score >= MATCH_MIN_SCORE:
+                    pairs.append((score, line, move))
+        pairs.sort(key=lambda p: p[0], reverse=True)
+
+        # Greedy assignment: best score wins, one line and one entry each.
+        used_lines, used_moves, chosen = set(), set(), []
+        for score, line, move in pairs:
+            if line.id in used_lines or move.id in used_moves:
+                continue
+            used_lines.add(line.id)
+            used_moves.add(move.id)
+            chosen.append((score, line, move))
+
+        return chosen, len(lines) - len(chosen)
+
+    @api.model
+    def _match_score(self, line, move, depr_account, exp_account, currency,
+                     window):
+        """Score a (line, entry) pair.  Returns 0 when a gate fails.
+
+        Gates (a failure means the entry cannot be this line's depreciation
+        entry):
+
+        For a ``create`` line (the acquisition) the gates differ: the entry
+        must carry the asset account on the debit side and the amount must
+        equal the line's amount.  There is no expense leg.
+
+        For a ``depreciate`` line:
+
+        * both depreciation accounts present on the entry,
+        * the expense leg equals the line amount,
+        * the entry date is within *window* days of the line date.
+
+        Score: date proximity (40) + reference match (15).
+        """
+        accounts = move.line_ids.mapped('account_id')
+
+        if line.type == 'create':
+            asset_account = line.asset_id.account_asset_id \
+                or line.asset_id.profile_id.account_asset_id
+            if not asset_account or asset_account not in accounts:
+                return 0
+            asset_lines = move.line_ids.filtered(
+                lambda aml: aml.account_id == asset_account)
+            entry_amount = (sum(asset_lines.mapped('debit'))
+                            - sum(asset_lines.mapped('credit')))
+            if currency.compare_amounts(
+                    abs(entry_amount), abs(line.amount)) != 0:
+                return 0
+        else:
+            if depr_account not in accounts or exp_account not in accounts:
+                return 0
+            exp_lines = move.line_ids.filtered(
+                lambda aml: aml.account_id == exp_account)
+            entry_amount = (sum(exp_lines.mapped('debit'))
+                            - sum(exp_lines.mapped('credit')))
+            if currency.compare_amounts(
+                    abs(entry_amount), abs(line.amount)) != 0:
+                return 0
+
+        delta = abs((move.date - line.line_date).days)
+        if delta > window:
+            return 0
+
+        score = 40 if delta == 0 else int(40 * (1 - delta / window))
+
+        ref = (move.ref or '').strip().lower()
+        if ref:
+            names = [n for n in (line.asset_id.name, line.name) if n]
+            if any(n.lower() in ref for n in names):
+                score += 15
+
+        return score
+
+    def _match_apply_pairs(self, pairs):
+        """Bind *pairs* and return how many succeeded."""
+        self.ensure_one()
+        applied = 0
+        throwaway = self.env['account.asset']
+        for score, line, move in pairs:
+            if line.move_id:
+                continue
+            try:
+                with self.env.cr.savepoint():
+                    line.with_context(
+                        allow_asset_line_update=True,
+                    ).write({'move_id': move.id})
+                    # Keep the entry's own asset links in step.  For an
+                    # acquisition entry that is the asset account; for a
+                    # depreciation entry it is the two depreciation legs.
+                    profile = self.profile_id
+                    if line.type == 'create':
+                        target_accounts = (self.account_asset_id
+                                           or profile.account_asset_id)
+                    else:
+                        target_accounts = (profile.account_depreciation_id
+                                           | profile.account_expense_depreciation_id)
+                    legs = move.line_ids.filtered(
+                        lambda aml: aml.account_id in target_accounts)
+                    if legs:
+                        # Remember the throw-away assets these lines belonged
+                        # to, so they can be cleaned up afterwards.
+                        throwaway |= legs.asset_id.filtered(
+                            lambda a: a.id != self.id
+                            and self._match_is_throwaway_asset(a))
+                        legs.with_context(
+                            allow_asset=True, allow_asset_removal=True,
+                        ).write({'asset_id': self.id})
+
+                    # The auto-created asset still holds its own ``create``
+                    # line pointing at this entry.  Release it, otherwise the
+                    # entry is bound twice and the ghost cannot be removed.
+                    for ghost in throwaway:
+                        ghost_lines = ghost.depreciation_line_ids.filtered(
+                            lambda al: al.move_id == move)
+                        if ghost_lines:
+                            ghost_lines.with_context(
+                                allow_asset_line_update=True,
+                                unlink_from_asset=True,
+                            ).write({'move_id': False})
+                applied += 1
+            except Exception:  # noqa: BLE001 - report, keep going
+                _logger.warning(
+                    'asset_match: could not bind line %s to move %s',
+                    line.id, move.id, exc_info=True)
+
+        # OCA's ``account.asset.line.unlink()`` refuses to delete a ``create``
+        # line ("Du kan inte ta bort en tillgångsrad av typen
+        # Avskrivningsunderlag"), so the auto-created asset cannot be removed
+        # from here.  We release its line (done above) and report the asset so
+        # an accountant can archive it.
+        orphans = throwaway.exists().filtered(
+            lambda a: not a.depreciation_line_ids.filtered('move_id'))
+        if orphans:
+            _logger.info(
+                'asset_match: %s auto-created asset(s) left with no bound '
+                'lines: %s', len(orphans), orphans.mapped('display_name'))
+            self.message_post(body=_(
+                '%(count)s auto-created asset(s) were left over from posting '
+                'the matched entries and now have no bound lines: '
+                '%(names)s. They can be archived manually.',
+                count=len(orphans),
+                names=', '.join(orphans.mapped('display_name'))))
+
+        if applied:
+            self.message_post(body=_(
+                '%(count)s depreciation line(s) were bound to existing '
+                'entries by %(user)s.',
+                count=applied,
+                user=self.env.user.display_name))
+        return applied
+
     def action_analytic_lines(self):
         list_view_id = self.env.ref("analytic.view_account_analytic_line_tree").id
         return {
@@ -197,7 +500,7 @@ class AccountAsset(models.Model):
             'domain': [('id', 'in', self.analytic_line_ids.ids)],
             'target': 'current',
         }
-        
+
     def resume_after_pause(self):
         """ Sets an asset in 'paused' state back to 'open'.
         A Depreciation line is created automatically to remove  from the
