@@ -1,0 +1,34 @@
+<odoo>
+
+    <record model="ir.ui.view" id="asset_line_change_move_form">
+        <field name="name">asset.line.change.move.form</field>
+        <field name="model">asset.line.change.move</field>
+        <field name="arch" type="xml">
+            <form string="Change entry">
+                <group>
+                    <field name="asset_line_id"/>
+                    <field name="asset_id"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="line_date"/>
+                    <field name="line_type"/>
+                    <field name="amount"/>
+                    <field name="current_move_id"/>
+                    <field name="operation" widget="radio"/>
+                    <field name="new_move_id"
+                           invisible="operation != 'change'"
+                           required="operation == 'change'"
+                           options="{'no_create': True, 'no_create_edit': True}"/>
+                </group>
+                <field name="info" nolabel="1" colspan="2"/>
+                <footer>
+                    <button name="action_apply" string="Apply"
+                            type="object" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"
+                            class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
