@@ -30,6 +30,21 @@
                 <field name="irr" widget="percentage"/>
             </field>
 
+            <!-- Depreciation lines: expose the bound entry and let an
+                 accountant change it.  OCA's write() guard blocks changes to
+                 a line that already has an entry, so the button opens a
+                 wizard that performs the write with the
+                 allow_asset_line_update context. -->
+            <xpath expr="//field[@name='depreciation_line_ids']/list" position="inside">
+                <field name="move_id" optional="show"/>
+                <button name="action_open_change_move"
+                        string="Change Entry"
+                        type="object"
+                        icon="fa-exchange"
+                        groups="account.group_account_manager"
+                        help="Bind this depreciation line to another draft entry, or unbind it."/>
+            </xpath>
+
         </field>
     </record>
 
