@@ -1,2 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_asset_modify,access.asset.change,model_asset_change,account.group_account_user,1,1,1,0
+access_asset_relink_move,access.asset.relink.move,model_asset_relink_move,account.group_account_manager,1,1,1,0
+access_asset_relink_move_line,access.asset.relink.move.line,model_asset_relink_move_line,account.group_account_manager,1,1,1,0
+access_asset_line_change_move,access.asset.line.change.move,model_asset_line_change_move,account.group_account_manager,1,1,1,0

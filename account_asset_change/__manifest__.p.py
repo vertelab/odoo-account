@@ -45,9 +45,12 @@
         'account_asset_management'
     ],
     'data': [
-	"security/ir.model.access.csv",
-    "views/account_asset_views.xml",
-    "wizard/account_asset_change_views.xml",
+        "security/ir.model.access.csv",
+        "views/account_asset_views.xml",
+        "data/ir_actions_server.xml",
+        "wizard/account_asset_change_views.xml",
+        "wizard/asset_line_change_move_views.xml",
+        "wizard/asset_relink_move_views.xml",
     ],
     "demo": [
     ],
