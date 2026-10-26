@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!--
-        Restore the parent of the Assets menu.
+        Parent the Assets menu under this module's accounting root.
 
         account_asset_management (OCA) declares menu_finance_assets as a child
-        of account.menu_finance. The old implementation of this module
-        reparented it onto its own root menu, and when that root was dropped
-        the menu was left with parent_id = False, an orphan root.
+        of account.menu_finance. That record is hidden from the app switcher by
+        this module (web_icon cleared), so anything still parented to it becomes
+        invisible — Assets would vanish from the UI along with the root.
 
         account_asset_management is a hard dependency of this module, so the
         menu xmlid always resolves. If the dependency is ever removed this
         record fails loudly instead of silently doing nothing, which is the
         behaviour we want.
+
+        This file is loaded AFTER data/account_accountant_data.xml; both
+        reparent the same menu and the last writer wins, so keep them
+        consistent.
     -->
     <record id="account_asset_management.menu_finance_assets" model="ir.ui.menu">
-        <field name="parent_id" ref="account.menu_finance"/>
+        <field name="parent_id" ref="menu_accounting"/>
     </record>
 </odoo>

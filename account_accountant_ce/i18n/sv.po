@@ -4,16 +4,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0-20240531\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-14 09:43+0000\n"
-"PO-Revision-Date: 2024-06-14 09:43+0000\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2026-10-26 12:00+0000\n"
+"PO-Revision-Date: 2026-10-26 12:00+0000\n"
+"Last-Translator: Vertel Sverige AB\n"
+"Language-Team: Swedish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_accountant_ce
 #: model:ir.ui.menu,name:account_accountant_ce.menu_accounting
@@ -21,6 +21,6 @@ msgid "Accounting"
 msgstr "Bokföring"
 
 #. module: account_accountant_ce
-#: model:res.groups,name:account_accountant_ce.group_fiscal_year
-msgid "Allow to define fiscal years of more or less than a year"
-msgstr "Tillåt att definiera räkenskapsår på mer eller mindre än ett år"
+#: model:ir.module.category,name:base.module_category_accounting_accounting
+msgid "Accounting"
+msgstr "Bokföring"

@@ -1,81 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!--
-        Rename the top-level "Invoicing" menu to "Accounting".
+        Present Community's accounting as "Accounting" (as in Enterprise).
 
-        The root menu is renamed in place instead of creating a second root
-        menu and reparenting every child to it. Renaming keeps all children
-        (Dashboard, Customers, Vendors, Accounting, Reporting, Configuration,
-        and any menu contributed by other installed modules such as
-        account_asset_management) where they already are, and avoids leaving
-        an empty "Invoicing" root menu behind.
+        Odoo CE ships one accounting app: the root menu account.menu_finance,
+        named "Invoicing". Enterprise calls the same app "Accounting". This
+        module makes CE read as Accounting without changing what the app does.
+
+        HOW: a dedicated root menu, not a rename
+        The module owns its own root menu (menu_accounting) and moves every
+        account sub-menu onto it. account.menu_finance is hidden from the app
+        switcher by clearing its web_icon.
+
+        Why not simply rename account.menu_finance in place? Because the name
+        is a translated jsonb field and the last writer wins. Core's
+        account/sv.po and account's own en_GB value both write to that record,
+        so a rename here is silently overwritten on any language whose
+        translation is loaded later. A root menu this module owns has no
+        competing writer, so the name holds on every language.
+
+        WHY THE HIDDEN ROOT IS SAFE
+        A root menu with no web_icon is not shown in the app switcher, so
+        account.menu_finance disappears from the UI even though the record
+        remains. That is the whole trick — and it is also the fragile part:
+
+          * Every menu that points at account.menu_finance must be reparented
+            here, or it stays under an invisible root and vanishes with it.
+            The list below is exhaustive as of 18.0.1.2.0: seven account menus
+            and OCA account_asset_management's Assets. A new module that hangs a
+            menu there will disappear until it is added here.
+
+          * The record itself is NOT deleted and NOT deactivated. Deactivating
+            a core menu is undone by the next upgrade of `account`, and
+            deleting it would cascade to anything still attached.
+
+        The reparenting is idempotent: it runs on every upgrade and repairs a
+        database where a module re-attached its menu to account.menu_finance.
     -->
+
+    <!-- 1. Our own root menu, with the icon so it appears in the app switcher. -->
+    <menuitem
+        id="menu_accounting"
+        name="Accounting"
+        web_icon="account,static/description/icon.png"
+        sequence="60"
+    />
+
+    <!-- 2. Hide core's root from the app switcher. The record stays. -->
     <record id="account.menu_finance" model="ir.ui.menu">
-        <field name="name">Accounting</field>
-        <field name="sequence">60</field>
+        <field name="web_icon" eval="False"/>
     </record>
 
     <!--
-        Remove the leftover root menu from the pre-18.0.1.1.0 implementation.
+        3. Move every child of account.menu_finance onto our root.
 
-        Background — this is what produced two "Accounting" apps:
-
-        Up to 18.0.1.0.x this module created its own root menu
-        (account_accountant_ce.menu_accounting) and reparented the six account
-        sub-menus onto it. 18.0.1.1.0 dropped that approach and renamed
-        account.menu_finance instead, but three things were left behind:
-
-          1. The ir.model.data row for menu_accounting was still in the
-             database, so the menu itself survived as an empty root.
-          2. The sub-menus still had parent_id pointing at that old root,
-             because Odoo never resets a field whose XML record disappears.
-          3. Any module that had hung a menu under the old root (l10n_se
-             account training, for example) kept it there.
-
-        The net effect: a renamed account.menu_finance with no children, plus
-        an orphan "Accounting" root holding the real content.
-
-        This file deletes the stale menu record and its xmlid, after moving
-        the sub-menus back under account.menu_finance below. Deleting an
-        ir.ui.menu cascades to its children, so the reparenting has to happen
-        first — which is why both live in this one file, in this order.
-    -->
-    <delete id="account_accountant_ce.menu_accounting" model="ir.ui.menu"/>
-
-    <!--
-        Restore the parent of the account sub-menus.
-
-        These records are the missing half of the rename above. They put the
-        sub-menus back under account.menu_finance. They are idempotent and
-        repair any database that ran an upgrade while the old root existed.
-
-        Note that account.menu_finance_entries is not renamed here: core
-        already calls it "Accounting", and that is the sub-menu that sits
-        inside the app. Only the root is renamed.
+        Deleting or hiding a parent does not clear parent_id on its children —
+        Odoo never resets a field whose XML record disappears. So each child is
+        named explicitly. Keep this list in sync with the modules that target
+        account.menu_finance.
     -->
     <record id="account.menu_board_journal_1" model="ir.ui.menu">
-        <field name="parent_id" ref="account.menu_finance"/>
+        <field name="parent_id" ref="menu_accounting"/>
     </record>
     <record id="account.menu_finance_receivables" model="ir.ui.menu">
-        <field name="parent_id" ref="account.menu_finance"/>
+        <field name="parent_id" ref="menu_accounting"/>
     </record>
     <record id="account.menu_finance_payables" model="ir.ui.menu">
-        <field name="parent_id" ref="account.menu_finance"/>
+        <field name="parent_id" ref="menu_accounting"/>
     </record>
     <record id="account.menu_finance_entries" model="ir.ui.menu">
-        <field name="parent_id" ref="account.menu_finance"/>
+        <field name="parent_id" ref="menu_accounting"/>
     </record>
     <record id="account.menu_finance_reports" model="ir.ui.menu">
-        <field name="parent_id" ref="account.menu_finance"/>
+        <field name="parent_id" ref="menu_accounting"/>
     </record>
     <record id="account.menu_finance_configuration" model="ir.ui.menu">
-        <field name="parent_id" ref="account.menu_finance"/>
+        <field name="parent_id" ref="menu_accounting"/>
     </record>
 
-    <!--
-        Assets comes from OCA account_asset_management, which declares it as a
-        child of account.menu_finance. It was reparented by the old
-        implementation too, so it needs the same repair. That record lives in
-        data/account_asset_menu.xml and the module is a hard dependency.
-    -->
+    <!-- OCA account_asset_management declares Assets under account.menu_finance. -->
+    <record id="account_asset_management.menu_finance_assets" model="ir.ui.menu">
+        <field name="parent_id" ref="menu_accounting"/>
+    </record>
+
 </odoo>
