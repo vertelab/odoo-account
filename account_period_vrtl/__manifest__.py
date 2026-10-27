@@ -65,7 +65,7 @@ Period
     ],
     'demo': [],
     'qweb': [],
-    'installable': False,
+    'installable': True,
     'application': False,
     'auto_install': False,
 }
