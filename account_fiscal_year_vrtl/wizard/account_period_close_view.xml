@@ -15,7 +15,7 @@
                 <footer>
                     <button name="data_save" type="object"
                             string="Close Period" class="oe_highlight"
-                            attrs="{'invisible': [('sure', '=', False)]}"/>
+                            invisible="sure == False"/>
                     <button string="Cancel" class="oe_link" special="cancel"/>
                 </footer>
             </form>
@@ -36,27 +36,29 @@
                 <footer>
                     <button name="data_save" type="object"
                             string="Close" class="oe_highlight"
-                            attrs="{'invisible': [('sure', '=', False)]}"/>
+                            invisible="sure == False"/>
                     <button string="Cancel" class="oe_link" special="cancel"/>
                 </footer>
             </form>
         </field>
     </record>
 
-    <!-- Actions -->
-    <act_window id="action_account_period_close"
-                name="Close Period"
-                res_model="account.period.close"
-                view_mode="form"
-                target="new"
-                binding_model="account.period"
-                binding_view_types="list,form"/>
+    <!-- Actions: <act_window> togs bort i Odoo 17+ — anvand ir.actions.act_window-records. Rattat 2026-10-29. -->
 
-    <act_window id="action_close_account_period_journal"
-                name="Close Journal"
-                res_model="close.account.period.journal"
-                view_mode="form"
-                target="new"
-                binding_model="account.period.journal"
-                binding_view_types="list,form"/>
+    <record id="action_account_period_close" model="ir.actions.act_window">
+        <field name="name">Close Period</field>
+        <field name="res_model">account.period.close</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_account_period"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+    <record id="action_close_account_period_journal" model="ir.actions.act_window">
+        <field name="name">Close Journal</field>
+        <field name="res_model">close.account.period.journal</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_account_period_journal"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
 </odoo>

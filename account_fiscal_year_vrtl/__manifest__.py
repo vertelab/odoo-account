@@ -36,7 +36,7 @@ Features:
         "views/account_period_exception_views.xml",
         "views/account_journal_views.xml",
         "views/res_config_settings_views.xml",
-        "views/onboarding_template.xml",
+        # "views/onboarding_template.xml",  # BORTTAGEN 2026-10-29: account.onboarding.step saknas i Odoo 18
         "wizard/account_period_close_view.xml",
         "wizard/account_fiscalyear_close_view.xml",
         "wizard/account_period_create_view.xml",

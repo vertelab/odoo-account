@@ -20,9 +20,10 @@
         </field>
     </record>
 
-    <act_window id="action_account_period_create_wizard"
-                name="Create Fiscal Year &amp; Periods"
-                res_model="account.period.create.wizard"
-                view_mode="form"
-                target="new"/>
+    <record id="action_account_period_create_wizard" model="ir.actions.act_window">
+        <field name="name">Create Fiscal Year &amp; Periods</field>
+        <field name="res_model">account.period.create.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
 </odoo>

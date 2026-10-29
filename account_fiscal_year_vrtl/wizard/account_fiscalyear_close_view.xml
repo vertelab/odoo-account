@@ -15,18 +15,19 @@
                 <footer>
                     <button name="data_save" type="object"
                             string="Close Fiscal Year" class="oe_highlight"
-                            attrs="{'invisible': [('sure', '=', False)]}"/>
+                            invisible="sure == False"/>
                     <button string="Cancel" class="oe_link" special="cancel"/>
                 </footer>
             </form>
         </field>
     </record>
 
-    <act_window id="action_account_fiscalyear_close"
-                name="Close Fiscal Year"
-                res_model="account.fiscalyear.close"
-                view_mode="form"
-                target="new"
-                binding_model="account.fiscal.year"
-                binding_view_types="list,form"/>
+    <record id="action_account_fiscalyear_close" model="ir.actions.act_window">
+        <field name="name">Close Fiscal Year</field>
+        <field name="res_model">account.fiscalyear.close</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_account_fiscal_year"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
 </odoo>

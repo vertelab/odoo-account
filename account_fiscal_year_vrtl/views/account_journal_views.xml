@@ -6,7 +6,7 @@
         <field name="model">account.journal</field>
         <field name="inherit_id" ref="account.view_account_journal_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='advanced_settings']" position="inside">
+            <xpath expr="//page[@name='advanced_settings']" position="inside">
                 <field name="bypass_period_lock"
                        string="Closing Journal"
                        help="Allow postings in closed/hash-locked periods. Use for year-end closing entries."/>
