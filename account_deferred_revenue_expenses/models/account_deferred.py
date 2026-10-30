@@ -20,7 +20,10 @@ class AccountDeferred(models.Model):
 
     # ── Identification ────────────────────────────────────────────────
     name = fields.Char(string='Description', required=True)
-    code = fields.Char(string='Reference')
+    code = fields.Char(
+        string='Reference', store=True, readonly=False,
+        compute='_compute_code', precompute=True,
+    )
     profile_id = fields.Many2one(
         'account.deferred.profile', string='Profile',
         check_company=True, required=True,
@@ -114,6 +117,24 @@ class AccountDeferred(models.Model):
             posted_total = sum(
                 r.line_ids.filtered('posted').mapped('amount'))
             r.value_residual = r.amount_total - posted_total
+
+    @api.depends('move_line_id.move_id.name', 'move_line_id.move_id.state')
+    def _compute_code(self):
+        """Reference number follows the origin invoice number.
+
+        A draft invoice has no number yet (Odoo assigns it at posting), so
+        the field keeps what the user typed - or the ``/`` placeholder - and
+        is recomputed once the invoice is posted. Closed entries are never
+        touched.
+        """
+        for rec in self:
+            if rec.state == 'close':
+                continue
+            move = rec.move_line_id.move_id
+            if move and move.name and move.name != '/':
+                rec.code = move.name
+            elif not rec.code:
+                rec.code = move.name or False
 
     # ── Actions ───────────────────────────────────────────────────────
 

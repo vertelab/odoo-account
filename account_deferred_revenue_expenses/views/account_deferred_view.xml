@@ -49,7 +49,10 @@
                                     icon="fa-file-text-o"
                                     invisible="not move_id">
                                 <div class="o_stat_info">
-                                    <span class="o_stat_text">Origin</span>
+                                    <span class="o_stat_value">
+                                        <field name="move_id" widget="char"/>
+                                    </span>
+                                    <span class="o_stat_text">Faktura</span>
                                 </div>
                             </button>
                         </div>
@@ -62,6 +65,7 @@
                         <group>
                             <group string="General">
                                 <field name="code" string="Reference"/>
+                                <field name="move_id" readonly="1"/>
                                 <field name="profile_id"/>
                                 <field name="rec_type" string="Type"/>
                                 <field name="partner_id"/>
@@ -144,6 +148,7 @@
                 <list>
                     <field name="name"/>
                     <field name="code" optional="show"/>
+                    <field name="move_id" optional="show"/>
                     <field name="rec_type" optional="show"/>
                     <field name="partner_id" optional="show"/>
                     <field name="amount_total" sum="Total"/>

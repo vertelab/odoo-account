@@ -36,6 +36,7 @@ def post_init_hook(env):
         )
         _logger.info("Added missing column account_move_line.deferred_id")
     _cleanup_legacy_rec_type_actions(env)
+    _backfill_deferred_code(env)
 
 
 def _cleanup_legacy_rec_type_actions(env):
@@ -114,3 +115,26 @@ def _cleanup_legacy_rec_type_actions(env):
         if record and hasattr(record, "active") and record.active:
             record.active = False
             _logger.info("Deactivated legacy deferred menu %s", xmlid)
+
+
+def _backfill_deferred_code(env):
+    """Fill empty deferred reference numbers from the origin invoice number.
+
+    Only touches rows whose ``code`` is NULL, empty or the draft placeholder
+    ``/`` - an accountant's own reference is never overwritten. Idempotent:
+    a second run matches nothing.
+    """
+    cr = env.cr
+    cr.execute(
+        """
+        UPDATE account_deferred d
+           SET code = m.name
+          FROM account_move_line l
+          JOIN account_move m ON m.id = l.move_id
+         WHERE d.move_line_id = l.id
+           AND m.name IS NOT NULL
+           AND m.name <> '/'
+           AND (d.code IS NULL OR d.code = '' OR d.code = '/')
+        """
+    )
+    _logger.info("Backfilled deferred code on %s rows", cr.rowcount)

@@ -1,6 +1,6 @@
 {
     'name': 'Account: Deferred Revenue Expenses',
-    'version': '18.0.2.7.0',
+    'version': '18.0.2.8.0',
     'summary': 'Handles deferred revenue and expenses with dedicated models.',
     'category': 'Accounting',
     'description': '''
