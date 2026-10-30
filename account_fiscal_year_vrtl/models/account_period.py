@@ -261,8 +261,14 @@ class AccountPeriod(models.Model):
                     )
         return super().write(vals)
 
+    @api.model
     def _cron_close_account_period(self):
-        """Server action: auto-close periods past their closing_date."""
+        """Auto-close periods past their closing_date.
+
+        Called both by the server action (manual) and by cron_tick — the
+        engine invokes it on an EMPTY recordset, so it must be @api.model
+        and do its own search().
+        """
         today = fields.Date.context_today(self)
         open_periods = self.search([
             ("state", "=", "draft"),

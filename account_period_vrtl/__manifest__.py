@@ -65,7 +65,7 @@ Period
     ],
     'demo': [],
     'qweb': [],
-    'installable': True,
+    'installable': False,  # DEPRECATED 2026-10-30: replaced by account_fiscal_year_vrtl.
     'application': False,
     'auto_install': False,
 }

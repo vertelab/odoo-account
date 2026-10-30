@@ -82,7 +82,11 @@ class AccountChartSnapshot(models.Model):
     )
     code = fields.Char(related="account_id.code", string="Code", store=True)
     name = fields.Char(related="account_id.name", string="Name", store=True)
-    account_type = fields.Char(related="account_id.account_type", string="Type", store=True)
+    # FIX 2026-10-30: account.account.account_type is a Selection, not a
+    # Char. A related field must have the same type as its target, otherwise
+    # _setup_related raises TypeError on registry load.
+    account_type = fields.Selection(
+        related="account_id.account_type", string="Type", store=True)
     company_id = fields.Many2one(
         related="fiscalyear_id.company_id",
         store=True,

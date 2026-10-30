@@ -1,6 +1,6 @@
 {
     "name": "Account: Fiscal Year",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "Accounting/Accounting",
     "summary": "Fiscal years with monthly periods, period closing, and hash-locking",
     "description": """
@@ -23,12 +23,13 @@ Features:
         "account",
         "account_fiscal_year",
         "date_range",
+        "cron_tick",
     ],
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",
-        "data/date_range_type_data.xml",
         "data/ir_server_action.xml",
+        "data/cron_task.xml",
         "views/account_fiscalyear_views.xml",
         "views/account_period_views.xml",
         "views/account_move_views.xml",

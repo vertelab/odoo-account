@@ -24,31 +24,43 @@ class AccountChartTemplate(models.Model):
         Expected columns: code, name, type, sru_code, notes
         """
         self.ensure_one()
-        try:
-            import base64
-            import io
+        import base64
+        import io
 
-            import xlrd  # or openpyxl for .xlsx
+        from odoo.exceptions import UserError
+
+        try:
+            import openpyxl
         except ImportError:
-            from odoo.exceptions import UserError
             raise UserError(
-                "xlrd or openpyxl is required for Excel import. "
-                "Install with: pip install xlrd openpyxl"
+                "openpyxl is required for Excel import. "
+                "Install with: pip install openpyxl"
             )
 
         # Clear existing lines
         self.account_line_ids.unlink()
 
         data = base64.b64decode(file_data)
-        workbook = xlrd.open_workbook(file_contents=data)
-        sheet = workbook.sheet_by_index(0)
+        try:
+            workbook = openpyxl.load_workbook(
+                io.BytesIO(data), read_only=True, data_only=True)
+        except Exception as exc:
+            raise UserError(
+                "Could not read the Excel file: %s" % exc) from exc
+        sheet = workbook.worksheets[0]
 
         lines = []
-        for row_idx in range(1, sheet.nrows):  # Skip header
-            code = str(sheet.cell_value(row_idx, 0)).strip()
-            name = str(sheet.cell_value(row_idx, 1)).strip()
-            account_type = str(sheet.cell_value(row_idx, 2)).strip() if sheet.ncols > 2 else ""
-            sru_code = str(sheet.cell_value(row_idx, 3)).strip() if sheet.ncols > 3 else ""
+        # Skip header row. read_only mode yields tuples, values_only=True
+        # gives raw values per row.
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            if not row:
+                continue
+            code = str(row[0]).strip() if row[0] is not None else ""
+            name = str(row[1]).strip() if len(row) > 1 and row[1] is not None else ""
+            account_type = (
+                str(row[2]).strip() if len(row) > 2 and row[2] is not None else "")
+            sru_code = (
+                str(row[3]).strip() if len(row) > 3 and row[3] is not None else "")
 
             if not code:
                 continue
@@ -60,6 +72,7 @@ class AccountChartTemplate(models.Model):
                 "sru_code": sru_code,
             }))
 
+        workbook.close()
         self.write({"account_line_ids": lines})
         return len(lines)
 

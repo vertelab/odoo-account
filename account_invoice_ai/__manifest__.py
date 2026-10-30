@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
@@ -48,7 +47,7 @@ Invoice AI Mailbox
     'depends': [
         'ai_agent',
         'account',
-        'account_period_vrtl',
+        'account_fiscal_year_vrtl',
         'account_invoice_import',
         'purchase'
     ],

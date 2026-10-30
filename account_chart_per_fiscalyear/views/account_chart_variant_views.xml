@@ -4,11 +4,11 @@
         <field name="name">account.chart.variant.tree</field>
         <field name="model">account.chart.variant</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="template_id"/>
                 <field name="company_id" groups="base.group_multi_company"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -26,13 +26,13 @@
                     <notebook>
                         <page string="Custom Accounts" name="custom">
                             <field name="custom_account_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="action"/>
                                     <field name="code"/>
                                     <field name="name"/>
                                     <field name="account_type"/>
                                     <field name="notes"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -44,7 +44,7 @@
     <record id="action_account_chart_variant" model="ir.actions.act_window">
         <field name="name">Chart Variants</field>
         <field name="res_model">account.chart.variant</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_account_chart_variant"

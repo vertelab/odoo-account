@@ -1,6 +1,6 @@
 {
     "name": "Account: Fiscal Year MIS Bridge",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "Accounting/Accounting",
     "summary": "MIS Builder integration for fiscal year balance reporting",
     "description": """

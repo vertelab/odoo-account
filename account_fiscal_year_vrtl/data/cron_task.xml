@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Period closing as a cron.task, NOT an ir.cron.
+
+             The tick engine (cron_tick) owns all scheduling: this module only
+             declares WHAT to run and WHICH cadence. The engine writes
+             last_run/failure_count after the call returns, so the method
+             itself is a pure @api.model method (called with an empty
+             recordset — it does its own search()).
+
+             noupdate="1" so a module upgrade never resets a task the
+             administrator has deactivated.
+
+             Manual trigger: the server action ir_server_action_close_periods.
+             Event trigger: POST /cron/trigger/account_fiscal_year_close_periods
+        -->
+        <record id="cron_close_periods" model="cron.task">
+            <field name="name">Account: close past-due periods</field>
+            <field name="technical_name">account_fiscal_year_close_periods</field>
+            <field name="model_name">account.period</field>
+            <field name="method_name">_cron_close_account_period</field>
+            <field name="cadence">daily</field>
+            <field name="module">account_fiscal_year_vrtl</field>
+            <field name="sequence">30</field>
+        </record>
+    </data>
+</odoo>

@@ -1,6 +1,6 @@
 {
     "name": "Account: Chart of Accounts per Fiscal Year",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "Accounting/Accounting",
     "summary": "Chart of accounts versioned per fiscal year",
     "description": """
@@ -24,8 +24,10 @@ Features:
         "security/ir.model.access.csv",
         "views/account_chart_template_views.xml",
         "views/account_chart_variant_views.xml",
-        "views/account_fiscalyear_views.xml",
+        # wizard/account_chart_diff_views.xml defines action_chart_diff, which
+        # views/account_fiscalyear_views.xml references — it must load first.
         "wizard/account_chart_diff_views.xml",
+        "views/account_fiscalyear_views.xml",
     ],
     "installable": True,
     "application": False,

@@ -26,12 +26,10 @@ class AIQuestSession(models.Model):
 
     def create_minimal_invoice(self):
         if self.ai_quest_id.ai_type == 'account-invoice':
-            period_id = self.env['account.period'].search([
-                ('state', '=', 'draft'), ('company_id', '=', self.company_id.id)
-            ], limit=1, order="date_stop")
+            # Ported 2026-10-30: account.move has no period_id. The period is
+            # derived from move.date, so nothing to set here.
             self.move_id = self.env['account.move'].create({
                 'move_type': "in_invoice",
-                'period_id': period_id.id,
                 'ai_session_id': self.id
             })
 

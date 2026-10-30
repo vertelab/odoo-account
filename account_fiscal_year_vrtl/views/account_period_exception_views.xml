@@ -73,7 +73,7 @@
     <record id="action_account_period_exception" model="ir.actions.act_window">
         <field name="name">Period Exceptions</field>
         <field name="res_model">account.period.exception</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_account_period_exception"

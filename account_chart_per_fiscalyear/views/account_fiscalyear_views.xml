@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- action_chart_diff must be defined before the view below references
+         it via %(...)d — Odoo resolves the xmlid at parse time. -->
+    <record id="action_chart_diff" model="ir.actions.act_window">
+        <field name="name">Show Chart Diff</field>
+        <field name="res_model">account.chart.diff.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
     <!-- Add chart fields to fiscal year form -->
     <record id="view_account_fiscal_year_form_inherit_chart" model="ir.ui.view">
         <field name="name">account.fiscal.year.form.inherit.chart</field>
@@ -8,10 +17,8 @@
         <field name="arch" type="xml">
             <xpath expr="//group/group[1]" position="after">
                 <group string="Chart of Accounts" name="chart">
-                    <field name="chart_template_id"
-                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                    <field name="chart_variant_id"
-                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="chart_template_id" readonly="state != 'draft'"/>
+                    <field name="chart_variant_id" readonly="state != 'draft'"/>
                 </group>
             </xpath>
             <xpath expr="//header" position="inside">
@@ -26,9 +33,4 @@
         </field>
     </record>
 
-    <act_window id="action_chart_diff"
-                name="Show Chart Diff"
-                res_model="account.chart.diff.wizard"
-                view_mode="form"
-                target="new"/>
 </odoo>

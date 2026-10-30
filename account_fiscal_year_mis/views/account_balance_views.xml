@@ -5,14 +5,14 @@
         <field name="name">account.balance.tree</field>
         <field name="model">account.balance</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="account_id"/>
                 <field name="debit"/>
                 <field name="credit"/>
                 <field name="balance"/>
                 <field name="fiscalyear_id"/>
                 <field name="date"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -57,6 +57,6 @@
     <record id="action_account_balance" model="ir.actions.act_window">
         <field name="name">Account Balances</field>
         <field name="res_model">account.balance</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>

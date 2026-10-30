@@ -24,6 +24,16 @@ def _migrate_from_account_period_vrtl(env):
         return
 
     # 1. Migrate fiscal years: account.fiscalyear → account.fiscal.year
+    #
+    # FIX 2026-10-30: `env["account.fiscalyear"]` no longer resolves once
+    # account_period_vrtl is uninstalled or not installable — the model is
+    # gone from the registry and env[...] raises KeyError. Guard on the
+    # registry instead, so the hook is safe to run in either order.
+    if "account.fiscalyear" not in env:
+        _logger.info(
+            "account.fiscalyear model not in registry — nothing to migrate")
+        return
+
     old_fiscalyears = env["account.fiscalyear"].search([])
     _logger.info("Migrating %d fiscal years...", len(old_fiscalyears))
 

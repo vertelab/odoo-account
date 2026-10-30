@@ -34,6 +34,9 @@
                            statusbar_colors="{'done': 'success'}"/>
                 </header>
                 <sheet>
+                    <!-- FIX 2026-10-30: stat-button container. account_fiscal_year_mis
+                         and other modules inject oe_stat_button here. -->
+                    <div class="oe_button_box" name="button_box"/>
                     <div class="oe_title">
                         <label for="name"/>
                         <h1>
@@ -89,7 +92,7 @@
     <record id="action_account_fiscal_year" model="ir.actions.act_window">
         <field name="name">Fiscal Years</field>
         <field name="res_model">account.fiscal.year</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <!-- Menu -->

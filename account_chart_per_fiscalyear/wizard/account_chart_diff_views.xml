@@ -10,7 +10,7 @@
                 </group>
                 <group string="Changes" name="changes">
                     <field name="change_line_ids" nolabel="1">
-                        <tree>
+                        <list>
                             <field name="action" widget="badge"
                                    decoration-success="action == 'add'"
                                    decoration-warning="action == 'modify'"
@@ -18,7 +18,7 @@
                             <field name="code"/>
                             <field name="name"/>
                             <field name="account_type"/>
-                        </tree>
+                        </list>
                     </field>
                 </group>
                 <footer>
