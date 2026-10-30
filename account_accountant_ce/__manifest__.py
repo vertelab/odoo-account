@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Accounting UI (CE)',
-    'version': '18.0.1.2.3',
+    'version': '18.0.1.2.4',
     # Version ledger: 18.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Community accounting UI adjustments: "Accounting" naming and two form fields.',
     'category': 'Accounting',
@@ -50,15 +50,15 @@ Accounting UI (CE)
 
     What this module does NOT do:
 
-        - It owns no models. Fiscal year management comes from OCA
-          `account_fiscal_year` (AGPL-3.0), which this module depends on.
+        - It owns no models and adds no business logic; it is a pure UI
+          module. Fiscal year management lives in `account_fiscal_year_vrtl`.
         - It does not redefine any `account` group. Community's group
           architecture (`account/security/account_security.xml`) is left
           untouched.
 
     Dependencies:
 
-        account_fiscal_year
+        account_asset_management
                 https://github.com/OCA/account-financial-tools
     ''',
     'author': 'Vertel Sverige AB',
@@ -69,7 +69,6 @@ Accounting UI (CE)
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': [
-        'account_fiscal_year',
         # `menu_finance_assets` is reparented in data/account_asset_menu.xml,
         # so the module that owns that menu must be loaded first.
         'account_asset_management',
