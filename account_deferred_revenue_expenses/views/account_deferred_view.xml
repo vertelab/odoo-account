@@ -95,6 +95,7 @@
                                 <field name="method_number" string="Number of Periods"/>
                             </group>
                             <group string="Options">
+                                <field name="stub_month_end"/>
                                 <field name="allow_reversal"/>
                                 <field name="analytic_distribution"
                                        widget="analytic_distribution"

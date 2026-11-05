@@ -80,6 +80,15 @@ class AccountDeferred(models.Model):
         string='Number of Periods', required=True, default=12,
     )
     allow_reversal = fields.Boolean(string='Allow Reversal')
+    # T/11824 - legacy booked the stubs on the last day of the month; the
+    # module's own default kept the start date's day-of-month. Both exist in
+    # the data, so the convention is a switch. Default comes from the company.
+    stub_month_end = fields.Boolean(
+        string='Stubs on the Last Day of the Period',
+        default=lambda self: self.env.company.deferred_stub_month_end,
+        help="Place each stub on the last day of its period instead of on the "
+             "same day-of-month as the start date.",
+    )
 
 
     # ── Lines (stubbar) ───────────────────────────────────────────────
@@ -155,7 +164,8 @@ class AccountDeferred(models.Model):
 
     # ── Schedule wizards ────────────────────────────────────────────────
 
-    @api.onchange('date_start', 'method_period', 'method_number')
+    @api.onchange('date_start', 'method_period', 'method_number',
+                  'stub_month_end')
     def _onchange_schedule(self):
         """T/11321 #3: live re-sync of the not-yet-posted stubs on the form.
 
@@ -179,7 +189,9 @@ class AccountDeferred(models.Model):
     def write(self, vals):
         res = super().write(vals)
         for rec in self:
-            if any(f in vals for f in ('date_start', 'method_period', 'method_number')):
+            if any(f in vals for f in (
+                    'date_start', 'method_period', 'method_number',
+                    'stub_month_end')):
                 # Only re-plan on real entries that actually carry stubs.
                 if rec.id and rec.line_ids:
                     rec._generate_stubs()
@@ -197,12 +209,22 @@ class AccountDeferred(models.Model):
         if not self.date_start or not self.method_number:
             return
         posted = self.line_ids.filtered('posted')
+        # Keep the posted stubs and only generate the periods they do not
+        # already cover. Restarting the schedule at period 1 would produce a
+        # second stub for a period that is already booked (and a duplicate
+        # sequence), which is what the old code did.
+        posted_sequences = set(posted.mapped('sequence'))
         self.line_ids = ([(6, 0, posted.ids)] if posted else [(5, 0, 0)])\
-            + self._new_stub_vals()
+            + self._new_stub_vals(skip_sequences=posted_sequences)
 
-    def _new_stub_vals(self):
-        """Compute the ``(0,0,vals)`` commands for the schedule on ``self``."""
+    def _new_stub_vals(self, skip_sequences=None):
+        """Compute the ``(0,0,vals)`` commands for the schedule on ``self``.
+
+        ``skip_sequences`` holds the sequences of stubs that are already posted;
+        those periods are left alone.
+        """
         self.ensure_one()
+        skip_sequences = skip_sequences or set()
         delta_map = {'month': 'months', 'quarter': 'months', 'year': 'years'}
         period_amount = self.amount_total / self.method_number
         period_amount = self.currency_id.round(period_amount)
@@ -214,18 +236,42 @@ class AccountDeferred(models.Model):
                 date = self.date_start + relativedelta(months=3 * i)
             else:
                 date = self.date_start + relativedelta(**{delta_map[self.method_period]: i})
+            if self.stub_month_end:
+                date = self._last_day_of_period(date)
             amount = period_amount
             if i == self.method_number - 1 and residual:
                 amount = self.currency_id.round(amount + residual)
+            sequence = (i + 1) * 10
+            if sequence in skip_sequences:
+                continue
             vals.append((0, 0, {
                 'name': _('Period %d/%d') % (i + 1, self.method_number),
-                'sequence': (i + 1) * 10,
+                'sequence': sequence,
                 'date': date,
                 'amount': amount,
             }))
         return vals
 
 
+
+    def _last_day_of_period(self, date):
+        """Return the last day of the period ``date`` falls in.
+
+        The last day is the first day of the next period minus one day. Doing
+        it that way (rather than ``relativedelta(day=31)``, which only clamps
+        the day within the *current month*) is what makes it correct for
+        quarterly and yearly periods too:
+
+            2026-06-15, monthly   -> 2026-06-30
+            2026-06-15, quarterly -> 2026-06-30   (Q2 ends 30 June)
+            2026-06-15, yearly    -> 2026-12-31
+        """
+        self.ensure_one()
+        if self.method_period == 'quarter':
+            return (date.replace(day=1) + relativedelta(months=3)) - relativedelta(days=1)
+        if self.method_period == 'year':
+            return date.replace(month=12, day=31)
+        return (date.replace(day=1) + relativedelta(months=1)) - relativedelta(days=1)
 
     def action_open_stubs(self):
         """Smart button: open stubs tree."""

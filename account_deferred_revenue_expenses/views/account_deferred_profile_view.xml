@@ -57,6 +57,8 @@
                             </group>
                             <group string="Options">
                                 <field name="open_asset" string="Skip Draft State"/>
+                                <field name="stub_month_end"
+                                       string="Stubs on the Last Day of the Period"/>
                                 <field name="allow_reversal" string="Allow Reversal"/>
                             </group>
                         </group>

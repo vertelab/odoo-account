@@ -22,6 +22,12 @@ VAT is NEVER deferred in either model: input VAT is booked directly and normally
 Only the net cost is parked and later released.">
                         <field name="deferred_booking_method"/>
                     </setting>
+                    <setting id="deferred_stub_month_end"
+                             help="Place each periodisation stub on the last day of
+its period instead of on the same day-of-month as the start date.
+On by default, matching how the migrated legacy entries were booked.">
+                        <field name="deferred_stub_month_end"/>
+                    </setting>
                 </block>
             </xpath>
         </field>

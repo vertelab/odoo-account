@@ -22,3 +22,15 @@ class ResConfigSettings(models.TransientModel):
              "VAT is NEVER deferred in either model: input VAT is booked directly and "
              "normally at posting. Only the net cost is parked and later released.",
     )
+
+    deferred_stub_month_end = fields.Boolean(
+        related='company_id.deferred_stub_month_end',
+        readonly=False,
+        string="Stubs on the Last Day of the Period",
+        help="Place each periodisation stub on the last day of its period "
+             "(month/quarter/year) instead of on the same day-of-month as the "
+             "start date.\n\n"
+             "On by default, matching how the migrated legacy entries were "
+             "booked. Applies to entries created after the change; existing "
+             "unposted stubs are re-planned when the entry is saved.",
+    )

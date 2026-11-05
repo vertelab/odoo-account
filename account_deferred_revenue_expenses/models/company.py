@@ -39,3 +39,20 @@ class ResCompany(models.Model):
              "never deferred: input VAT is booked directly at posting; only the net "
              "prepaid cost is parked and later released.",
     )
+
+    # T/11824 - where the periodisation stubs land inside each period.
+    # Legacy (the OCA account_asset_management entries the SFA data came from)
+    # booked every stub on the LAST day of the month. The module's own default
+    # was date_start + N months, which keeps the day-of-month of the start date.
+    # Both conventions coexist in the migrated data, so this is a switch rather
+    # than a hard rule.
+    deferred_stub_month_end = fields.Boolean(
+        string='Stubs on the Last Day of the Period',
+        default=True,
+        help="Place each periodisation stub on the last day of its period "
+             "(month/quarter/year) instead of on the same day-of-month as the "
+             "start date.\n\n"
+             "On by default: it matches how the migrated legacy entries were "
+             "booked, and it is what most Swedish accounting systems do. "
+             "Turn it off to keep the start date's day-of-month.",
+    )

@@ -159,6 +159,7 @@ class AccountDeferredWizard(models.TransientModel):
             'method_period': self.frequency,
             'method_number': self.period_count,
             'allow_reversal': profile.allow_reversal,
+            'stub_month_end': profile.stub_month_end,
             'analytic_distribution': analytic_distribution,
             'move_line_id': self.move_line_id.id,
             'state': 'open' if profile.open_asset else 'draft',

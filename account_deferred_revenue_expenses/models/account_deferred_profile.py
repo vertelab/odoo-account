@@ -57,6 +57,13 @@ class AccountDeferredProfile(models.Model):
         string='Allow Reversal',
         help="If set, posted moves can be reversed instead of deleted.",
     )
+    stub_month_end = fields.Boolean(
+        string='Stubs on the Last Day of the Period',
+        default=True,
+        help="Place each stub on the last day of its period instead of on the "
+             "same day-of-month as the start date. Defaults from the company "
+             "setting; can be overridden per entry.",
+    )
 
     # ── Notes ─────────────────────────────────────────────────────────
     note = fields.Text()
@@ -74,4 +81,5 @@ class AccountDeferredProfile(models.Model):
             'method_number': self.method_number,
             'analytic_distribution': self.analytic_distribution,
             'allow_reversal': self.allow_reversal,
+            'stub_month_end': self.stub_month_end,
         }
