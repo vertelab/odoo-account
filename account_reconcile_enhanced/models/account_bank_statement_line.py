@@ -1,6 +1,8 @@
 # Copyright 2026 - Odoo Community Association (OCA)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from collections import Counter
+
 from odoo import Command, models
 
 
@@ -38,18 +40,33 @@ class AccountBankStatementLine(models.Model):
             return []
 
         aml_values_list = self._get_epd_aml_values_list(line)
-        # The counterpart line is booked at its full residual, so the amount
-        # still to be covered is exactly the discount. Passing it as
-        # ``open_balance`` makes the core helper emit the discount base line
-        # and skip the exchange difference line, keeping the entry balanced.
-        open_balance = line.amount_residual - line.discount_balance
-
+        # The core helper subtracts every discount line it builds from
+        # ``open_balance`` and books whatever is left on an exchange
+        # difference line. To keep the entry balanced that remainder must be
+        # zero, so ``open_balance`` has to be the discount amount itself --
+        # not the invoice residual minus the discounted balance, which is the
+        # paid amount and leaves a bogus exchange line behind.
         epd_values = self.env[
             "account.move"
         ]._get_invoice_counterpart_amls_for_early_payment_discount(
             aml_values_list,
-            open_balance,
+            open_balance=0.0,
         )
+        # Recompute the discount total from the produced lines and ask the
+        # helper again with that exact amount, so no exchange difference is
+        # generated.
+        discount_balance = sum(
+            vals.get("balance") or 0.0
+            for key in ("base_lines", "tax_lines", "term_lines")
+            for vals in epd_values[key]
+        )
+        if discount_balance:
+            epd_values = self.env[
+                "account.move"
+            ]._get_invoice_counterpart_amls_for_early_payment_discount(
+                aml_values_list,
+                open_balance=discount_balance,
+            )
 
         lines = []
         for values in epd_values.values():
@@ -151,22 +168,41 @@ class AccountBankStatementLine(models.Model):
         return (auxiliary_id, vals_list) if auxiliary_id is not None else vals_list
 
     def _reconcile_bank_line_edit(self, data):
-        """Inject the early payment discount lines into the reconcile data.
+        """Make sure the early payment discount lines are created once.
 
         ``_get_reconcile_line`` attaches the discount lines under the
-        ``epd_lines`` key. They are injected as regular entries of ``data`` so
-        that the standard implementation creates them inside its own balanced
-        context, together with the counterpart lines they belong to.
+        ``epd_lines`` key on the counterpart row, so the widget can display
+        them. Depending on how the widget rebuilt ``data``, those lines reach
+        this method either as regular rows of ``data`` *and* as the payload, or
+        only as the payload.
+
+        Injecting the payload unconditionally doubles the discount and leaves
+        the entry unbalanced, while dropping it unconditionally loses the
+        discount. Each payload row is therefore only added when an equivalent
+        row is not already part of ``data``.
         """
-        has_epd = any(line_vals.get("epd_lines") for line_vals in data)
+        present = Counter(
+            (
+                tuple(v.get("account_id") or ()),
+                round(v.get("debit") or 0.0, 6),
+                round(v.get("credit") or 0.0, 6),
+            )
+            for v in data
+        )
         prepared = []
         for line_vals in data:
-            epd_lines = line_vals.pop("epd_lines", None)
-            if has_epd and line_vals.get("kind") == "suspense":
-                # The discount lines replace the suspense line: keeping both
-                # would leave the entry unbalanced.
-                continue
+            line_vals = dict(line_vals)
+            epd_lines = line_vals.pop("epd_lines", None) or []
             prepared.append(line_vals)
-            if epd_lines:
-                prepared.extend(epd_lines)
+            for epd_line in epd_lines:
+                key = (
+                    tuple(epd_line.get("account_id") or ()),
+                    round(epd_line.get("debit") or 0.0, 6),
+                    round(epd_line.get("credit") or 0.0, 6),
+                )
+                if present[key] > 0:
+                    # Already sent as a regular row; adding it would double it.
+                    present[key] -= 1
+                    continue
+                prepared.append(epd_line)
         return super()._reconcile_bank_line_edit(prepared)
