@@ -267,13 +267,19 @@ def _convert_accounting_variable(text):
     if _selector_is_domain(account_sel):
         tokens = _split_account_selector(account_sel)
         if not tokens:
-            # ``bal[]`` is an intentionally empty row in the municipal chart
-            # (a placeholder for a heading that has no accounts yet). It is not
-            # a conversion failure: emit an empty aggregation, not a warning.
-            return Conversion(ENGINE_AGGREGATION, '',
-                              confidence=CONFIDENCE_EXACT,
-                              note='empty account selector; row has no value')
-        formula = _codes_to_formula(tokens)
+            # ``bal[]`` alone is an intentionally empty row in the municipal
+            # chart (a placeholder heading). But ``bal[][(domain)]`` means
+            # "every account, filtered by this domain" -- the empty selector
+            # is not "no accounts", it is "no account restriction". SFA's own
+            # VAT report uses exactly that form with tax_tag_ids, and dropping
+            # the domain silently zeroed the row.
+            if not ml_domain:
+                return Conversion(ENGINE_AGGREGATION, '',
+                                  confidence=CONFIDENCE_EXACT,
+                                  note='empty account selector; row has no value')
+            formula = ''
+        else:
+            formula = _codes_to_formula(tokens)
     else:
         zero_base = True
         formula = ''
@@ -308,12 +314,16 @@ def _convert_accounting_variable(text):
         if field == 'deb':
             note = 'deb selects the raw debit sum'
             confidence = CONFIDENCE_REVIEW
-        # MIS `crd` returns credit - debit; the domain engine sums `balance`,
-        # which is debit - credit. The sign must be flipped or every output-VAT
-        # box comes out negative. `neg_sum` tells the engine to negate.
-        #
-        # `bal`/`balp` keep the balance sign, so they use plain `sum`.
-        subformula = 'neg_sum' if field == 'crd' else 'sum'
+        # The domain engine sums `balance` (debit - credit).
+        # - MIS `crd` is credit - debit, so its sign is flipped -> neg_sum.
+        # - A trailing '* -1' negates whatever the row produced -> neg_sum.
+        # `bal`/`balp` otherwise keep the balance sign -> plain sum.
+        if field == 'crd':
+            subformula = 'neg_sum'
+        elif negate:
+            subformula = 'neg_sum'
+        else:
+            subformula = 'sum'
         return Conversion(ENGINE_DOMAIN, domain_json,
                           subformula=subformula,
                           date_scope=date_scope,
