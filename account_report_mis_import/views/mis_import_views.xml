@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mis_import_wizard_form" model="ir.ui.view">
+        <field name="name">account.report.mis.import.wizard.form</field>
+        <field name="model">account.report.mis.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Convert MIS reports">
+                <group>
+                    <field name="dry_run"/>
+                    <field name="mis_report_ids" widget="many2many_tags"
+                           invisible="state == 'done'"/>
+                </group>
+                <field name="result_text" nolabel="1" invisible="state != 'done'"/>
+                <footer>
+                    <button name="action_convert" string="Run" type="object"
+                            class="btn-primary" invisible="state == 'done'"/>
+                    <button special="cancel" string="Close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mis_import_wizard" model="ir.actions.act_window">
+        <field name="name">Convert MIS reports</field>
+        <field name="res_model">account.report.mis.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_mis_import"
+              name="Convert MIS reports"
+              parent="account.menu_finance_configuration"
+              action="action_mis_import_wizard"
+              sequence="99"
+              groups="base.group_system"/>
+</odoo>
