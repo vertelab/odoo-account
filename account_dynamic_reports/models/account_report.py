@@ -1093,9 +1093,3 @@ class AccountReport(models.Model):
         """Button action to open this report in the dynamic view."""
         return self.open_report()
 
-
-        expressions = report.line_ids.expression_ids.filtered(
-            lambda e: e.label == 'balance' and e.engine == 'account_codes'
-        )
-        expressions.write({'date_scope': 'from_beginning'})
-        return True
