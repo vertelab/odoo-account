@@ -4,7 +4,7 @@
 
 {
     'name': 'Accounting: Dynamic Reports',
-    'version': '18.0.1.1.5',
+    'version': '18.0.1.5.1',
     'summary': 'Dynamic accounting reports for Odoo CE — balance sheet, P&L, general ledger, and more',
     'description': '''
 Dynamic Reports
@@ -31,6 +31,8 @@ Dynamic Reports
         'data/currency_revaluation.xml',
         'data/report_actions.xml',
         'views/account_report_views.xml',
+        'report/account_dynamic_report_views.xml',
+        'report/report_templates.xml',
 
     ],
     'assets': {

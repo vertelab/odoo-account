@@ -21,16 +21,23 @@ class TestCurrencyRevaluationReport(TransactionCase):
         cls.handler = cls.env['account.currency.revaluation.report.handler']
 
         # A foreign currency with a known rate, distinct from the company one.
+        # It must NOT be the company currency: the handler skips lines in the
+        # company currency, so reusing 'USD' on a USD company makes every
+        # assertion below silently compare zero to zero.
         cls.foreign = cls.env['res.currency'].search(
-            [('name', '=', 'USD'), ('active', 'in', (True, False))], limit=1
+            [('name', '=', 'XFX'), ('active', 'in', (True, False))], limit=1
         )
         if not cls.foreign:
             cls.foreign = cls.env['res.currency'].create({
-                'name': 'USD',
-                'symbol': '$',
+                'name': 'XFX',
+                'symbol': 'X',
                 'rate': 1.0,
             })
         cls.foreign.active = True
+        cls.assertTrue(
+            cls.foreign != cls.company_currency,
+            'The test needs a currency that is not the company currency',
+        )
         # Odoo stores the rate as "1 company currency unit = <rate> foreign".
         # rate 0.5 therefore means 1 SEK = 0.5 USD, i.e. 1 USD = 2 SEK.
         cls.env['res.currency.rate'].create({

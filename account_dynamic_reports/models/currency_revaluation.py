@@ -59,6 +59,21 @@ class AccountCurrencyRevaluationReportHandler(models.AbstractModel):
         totals = self._get_revaluation_totals(options, excluded_account_ids=excluded)
         return totals.get(subformula, 0.0)
 
+    @api.model
+    def _custom_expression_lines(self, expr, options):
+        """The open foreign-currency lines behind a custom expression.
+
+        This is the drill-down contract for ``engine="custom"``: a handler
+        that wants its rows auditable implements this method and returns the
+        ``account.move.line`` recordset the value was computed from.
+        """
+        excluded = self.env.context.get('excluded_account_ids') or []
+        if expr.subformula and expr.subformula.startswith('excluded'):
+            excluded = excluded or True
+        return self._get_open_foreign_lines(
+            options, excluded_account_ids=excluded or None,
+        )
+
     # ------------------------------------------------------------------
     # Core computation
     # ------------------------------------------------------------------

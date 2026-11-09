@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_dynamic_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 t-field="o.name"/>
+                        <p t-if="o._dynamic_report_period_label()">
+                            <span t-esc="o._dynamic_report_period_label()"/>
+                        </p>
+
+                        <table class="table table-sm o_dynamic_report_pdf">
+                            <thead>
+                                <tr>
+                                    <th>Account</th>
+                                    <th t-foreach="o._dynamic_report_columns()" t-as="col"
+                                        class="text-right">
+                                        <span t-esc="col['name']"/>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o._dynamic_report_pdf_lines()" t-as="line">
+                                    <td>
+                                        <span t-att-style="'padding-left: %spx' % ((line['level'] - 1) * 12)">
+                                            <t t-if="line['unfoldable']">&#9656; </t>
+                                            <span t-esc="line['name']"/>
+                                        </span>
+                                    </td>
+                                    <td t-foreach="line['columns']" t-as="cell" class="text-right">
+                                        <span t-esc="cell['name']"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
