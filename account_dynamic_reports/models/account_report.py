@@ -25,6 +25,23 @@ ACCOUNT_CODES_TERM_REGEX = re.compile(
 class AccountReportLine(models.Model):
     _inherit = 'account.report.line'
 
+    @api.model
+    def _set_balance_sheet_date_scope(self):
+        """Force date_scope=from_beginning on the balance sheet expressions.
+
+        ``account_codes_formula`` creates the expressions for us but cannot
+        set ``date_scope``, which defaults to ``strict_range``. Balance sheet
+        accounts are cumulative: the opening balance of the fiscal year (and
+        earlier) must be included, otherwise the report only shows movements
+        inside the selected period and never balances.
+
+        Called from data/balance_sheet.xml via <function>. Idempotent.
+        """
+        report = self.env.ref('account_dynamic_reports.balance_sheet',
+                              raise_if_not_found=False)
+        if not report:
+            return True
+
     def _get_drilldown_action(self, move_lines):
         """An act_window listing the given move lines.
 
@@ -624,7 +641,18 @@ class AccountReport(models.Model):
                 sign = '+'
             prefix = match.group('prefix')
             excluded = match.group('excluded_prefixes') or ''
-            balance_char = match.group('balance_character') or ''
+            # The trailing D/C ('1510D' = debit balance only) is parsed by the
+            # regex but not applied: filtering on the sign of the balance is a
+            # per-line condition that a domain cannot express. No Swedish data
+            # uses it (measured: zero occurrences), so it is documented here
+            # rather than silently ignored. If it ever appears, the row must
+            # become a 'domain' expression with ('balance', '>', 0).
+            if match.group('balance_character'):
+                _logger.warning(
+                    "account_codes: balance character %r in %r is not applied; "
+                    "convert the row to a domain expression instead.",
+                    match.group('balance_character'), formula,
+                )
 
             # Handle tag() references
             if prefix.startswith('tag('):
@@ -1066,25 +1094,6 @@ class AccountReport(models.Model):
         return self.open_report()
 
 
-class AccountReportLine(models.Model):
-    _inherit = 'account.report.line'
-
-    @api.model
-    def _set_balance_sheet_date_scope(self):
-        """Force date_scope=from_beginning on the balance sheet expressions.
-
-        ``account_codes_formula`` creates the expressions for us but cannot
-        set ``date_scope``, which defaults to ``strict_range``. Balance sheet
-        accounts are cumulative: the opening balance of the fiscal year (and
-        earlier) must be included, otherwise the report only shows movements
-        inside the selected period and never balances.
-
-        Called from data/balance_sheet.xml via <function>. Idempotent.
-        """
-        report = self.env.ref('account_dynamic_reports.balance_sheet',
-                              raise_if_not_found=False)
-        if not report:
-            return True
         expressions = report.line_ids.expression_ids.filtered(
             lambda e: e.label == 'balance' and e.engine == 'account_codes'
         )
