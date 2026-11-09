@@ -947,7 +947,7 @@ class AccountReport(models.Model):
             operators = ['+']
 
         for i, term in enumerate(terms):
-            if not term or not '.' in term:
+            if not term or '.' not in term:
                 continue
             op = operators[i] if i < len(operators) else '+'
 
