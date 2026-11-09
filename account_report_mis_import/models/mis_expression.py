@@ -274,7 +274,6 @@ def _convert_accounting_variable(text):
                               confidence=CONFIDENCE_EXACT,
                               note='empty account selector; row has no value')
         formula = _codes_to_formula(tokens)
-        engine = ENGINE_ACCOUNT_CODES
     else:
         zero_base = True
         formula = ''
