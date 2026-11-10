@@ -167,6 +167,38 @@ class AccountBankStatementLine(models.Model):
 
         return (auxiliary_id, vals_list) if auxiliary_id is not None else vals_list
 
+    def _recompute_suspense_line(self, data, reconcile_auxiliary_id, manual_reference):
+        """Expand the early payment discount payload into regular rows first.
+
+        ``_get_reconcile_line`` keeps the discount under the ``epd_lines`` key
+        of the counterpart row, and that row is booked at the invoice's full
+        residual. ``_recompute_suspense_line`` only sums ``amount`` over the
+        rows it receives, so the discount is invisible to it: the counterpart
+        looks over-credited by the discount and the widget balances the entry
+        with a bogus line on the journal's suspense account (usually a
+        receivable/payable interim account).
+
+        Turning the payload into ordinary ``other`` rows before the balance is
+        computed makes the sum zero and leaves the discount on its own real
+        accounts (gain/loss and the tax account).
+        """
+        expanded = []
+        for line_vals in data:
+            if line_vals.get("kind") == "suspense":
+                expanded.append(line_vals)
+                continue
+            line_vals = dict(line_vals)
+            epd_lines = line_vals.pop("epd_lines", None) or []
+            expanded.append(line_vals)
+            for epd_line in epd_lines:
+                epd_line = dict(epd_line)
+                epd_line["kind"] = "other"
+                epd_line["counterpart_line_ids"] = None
+                expanded.append(epd_line)
+        return super()._recompute_suspense_line(
+            expanded, reconcile_auxiliary_id, manual_reference
+        )
+
     def _reconcile_bank_line_edit(self, data):
         """Make sure the early payment discount lines are created once.
 
