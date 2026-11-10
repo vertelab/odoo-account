@@ -22,7 +22,7 @@ from odoo import api, fields, models, _, exceptions
 from odoo.osv import expression
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError
 
 import logging
 _logger = logging.getLogger(__name__)

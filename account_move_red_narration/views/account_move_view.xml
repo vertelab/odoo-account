@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="view_account_move_form_view" model="ir.ui.view">
+            <field name="name">account.move.form.view</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                 <field name="narration" position="before">
+                        <field name="red_narration" placeholder="Terms and Conditions Red Text" class="oe_inline text-break" nolabel="1"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</odoo>
+
+

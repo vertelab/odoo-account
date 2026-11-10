@@ -65,7 +65,7 @@ class AccountMoveLine(models.Model):
         # ~ # here you can do accordingly
         # ~ return res
 
-    @api.depends("analytic_account_id","analytic_account_id.group_id","analytic_account_id.group_id.name")
+    @api.depends("analytic_account_id", "analytic_account_id.group_id")
     def set_analytic_group_use_in_filter_depends(self):
         for record in self:
             if record.analytic_account_id and record.analytic_account_id.group_id:

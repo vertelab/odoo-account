@@ -36,7 +36,7 @@
     """,
     # Any module necessary for this one to work correctly
 
-    'depends': ['account','sale'],
+    'depends': ['account', 'sale'],
     'data': [
         'report/account_move_report.xml',
     ],

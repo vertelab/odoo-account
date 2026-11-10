@@ -30,7 +30,7 @@
                                     <div class="text-muted">
                                         Record transactions in foreign currencies
                                     </div>
-                                    <div class="content-group" attrs="{'invisible': [('group_multi_currency', '=', False)]}">
+                                    <div class="content-group" invisible="group_multi_currency == False">
                                         <div class="mt8">
                                             <button name="67" icon="fa-arrow-right" type="action" string="Activate Other Currencies" class="btn-link"/>
                                         </div>
@@ -103,7 +103,7 @@
                                     <div class="text-muted">
                                         Record transactions in foreign currencies
                                     </div>
-                                    <div class="content-group" attrs="{'invisible': [('group_multi_currency', '=', False)]}">
+                                    <div class="content-group" invisible="group_multi_currency == False">
                                         <div class="mt8">
                                             <button name="67" icon="fa-arrow-right" type="action" string="Activate Other Currencies" class="btn-link"/>
                                         </div>

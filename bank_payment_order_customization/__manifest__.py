@@ -31,6 +31,7 @@
     'website': 'https://vertel.se/apps/odoo-account/bank_payment_order_customization',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
+    'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['account_payment_order'],
     'data': [
     ],

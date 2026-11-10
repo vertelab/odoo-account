@@ -13,10 +13,10 @@
 -->
                             <field name="move_tier_validator" string="Approver" options="{'no_create': True}"/>
                             <field name="move_tier_validators" string="Reviewers" options="{'no_create': True}">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="login"/>
-                                </tree>
+                                </list>
                             </field>
                         </group>
                     </page>

@@ -32,6 +32,7 @@
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/tier_all_validations_required/',
     'license': 'AGPL-3',
+    'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['base_tier_validation', 'account_move_tier_validation', 'account_move_tier_validation_implement'],
     'data': [
         'views/tier_definition_view.xml',
@@ -40,7 +41,11 @@
     ],
     'demo': [],
     'application': False,
-    'installable': True,    
+    # INTE INSTALLERBAR: depends på account_move_tier_validation_implement (blockerad).
+    # base_tier_validation_report finns inte i något addons-repo på maskinen.
+    # Modulen flyttades från odoo-fortnox 2026-11-10 för att inte tappa koden;
+    # den kan aktiveras först när beroendet finns.
+    'installable': False,    
     'auto_install': False,
     "qweb": ["static/src/xml/tier_review_template.xml"],
     #"post_init_hook": "post_init_hook",

@@ -22,7 +22,7 @@
 from odoo import models, fields, api, _
 import time
 import re
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import UserError, RedirectWarning
 from odoo import http
 import json
 import logging
@@ -65,7 +65,7 @@ class res_company(models.Model):
 
         except requests.exceptions.RequestException as e:
             _logger.warn('HTTP Request failed %s' % e)
-            raise Warning('HTTP Request failed %s' % e)
+            raise UserError('HTTP Request failed %s' % e)
 
         # ~ return r  
 
@@ -101,13 +101,13 @@ class res_company(models.Model):
         for company in self:
             r = settings.inexchange_request_token('GET', url)
             r = json.loads(r)
-            raise Warning(str(r))
+            raise UserError(str(r))
             # ~ company.partner_id.ref = r["CompanyId"]
             _logger.warn('Haze company ID %s' % company.partner_id.ref)
 
     def get_company_details(self):
         settings = self.env['res.config.settings']
-        url = settings.get_url(endpoint='companies/details/%s' %company.partner_id.ref)
+        url = settings.get_url(endpoint='companies/details/%s' % self.partner_id.ref)
         settings.inexchange_request_client_token()
         for company in self:
             r = settings.inexchange_request_token('GET', url)
@@ -244,19 +244,19 @@ class res_partner(models.Model):
             matches = [x for x in result_party if match_buyer(x)]
             if len(matches) == 0:
                 # ~ return
-                raise Warning('Failed to find')
+                raise UserError('Failed to find')
             elif len(matches) > 1:
                 if not self.inexchange_company_id:
                     companies = '\n'.join([f"{x['name']} with OrgNo:{x['orgNo']}, GLN: {x['gln']}, VAT:{x['vatNo']},CompanyID: {x['companyId']}" for x in matches])
-                    raise Warning(f'Multiple matches for buyer:\n{companies}, \n Please select the one you would like to copy companyID')
+                    raise UserError(f'Multiple matches for buyer:\n{companies}, \n Please select the one you would like to copy companyID')
             elif len(matches) == 1:
                 self.inexchange_company_id = entry["companyId"]
         if not self.inexchange_company_id:
             # ~ return
-            raise Warning('%s is not in Inexchange or can not accept EDI Invoice' % self.commercial_partner_id.name)
+            raise UserError('%s is not in Inexchange or can not accept EDI Invoice' % self.commercial_partner_id.name)
         # ~ _logger.info('Haze %s' %json.loads(result.text))
         if result.status_code not in (200,):
-            raise Warning('Failed to check partner')
+            raise UserError('Failed to check partner')
             
     # ~ @api.model
     # ~ def lookup_buyer_companies(self):

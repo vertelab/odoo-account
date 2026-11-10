@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Odoo - Fortnox Integration',
-    'version': '18.0.1.0.0',
+    'version': '18.0.2.0.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Syncs invoices and payments with Fortnox.',
     # Categories can be used to filter modules in modules listing
@@ -32,16 +32,17 @@
 Odoo - Fortnox Integration
 ==========================
 
-    The module connects Odoo with the Fortnox accounting platform. It exports
-        invoices and payment information and keeps the two systems in sync through
-        scheduled jobs and API endpoints.
+The module connects Odoo with the Fortnox accounting platform. It exports
+invoices and payment information and keeps the two systems in sync through
+scheduled jobs and API endpoints.
 
-    Features:
+Features:
 
-        - Web integration: Exposes HTTP endpoints for external systems.
-        - Automation: Scheduled jobs: Fortnox Invoice Status.
-        - UI Integration: Extends 7 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on account.fiscal.position, account.incoterms, account.journal, account.move.
+- Web integration: Exposes HTTP endpoints for external systems.
+- Automation: Scheduled jobs: Fortnox Invoice Status.
+- UI Integration: Extends 6 view(s) in the Odoo interface.
+- Extends Odoo: Builds on account.fiscal.position, account.incoterms,
+  account.journal, account.move.
     ''',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
@@ -53,11 +54,10 @@ Odoo - Fortnox Integration
     'repository': 'https://github.com/vertelab/odoo-account',
     # Any module necessary for this one to work correctly
 
-    'depends': ['crm', 'membership', 'l10n_se', 'sale_management'],
+    'depends': ['crm', 'l10n_se', 'sale_management'],
     'data': [
         'views/res_company_view.xml',
         'views/account_invoice_send_view.xml',
-        'views/product_views.xml',
         'views/account_journal.xml',
         'views/res_partner_view.xml',
         'views/account_payment_term_view.xml',

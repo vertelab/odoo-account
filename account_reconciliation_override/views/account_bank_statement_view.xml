@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <!-- Add your xpath here -->
             <button name="action_bank_reconcile_bank_statements" position="attributes">
-                <attribute name="attrs">{'invisible':['|','|',('all_lines_reconciled','=',True),('line_ids','=',[]),('state', '!=', 'draft')]}</attribute>
+                <attribute name="invisible">all_lines_reconciled or not line_ids or state != 'draft'</attribute>
             </button>
         </field>
     </record>

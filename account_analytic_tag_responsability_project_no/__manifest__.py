@@ -61,7 +61,10 @@ This check for if odoo at some point tries to break this rule in the background.
     ],
     'demo': [],
     'qweb': [],
-    'installable': True,
+    # INTE PORTBAR till Odoo 18: modulen bygger på account.move.line.analytic_tag_ids
+    # och en egen analytic_tag-modell. Analytiska taggar togs bort i 18.0 (ersatta av
+    # analytic_distribution + analytic.plan). Kräver omskrivning.
+    'installable': False,
     'application': False,
     'auto_install': False,
 }

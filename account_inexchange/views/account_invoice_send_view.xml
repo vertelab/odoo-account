@@ -21,7 +21,7 @@
                                 <field name="inexchange_invoice_uri_id" readonly="1"/>
                                 <field name="inexchange_file_count" readonly="1"/>
                                 <field name="is_inexchange_invoice"/>
-                                <field name="inexchange_error_status" attrs="{'invisible': [('inexchange_error_status','=',False)]}" readonly="1"/>
+                                <field name="inexchange_error_status" invisible="inexchange_error_status == False" readonly="1"/>
                             </group>
                             <group>
                             </group>

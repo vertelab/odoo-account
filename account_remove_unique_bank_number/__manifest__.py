@@ -31,6 +31,7 @@
     'website': 'https://vertel.se/apps/odoo-account/account_remove_unique_bank_number',
     'images': ['static/description/banner.png'],  # 560x280 px.
     'license': 'AGPL-3',
+    'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['base'],
     'data': [
     ],

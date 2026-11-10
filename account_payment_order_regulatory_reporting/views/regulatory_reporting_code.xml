@@ -64,29 +64,6 @@ bank.payment.line
     <menuitem name="Regulatory Reporting Codes" id="menu_regulatory_reporting_codes" parent="menu_regulatory_reporting_codes_config"
             action="action_view_regulatory_reporting_code" sequence="2" />
     
-    <record id="view_bank_payment_line_inherit_tree" model="ir.ui.view">
-      <field name="name">view_bank_payment_line_inherit_tree</field>
-      <field name="model">bank.payment.line</field>
-      <field name="inherit_id" ref="account_payment_order.bank_payment_line_tree" />
-      <field name="arch" type="xml">
-        <field name="partner_bank_id" position="after">
-                <field name="regulatory_reporting_code" optional="hide"/>
-            </field>
-      </field>
-    </record>
-    
-    
-    <record id="view_bank_payment_line_inherit_form" model="ir.ui.view">
-      <field name="name">view_bank_payment_line_inherit_form</field>
-      <field name="model">bank.payment.line</field>
-      <field name="inherit_id" ref="account_payment_order.bank_payment_line_form" />
-      <field name="arch" type="xml">
-            <field name="partner_bank_id" position="after">
-                <field name="regulatory_reporting_code"/>
-            </field>
-      </field>
-    </record>
-    
     
     
         <record id="view_account_payment_line_inherit_tree" model="ir.ui.view">
@@ -96,18 +73,6 @@ bank.payment.line
       <field name="arch" type="xml">
         <field name="partner_bank_id" position="after">
                 <field name="regulatory_reporting_code" optional="hide"/>
-            </field>
-      </field>
-    </record>
-    
-    
-    <record id="view_bank_payment_line_inherit_form" model="ir.ui.view">
-      <field name="name">view_account_payment_line_inherit_form</field>
-      <field name="model">account.payment.line</field>
-      <field name="inherit_id" ref="account_payment_order.account_payment_line_form" />
-      <field name="arch" type="xml">
-            <field name="partner_bank_id" position="after">
-                <field name="regulatory_reporting_code"/>
             </field>
       </field>
     </record>

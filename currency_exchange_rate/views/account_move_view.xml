@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="account_move_view_form_inherit" model="ir.ui.view">
+            <field name="name">account.move.form.view</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <!-- Odoo 18: currency_id lives inside <div name="currency_div">. -->
+                <xpath expr="//div[@name='currency_div']/div/field[@name='currency_id']" position="after">
+                    <span class="oe_inline o_form_label ms-1" groups="base.group_multi_currency"> at rate: </span>
+                    <field name="currency_rate" groups="base.group_multi_currency"
+                           readonly="state != 'draft'"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

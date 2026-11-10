@@ -32,6 +32,7 @@
     'website': 'https://vertel.se/apps/odoo-account/account_move_contact',
     #'images': ['static/description/banner.png'], # 560x280
     'license': 'AGPL-3',
+    'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['account'],
     'data': [
         'views/res_partner.xml',

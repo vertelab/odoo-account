@@ -11,10 +11,10 @@
                             <field name="amount_total_signed_absolute" invisible="1"/>
                             <field name="move_tier_validator" string="Approver" domain="[('allowed_to_validate', '=', True),('max_validation_amount', '>=', amount_total_signed_absolute)]" options="{'no_create': True}"/>
                             <field name="move_tier_validators" string="Reviewers" domain="[('allowed_to_review', '=', True)]" options="{'no_create': True}">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="login"/>
-                                </tree>
+                                </list>
                             </field>
                         </group>
                     </page>

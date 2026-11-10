@@ -42,7 +42,9 @@
     ],
     'demo': [],
     'qweb': [],
-    'installable': True,
+    # INTE INSTALLERBAR: beror på account_analytic_tag_responsability_project_no,
+    # som inte är portbar till Odoo 18 (analytic_tag_ids borttaget).
+    'installable': False,
     'application': False,
     'auto_install': False,
 }

@@ -13,7 +13,7 @@
                         <button
                             name="validate_tier"
                             string="Validate"
-                            attrs="{'invisible': [('can_review', '=', False),('user_can_review',=,False)]}"
+                            invisible="not can_review or not user_can_review"
                             type="object"
                             class="oe_inline oe_button btn-success"
                             icon="fa-thumbs-up"

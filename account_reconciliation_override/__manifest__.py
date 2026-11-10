@@ -41,7 +41,10 @@ Account Reconciliation Override
     'data': [
         'views/account_bank_statement_view.xml'
     ],
-    'installable': True,
+    # INTE PORTBAR till Odoo 18: vyn ärver account.view_bank_statement_form och
+    # knappen action_bank_reconcile_bank_statements — båda borttagna i 18.0
+    # (bankavstämningen skrevs om). Kräver omskrivning mot nya reconcile-modellen.
+    'installable': False,
     'application': False,
     'auto_install': False,
 }

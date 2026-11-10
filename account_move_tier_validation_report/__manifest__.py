@@ -46,7 +46,11 @@ Shows the bottlenecks in validation flow.
     ],
     'demo': [],
     'qweb': [],
-    'installable': True,
+    # INTE INSTALLERBAR: depends på base_tier_validation_report (saknas på filsystemet).
+    # base_tier_validation_report finns inte i något addons-repo på maskinen.
+    # Modulen flyttades från odoo-fortnox 2026-11-10 för att inte tappa koden;
+    # den kan aktiveras först när beroendet finns.
+    'installable': False,
     'application': False,
     'auto_install': False,
 }

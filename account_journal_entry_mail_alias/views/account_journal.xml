@@ -6,15 +6,15 @@
             <field name="inherit_id" ref="account.view_account_journal_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='group_alias_ro']" position="attributes">
-                    <attribute name="attrs">{'invisible': ['|', ('type', 'not in',  ('sale' ,'purchase', 'general')), ('alias_domain', '=', False)]}</attribute>
+                    <attribute name="invisible">type not in ('sale', 'purchase', 'general') or not alias_domain</attribute>
                 </xpath>
 
                 <xpath expr="//group[@name='group_alias_no_domain']" position="attributes">
-                    <attribute name="attrs">{'invisible': ['|', ('type', 'not in',  ('sale' ,'purchase', 'general')), ('alias_domain', '!=', False)]}</attribute>
+                    <attribute name="invisible">type not in ('sale', 'purchase', 'general') or alias_domain</attribute>
                 </xpath>
 
                 <xpath expr="//group[@name='group_alias_edit']" position="attributes">
-                    <attribute name="attrs">{'invisible': ['|', ('type', 'not in',  ('sale' ,'purchase', 'general')), ('alias_domain', '=', False)]}</attribute>
+                    <attribute name="invisible">type not in ('sale', 'purchase', 'general') or not alias_domain</attribute>
                 </xpath>
 
             </field>

@@ -6,7 +6,7 @@
 			<field name="inherit_id" ref="account.view_invoice_tree" />
 			<field name="arch" type="xml">    
 				<field name="name" position="replace" >
-					<field name="display_name_fortnox" decoration-bf="1" decoration-danger="made_sequence_hole" string="Number"/>
+					<field name="display_name_fortnox" decoration-bf="1" string="Number"/>
 				</field>
 			</field>
 		</record>

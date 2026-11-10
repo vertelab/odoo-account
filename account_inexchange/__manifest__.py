@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Inexchange Invoice',
-    'version': '18.0.0.0.0',
+    'version': '18.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Fields for invoicing through Inexchange.',
     # Categories can be used to filter modules in modules listing
@@ -49,6 +49,11 @@
         'data/account_data.xml'
     ],
     'sequence': 5,
+    # BLOCKERAD: beror på account_invoice_ubl -> base_ubl -> pdf_helper, som
+    # kraschar vid import i denna miljö (PyPDF2 3.0.1 saknar PyPDF2.utils;
+    # pdf_helper/models/helper.py:6). Felet ligger i OCA-modulen, inte här.
+    # Kan aktiveras när pdf_helper är åtgärdad.
+    'installable': False,
     'application': False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

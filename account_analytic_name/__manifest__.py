@@ -21,14 +21,14 @@
 
 {
     'name': 'Account: Analytic Name',
-    'version': '18.0.0.0.1',
+    'version': '18.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Account Analytic Name. Change display_name.',
     'category': 'Accounting',
     'description': """
     Account Analytic Name
     ========================================================
-    Changes display_name for account.analytic.account to include the group_id.name
+    Changes display_name for account.analytic.account to include the plan_id.name
     """,
     #'sequence': '1'
     'author': 'Vertel Sverige AB',

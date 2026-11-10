@@ -15,6 +15,30 @@ _logger = logging.getLogger(__name__)
 BASE_URL = 'https://api.fortnox.se'
 
 
+def _sanitize_fortnox(text):
+    """Normalise text to what the Fortnox API accepts.
+
+    Fortnox rejects control characters, square/curly brackets and angle
+    brackets in free-text fields, and its PDF rendering mangles the
+    typographic quotes and dashes that word processors emit. Ported from
+    elevata_fortnox_integration, where this was needed in practice.
+    """
+    if not text:
+        return text
+    text = re.sub(r'[\x00-\x1f\x7f]', ' ', text)
+    text = re.sub(r'[\[\]{}<>]', '', text)
+    text = re.sub(r' {2,}', ' ', text)
+    return (text
+            .replace('\u2014', '-')
+            .replace('\u2013', '-')
+            .replace('\u2019', "'")
+            .replace('\u2018', "'")
+            .replace('\u201c', '"')
+            .replace('\u201d', '"')
+            .replace('\u2026', '...')
+            .replace('\u00a0', ' '))
+
+
 def split_into_chunks(text, max_length=255):
     """Split text into chunks of maximum length, respecting sentence boundaries."""
     sentences = re.split(r'(?<=[.!?])\s+', text)
@@ -62,8 +86,11 @@ class AccountInvoice(models.Model):
     _inherit = "account.move"
 
     fortnox_response = fields.Char(string="Fortnox Response", readonly=True, copy=False)
-    fortnox_ref = fields.Char(string="Fortnox Ref", readonly=True, copy=False, store=True, compute="set_old_name")
+    fortnox_ref = fields.Char(string="Fortnox Ref", readonly=True, copy=False, store=True,
+                              compute="_compute_fortnox_ref")
     fortnox_status = fields.Char(string="Fortnox Status", readonly=True, copy=False)
+    fortnox_invoice_number = fields.Char(string="Fortnox Invoice Number", readonly=True, copy=False,
+                                         index=True)
     is_sent_to_fortnox = fields.Boolean(string="Sent To Fortnox", readonly=True, copy=False)
     tax_included_in_price = fields.Selection([
         ('tax_included_price', 'Tax Included Price'),
@@ -89,11 +116,17 @@ class AccountInvoice(models.Model):
             else:
                 move.tax_included_in_price = "mixed"
 
-    def set_old_name(self):
+    @api.depends('is_sent_to_fortnox', 'name')
+    def _compute_fortnox_ref(self):
+        """Freeze the Odoo invoice number as the Fortnox reference on first send.
+
+        Once set, the reference is kept: it is the key used to look the
+        invoice up in Fortnox, so it must not follow later renames.
+        """
         for record in self:
             if record.is_sent_to_fortnox and not record.fortnox_ref:
                 record.fortnox_ref = record.name
-            else:
+            elif not record.is_sent_to_fortnox:
                 record.fortnox_ref = False
 
     def remove_zero_cost_lines(self):
@@ -101,17 +134,6 @@ class AccountInvoice(models.Model):
         self.state = 'draft'
         for line in self.invoice_line_ids:
             if line.price_unit == 0 and line.quantity == 0:
-                line.unlink()
-        self.state = 'posted'
-
-    def remove_package_products(self):
-        """
-        Remove package products from invoice (SFM requirement).
-        Deprecated: use remove_zero_cost_lines() instead.
-        """
-        self.state = 'draft'
-        for line in self.invoice_line_ids:
-            if len(line.product_id.membership_product_ids) > 0 and line.price_unit == 0 and line.quantity == 0:
                 line.unlink()
         self.state = 'posted'
 
@@ -230,6 +252,7 @@ class AccountInvoice(models.Model):
         self.ensure_one()
 
         self.fortnox_ref = fortnox_invoice["DocumentNumber"]
+        self.fortnox_invoice_number = fortnox_invoice["DocumentNumber"]
 
         # Ensure company context for partner fortnox_ref (company_dependent field)
         partner = self.partner_id.commercial_partner_id.with_company(self.company_id)
@@ -281,6 +304,7 @@ class AccountInvoice(models.Model):
             _logger.error(f"{self.partner_id.name} has problem in its contact information, please check it")
         else:
             self.fortnox_ref = response["Invoice"]["DocumentNumber"]
+            self.fortnox_invoice_number = response["Invoice"]["DocumentNumber"]
             self.is_move_sent = True
             self.is_sent_to_fortnox = True
             self._push_invoice_files()
@@ -307,7 +331,7 @@ class AccountInvoice(models.Model):
                 invoice_lines.append({
                     "AccountNumber": line.account_id.code,
                     "DeliveredQuantity": line.quantity,
-                    "Unit": line.product_uom_id.name if line.product_uom_id else "",
+                    "Unit": _sanitize_fortnox(line.product_uom_id.name) if line.product_uom_id else "",
                     "Description": line_name,
                     "ArticleNumber": line.product_id.default_code,
                     "Price": line.price_unit,
@@ -330,9 +354,10 @@ class AccountInvoice(models.Model):
 
     def _format_line_description(self, name):
         """Format line description for Fortnox."""
+        name = name or ""
         if len(name.split(' ')) == 2:
-            return name.split(' ')[1]
-        return name.replace('[', '').replace(']', '').strip()
+            name = name.split(' ')[1]
+        return _sanitize_fortnox(name.replace('[', '').replace(']', '').strip())
 
     def _prepare_fortnox_invoice_vals(self, invoice_lines):
         """Prepare invoice values for Fortnox API."""

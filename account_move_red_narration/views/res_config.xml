@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.account</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="40"/>
+            <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <!-- Odoo 18: the terms block is a <setting id="use_invoice_terms">. -->
+                <xpath expr="//setting[@id='use_invoice_terms']" position="after">
+                    <setting id="red_invoice_terms_setting"
+                             help="Show standard terms &amp; conditions on invoices/orders with red text">
+                        <field name="red_invoice_terms"
+                               placeholder="Insert your terms &amp; conditions here..."
+                               invisible="not use_invoice_terms"/>
+                    </setting>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_invoice_document_narration" inherit_id="account.report_invoice_document">
+            <!-- Odoo 18: the narration block is a <div name="comment">, not a <p>. -->
+            <xpath expr="//div[@name='comment']" position="replace">
+                <div t-if="o.red_narration" name="comment" class="mb-3">
+                    <span t-field="o.red_narration" style="font-weight:bold; color:RED; font-size: 20px;"/>
+                </div>
+                <div t-if="o.narration" name="comment" class="mb-3">
+                    <span t-field="o.narration"/>
+                </div>
+            </xpath>
+            <!-- Odoo 18: payment-term note is a <span id="payment_terms_note_id">. -->
+            <xpath expr="//span[@name='payment_term']" position="replace">
+                <span t-if="o.invoice_payment_term_id" name="payment_term"
+                      id="payment_terms_note_id"
+                      t-field="o.invoice_payment_term_id.note"
+                      style="font-weight:bold; color:RED; font-size: 20px;"/>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

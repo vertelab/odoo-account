@@ -22,7 +22,7 @@
 
 {
     'name': 'Account: Journal Upload Button',
-    'version': '18.0.0.0.0',
+    'version': '18.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Added Journal Upload Button.',
     # Categories can be used to filter modules in modules listing
@@ -44,7 +44,9 @@
 
     'depends' : ['account'],
     'data': [
-        'views/account_move_views.xml',
     ],
+    # TOM MODUL i Odoo 18: den enda vyn satte js_class="account_tree" på
+    # account.move-listan, vilket redan är standard i 18.0. Inget att installera.
+    'installable': False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

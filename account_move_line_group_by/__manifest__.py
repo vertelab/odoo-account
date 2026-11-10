@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Journal Lines Group By',
-    'version': '18.0.0.0.0',
+    'version': '18.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds new options to groups journal lines by.',
     'category': 'Accounting',
@@ -44,7 +44,11 @@
     ],
     'demo': [],
     'qweb': [],
-    'installable': True,
+    # INTE PORTBAR till Odoo 18: modulen bygger på account.move.line.analytic_account_id
+    # och account.analytic.account.group_id, som båda togs bort i 18.0 (ersatta av
+    # analytic_distribution / plan_id). Koden är dessutom experimentell (loggar med
+    # _logger.warning i create). Kräver omskrivning innan den kan användas.
+    'installable': False,
     'application': False,
     'auto_install': False,
     'post_init_hook':'post_init_hook',

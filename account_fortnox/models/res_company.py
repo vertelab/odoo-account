@@ -36,12 +36,6 @@ FORTNOX_TOKEN_URL = "https://apps.fortnox.se/oauth-v1/token"
 TOKEN_LIFETIME_MINUTES = 59
 
 
-class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
-
-    invoice_fortnox = fields.Boolean(string="Send to Fortnox", default=True)
-
-
 class ResCompany(models.Model):
     _inherit = ['res.company', 'mail.thread', 'mail.activity.mixin']
     _name = 'res.company'

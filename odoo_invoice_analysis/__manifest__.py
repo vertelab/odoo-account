@@ -43,7 +43,13 @@
         'views/account_invoice_report_view.xml',
         'views/account_move_view.xml',
     ],
-    'installable': True,
+    # INTE PORTBAR till Odoo 18: product_buy_price är related+store mot
+    # product.template.standard_price, som i 18.0 är en compute med inverse
+    # (company_dependent) — kolumnen skapas som jsonb och ALTER kraschar
+    # ("column product_buy_price is of type numeric but expression is of type jsonb").
+    # Dessutom refererar modulen account.move.line.analytic_account_id (borttaget)
+    # och använder det gamla _select()-API:t. Kräver omskrivning.
+    'installable': False,
     'application': False,
     'auto_install': False,
 }

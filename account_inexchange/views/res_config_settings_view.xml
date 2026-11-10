@@ -47,7 +47,7 @@
                       <div class="row">
                         <label for="inexchange_client_token" class="col-lg-3 o_light_label" />
                         <field name="inexchange_client_token" />
-                        <div attrs="{'invisible': [('inexchange_apikey', '=', '')]}">
+                        <div invisible="inexchange_apikey == ''">
                           <button type="object" name="inexchange_request_client_token" string="Get Client Token" icon="fa-arrow-right" class="oe_link" />
                         </div>
                       </div>
