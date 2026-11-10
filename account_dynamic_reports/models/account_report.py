@@ -94,6 +94,7 @@ class AccountReport(models.Model):
         # Reset on entry so a later run never reuses an earlier run's data.
         self.env.cr._account_balance_cache = {}
 
+
         if warnings is not None:
             self._generate_common_warnings(options, warnings)
 
@@ -348,6 +349,17 @@ class AccountReport(models.Model):
         company_id = options.get('company_ids', [self.env.company.id])[0]
         column_groups = self._get_column_groups(options)
 
+        # The balance map is read with raw SQL, so pending writes must reach
+        # the database first. The ORM path used to see them anyway; SQL does
+        # not. Without this flush a report run inside an open transaction
+        # (tests, scripted comparisons) shows zeros for freshly created moves.
+        self.env.flush_all()
+
+        # Every call gets its own map. Without this a direct call (tests, the
+        # comparison tool) would reuse whatever a previous report left behind
+        # -- and a movement column would read the balance-sheet map.
+        self.env.cr._account_balance_cache = {}
+
         for group in column_groups:
             date_from = group['date_from']
             date_to = group['date_to']
@@ -500,16 +512,31 @@ class AccountReport(models.Model):
                 conditions.append("aml.date %s %%s" % operator)
                 params.append(value)
         where = " AND ".join(conditions)
-        self.env.cr.execute(f"""
-            SELECT aa.{code_field}->>'1' AS code, SUM(aml.balance) AS balance
-              FROM account_move_line aml
-              JOIN account_account aa ON aa.id = aml.account_id
-             WHERE {where}
-             GROUP BY aa.{code_field}
-        """, params)
+        try:
+            self.env.cr.execute(f"""
+                SELECT aa.{code_field}->>'1' AS code, SUM(aml.balance) AS balance
+                  FROM account_move_line aml
+                  JOIN account_account aa ON aa.id = aml.account_id
+                 WHERE {where}
+                 GROUP BY aa.{code_field}
+            """, params)
+            rows = self.env.cr.fetchall()
+        except Exception as exc:
+            # A shared map feeds every line at once. Silently returning {} would
+            # render a report full of 0,00 that looks like real amounts -- far
+            # worse than a visible failure. Raise instead.
+            _logger.exception(
+                "Balance map failed (report %s, window %s..%s, scope %s)",
+                self.name, date_from, date_to, scope)
+            raise UserError(_(
+                "Kunde inte hämta kontosaldon för rapporten '%(report)s' "
+                "(%(from)s..%(to)s): %(error)s",
+                report=self.name, **{'from': date_from or '-', 'to': date_to or '-'},
+                error=exc,
+            )) from exc
 
         balances = {}
-        for code, balance in self.env.cr.fetchall():
+        for code, balance in rows:
             if code:
                 balances[code] = balances.get(code, 0.0) + (balance or 0.0)
 
