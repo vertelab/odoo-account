@@ -110,3 +110,8 @@ PLAN*
 .shazam/
 *.pyc
 openspec/
+
+# OpenSpec CLI-generated agent files (recreated by `openspec init`).
+# Not project content: the files differ between repos depending on the
+# installed CLI version, so tracking them produces noise in every commit.
+.pi/
