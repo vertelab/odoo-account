@@ -1111,17 +1111,20 @@ class AccountReport(models.Model):
             return 0.0  # Handled by parent accumulation in JS
 
         # Parse formula: 'code1.label1 + code2.label2'
+        #
+        # A leading sign ('-A-B') splits into an EMPTY first term, so the
+        # operator list and the term list are offset by one. Pairing them by
+        # index then gives every term the previous term's sign -- '-A-B'
+        # became '-A+B'. Walk the formula instead and carry the sign forward.
         total = 0.0
-        terms = re.split(r'[+\-]', re.sub(r'\s+', '', formula))
-        operators = re.findall(r'[+\-]', formula)
+        compact = re.sub(r'\s+', '', formula)
+        # Split on the sign, keeping the sign with the term that follows it.
+        parts = re.findall(r'([+\-]?)([^+\-]+)', compact)
 
-        if not operators:
-            operators = ['+']
-
-        for i, term in enumerate(terms):
+        for sign, term in parts:
             if not term or '.' not in term:
                 continue
-            op = operators[i] if i < len(operators) else '+'
+            op = sign or '+'
 
             # Find the expression by line code + label
             line_code, expr_label = term.split('.', 1)

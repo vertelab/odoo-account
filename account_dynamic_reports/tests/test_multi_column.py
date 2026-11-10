@@ -193,3 +193,54 @@ class TestMultiColumnEngine(TransactionCase):
         self.assertAlmostEqual(columns[0]['no_format'], 1000.0, 2)
         self.assertAlmostEqual(columns[1]['no_format'], 500.0, 2)
         self.assertAlmostEqual(columns[2]['no_format'], 1500.0, 2)
+
+    def test_aggregation_leading_minus_applies_to_every_term(self):
+        """'-A-B' must negate BOTH terms, not just the first.
+
+        A leading sign splits the formula into an empty first term, which
+        offsets the operator list. Pairing operators and terms by index gave
+        the second term the previous term's sign: '-A-B' became '-A+B'.
+        On the K2 balance sheet that flipped equity and liabilities from
+        +90 000 to -90 000.
+        """
+        report = self.env['account.report'].create({
+            'name': 'Aggregation sign test',
+            'column_ids': [(0, 0, {'name': 'B', 'expression_label': 'balance'})],
+        })
+        line_a = self.env['account.report.line'].create({
+            'name': 'A', 'code': 'AGG_A', 'report_id': report.id, 'sequence': 10,
+            'expression_ids': [(0, 0, {
+                'label': 'balance', 'engine': 'account_codes',
+                'formula': self.account_a.code})],
+        })
+        line_b = self.env['account.report.line'].create({
+            'name': 'B', 'code': 'AGG_B', 'report_id': report.id, 'sequence': 20,
+            'expression_ids': [(0, 0, {
+                'label': 'balance', 'engine': 'account_codes',
+                'formula': self.account_b.code})],
+        })
+        line_neg = self.env['account.report.line'].create({
+            'name': 'Neg', 'code': 'AGG_NEG', 'report_id': report.id, 'sequence': 30,
+            'expression_ids': [(0, 0, {
+                'label': 'balance', 'engine': 'aggregation',
+                'formula': '-AGG_A.balance-AGG_B.balance'})],
+        })
+        # A gets +1000, B gets -1000 (from the two sides of the entry).
+        self._move('2026-05-01', [
+            self._balance_line(self.account_a, debit=1000.0),
+            self._balance_line(self.account_b, credit=1000.0),
+        ])
+
+        opts = self._options()
+        totals = report._compute_expression_totals(
+            report.line_ids.expression_ids, opts)
+        a_val = totals[(line_a.expression_ids.id, 'col_0')]
+        b_val = totals[(line_b.expression_ids.id, 'col_0')]
+        neg_val = totals[(line_neg.expression_ids.id, 'col_0')]
+
+        # -A-B must equal -(A + B), whichever signs A and B happen to have.
+        self.assertAlmostEqual(neg_val, -(a_val + b_val), 2)
+        # And explicitly: with A=1000 and B=-1000 the result is 0, not 2000.
+        self.assertAlmostEqual(a_val, 1000.0, 2)
+        self.assertAlmostEqual(b_val, -1000.0, 2)
+        self.assertAlmostEqual(neg_val, 0.0, 2)

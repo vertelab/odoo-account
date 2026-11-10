@@ -4,7 +4,7 @@
 
 {
     'name': 'Accounting: Dynamic Reports',
-    'version': '18.0.1.6.0',
+    'version': '18.0.1.6.2',
     'summary': 'Dynamic accounting reports for Odoo CE — balance sheet, P&L, general ledger, and more',
     'description': '''
 Dynamic Reports
