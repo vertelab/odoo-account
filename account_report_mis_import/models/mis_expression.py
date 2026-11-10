@@ -328,14 +328,18 @@ def _convert_accounting_variable(text):
         # - MIS `crd` is credit - debit, so its sign is flipped -> neg_sum.
         # - A trailing '* -1' negates whatever the row produced -> neg_sum.
         # `bal`/`balp` otherwise keep the balance sign -> plain sum.
-        if field == 'crd':
+        # A trailing '* -1' negates whatever the row produced, so it takes
+        # precedence over the field's own aggregation. SFA's box 48 is
+        # `pbal[...]*-1`: positive accounts only, then negated.
+        if negate:
+            subformula = 'neg_positive_accounts' if field == 'pbal' else (
+                'neg_negative_accounts' if field == 'nbal' else 'neg_sum')
+        elif field == 'crd':
             subformula = 'neg_sum'
         elif field == 'pbal':
             subformula = 'positive_accounts'
         elif field == 'nbal':
             subformula = 'negative_accounts'
-        elif negate:
-            subformula = 'neg_sum'
         else:
             subformula = 'sum'
         return Conversion(ENGINE_DOMAIN, domain_json,

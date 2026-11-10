@@ -1168,7 +1168,8 @@ class AccountReport(models.Model):
             return -sum(line.balance for line in lines)
         elif subformula == 'count':
             return len(lines)
-        elif subformula in ('positive_accounts', 'negative_accounts'):
+        elif subformula in ('positive_accounts', 'negative_accounts',
+                            'neg_positive_accounts', 'neg_negative_accounts'):
             # MIS `pbal` sums only the accounts whose net balance is positive
             # (debit >= credit); `nbal` only the negative ones. A domain
             # filters move lines, not accounts, so the sum must be taken per
@@ -1181,9 +1182,11 @@ class AccountReport(models.Model):
             for line in lines:
                 per_account[line.account_id] = (
                     per_account.get(line.account_id, 0.0) + line.balance)
-            if subformula == 'positive_accounts':
-                return sum(v for v in per_account.values() if v >= 0)
-            return sum(v for v in per_account.values() if v < 0)
+            if subformula in ('positive_accounts', 'neg_positive_accounts'):
+                total = sum(v for v in per_account.values() if v >= 0)
+            else:
+                total = sum(v for v in per_account.values() if v < 0)
+            return -total if subformula.startswith('neg_') else total
         return 0.0
 
     def _eval_custom(self, expr, options):

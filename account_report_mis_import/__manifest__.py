@@ -4,7 +4,7 @@
 
 {
     'name': 'Accounting: MIS Report Import',
-    'version': '18.0.1.2.4',
+    'version': '18.0.1.2.5',
     'summary': 'Convert MIS Builder reports to account.report (migration tool)',
     'description': '''
 MIS Report Import
