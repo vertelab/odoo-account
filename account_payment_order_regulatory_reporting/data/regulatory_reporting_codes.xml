@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+<!--
+             Goods
+-->
+            <record id="regulatory_reporting_code_101" model='regulatory.reporting.code'>
+              <field name="heading">Goods</field>
+              <field name="code">101</field>
+              <field name="explaination">Exports/imports of goods</field>
+            </record>
+            <record id="regulatory_reporting_code_122" model='regulatory.reporting.code'>
+              <field name="heading">Goods</field>
+              <field name="code">122</field>
+              <field name="explaination">Other trade in goods, e.g. merchanting</field>
+            </record>
+            <record id="regulatory_reporting_code_473" model='regulatory.reporting.code'>
+              <field name="heading">Goods</field>
+              <field name="code">473</field>
+              <field name="explaination">Commissions related to the intermediation of goods</field>
+            </record>
+<!--
+            Financial transactions
+-->
+            <record id="regulatory_reporting_code_601" model='regulatory.reporting.code'>
+              <field name="heading">Financial transactions</field>
+              <field name="code">601</field>
+              <field name="explaination">Loan-transaction within a group (to/from abroad)</field>
+            </record>
+<!--
+            Leasing
+-->
+            <record id="regulatory_reporting_code_701" model='regulatory.reporting.code'>
+              <field name="heading">Leasing</field>
+              <field name="code">701</field>
+              <field name="explaination">Financial leasing (change of ownership of the goods implied)</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_401" model='regulatory.reporting.code'>
+              <field name="heading">Leasing</field>
+              <field name="code">401</field>
+              <field name="explaination">Operational leasing (no change of ownership implied)</field>
+            </record>
+<!--
+            Freight-exports/imports of goods
+-->
+            <record id="regulatory_reporting_code_130" model='regulatory.reporting.code'>
+              <field name="heading">Freight-exports/imports of goods</field>
+              <field name="code">130</field>
+              <field name="explaination">Freight of goods imported to Sweden</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_131" model='regulatory.reporting.code'>
+              <field name="heading">Freight-exports/imports of goods</field>
+              <field name="code">131</field>
+              <field name="explaination">Freight of goods exported from Sweden</field>
+            </record>
+<!--
+                Transport of other goods, e.g. related to merchanting
+-->
+            <record id="regulatory_reporting_code_140" model='regulatory.reporting.code'>
+              <field name="heading">Transport of other goods, e.g. related to merchanting</field>
+              <field name="code">140</field>
+              <field name="explaination">Sea transport</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_141" model='regulatory.reporting.code'>
+              <field name="heading">Transport of other goods, e.g. related to merchanting</field>
+              <field name="code">141</field>
+              <field name="explaination">Air transport</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_142" model='regulatory.reporting.code'>
+              <field name="heading">Transport of other goods, e.g. related to merchanting</field>
+              <field name="code">142</field>
+              <field name="explaination">Rail transport</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_143" model='regulatory.reporting.code'>
+              <field name="heading">Transport of other goods, e.g. related to merchanting</field>
+              <field name="code">143</field>
+              <field name="explaination">Road transport</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_150" model='regulatory.reporting.code'>
+              <field name="heading">Transport of other goods, e.g. related to merchanting</field>
+              <field name="code">150</field>
+              <field name="explaination">Other transport (pipeline, internal waterway, etc)</field>
+            </record>
+<!--
+            Charter/leasing of transport equipment with crew for transport of goods
+-->
+            <record id="regulatory_reporting_code_160" model='regulatory.reporting.code'>
+              <field name="heading">Charter/leasing of transport equipment with crew for transport of goods</field>
+              <field name="code">160</field>
+              <field name="explaination">Ships</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_161" model='regulatory.reporting.code'>
+              <field name="heading">Charter/leasing of transport equipment with crew for transport of goods</field>
+              <field name="code">161</field>
+              <field name="explaination">Aircraft</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_162" model='regulatory.reporting.code'>
+              <field name="heading">Charter/leasing of transport equipment with crew for transport of goods</field>
+              <field name="code">162</field>
+              <field name="explaination">Other vehicles</field>
+            </record>
+<!--
+Purchase and sale of goods and services related to transport of goods
+-->
+            <record id="regulatory_reporting_code_163" model='regulatory.reporting.code'>
+              <field name="heading">Purchase and sale of goods and services related to transport of goods</field>
+              <field name="code">163</field>
+              <field name="explaination">Bunkers and provisions</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_173" model='regulatory.reporting.code'>
+              <field name="heading">Purchase and sale of goods and services related to transport of goods</field>
+              <field name="code">173</field>
+              <field name="explaination">Storage, shipping, transit,port, and terminal costs, etc.</field>
+            </record>
+<!--
+            Insurance and other financial services
+-->
+            <record id="regulatory_reporting_code_300" model='regulatory.reporting.code'>
+              <field name="heading">Insurance and other financial services</field>
+              <field name="code">300</field>
+              <field name="explaination">Freight insurance for exports/imports of goods</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_301" model='regulatory.reporting.code'>
+              <field name="heading">Insurance and other financial services</field>
+              <field name="code">301</field>
+              <field name="explaination">Other freight insurance</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_302" model='regulatory.reporting.code'>
+              <field name="heading">Insurance and other financial services</field>
+              <field name="code">302</field>
+              <field name="explaination">Life insurance and pension fund services</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_303" model='regulatory.reporting.code'>
+              <field name="heading">Insurance and other financial services</field>
+              <field name="code">303</field>
+              <field name="explaination">Other direct insurance (casualty or accident, health, general liability, fire, marine, aviation etc.)</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_310" model='regulatory.reporting.code'>
+              <field name="heading">Insurance and other financial services</field>
+              <field name="code">310</field>
+              <field name="explaination">Reinsurance</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_321" model='regulatory.reporting.code'>
+              <field name="heading">Insurance and other financial services</field>
+              <field name="code">321</field>
+              <field name="explaination">Services related to insurance transactions (intermediation, consultation, valuation, etc.)</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_331" model='regulatory.reporting.code'>
+              <field name="heading">Insurance and other financial services</field>
+              <field name="code">331</field>
+              <field name="explaination">Other financial intermediary and auxiliary services, e.g. intermediation, asset management and custody services by banks, brokers etc.</field>
+            </record>
+<!--
+            Communication services
+-->
+            <record id="regulatory_reporting_code_402" model='regulatory.reporting.code'>
+              <field name="heading">Communication services</field>
+              <field name="code">402</field>
+              <field name="explaination">Postal and courier services</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_403" model='regulatory.reporting.code'>
+              <field name="heading">Communication services</field>
+              <field name="code">403</field>
+              <field name="explaination">Telecommunication, transmission via tele- and computer nets and satellite including radio and television broadcasting</field>
+            </record>
+<!--
+            Computer and information services
+-->
+            <record id="regulatory_reporting_code_402" model='regulatory.reporting.code'>
+              <field name="heading">Computer and information services</field>
+              <field name="code">402</field>
+              <field name="explaination">Postal and courier services</field>
+            </record>
+
+            <record id="regulatory_reporting_code_403" model='regulatory.reporting.code'>
+              <field name="heading">Computer and information services</field>
+              <field name="code">403</field>
+              <field name="explaination">Telecommunication, transmission via tele- and computer nets and satellite including radio and television broadcasting</field>
+            </record>
+<!--
+            Construction and installation services (site preparation work, work for buildings and completion, civil engineering, installation of machinery and assembly work)
+-->
+            <record id="regulatory_reporting_code_412" model='regulatory.reporting.code'>
+              <field name="heading">Construction and installation services (site preparation work, work for buildings and completion, civil engineering, installation of machinery and assembly work)</field>
+              <field name="code">412</field>
+              <field name="explaination">Carried out abroad</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_413" model='regulatory.reporting.code'>
+              <field name="heading">Construction and installation services (site preparation work, work for buildings and completion, civil engineering, installation of machinery and assembly work)</field>
+              <field name="code">413</field>
+              <field name="explaination">Carried out in Sweden</field>
+            </record>
+<!--
+            Royalties and license fees - proprietary rights (patents, copyrights, trademarks, industrial processes, franchises, etc.)
+-->
+            <record id="regulatory_reporting_code_423" model='regulatory.reporting.code'>
+              <field name="heading">Royalties and license fees - proprietary rights (patents, copyrights, trademarks, industrial processes, franchises, etc.)</field>
+              <field name="code">423</field>
+              <field name="explaination">Computer services (hardware and software consultancy and implementation, data processing, etc.)</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_723" model='regulatory.reporting.code'>
+              <field name="heading">Royalties and license fees - proprietary rights (patents, copyrights, trademarks, industrial processes, franchises, etc.)</field>
+              <field name="code">723</field>
+              <field name="explaination">Acquisition/disposal of proprietary rights</field>
+            </record>
+<!--
+            Compensation of employees
+-->
+            <record id="regulatory_reporting_code_470" model='regulatory.reporting.code'>
+              <field name="heading">Compensation of employees</field>
+              <field name="code">470</field>
+              <field name="explaination">Salaries, wages, etc., from employer directly to employees</field>
+            </record>
+<!--
+            Other services
+-->
+            <record id="regulatory_reporting_code_430" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">430</field>
+              <field name="explaination">Legal services</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_431" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">431</field>
+              <field name="explaination">Accounting, auditing, book-keeping and other administrative services</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_440" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">440</field>
+              <field name="explaination">Advertising, market research and public opinion polling</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_441" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">441</field>
+              <field name="explaination">Research and development services (R&amp;D)"</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_442" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">442</field>
+              <field name="explaination">Architectural, engineering and other technical services</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_450" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">450</field>
+              <field name="explaination">Services related to agriculture and forestry</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_451" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">451</field>
+              <field name="explaination">Services for mining, oil and gas exploitation</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_452" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">452</field>
+              <field name="explaination">Environmental services (waste treatment and depollution services, etc.)</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_460" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">460</field>
+              <field name="explaination">Production of film and sound recordings, radio, TV, etc.</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_461" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">461</field>
+              <field name="explaination">Other cultural and recreational services</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_462" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">462</field>
+              <field name="explaination">Other services</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_473" model='regulatory.reporting.code'>
+              <field name="heading">Other services</field>
+              <field name="code">473</field>
+              <field name="explaination">Commissions related to the intermediation of goods</field>
+            </record>
+<!--
+            Transfers - development aid and contributions to/from international organisations
+-->
+            <record id="regulatory_reporting_code_510" model='regulatory.reporting.code'>
+              <field name="heading">Transfers - development aid and contributions to/from international organisations</field>
+              <field name="code">510</field>
+              <field name="explaination">Developing countries</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_520" model='regulatory.reporting.code'>
+              <field name="heading">Transfers - development aid and contributions to/from international organisations</field>
+              <field name="code">520</field>
+              <field name="explaination">The European Union (EU)</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_540" model='regulatory.reporting.code'>
+              <field name="heading">Transfers - development aid and contributions to/from international organisations</field>
+              <field name="code">540</field>
+              <field name="explaination">Other international organisations</field>
+            </record>
+<!--
+            Other transfers
+-->
+            <record id="regulatory_reporting_code_550" model='regulatory.reporting.code'>
+              <field name="heading">Other transfers</field>
+              <field name="code">550</field>
+              <field name="explaination">Remittance of income earned from work outside the country of residence of the transferor</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_551" model='regulatory.reporting.code'>
+              <field name="heading">Other transfers</field>
+              <field name="code">551</field>
+              <field name="explaination">Emigration/immigration</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_552" model='regulatory.reporting.code'>
+              <field name="heading">Other transfers</field>
+              <field name="code">552</field>
+              <field name="explaination">V.A.T. transfers</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_553" model='regulatory.reporting.code'>
+              <field name="heading">Other transfers</field>
+              <field name="code">553</field>
+              <field name="explaination">Inheritances</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_560" model='regulatory.reporting.code'>
+              <field name="heading">Other transfers</field>
+              <field name="code">560</field>
+              <field name="explaination">Other transfers (damages, alimony, membership fees, and gifts incl. taxes, etc.)</field>
+            </record>
+<!--
+            Direct investment - Foreign direct investment in Sweden
+-->
+            <record id="regulatory_reporting_code_602" model='regulatory.reporting.code'>
+              <field name="heading">Direct investment - Foreign direct investment in Sweden</field>
+              <field name="code">602</field>
+              <field name="explaination">Shares in, and shareholders' contribution to enterprises abroad</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_603" model='regulatory.reporting.code'>
+              <field name="heading">Direct investment - Foreign direct investment in Sweden</field>
+              <field name="code">603</field>
+              <field name="explaination">Intercompany borrowing, lending, etc.</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_803" model='regulatory.reporting.code'>
+              <field name="heading">Direct investment - Foreign direct investment in Sweden</field>
+              <field name="code">803</field>
+              <field name="explaination">Interest on intercompany borrowing, lending, etc.</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_902" model='regulatory.reporting.code'>
+              <field name="heading">Direct investment - Foreign direct investment in Sweden</field>
+              <field name="code">902</field>
+              <field name="explaination">Dividends received from direct investment enterprise</field>
+            </record>
+<!--
+            Shares (portfolio investment) Swedish shares
+-->
+            <record id="regulatory_reporting_code_620" model='regulatory.reporting.code'>
+              <field name="heading">Shares (portfolio investment) Swedish shares</field>
+              <field name="code">620</field>
+              <field name="explaination">Purchase and sale</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_910" model='regulatory.reporting.code'>
+              <field name="heading">Shares (portfolio investment) Swedish shares</field>
+              <field name="code">910</field>
+              <field name="explaination">Dividends paid</field>
+            </record>
+<!--
+            Interest-bearing securities - Issued by Swedish residents
+-->
+            <record id="regulatory_reporting_code_631" model='regulatory.reporting.code'>
+              <field name="heading">Interest-bearing securities - Issued by Swedish residents</field>
+              <field name="code">631</field>
+              <field name="explaination">Purchase and sale (including issues and redemptions)</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_831" model='regulatory.reporting.code'>
+              <field name="heading">Interest-bearing securities - Issued by Swedish residents</field>
+              <field name="code">831</field>
+              <field name="explaination">Interest</field>
+            </record>
+<!--
+            Interest-bearing securities - Issued by non-residents
+-->
+            <record id="regulatory_reporting_code_633" model='regulatory.reporting.code'>
+              <field name="heading">Interest-bearing securities - Issued by non-residents</field>
+              <field name="code">633</field>
+              <field name="explaination">Purchase and sale (including issues and redemptions)</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_833" model='regulatory.reporting.code'>
+              <field name="heading">Interest-bearing securities - Issued by non-residents</field>
+              <field name="code">833</field>
+              <field name="explaination">Interest</field>
+            </record>
+<!--
+            Financial derivatives
+-->
+            <record id="regulatory_reporting_code_670" model='regulatory.reporting.code'>
+              <field name="heading">Financial derivatives</field>
+              <field name="code">670</field>
+              <field name="explaination">Premiums for futures and options, margin payments for interest swaps, forward rate agreements, etc., as well as trade in derivatives</field>
+            </record>
+<!--
+            Other loans (excl. direct investment loans and interest-bearing securities) From abroad
+-->
+            <record id="regulatory_reporting_code_681" model='regulatory.reporting.code'>
+              <field name="heading">Other loans (excl. direct investment loans and interest-bearing securities) From abroad</field>
+              <field name="code">681</field>
+              <field name="explaination">Principal/amortization</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_881" model='regulatory.reporting.code'>
+              <field name="heading">Other loans (excl. direct investment loans and interest-bearing securities) From abroad</field>
+              <field name="code">881</field>
+              <field name="explaination">Interest paid</field>
+            </record>
+<!--
+            Other loans (excl. direct investment loans and interest-bearing securities) To abroad
+-->
+            <record id="regulatory_reporting_code_683" model='regulatory.reporting.code'>
+              <field name="heading">Other loans (excl. direct investment loans and interest-bearing securities) To abroad</field>
+              <field name="code">683</field>
+              <field name="explaination">Principal/amortization</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_883" model='regulatory.reporting.code'>
+              <field name="heading">Other loans (excl. direct investment loans and interest-bearing securities) To abroad</field>
+              <field name="code">883</field>
+              <field name="explaination">Interest received</field>
+            </record>
+<!--
+            Purchase/sale of a residential property
+-->
+            <record id="regulatory_reporting_code_710" model='regulatory.reporting.code'>
+              <field name="heading">Purchase/sale of a residential property</field>
+              <field name="code">710</field>
+              <field name="explaination">In Sweden</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_712" model='regulatory.reporting.code'>
+              <field name="heading">Purchase/sale of a residential property</field>
+              <field name="code">712</field>
+              <field name="explaination">Abroad</field>
+            </record>
+<!--
+            Acquisition/disposal of proprietary rights
+-->
+            <record id="regulatory_reporting_code_723" model='regulatory.reporting.code'>
+              <field name="heading">Acquisition/disposal of proprietary rights</field>
+              <field name="code">723</field>
+              <field name="explaination">Patents, copyrights, trademarks, industrial processes, franchises, etc.</field>
+            </record>
+<!--
+            Deposits and transaction accounts
+-->
+            <record id="regulatory_reporting_code_751" model='regulatory.reporting.code'>
+              <field name="heading">Deposits and transaction accounts</field>
+              <field name="code">751</field>
+              <field name="explaination">Non-residents' transfers to/from accounts held with Swedish enterprises for internal settlement (exc. bank accounts)</field>
+            </record>
+<!--
+            Other capital transactions
+-->
+            <record id="regulatory_reporting_code_793" model='regulatory.reporting.code'>
+              <field name="heading">Other capital transactions</field>
+              <field name="code">793</field>
+              <field name="explaination">Other capital transactions</field>
+            </record>
+<!--
+            Interest
+-->
+
+            
+            <record id="regulatory_reporting_code_801" model='regulatory.reporting.code'>
+              <field name="heading">Interest</field>
+              <field name="code">801</field>
+              <field name="explaination">Interest on intercompany loans (direct investment in Sweden)</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_803" model='regulatory.reporting.code'>
+              <field name="heading">Interest</field>
+              <field name="code">803</field>
+              <field name="explaination">Interest on intercompany loans (direct investment abroad)</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_831" model='regulatory.reporting.code'>
+              <field name="heading">Interest</field>
+              <field name="code">831</field>
+              <field name="explaination">Interest on securities issued by Swedish residents</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_833" model='regulatory.reporting.code'>
+              <field name="heading">Interest</field>
+              <field name="code">833</field>
+              <field name="explaination">Interest on securities issued by non-residents</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_881" model='regulatory.reporting.code'>
+              <field name="heading">Interest</field>
+              <field name="code">881</field>
+              <field name="explaination">Interest paid on other loans from abroad</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_883" model='regulatory.reporting.code'>
+              <field name="heading">Interest</field>
+              <field name="code">883</field>
+              <field name="explaination">Interest received on other loans to abroad</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_893" model='regulatory.reporting.code'>
+              <field name="heading">Interest</field>
+              <field name="code">893</field>
+              <field name="explaination">Other interest</field>
+            </record>
+<!--
+            Dividends
+-->
+           <record id="regulatory_reporting_code_900" model='regulatory.reporting.code'>
+              <field name="heading">Dividends</field>
+              <field name="code">900</field>
+              <field name="explaination">Dividends on direct investment in Sweden</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_902" model='regulatory.reporting.code'>
+              <field name="heading">Dividends</field>
+              <field name="code">902</field>
+              <field name="explaination">Dividends on direct investment abroad</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_910" model='regulatory.reporting.code'>
+              <field name="heading">Dividends</field>
+              <field name="code">910</field>
+              <field name="explaination">Dividends on Swedish portfolio shares</field>
+            </record>
+            
+            <record id="regulatory_reporting_code_912" model='regulatory.reporting.code'>
+              <field name="heading">Dividends</field>
+              <field name="code">912</field>
+              <field name="explaination">Dividends on foreign portfolio shares</field>
+            </record>
+<!--
+            Other codes Currency exchange
+-->
+            <record id="regulatory_reporting_code_940" model='regulatory.reporting.code'>
+              <field name="heading">Other codes Currency exchange</field>
+              <field name="code">940</field>
+              <field name="explaination">Transfer to abroad for currency exchange and the consequent retransfer. (Currency exchange abroad in connection with other payments to/from abroad are to be coded according to the nature of the underlying transactions.)</field>
+            </record>
+<!--
+            Other codes Netting
+-->
+            <record id="regulatory_reporting_code_941" model='regulatory.reporting.code'>
+              <field name="heading">Other codes Netting</field>
+              <field name="code">941</field>
+              <field name="explaination">Netting payment of net amount after netting.</field>
+            </record>
+<!--
+            Special codes
+-->
+            <record id="regulatory_reporting_code_990" model='regulatory.reporting.code'>
+              <field name="heading">Special codes</field>
+              <field name="code">990</field>
+              <field name="explaination">General code used by enterprises by agreement with the Tax authorities</field>
+            </record>
+
+  </data>
+</odoo>
+
+
