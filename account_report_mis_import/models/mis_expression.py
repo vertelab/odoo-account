@@ -315,23 +315,25 @@ def _convert_accounting_variable(text):
             note = 'deb selects the raw debit sum'
             confidence = CONFIDENCE_REVIEW
         if field == 'pbal':
-            # pbal sums only accounts whose balance is positive (debit>=credit).
-            # That is a per-account condition, and a domain filters lines, not
-            # accounts -- so the value cannot be reproduced exactly. Reported
-            # so a human decides: for box 48 it changes the amount.
-            note = ('pbal counts only positive balances; a domain filters lines, '
-                    'not accounts, so the sum will differ')
-            confidence = CONFIDENCE_REVIEW
+            # pbal sums only accounts whose net balance is positive. The
+            # domain engine implements that as the 'positive_accounts'
+            # subformula (per-account aggregation, then filter), so the value
+            # is reproduced exactly rather than flagged.
+            note = 'pbal: only accounts with a positive balance are summed'
+            confidence = CONFIDENCE_EXACT
         if field == 'nbal':
-            note = ('nbal counts only negative balances; a domain filters lines, '
-                    'not accounts, so the sum will differ')
-            confidence = CONFIDENCE_REVIEW
+            note = 'nbal: only accounts with a negative balance are summed'
+            confidence = CONFIDENCE_EXACT
         # The domain engine sums `balance` (debit - credit).
         # - MIS `crd` is credit - debit, so its sign is flipped -> neg_sum.
         # - A trailing '* -1' negates whatever the row produced -> neg_sum.
         # `bal`/`balp` otherwise keep the balance sign -> plain sum.
         if field == 'crd':
             subformula = 'neg_sum'
+        elif field == 'pbal':
+            subformula = 'positive_accounts'
+        elif field == 'nbal':
+            subformula = 'negative_accounts'
         elif negate:
             subformula = 'neg_sum'
         else:

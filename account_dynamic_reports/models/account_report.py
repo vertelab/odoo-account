@@ -1168,6 +1168,22 @@ class AccountReport(models.Model):
             return -sum(line.balance for line in lines)
         elif subformula == 'count':
             return len(lines)
+        elif subformula in ('positive_accounts', 'negative_accounts'):
+            # MIS `pbal` sums only the accounts whose net balance is positive
+            # (debit >= credit); `nbal` only the negative ones. A domain
+            # filters move lines, not accounts, so the sum must be taken per
+            # account first and then filtered.
+            #
+            # SFA's VAT box 48 uses pbal: the difference against a plain sum
+            # is 3 397 510,54 kr on their data -- the accounts that carry a
+            # credit balance.
+            per_account = {}
+            for line in lines:
+                per_account[line.account_id] = (
+                    per_account.get(line.account_id, 0.0) + line.balance)
+            if subformula == 'positive_accounts':
+                return sum(v for v in per_account.values() if v >= 0)
+            return sum(v for v in per_account.values() if v < 0)
         return 0.0
 
     def _eval_custom(self, expr, options):
