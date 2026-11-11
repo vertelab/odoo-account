@@ -1,6 +1,6 @@
 {
     "name": "Account: Chart of Accounts per Fiscal Year",
-    "version": "18.0.1.1.0",
+    "version": "18.0.1.2.1",
     "category": "Accounting/Accounting",
     "summary": "Chart of accounts versioned per fiscal year",
     "description": """

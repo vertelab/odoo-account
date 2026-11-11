@@ -3,12 +3,21 @@
 from odoo import api, fields, models
 
 
-class AccountChartTemplate(models.Model):
-    _name = "account.chart.template"
+class AccountChartTemplate(models.AbstractModel):
+    # AbstractModel + _inherit: account.chart.template is an AbstractModel in
+    # Odoo 18. Declaring it with _name and models.Model turned it into a real
+    # table-backed model, which both cut the inheritance chain (this class
+    # ends up LAST in the MRO, so _select_chart_template, try_loading and
+    # _get_chart_template_mapping vanished from the registry) and raised
+    # "transforms the abstract model into a non-abstract model" on reload.
+    # The symptom was an AttributeError in res.config.settings, which calls
+    # _select_chart_template from a Selection lambda.
+    _inherit = "account.chart.template"
     _description = "Account Chart Template"
     _order = "year desc, name"
 
-    name = fields.Char(string="Name", required=True)
+    # name/active are inherited from the core model; only the BAS-import
+    # extras belong here.
     year = fields.Integer(string="Year", help="BAS version year (e.g. 2025)")
     description = fields.Text(string="Description")
     account_line_ids = fields.One2many(
