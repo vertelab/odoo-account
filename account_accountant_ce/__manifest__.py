@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Accounting UI (CE)',
-    'version': '18.0.1.2.4',
+    'version': '18.0.1.3.0',
     # Version ledger: 18.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Community accounting UI adjustments: "Accounting" naming and two form fields.',
     'category': 'Accounting',
@@ -37,11 +37,9 @@ Accounting UI (CE)
 
         - Renames the accounting app category from "Invoicing" to
           "Accounting" (Apps list and user form).
-        - Renames the top-level menu from "Invoicing" to "Accounting".
+        - Renames the top-level menu from "Invoicing" to "Accounting", in
+          place, so every current and future sub-menu follows automatically.
         - Renames the settings app title from "Invoicing" to "Accounting".
-        - Keeps the account sub-menus (Dashboard, Customers, Vendors,
-          Accounting, Assets, Reporting, Configuration) as children of that
-          root, so the UI shows one accounting app and not seven roots.
         - Shows "Allow Reconciliation" (`reconcile`) on the account form.
         - Shows the inalterability hash (`inalterable_hash`) on journal
           entries for developers (`base.group_no_one`).
@@ -69,8 +67,10 @@ Accounting UI (CE)
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': [
-        # `menu_finance_assets` is reparented in data/account_asset_menu.xml,
-        # so the module that owns that menu must be loaded first.
+        # Kept so the Assets menu keeps its xmlid resolvable and so an existing
+        # install does not lose the dependency it was installed with. The
+        # Assets menu itself needs no reparenting: it already sits under
+        # account.menu_finance, which this module renames in place.
         'account_asset_management',
     ],
     'data': [
@@ -82,6 +82,8 @@ Accounting UI (CE)
         'views/product_views.xml',
         'views/res_config_settings_views.xml',
     ],
+    'post_init_hook': 'post_init_hook',
+    'post_migrate_hook': 'post_migrate_hook',
     'demo': [
     ],
     'installable': True,
