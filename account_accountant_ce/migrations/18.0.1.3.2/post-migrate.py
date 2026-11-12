@@ -28,6 +28,11 @@ ROOT_NAME = {
 }
 ROOT_NAME_DEFAULT = 'Accounting'
 
+# Core gives the root an icon; hide it and the app has no icon at all once the
+# legacy root is gone. So the rename must leave the icon alone -- but do set it
+# when it is missing, so a database where an earlier version cleared it heals.
+ROOT_ICON = 'account,static/description/icon.png'
+
 
 def _apply_accounting_root(env):
     menu = env.ref(ACCOUNTING_ROOT, raise_if_not_found=False)
@@ -45,7 +50,8 @@ def _apply_accounting_root(env):
     if 'en_US' not in langs:
         menu.with_context(lang='en_US').write({'name': ROOT_NAME['en_US']})
 
-    menu.write({'web_icon': False})
+    if not menu.web_icon:
+        menu.write({'web_icon': ROOT_ICON})
     _logger.info(
         "account_accountant_ce: renamed %s per language: %s",
         ACCOUNTING_ROOT,

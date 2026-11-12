@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Accounting UI (CE)',
-    'version': '18.0.1.3.1',
+    'version': '18.0.1.3.2',
     # Version ledger: 18.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Community accounting UI adjustments: "Accounting" naming and two form fields.',
     'category': 'Accounting',
