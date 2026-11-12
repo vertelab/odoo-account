@@ -22,7 +22,7 @@
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
-        <field name="is_preview" eval="False"/>
+        <field name="is_preview" eval="True"/>
         <field name="completion_time">0.30</field>
         <field name="html_content" type="html">
 <section class="s_cover parallax o_cc o_cc5 pt200 pb200">
@@ -98,7 +98,7 @@
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
-        <field name="is_preview" eval="False"/>
+        <field name="is_preview" eval="True"/>
         <field name="completion_time">0.30</field>
         <field name="html_content" type="html">
 <section class="s_text_block pt64 pb40">
@@ -165,7 +165,7 @@
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
-        <field name="is_preview" eval="False"/>
+        <field name="is_preview" eval="True"/>
         <field name="completion_time">0.10</field>
         <field name="image_1920" type="base64" file="account_payment_order_autogiro_lms/static/src/img/diagram_all_paths.png"/>
         <field name="description">Samlad översikt: de fyra betalvägarna sida vid sida, från faktura till Betald, med markering av var du behöver göra en bankavstämning.</field>
@@ -178,7 +178,7 @@
         <field name="slide_category">quiz</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
-        <field name="is_preview" eval="False"/>
+        <field name="is_preview" eval="True"/>
         <field name="completion_time">0.25</field>
         <field name="quiz_first_attempt_reward">100</field>
         <field name="quiz_second_attempt_reward">75</field>

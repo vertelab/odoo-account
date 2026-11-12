@@ -246,7 +246,7 @@
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
-        <field name="is_preview" eval="False"/>
+        <field name="is_preview" eval="True"/>
         <field name="completion_time">0.10</field>
         <field name="image_1920" type="base64" file="account_payment_order_autogiro_lms/static/src/img/diagram_decision.png"/>
         <field name="description">Beslutsguide: från leverantörsfaktura till rätt betalväg. Frågorna är (1) Autogiro eller vanlig betalning? och (2) betalorder eller Pay-knappen? — fyra kombinationer, fyra vägar.</field>
@@ -259,7 +259,7 @@
         <field name="slide_category">quiz</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
-        <field name="is_preview" eval="False"/>
+        <field name="is_preview" eval="True"/>
         <field name="completion_time">0.25</field>
         <field name="quiz_first_attempt_reward">100</field>
         <field name="quiz_second_attempt_reward">75</field>
