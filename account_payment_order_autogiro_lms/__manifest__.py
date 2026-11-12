@@ -3,7 +3,7 @@
 
 {
     'name': 'Account: Payment Order & Autogiro Training (LMS)',
-    'version': '18.0.1.2.0',
+    'version': '18.0.1.2.1',
     'summary': 'Swedish training on the four vendor-bill payment paths in Odoo 18.',
     'category': 'Accounting/Training',
     'author': 'Vertel Sverige AB',

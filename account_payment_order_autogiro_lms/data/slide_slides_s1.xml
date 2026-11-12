@@ -132,7 +132,7 @@
                 <i class="s_features_icon fa fa-check-circle mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
                     <h3 class="h5-fs">Betald</h3>
-                    <p>Utestående belopp är noll. Leverantörsskulden är slutligt nollad och <strong>du är klar</strong> — inget mer arbete krävs på fakturan.</p>
+                    <p>Utestående belopp är noll och <strong>du är klar</strong> — inget mer arbete krävs på fakturan.</p>
                 </div>
             </div>
             <div class="col-lg-6">
