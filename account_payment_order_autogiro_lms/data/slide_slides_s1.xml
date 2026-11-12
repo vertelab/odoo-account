@@ -15,6 +15,89 @@
         <field name="sequence">0</field>
     </record>
 
+    <!-- SLIDE 1.0: Innan du börjar — förkunskaper -->
+    <record id="slide_s1_00" model="slide.slide">
+        <field name="name">Innan du börjar — förkunskaper</field>
+        <field name="sequence">5</field>
+        <field name="slide_category">article</field>
+        <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
+        <field name="is_published" eval="True"/>
+        <field name="is_preview" eval="True"/>
+        <field name="completion_time">0.25</field>
+        <field name="html_content" type="html">
+<section class="s_cover parallax o_cc o_cc1 pt160 pb160" data-scroll-background-ratio="1">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #2c5282;"/>
+    <div class="container">
+        <h1 class="display-4-fs" style="text-align: center;">Innan du börjar</h1>
+        <p class="lead" style="text-align: center;">Vem kursen är för, vad du behöver kunna sedan tidigare, och hur du använder den.</p>
+    </div>
+</section>
+
+<section class="s_text_block pt64 pb40">
+    <div class="container s_allow_columns">
+        <h2>Vem kursen är för</h2>
+        <p>Dig som betalar leverantörsfakturor i Odoo och har undrat varför en del fakturor står kvar som <strong>Pågående</strong> medan andra blir <strong>Betald</strong> — trots att du gjort "samma sak". Du behöver inte kunna programmering, men du ska känna igen ett leverantörsreskontra och veta vad en verifikation är.</p>
+    </div>
+</section>
+
+<section class="s_features pt32 pb48">
+    <div class="container">
+        <h2>Du bör kunna detta sedan tidigare</h2>
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <i class="s_features_icon fa fa-check mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Leverantörsfakturor</h3>
+                    <p>Hur en leverantörsfaktura registreras och bokförs, och vad som menas med att den är öppen eller betald.</p>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <i class="s_features_icon fa fa-check mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Betalmetoder</h3>
+                    <p>Vad IBAN-betalning, Bankgiro och Autogiro är för något, och skillnaden mellan att betala själv och att låta banken dra pengarna.</p>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <i class="s_features_icon fa fa-check mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Bankavstämning</h3>
+                    <p>Att stämma av kontoutdrag mot bokförda transaktioner. Den som aldrig gjort en avstämning får ut mest av att läsa om Pågående-tillståndet först.</p>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <i class="s_features_icon fa fa-check mb-3 rounded bg-o-color-3"/>
+                <div class="overflow-hidden">
+                    <h3 class="h5-fs">Odoo-gränssnittet</h3>
+                    <p>Hitta i menyer, öppna en faktura, och läsa fältens etiketter. Knappar och fältnamn visas på svenska i kursen.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="s_text_block pt32 pb48">
+    <div class="container s_allow_columns">
+        <h2>Så är kursen upplagd</h2>
+        <p>Fyra sektioner. Varje sektion avslutas med ett kort quiz — det är där du upptäcker om du faktiskt kan skilja vägarna åt. Läs i ordning första gången; de fyra betalvägarna bygger på varandra.</p>
+        <p>Kursen beskriver <strong>hur du gör</strong>, inte hur Odoo är byggt inuti. Termer som hör till systemets uppbyggnad undviks medvetet — du möter dem i stället som de etiketter du ser på skärmen: <em>Betald</em>, <em>Pågående</em>, <em>Betalorder</em>, <em>Betala</em>.</p>
+    </div>
+</section>
+
+<section class="s_call_to_action o_cc o_cc1 pt48 pb48">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h3>Osäker på om du har förkunskaperna?</h3>
+                <p class="lead">Börja med sektion 1. Den förklarar vad skillnaden mellan Betald och Pågående innebär i praktiken — och varför den spelar roll i bokslutet. Fastnar du där är det enklare att ta hjälp av en kollega först.</p>
+            </div>
+        </div>
+    </div>
+</section>
+        </field>
+        <field name="description">Förkunskaper och kursupplägg: vem kursen är för, vad du bör kunna sedan tidigare, och hur du läser den.</field>
+    </record>
+
     <!-- SLIDE 1.1: Varför fyra vägar? -->
     <record id="slide_s1_01" model="slide.slide">
         <field name="name">Varför fyra vägar?</field>

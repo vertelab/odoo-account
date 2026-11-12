@@ -17,6 +17,7 @@ bokförs och när en bankavstämning krävs.
         </field>
         <field name="channel_type">training</field>
         <field name="enroll">public</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('website_slides.slide_channel_tag_level_basic')])]"/>
         <field name="is_published" eval="True"/>
     </record>
 
