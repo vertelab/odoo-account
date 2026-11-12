@@ -64,8 +64,8 @@
 
 <section class="s_text_block pt32 pb48">
     <div class="container s_allow_columns">
-        <h2>Datumet hamnar på verifikatet</h2>
-        <p>Det datum du ser i wizarden är det datum som skrivs in på <strong>verifikatet</strong> som skapas. Betalningsdatumet i wizarden blir betalningens datum, som blir verifikatets datum. Det finns ingen separat datumkedja att hålla reda på.</p>
+        <h2>Datumet du väljer är det datum som bokförs</h2>
+        <p>Det datum du ser i wizarden är det datum betalningen bokförs på. Ändrar du datumet i wizarden flyttas bokföringen med. Du behöver aldrig gå in och ändra datumet i efterhand — välj rätt datum när du betalar.</p>
     </div>
 </section>
 
@@ -74,11 +74,11 @@
         <div class="row align-items-start">
             <div class="col-lg-6 pt16 pb16">
                 <h3 class="h4-fs">Vad bokförs?</h3>
-                <p>En <strong>bokförd betalning</strong> skapas och stäms av mot fakturans leverantörsskuld. Leverantörsskulden nollas mot bankkontot — fakturan blir <span class="badge rounded-pill text-bg-success">Betald</span> direkt.</p>
+                <p>Fakturan blir <span class="badge rounded-pill text-bg-success">Betald</span> direkt och utestående belopp går till noll. Du är klar med den.</p>
             </div>
             <div class="col-lg-6 pt16 pb16">
                 <h3 class="h4-fs">Vid bankavstämning</h3>
-                <p>Verifikatet ligger sedan och väntar på bankraden. Vid bankavstämningen <strong>knyts verifikatet mot bankraden</strong> så att bokföringen stämmer mot kontoutdraget.</p>
+                <p>Betalningen ligger sedan och väntar på bankraden. Vid avstämningen <strong>knyter du betalningen mot bankraden</strong> så att bokföringen stämmer mot kontoutdraget.</p>
             </div>
         </div>
     </div>
@@ -89,16 +89,16 @@
         <div class="row">
             <div class="col-lg-9">
                 <h3>Sammanfattning väg c</h3>
-                <p class="lead">Pay → betalningsdatum (under memo, default förfallodatum) → <strong>betalning bokförd direkt</strong> → fakturan <strong>Betald</strong> → verifikatet knyts mot bankraden vid bankavstämning.</p>
+                <p class="lead">Pay → betalningsdatum (under memo, default förfallodatum) → fakturan blir <strong>Betald</strong> direkt → betalningen knyts mot bankraden vid avstämningen.</p>
             </div>
         </div>
     </div>
 </section>
         </field>
-        <field name="description">Väg c: manuell betalning via Pay-knappen — betalningsdatum under memo med förfallodatum som default, fakturan blir Betald direkt och verifikatet knyts mot bankraden.</field>
+        <field name="description">Väg c: manuell betalning via Pay-knappen — betalningsdatum under memo med förfallodatum som default, fakturan blir Betald direkt och betalningen knyts mot bankraden vid avstämningen.</field>
     </record>
 
-    <!-- SLIDE 3.2: Väg d — Manuell betalning med pending-metod -->
+    <!-- SLIDE 3.2: Väg d — Manuell betalning med Pågående-metod -->
     <record id="slide_s3_02" model="slide.slide">
         <field name="name">Väg d — Manuell betalning med Pågående-metod (undantag)</field>
         <field name="sequence">110</field>
@@ -112,15 +112,15 @@
     <span class="s_parallax_bg oe_img_bg" style="background-color: #6b46c1;"/>
     <div class="container">
         <h1 class="display-3-fs" style="text-align: center;">Väg d — Manuell betalning med Pågående-metod</h1>
-        <p class="lead" style="text-align: center;">Undantaget: Pay-knappen skapar ingen betalning alls. Fakturan flaggas och står Pågående.</p>
+        <p class="lead" style="text-align: center;">Undantaget: klickar du Pay med Autogiro händer ingenting synligt — fakturan står kvar som Pågående och väntar på banken.</p>
     </div>
 </section>
 
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Undantaget</h2>
-        <p>Det här är den väg som förvånar mest. Du klickar <strong>Pay</strong> på en faktura och väljer en betalmetod med <strong>pending-flaggan påslagen</strong> (typiskt Autogiro), wizarden ser ut som vanligt, du bekräftar — och <strong>ingenting bokförs</strong>. Ingen betalning skapas, inget verifikat, ingen avstämning.</p>
-        <p>Anledningen är densamma som i väg b: Autogiro innebär att banken drar pengarna själv, och varje metod med pending-flaggan på väntar på banken. Det finns ingen betalning att registrera — bara en faktura att <strong>flagga</strong> som väntande på bank.</p>
+        <p>Det här är den väg som förvånar mest. Du klickar <strong>Pay</strong> på en faktura, väljer en betalmetod som <strong>väntar på avstämning</strong> (typiskt Autogiro), wizarden ser ut som vanligt, du bekräftar — och <strong>fakturan står kvar som Pågående</strong>. Utestående belopp är oförändrat, och inget nytt syns i bokföringen.</p>
+        <p>Anledningen är densamma som i väg b: banken drar pengarna själv. Det finns ingen betalning att registrera än — bara en faktura som väntar. <strong>Det är inte ett fel.</strong> Ditt arbete är klart när du bekräftat wizarden; resten är bankens dragning och din avstämning.</p>
     </div>
 </section>
 
@@ -130,22 +130,22 @@
             <div class="col-lg-6">
                 <i class="s_features_icon fa fa-times-circle mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
-                    <h3 class="h5-fs">Vad som INTE händer</h3>
+                    <h3 class="h5-fs">Vad du INTE ser efteråt</h3>
                     <ul class="list-group list-group-flush text-start">
-                        <li class="list-group-item px-0 bg-transparent">Ingen betalning skapas</li>
-                        <li class="list-group-item px-0 bg-transparent">Inget verifikat bokförs</li>
-                        <li class="list-group-item px-0 bg-transparent">Ingen avstämning sker</li>
+                        <li class="list-group-item px-0 bg-transparent">Ingen betalning registreras</li>
+                        <li class="list-group-item px-0 bg-transparent">Utestående belopp är <strong>oförändrat</strong></li>
+                        <li class="list-group-item px-0 bg-transparent">Ingen ny bokföring tillkommer</li>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-6">
                 <i class="s_features_icon fa fa-flag mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
-                    <h3 class="h5-fs">Vad som händer</h3>
+                    <h3 class="h5-fs">Vad du ser</h3>
                     <ul class="list-group list-group-flush text-start">
-                        <li class="list-group-item px-0 bg-transparent">Fakturan flaggas som väntande på bank</li>
-                        <li class="list-group-item px-0 bg-transparent">Fakturan blir <span class="badge rounded-pill text-bg-warning">Pågående</span></li>
-                        <li class="list-group-item px-0 bg-transparent">Vid bankavstämning → <span class="badge rounded-pill text-bg-success">Betald</span></li>
+                        <li class="list-group-item px-0 bg-transparent">Fakturan står som <span class="badge rounded-pill text-bg-warning">Pågående</span></li>
+                        <li class="list-group-item px-0 bg-transparent">Den väntar på att banken drar</li>
+                        <li class="list-group-item px-0 bg-transparent">Efter avstämning → <span class="badge rounded-pill text-bg-success">Betald</span></li>
                     </ul>
                 </div>
             </div>
@@ -157,7 +157,7 @@
     <div class="container s_allow_columns">
         <h2>Autogiro förväljs automatiskt</h2>
         <p>Om fakturans betalningssätt redan är Autogiro <strong>förväljer wizarden Autogiro-metoden</strong> åt dig. Du behöver inte leta upp den i listan.</p>
-        <p class="small text-muted">Förvalet gäller Autogiro specifikt. Andra metoder med pending-flagga (IBAN, Bankgiro, SEPA) förväljs inte automatiskt — där väljer du metoden själv, och utfallet blir detsamma.</p>
+        <p class="small text-muted">Förvalet gäller Autogiro specifikt. Andra metoder som väntar på avstämning (IBAN, Bankgiro, SEPA) förväljs inte automatiskt — där väljer du metoden själv, och utfallet blir detsamma.</p>
         <p>Det är bara ett <strong>förval</strong> — metoden är fortfarande redigerbar. Om du väljer en annan betalmetod gäller den vanliga vägen (väg c) i stället.</p>
     </div>
 </section>
@@ -173,7 +173,7 @@
     </div>
 </section>
         </field>
-        <field name="description">Väg d (undantaget): Pay-knappen med en metod som har pending-flaggan på (Autogiro) skapar ingen betalning och bokför ingenting — fakturan flaggas och står Pågående till bankavstämning.</field>
+        <field name="description">Väg d (undantaget): Pay-knappen med en metod som väntar på avstämning (Autogiro) — fakturan står kvar som Pågående med oförändrat belopp tills du stämt av bankraden.</field>
     </record>
 
     <!-- SLIDE 3.3: Pay-knappen — datum vs Autogiro (Infographic) -->
@@ -186,12 +186,12 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.10</field>
         <field name="image_1920" type="base64" file="account_payment_order_autogiro_lms/static/src/img/diagram_pay_outcome.png"/>
-        <field name="description">Samma Pay-wizard, två utfall. Vänster: metod utan pending-flagga → betalning bokförd med valt datum → Betald. Höger: metod med pending-flagga (Autogiro) → inget skapas → flaggad och Pågående.</field>
+        <field name="description">Samma Pay-wizard, två utfall. Vänster: metod som inte väntar → fakturan Betald med valt datum. Höger: metod som väntar (Autogiro) → fakturan Pågående tills bankraden stämts av.</field>
     </record>
 
     <!-- SLIDE 3.4: Tillståndsdiagram -->
     <record id="slide_s3_04" model="slide.slide">
-        <field name="name">Fakturans väg genom tillstånden</field>
+        <field name="name">Följ fakturan från obetald till betald</field>
         <field name="sequence">125</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
@@ -273,29 +273,29 @@
     </record>
 
     <record id="slide_s3_05_q3" model="slide.question">
-        <field name="question">Vad händer när du bekräftar Pay med en betalmetod som har pending-flaggan påslagen?</field>
+        <field name="question">Du bekräftar Pay med Autogiro. Vad ser du på fakturan efteråt?</field>
         <field name="sequence">3</field>
         <field name="slide_id" ref="slide_s3_05"/>
     </record>
     <record id="slide_s3_05_q3_a1" model="slide.answer">
-        <field name="text_value">Ingen betalning skapas och inget bokförs — fakturan flaggas och blir Pågående</field>
+        <field name="text_value">Fakturan står kvar som Pågående med oförändrat utestående belopp</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Det är undantaget i väg d.</field>
+        <field name="comment">Correct! Det är undantaget i väg d — fakturan väntar på banken.</field>
         <field name="question_id" ref="slide_s3_05_q3"/>
     </record>
     <record id="slide_s3_05_q3_a2" model="slide.answer">
         <field name="text_value">En betalning bokförs och fakturan blir Betald</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Det är väg c (metod utan pending-flagga). Med flaggan på bokförs ingenting.</field>
+        <field name="comment">Incorrect! Det är väg c — med en metod som inte väntar på avstämning.</field>
         <field name="question_id" ref="slide_s3_05_q3"/>
     </record>
     <record id="slide_s3_05_q3_a3" model="slide.answer">
         <field name="text_value">En betalorder skapas automatiskt</field>
         <field name="sequence">3</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Pay-knappen skapar ingen betalorder — den vägen är helt separat.</field>
+        <field name="comment">Incorrect! Pay-knappen och betalorder är två helt separata vägar.</field>
         <field name="question_id" ref="slide_s3_05_q3"/>
     </record>
 
@@ -332,24 +332,24 @@
         <field name="slide_id" ref="slide_s3_05"/>
     </record>
     <record id="slide_s3_05_q5_a1" model="slide.answer">
-        <field name="text_value">Att banktransaktionen stäms av mot fakturans utestående belopp</field>
+        <field name="text_value">Att du matchar bankraden mot fakturans utestående belopp</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Samma steg som i väg b — bankavstämningen stänger flödet.</field>
+        <field name="comment">Correct! Samma steg som i väg b — avstämningen är det som återstår.</field>
         <field name="question_id" ref="slide_s3_05_q5"/>
     </record>
     <record id="slide_s3_05_q5_a2" model="slide.answer">
         <field name="text_value">Att du klickar Pay igen</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Pay igen skulle bara flagga fakturan på nytt — det är avstämningen som saknas.</field>
+        <field name="comment">Incorrect! Pay igen ändrar ingenting — det är avstämningen som fattas.</field>
         <field name="question_id" ref="slide_s3_05_q5"/>
     </record>
     <record id="slide_s3_05_q5_a3" model="slide.answer">
         <field name="text_value">Att fakturan bokförs om</field>
         <field name="sequence">3</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Fakturan är redan bokförd — betalningen väntar på banken.</field>
+        <field name="comment">Incorrect! Det finns inget att bokföra om — det är bankens dragning som fattas.</field>
         <field name="question_id" ref="slide_s3_05_q5"/>
     </record>
 

@@ -36,8 +36,8 @@
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>När används den?</h2>
-        <p>När flera leverantörsfakturor ska betalas samtidigt och skickas till banken som en <strong>betalorder</strong> — ett samlat betaluppdrag — <em>och</em> betalmetoden inte har pending-flaggan påslagen. Då bokförs betalningen direkt vid uppladdning.</p>
-        <p class="small text-muted"><strong>Obs:</strong> i många miljöer är även IBAN och Bankgiro inställda att vänta på banken. Kontrollera metoden under <strong>Redovisning → Konfiguration → Betalmetoder</strong> om du är osäker på vilken väg som gäller.</p>
+        <p>När flera leverantörsfakturor ska betalas samtidigt och skickas till banken som en <strong>betalorder</strong> — ett samlat betaluppdrag — <em>och</em> betalmetoden inte är inställd att vänta på avstämning. Då blir fakturorna Betalda direkt när du laddar upp.</p>
+        <p class="small text-muted"><strong>Obs:</strong> i många miljöer är även IBAN och Bankgiro inställda att vänta på banken. Är du osäker på vilken väg som gäller — se <em>sektion 1</em>, "Osäker på vilken väg din betalmetod tar?".</p>
     </div>
 </section>
 
@@ -87,9 +87,9 @@
 
 <section class="s_text_block pt32 pb64">
     <div class="container s_allow_columns">
-        <h2>Vad händer vid uppladdning?</h2>
-        <p>När betalordern laddas upp skapas en <strong>bokförd betalning</strong> per faktura och den stäms av mot fakturans leverantörsskuld. Leverantörsskulden nollas och fakturan blir <strong>Betald</strong>.</p>
-        <p>Detta är den enda av de fyra vägarna där hela kedjan — betalning, bokföring och avstämning — sker i ett enda steg utan inblandning av banken i efterhand.</p>
+        <h2>Vad du ser efter uppladdningen</h2>
+        <p>Fakturorna blir <strong>Betald</strong> direkt, utestående belopp går till noll, och du är klar. Ingen bankavstämning återstår för dessa fakturor.</p>
+        <p>Det här är den enda av de fyra vägarna där du blir klar i ett enda steg — utan att behöva komma tillbaka och stämma av.</p>
     </div>
 </section>
 
@@ -104,7 +104,7 @@
     </div>
 </section>
         </field>
-        <field name="description">Väg a: betalorder vars metod saknar pending-flagga — betalningen bokförs och stäms av vid uppladdning, så fakturan blir Betald direkt.</field>
+        <field name="description">Väg a: betalorder med en betalmetod som inte väntar på avstämning — fakturorna blir Betalda direkt vid uppladdning och du är klar.</field>
     </record>
 
     <!-- SLIDE 2.2: Väg b — Betalorder med Autogiro -->
@@ -121,16 +121,16 @@
     <span class="s_parallax_bg oe_img_bg" style="background-color: #553c9a;"/>
     <div class="container">
         <h1 class="display-3-fs" style="text-align: center;">Väg b — Betalorder som väntar på banken</h1>
-        <p class="lead" style="text-align: center;">Samma betalorder, men ingenting bokförs vid uppladdning. Fakturan står Pågående.</p>
+        <p class="lead" style="text-align: center;">Samma betalorder — men fakturan står kvar som Pågående när du laddat upp. Då väntar en bankavstämning.</p>
     </div>
 </section>
 
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Samma flöde — annat utfall</h2>
-        <p>Du gör exakt som i väg a: lägger fakturorna på en betalorder och laddar upp. Men betalmetoden har <strong>pending-flaggan påslagen</strong> (typiskt Autogiro), och då händer något annat.</p>
-        <p>Autogiro innebär att <strong>banken drar pengarna själv</strong>. Företaget skickar ingen betalfil — det finns inget att skicka. Därför <strong>bokförs ingenting</strong> när ordern laddas upp.</p>
-        <p class="small text-muted">Samma sak gäller varje metod med pending-flaggan på — inte bara Autogiro. Flaggan, inte betalsättet, är det som styr.</p>
+        <p>Du gör exakt som i väg a: lägger fakturorna på en betalorder och laddar upp. Men betalmetoden är inställd att <strong>vänta på avstämning</strong> (typiskt Autogiro), och då blir resultatet ett annat.</p>
+        <p>Med Autogiro drar banken pengarna själv. Det finns ingen betalfil att skicka. Därför <strong>står fakturan kvar som Pågående</strong> efter uppladdningen — den blir inte Betald förrän bankraden kommit in och du stämt av den.</p>
+        <p class="small text-muted">Samma sak gäller alla metoder som är inställda att vänta — inte bara Autogiro. Det är inställningen på betalmetoden som avgör, inte vilket betalsätt det är.</p>
     </div>
 </section>
 
@@ -138,19 +138,19 @@
     <div class="container">
         <div class="row align-items-start">
             <div class="col-lg-6 pt16 pb16">
-                <h3 class="h4-fs">Vad händer vid uppladdning?</h3>
+                <h3 class="h4-fs">Efter uppladdning</h3>
                 <ul class="list-group list-group-flush text-start">
-                    <li class="list-group-item px-0 bg-transparent">Betalordern sätts till <strong>uppladdad</strong></li>
-                    <li class="list-group-item px-0 bg-transparent">Ingen betalning bokförs</li>
-                    <li class="list-group-item px-0 bg-transparent">Ingen avstämning sker</li>
-                    <li class="list-group-item px-0 bg-transparent">Fakturan blir <span class="badge rounded-pill text-bg-warning">Pågående</span></li>
+                    <li class="list-group-item px-0 bg-transparent">Betalordern står som <strong>uppladdad</strong></li>
+                    <li class="list-group-item px-0 bg-transparent">Fakturan står kvar som <span class="badge rounded-pill text-bg-warning">Pågående</span></li>
+                    <li class="list-group-item px-0 bg-transparent">Utestående belopp är <strong>oförändrat</strong></li>
+                    <li class="list-group-item px-0 bg-transparent">Ditt arbete med betalningen är klart — resten är avstämning</li>
                 </ul>
             </div>
             <div class="col-lg-6 pt16 pb16">
-                <h3 class="h4-fs">Vad händer vid bankavstämning?</h3>
+                <h3 class="h4-fs">Efter bankavstämning</h3>
                 <ul class="list-group list-group-flush text-start">
-                    <li class="list-group-item px-0 bg-transparent">Banktransaktionen bokförs mot fakturans leverantörsskuld</li>
-                    <li class="list-group-item px-0 bg-transparent">Leverantörsskulden nollas</li>
+                    <li class="list-group-item px-0 bg-transparent">Du matchar bankraden mot fakturan</li>
+                    <li class="list-group-item px-0 bg-transparent">Utestående belopp går till noll</li>
                     <li class="list-group-item px-0 bg-transparent">Fakturan blir <span class="badge rounded-pill text-bg-success">Betald</span></li>
                 </ul>
             </div>
@@ -160,9 +160,9 @@
 
 <section class="s_text_block pt32 pb64">
     <div class="container s_allow_columns">
-        <h2>Varför inte bokföra direkt?</h2>
-        <p>Om betalningen bokfördes vid uppladdning skulle leverantörsskulden nollas <strong>innan</strong> banken dragit pengarna. Bokslutet skulle då visa en skuld som är borta medan pengarna fortfarande finns kvar på kontot — och om debiteringen misslyckas (täckt konto, uppsagt medgivande) finns ingen skuld kvar att kräva in.</p>
-        <p>Därför väntar väg b medvetet på bankens bekräftelse.</p>
+        <h2>Varför står fakturan kvar?</h2>
+        <p>Fakturan står kvar som Pågående eftersom banken inte dragit pengarna än. Det är <strong>inte ett fel och inget du gjort fel</strong> — det är så väg b fungerar. Skulden finns kvar tills pengarna faktiskt rört sig, vilket är det korrekta: du är skyldig leverantören pengar fram till dess.</p>
+        <p><strong>Vad du gör:</strong> ingenting, just nu. Vänta på att bankraden kommer in och stäm av den (sektion 4). Blir fakturan aldrig Betald fastän banken dragit pengarna — då har avstämningen missats, och det är först då du behöver agera.</p>
     </div>
 </section>
 
@@ -171,13 +171,13 @@
         <div class="row">
             <div class="col-lg-9">
                 <h3>Sammanfattning väg b</h3>
-                <p class="lead">Betalorder (Autogiro) → uppladdning → <strong>inget bokförs</strong> → fakturan <strong>Pågående</strong> → bankavstämning → <strong>Betald</strong>.</p>
+                <p class="lead">Betalorder (Autogiro) → ladda upp → fakturan står <strong>Pågående</strong> → banken drar → <strong>stäm av bankraden</strong> → fakturan <strong>Betald</strong>.</p>
             </div>
         </div>
     </div>
 </section>
         </field>
-        <field name="description">Väg b: betalorder vars metod har pending-flaggan påslagen (t.ex. Autogiro) — ingenting bokförs vid uppladdning och fakturan står Pågående till bankavstämning.</field>
+        <field name="description">Väg b: betalorder med en betalmetod som väntar på avstämning (t.ex. Autogiro) — efter uppladdning står fakturan kvar som Pågående och du väntar på bankraden innan du stämmer av.</field>
     </record>
 
     <!-- SLIDE 2.3: Samma order, olika utfall (Infographic) -->
@@ -190,7 +190,7 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.10</field>
         <field name="image_1920" type="base64" file="account_payment_order_autogiro_lms/static/src/img/diagram_order_outcome.png"/>
-        <field name="description">Jämförelse: identisk betalorder, två utfall. Vänster: metod utan pending-flagga → bokförd och avstämd → Betald. Höger: metod med pending-flagga (Autogiro) → inget bokförs → Pågående till bankavstämning.</field>
+        <field name="description">Jämförelse: identisk betalorder, två utfall. Vänster: metod som inte väntar → fakturan Betald direkt. Höger: metod som väntar (Autogiro) → fakturan Pågående till du stämt av bankraden.</field>
     </record>
 
     <!-- SLIDE 2.4: Så känner du igen en Pågående faktura -->
@@ -206,7 +206,7 @@
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Var ser du skillnaden?</h2>
-        <p>En Pågående faktura är inte dold någonstans — den visas med ett eget tillstånd. Lär dig var du hittar den, så undviker du att tro att bokslutet är klart när det inte är det.</p>
+        <p>En Pågående faktura är inte dold någonstans — den står tydligt som Pågående. Lär dig var du hittar den, så undviker du att tro att bokslutet är klart när det inte är det.</p>
     </div>
 </section>
 
@@ -217,14 +217,14 @@
                 <i class="s_features_icon fa fa-list mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
                     <h3 class="h5-fs">I fakturalistan</h3>
-                    <p>Tillståndskolumnen visar <strong>Pågående</strong> i stället för Betald. Fakturan har fortfarande ett utestående belopp.</p>
+                    <p>Kolumnen <strong>Status</strong> visar <strong>Pågående</strong> i stället för Betald, och utestående belopp är kvar. Filtrera på Pågående för att få upp dem.</p>
                 </div>
             </div>
             <div class="col-lg-4">
                 <i class="s_features_icon fa fa-file-text-o mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
                     <h3 class="h5-fs">På fakturan</h3>
-                    <p>Statusfältet visar Pågående och det utestående beloppet är kvar — det är din signal att bankavstämning återstår.</p>
+                    <p>Statusfältet uppe till höger visar Pågående och utestående belopp är kvar — det är din signal att en bankavstämning återstår.</p>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -269,56 +269,56 @@
     </record>
 
     <record id="slide_s2_05_q1" model="slide.question">
-        <field name="question">Vad händer med fakturan när en betalorder vars metod saknar pending-flagga laddas upp?</field>
+        <field name="question">Du laddar upp en betalorder med en betalmetod som inte väntar på avstämning. Vad ser du på fakturan efteråt?</field>
         <field name="sequence">1</field>
         <field name="slide_id" ref="slide_s2_05"/>
     </record>
     <record id="slide_s2_05_q1_a1" model="slide.answer">
-        <field name="text_value">Betalningen bokförs och stäms av — fakturan blir Betald</field>
+        <field name="text_value">Fakturan blir Betald direkt — ingen avstämning kvar</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! En metod utan pending-flagga bokför och stämmer av vid uppladdning.</field>
+        <field name="comment">Correct! Metoden väntar inte på banken, så fakturan blir Betald när du laddar upp.</field>
         <field name="question_id" ref="slide_s2_05_q1"/>
     </record>
     <record id="slide_s2_05_q1_a2" model="slide.answer">
         <field name="text_value">Fakturan blir Pågående till bankavstämning</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Det är väg b (metod med pending-flagga) som blir Pågående. En metod utan flaggan bokför direkt.</field>
+        <field name="comment">Incorrect! Pågående blir det bara när betalmetoden väntar på avstämning (väg b).</field>
         <field name="question_id" ref="slide_s2_05_q1"/>
     </record>
     <record id="slide_s2_05_q1_a3" model="slide.answer">
         <field name="text_value">Ingenting händer förrän banken bekräftar</field>
         <field name="sequence">3</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! När metoden saknar pending-flagga sker bokföringen vid uppladdning, inte vid bankens bekräftelse.</field>
+        <field name="comment">Incorrect! Fakturan blir Betald redan vid uppladdningen — du behöver inte vänta på banken.</field>
         <field name="question_id" ref="slide_s2_05_q1"/>
     </record>
 
     <record id="slide_s2_05_q2" model="slide.question">
-        <field name="question">Varför bokförs ingenting när en Autogiro-betalorder laddas upp?</field>
+        <field name="question">Varför står fakturan kvar som Pågående efter att du laddat upp en Autogiro-betalorder?</field>
         <field name="sequence">2</field>
         <field name="slide_id" ref="slide_s2_05"/>
     </record>
     <record id="slide_s2_05_q2_a1" model="slide.answer">
-        <field name="text_value">Banken drar pengarna själv — inget får bokföras förrän den gjort det</field>
+        <field name="text_value">Banken drar pengarna själv — fakturan blir Betald först när du stämt av bankraden</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Autogiro är en direktdebitering som banken initierar.</field>
+        <field name="comment">Correct! Med Autogiro drar banken pengarna själv, så du väntar på bankraden.</field>
         <field name="question_id" ref="slide_s2_05_q2"/>
     </record>
     <record id="slide_s2_05_q2_a2" model="slide.answer">
-        <field name="text_value">Betalordern saknar betalfil och kan därför inte bokföras</field>
+        <field name="text_value">Betalordern saknar betalfil, så det finns inget att stämma av</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Det är en konsekvens av Autogiro, inte orsaken — och betalfilen är just det som inte behövs.</field>
+        <field name="comment">Incorrect! Det stämmer att det inte finns någon betalfil — men orsaken är att banken drar pengarna själv, och det som fattas är bankraden.</field>
         <field name="question_id" ref="slide_s2_05_q2"/>
     </record>
     <record id="slide_s2_05_q2_a3" model="slide.answer">
         <field name="text_value">Betalmetoden är felkonfigurerad</field>
         <field name="sequence">3</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Beteendet är avsiktligt och korrekt för Autogiro.</field>
+        <field name="comment">Incorrect! Det här är precis så Autogiro ska bete sig — inget är felkonfigurerat.</field>
         <field name="question_id" ref="slide_s2_05_q2"/>
     </record>
 
@@ -328,10 +328,10 @@
         <field name="slide_id" ref="slide_s2_05"/>
     </record>
     <record id="slide_s2_05_q3_a1" model="slide.answer">
-        <field name="text_value">Att banktransaktionen stäms av mot fakturans utestående belopp</field>
+        <field name="text_value">Att du matchar bankraden mot fakturans utestående belopp</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Bankavstämningen är steget som stänger flödet.</field>
+        <field name="comment">Correct! Avstämningen är det sista steget — sedan är fakturan Betald.</field>
         <field name="question_id" ref="slide_s2_05_q3"/>
     </record>
     <record id="slide_s2_05_q3_a2" model="slide.answer">
@@ -350,49 +350,49 @@
     </record>
 
     <record id="slide_s2_05_q4" model="slide.question">
-        <field name="question">Vad är den enda skillnaden mellan väg a och väg b?</field>
+        <field name="question">Vad avgör om en betalorder ger väg a eller väg b?</field>
         <field name="sequence">4</field>
         <field name="slide_id" ref="slide_s2_05"/>
     </record>
     <record id="slide_s2_05_q4_a1" model="slide.answer">
-        <field name="text_value">Betalmetoden — Autogiro väntar på banken, vanlig betalning bokför direkt</field>
+        <field name="text_value">Betalmetoden — om den är inställd att vänta på avstämning eller inte</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Samma betalorder, men betalmetodens egenskap avgör utfallet.</field>
+        <field name="comment">Correct! Samma betalorder — det är inställningen på betalmetoden som avgör utfallet.</field>
         <field name="question_id" ref="slide_s2_05_q4"/>
     </record>
     <record id="slide_s2_05_q4_a2" model="slide.answer">
         <field name="text_value">Antalet fakturor på ordern</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Antalet fakturor påverkar inte bokföringen.</field>
+        <field name="comment">Incorrect! Antalet fakturor spelar ingen roll för utfallet.</field>
         <field name="question_id" ref="slide_s2_05_q4"/>
     </record>
     <record id="slide_s2_05_q4_a3" model="slide.answer">
         <field name="text_value">Om ordern är genererad eller inte</field>
         <field name="sequence">3</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Båda vägarna genererar en fil/order — skillnaden ligger i betalmetoden.</field>
+        <field name="comment">Incorrect! Båda vägarna går via en betalorder — det är betalmetoden som skiljer.</field>
         <field name="question_id" ref="slide_s2_05_q4"/>
     </record>
 
     <record id="slide_s2_05_q5" model="slide.question">
-        <field name="question">Varför är det farligt att bokföra en Autogiro-betalning redan vid uppladdning?</field>
+        <field name="question">Vad är risken med att behandla en Autogiro-faktura som Betald innan banken dragit pengarna?</field>
         <field name="sequence">5</field>
         <field name="slide_id" ref="slide_s2_05"/>
     </record>
     <record id="slide_s2_05_q5_a1" model="slide.answer">
-        <field name="text_value">Leverantörsskulden nollas innan pengarna rört sig — misslyckas debiteringen finns ingen skuld kvar att kräva in</field>
+        <field name="text_value">Skulden ser reglerad ut fast pengarna inte dragits — misslyckas debiteringen tappar du bevakningen på den</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Det är precis därför väg b väntar på bankens bekräftelse.</field>
+        <field name="comment">Correct! Därför står fakturan kvar som Pågående tills bankraden är avstämd.</field>
         <field name="question_id" ref="slide_s2_05_q5"/>
     </record>
     <record id="slide_s2_05_q5_a2" model="slide.answer">
         <field name="text_value">Banken tar ut en extra avgift</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Avgifter är inte skälet — det handlar om att skulden försvinner för tidigt.</field>
+        <field name="comment">Incorrect! Avgifter är inte skälet — det handlar om att skulden ser reglerad ut för tidigt.</field>
         <field name="question_id" ref="slide_s2_05_q5"/>
     </record>
     <record id="slide_s2_05_q5_a3" model="slide.answer">

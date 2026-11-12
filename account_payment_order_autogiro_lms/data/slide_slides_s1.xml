@@ -36,7 +36,7 @@
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Vem kursen är för</h2>
-        <p>Dig som betalar leverantörsfakturor i Odoo och har undrat varför en del fakturor står kvar som <strong>Pågående</strong> medan andra blir <strong>Betald</strong> — trots att du gjort "samma sak". Du behöver inte kunna programmering, men du ska känna igen ett leverantörsreskontra och veta vad en verifikation är.</p>
+        <p>Dig som betalar leverantörsfakturor i Odoo och har undrat varför en del fakturor står kvar som <strong>Pågående</strong> medan andra blir <strong>Betald</strong> — trots att du gjort "samma sak". Du behöver inte kunna programmering, men du ska känna igen ett leverantörsreskontra och veta vad som menas med att en faktura är bokförd.</p>
     </div>
 </section>
 
@@ -98,9 +98,9 @@
         <field name="description">Förkunskaper och kursupplägg: vem kursen är för, vad du bör kunna sedan tidigare, och hur du läser den.</field>
     </record>
 
-    <!-- SLIDE 1.1: Varför fyra vägar? -->
+    <!-- SLIDE 1.1: Fyra vägar — fyra olika utfall -->
     <record id="slide_s1_01" model="slide.slide">
-        <field name="name">Varför fyra vägar?</field>
+        <field name="name">Fyra vägar — fyra olika utfall</field>
         <field name="sequence">10</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
@@ -111,16 +111,17 @@
 <section class="s_cover parallax o_cc o_cc5 pt200 pb200" data-scroll-background-ratio="1">
     <span class="s_parallax_bg oe_img_bg" style="background-color: #1a365d;"/>
     <div class="container">
-        <h1 class="display-3-fs" style="text-align: center;">Varför fyra vägar?</h1>
-        <p class="lead" style="text-align: center;">Samma knapp, fyra olika utfall. Skillnaden avgör om fakturan är Betald eller Pågående.</p>
+        <h1 class="display-3-fs" style="text-align: center;">Fyra vägar — fyra olika utfall</h1>
+        <p class="lead" style="text-align: center;">Samma knapp, fyra olika utfall. Skillnaden avgör om du är klar med fakturan eller har en avstämning kvar.</p>
     </div>
 </section>
 
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Problemet</h2>
-        <p>I Odoo ser betalning av en leverantörsfaktura nästan likadan ut oavsett hur du gör. Du väljer en betalmetod, bekräftar, och Odoo säger att något hände. Men <strong>vad</strong> som hände skiljer sig åt — och därför också vilket tillstånd fakturan får.</p>
-        <p>En faktura som <em>ser</em> betald ut kan i själva verket stå som <strong>Pågående</strong>, vilket betyder att pengarna ännu inte lämnat kontot och att en bankavstämning återstår. Utan den kunskapen blir bokslutet fel: leverantörsskulden ser nollad ut i ena vyn och levande i den andra.</p>
+        <p>Du betalar en leverantörsfaktura i Odoo. Du väljer betalmetod, bekräftar, och allt ser likadant ut som förra gången. Ändå står fakturan ibland som <strong>Betald</strong> och ibland som <strong>Pågående</strong> — och du har svårt att sätta fingret på varför.</p>
+        <p>Pågående betyder att pengarna ännu inte lämnat kontot och att en bankavstämning återstår. Det är <em>arbete kvar</em>, inte ett fel. Men upptäcker du det inte förrän vid bokslutet ser skulden reglerad ut i ena vyn och levande i den andra — och då blir bokslutet fel.</p>
+        <p>Den här kursen lär dig känna igen de fyra vägarna <em>innan</em> du betalar, så att du vet vad som väntar.</p>
     </div>
 </section>
 
@@ -131,14 +132,14 @@
                 <i class="s_features_icon fa fa-check-circle mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
                     <h3 class="h5-fs">Betald</h3>
-                    <p>Fakturans utestående belopp är noll och en bokförd betalning finns. Leverantörsskulden är slutligt nollad. Inget mer arbete krävs.</p>
+                    <p>Utestående belopp är noll. Leverantörsskulden är slutligt nollad och <strong>du är klar</strong> — inget mer arbete krävs på fakturan.</p>
                 </div>
             </div>
             <div class="col-lg-6">
                 <i class="s_features_icon fa fa-hourglass-half mb-3 rounded bg-o-color-3"/>
                 <div class="overflow-hidden">
                     <h3 class="h5-fs">Pågående</h3>
-                    <p>Betalningen är påbörjad men inte bekräftad av banken. Fakturan väntar på bankavstämning. Den blir <strong>inte</strong> Betald förrän bankraden stämts av mot fakturan.</p>
+                    <p>Utestående belopp är kvar. Banken har inte bekräftat dragningen än. Fakturan blir <strong>inte</strong> Betald förrän du stämt av bankraden mot den — det är din uppgift att göra.</p>
                 </div>
             </div>
         </div>
@@ -149,14 +150,14 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-9">
-                <h3>Den enda frågan som avgör</h3>
-                <p class="lead">Har banken bekräftat att pengarna rörde sig? Om ja — fakturan är Betald. Om nej — fakturan är Pågående och ska stämmas av.</p>
+                <h3>Den enda frågan du behöver ställa</h3>
+                <p class="lead">Har banken dragit pengarna? Om ja — fakturan är Betald och du är klar. Om nej — fakturan står Pågående och du ska stämma av bankraden. <strong>Står den kvar som Pågående är det alltså oftast inte fel</strong> — det betyder bara att du har en avstämning kvar att göra.</p>
             </div>
         </div>
     </div>
 </section>
         </field>
-        <field name="description">Introduktion: vad som avgör om en faktura blir Betald eller Pågående, och varför det spelar roll i bokslutet.</field>
+        <field name="description">Introduktion: varför samma knapp ger två olika utfall, vad Betald respektive Pågående innebär för dig, och varför Pågående inte är ett fel.</field>
     </record>
 
     <!-- SLIDE 1.2: De fyra vägarna i korthet -->
@@ -172,7 +173,7 @@
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Översikt — fyra vägar, två utfall</h2>
-        <p>Alla fyra vägar slutar i antingen <strong>Betald</strong> eller <strong>Pågående</strong>. Det som skiljer är om en betalning bokförs direkt eller om banken måste bekräfta först.</p>
+        <p>Alla fyra vägar slutar i antingen <strong>Betald</strong> eller <strong>Pågående</strong>. Skillnaden avgör om du är klar med fakturan eller om det återstår en bankavstämning.</p>
     </div>
 </section>
 
@@ -183,33 +184,33 @@
                 <tr>
                     <th style="width: 8%;">Väg</th>
                     <th style="width: 34%;">Hur</th>
-                    <th style="width: 26%;">Vad bokförs</th>
+                    <th style="width: 26%;">Vad du ser efteråt</th>
                     <th style="width: 32%;">Fakturans utfall</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td><strong>a</strong></td>
-                    <td>Betalorder med metod <em>utan</em> pending-flagga</td>
-                    <td>Betalningen bokförs och stäms av vid uppladdning</td>
+                    <td>Betalorder med metod som <em>inte</em> väntar på avstämning</td>
+                    <td>Fakturan blir <strong>Betald</strong> direkt</td>
                     <td><span class="badge rounded-pill text-bg-success">Betald</span> direkt</td>
                 </tr>
                 <tr>
                     <td><strong>b</strong></td>
-                    <td>Betalorder med metod <em>med</em> pending-flagga</td>
-                    <td>Ingenting bokförs vid uppladdning</td>
+                    <td>Betalorder med metod som <em>väntar</em> på avstämning (Autogiro)</td>
+                    <td>Fakturan står kvar som <strong>Pågående</strong></td>
                     <td><span class="badge rounded-pill text-bg-warning">Pågående</span> till bankavstämning</td>
                 </tr>
                 <tr>
                     <td><strong>c</strong></td>
                     <td>Manuell betalning (Pay) med datum</td>
-                    <td>Betalningen bokförs direkt med valt betalningsdatum</td>
+                    <td>Fakturan blir <strong>Betald</strong> direkt</td>
                     <td><span class="badge rounded-pill text-bg-success">Betald</span> direkt</td>
                 </tr>
                 <tr>
                     <td><strong>d</strong></td>
                     <td>Manuell betalning med Autogiro <em>(undantag)</em></td>
-                    <td>Ingenting — ingen betalning skapas alls</td>
+                    <td>Fakturan står kvar som <strong>Pågående</strong></td>
                     <td><span class="badge rounded-pill text-bg-warning">Pågående</span> till bankavstämning</td>
                 </tr>
             </tbody>
@@ -220,22 +221,22 @@
 
 <section class="s_text_block pt32 pb64">
     <div class="container s_allow_columns">
-        <h2>Varför Autogiro väntar</h2>
-        <p>Autogiro är ett <strong>direktdebitering</strong>: banken drar pengarna på eget initiativ. Företaget skickar ingen betalfil och kan inte veta när debiteringen sker. Därför får ingenting bokföras förrän banken faktiskt har dragit pengarna — annars skulle leverantörsskulden nollas innan pengarna rört sig.</p>
-        <p>Detta gäller både när Autogiro används via betalorder (väg b) och via Pay-knappen (väg d).</p>
+        <h2>Autogiro — vad du gör annorlunda</h2>
+        <p>Med Autogiro drar banken pengarna själv, på sitt eget schema. Du kan alltså inte veta i förväg vilket datum fakturan blir betald. Det är därför fakturan står kvar som <strong>Pågående</strong> efter att du gjort ditt — och det är helt normalt.</p>
+        <p><strong>Ditt arbete är klart när betalordern är uppladdad</strong> (väg b) eller när du bekräftat Pay-wizarden (väg d). Sedan väntar du. Fakturan blir Betald först när bankraden stämts av — se <em>sektion 4</em> för hur du kontrollerar att det blivit gjort.</p>
     </div>
 </section>
 
 <section class="s_text_block pt32 pb64">
     <div class="container s_allow_columns">
-        <h2>Det är flaggan som styr — inte namnet</h2>
-        <p>Det som avgör om en betalmetod går väg a eller väg b är en inställning på metoden: <strong>Pending Until Reconciliation</strong>. Är den <em>av</em> bokförs betalningen vid uppladdning (väg a). Är den <em>på</em> väntar fakturan på banken (väg b).</p>
-        <p>Det betyder att <strong>Autogiro inte är det enda som väntar</strong>. Även IBAN, Bankgiro och SEPA kan vara inställda att vänta — det är en konfiguration per betalmetod, inte en egenskap hos betalsättet.</p>
-        <p class="small text-muted">Hitta inställningen under <strong>Redovisning → Konfiguration → Betalmetoder</strong>. Inställningen gäller per metod, så olika metoder kan bete sig olika i samma företag.</p>
+        <h2>Osäker på vilken väg din betalmetod tar?</h2>
+        <p>Autogiro väntar alltid på banken. Men <strong>Autogiro är inte den enda metoden som gör det</strong> — även IBAN, Bankgiro och SEPA kan vara inställda så. Det avgörs per betalmetod, så två metoder i samma företag kan bete sig olika.</p>
+        <p>Vill du veta innan du betalar: öppna <strong>Redovisning → Konfiguration → Betalmetoder</strong> och titta på metoden du tänker använda. Står <em>Vänta på avstämning</em> påslagen hamnar fakturan som Pågående — då vet du att en bankavstämning återstår, och behöver inte leta efter felet när fakturan står kvar.</p>
+        <p class="small text-muted">Enklaste kontrollen i praktiken: betala en faktura och titta på utfallet. Blir den Pågående väntar den på banken. Litar du inte på läsningen av inställningen är det snabbare än att tolka menyer.</p>
     </div>
 </section>
         </field>
-        <field name="description">Jämförelsetabell över de fyra vägarna, och förklaringen att det är pending-flaggan på betalmetoden — inte betalsättets namn — som avgör utfallet.</field>
+        <field name="description">Jämförelsetabell över de fyra vägarna, och förklaringen att det är inställningen på betalmetoden — inte betalsättets namn — som avgör om fakturan blir Betald direkt eller står kvar som Pågående.</field>
     </record>
 
     <!-- SLIDE 1.3: Beslutsguide (Infographic) -->
@@ -297,15 +298,15 @@
     </record>
 
     <record id="slide_s1_04_q2" model="slide.question">
-        <field name="question">Varför skiljer sig utfallet mellan väg a och väg b?</field>
+        <field name="question">Du gör samma sak i väg a och väg b — varför blir utfallet olika?</field>
         <field name="sequence">2</field>
         <field name="slide_id" ref="slide_s1_04"/>
     </record>
     <record id="slide_s1_04_q2_a1" model="slide.answer">
-        <field name="text_value">Väg b använder Autogiro, där banken drar pengarna själv och inget får bokföras förrän den gjort det</field>
+        <field name="text_value">Väg b använder en betalmetod som väntar på avstämning — fakturan blir Betald först när bankraden matchats</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Autogiro är en direktdebitering — därför väntar väg b på bankens bekräftelse.</field>
+        <field name="comment">Correct! Metoden väntar på banken — därför står fakturan kvar som Pågående.</field>
         <field name="question_id" ref="slide_s1_04_q2"/>
     </record>
     <record id="slide_s1_04_q2_a2" model="slide.answer">
@@ -324,15 +325,15 @@
     </record>
 
     <record id="slide_s1_04_q3" model="slide.question">
-        <field name="question">Vilken är den avgörande frågan för om fakturan blir Betald eller Pågående?</field>
+        <field name="question">Vilken fråga avgör om du är klar med fakturan eller har en avstämning kvar?</field>
         <field name="sequence">3</field>
         <field name="slide_id" ref="slide_s1_04"/>
     </record>
     <record id="slide_s1_04_q3_a1" model="slide.answer">
-        <field name="text_value">Har banken bekräftat att pengarna rörde sig?</field>
+        <field name="text_value">Har banken dragit pengarna?</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Bankens bekräftelse är hela skillnaden.</field>
+        <field name="comment">Correct! Har pengarna rört sig är fakturan Betald — annars väntar en avstämning.</field>
         <field name="question_id" ref="slide_s1_04_q3"/>
     </record>
     <record id="slide_s1_04_q3_a2" model="slide.answer">
@@ -351,22 +352,22 @@
     </record>
 
     <record id="slide_s1_04_q4" model="slide.question">
-        <field name="question">Varför är det viktigt att känna igen Pågående vid bokslut?</field>
+        <field name="question">Varför ska du leta upp Pågående fakturor inför bokslut?</field>
         <field name="sequence">4</field>
         <field name="slide_id" ref="slide_s1_04"/>
     </record>
     <record id="slide_s1_04_q4_a1" model="slide.answer">
-        <field name="text_value">Fakturan är inte slutligt betald — leverantörsskulden är kvar och en bankavstämning återstår</field>
+        <field name="text_value">Fakturan är inte slutligt betald — utestående belopp är kvar och en bankavstämning återstår</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Pågående fakturor har kvarvarande skuld och kräver avstämning innan bokslutet är korrekt.</field>
+        <field name="comment">Correct! Pågående fakturor har kvarvarande belopp och kräver avstämning innan bokslutet är korrekt.</field>
         <field name="question_id" ref="slide_s1_04_q4"/>
     </record>
     <record id="slide_s1_04_q4_a2" model="slide.answer">
         <field name="text_value">Fakturan behöver bokföras om från grunden</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Fakturan är redan bokförd — det är betalningen som väntar.</field>
+        <field name="comment">Incorrect! Det finns inget att bokföra om — det är bankens dragning och din avstämning som fattas.</field>
         <field name="question_id" ref="slide_s1_04_q4"/>
     </record>
     <record id="slide_s1_04_q4_a3" model="slide.answer">
@@ -383,10 +384,10 @@
         <field name="slide_id" ref="slide_s1_04"/>
     </record>
     <record id="slide_s1_04_q5_a1" model="slide.answer">
-        <field name="text_value">Väg a (betalorder med metod utan pending-flagga) och väg c (manuell betalning med datum)</field>
+        <field name="text_value">Väg a (betalorder med metod som inte väntar) och väg c (manuell betalning med datum)</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Båda bokför betalningen direkt och ger Betald — väg a för att metoden saknar pending-flagga, väg c för att Pay-knappen bokför direkt.</field>
+        <field name="comment">Correct! Båda ger Betald direkt — väg a för att metoden inte väntar, väg c för att Pay-knappen betalar direkt.</field>
         <field name="question_id" ref="slide_s1_04_q5"/>
     </record>
     <record id="slide_s1_04_q5_a2" model="slide.answer">

@@ -29,15 +29,15 @@
     <span class="s_parallax_bg oe_img_bg" style="background-color: #742a2a;"/>
     <div class="container">
         <h1 class="display-3-fs" style="text-align: center;">Pågående vs Betald i bokslutet</h1>
-        <p class="lead" style="text-align: center;">Varför en Pågående faktura inte får passera obemärkt vid årets slut.</p>
+        <p class="lead" style="text-align: center;">Därför ska du gå igenom Pågående fakturor innan du stänger året.</p>
     </div>
 </section>
 
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
-        <h2>Skillnaden i redovisningen</h2>
-        <p>En <strong>Betald</strong> faktura har noll utestående belopp och en bokförd betalning. Leverantörsskulden är slutligt nollad — inget mer arbete kvar.</p>
-        <p>En <strong>Pågående</strong> faktura har <strong>fortfarande ett utestående belopp</strong> i leverantörsskulden. Betalningen är påbörjad men inte bekräftad av banken. Vid bokslut innebär det att skulden är levande och att en bankavstämning återstår.</p>
+        <h2>Skillnaden du ser</h2>
+        <p>En <strong>Betald</strong> faktura har noll utestående belopp. Du är klar med den — inget mer arbete kvar.</p>
+        <p>En <strong>Pågående</strong> faktura har <strong>fortfarande ett utestående belopp</strong>. Banken har inte dragit pengarna än, så skulden finns kvar hos leverantören. Vid bokslut betyder det att du har en avstämning kvar att göra.</p>
     </div>
 </section>
 
@@ -58,14 +58,14 @@
                     <td><strong>Kvarstår</strong></td>
                 </tr>
                 <tr>
-                    <td>Leverantörsskuld</td>
-                    <td>Nollad</td>
-                    <td><strong>Levande</strong></td>
+                    <td>Skuld kvar</td>
+                    <td>Ingen</td>
+                    <td><strong>Ja</strong></td>
                 </tr>
                 <tr>
-                    <td>Bokförd betalning</td>
+                    <td>Betalning registrerad</td>
                     <td>Ja</td>
-                    <td>Nej (eller ej bokförd)</td>
+                    <td>Nej</td>
                 </tr>
                 <tr>
                     <td>Arbete kvar</td>
@@ -82,13 +82,13 @@
         <div class="row">
             <div class="col-lg-9">
                 <h3>Rutin inför bokslut</h3>
-                <p class="lead">Filtrera leverantörsfakturor på tillståndet <strong>Pågående</strong> och gå igenom dem. Varje Pågående faktura är antingen väntande på banken (normalt) eller en avstämning som glömts (åtgärda).</p>
+                <p class="lead">Filtrera leverantörsfakturor på <strong>Pågående</strong> och gå igenom dem en och en. Varje Pågående faktura är antingen väntande på banken (normalt, gör inget) eller en avstämning du glömt (matcha bankraden).</p>
             </div>
         </div>
     </div>
 </section>
         </field>
-        <field name="description">Skillnaden mellan Betald och Pågående i redovisningen, och rutinen inför bokslut: filtrera fram och gå igenom Pågående fakturor.</field>
+        <field name="description">Skillnaden mellan Betald och Pågående när du gör bokslut, och rutinen: filtrera fram och gå igenom Pågående fakturor en och en.</field>
     </record>
 
     <!-- SLIDE 4.2: Felsökning — varför står fakturan kvar som Pågående? -->
@@ -104,7 +104,7 @@
 <section class="s_text_block pt64 pb40">
     <div class="container s_allow_columns">
         <h2>Vanliga orsaker</h2>
-        <p>En Pågående faktura är oftast helt normal — men ibland betyder den att något fastnat. Här är orsakerna i den ordning de brukar förekomma.</p>
+        <p>En Pågående faktura är oftast helt normal — men ibland betyder den att något fastnat. Här är orsakerna i den ordning de brukar förekomma, och vad du gör i varje fall.</p>
     </div>
 </section>
 
@@ -168,7 +168,7 @@
         <field name="is_preview" eval="False"/>
         <field name="completion_time">0.10</field>
         <field name="image_1920" type="base64" file="account_payment_order_autogiro_lms/static/src/img/diagram_all_paths.png"/>
-        <field name="description">Samlad översikt: de fyra betalvägarna sida vid sida, från faktura till slutligt tillstånd, med markering av var bankavstämningen krävs.</field>
+        <field name="description">Samlad översikt: de fyra betalvägarna sida vid sida, från faktura till Betald, med markering av var du behöver göra en bankavstämning.</field>
     </record>
 
     <!-- SLIDE 4.4: Quiz — bokslut och felsökning -->
@@ -188,29 +188,29 @@
     </record>
 
     <record id="slide_s4_04_q1" model="slide.question">
-        <field name="question">Vad innebär en Pågående faktura för leverantörsskulden vid bokslut?</field>
+        <field name="question">Du gör bokslut och hittar en Pågående faktura. Vad betyder det?</field>
         <field name="sequence">1</field>
         <field name="slide_id" ref="slide_s4_04"/>
     </record>
     <record id="slide_s4_04_q1_a1" model="slide.answer">
-        <field name="text_value">Skulden är fortfarande levande — den är inte slutligt reglerad</field>
+        <field name="text_value">Du är inte klar med den — utestående belopp kvarstår och en avstämning återstår</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
         <field name="comment">Correct! Pågående betyder att det utestående beloppet kvarstår.</field>
         <field name="question_id" ref="slide_s4_04_q1"/>
     </record>
     <record id="slide_s4_04_q1_a2" model="slide.answer">
-        <field name="text_value">Skulden är nollad men bokföringen är ofullständig</field>
+        <field name="text_value">Fakturan är betald men bokföringen är ofullständig</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Skulden är just inte nollad — det är därför fakturan är Pågående.</field>
+        <field name="comment">Incorrect! Beloppet är inte nollat — det är därför fakturan är Pågående.</field>
         <field name="question_id" ref="slide_s4_04_q1"/>
     </record>
     <record id="slide_s4_04_q1_a3" model="slide.answer">
-        <field name="text_value">Skulden har flyttats till ett annat konto</field>
+        <field name="text_value">Beloppet har flyttats till ett annat konto</field>
         <field name="sequence">3</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Ingen omflyttning sker — beloppet ligger kvar på leverantörsskulden.</field>
+        <field name="comment">Incorrect! Ingen omflyttning sker — beloppet ligger kvar.</field>
         <field name="question_id" ref="slide_s4_04_q1"/>
     </record>
 
@@ -230,7 +230,7 @@
         <field name="text_value">Bokföra om dem så att de blir Betalda</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! De är redan bokförda — det är betalningen/avstämningen som saknas.</field>
+        <field name="comment">Incorrect! Det finns inget att bokföra om — det är avstämningen som saknas.</field>
         <field name="question_id" ref="slide_s4_04_q2"/>
     </record>
     <record id="slide_s4_04_q2_a3" model="slide.answer">
@@ -242,7 +242,7 @@
     </record>
 
     <record id="slide_s4_04_q3" model="slide.question">
-        <field name="question">Vad är den vanligaste och helt normala orsaken till att en faktura med pending-metod står Pågående?</field>
+        <field name="question">Vad är den vanligaste — och helt normala — orsaken till att en Autogiro-faktura står Pågående?</field>
         <field name="sequence">3</field>
         <field name="slide_id" ref="slide_s4_04"/>
     </record>
@@ -250,7 +250,7 @@
         <field name="text_value">Banken har inte genomfört debiteringen ännu</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Autogiro (och andra pending-metoder) sker på bankens schema — väntan är normalt.</field>
+        <field name="comment">Correct! Autogiro sker på bankens schema — att vänta är normalt.</field>
         <field name="question_id" ref="slide_s4_04_q3"/>
     </record>
     <record id="slide_s4_04_q3_a2" model="slide.answer">
@@ -264,7 +264,7 @@
         <field name="text_value">Betalmetoden är felkonfigurerad</field>
         <field name="sequence">3</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Beteendet är avsiktligt för metoder med pending-flaggan på.</field>
+        <field name="comment">Incorrect! Det här är precis så metoder som väntar på avstämning ska bete sig.</field>
         <field name="question_id" ref="slide_s4_04_q3"/>
     </record>
 
@@ -301,17 +301,17 @@
         <field name="slide_id" ref="slide_s4_04"/>
     </record>
     <record id="slide_s4_04_q5_a1" model="slide.answer">
-        <field name="text_value">Väg b och väg d — båda använder en betalmetod med pending-flaggan på</field>
+        <field name="text_value">Väg b och väg d — båda använder en betalmetod som väntar på avstämning</field>
         <field name="sequence">1</field>
         <field name="is_correct" eval="True"/>
-        <field name="comment">Correct! Båda vägarna använder en pending-metod och väntar på bankens bekräftelse.</field>
+        <field name="comment">Correct! Båda vägarna använder en metod som väntar på banken.</field>
         <field name="question_id" ref="slide_s4_04_q5"/>
     </record>
     <record id="slide_s4_04_q5_a2" model="slide.answer">
         <field name="text_value">Väg a och väg b</field>
         <field name="sequence">2</field>
         <field name="is_correct" eval="False"/>
-        <field name="comment">Incorrect! Väg a använder en metod utan pending-flagga och bokför vid uppladdning — ingen väntan.</field>
+        <field name="comment">Incorrect! Väg a använder en metod som inte väntar — fakturan blir Betald vid uppladdningen.</field>
         <field name="question_id" ref="slide_s4_04_q5"/>
     </record>
     <record id="slide_s4_04_q5_a3" model="slide.answer">
