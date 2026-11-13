@@ -139,7 +139,94 @@ def _migrate_from_account_period_vrtl(env):
 # This module owns the Fiscal Year and Month types. l10n_se_date_ranges owns
 # Quarter and Week and depends on this module. Each module generates the
 # ranges for the types it owns, so neither has to call into the other.
+#
+# Adoption from a previous owner needs BOTH a pre_init_hook and a migration
+# script, because Odoo runs them in different situations:
+#
+#   pre_init_hook   only when the module is INSTALLED (state 'to install')
+#   migrations/     only when an already-installed module is UPGRADED
+#
+# A database that never had this module installed takes the first path; one
+# that had an older version takes the second. Neither covers the other.
 # ---------------------------------------------------------------------------
+
+# Modules that owned these types before this one. Two cases exist in the
+# fleet, and a database may be in either:
+#
+#   l10n_se_account_fiscal_year   the bridge module (2026-10-30 onwards)
+#   l10n_se_date_ranges           before the bridge, up to 18.0.1.1.0
+#
+# A database that never upgraded past l10n_se_date_ranges 18.0.1.1.0 still has
+# all four types under that module's xmlids. Adopting from only the bridge
+# leaves those databases with adopted=0, and the data file then tries to
+# create Fiscal Year and Month again -> UniqueViolation.
+LEGACY_MODULES = (
+    "l10n_se_account_fiscal_year",
+    "l10n_se_date_ranges",
+)
+
+# The types this module owns, by xmlid suffix.
+OWNED_TYPE_XMLIDS = (
+    "date_range_type_fiscalyear",
+    "date_range_type_month",
+)
+
+
+def _adopt_legacy_types(env, xmlids, target_module):
+    """Re-point ir.model.data rows for date.range.type to *target_module*.
+
+    Moving the row (not the record) keeps res_id intact, so every
+    date.range.type_id keeps pointing at the same record. Returns the number
+    of rows adopted.
+    """
+    Imd = env["ir.model.data"].sudo()
+    adopted = 0
+    for name in xmlids:
+        already = Imd.search([
+            ("module", "=", target_module),
+            ("name", "=", name),
+            ("model", "=", "date.range.type"),
+        ], limit=1)
+        if already:
+            continue
+
+        for legacy_module in LEGACY_MODULES:
+            legacy = Imd.search([
+                ("module", "=", legacy_module),
+                ("name", "=", name),
+                ("model", "=", "date.range.type"),
+            ], limit=1)
+            if not legacy:
+                continue
+            legacy.write({"module": target_module})
+            adopted += 1
+            _logger.info(
+                "Adopted date range type %s from %s (res_id %s).",
+                name, legacy_module, legacy.res_id,
+            )
+            break
+    return adopted
+
+
+def _pre_init_adopt_types(env):
+    """pre_init_hook: adopt this module's types before the data file loads.
+
+    Runs on INSTALL only. Without it, installing this module on a database
+    where l10n_se_date_ranges still owns the types makes
+    data/date_range_type_data.xml create a second set, which PostgreSQL
+    rejects on date_range_type_date_range_type_uniq.
+
+    The upgrade path is covered by migrations/18.0.1.2.0/pre-adopt-types.py,
+    which does the same thing for an already-installed module.
+    """
+    adopted = _adopt_legacy_types(
+        env, OWNED_TYPE_XMLIDS, "account_fiscal_year_vrtl")
+    if adopted:
+        _logger.info(
+            "account_fiscal_year_vrtl pre_init: adopted %d date range type(s) "
+            "from %s.", adopted, ", ".join(LEGACY_MODULES),
+        )
+
 
 def _generate_fiscal_year_ranges(env):
     """post_init_hook: generate Fiscal Year ranges for the surrounding years.

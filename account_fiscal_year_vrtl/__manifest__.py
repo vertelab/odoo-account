@@ -47,5 +47,6 @@ Features:
     "installable": True,
     "application": False,
     "auto_install": False,
+    "pre_init_hook": "_pre_init_adopt_types",
     "post_init_hook": "_post_init",
 }
