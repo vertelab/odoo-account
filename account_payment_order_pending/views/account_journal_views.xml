@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Vertel Sverige AB
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!--
+        Hide the per-line interim account on a payment method line that defers
+        the booking until the bank reconciliation. Nothing is booked before the
+        bank confirms the movement, so the account is never written to.
+
+        Note: Odoo 18 has no payment_debit_account_id /
+        payment_credit_account_id on account.journal — those fields were
+        removed from the model, so there is nothing to hide there. The only
+        remaining interim-account field in the UI is payment_account_id on
+        account.payment.method.line.
+    -->
+    <record model="ir.ui.view" id="account_journal_form_view_pending">
+        <field name="name">account.journal.form (in account_payment_order_pending)</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='inbound_payment_method_line_ids']/list/field[@name='payment_account_id']"
+                position="attributes"
+            >
+                <attribute name="invisible">is_pending_method</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='outbound_payment_method_line_ids']/list/field[@name='payment_account_id']"
+                position="attributes"
+            >
+                <attribute name="invisible">is_pending_method</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

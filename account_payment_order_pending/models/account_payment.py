@@ -110,6 +110,28 @@ class AccountPayment(models.Model):
         )
         return counterpart_lines.move_id.filtered(lambda move: move.statement_line_id)
 
+    def _get_outstanding_account(self, payment_type):
+        """Return the account a pending payment may fall back to.
+
+        Odoo resolves the interim account through
+        ``chart_template.ref('account_journal_payment_debit_account_id')``
+        and raises ``UserError`` when neither that nor
+        ``company.transfer_account_id`` is set.
+
+        A pending payment is never booked, so it needs no interim account at
+        all. The Swedish charts remove the interim accounts on purpose (see
+        ``l10n_se_extended``), which leaves ``transfer_account_id`` — pointing
+        at BAS ``1955 Bank transfer`` — as the only candidate. Returning it
+        keeps the method callable without reintroducing an interim account.
+
+        For a pending payment the account is never written to; it is only
+        returned so that callers which inspect it do not fail.
+        """
+        self.ensure_one()
+        if self._is_pending_order_payment():
+            return self.company_id.transfer_account_id
+        return super()._get_outstanding_account(payment_type)
+
     def _generate_journal_entry(
         self, write_off_line_vals=None, force_balance=None, line_ids=None
     ):

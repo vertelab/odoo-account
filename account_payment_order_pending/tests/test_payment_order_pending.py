@@ -56,7 +56,12 @@ class TestPaymentOrderPending(AccountTestInvoicingCommon):
         categ_type_id = False
         with registry_module(get_db_name()).cursor() as cr:
             env = api.Environment(cr, SUPERUSER_ID, {})
-            categ_type_id = env["product.category.type"].search([], limit=1).id
+            # sfa_core is a customer module and is not present in every
+            # database. Without it the model does not exist at all, so the
+            # lookup must be guarded — otherwise setUpClass fails with
+            # KeyError before any test runs.
+            if "product.category.type" in env:
+                categ_type_id = env["product.category.type"].search([], limit=1).id
 
         if categ_type_id:
             ProductCategory = registry_module(get_db_name())["product.category"]
@@ -483,3 +488,82 @@ automatically on create. account_reconcile_oca skips that step in test
         self.assertEqual(invoice.state, "cancel")
         self.assertFalse(invoice.is_pending_bank)
         self.assertEqual(invoice.payment_state, "not_paid")
+
+    # ------------------------------------------------------------------
+    # Requirement 5 — no interim account required
+    # ------------------------------------------------------------------
+
+    def test_pending_payment_needs_no_interim_account(self):
+        """A pending payment resolves its outstanding account without any
+        interim account being present.
+
+        The Swedish charts remove ``Outstanding Receipts``/``Outstanding
+        Payments`` on purpose. ``_get_outstanding_account()`` must therefore
+        not raise ``UserError`` for a pending payment: it falls back to
+        ``company.transfer_account_id``.
+        """
+        self.manual_method.pending_until_reconciliation = True
+        mode = self._create_mode("Test Pending NoInterim", self.manual_method)
+
+        invoice = self._create_supplier_invoice("PEND-NOINTERIM-001")
+        order = self._add_to_order(invoice, mode)
+
+        payment = order.payment_ids
+        self.assertTrue(payment, "Pending order should have payments")
+
+        for payment_type in ("inbound", "outbound"):
+            account = payment._get_outstanding_account(payment_type)
+            self.assertTrue(
+                account,
+                "A pending payment must resolve an account without an "
+                "interim account being configured",
+            )
+            self.assertEqual(
+                account,
+                payment.company_id.transfer_account_id,
+                "A pending payment falls back to transfer_account_id",
+            )
+
+    def test_is_pending_order_payment_both_routes(self):
+        """``_is_pending_order_payment()`` must be True for both routes.
+
+        Route 1: a payment created by a payment order.
+        Route 2: a payment created by the "Pay" button (no payment order).
+        """
+        self.manual_method.pending_until_reconciliation = True
+        mode = self._create_mode("Test Pending Routes", self.manual_method)
+
+        # Route 1 — payment order
+        invoice = self._create_supplier_invoice("PEND-ROUTE-ORDER")
+        order = self._add_to_order(invoice, mode)
+        order_payment = order.payment_ids
+        self.assertTrue(
+            order_payment._is_pending_order_payment(),
+            "A payment from a pending order must be pending",
+        )
+
+        # Route 2 — "Pay" button, no payment order. The payment is built
+        # directly so the test does not depend on the register wizard's
+        # journal/method selection.
+        direct_payment = self.env["account.payment"].create(
+            {
+                "payment_type": "outbound",
+                "partner_type": "supplier",
+                "partner_id": invoice.partner_id.id,
+                "amount": 100.0,
+                "journal_id": self.bank_journal.id,
+                "payment_method_line_id": (
+                    self.bank_journal.outbound_payment_method_line_ids[:1].id
+                ),
+                "date": fields.Date.today(),
+            }
+        )
+        self.assertFalse(
+            direct_payment.payment_order_id,
+            "Route 2 must have no payment order",
+        )
+        self.assertTrue(
+            direct_payment._is_pending_order_payment(),
+            "A payment made with a pending method via the Pay button must "
+            "be pending even without a payment order",
+        )
