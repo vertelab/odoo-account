@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_okf_backfill_form" model="ir.ui.view">
+        <field name="name">account.okf.backfill.form</field>
+        <field name="model">account.okf.backfill</field>
+        <field name="arch" type="xml">
+            <form string="Backfill OKF">
+                <p class="text-muted">
+                    Flaggar verifikat i intervallet för OKF-indexering.
+                    Indexeringen sker sedan av cron (var 5:e minut).
+                </p>
+                <group>
+                    <group>
+                        <field name="company_id"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="include_drafts"/>
+                </group>
+                <footer>
+                    <button name="action_backfill" type="object"
+                            string="Flagga för indexering" class="btn-primary"/>
+                    <button string="Avbryt" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_okf_backfill" model="ir.actions.act_window">
+        <field name="name">Backfill OKF</field>
+        <field name="res_model">account.okf.backfill</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_account_okf_backfill"
+              name="Backfill OKF"
+              parent="account.menu_finance_configuration"
+              action="action_account_okf_backfill"
+              groups="account.group_account_manager"
+              sequence="99"/>
+</odoo>

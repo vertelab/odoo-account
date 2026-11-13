@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        OKF-valet i debug-menyn för account_ai:s modeller (okf-mixin F5.10).
+
+        Åtgärden är generisk och bor i ai_agent_core
+        (`ai.okf.mixin.action_open_okf`); här deklareras bara BINDNINGEN.
+        `binding_model_id` måste peka på en konkret modell, och modellerna
+        bor i denna bryggmodul — därför fyra rader XML per modell, ingen Python.
+
+        `base.group_no_one` = debug-läget är på (samma mekanism som
+        *Meta data* och *Data*).
+    -->
+    <record id="action_okf_account_move" model="ir.actions.server">
+        <field name="name">OKF</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">form</field>
+        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]"/>
+        <field name="state">code</field>
+        <field name="code">action = env['ai.okf.mixin'].action_open_okf()</field>
+    </record>
+    <record id="action_okf_account_account" model="ir.actions.server">
+        <field name="name">OKF</field>
+        <field name="model_id" ref="account.model_account_account"/>
+        <field name="binding_model_id" ref="account.model_account_account"/>
+        <field name="binding_view_types">form</field>
+        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]"/>
+        <field name="state">code</field>
+        <field name="code">action = env['ai.okf.mixin'].action_open_okf()</field>
+    </record>
+</odoo>
