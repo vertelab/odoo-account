@@ -16,3 +16,39 @@ pdftotext
 eml_parser
 numpy_financial
 pymupdf
+
+# ── Saknade beroenden — inventering 2026-11-13 ──────────────────────────────
+# Källa: skanning av importer i de moduler som repo-filerna faktiskt
+# installerar (accounting_core/full, payroll, canary18, sfa18-test-addons).
+# Se /srv/salt/odoo/REQUIREMENTS-AUDIT-2026-11-13.md.
+#
+# Modulerna nedan importerar paketen på modulnivå (inte i try/except), så
+# ett saknat paket fäller hela Odoo-registryt vid första import — inte bara
+# den enskilda modulen.
+
+# account_attachment_directory, account_move_directory — daemonerna
+inotify
+odoorpc
+
+# account_enablebanking — JWT mot Enable Banking API
+PyJWT
+
+# account_import_excel, account_chart_per_fiscalyear
+openpyxl
+
+# account_invoice_ai — AI-fakturatolkning
+langchain-core
+langgraph
+typing_extensions
+pytesseract
+
+# account_invoice_scan_llm — lokal embedding-modell
+langchain-openai
+langchain-text-splitters
+langchain-huggingface
+numpy
+# sentence-transformers drar in torch (~800 MB per container) och behövs bara
+# av account_invoice_scan_llm, som i sin tur bara deklareras av
+# sfa18-test-addons.repo. Avkommentera INTE utan att först kontrollera att
+# modulen ska installeras — repo_apply installerar paketen för ALLA kunder.
+#sentence-transformers
