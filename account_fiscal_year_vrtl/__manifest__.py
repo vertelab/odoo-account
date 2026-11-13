@@ -1,6 +1,6 @@
 {
     "name": "Account: Fiscal Year",
-    "version": "18.0.1.1.0",
+    "version": "18.0.1.2.0",
     "category": "Accounting/Accounting",
     "summary": "Fiscal years with monthly periods, period closing, and hash-locking",
     "description": """
@@ -13,7 +13,7 @@ Features:
 - Optional hash-locking on period close
 - Strict period validation on account.move operations
 - Server action for scheduled period closing
-- Swedish date range types via bridge module (l10n_se_account_fiscal_year)
+- Fiscal Year and Month date range types (Quarter/Week live in l10n_se_date_ranges)
 - Balance/closing via bridge module (account_fiscal_year_mis + OCA account_fiscal_year_closing)
     """,
     "author": "Vertel AB",
@@ -28,6 +28,7 @@ Features:
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",
+        "data/date_range_type_data.xml",
         "data/ir_server_action.xml",
         "data/cron_task.xml",
         "views/account_fiscalyear_views.xml",
@@ -46,5 +47,5 @@ Features:
     "installable": True,
     "application": False,
     "auto_install": False,
-    "post_init_hook": "_migrate_from_account_period_vrtl",
+    "post_init_hook": "_post_init",
 }

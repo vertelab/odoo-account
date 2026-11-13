@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- The date range types this module owns.
+
+             Fiscal Year and Month are generic: every jurisdiction has a
+             fiscal year, and the monthly periods inside it are what this
+             module creates. Both types therefore live here, so the module
+             never depends on a localization to create its own periods.
+
+             Quarter and Week carry locale-specific naming and live in
+             l10n_se_date_ranges, which depends on this module.
+
+             noupdate="1": an administrator may rename a type; a module
+             upgrade must not overwrite that.
+        -->
+        <record id="date_range_type_fiscalyear" model="date.range.type">
+            <field name="name">Fiscal Year</field>
+            <field name="unit_of_time">0</field>
+            <field name="duration_count">1</field>
+            <field name="allow_overlap" eval="False"/>
+            <field name="name_expr">'Y20%s' % date_start.strftime('%y')</field>
+        </record>
+
+        <record id="date_range_type_month" model="date.range.type">
+            <field name="name">Month</field>
+            <field name="unit_of_time">1</field>
+            <field name="duration_count">1</field>
+            <field name="allow_overlap" eval="False"/>
+            <field name="name_expr">'M%s' % date_start.strftime('%y%m')</field>
+        </record>
+    </data>
+</odoo>

@@ -4,6 +4,7 @@ import logging
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -93,6 +94,37 @@ class AccountFiscalYear(models.Model):
             if all(p.state == "done" for p in fy.period_ids):
                 fy.state = "done"
 
+    def _get_date_range_type(self, xmlid):
+        """Return a date.range.type owned by this module, or False.
+
+        The type comes from this module's own data file, which Odoo loads
+        before post_init_hook runs. A missing type means the module was
+        installed without its data, so the caller decides whether that is
+        fatal.
+        """
+        return self.env.ref(
+            "account_fiscal_year_vrtl.%s" % xmlid, raise_if_not_found=False
+        )
+
+    def _date_range_name(self, date_range_type, date_start):
+        """Render a date.range name from the type's name_expr.
+
+        The type owns the naming convention (``M2601``, ``Y2026``); hardcoding
+        it here would duplicate logic that already exists on the type and
+        drift from it.
+        """
+        if not date_range_type or not date_range_type.name_expr:
+            return "M{}".format(date_start.strftime("%y%m"))
+        try:
+            return safe_eval(date_range_type.name_expr, {"date_start": date_start})
+        except Exception:  # noqa: BLE001 - a bad name_expr must not block periods
+            _logger.warning(
+                "Could not evaluate name_expr %r on %s; falling back to M%%y%%m.",
+                date_range_type.name_expr,
+                date_range_type.display_name,
+            )
+            return "M{}".format(date_start.strftime("%y%m"))
+
     def create_period(self, interval=1):
         """Create periods for this fiscal year.
 
@@ -111,6 +143,15 @@ class AccountFiscalYear(models.Model):
 
         import calendar
 
+        month_type = self._get_date_range_type("date_range_type_month")
+        if not month_type:
+            raise ValidationError(
+                _(
+                    "The Month date range type is missing. It ships with "
+                    "account_fiscal_year_vrtl; reinstall the module to restore it."
+                )
+            )
+
         current_date = self.date_from
         period_count = 0
 
@@ -125,10 +166,11 @@ class AccountFiscalYear(models.Model):
                 period_end = self.date_to
 
             date_range = self.env["date.range"].create({
-                "name": "M{}".format(current_date.strftime("%y%m")),
+                "name": self._date_range_name(month_type, current_date),
                 "date_start": current_date,
                 "date_end": period_end,
                 "company_id": self.company_id.id,
+                "type_id": month_type.id,
             })
 
             self.env["account.period"].create({

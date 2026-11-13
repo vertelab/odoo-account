@@ -131,3 +131,61 @@ def _migrate_from_account_period_vrtl(env):
         _logger.warning("Could not drop fiscalyear_id from account_move_line: %s", e)
 
     _logger.info("Migration from account_period_vrtl complete")
+
+
+# ---------------------------------------------------------------------------
+# Date range types: ownership and generation
+#
+# This module owns the Fiscal Year and Month types. l10n_se_date_ranges owns
+# Quarter and Week and depends on this module. Each module generates the
+# ranges for the types it owns, so neither has to call into the other.
+# ---------------------------------------------------------------------------
+
+def _generate_fiscal_year_ranges(env):
+    """post_init_hook: generate Fiscal Year ranges for the surrounding years.
+
+    Previous, current and next year, so a fresh install has periods to close
+    immediately. Idempotent: a year that already has ranges is skipped.
+    """
+    from datetime import date
+
+    date_range_type = env.ref(
+        "account_fiscal_year_vrtl.date_range_type_fiscalyear",
+        raise_if_not_found=False,
+    )
+    if not date_range_type:
+        _logger.warning(
+            "date_range_type_fiscalyear not found — skipping range generation.")
+        return
+
+    current_year = date.today().year
+    for year in (current_year - 1, current_year, current_year + 1):
+        existing = env["date.range"].search_count([
+            ("type_id", "=", date_range_type.id),
+            ("date_start", ">=", f"{year}-01-01"),
+            ("date_start", "<=", f"{year}-12-31"),
+        ])
+        if existing:
+            _logger.info(
+                "Skipping Fiscal Year generation for %s (%d ranges already exist).",
+                year, existing,
+            )
+            continue
+
+        generator = env["date.range.generator"].create({
+            "type_id": date_range_type.id,
+            "date_start": date(year, 1, 1),
+            "date_end": date(year, 12, 31),
+            "name_expr": date_range_type.name_expr,
+            "duration_count": date_range_type.duration_count,
+            "unit_of_time": date_range_type.unit_of_time,
+            "count": 0,
+        })
+        generator.action_apply()
+        _logger.info("Generated Fiscal Year ranges for %s.", year)
+
+
+def _post_init(env):
+    """post_init_hook: run the legacy migration, then generate ranges."""
+    _migrate_from_account_period_vrtl(env)
+    _generate_fiscal_year_ranges(env)
