@@ -35,7 +35,20 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-LEGACY_MODULE = "l10n_se_account_fiscal_year"
+# Modules that owned these types before this one. Two cases exist in the
+# fleet, and a database may be in either:
+#
+#   l10n_se_account_fiscal_year   the bridge module (2026-10-30 onwards)
+#   l10n_se_date_ranges           before the bridge, up to 18.0.1.1.0
+#
+# A database that never upgraded past l10n_se_date_ranges 18.0.1.1.0 still has
+# all four types under that module's xmlids. Adopting from only the bridge
+# leaves those databases with adopted=0, and the data file then tries to
+# create Fiscal Year and Month again -> UniqueViolation.
+LEGACY_MODULES = (
+    "l10n_se_account_fiscal_year",
+    "l10n_se_date_ranges",
+)
 OWNED_XMLIDS = (
     "date_range_type_fiscalyear",
     "date_range_type_month",
@@ -54,13 +67,6 @@ def migrate(cr, version):
 
     adopted = 0
     for name in OWNED_XMLIDS:
-        legacy = Imd.search([
-            ("module", "=", LEGACY_MODULE),
-            ("name", "=", name),
-            ("model", "=", "date.range.type"),
-        ], limit=1)
-        if not legacy:
-            continue
         already = Imd.search([
             ("module", "=", "account_fiscal_year_vrtl"),
             ("name", "=", name),
@@ -68,14 +74,24 @@ def migrate(cr, version):
         ], limit=1)
         if already:
             continue
-        legacy.write({"module": "account_fiscal_year_vrtl"})
-        adopted += 1
-        _logger.info(
-            "Adopted date range type %s from %s (res_id %s).",
-            name, LEGACY_MODULE, legacy.res_id,
-        )
+
+        for legacy_module in LEGACY_MODULES:
+            legacy = Imd.search([
+                ("module", "=", legacy_module),
+                ("name", "=", name),
+                ("model", "=", "date.range.type"),
+            ], limit=1)
+            if not legacy:
+                continue
+            legacy.write({"module": "account_fiscal_year_vrtl"})
+            adopted += 1
+            _logger.info(
+                "Adopted date range type %s from %s (res_id %s).",
+                name, legacy_module, legacy.res_id,
+            )
+            break
 
     _logger.info(
         "account_fiscal_year_vrtl 18.0.1.2.0: adopted %d date range type(s) "
-        "from %s.", adopted, LEGACY_MODULE,
+        "from %s.", adopted, ", ".join(LEGACY_MODULES),
     )
