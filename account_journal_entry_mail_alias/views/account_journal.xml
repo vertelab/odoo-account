@@ -5,7 +5,6 @@
             <field name="model">account.journal</field>
             <field name="inherit_id" ref="account.view_account_journal_form"/>
             <field name="arch" type="xml">
-                <!-- #if VERSION <= "18.0" -->
                 <!-- 18.0 keeps the alias in dedicated groups (group_alias_*);
                      19.0 replaced them with one group_email_alias that is
                      already limited to general/sale/purchase, so there is
@@ -21,8 +20,6 @@
                 <xpath expr="//group[@name='group_alias_edit']" position="attributes">
                     <attribute name="invisible">type not in ('sale', 'purchase', 'general') or not alias_domain</attribute>
                 </xpath>
-                <!-- #endif -->
-
             </field>
         </record>
     </data>
