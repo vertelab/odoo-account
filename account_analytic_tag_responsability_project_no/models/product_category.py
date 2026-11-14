@@ -3,7 +3,7 @@ import re
 
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError
-# odoo.osv was removed in 20.0; the module does not use expression.
+from odoo.osv import expression
 
 
 from odoo.tools import float_compare

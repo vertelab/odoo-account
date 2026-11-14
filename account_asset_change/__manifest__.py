@@ -45,7 +45,7 @@
         'account_asset_management'
     ],
     'data': [
-        "security/ir.access.csv",
+        "security/ir.model.access.csv",
         "views/account_asset_views.xml",
         "data/ir_actions_server.xml",
         "wizard/account_asset_change_views.xml",

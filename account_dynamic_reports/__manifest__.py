@@ -26,7 +26,7 @@ Dynamic Reports
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['account'],
     'data': [
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'data/balance_sheet.xml',
         'data/currency_revaluation.xml',
         'data/report_actions.xml',

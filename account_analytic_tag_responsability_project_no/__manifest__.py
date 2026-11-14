@@ -46,7 +46,7 @@ This check for if odoo at some point tries to break this rule in the background.
     """,
     'depends': ['analytic', 'account', 'sale', 'purchase','mis_builder', 'account_financial_report', 'account_move_tier_validation'],
     'data': [
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'views/analytic_tag.xml',
         'views/account_move_line.xml',
         'views/purchase_order.xml',
