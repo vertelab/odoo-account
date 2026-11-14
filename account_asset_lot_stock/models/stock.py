@@ -55,8 +55,6 @@ class AccountAsset(models.Model):
         stock_move_lines = self.env['stock.move.line'].search([('lot_id','=',self.lot_id.id)])
         stock_pickings = [x.picking_id.id for x in stock_move_lines if x.picking_id]
         self.stock_picking_num = len(list(set(stock_pickings)))
-        # pfile-sync probe: harmless line break, see the commit message.
-        # pfile-sync probe 2: this line exists only in the pfile.
         return list(
             set(stock_pickings)
         )
