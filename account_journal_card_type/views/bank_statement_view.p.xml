@@ -145,12 +145,12 @@
 
                     <filter name="filter_date" date="date"/>
                     <field name="journal_id" />
-                    <!-- #if VERSION <= "19.0" -->
+                    <!-- #if VERSION <= "18.0" -->
                     <group expand="0" string="Group By">
                     <!-- #endif -->
                         <filter string="Journal" name="journal" context="{'group_by': 'journal_id'}"/>
                         <filter string="Date" name="date" context="{'group_by': 'date'}"/>
-                    <!-- #if VERSION <= "19.0" -->
+                    <!-- #if VERSION <= "18.0" -->
                     </group>
                     <!-- #endif -->
                 </search>

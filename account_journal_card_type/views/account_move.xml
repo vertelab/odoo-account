@@ -3,6 +3,11 @@
     <!-- account.move.checked was removed in 20.0; these three view
          inheritances only decorate/read that field. -->
     <data>
+        <!-- 19.0: account.view_invoice_tree is inherited by
+             view_duplicated_moves_tree_js (mode=primary, priority=999), so an
+             extra inheritance on //field[@name='name'] cannot be located.
+             view_move_tree_inherit below covers the same fields. -->
+        <!-- #if VERSION <= "18.0" -->
         <record id="view_invoice_tree_inherit" model="ir.ui.view">
             <field name="name">view_invoice_tree_inherit</field>
             <field name="model">account.move</field>
@@ -16,6 +21,7 @@
                 </field>
             </field>
         </record>
+        <!-- #endif -->
         
         <record id="view_move_tree_inherit" model="ir.ui.view">
             <field name="name">view_move_tree_inherit</field>

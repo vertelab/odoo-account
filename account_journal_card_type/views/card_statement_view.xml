@@ -197,10 +197,8 @@
 
                     <filter name="filter_date" date="date"/>
                     <field name="journal_id"/>
-                    <group expand="0" string="Group By">
                         <filter string="Journal" name="journal" context="{'group_by': 'journal_id'}"/>
                         <filter string="Date" name="date" context="{'group_by': 'date'}"/>
-                    </group>
                 </search>
             </field>
         </record>
