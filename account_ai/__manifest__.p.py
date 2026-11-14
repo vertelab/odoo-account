@@ -28,7 +28,11 @@
         'account',
     ],
     'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'data/account_ai_artifact_types.xml',
         'data/okf_debug_actions.xml',
         'wizard/account_okf_backfill_views.xml',

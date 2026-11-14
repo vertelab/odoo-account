@@ -26,7 +26,11 @@ Deferred Revenue Expenses
     'maintainer': 'Vertel Sverige AB',
     'depends': ['account', 'analytic'],
     'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'data/ir_cron_deferred_auto_post.xml',
         'views/account_deferred_profile_view.xml',
         'views/account_deferred_view.xml',

@@ -27,7 +27,11 @@ Features:
     ],
     "data": [
         "security/security.xml",
+        # #if VERSION >= "20.0"
+        "security/ir.access.csv",
+        # #else
         "security/ir.model.access.csv",
+        # #endif
         "data/date_range_type_data.xml",
         "data/ir_server_action.xml",
         "data/cron_task.xml",

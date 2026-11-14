@@ -13,7 +13,11 @@
     ],
     'data': [
         'security/res_groups.xml',
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'security/bill_approval_rules.xml',
         'views/account_move_views.xml',
         'views/res_partner_views.xml',

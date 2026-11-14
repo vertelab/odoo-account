@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_import_excel_wizard,import_excel_wizard,import.excel.wizard,base.group_user,crud,

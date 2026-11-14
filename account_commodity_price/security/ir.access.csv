@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_product_commodity_user,product.commodity.user,product.commodity,base.group_user,r,
+access_product_commodity_manager,product.commodity.manager,product.commodity,account.group_account_manager,crud,
+access_product_commodity_quality_user,product.commodity.quality.user,product.commodity.quality,base.group_user,r,
+access_product_commodity_quality_manager,product.commodity.quality.manager,product.commodity.quality,account.group_account_manager,crud,
+access_product_commodity_price_user,product.commodity.price.user,product.commodity.price,base.group_user,r,
+access_product_commodity_price_manager,product.commodity.price.manager,product.commodity.price,account.group_account_manager,crud,
+access_commodity_revaluation_wizard_user,commodity.revaluation.wizard.user,commodity.revaluation.wizard,base.group_user,crud,
+access_commodity_revaluation_line_user,commodity.revaluation.line.user,commodity.revaluation.line,base.group_user,crud,

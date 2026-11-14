@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_make_kpi_report_wizard,scaffold_test.scaffold_test,make.kpi.report.wizard,base.group_user,crud,
+access_make_account_budget_wizard,scaffold_test.scaffold_test,make.account.budget.wizard,base.group_user,crud,
+access_make_account_forecast_wizard,scaffold_test.scaffold_test,make.account.forecast.wizard,base.group_user,crud,
+access_last_years_actuals,scaffold_test.scaffold_test,last.years.actuals,base.group_user,crud,
+account_mis_budget.access_custom_account_class,access_custom_account_class,account_mis_budget.model_custom_account_class,base.group_user,crud,
+account_mis_budget.access_custom_account_forecast,access_custom_account_forecast,account_mis_budget.model_custom_account_forecast,base.group_user,crud,

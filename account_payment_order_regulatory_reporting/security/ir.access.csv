@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+regulatory_reporting_code_access_users,accounting users can access,regulatory.reporting.code,account.group_account_user,r,
+regulatory_reporting_code_access_manager,accounting manager can change,regulatory.reporting.code,account.group_account_manager,crud,

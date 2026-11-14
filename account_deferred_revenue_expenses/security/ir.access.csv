@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_deferred_profile,access_account_deferred_profile,account.deferred.profile,base.group_user,crud,
+access_account_deferred,access_account_deferred,account.deferred,account.group_account_invoice,crud,
+access_account_deferred_line,access_account_deferred_line,account.deferred.line,account.group_account_invoice,crud,
+access_account_deferred_wizard,access_account_deferred_wizard,account.deferred.wizard,base.group_user,crud,

@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_asset_modify,access.asset.change,asset.change,account.group_account_user,cru,
+access_asset_relink_move,access.asset.relink.move,asset.relink.move,account.group_account_manager,cru,
+access_asset_relink_move_line,access.asset.relink.move.line,asset.relink.move.line,account.group_account_manager,cru,
+access_asset_line_change_move,access.asset.line.change.move,asset.line.change.move,account.group_account_manager,cru,

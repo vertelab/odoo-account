@@ -18,10 +18,19 @@ class AccountAnalyticAccount(models.Model):
     plan_replacement_id = fields.Many2one('account.analytic.plan', string='Plan Replacement', related='plan_id.plan_replacement_id', store=True)
 
     @api.model
+    # #if VERSION >= "19.0"
+    def name_search(self, name="", domain=None, operator="ilike", limit=100):
+        args = domain
+    # #else
     def name_search(self, name="", args=None, operator="ilike", limit=100):
+    # #endif
         args = args or []
         if not name:
+            # #if VERSION >= "19.0"
+            return super().name_search(name=name, domain=args, operator=operator, limit=limit)
+            # #else
             return super().name_search(name=name, args=args, operator=operator, limit=limit)
+            # #endif
         
         domain = ['|',
                   ('name', operator, name),

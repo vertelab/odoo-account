@@ -50,7 +50,11 @@ MIS Budget Forecast & Hierarchy
     ''',
     'depends': ['account_mis_budget', 'mis_builder_budget', 'date_range', 'account'],
     'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'views/mis_budget_forecast_views.xml',
         'views/mis_budget_tree_views.xml',
         'views/mis_budget_item_views.xml',

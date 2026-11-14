@@ -48,7 +48,11 @@ When we make a sale order and try to make bank payment lines then it will requir
     'data': [
         'views/regulatory_reporting_code.xml',
         'data/regulatory_reporting_codes.xml',
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
     ],
     'demo': [],
     'qweb': [],

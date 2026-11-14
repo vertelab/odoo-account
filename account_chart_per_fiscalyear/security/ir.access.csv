@@ -1,0 +1,13 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_chart_template_user,chart.template.user,account.chart.template,account.group_account_user,r,
+access_account_chart_template_manager,chart.template.manager,account.chart.template,account.group_account_manager,crud,
+access_account_chart_template_line_user,chart.template.line.user,account.chart.template.line,account.group_account_user,r,
+access_account_chart_template_line_manager,chart.template.line.manager,account.chart.template.line,account.group_account_manager,crud,
+access_account_chart_variant_user,chart.variant.user,account.chart.variant,account.group_account_user,r,
+access_account_chart_variant_manager,chart.variant.manager,account.chart.variant,account.group_account_manager,crud,
+access_account_chart_variant_line_user,chart.variant.line.user,account.chart.variant.line,account.group_account_user,r,
+access_account_chart_variant_line_manager,chart.variant.line.manager,account.chart.variant.line,account.group_account_manager,crud,
+access_account_chart_snapshot_user,chart.snapshot.user,account.chart.snapshot,account.group_account_user,r,
+access_account_chart_snapshot_manager,chart.snapshot.manager,account.chart.snapshot,account.group_account_manager,crud,
+access_account_chart_diff_wizard,chart.diff.wizard,account.chart.diff.wizard,base.group_user,crud,
+access_account_chart_diff_line,chart.diff.line,account.chart.diff.line,base.group_user,crud,

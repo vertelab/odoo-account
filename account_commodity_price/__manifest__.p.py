@@ -33,7 +33,11 @@ Commodity Price
     ''',
     'depends': ['account', 'stock', 'stock_account', 'mrp'],
     'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'data/product_commodity_demo.xml',
         'data/ir_cron.xml',
         'views/product_commodity_price_views.xml',

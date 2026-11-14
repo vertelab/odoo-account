@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_bulk_account_move_wizard,account_mass_invoice_generation.bulk_account_move_wizard,bulk.account.move.wizard,base.group_user,crud,

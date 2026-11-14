@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+account_asset_management_grant.access_account_asset_grant,access_account_asset_grant,account_asset_management_grant.model_account_asset_grant,base.group_user,crud,

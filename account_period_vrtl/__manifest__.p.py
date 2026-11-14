@@ -48,7 +48,11 @@ Period
     ''',
     'depends': ['account', 'mis_builder_budget'],
     'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'security/security.xml',
         'wizard/account_period_close_view.xml',
         'wizard/account_fiscalyear_close_view.xml',

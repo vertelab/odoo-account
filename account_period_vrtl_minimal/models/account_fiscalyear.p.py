@@ -169,7 +169,12 @@ class AccountFiscalyear(models.Model):
         return ids
 
     @api.model
+    # #if VERSION >= "19.0"
+    def name_search(self, name, domain=None, operator='ilike', limit=80):
+        args = domain
+    # #else
     def name_search(self, name, args=None, operator='ilike', limit=80):
+    # #endif
         if args is None:
             args = []
         # #if VERSION >= "20.0"

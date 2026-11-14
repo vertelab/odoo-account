@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+account_loan_template.access_account_loan_template,access_account_loan_template,account_loan_template.model_account_loan_template,base.group_user,crud,

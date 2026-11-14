@@ -48,7 +48,11 @@ Simple Excel Import
      },
     'data': 
     [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'wizard/import_excel_wizard_views.xml',
         'views/account_move_views.xml',
     ],

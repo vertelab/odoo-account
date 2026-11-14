@@ -43,7 +43,11 @@ Invoice Payment Reminder
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['account', 'contract_invoicingplan'],
     'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'views/payment_reminder_line_views.xml',
         'views/account_payment_terms_views.xml',
         'views/account_move_views.xml',

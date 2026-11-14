@@ -27,7 +27,11 @@ Reconcile Enhanced
     ],
     'excludes': ['account_accountant'],
     'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'data/account_reconcile_model_fee.xml',
         'wizard/account_reconcile_wizard.xml',
         'wizard/account_auto_reconcile_wizard.xml',

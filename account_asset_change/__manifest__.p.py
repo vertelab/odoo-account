@@ -45,7 +45,11 @@
         'account_asset_management'
     ],
     'data': [
+        # #if VERSION >= "20.0"
+        "security/ir.access.csv",
+        # #else
         "security/ir.model.access.csv",
+        # #endif
         "views/account_asset_views.xml",
         "data/ir_actions_server.xml",
         "wizard/account_asset_change_views.xml",

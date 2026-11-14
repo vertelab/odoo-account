@@ -24,7 +24,11 @@ Analytic Replace
     'website': 'https://vertel.se/apps/odoo-account/account_analytic_replace',
     'depends': ['account','analytic'],
     'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'views/account_analytic_plan_views.xml',
         'views/account_analytic_replace_views.xml',
     ],

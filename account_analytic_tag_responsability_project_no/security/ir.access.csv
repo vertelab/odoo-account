@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_project_cost_center_wizard,access_project_cost_center_wizard,project.cost.center.wizard,base.group_user,crud,

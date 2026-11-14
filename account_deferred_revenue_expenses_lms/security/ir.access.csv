@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_slide_channel_user,slide.channel.user,website_slides.model_slide_channel,base.group_user,r,
+access_slide_slide_user,slide.slide.user,website_slides.model_slide_slide,base.group_user,r,
+access_slide_question_user,slide.question.user,website_slides.model_slide_question,base.group_user,r,
+access_slide_answer_user,slide.answer.user,website_slides.model_slide_answer,base.group_user,r,

@@ -60,7 +60,11 @@ with this one.
         'website_slides',
     ],
     'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'data/slide_channel.xml',
         'data/slide_slides_s1.xml',
         'data/slide_slides_s2.xml',

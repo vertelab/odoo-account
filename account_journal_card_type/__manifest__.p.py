@@ -49,7 +49,11 @@ Journal Card Type
         # 'account_statement_import'
     ],
     'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'security/security.xml',
         'views/card_statement_view.xml',
         'views/account_journal.xml',
