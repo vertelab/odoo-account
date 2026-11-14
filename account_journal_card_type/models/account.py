@@ -38,10 +38,10 @@ class AccountJournal(models.Model):
                             )
 
     card_debit_account = fields.Many2one('account.account', string='Card Debit Account',
-                                           domain="[('deprecated', '=', False), ('company_ids', 'in', company_id)]")
+                                           domain="[('active', '=', True), ('company_ids', 'in', company_id)]")
                                          
     card_credit_account = fields.Many2one('account.account', string='Card Credit Account',
-                                            domain="[('deprecated', '=', False), ('company_ids', 'in', company_id)]")
+                                            domain="[('active', '=', True), ('company_ids', 'in', company_id)]")
 
 
 
@@ -75,7 +75,6 @@ class AccountJournal(models.Model):
                 domain=[
                     *self.env['account.move']._check_company_domain(self.env.companies),
                     ('journal_id', 'in', general_journals.ids),
-                    ('checked', '=', False),
                     ('state', '=', 'posted'),
                 ],
                 groupby=['journal_id'],

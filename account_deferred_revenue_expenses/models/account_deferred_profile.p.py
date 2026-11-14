@@ -1,0 +1,93 @@
+# Copyright 2024- Vertel Sverige AB (<https://vertel.se>)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
+
+from odoo import api, fields, models
+
+
+class AccountDeferredProfile(models.Model):
+    _name = 'account.deferred.profile'
+    _description = 'Deferred Entry Profile'
+    _inherit = ['analytic.mixin']
+    _order = 'name'
+
+    name = fields.Char(required=True)
+    active = fields.Boolean(default=True)
+    company_id = fields.Many2one(
+        'res.company', required=True,
+        default=lambda self: self.env.company,
+    )
+    rec_type = fields.Selection([
+        ('deferred_expense', 'Deferred Expense'),
+        ('deferred_income', 'Deferred Income'),
+    ], string='Type', required=True, default='deferred_expense')
+
+    # ── Accounts ──────────────────────────────────────────────────────
+    account_depreciation_id = fields.Many2one(
+        'account.account', string='Periodiseringskonto',
+        # #if VERSION >= "19.0"
+        domain="[('active', '=', True)]",
+        # #else
+        domain="[('deprecated', '=', False)]",
+        # #endif
+        check_company=True, required=True,
+        help="Balance sheet account (e.g. 1710 for prepaid, 2990 for deferred income).",
+    )
+    account_expense_id = fields.Many2one(
+        'account.account', string='Expense/Income Account',
+        # #if VERSION >= "19.0"
+        domain="[('active', '=', True)]",
+        # #else
+        domain="[('deprecated', '=', False)]",
+        # #endif
+        check_company=True,
+        help="P&L account (e.g. 5010 for expense, 3010 for income).",
+    )
+    journal_id = fields.Many2one(
+        'account.journal', string='Journal',
+        domain="[('type', '=', 'general'), ('company_id', '=', company_id)]",
+        check_company=True, required=True,
+    )
+
+    # ── Periodization defaults ────────────────────────────────────────
+    method_period = fields.Selection([
+        ('month', 'Monthly'),
+        ('quarter', 'Quarterly'),
+        ('year', 'Yearly'),
+    ], string='Period Length', required=True, default='month')
+    method_number = fields.Integer(
+        string='Number of Periods', required=True, default=12,
+    )
+    open_asset = fields.Boolean(
+        string='Skip Draft State', default=True,
+        help="Automatically confirm the deferred entry when created.",
+    )
+    allow_reversal = fields.Boolean(
+        string='Allow Reversal',
+        help="If set, posted moves can be reversed instead of deleted.",
+    )
+    stub_month_end = fields.Boolean(
+        string='Stubs on the Last Day of the Period',
+        default=True,
+        help="Place each stub on the last day of its period instead of on the "
+             "same day-of-month as the start date. Defaults from the company "
+             "setting; can be overridden per entry.",
+    )
+
+    # ── Notes ─────────────────────────────────────────────────────────
+    note = fields.Text()
+
+    def _get_deferred_vals(self):
+        """Return common values to copy onto an account.deferred."""
+        self.ensure_one()
+        return {
+            'profile_id': self.id,
+            'rec_type': self.rec_type,
+            'account_depreciation_id': self.account_depreciation_id.id,
+            'account_expense_id': self.account_expense_id.id,
+            'journal_id': self.journal_id.id,
+            'method_period': self.method_period,
+            'method_number': self.method_number,
+            'analytic_distribution': self.analytic_distribution,
+            'allow_reversal': self.allow_reversal,
+            'stub_month_end': self.stub_month_end,
+        }

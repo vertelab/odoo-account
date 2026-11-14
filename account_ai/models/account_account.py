@@ -91,9 +91,10 @@ class AccountAccount(models.Model):
     def _okf_dirty_fields(self):
         """Fält vars ändring gör OKF-fälten inaktuella.
 
-        `deprecated` ingår: ett avaktiverat konto ska uppdatera sitt koncept.
-        `account_type` ingår: den säger vad kontot ÄR (tillgång, kostnad,
-        moms) och är en del av dess mening för AI-kategoriseringen.
+        `active` (18.0: `deprecated`) ingår: ett avaktiverat konto ska
+        uppdatera sitt koncept. `account_type` ingår: den säger vad kontot ÄR
+        (tillgång, kostnad, moms) och är en del av dess mening för
+        AI-kategoriseringen.
         """
         return {'code', 'name', 'note', 'account_type', 'deprecated'}
 

@@ -21,9 +21,9 @@
                 </button>
                 
                     <xpath expr="//field[@name='checked']" position="after">
-                    <field name="to_check_duplicate"/>
-                    <field name="to_check_period"/>
-                </xpath>
+                        <field name="to_check_duplicate"/>
+                        <field name="to_check_period"/>
+                    </xpath>
             </field>
         </record>
     </data>
