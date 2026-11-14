@@ -5,16 +5,18 @@
              20.0 merged ir.rule into ir.access.domain: the same domain is a
              restriction on the access record instead of a separate rule.
              Kept as a rule for 18/19, as an ir.access row for 20.0. -->
-        <record id="account_fiscal_year_comp_rule" model="ir.rule">
+        <record id="account_fiscal_year_comp_rule" model="ir.access">
             <field name="name">Account Fiscal Year multi-company</field>
             <field name="model_id" ref="model_account_fiscal_year"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            <field name="operation">crud</field>
+            <field name="domain">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
         </record>
 
-        <record id="account_period_comp_rule" model="ir.rule">
+        <record id="account_period_comp_rule" model="ir.access">
             <field name="name">Account Period multi-company</field>
             <field name="model_id" ref="model_account_period"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            <field name="operation">crud</field>
+            <field name="domain">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
         </record>
     </data>
 </odoo>
