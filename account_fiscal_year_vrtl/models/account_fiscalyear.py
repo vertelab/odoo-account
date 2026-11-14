@@ -74,10 +74,8 @@ class AccountFiscalYear(models.Model):
         return fys
 
     @api.model
-    def name_search(self, name="", domain=None, operator="ilike", limit=100):
-        # 19.0 renamed the ``args`` parameter to ``domain``, and name_get() was
-        # removed in 17.0 -- build the (id, display_name) pairs by hand.
-        return self._fiscal_year_name_search(name, domain, operator, limit)
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
+        return self._fiscal_year_name_search(name, args, operator, limit)
 
     @api.model
     def _fiscal_year_name_search(self, name, domain, operator, limit):
@@ -86,8 +84,17 @@ class AccountFiscalYear(models.Model):
         Keeps the 18.0 expression unchanged; only the parameter name and the
         name_get() call are edition-dependent.
         """
-        search_domain = list(domain or [])
-        search_domain = search_domain + ["|", ("name", operator, name)]
+        # '|' needs exactly two operands. With an empty caller domain the
+        # name condition is the only one, so no operator is needed:
+        #   domain=[]        -> [('name', op, name)]
+        #   domain=[(a)]     -> ['|', (a), ('name', op, name)]
+        # Appending '|' after the caller's domain (the old code) gave
+        # [(a), '|', (name)] which Odoo rejects.
+        caller = list(domain or [])
+        if caller:
+            search_domain = ["|"] + caller + [("name", operator, name)]
+        else:
+            search_domain = [("name", operator, name)]
         recs = self.search(search_domain, limit=limit)
         return [(rec.id, rec.display_name) for rec in recs]
 

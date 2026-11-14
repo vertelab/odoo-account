@@ -567,6 +567,7 @@ class AIQuest(models.Model):
         if move_id:
             move_ids = self.env['account.move'].search([('ref', '=', move_id.ref)]) - move_id
             if move_ids:
+                move_id.write({'checked': False})
                 move_id.write({'to_check_duplicate': True})
                 # Create links for duplicate bills
                 duplicate_links = [

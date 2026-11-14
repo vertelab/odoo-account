@@ -27,7 +27,7 @@ Reconcile Enhanced
     ],
     'excludes': ['account_accountant'],
     'data': [
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'data/account_reconcile_model_fee.xml',
         'wizard/account_reconcile_wizard.xml',
         'wizard/account_auto_reconcile_wizard.xml',

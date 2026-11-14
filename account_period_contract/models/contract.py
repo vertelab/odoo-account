@@ -2,7 +2,7 @@ import logging
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
-# odoo.osv was removed in 20.0; the module does not use expression.
+from odoo.osv import expression
 from odoo.tests import Form
 from odoo.tools.translate import _
 
