@@ -41,7 +41,10 @@ Invoice Payment Reminder
     'license': 'AGPL-3',
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'depends': ['account', 'contract_invoicingplan'],
+    # 'sms' is required: payment.reminder.line.sms_template_id points at
+    # sms.template, and without the module that model does not exist, so the
+    # view domain fails to validate on install.
+    'depends': ['account', 'contract_invoicingplan', 'sms'],
     'data': [
         'security/ir.model.access.csv',
         'views/payment_reminder_line_views.xml',
