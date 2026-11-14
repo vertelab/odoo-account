@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Journal Lines Group By',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds new options to groups journal lines by.',
     'category': 'Accounting',

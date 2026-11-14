@@ -2,7 +2,7 @@
     'name': 'Account: Reconcile OCA UX Fix',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-account/account_reconcile_oca_ux_fix',
-    'version': '18.0.1.1.0',
+    'version': '1.0',
     'category': 'Accounting',
     'summary': 'Keeps the search filter in the reconcile tab after manual operation.',
     'description': '''

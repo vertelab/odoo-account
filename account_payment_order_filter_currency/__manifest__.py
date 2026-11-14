@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Payment Order Filter Currency',
-    'version': '18.0.0.0.1',
+    'version': '1.0',
     'summary': 'Adds the capability to filter payment order lines based on currency',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',

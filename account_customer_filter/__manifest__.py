@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Customer Filter',
-    'version': '18.0.0.0.0',
+    'version': '1.0',
     'summary': "Adds a filter that only shows contacts with confirmed customer invoices.",
     'category': 'Accounting',
     'description': """

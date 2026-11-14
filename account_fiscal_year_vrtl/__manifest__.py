@@ -1,6 +1,6 @@
 {
     "name": "Account: Fiscal Year",
-    "version": "18.0.1.2.0",
+    "version": '1.0',
     "category": "Accounting/Accounting",
     "summary": "Fiscal years with monthly periods, period closing, and hash-locking",
     "description": """

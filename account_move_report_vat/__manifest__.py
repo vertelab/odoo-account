@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Move Report VAT',
-    'version': '18.0.0.0.1',
+    'version': '1.0',
     'summary': 'Adds Vat Number To the Invoice Report',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',

@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Payment Order Filter',
-    'version': '18.0.0.0.1',
+    'version': '1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary':'Override prepare_payment_line_vals method so that the communication field gets set with something',
     'category': 'Accounting',

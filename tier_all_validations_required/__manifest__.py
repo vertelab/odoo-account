@@ -23,7 +23,7 @@
 #
 {
     'name': 'Account: Tier All Validations Required',
-    'version': '18.0.0.1.0',
+    'version': '1.0',
     'summary': '',
     'category': 'Accounting',
     'description': """

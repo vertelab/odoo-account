@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Enable Banking API',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'summary': 'Imports bank transactions through the Enable Banking API.',
     'category': 'Accounting',
     'description': '''

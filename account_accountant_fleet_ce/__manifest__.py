@@ -12,7 +12,7 @@ Accounting Fleet Bridge (CE)
 
         - Extends Odoo: Builds on account.tax.
     ''',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'depends': ['account_fleet', 'account_accountant_ce'],
     'data': [],
     'author': 'Vertel Sverige AB',

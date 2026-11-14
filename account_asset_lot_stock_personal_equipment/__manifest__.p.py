@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Asset Stock Lot Equipment',
-    'version': '0.1',
+    'version': '1.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Connect Created Asset to equipment.',
     'category': 'Accounting',

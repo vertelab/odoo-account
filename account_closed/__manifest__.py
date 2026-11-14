@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Close Account',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'summary': 'Blocks posting into a closed accounting period.',
     'category': 'Accounting',
     'description': '''

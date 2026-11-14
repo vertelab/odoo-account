@@ -23,7 +23,7 @@
 #
 {
     'name': 'Account: Mass Invoice Generation',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'summary': 'Generates invoices in bulk for multiple partners.',
     'category': 'Accounting',
     'description': '''

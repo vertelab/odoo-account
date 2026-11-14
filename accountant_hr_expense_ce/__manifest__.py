@@ -2,7 +2,7 @@
     'name': 'Account: Expense Bridge (CE)',
     'category': 'Accounting/Accounting',
     'summary': 'Bridges accounting and expenses for Community Edition.',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'description': '''
 Expense Bridge (CE)
 ===================

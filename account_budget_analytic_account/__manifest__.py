@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: MIS Builder for Analytic Account',
-    'version': '0.2',
+    'version': '1.0',
     # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'MIS Builder for Analytic Account.',
     'category': 'Accounting',

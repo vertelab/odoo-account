@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Asset Grant',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'summary': 'Adds asset grants with their own depreciation handling.',
     'category': 'Accounting',
     'description': '''

@@ -79,7 +79,7 @@ class StockLot(models.Model):
     )
     
     def _prepare_asset_vals(self, stock_picking, move):
-		# # if VERSION <= "16.0"
+        # # if VERSION <= "16.0"
         depreciation_base = move.purchase_line_id.price_unit
         owner = False
         # ~ stock_picking.location_dest_id.company_id.partner_id.id if stock_picking.picking_type_code == "incoming" else stock_picking.partner_id.id,
@@ -125,7 +125,7 @@ class StockLot(models.Model):
             "partner_id": owner,
             "date_start": stock_picking.date_done,
             "supplier_id":stock_picking.partner_id.id,
-			# #elif VERSION == "17.0"
+            # #elif VERSION == "17.0"
             "partner_id": stock_picking.sale_id.partner_id.id,
             "date_start": stock_picking.date_done if stock_picking.date_done else fields.Datetime.now(),
             "supplier_id":supplier_id,
@@ -133,7 +133,7 @@ class StockLot(models.Model):
             "partner_id": owner,
             "date_start": stock_picking.date_done if stock_picking.date_done else fields.Datetime.now(),
             "supplier_id":supplier_id,
-			# #endif
+            # #endif
             "lot_id": self.id,
             "product_id": self.product_id.id,
             "note":move.description_picking,
@@ -221,7 +221,7 @@ class StockPicking(models.Model):
         for stock_picking in self:
         # #if VERSION == "17.0"
             if (stock_picking.sale_id and not stock_picking.purchase_id) or (stock_picking.sale_id and stock_picking.is_dropship):
-		# # endif
+        # # endif
               for move in stock_picking.move_ids:
                 if move.product_id.tracking == "serial":
                     for lot_id in move.lot_ids:
@@ -234,7 +234,7 @@ class StockPicking(models.Model):
                         # #if VERSION <= "16.0"
                         elif lot_id.asset_id and lot_id.asset_id.state == "draft":
                             lot_id.update_partner_asset(stock_picking.partner_id)
-						# #elif VERSION >= "17.0"
+                        # #elif VERSION >= "17.0"
                        elif not lot_id.asset_id and not move.asset_profile_id and not lot_id.asset_profile_id:
                            raise UserError(f"""
 Online "{move.product_id.name}" there is no Asset profile set.

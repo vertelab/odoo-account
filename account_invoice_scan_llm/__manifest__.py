@@ -23,7 +23,7 @@
 #
 {
     'name': 'Account: Invoice Scan LLM',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'summary': 'Scans invoices with an LLM and creates vendor bills.',
     'category': 'Accounting',
     'description': '''

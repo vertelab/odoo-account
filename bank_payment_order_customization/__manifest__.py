@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Bank Payment Order Customization',
-    'version': '18.0.0.1.0',
+    'version': '1.0',
     'summary': 'Bank Payment Order Customization',
     'category': 'Accounting',
     'description': """

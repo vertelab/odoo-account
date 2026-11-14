@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Move Directory',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'summary': 'Loads journal entries from a directory into Odoo.',
     'category': 'Accounting',
     'description': '''

@@ -2,7 +2,7 @@
 # Part of Vertel. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Account AI — Bridge',
-    'version': '18.0.1.0.3',
+    'version': '1.0',
     'summary': 'OKF-kontraktet på account.move och account.account',
     'category': 'Accounting/Accounting',
     'description': """

@@ -8,7 +8,7 @@
 
 {
     'name': 'Account: Payment Date Below Memo',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'summary': 'Defaults the payment date to the invoice due date.',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',

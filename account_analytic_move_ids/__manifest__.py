@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Analytic Move Ids',
-    'version': '18.0.0.0.1',
+    'version': '1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Account Analytic Move Ids.',
     'category': 'Accounting',

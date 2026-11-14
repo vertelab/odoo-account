@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Analytic Extra Criteria',
-    'version': '18.0.0.0.1',
+    'version': '1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds extra analytic criteria fields to journal items.',
     'category': 'Accounting',

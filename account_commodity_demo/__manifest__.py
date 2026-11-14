@@ -1,6 +1,6 @@
 {
     'name': 'Account: Commodity Demo (3-Way Match)',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'category': 'Accounting',
     'license': 'AGPL-3',
     'author': 'Vertel Sverige AB',

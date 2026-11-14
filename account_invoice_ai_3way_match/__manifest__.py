@@ -25,7 +25,7 @@ module auto-installs and:
     'license': 'AGPL-3',
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'installable': True,
     'auto_install': True,
 }

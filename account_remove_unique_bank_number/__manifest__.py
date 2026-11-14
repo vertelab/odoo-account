@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Relax Constraints on Unique Bank Number',
-    'version': '18.0.0.1.0',
+    'version': '1.0',
     'summary': 'Relax Constraints on Unique Bank Number',
     'category': 'Accounting',
     'description': """

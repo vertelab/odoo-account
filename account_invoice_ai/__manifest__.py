@@ -20,7 +20,7 @@
 
 {
     'name': 'Account: Invoice AI Mailbox',
-    'version': '18.0.1.0.3',
+    'version': '1.0',
     'summary': 'Adds a mailbox for AI-assisted invoice handling.',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml

@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Analytic Group',
-    'version': '18.0.0.0.0',
+    'version': '1.0',
     'summary': 'Adds a group field to analytic accounts.',
     'category': 'Accounting',
     'description': '''

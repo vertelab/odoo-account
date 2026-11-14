@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Move Tier Validation Control',
-    'version': '18.0.0.0.0',
+    'version': '1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds two new fields on a user.',
     'category': 'Accounting',

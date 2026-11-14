@@ -23,7 +23,7 @@
 #
 {
     'name': 'Account: MIS Budget',
-    'version': '0.1',
+    'version': '1.0',
     'summary': 'Lets us generate budget based on the previous year.',
     'category': 'Accounting', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
     'description': """

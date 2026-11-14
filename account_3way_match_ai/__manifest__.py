@@ -1,6 +1,6 @@
 {
     'name': 'Account: 3-Way Match AI',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'category': 'Accounting/Accounting',
     'summary': 'AI-driven 3-way matching of vendor bills against purchase orders.',
     'description': '''

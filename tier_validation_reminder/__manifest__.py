@@ -23,7 +23,7 @@
 #
 {
     'name': 'Account: Tier Validation Reminder',
-    'version': '18.0.0.2.0',
+    'version': '1.0',
     'summary': 'Sends reminder to the next person pending a tier review.',
     'category': 'Accounting',
     'description': """

@@ -1,0 +1,71 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2021- Vertel Sverige AB (<https://vertel.se>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+{
+    'name': 'Account: Period',
+    'version': '1.0',
+    # Version ledger: XX.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'summary': 'Divides the fiscal year into 12 months or 4 quarters.',
+    'category': 'Accounting',
+    #'sequence': '1'
+    'author': 'Vertel Sverige AB',
+    'website': 'https://vertel.se/apps/odoo-account/account_period_vrtl',
+    'images': ['/static/description/banner.png'], # 560x280 px.
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel Sverige AB',
+    'repository': 'https://github.com/vertelab/odoo-account',
+    'description': '''
+Period
+======
+
+    Added period for accounting. Either 12 months or 4 quarters.
+
+    Features:
+
+        - Automation: Scheduled jobs: automatic close account period.
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 8 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.account, account.balance, account.bank.statement, account.bank.statement.line.
+    ''',
+    'depends': ['account', 'mis_builder_budget'],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+        'wizard/account_period_close_view.xml',
+        'wizard/account_fiscalyear_close_view.xml',
+        'wizard/account_period_create_view.xml',
+        'views/account_fiscalyear_views.xml',
+        'views/account_move_views.xml',
+        'views/account_move_line_views.xml',
+        'views/account_period_views.xml',
+        'views/account_bank_statement_views.xml',
+        'views/account_balance_views.xml',
+        'views/res_config_settings_views.xml',
+        'views/onboarding_template.xml',
+        'data/ir_cron.xml',
+    ],
+    'demo': [],
+    'qweb': [],
+    'installable': False,  # DEPRECATED 2026-10-30: replaced by account_fiscal_year_vrtl.
+    'application': False,
+    'auto_install': False,
+}

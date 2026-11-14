@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Disable Creates on Account Move (Line)',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'summary': 'Disable Creates on Account Move (Line)',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',

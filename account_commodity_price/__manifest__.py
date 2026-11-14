@@ -1,6 +1,6 @@
 {
     'name': 'Account: Commodity Price',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'summary': 'Manages commodity prices, inventory revaluation and BOM integration.',
     'category': 'Accounting',
     'author': 'Vertel Sverige AB',

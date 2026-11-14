@@ -21,7 +21,7 @@
 
 {
     'name': 'Account: Invoice Payment Reminder',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'summary': 'Sends automatic payment reminders for overdue invoices.',
     'category': 'Accounting',
     'description': '''

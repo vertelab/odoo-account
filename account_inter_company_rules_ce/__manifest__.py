@@ -1,6 +1,6 @@
 {
     'name': 'Account: Inter Company Rules (CE)',
-    'version': '18.0.1.0.0',
+    'version': '1.0',
     'summary': 'Adds intercompany sale, purchase and invoice rules for Community Edition.',
     'category': 'Productivity',
     'description': '''
