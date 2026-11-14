@@ -37,7 +37,7 @@
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['date_range', 'account', 'mis_builder_budget', 'mis_builder'],
     'data': [
-        "security/ir.access.csv",
+        "security/ir.model.access.csv",
         "data/custom_account_classes.xml",
         "wizard/make_kpi_report.xml",
         "wizard/make_account_budget.xml",

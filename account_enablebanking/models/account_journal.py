@@ -32,7 +32,7 @@ class AccountJournal(models.Model):
         }
 
     def action_sync_balances_with_enable_banking(self):
-        partner_id = self.bank_account_id.bank_id.api_contact_integration
+        partner_id = self.bank_id.api_contact_integration
         api_url, private_key, application_id, base_headers = partner_id.request_essentials()
         account_uid = self.bank_account_id.account_uuid
         account_balance = requests.get(f"{api_url}/accounts/{account_uid}/balances", headers=base_headers)
@@ -143,7 +143,7 @@ class EnableBankingTransactions(models.TransientModel):
     date_to = fields.Date(string="To", default=fields.Date.today)
 
     def _fetch_transactions(self):
-        partner_id = self.journal_id.bank_account_id.bank_id.api_contact_integration
+        partner_id = self.journal_id.bank_id.api_contact_integration
 
         api_url, private_key, application_id, base_headers = partner_id.request_essentials()
         query = {

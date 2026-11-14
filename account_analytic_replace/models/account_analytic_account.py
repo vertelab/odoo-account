@@ -1,7 +1,7 @@
 import logging
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-from odoo.fields import Domain
+from odoo.osv import expression
 
 
 _logger = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ class AccountAnalyticAccount(models.Model):
         domain = ['|',
                   ('name', operator, name),
                   ('replaces_account_id.name', operator, name)]
-        domain = Domain.AND([Domain(args), Domain(domain)])
+        domain = expression.AND([args, domain])
         records = self.search(domain, limit=limit)
         _logger.warning("name_search called, found %d records", len(records))
         return [(rec.id, rec.display_name or "") for rec in records]

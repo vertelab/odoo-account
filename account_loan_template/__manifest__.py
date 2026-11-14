@@ -44,7 +44,7 @@ Loan Template
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['account_loan', 'account_asset_management'],
     'data': [
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         # 'data/ir_sequence_data.xml',
         'data/product_product.xml',
         'views/account_loan_template_views.xml',

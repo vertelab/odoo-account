@@ -48,7 +48,7 @@ Period
     ''',
     'depends': ['account', 'date_range', 'mis_builder_budget'],
     'data': [
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'security/security.xml',
         'wizard/account_period_close_view.xml',
         'wizard/account_fiscalyear_close_view.xml',

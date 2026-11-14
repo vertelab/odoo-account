@@ -28,7 +28,7 @@
         'account',
     ],
     'data': [
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'data/account_ai_artifact_types.xml',
         'data/okf_debug_actions.xml',
         'wizard/account_okf_backfill_views.xml',

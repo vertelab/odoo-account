@@ -60,7 +60,7 @@ with this one.
         'website_slides',
     ],
     'data': [
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'data/slide_channel.xml',
         'data/slide_slides_s1.xml',
         'data/slide_slides_s2.xml',

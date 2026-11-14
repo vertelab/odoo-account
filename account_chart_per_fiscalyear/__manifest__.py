@@ -21,7 +21,7 @@ Features:
         "account_chart_update",
     ],
     "data": [
-        "security/ir.access.csv",
+        "security/ir.model.access.csv",
         "views/account_chart_template_views.xml",
         "views/account_chart_variant_views.xml",
         # wizard/account_chart_diff_views.xml defines action_chart_diff, which
