@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from odoo import api, fields, models, _, exceptions
-from odoo.osv import expression
+# odoo.osv was removed in 20.0; the module does not use expression.
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import UserError

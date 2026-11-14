@@ -1,6 +1,6 @@
 from datetime import datetime
 from odoo import api, fields, models, _, exceptions
-from odoo.osv import expression
+from odoo.fields import Domain
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import UserError, ValidationError
 
@@ -139,14 +139,15 @@ class AccountFiscalyear(models.Model):
         return ids
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=80):
+    def name_search(self, name, domain=None, operator='ilike', limit=80):
+        args = domain
         if args is None:
             args = []
-        if operator in expression.NEGATIVE_TERM_OPERATORS:
+        if operator in Domain.NEGATIVE_TERM_OPERATORS:
             domain = [('code', operator, name), ('name', operator, name)]
         else:
             domain = ['|', ('code', operator, name), ('name', operator, name)]
-        ids = self.search(expression.AND([domain, args]), limit=limit)
+        ids = self.search(Domain.AND([Domain(domain), Domain(args)]), limit=limit)
         return [(record.id, record.name) for record in ids]
 
     def action_draft(self):

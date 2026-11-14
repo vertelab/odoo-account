@@ -20,9 +20,15 @@
                     <!--<button groups="account.group_account_user" name="action_rerun" type="object" class="btn btn-warning" string="Re-run" confirm="Are you sure you want to rerun?" invisible="state != 'draft' or not ai_session_id"/>-->
                 </button>
                 
-                    <xpath expr="//field[@name='checked']" position="after">
-                        <field name="to_check_duplicate"/>
-                        <field name="to_check_period"/>
+                    <!-- 20.0 removed account.move.checked. Anchor on the
+                         narration at the end of the entry page instead, so the
+                         flags stay inside the sheet (a bare //field[@name=...]
+                         also matches the list view, which has no such field). -->
+                    <xpath expr="//page[@name='other_info']/field[@name='narration']" position="after">
+                        <group name="to_check_flags">
+                            <field name="to_check_duplicate"/>
+                            <field name="to_check_period"/>
+                        </group>
                     </xpath>
             </field>
         </record>

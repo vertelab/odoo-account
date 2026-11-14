@@ -14,6 +14,9 @@
         </record>
         
         
+        <!-- hr_personal_equipment_request is an 18.0-only module. The manifest
+             does not depend on it (it is not in the addons path for 19.0/20.0),
+             so the inherit below is skipped there instead of breaking the view. -->
         <record id="hr_personal_equipment_request_hr_personal_equipment_form_view" model="ir.ui.view">
             <field name="name">hr_personal_equipment_request_hr_personal_equipment_form_view_inherit</field>
             <field name="model">hr.personal.equipment</field>

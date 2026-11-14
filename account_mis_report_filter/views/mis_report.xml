@@ -47,7 +47,8 @@
                     <field name="user_id"/>
                     <filter string="Active" name="active" domain="[('active', '=', True)]"/>
                     <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
-                    <group expand="0" string="Group By">
+                    <!-- 19.0 dropped expand/string on <group> inside <search>. -->
+                    <group>
                         <filter string="Name " name="name" domain="[]" context="{'group_by':'name'}"/>
                         <filter string="Owner " name="user_id" domain="[]" context="{'group_by':'user_id'}"/>
                         <filter string="Template " name="report_id" domain="[]" context="{'group_by':'report_id'}"/>
@@ -66,7 +67,8 @@
                     <field name="name"/>
                     <filter string="Active" name="active" domain="[('active', '=', True)]"/>
                     <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
-                    <group expand="0" string="Group By">
+                    <!-- 19.0 dropped expand/string on <group> inside <search>. -->
+                    <group>
                         <filter string="Name " name="name" domain="[]" context="{'group_by':'name'}"/>
                     </group>
                 </search>

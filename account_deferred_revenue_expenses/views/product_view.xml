@@ -6,7 +6,9 @@
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
-                <group name="payables" position="after">
+                <!-- 19.0 replaced the Receivables/Payables pair with a single
+                     "Cost and Revenue" group; anchor after the accounting group. -->
+                <group name="accounting" position="after">
                     <group>
                         <field name="deferred_profile_id" string="Accrual Profile"/>
                     </group>

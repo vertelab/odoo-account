@@ -47,7 +47,7 @@ Enable Banking API
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['account', 'contacts', 'base', 'product', 'mail'],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/ir_config_parameter.xml',
         'views/res_config_view.xml',
         'data/ir_cron.xml',

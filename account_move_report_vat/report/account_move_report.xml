@@ -3,11 +3,17 @@
     <!-- Odoo 18: sale.report_invoice_document_inherit_sale no longer exists;
          information_block is defined directly in account.report_invoice_document. -->
     <template id="report_invoice_document_inherit_sale_inherit" inherit_id="account.report_invoice_document">
+        <!-- #if VERSION <= "19.0" -->
         <xpath expr="//t[@t-set='information_block']" position="inside">
             <t t-if="o.partner_shipping_id and o.company_id.country_id != o.partner_shipping_id.country_id">
                 VAT: <span t-field="o.partner_shipping_id.vat"/>
             </t>
         </xpath>
+        <!-- #else -->
+        <!-- 20.0 already prints the tax id of the document partner (both in the
+             address block and in information_block), so adding it here would
+             print the VAT number twice. -->
+        <!-- #endif -->
     </template>
 
 </odoo>

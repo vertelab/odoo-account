@@ -15,25 +15,25 @@ class AssetModify(models.TransientModel):
     account_asset_counterpart_id = fields.Many2one(
         comodel_name='account.account',
         check_company=True,
-        domain="[('deprecated', '=', False)]",
+        domain="[('active', '=', True)]",
         string="Asset Counterpart Account",
     )
     account_asset_id = fields.Many2one(
         comodel_name='account.account',
         string="Gross Increase Account",
         check_company=True,
-        domain="[('deprecated', '=', False)]",
+        domain="[('active', '=', True)]",
     )
     account_depreciation_expense_id = fields.Many2one(
         comodel_name='account.account',
         check_company=True,
-        domain="[('deprecated', '=', False)]",
+        domain="[('active', '=', True)]",
         string="Expense Account",
     )
     account_depreciation_id = fields.Many2one(
         comodel_name='account.account',
         check_company=True,
-        domain="[('deprecated', '=', False)]",
+        domain="[('active', '=', True)]",
         string="Depreciation Account",
     )
     asset_id = fields.Many2one(
@@ -57,7 +57,7 @@ class AssetModify(models.TransientModel):
     gain_account_id = fields.Many2one(
         comodel_name='account.account',
         check_company=True,
-        domain="[('deprecated', '=', False)]",
+        domain="[('active', '=', True)]",
         compute="_compute_accounts",
         inverse="_inverse_gain_account",
         readonly=False,
@@ -90,7 +90,7 @@ class AssetModify(models.TransientModel):
     loss_account_id = fields.Many2one(
         comodel_name='account.account',
         check_company=True,
-        domain="[('deprecated', '=', False)]",
+        domain="[('active', '=', True)]",
         compute="_compute_accounts",
         inverse="_inverse_loss_account",
         readonly=False,

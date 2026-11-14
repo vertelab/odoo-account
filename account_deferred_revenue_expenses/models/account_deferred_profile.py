@@ -24,13 +24,13 @@ class AccountDeferredProfile(models.Model):
     # ── Accounts ──────────────────────────────────────────────────────
     account_depreciation_id = fields.Many2one(
         'account.account', string='Periodiseringskonto',
-        domain="[('deprecated', '=', False)]",
+        domain="[('active', '=', True)]",
         check_company=True, required=True,
         help="Balance sheet account (e.g. 1710 for prepaid, 2990 for deferred income).",
     )
     account_expense_id = fields.Many2one(
         'account.account', string='Expense/Income Account',
-        domain="[('deprecated', '=', False)]",
+        domain="[('active', '=', True)]",
         check_company=True,
         help="P&L account (e.g. 5010 for expense, 3010 for income).",
     )

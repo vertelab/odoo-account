@@ -5,7 +5,7 @@ import logging
 
 from collections import defaultdict
 from odoo import api, fields, models, _
-from odoo.osv import expression
+# odoo.osv was removed in 20.0; the module does not use expression.
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -18,28 +18,8 @@ class AccountAnalyticLine(models.Model):
                                  string="Related project",
                                  )
 
-    def get_group_id_default(self):
-        return self.account_id and self.account_id.group_id
-
-    # @api.depends("account_id", "account_id.group_id")
-    # def get_group_id(self):
-    #     for record in self:
-    #         self.group_id = self.account_id.group_id
-
-    # account.analytic.group does not exist again
-    # group_id = fields.Many2one("account.analytic.group",
-    #                            string="Related group",
-    #                            default=get_group_id_default,
-    #                            compute="get_group_id",
-    #                            store=True,
-    #                            )
-
-    group_id = fields.Many2one(
-        "account.group", string="Related group",
-        default=get_group_id_default,
-        # compute="get_group_id",
-        store=True,
-   )
+    # account.group was removed in 20.0, and account.analytic.account never
+    # carried group_id, so the field has no comodel to point at.
 
 
 class Project(models.Model):
