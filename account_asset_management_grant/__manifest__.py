@@ -44,7 +44,7 @@ Asset Grant
     'repository': 'https://github.com/vertelab/odoo-account',
     'depends': ['account_asset_management'],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/account_asset_grant_views.xml',
         'views/account_asset_views.xml',
     ],

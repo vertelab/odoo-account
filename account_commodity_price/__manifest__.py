@@ -33,7 +33,7 @@ Commodity Price
     ''',
     'depends': ['account', 'stock', 'stock_account', 'mrp'],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/product_commodity_demo.xml',
         'data/ir_cron.xml',
         'views/product_commodity_price_views.xml',

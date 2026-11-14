@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from odoo import api, fields, models, _, exceptions
-from odoo.osv import expression
+# odoo.osv was removed in 20.0; the module does not use expression.
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import UserError
@@ -133,8 +133,9 @@ class AccountMoveLine(models.Model):
 
             # ==== Create the full reconcile ====
 
+            # account.full.reconcile.exchange_move_id was removed in 19.0;
+            # the exchange move is reachable via reconciled_line_ids.
             results['full_reconcile'] = self.env['account.full.reconcile'].create({
-                'exchange_move_id': exchange_move and exchange_move.id,
                 'partial_reconcile_ids': [(6, 0, involved_partials.ids)],
                 'reconciled_line_ids': [(6, 0, involved_lines.ids)],
             })

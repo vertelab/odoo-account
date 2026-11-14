@@ -21,7 +21,7 @@ Features:
         "account_fiscal_year_closing",
     ],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/account_fiscalyear_views.xml",
         "views/account_balance_views.xml",
     ],

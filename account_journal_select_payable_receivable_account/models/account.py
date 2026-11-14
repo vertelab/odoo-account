@@ -46,7 +46,7 @@ class AccountJournal(models.Model):
     help ="Used on everything except Customer Invoice, Customer Credit Note, Sales Receipt"
     "The account used to make sure an invoice/journal entries are balanced"
     "Have as empty if you want odoo to select the account used",
-    domain="""[('deprecated', '=', False), ('company_ids', 'in', company_id),
+    domain="""[('active', '=', True), ('company_ids', 'in', company_id),
               '|', ('account_type', '=', default_account_type),
               ('account_type', '=', 'liability_payable')]""")
     
@@ -55,7 +55,7 @@ class AccountJournal(models.Model):
     help ="Used on Customer Invoice, Customer Credit Note, Sales Receipt"
     "The account used to make sure an invoice/journal entries are balanced"
     "Have as empty if you want odoo to select the account used",
-    domain="""[('deprecated', '=', False), ('company_ids', 'in', company_id),
+    domain="""[('active', '=', True), ('company_ids', 'in', company_id),
               '|', ('account_type', '=', default_account_type),
               ('account_type', '=', 'asset_receivable')]""")
     

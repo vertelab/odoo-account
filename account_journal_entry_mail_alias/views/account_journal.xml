@@ -1,26 +1,4 @@
 <odoo>
     <data>
-        <record id="account_journal_form_view" model="ir.ui.view">
-            <field name="name">account.journal.form</field>
-            <field name="model">account.journal</field>
-            <field name="inherit_id" ref="account.view_account_journal_form"/>
-            <field name="arch" type="xml">
-                <!-- 18.0 keeps the alias in dedicated groups (group_alias_*);
-                     19.0 replaced them with one group_email_alias that is
-                     already limited to general/sale/purchase, so there is
-                     nothing to widen there. -->
-                <xpath expr="//group[@name='group_alias_ro']" position="attributes">
-                    <attribute name="invisible">type not in ('sale', 'purchase', 'general') or not alias_domain</attribute>
-                </xpath>
-
-                <xpath expr="//group[@name='group_alias_no_domain']" position="attributes">
-                    <attribute name="invisible">type not in ('sale', 'purchase', 'general') or alias_domain</attribute>
-                </xpath>
-
-                <xpath expr="//group[@name='group_alias_edit']" position="attributes">
-                    <attribute name="invisible">type not in ('sale', 'purchase', 'general') or not alias_domain</attribute>
-                </xpath>
-            </field>
-        </record>
     </data>
 </odoo>

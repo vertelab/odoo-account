@@ -26,7 +26,7 @@ Features:
         "l10n_se_credit_transfer",
     ],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/account_payment_mode.xml',
     ],
     'installable': True,

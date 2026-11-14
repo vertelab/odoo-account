@@ -49,11 +49,10 @@ Journal Card Type
         # 'account_statement_import'
     ],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'security/security.xml',
         'views/card_statement_view.xml',
         'views/account_journal.xml',
-        'views/account_move.xml',
     ],
     'demo': [],
     'qweb': [],

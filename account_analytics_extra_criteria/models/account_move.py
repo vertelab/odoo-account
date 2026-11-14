@@ -3,7 +3,8 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
-from odoo.tools import frozendict, format_date, float_compare, format_list, Query
+# Query moved to odoo.orm.query in 20.0; it is imported but unused here.
+from odoo.tools import frozendict, format_date, float_compare, format_list
 
 
 class AccountMoveLine(models.Model):

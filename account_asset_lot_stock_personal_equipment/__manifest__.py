@@ -38,7 +38,7 @@ Create an asset connected to a Lot number and equipment.
     """,
     'depends': ['account_asset_lot_stock','hr_personal_equipment_stock'],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         #'security/security.xml',
         'views/employee_view.xml',
     ],
