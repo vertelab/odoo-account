@@ -137,11 +137,20 @@ class AccountMoveLine(models.Model):
 
             # ==== Create the full reconcile ====
 
+            # #if VERSION >= "19.0"
+            # account.full.reconcile.exchange_move_id was removed in 19.0;
+            # the exchange move is reachable via reconciled_line_ids.
+            results['full_reconcile'] = self.env['account.full.reconcile'].create({
+                'partial_reconcile_ids': [(6, 0, involved_partials.ids)],
+                'reconciled_line_ids': [(6, 0, involved_lines.ids)],
+            })
+            # #else
             results['full_reconcile'] = self.env['account.full.reconcile'].create({
                 'exchange_move_id': exchange_move and exchange_move.id,
                 'partial_reconcile_ids': [(6, 0, involved_partials.ids)],
                 'reconciled_line_ids': [(6, 0, involved_lines.ids)],
             })
+            # #endif
 
         # Trigger action for paid invoices
         not_paid_invoices\
