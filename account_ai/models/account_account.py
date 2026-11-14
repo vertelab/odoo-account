@@ -96,7 +96,7 @@ class AccountAccount(models.Model):
         (tillgång, kostnad, moms) och är en del av dess mening för
         AI-kategoriseringen.
         """
-        return {'code', 'name', 'note', 'account_type', 'deprecated'}
+        return {'code', 'name', 'note', 'account_type', 'active'}
 
     def _okf_skip_reason(self):
         """Även ett avaktiverat konto indexeras — det finns kvar i historiken."""

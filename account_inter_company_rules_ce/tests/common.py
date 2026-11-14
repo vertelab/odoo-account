@@ -27,7 +27,7 @@ class TestInterCompanyRulesCommon(AccountTestInvoicingCommon):
             'email': 'usera@yourcompany.com',
             'company_id': cls.company_a.id,
             'company_ids': [(6, 0, [cls.company_a.id])],
-            'group_ids': [(6, 0, [
+            'groups_id': [(6, 0, [
                 cls.env.ref('account.group_account_user').id,
                 cls.env.ref('account.group_account_manager').id
             ])]
@@ -39,7 +39,7 @@ class TestInterCompanyRulesCommon(AccountTestInvoicingCommon):
             'email': 'userb@yourcompany.com',
             'company_id': cls.company_b.id,
             'company_ids': [(6, 0, [cls.company_b.id])],
-            'group_ids': [(6, 0, [
+            'groups_id': [(6, 0, [
                 cls.env.ref('account.group_account_user').id
             ])]
         })
