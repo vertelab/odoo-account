@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-        <!-- Multi-company rules -->
+        <!-- Multi-company rules.
+             20.0 merged ir.rule into ir.access.domain: the same domain is a
+             restriction on the access record instead of a separate rule.
+             Kept as a rule for 18/19, as an ir.access row for 20.0. -->
         <record id="account_fiscal_year_comp_rule" model="ir.rule">
             <field name="name">Account Fiscal Year multi-company</field>
             <field name="model_id" ref="model_account_fiscal_year"/>
