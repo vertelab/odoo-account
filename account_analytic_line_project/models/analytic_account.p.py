@@ -22,6 +22,10 @@ class AccountAnalyticLine(models.Model):
                                  string="Related project",
                                  )
 
+    # #if VERSION >= "20.0"
+    # account.group was removed in 20.0, and account.analytic.account never
+    # carried group_id, so the field has no comodel to point at.
+    # #else
     def get_group_id_default(self):
         return self.account_id and self.account_id.group_id
 
@@ -44,6 +48,7 @@ class AccountAnalyticLine(models.Model):
         # compute="get_group_id",
         store=True,
    )
+    # #endif
 
 
 class Project(models.Model):

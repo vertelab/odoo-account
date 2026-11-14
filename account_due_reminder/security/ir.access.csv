@@ -1,3 +1,3 @@
 id,name,model_id,group_id/id,operation,domain
-account_due_reminder.access_payment_reminder_line,access_payment_reminder_line,account_due_reminder.model_payment_reminder_line,base.group_user,crud,
-account_due_reminder.access_account_payment_plan,access_account_payment_plan,account_due_reminder.model_account_payment_plan,base.group_user,crud,
+account_due_reminder.access_payment_reminder_line,access_payment_reminder_line,payment.reminder.line,base.group_user,crud,
+account_due_reminder.access_account_payment_plan,access_account_payment_plan,account.payment.plan,base.group_user,crud,

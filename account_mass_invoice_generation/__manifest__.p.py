@@ -47,7 +47,11 @@ Mass Invoice Generation
     'data': [
         'views/bulk_account_move_wizard_views.xml',
         'data/ir_actions_server.xml',
-        'security/ir.model.access.csv'
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
+        'security/ir.model.access.csv',
+        # #endif
     ],
     'demo': [],
     'application': False,

@@ -5,5 +5,5 @@ access_bill_approval_user_line_manager,bill.approval.user.line manager,bill.appr
 access_bill_approval_user_line_account_invoice,bill.approval.user.line invoicing,bill.approval.user.line,account.group_account_invoice,ru,
 access_vendor_bill_approval_user,vendor.bill.approval.user,vendor.bill.approval.user,account_bill_approval.group_bill_approval_user,cru,
 access_vendor_bill_approval_reject,vendor.bill.approval.reject,vendor.bill.approval.reject,account_bill_approval.group_bill_approval_user,cru,
-access_account_move_bill_approver,account.move bill approver,account.model_account_move,account_bill_approval.group_bill_approval_user,r,
-access_account_move_line_bill_approver,account.move.line bill approver,account.model_account_move_line,account_bill_approval.group_bill_approval_user,r,
+access_account_move_bill_approver,account.move bill approver,account.move,account_bill_approval.group_bill_approval_user,r,
+access_account_move_line_bill_approver,account.move.line bill approver,account.move.line,account_bill_approval.group_bill_approval_user,r,
