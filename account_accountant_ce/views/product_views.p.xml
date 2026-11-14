@@ -1,0 +1,20 @@
+<odoo>
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <!-- #if VERSION >= "19.0" -->
+            <!-- 19.0 merged the "Accounting Entries" group into "General"
+                 (property_account_receivable_id/payable_id moved there). -->
+            <xpath expr="//page[@name='accounting']//group[@name='general']" position="attributes">
+                <attribute name="groups">account.group_account_basic</attribute>
+            </xpath>
+            <!-- #else -->
+            <xpath expr="//page[@name='accounting']//group[@name='accounting_entries']" position="attributes">
+                <attribute name="groups">account.group_account_basic</attribute>
+            </xpath>
+            <!-- #endif -->
+        </field>
+    </record>
+</odoo>

@@ -69,13 +69,19 @@ class ResUsers(models.Model):
     @api.model
     # #if VERSION >= "19.0"
     def name_search(self, name="", domain=None, operator="ilike", limit=100):
-        args = domain
+        # 19.0 renamed the ``args`` parameter to ``domain``.
+        search_domain = list(domain or [])
+        if self.env.context.get("filter_bill_approval_user"):
+            extra = self._bill_approval_user_domain()
+            if extra:
+                search_domain += extra
+        return super().name_search(name, search_domain, operator, limit)
     # #else
     def name_search(self, name="", args=None, operator="ilike", limit=100):
-    # #endif
-        args = list(args or [])
+        search_domain = list(args or [])
         if self.env.context.get("filter_bill_approval_user"):
-            domain = self._bill_approval_user_domain()
-            if domain:
-                args += domain
-        return super().name_search(name, args, operator, limit)
+            extra = self._bill_approval_user_domain()
+            if extra:
+                search_domain += extra
+        return super().name_search(name, search_domain, operator, limit)
+    # #endif

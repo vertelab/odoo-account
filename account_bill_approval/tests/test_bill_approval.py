@@ -6,6 +6,15 @@ from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+def groups_vals(env, value):
+    """Return ``{groups field: value}`` for this edition.
+
+    Odoo 19.0 renamed ``res.users.groups_id`` to ``group_ids``.
+    """
+    key = "group_ids" if "group_ids" in env["res.users"]._fields else "groups_id"
+    return {key: value}
+
+
 @tagged("post_install", "-at_install")
 class TestBillApproval(TransactionCase):
     """Tests for the vendor bill approval workflow."""
@@ -35,13 +44,13 @@ class TestBillApproval(TransactionCase):
             "email": "test_approver_bill@example.com",
             "company_id": cls.company.id,
             "company_ids": [(6, 0, [cls.company.id])],
-            "groups_id": [(6, 0, [
+            **groups_vals(cls.env, [(6, 0, [
                 cls.env.ref("base.group_user").id,
                 cls.env.ref("account.group_account_invoice").id,
                 cls.env.ref(
                     "account_bill_approval.group_bill_approval_user"
                 ).id,
-            ])],
+            ])]),
         })
         cls.other_approver = cls.env["res.users"].create({
             "name": "Other Approver",
@@ -49,13 +58,13 @@ class TestBillApproval(TransactionCase):
             "email": "test_approver_bill_2@example.com",
             "company_id": cls.company.id,
             "company_ids": [(6, 0, [cls.company.id])],
-            "groups_id": [(6, 0, [
+            **groups_vals(cls.env, [(6, 0, [
                 cls.env.ref("base.group_user").id,
                 cls.env.ref("account.group_account_invoice").id,
                 cls.env.ref(
                     "account_bill_approval.group_bill_approval_user"
                 ).id,
-            ])],
+            ])]),
         })
         cls.vendor = cls.env["res.partner"].create({
             "name": "Test Vendor AB",
@@ -67,13 +76,13 @@ class TestBillApproval(TransactionCase):
             "email": "test_approver_bill_3@example.com",
             "company_id": cls.company.id,
             "company_ids": [(6, 0, [cls.company.id])],
-            "groups_id": [(6, 0, [
+            **groups_vals(cls.env, [(6, 0, [
                 cls.env.ref("base.group_user").id,
                 cls.env.ref("account.group_account_invoice").id,
                 cls.env.ref(
                     "account_bill_approval.group_bill_approval_user"
                 ).id,
-            ])],
+            ])]),
         })
         cls.bill = cls.env["account.move"].create({
             "move_type": "in_invoice",
@@ -112,10 +121,10 @@ class TestBillApproval(TransactionCase):
             "email": "test_non_approver_bill@example.com",
             "company_id": cls.company.id,
             "company_ids": [(6, 0, [cls.company.id])],
-            "groups_id": [(6, 0, [
+            **groups_vals(cls.env, [(6, 0, [
                 cls.env.ref("base.group_user").id,
                 cls.env.ref("account.group_account_invoice").id,
-            ])],
+            ])]),
         })
 
     # ------------------------------------------------------------------
@@ -426,7 +435,7 @@ class TestBillApproval(TransactionCase):
             "email": "test_approval_manager@example.com",
             "company_id": self.company.id,
             "company_ids": [(6, 0, [self.company.id])],
-            "groups_id": [(6, 0, [
+            **groups_vals(self.env, [(6, 0, [
                 self.env.ref("base.group_user").id,
                 self.env.ref("account.group_account_invoice").id,
                 # Needed to write on res.partner in this test. Use a base
@@ -436,7 +445,7 @@ class TestBillApproval(TransactionCase):
                 self.env.ref(
                     "account_bill_approval.group_bill_approval_manager"
                 ).id,
-            ])],
+            ])]),
         })
         line = self.env["bill.approval.user.line"].with_user(
             manager
@@ -525,13 +534,13 @@ class TestBillApproval(TransactionCase):
             "email": "test_approval_manager_reset@example.com",
             "company_id": self.company.id,
             "company_ids": [(6, 0, [self.company.id])],
-            "groups_id": [(6, 0, [
+            **groups_vals(self.env, [(6, 0, [
                 self.env.ref("base.group_user").id,
                 self.env.ref("account.group_account_invoice").id,
                 self.env.ref(
                     "account_bill_approval.group_bill_approval_manager"
                 ).id,
-            ])],
+            ])]),
         })
         third = self.env["bill.approval.user.line"].create({
             "move_id": self.bill.id,

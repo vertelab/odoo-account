@@ -76,16 +76,25 @@ class AccountFiscalYear(models.Model):
     @api.model
     # #if VERSION >= "19.0"
     def name_search(self, name="", domain=None, operator="ilike", limit=100):
-        args = domain
+        # 19.0 renamed the ``args`` parameter to ``domain``, and name_get() was
+        # removed in 17.0 -- build the (id, display_name) pairs by hand.
+        return self._fiscal_year_name_search(name, domain, operator, limit)
     # #else
     def name_search(self, name="", args=None, operator="ilike", limit=100):
+        return self._fiscal_year_name_search(name, args, operator, limit)
     # #endif
-        """Search by name or by date range."""
-        if not args:
-            args = []
-        domain = args + ["|", ("name", operator, name)]
-        recs = self.search(domain, limit=limit)
-        return recs.name_get()
+
+    @api.model
+    def _fiscal_year_name_search(self, name, domain, operator, limit):
+        """Search by name or by date range.
+
+        Keeps the 18.0 expression unchanged; only the parameter name and the
+        name_get() call are edition-dependent.
+        """
+        search_domain = list(domain or [])
+        search_domain = search_domain + ["|", ("name", operator, name)]
+        recs = self.search(search_domain, limit=limit)
+        return [(rec.id, rec.display_name) for rec in recs]
 
     def action_draft(self):
         """Re-open a closed fiscal year."""
