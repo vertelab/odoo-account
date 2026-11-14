@@ -46,7 +46,7 @@ Invoice Payment Reminder
     # view domain fails to validate on install.
     'depends': ['account', 'contract_invoicingplan', 'sms'],
     'data': [
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'views/payment_reminder_line_views.xml',
         'views/account_payment_terms_views.xml',
         'views/account_move_views.xml',

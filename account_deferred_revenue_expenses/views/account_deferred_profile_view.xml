@@ -29,10 +29,10 @@
                             </group>
                             <group string="Accounts">
                                 <field name="account_depreciation_id" string="Periodiseringskonto"
-                                       domain="[('active', '=', True)]"/>
+                                       domain="[('deprecated', '=', False)]"/>
                                 <field name="account_expense_id"
                                        string="Kostnads-/intäktskonto"
-                                       domain="[('active', '=', True)]"/>
+                                       domain="[('deprecated', '=', False)]"/>
                                 <div class="text-muted small">
                                     Periodiseringskonto = balanskonto (t.ex. 1710/1790) där
                                     nettokostnaden initialt parkeras. Kostnads-/intäktskonto = det

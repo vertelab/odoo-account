@@ -67,9 +67,8 @@ class ResUsers(models.Model):
         return super().search(args, offset=offset, limit=limit, order=order)
 
     @api.model
-    def name_search(self, name="", domain=None, operator="ilike", limit=100):
-        # 19.0 renamed the ``args`` parameter to ``domain``.
-        search_domain = list(domain or [])
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
+        search_domain = list(args or [])
         if self.env.context.get("filter_bill_approval_user"):
             extra = self._bill_approval_user_domain()
             if extra:

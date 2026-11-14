@@ -4,9 +4,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="account.view_partner_property_form"/>
         <field name="arch" type="xml">
-            <!-- 19.0 merged the "Accounting Entries" group into "General"
-                 (property_account_receivable_id/payable_id moved there). -->
-            <xpath expr="//page[@name='accounting']//group[@name='general']" position="attributes">
+            <xpath expr="//page[@name='accounting']//group[@name='accounting_entries']" position="attributes">
                 <attribute name="groups">account.group_account_basic</attribute>
             </xpath>
         </field>

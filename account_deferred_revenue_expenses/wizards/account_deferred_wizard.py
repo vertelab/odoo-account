@@ -40,12 +40,12 @@ class AccountDeferredWizard(models.TransientModel):
     )
     period_account_id = fields.Many2one(
         'account.account', string='Periodiseringskonto', required=True,
-        domain="[('active', '=', True)]",
+        domain="[('deprecated', '=', False)]",
         help='Balance sheet account for the deferral (e.g. 1710 / 2990).',
     )
     expense_account_id = fields.Many2one(
         'account.account', string='Kostnads-/intäktskonto', required=True,
-        domain="[('active', '=', True)]",
+        domain="[('deprecated', '=', False)]",
         help='P&L account receiving the periodic entries.',
     )
 
