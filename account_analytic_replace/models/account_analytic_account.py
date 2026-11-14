@@ -14,11 +14,10 @@ class AccountAnalyticAccount(models.Model):
     plan_replacement_id = fields.Many2one('account.analytic.plan', string='Plan Replacement', related='plan_id.plan_replacement_id', store=True)
 
     @api.model
-    def name_search(self, name="", domain=None, operator="ilike", limit=100):
-        args = domain
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
         args = args or []
         if not name:
-            return super().name_search(name=name, domain=args, operator=operator, limit=limit)
+            return super().name_search(name=name, args=args, operator=operator, limit=limit)
         
         domain = ['|',
                   ('name', operator, name),
