@@ -57,6 +57,9 @@ Journal Card Type
         'security/security.xml',
         'views/card_statement_view.xml',
         'views/account_journal.xml',
+        # #if VERSION < "20.0"
+        'views/account_move.xml',
+        # #endif
     ],
     'demo': [],
     'qweb': [],

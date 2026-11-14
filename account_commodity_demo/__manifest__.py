@@ -39,7 +39,6 @@ Commodity Demo (3-Way Match)
         'data/account_commodity_demo.xml',
     ],
     'demo': [],
-    
     'installable': True,
     'application': False,
     'auto_install': False,

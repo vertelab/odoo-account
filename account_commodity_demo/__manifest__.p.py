@@ -33,14 +33,20 @@ Commodity Demo (3-Way Match)
 
         - Extends Odoo: Builds on account.move.
     ''',
+    # #if VERSION >= "19.0"
+    # account_commodity_price is an 18.0-only module (not ported to 19.0/20.0),
+    # so this demo and its post_init_hook cannot be installed there.
+    'installable': False,
+    # #endif
     'depends': ['account_commodity_price', 'purchase', 'stock'],
     'post_init_hook': 'post_init_hook',
     'data': [
         'data/account_commodity_demo.xml',
     ],
     'demo': [],
-    
+    # #if VERSION <= "18.0"
     'installable': True,
+    # #endif
     'application': False,
     'auto_install': False,
 }

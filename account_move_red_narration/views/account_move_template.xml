@@ -3,7 +3,18 @@
     <data>
 
         <template id="report_invoice_document_narration" inherit_id="account.report_invoice_document">
-            <!-- Odoo 18: the narration block is a <div name="comment">, not a <p>. -->
+            <!-- Odoo 18: the narration block is a <div name="comment">, not a <p>.
+                 Odoo 20 dropped the name attribute; anchor on the class instead. -->
+            <!-- #if VERSION >= "20.0" -->
+            <xpath expr="//div[hasclass('text-muted') and hasclass('mb-3')]" position="replace">
+                <div t-if="o.red_narration" name="comment" class="mb-3">
+                    <span t-field="o.red_narration" style="font-weight:bold; color:RED; font-size: 20px;"/>
+                </div>
+                <div t-if="o.narration" class="mb-3">
+                    <span t-field="o.narration"/>
+                </div>
+            </xpath>
+            <!-- #else -->
             <xpath expr="//div[@name='comment']" position="replace">
                 <div t-if="o.red_narration" name="comment" class="mb-3">
                     <span t-field="o.red_narration" style="font-weight:bold; color:RED; font-size: 20px;"/>
@@ -12,6 +23,7 @@
                     <span t-field="o.narration"/>
                 </div>
             </xpath>
+            <!-- #endif -->
             <!-- Odoo 18: payment-term note is a <span id="payment_terms_note_id">. -->
             <xpath expr="//span[@name='payment_term']" position="replace">
                 <span t-if="o.invoice_payment_term_id" name="payment_term"

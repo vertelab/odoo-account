@@ -296,6 +296,8 @@ class EnableBanking(models.TransientModel):
 
     def _create_session(self):
         _logger.critical("create session")
+        # `bank_id` here is the wizard's own res.bank field, not the journal's
+        # related one (removed in 20.0) — no version split applies.
         partner_id = self.bank_id.api_contact_integration
         api_url, private_key, application_id, base_headers = partner_id.request_essentials()
         session = requests.post(f"{api_url}/sessions", json={"code": self.code}, headers=base_headers)

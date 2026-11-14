@@ -13,7 +13,7 @@
     ],
     'data': [
         'security/res_groups.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'security/bill_approval_rules.xml',
         'views/account_move_views.xml',
         'views/res_partner_views.xml',

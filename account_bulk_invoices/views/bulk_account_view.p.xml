@@ -341,6 +341,9 @@
                                            name="accounting_info_group"
                                            invisible="move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')">
                                         <field name="company_id" groups="base.group_multi_company"/>
+                                        <!-- #if VERSION <= "18.0" -->
+                                        <field name="partner_id" invisible="1"/>
+                                        <!-- #endif -->
                                         <field name="fiscal_position_id" readonly="state in ['cancel', 'posted']"/>
                                         <field name="invoice_cash_rounding_id" groups="account.group_cash_rounding" readonly="state != 'draft'"/>
                                         <field name="invoice_source_email"

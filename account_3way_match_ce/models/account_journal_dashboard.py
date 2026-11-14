@@ -14,6 +14,10 @@ Odoo 18 bygger dashboardens data ur SQL-queries. Hooks som måste överskridas:
   recordset), som core sedan `.select(...)` på.
 * `_get_open_sale_purchase_query(journal_type)` — returnerar `(query, selects)`
   där `selects` innehåller `to_pay`-uttrycket.
+
+Odoo 20 slog ihop sale- och purchase-frågan: `_get_open_sale_purchase_query()`
+tar inga argument och returnerar båda journaltyperna, och `to_pay` byggs av
+`_get_to_pay_select()`.
 """
 
 from odoo import fields, models
@@ -56,6 +60,18 @@ class AccountJournal(models.Model):
             ('release_to_pay', '=', 'yes'),
         ])
 
+    # #if VERSION >= "20.0"
+    def _get_to_pay_select(self):
+        """Som core (`TRUE AS to_pay`), men styrd av release_to_pay.
+
+        Frågan omfattar både sälj- och leverantörsfakturor, så villkoret
+        uttrycks per rad: leverantörsfakturor räknas som "att betala" endast
+        när de är frigivna (`yes`/`exception`); säljfakturor räknas alltid.
+        """
+        return SQL(
+            "(move_type NOT IN ('in_invoice', 'in_refund', 'in_receipt')"
+            " OR release_to_pay IN ('yes', 'exception')) AS to_pay")
+    # #else
     def _get_open_sale_purchase_query(self, journal_type):
         """Som core, men "att betala" styrs av release_to_pay.
 
@@ -74,3 +90,4 @@ class AccountJournal(models.Model):
             else select
             for select in selects
         ]
+    # #endif

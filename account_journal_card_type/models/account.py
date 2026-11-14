@@ -38,10 +38,10 @@ class AccountJournal(models.Model):
                             )
 
     card_debit_account = fields.Many2one('account.account', string='Card Debit Account',
-                                           domain="[('active', '=', True), ('company_ids', 'in', company_id)]")
-                                         
+                                           domain="[('deprecated', '=', False), ('company_ids', 'in', company_id)]")
+
     card_credit_account = fields.Many2one('account.account', string='Card Credit Account',
-                                            domain="[('active', '=', True), ('company_ids', 'in', company_id)]")
+                                            domain="[('deprecated', '=', False), ('company_ids', 'in', company_id)]")
 
 
 

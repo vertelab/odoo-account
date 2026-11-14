@@ -149,9 +149,13 @@ class MisBudgetTreeLine(models.Model):
         if len(prefixes) == 1:
             domain = [("code", "=like", f"{prefixes[0]}%")]
 
-        return self.env["account.account"].search(
-            domain + [("deprecated", "=", False), ("company_id", "=", self.company_id.id)]
-        )
+        # #if VERSION >= "19.0"
+        # account.account.deprecated is gone in 19.0; active is its inverse.
+        domain += [("active", "=", True), ("company_ids", "in", self.company_id.ids)]
+        # #else
+        domain += [("deprecated", "=", False), ("company_id", "=", self.company_id.id)]
+        # #endif
+        return self.env["account.account"].search(domain)
 
     def get_accounts(self):
         """Return all account.account records for this tree line.

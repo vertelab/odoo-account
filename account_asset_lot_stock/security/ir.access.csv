@@ -1,8 +1,0 @@
-id,name,model_id,group_id/id,operation,domain
-access_account_period_manager,account.period.manager,account.period,account.group_account_manager,crud,
-access_account_period_user,account.period.user,account.period,account.group_account_user,r,
-access_account_fiscalyear_manager,account.fiscalyear.manager,account.fiscalyear,account.group_account_manager,crud,
-access_account_fiscalyear_user,account.fiscalyear.user,account.fiscalyear,account.group_account_user,r,
-access_account_period_create_wizard,access_account_period_create_wizard,account.period.create.wizard,base.group_user,crud,
-access_account_period_close,access_account_period_close,account.period.close,base.group_user,crud,
-access_account_fiscalyear_close,access_account_fiscalyear_close,account.fiscalyear.close,base.group_user,crud,

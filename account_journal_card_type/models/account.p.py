@@ -19,9 +19,7 @@
 #
 ##############################################################################
 from odoo import api, fields, models, _, exceptions
-# #if VERSION >= "20.0"
-# odoo.osv was removed in 20.0; the module does not use expression.
-# #else
+# #if VERSION < "20.0"
 from odoo.osv import expression
 # #endif
 from datetime import datetime
@@ -41,11 +39,21 @@ class AccountJournal(models.Model):
                             ondelete={"card": "set default"},
                             )
 
+    # #if VERSION >= "19.0"
     card_debit_account = fields.Many2one('account.account', string='Card Debit Account',
                                            domain="[('active', '=', True), ('company_ids', 'in', company_id)]")
-                                         
+    # #else
+    card_debit_account = fields.Many2one('account.account', string='Card Debit Account',
+                                           domain="[('deprecated', '=', False), ('company_ids', 'in', company_id)]")
+    # #endif
+
+    # #if VERSION >= "19.0"
     card_credit_account = fields.Many2one('account.account', string='Card Credit Account',
                                             domain="[('active', '=', True), ('company_ids', 'in', company_id)]")
+    # #else
+    card_credit_account = fields.Many2one('account.account', string='Card Credit Account',
+                                            domain="[('deprecated', '=', False), ('company_ids', 'in', company_id)]")
+    # #endif
 
 
 

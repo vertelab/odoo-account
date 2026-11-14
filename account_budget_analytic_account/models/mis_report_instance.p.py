@@ -1,5 +1,9 @@
 from odoo import api, fields, models, _
+# #if VERSION >= "20.0"
+# odoo.osv was removed in 20.0; the module does not use AND.
+# #else
 from odoo.osv.expression import AND
+# #endif
 from odoo.exceptions import ValidationError
 from odoo.addons.mis_builder_budget.models.mis_report_instance_period import SRC_MIS_BUDGET, SRC_MIS_BUDGET_BY_ACCOUNT
 from odoo.addons.mis_builder_budget.models.mis_report_instance import MisBudgetAwareExpressionEvaluator

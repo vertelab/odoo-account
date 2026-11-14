@@ -18,12 +18,6 @@
         <field name="model">mis.budget.tree</field>
         <field name="arch" type="xml">
             <form>
-                <header>
-                    <button name="%(account_mis_budget_forecast.action_create_budget_from_tree)d"
-                            string="Create Budget from Tree"
-                            type="action"
-                            class="btn-primary"/>
-                </header>
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -97,17 +91,35 @@
         <field name="context">{"default_tree_id": active_id}</field>
     </record>
 
-    <!-- Menu: Budget Trees under Accounting > Configuration -->
-    <menuitem id="menu_mis_budget_tree"
-              name="Budget Trees"
-              parent="account.account_management_menu"
-              action="action_mis_budget_tree"
-              sequence="50"/>
+    <!-- The form button references the action above, so the action must be
+         loaded first: Odoo resolves %(...)d while loading the view. -->
+    <record id="mis_budget_tree_form_view_header" model="ir.ui.view">
+        <field name="name">mis.budget.tree.form.header</field>
+        <field name="model">mis.budget.tree</field>
+        <field name="inherit_id" ref="mis_budget_tree_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="before">
+                <header>
+                    <button name="%(account_mis_budget_forecast.action_create_budget_from_tree)d"
+                            string="Create Budget from Tree"
+                            type="action"
+                            class="btn-primary"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
 
     <record id="action_mis_budget_tree" model="ir.actions.act_window">
         <field name="name">Budget Trees</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">mis.budget.tree</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
+
+    <!-- Menu: Budget Trees under Accounting > Configuration -->
+    <menuitem id="menu_mis_budget_tree"
+              name="Budget Trees"
+              parent="account.menu_finance_configuration"
+              action="action_mis_budget_tree"
+              sequence="50"/>
 </odoo>

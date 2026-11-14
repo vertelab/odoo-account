@@ -26,7 +26,11 @@
                         <field name="to_check_period"/>
                     </xpath>
                     <!-- #else -->
-                    <xpath expr="//sheet" position="inside">
+                    <!-- 20.0 removed account.move.checked. Anchor on the
+                         narration at the end of the entry page instead, so the
+                         flags stay inside the sheet (a bare //field[@name=...]
+                         also matches the list view, which has no such field). -->
+                    <xpath expr="//page[@name='other_info']/field[@name='narration']" position="after">
                         <group name="to_check_flags">
                             <field name="to_check_duplicate"/>
                             <field name="to_check_period"/>

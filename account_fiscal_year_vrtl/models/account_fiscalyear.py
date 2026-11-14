@@ -74,8 +74,10 @@ class AccountFiscalYear(models.Model):
         return fys
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        return self._fiscal_year_name_search(name, args, operator, limit)
+    def name_search(self, name="", domain=None, operator="ilike", limit=100):
+        # 19.0 renamed the ``args`` parameter to ``domain``, and name_get() was
+        # removed in 17.0 -- build the (id, display_name) pairs by hand.
+        return self._fiscal_year_name_search(name, domain, operator, limit)
 
     @api.model
     def _fiscal_year_name_search(self, name, domain, operator, limit):

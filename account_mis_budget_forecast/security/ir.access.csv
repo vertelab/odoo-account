@@ -1,6 +1,6 @@
 id,name,model_id,group_id/id,operation,domain
-access_mis_budget_forecast_user,access_mis_budget_forecast_user,mis.budget.forecast.item,account.group_account_user,r,
-access_mis_budget_forecast_manager,access_mis_budget_forecast_manager,mis.budget.forecast.item,account.group_account_manager,crud,
+access_mis_budget_forecast_user,access_mis_budget_forecast_user,mis.budget.by.account.item,account.group_account_user,r,
+access_mis_budget_forecast_manager,access_mis_budget_forecast_manager,mis.budget.by.account.item,account.group_account_manager,crud,
 access_mis_budget_tree_user,access_mis_budget_tree_user,mis.budget.tree,account.group_account_user,r,
 access_mis_budget_tree_manager,access_mis_budget_tree_manager,mis.budget.tree,account.group_account_manager,crud,
 access_mis_budget_tree_line_user,access_mis_budget_tree_line_user,mis.budget.tree.line,account.group_account_user,r,

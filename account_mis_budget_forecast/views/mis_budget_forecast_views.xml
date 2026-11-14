@@ -7,11 +7,6 @@
         <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <button name="action_convert_to_forecast"
-                        string="Convert to Forecast"
-                        type="object"
-                        class="btn-primary"
-                        invisible="is_forecast == True or state != 'draft'"/>
                 <button name="action_set_as_forecast"
                         string="Enable Forecast"
                         type="object"
@@ -44,7 +39,7 @@
         <field name="model">mis.budget.by.account</field>
         <field name="inherit_id" ref="mis_builder_budget.mis_budget_by_account_list_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree/field[@name='state']" position="after">
+            <xpath expr="//list/field[@name='state']" position="after">
                 <field name="is_forecast" widget="boolean_toggle"
                        string="Forecast"/>
             </xpath>

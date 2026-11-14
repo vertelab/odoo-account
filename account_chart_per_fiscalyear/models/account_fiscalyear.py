@@ -36,10 +36,17 @@ class AccountFiscalYear(models.Model):
         """
         self.ensure_one()
         if not self.chart_snapshot_ids:
+            # #if VERSION >= "19.0"
+            accounts = self.env["account.account"].search([
+                ("company_ids", "in", self.company_id.ids),
+                ("active", "=", True),
+            ])
+            # #else
             accounts = self.env["account.account"].search([
                 ("company_ids", "in", self.company_id.ids),
                 ("deprecated", "=", False),
             ])
+            # #endif
             for account in accounts:
                 self.env["account.chart.snapshot"].create({
                     "fiscalyear_id": self.id,
@@ -85,10 +92,18 @@ class AccountFiscalYear(models.Model):
         """
         self.ensure_one()
         variant = self.chart_variant_id
+        # #if VERSION >= "19.0"
+        # account.account.deprecated is gone in 19.0; active is its inverse.
+        current_accounts = self.env["account.account"].search([
+            ("company_ids", "in", self.company_id.ids),
+            ("active", "=", True),
+        ])
+        # #else
         current_accounts = self.env["account.account"].search([
             ("company_ids", "in", self.company_id.ids),
             ("deprecated", "=", False),
         ])
+        # #endif
         current_by_code = {a.code: a for a in current_accounts}
 
         changes = []
@@ -160,4 +175,8 @@ class AccountFiscalYear(models.Model):
             ("company_ids", "in", self.company_id.ids),
         ], limit=1)
         if account:
+            # #if VERSION >= "19.0"
+            account.write({"active": False})
+            # #else
             account.write({"deprecated": True})
+            # #endif

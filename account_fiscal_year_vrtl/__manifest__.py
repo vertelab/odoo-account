@@ -27,7 +27,7 @@ Features:
     ],
     "data": [
         "security/security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/date_range_type_data.xml",
         "data/ir_server_action.xml",
         "data/cron_task.xml",

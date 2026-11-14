@@ -5,7 +5,7 @@ import logging
 
 from collections import defaultdict
 from odoo import api, fields, models, _
-from odoo.osv import expression
+# odoo.osv was removed in 20.0; the module does not use expression.
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)

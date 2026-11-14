@@ -53,6 +53,7 @@ Journal Card Type
         'security/security.xml',
         'views/card_statement_view.xml',
         'views/account_journal.xml',
+        'views/account_move.xml',
     ],
     'demo': [],
     'qweb': [],
