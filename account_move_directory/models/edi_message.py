@@ -435,7 +435,7 @@ class EDIMessage(models.Model):
             for account in AccountAccount.search_read(
                 [
                     ('company_ids', 'any', [('id', '=', company_id)]),
-                    ('deprecated', '=', False),
+                    ('active', '=', True),
                 ],
                 ['code'],
             )

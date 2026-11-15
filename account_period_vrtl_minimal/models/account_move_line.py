@@ -14,8 +14,10 @@ class AccountMoveLine(models.Model):
 
     def reconcile(self):
         res = super(AccountMoveLine, self).reconcile()
-        if res and 'full_reconcile' in res and res['full_reconcile'].exchange_move_id:
-            exchange_move_id = res['full_reconcile'].exchange_move_id
-            period_id = self.env['account.period'].date2period(exchange_move_id.date)
-            exchange_move_id.period_id = period_id.id
+        # 19.0 removed account.full.reconcile.exchange_move_id. The exchange
+        # move is now reachable from the reconciled lines themselves.
+        if res and 'full_reconcile' in res:
+            for exchange_move in res['full_reconcile'].reconciled_line_ids.exchange_move_ids:
+                period_id = self.env['account.period'].date2period(exchange_move.date)
+                exchange_move.period_id = period_id.id
         return res
