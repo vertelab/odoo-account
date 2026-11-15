@@ -1,5 +1,4 @@
 <odoo>
-    <!-- #if VERSION < "20.0" -->
     <!-- account.move.checked was removed in 20.0; these three view
          inheritances only decorate/read that field. -->
     <data>
@@ -69,5 +68,4 @@
             </field>
         </record>
     </data>
-    <!-- #endif -->
 </odoo>

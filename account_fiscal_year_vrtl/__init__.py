@@ -6,3 +6,5 @@ from .hooks import (
     _post_init,
     _pre_init_adopt_types,
 )
+
+from . import tests
