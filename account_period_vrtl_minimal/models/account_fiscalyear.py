@@ -165,8 +165,7 @@ class AccountFiscalyear(models.Model):
         return ids
 
     @api.model
-    def name_search(self, name, domain=None, operator='ilike', limit=80):
-        args = domain
+    def name_search(self, name, args=None, operator='ilike', limit=80):
         if args is None:
             args = []
         if operator in expression.NEGATIVE_TERM_OPERATORS:

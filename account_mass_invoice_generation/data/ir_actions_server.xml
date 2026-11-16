@@ -7,7 +7,7 @@
             <field name="binding_model_id" ref="account.model_account_move"/>
             <field name="binding_view_types">form</field>
             <field name="state">code</field>
-            <field name="group_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
             <field name="code">action = model.action_bulk_account_invoice()</field>
         </record>
     </data>
