@@ -78,7 +78,7 @@ class TestPaymentOrderPending(AccountTestInvoicingCommon):
         super().setUpClass()
         cls.company = cls.company_data["company"]
         cls.env.user.company_id = cls.company.id
-        cls.env.user.groups_id |= cls.env.ref(
+        cls.env.user.group_ids |= cls.env.ref(
             "account_payment_order.group_account_payment"
         )
         cls.partner = cls.env["res.partner"].create({"name": "Pending Test Partner"})

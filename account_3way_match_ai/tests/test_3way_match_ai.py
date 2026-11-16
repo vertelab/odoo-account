@@ -9,7 +9,7 @@ class TestThreeWayMatchAI(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user.groups_id |= cls.env.ref('purchase.group_purchase_user')
+        cls.user.group_ids |= cls.env.ref('purchase.group_purchase_user')
         cls.partner = cls.env['res.partner'].create({'name': 'Matchpartner'})
         cls.product = cls.env['product.product'].create({
             'name': 'Match Product',
