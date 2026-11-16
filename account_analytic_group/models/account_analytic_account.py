@@ -10,7 +10,7 @@ class AccountAnalyticAccount(models.Model):
     def name_search(self, name='', domain=None, operator='ilike', limit=100):
         args = domain
         # Add domain to filter by user's groups
-        user_group_ids = self.env.user.groups_id.ids
+        user_group_ids = self.env.user.group_ids.ids
         domain = (args or []) + [
             '|',
             ('group_id', '=', False),
