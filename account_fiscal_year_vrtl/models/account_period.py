@@ -48,6 +48,13 @@ class AccountPeriod(models.Model):
         string="Closing Date",
         help="Date when this period should be automatically closed.",
     )
+    special = fields.Boolean(
+        string="Opening/Closing Period",
+        help="An opening or closing period. It sits on the first day of the "
+             "fiscal year and may overlap the first monthly period, so the "
+             "opening balance can be booked on its own date. Exempt from the "
+             "overlap check and from the fiscal year date check.",
+    )
     account_period_journal_ids = fields.One2many(
         "account.period.journal",
         "period_id",
@@ -70,6 +77,10 @@ class AccountPeriod(models.Model):
             if not period.fiscalyear_id:
                 continue
             fy = period.fiscalyear_id
+            if period.special:
+                # An opening period sits on the first day of the year; it is
+                # allowed to touch the fiscal year boundary but not leave it.
+                continue
             if period.date_start and fy.date_from and period.date_start < fy.date_from:
                 raise ValidationError(
                     _("Period '%(period)s' starts before fiscal year '%(fy)s'.",
@@ -96,11 +107,16 @@ class AccountPeriod(models.Model):
         for period in self:
             if not period.date_start or not period.date_stop:
                 continue
+            if period.special:
+                # Opening/closing periods are meant to overlap the first
+                # monthly period — that is their whole purpose.
+                continue
             overlapping = self.search([
                 ("id", "!=", period.id),
                 ("company_id", "=", period.company_id.id),
                 ("date_start", "<=", period.date_stop),
                 ("date_stop", ">=", period.date_start),
+                ("special", "=", False),
             ])
             if overlapping:
                 raise ValidationError(

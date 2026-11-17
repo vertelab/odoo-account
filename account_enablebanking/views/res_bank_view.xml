@@ -1,4 +1,6 @@
 <odoo>
+    <!-- res.bank togs bort i Odoo 20. Vyn ärver base.view_res_bank_form och
+         kan inte laddas där. Modellens data ligger kvar i account. -->
     <data>
         <record id="res_bank_form_view_inherit" model="ir.ui.view">
             <field name="name">res.bank.form.inherit</field>
