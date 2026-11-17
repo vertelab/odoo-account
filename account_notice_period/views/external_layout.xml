@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="external_layout_standard_inherit" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@t-attf-class='footer o_standard_footer o_company_#{company.id}_layout']//ul[@class='list-inline mb4']" position="inside">
+            <!-- Add account.move narration -->
+            <li t-if="o._name == 'account.move' and o.narration" class="list-inline-item d-inline">
+                <span class="o_force_ltr" t-field="o.narration"/>
+            </li>
+            <!-- Add payment term -->
+            <li t-if="o._name == 'account.move' and o.invoice_payment_term_id" class="list-inline-item d-inline">
+                <span class="o_force_ltr" t-field="o.invoice_payment_term_id.notice_period_note"/>
+            </li>
+
+            <li t-if="o._name == 'sale.order' and o.payment_term_id" class="list-inline-item d-inline">
+                <span class="o_force_ltr" t-field="o.payment_term_id.notice_period_note"/>
+            </li>
+
+            <!-- Add Swedish company registry -->
+            <li t-if="company.company_registry" class="list-inline-item d-inline">
+                Organization number: <span t-field="company.company_registry"/>
+            </li>
+        </xpath>
+    </template>
+</odoo>

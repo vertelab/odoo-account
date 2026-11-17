@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mis_budget_by_account_form_view" model="ir.ui.view">
+            <field name="name">mis.cash_flow.forecast_line.create_forecast</field>
+            <field name="model">mis.cash_flow.forecast_line</field>
+            <field name="inherit_id"
+                ref="mis_builder_cash_flow.mis_cash_flow_forecast_line_view_tree" />
+            <field name="arch" type="xml">
+                <field name="balance" position="after">
+                    <field name="forecast_factor" />
+                    <field name="adjusted_balance" />
+                    <field name="summed_budget_balance" optional="hide"/>
+                    <field name="summed_result_balance" optional="hide"/>
+                    <field name="budget_balance_average" optional="hide"/>
+                    <field name="result_balance_average" optional="hide"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

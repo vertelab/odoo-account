@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cash_1,access_cash_1,account_mis_cash_flow_extended.model_cash_flow_custom_account_class,account.group_account_manager,1,1,1,1
+access_cash_2,access_cash_2,account_mis_cash_flow_extended.model_cash_flow_forecast_wizard,account.group_account_manager,1,1,1,1
+access_cash_3,access_cash_3,account_mis_cash_flow_extended.model_mis_cash_flow_forecast,account.group_account_manager,1,1,1,1
+access_cash_4,access_cash_4,account_mis_cash_flow_extended.model_mis_cash_flow_forecast_line,account.group_account_manager,1,1,1,1
