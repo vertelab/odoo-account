@@ -13,9 +13,9 @@
         "account_asset_management",
         "hr"
     ],
-    "installable": true,
-    "application": false,
-    "auto_install": false,
+    "installable": True,
+    "application": False,
+    "auto_install": False,
     "data": [
         "views/account_asset_line_view.xml",
         "views/account_asset_view.xml"

@@ -12,9 +12,9 @@
     "depends": [
         "account"
     ],
-    "installable": true,
-    "application": false,
-    "auto_install": false,
+    "installable": True,
+    "application": False,
+    "auto_install": False,
     "data": [
         "report/account_move_report.xml"
     ]

@@ -13,9 +13,9 @@
         "account_fortnox",
         "delivery"
     ],
-    "installable": true,
-    "application": false,
-    "auto_install": true,
+    "installable": True,
+    "application": False,
+    "auto_install": True,
     "data": [
         "views/delivery_carrier_view.xml"
     ]

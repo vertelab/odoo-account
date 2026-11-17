@@ -13,9 +13,9 @@
         "account_fiscal_year_vrtl",
         "mis_builder"
     ],
-    "installable": true,
-    "application": false,
-    "auto_install": false,
+    "installable": True,
+    "application": False,
+    "auto_install": False,
     "data": [
         "security/ir.model.access.csv",
         "wizard/account_mis_period_wizard.xml"

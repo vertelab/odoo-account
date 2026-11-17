@@ -12,9 +12,9 @@
     "depends": [
         "account"
     ],
-    "installable": true,
-    "application": false,
-    "auto_install": false,
+    "installable": True,
+    "application": False,
+    "auto_install": False,
     "data": [
         "views/report_invoice.xml",
         "views/res_config_settings_views.xml"

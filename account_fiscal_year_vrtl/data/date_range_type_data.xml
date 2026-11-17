@@ -29,5 +29,16 @@
             <field name="allow_overlap" eval="False"/>
             <field name="name_expr">'M%s' % date_start.strftime('%y%m')</field>
         </record>
+
+        <!-- The opening period sits on the fiscal year's first day and is
+             meant to overlap the first monthly period, so its type allows
+             overlap. date.range enforces non-overlap per type. -->
+        <record id="date_range_type_opening" model="date.range.type">
+            <field name="name">Opening Period</field>
+            <field name="unit_of_time">0</field>
+            <field name="duration_count">1</field>
+            <field name="allow_overlap" eval="True"/>
+            <field name="name_expr">'OP%s' % date_start.strftime('%y')</field>
+        </record>
     </data>
 </odoo>

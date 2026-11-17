@@ -15,7 +15,7 @@
         "data/data.xml",
         "wizard/import_account_move_view.xml",
     ],
-    "installable": true,
-    "application": false,
-    "auto_install": false
+    "installable": True,
+    "application": False,
+    "auto_install": False
 }

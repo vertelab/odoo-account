@@ -16,9 +16,9 @@
         "mis_builder_budget",
         "mis_builder_cash_flow"
     ],
-    "installable": true,
-    "application": false,
-    "auto_install": false,
+    "installable": True,
+    "application": False,
+    "auto_install": False,
     "data": [
         "security/ir.model.access.csv",
         "data/custom_account_classes.xml",

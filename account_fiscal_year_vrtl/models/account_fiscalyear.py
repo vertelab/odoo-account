@@ -236,13 +236,13 @@ class AccountFiscalYear(models.Model):
         if existing:
             return existing[0]
 
-        month_type = self._get_date_range_type("date_range_type_month")
+        opening_type = self._get_date_range_type("date_range_type_opening")
         date_range = self.env["date.range"].create({
             "name": _("Opening Period %(year)s", year=self.date_from.year),
             "date_start": self.date_from,
             "date_end": self.date_from,
             "company_id": self.company_id.id,
-            "type_id": month_type.id if month_type else False,
+            "type_id": opening_type.id if opening_type else False,
         })
         period = self.env["account.period"].create({
             "date_range_id": date_range.id,

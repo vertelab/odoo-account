@@ -12,10 +12,10 @@
     "depends": [
         "project"
     ],
-    "installable": true,
-    "application": false,
-    "auto_install": false,
+    "installable": True,
+    "application": False,
+    "auto_install": False,
     "data": [
-        "security/ir_rule.p.xml"
+        "security/ir_rule.xml"
     ]
 }
