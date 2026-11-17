@@ -104,3 +104,55 @@ class TestFiscalYear(TransactionCase):
                 ("domain_force", "ilike", "company_id"),
             ], limit=1)
         self.assertTrue(found, "no company restriction on account.fiscal.year")
+
+    # ------------------------------------------------------------------
+    # Opening period (special)
+    # ------------------------------------------------------------------
+
+    def test_create_period_does_not_create_opening_period(self):
+        """create_period makes monthly periods only — no opening period."""
+        self.fy.create_period(interval=1)
+        special = self.fy.period_ids.filtered(lambda p: p.special)
+        self.assertFalse(special, "create_period must not create an opening period")
+        self.assertEqual(len(self.fy.period_ids), 12)
+
+    def test_create_opening_period_sits_on_first_day(self):
+        """The opening period starts and stops on the fiscal year's first day."""
+        period = self.fy.create_opening_period()
+        self.assertTrue(period.special)
+        self.assertEqual(period.date_start, self.fy.date_from)
+        self.assertEqual(period.date_stop, self.fy.date_from)
+        self.assertEqual(period.fiscalyear_id, self.fy)
+
+    def test_opening_period_may_overlap_first_month(self):
+        """The opening period and the first monthly period may share a date."""
+        self.fy.create_period(interval=1)
+        opening = self.fy.create_opening_period()
+        first_month = self.fy.period_ids.filtered(
+            lambda p: not p.special
+        ).sorted(key=lambda p: p.date_start)[0]
+        self.assertEqual(opening.date_start, first_month.date_start)
+        # No ValidationError — that is the point.
+
+    def test_create_opening_period_is_idempotent(self):
+        """Calling twice returns the same period instead of creating another."""
+        first = self.fy.create_opening_period()
+        second = self.fy.create_opening_period()
+        self.assertEqual(first, second)
+        self.assertEqual(len(self.fy.period_ids.filtered(lambda p: p.special)), 1)
+
+    def test_regular_period_still_rejects_overlap(self):
+        """Two non-special periods still cannot overlap."""
+        self.fy.create_period(interval=1)
+        month = self.fy.period_ids.filtered(lambda p: not p.special)[0]
+        with self.assertRaises(ValidationError):
+            self.env["account.period"].create({
+                "date_range_id": self.env["date.range"].create({
+                    "name": "Colliding",
+                    "date_start": month.date_start,
+                    "date_end": month.date_start,
+                    "company_id": self.company.id,
+                    "type_id": month.date_range_id.type_id.id,
+                }).id,
+                "fiscalyear_id": self.fy.id,
+            })

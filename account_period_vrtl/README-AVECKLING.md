@@ -253,6 +253,27 @@ env['date.range'].search_count([
 
 ---
 
+## Öppningsperioden flyttad till ersättaren
+
+`account_period_vrtl` hade `special = fields.Boolean('Opening/Closing Period')`
+— en period som fick överlappa den första månadsperioden och som användes för
+ingående balans. `account_fiscal_year_vrtl` hade inte det; dess
+`_check_no_overlap` förbjöd all överlappning, och den här filen nämnde inte
+luckan.
+
+Från och med 2026-11-17 ägs fältet av `account_fiscal_year_vrtl`:
+
+- `account.period.special` finns på den delegerade `date.range`-modellen.
+- `_check_no_overlap` och `_check_dates` undantar `special=True`.
+- `account.fiscal.year.create_opening_period()` skapar öppningsperioden på
+  räkenskapsårets första dag. Den skapas **inte** av `create_period()` —
+  användaren begär den uttryckligen.
+
+Detta stänger luckan som avvecklingen lämnade: öppningsverifikatet kan
+bokföras på eget datum utan att blandas in i januaris saldon.
+
+---
+
 ## Referenser
 
 - Commit `0561682` — `account_fiscal_year_vrtl` porterad till Odoo 18

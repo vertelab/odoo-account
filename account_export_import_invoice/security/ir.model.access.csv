@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+account_export_import_invoice.access_import_account_move_wizard,access_import_account_move_wizard,account_export_import_invoice.model_import_account_move_wizard,base.group_user,1,1,1,1

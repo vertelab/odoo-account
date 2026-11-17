@@ -220,6 +220,41 @@ class AccountFiscalYear(models.Model):
         """Create monthly periods (convenience method)."""
         return self.create_period(interval=1)
 
+    def create_opening_period(self):
+        """Create the opening period for this fiscal year.
+
+        The opening period sits on the first day of the fiscal year, start and
+        stop on the same date, and is flagged ``special`` so it may overlap the
+        first monthly period. It carries the opening balance entry, which then
+        has its own date instead of being folded into January.
+
+        Not created by ``create_period`` — the caller asks for it explicitly.
+        Idempotent: returns the existing opening period if there is one.
+        """
+        self.ensure_one()
+        existing = self.period_ids.filtered(lambda p: p.special)
+        if existing:
+            return existing[0]
+
+        month_type = self._get_date_range_type("date_range_type_month")
+        date_range = self.env["date.range"].create({
+            "name": _("Opening Period %(year)s", year=self.date_from.year),
+            "date_start": self.date_from,
+            "date_end": self.date_from,
+            "company_id": self.company_id.id,
+            "type_id": month_type.id if month_type else False,
+        })
+        period = self.env["account.period"].create({
+            "date_range_id": date_range.id,
+            "fiscalyear_id": self.id,
+            "special": True,
+        })
+        _logger.info(
+            "Created opening period for fiscal year '%s' on %s",
+            self.name, self.date_from,
+        )
+        return period
+
     def compute_fiscalyear_dates(self, current_date):
         """Get fiscal year dates for a given date.
 
