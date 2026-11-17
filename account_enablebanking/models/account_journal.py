@@ -281,7 +281,8 @@ class EnableBanking(models.TransientModel):
     _description = "Enable Banking Wizard"
     _rec_name = 'code'
 
-    bank_id = fields.Many2one("res.bank", string="Bank")
+    # res.bank togs bort i Odoo 20 — wizardens bankfält kan inte finnas.
+    bank_id = fields.Many2one("res.partner.bank", string="Bank")
     code = fields.Char(string="Code")
     session_id = fields.Char(string="Session ID")
     date_from = fields.Date(string="From", default=fields.Date.today)
