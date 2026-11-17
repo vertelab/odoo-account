@@ -1,8 +1,12 @@
 # Grenar i `odoo-account`
 
 Inventering 2026-11-17 av alla 33 grenar på `origin`. Tio lever vidare som
-utgåvor, tjugotre raderas efter att deras unika moduler portats eller
+utgåvor, tjugotre raderades efter att deras unika moduler portats eller
 klassats som döda.
+
+**Genomfört 2026-11-17.** Alla 23 grenar är raderade. Fem grenar återställdes
+till sin sista riktiga commit (force-push) och finns säkerhetskopierade som
+`backup/<gren>` — de raderas när ingen behöver dem längre.
 
 Se `openspec/changes/branch-cleanup-odoo-account/` för besluten bakom.
 
@@ -10,12 +14,12 @@ Se `openspec/changes/branch-cleanup-odoo-account/` för besluten bakom.
 
 | Gren | Utgåva | Sista commit | Moduler | Not |
 |---|---|---|---|---|
-| `10.0` | Odoo 10 | `15f55d90` 2021-06-18 | 6 | Het `master10` fram till namnbytet |
-| `12.0` | Odoo 12 | `7c27c51f` 2023-03-24 | 11 | Återställs till sin sista riktiga commit |
-| `13.0` | Odoo 13 | `b2446a24` 2021-05-18 | 1 | Återställs |
-| `14.0` | Odoo 14 | `edc5f89e` 2026-02-10 | 69 | Återställs |
-| `16.0` | Odoo 16 | `2f9c2c58` 2025-05-27 | 29 | Återställs |
-| `17.0` | Odoo 17 | `0b9f1a77` 2025-03-07 | 10 | Återställs |
+| `10.0` | Odoo 10 | `15f55d90` 2021-06-18 | 6 | Döptes om från `master10` 2026-11-17 |
+| `12.0` | Odoo 12 | `7c27c51f` 2023-03-24 | 11 | Återställd 2026-11-17 |
+| `13.0` | Odoo 13 | `b2446a24` 2021-05-18 | 1 | Återställd 2026-11-17 |
+| `14.0` | Odoo 14 | `edc5f89e` 2026-02-10 | 69 | Återställd 2026-11-17 |
+| `16.0` | Odoo 16 | `2f9c2c58` 2025-05-27 | 29 | Återställd 2026-11-17 |
+| `17.0` | Odoo 17 | `0b9f1a77` 2025-03-07 | 10 | Återställd 2026-11-17 |
 | `18.0` | Odoo 18 | — | 99 | **Förlagan.** P-filerna skapas här |
 | `19.0` | Odoo 19 | — | 99 | Expanderad från 18.0 |
 | `20.0` | Odoo 20 | — | 99 | Expanderad från 18.0 (+`.github` CI) |
@@ -38,48 +42,68 @@ tomma** (bara `static/description/index.html`) och 8–14 med 18.0-kod.
 
 En klon av dessa grenar från före återställningen är divergerad.
 
-## Raderade grenar (23)
+## Raderade grenar (23) — 2026-11-17
 
 Kvarlevorna finns i git-historiken via commit-hashen nedan
-(`git show <sha>:<modul>/`).
+(`git show <sha>:<modul>/`). Säkerhetskopia: `backup/<gren>` på origin.
 
 ### 12.0-derivat
 
 | Gren | Sista commit | Moduler | Unika | Klassning |
 |---|---|---|---|---|
-| `12.0-SFM-Multicompanyfix` | `8c095b04` 2022-03-31 | 9 | 7 | Alla döda/ersatta |
-| `12.0-af` | `fc2abfcd` 2021-06-07 | 8 | 6 | Samma |
-| `12.0-test` | `fc2abfcd` 2021-06-07 | 8 | 6 | Samma |
-| `12to14-port` | `69389f36` 2023-06-02 | 12 | 9 | Ovan + `account_fortnox_merged` (död) |
-| `Dev-12.0-Fenix-Sprint-02` | `d36b2f72` 2021-06-30 | 9 | 7 | Ovan + `bank_test_data` (död) |
-| `Dev-12.0-SFM-partner_paid_invoice` | `2bec9095` 2021-04-29 | 9 | 7 | Ovan + `partner_paid_invoice` (död) |
-| `account_move_attachment` | `721f4373` 2022-12-08 | 11 | 8 | Samma som 12.0 |
-| `fortnox-latest-auth0` | `3b182c8c` 2023-11-07 | 11 | 8 | Samma som 12.0 |
-| `fortnox-membership-upgrade` | `cafb4ab9` 2023-11-07 | 11 | 8 | Samma som 12.0 |
-| `master` | `f47f991d` 2020-02-28 | 4 | 4 | Alla döda — Odoo 7/8 |
+| `12.0-SFM-Multicompanyfix` | `8c095b04` 2022-03-31 | 9 | 7 | Raderad 2026-11-17 — alla döda/ersatta |
+| `12.0-af` | `fc2abfcd` 2021-06-07 | 8 | 6 | Raderad 2026-11-17 |
+| `12.0-test` | `fc2abfcd` 2021-06-07 | 8 | 6 | Raderad 2026-11-17 |
+| `12to14-port` | `69389f36` 2023-06-02 | 12 | 9 | Raderad 2026-11-17 — + `account_fortnox_merged` (död) |
+| `Dev-12.0-Fenix-Sprint-02` | `d36b2f72` 2021-06-30 | 9 | 7 | Raderad 2026-11-17 — + `bank_test_data` (död) |
+| `Dev-12.0-SFM-partner_paid_invoice` | `2bec9095` 2021-04-29 | 9 | 7 | Raderad 2026-11-17 — + `partner_paid_invoice` (död) |
+| `account_move_attachment` | `721f4373` 2022-12-08 | 11 | 8 | Raderad 2026-11-17 — samma som 12.0 |
+| `fortnox-latest-auth0` | `3b182c8c` 2023-11-07 | 11 | 8 | Raderad 2026-11-17 — samma som 12.0 |
+| `fortnox-membership-upgrade` | `cafb4ab9` 2023-11-07 | 11 | 8 | Raderad 2026-11-17 — samma som 12.0 |
+| `master` | `f47f991d` 2020-02-28 | 4 | 4 | Raderad 2026-11-17 — Odoo 7/8 |
 
 ### 14.0-derivat
 
 | Gren | Sista commit | Moduler | Unika | Klassning |
 |---|---|---|---|---|
-| `14-enableBanking-2.0-hassan` | `52aacbd7` 2023-12-22 | 47 | 2 | `account_period`, `account_period_financial_report` (ersatta) |
-| `14-enablebanking-2.0` | `67ff33d1` 2023-12-27 | 47 | 2 | Samma |
-| `14.0-multi-userattestering` | `823a2490` 2022-05-04 | 15 | 1 | `account_period` (ersatt) |
-| `14.0_before_removed_merged` | `13c92038` 2023-01-09 | 33 | 1 | `account_period` (ersatt) |
-| `fintecture-2.0` | `87830cc3` 2024-02-16 | 48 | 3 | `account_fintecture` (död) |
-| `forecast_wizard` | `4cedb817` 2024-02-23 | 51 | 5 | Se "Portade moduler" |
-| `on_sync_redirect` | `4e3d6533` 2023-12-22 | 47 | 2 | `account_period` m.fl. (ersatt) |
-| `saltedge` | `3cf0595d` 2024-02-02 | 49 | 4 | `account_saltedge`, `account_neonomics` (döda) |
+| `14-enableBanking-2.0-hassan` | `52aacbd7` 2023-12-22 | 47 | 2 | Raderad 2026-11-17 — ersatta |
+| `14-enablebanking-2.0` | `67ff33d1` 2023-12-27 | 47 | 2 | Raderad 2026-11-17 |
+| `14.0-multi-userattestering` | `823a2490` 2022-05-04 | 15 | 1 | Raderad 2026-11-17 — `account_period` ersatt |
+| `14.0_before_removed_merged` | `13c92038` 2023-01-09 | 33 | 1 | Raderad 2026-11-17 — `account_period` ersatt |
+| `fintecture-2.0` | `87830cc3` 2024-02-16 | 48 | 3 | Raderad 2026-11-17 — `account_fintecture` död |
+| `forecast_wizard` | `4cedb817` 2024-02-23 | 51 | 5 | Raderad 2026-11-17 — se "Portade moduler" |
+| `on_sync_redirect` | `4e3d6533` 2023-12-22 | 47 | 2 | Raderad 2026-11-17 — ersatta |
+| `saltedge` | `3cf0595d` 2024-02-02 | 49 | 4 | Raderad 2026-11-17 — döda |
 
 ### 16.0- och 18.0-derivat
 
 | Gren | Sista commit | Moduler | Unika | Klassning |
 |---|---|---|---|---|
-| `16.0-attachment` | `f85d6946` 2025-05-16 | 28 | 12 | Se "Portade moduler" |
-| `17.0-commercieal_partner` | `eeb4e496` 2024-06-03 | 4 | 0 | Inga unika |
-| `18.0-evaluate-account_period_vrtl_minimal` | `4f298800` 2025-11-20 | 29 | 0 | Inga unika |
-| `18.0fiscal_year` | `bb8d10cd` 2026-07-08 | 56 | 3 | Se "Portade moduler" + `.shazam` |
-| `lijuan-18` | `7092ab43` 2025-04-17 | 14 | 1 | `account_period_vrtl_balance` (död — WIP) |
+| `16.0-attachment` | `f85d6946` 2025-05-16 | 28 | 12 | Raderad 2026-11-17 — se "Portade moduler" |
+| `17.0-commercieal_partner` | `eeb4e496` 2024-06-03 | 4 | 0 | Raderad 2026-11-17 — inga unika |
+| `18.0-evaluate-account_period_vrtl_minimal` | `4f298800` 2025-11-20 | 29 | 0 | Raderad 2026-11-17 — inga unika |
+| `18.0fiscal_year` | `bb8d10cd` 2026-07-08 | 56 | 3 | Raderad 2026-11-17 — se "Portade moduler" |
+| `lijuan-18` | `7092ab43` 2025-04-17 | 14 | 1 | Raderad 2026-11-17 — WIP |
+
+## Backup-grenar
+
+De fem återställda grenarnas tidigare toppar finns kvar som
+`backup/<gren>` på origin:
+
+| Backup | Innehöll |
+|---|---|
+| `backup/12.0` | `bb89b724` — 25 kataloger, varav 7 tomma |
+| `backup/13.0` | `8aa7f490` — 15 kataloger, varav 7 tomma |
+| `backup/14.0` | `78c9d9bf` — 70 kataloger |
+| `backup/16.0` | `0c74123a` — 34 kataloger |
+| `backup/17.0` | `1478115e` — 20 kataloger |
+
+De behövs bara om någon vill se 18.0-koden som synken lade dit. Radera dem
+när det är utrett:
+
+```bash
+git push origin --delete backup/12.0 backup/13.0 backup/14.0 backup/16.0 backup/17.0
+```
 
 ## Portade moduler
 
