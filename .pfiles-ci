@@ -1,0 +1,5 @@
+pfiles-ci: 1
+editions: 18.0 19.0 20.0
+# Alla tre utgaverna finns som grenar i origin (18.0=1479cac2, 19.0=697aa537,
+# 20.0=b9cf0e92) och alla tre har 222 moduler / 257 p-filer.
+# deps: OCA/account_financial_report OCA/mis_builder account_period_vrtl

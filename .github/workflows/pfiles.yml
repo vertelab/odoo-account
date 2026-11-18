@@ -1,0 +1,13 @@
+name: pfiles
+
+# Delad grind for versionsagnostisk kod (p-filer). Se /skill:odoo-pfiles.
+# Skripten hamtas fran vertelab/pfiles-ci@v1, inte kopierade hit.
+
+on:
+  push:
+    branches: ['*.0', 'ci/**', 'pfiles/**']
+  pull_request:
+
+jobs:
+  pfiles:
+    uses: vertelab/pfiles-ci/.github/workflows/pfiles.yml@v1
