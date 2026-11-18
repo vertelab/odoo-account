@@ -61,9 +61,6 @@
           <filter name="open" string="Open" domain="[('state','=','draft')]"  /> 
           <filter name="closed" string="Closed" domain="[('state','=','done')]" />
          <field name="state" /> 
-          <group expand="0" string="Group By">
-            <filter name="status" string="Status" context="{'group_by': 'state'}"  />
-          </group> 
         </search>
       </field>
     </record>
@@ -143,11 +140,6 @@
       <field name="arch" type="xml">
         <search string="Search Period">
           <field name="name" filter_domain="['|', '|', '|', ('name','ilike',self), ('code','ilike',self), ('date_start','ilike',self), ('date_stop','ilike',self)]" string="Account" />
-          <group expand="0" string="Group By">
-            <filter name="name_grp" string="Name" domain="" context="{'group_by':'name'}" />
-            <filter string="To Close" name="draft" domain="[('state','=','draft')]" icon="terp-dialog-close" />
-            <filter name="date_start" string="Date Start" domain="" context="{'group_by':'date_start'}" />
-          </group>
         </search>
       </field>
     </record>

@@ -41,7 +41,7 @@ class AIQuestSession(models.Model):
                     self.env['ir.attachment'].create({
                         'name': attachment.name,
                         'type': attachment.type,
-                        'datas': attachment.datas,
+                        'datas': attachment.raw,
                         'res_model': 'account.move',
                         'res_id': self.move_id.id,
                     })

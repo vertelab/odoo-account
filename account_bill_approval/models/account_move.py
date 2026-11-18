@@ -231,7 +231,7 @@ class AccountMove(models.Model):
     def _bill_approval_notify(self, line):
         """Send the approval request mail to one approver."""
         self.ensure_one()
-        base_url = self.env["ir.config_parameter"].sudo().get_param(
+        base_url = self.env["ir.config_parameter"].sudo().get_str(
             "web.base.url", ""
         )
         body = _(
@@ -255,7 +255,7 @@ class AccountMove(models.Model):
     def _bill_approval_access_url(self, base_url=None):
         self.ensure_one()
         if base_url is None:
-            base_url = self.env["ir.config_parameter"].sudo().get_param(
+            base_url = self.env["ir.config_parameter"].sudo().get_str(
                 "web.base.url", ""
             )
         return "%s/odoo/action-account.action_move_in_invoice_type/%s" % (

@@ -74,7 +74,7 @@ class ResCompany(models.Model):
         self._validate_fortnox_credentials()
 
         try:
-            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+            base_url = self.env["ir.config_parameter"].sudo().get_str("web.base.url")
             redirect_uri = f"{base_url}/fortnox/auth"
 
             auth_response = self._request_fortnox_token(

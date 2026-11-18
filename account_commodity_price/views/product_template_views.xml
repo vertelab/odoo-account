@@ -49,10 +49,6 @@
                 <separator/>
                 <filter string="Commodity Raw Materials" name="commodity_raw"
                         domain="[('is_commodity_raw_material', '=', True)]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Commodity" name="group_commodity"
-                            context="{'group_by': 'commodity_id'}"/>
-                </group>
             </xpath>
         </field>
     </record>

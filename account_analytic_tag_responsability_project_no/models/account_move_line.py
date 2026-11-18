@@ -43,7 +43,7 @@ class AccountMove(models.Model):
         # # This function is used in the background, so there are places i can't predict where odoo will create an
         # invoice with lines that are missing project or Cost Center.
         icp = self.env['ir.config_parameter'].sudo()
-        harsher_check = icp.get_param('account_analytic_tag_responsability_project_no.hard_invoice_account_check',
+        harsher_check = icp.get_str('account_analytic_tag_responsability_project_no.hard_invoice_account_check',
                                       default=False)
         if harsher_check:
             # if len(self.line_ids.filtered(lambda x: not x.project_no and x.display_type != "line_note" and

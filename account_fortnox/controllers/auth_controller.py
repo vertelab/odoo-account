@@ -33,7 +33,7 @@ class FortnoxController(http.Controller):
 
     @http.route(['/fortnox/auth'], type='http', auth='user')
     def fortnox_auth(self, **kw):
-        base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
+        base_url = request.env["ir.config_parameter"].sudo().get_str("web.base.url")
 
         if 'run_get' in kw:
             # auth='user' keeps Odoo's own access check on res.company.

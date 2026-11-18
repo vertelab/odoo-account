@@ -25,7 +25,7 @@ class IrAttachment(models.Model):
         for file in self:
             if not file.fortnox_file_ref:
                 url = "https://api.fortnox.se/3/inbox/?path=inbox_kf"
-                file_content = base64.b64decode(file.datas)
+                file_content = base64.b64decode(file.raw)
                 files = {
                     'file': (file.name, file_content, file.mimetype)
                 }

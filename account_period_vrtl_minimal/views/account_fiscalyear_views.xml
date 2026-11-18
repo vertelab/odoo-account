@@ -75,9 +75,6 @@
                     <filter name="open" string="Open" domain="[('state','=','draft')]"  />
                     <filter name="closed" string="Closed" domain="[('state','=','done')]" />
                     <field name="state" />
-                    <group expand="0" string="Group By">
-                        <filter name="status" string="Status" context="{'group_by': 'state'}"  />
-                    </group>
                 </search>
             </field>
         </record>

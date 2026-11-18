@@ -224,10 +224,6 @@
                         domain="[('category', '=', 'precious_metal')]"/>
                 <filter string="Base Metals" name="base_metals"
                         domain="[('category', '=', 'base_metal')]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Category" name="group_category"
-                            context="{'group_by': 'category'}"/>
-                </group>
             </search>
         </field>
     </record>

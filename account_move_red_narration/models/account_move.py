@@ -12,5 +12,5 @@ class AccountMove(models.Model):
     def _onchange_type_red_terms(self):
         ''' Onchange made to filter the partners depending of the type. '''
         if self.is_sale_document(include_receipts=True):
-            if self.env['ir.config_parameter'].sudo().get_param('account.use_invoice_terms'):
+            if self.env['ir.config_parameter'].sudo().get_str('account.use_invoice_terms'):
                 self.red_narration = self.company_id.red_invoice_terms or self.env.company.red_invoice_terms

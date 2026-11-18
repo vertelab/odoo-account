@@ -22,6 +22,6 @@ class ReviewTier(models.Model):
 
     def get_base_url(self):
         self.ensure_one()
-        return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        return self.env['ir.config_parameter'].sudo().get_str('web.base.url')
 
 

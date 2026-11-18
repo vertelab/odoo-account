@@ -260,7 +260,7 @@ class EnableBankingPayment(models.Model):
 
     def _get_redirect_url(self):
         """Get the callback URL for payment authorization redirect."""
-        base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url", "http://localhost:8069")
+        base_url = self.env["ir.config_parameter"].sudo().get_str("web.base.url", "http://localhost:8069")
         return f"{base_url}/account/enable-banking/payment-return"
 
     def _cron_check_payment_status(self):

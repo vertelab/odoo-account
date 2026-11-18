@@ -77,13 +77,6 @@
                 <field name="name"/>
                 <filter string="Open" name="draft" domain="[('state', '=', 'draft')]"/>
                 <filter string="Closed" name="done" domain="[('state', '=', 'done')]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Company" name="company" domain="[]"
-                            context="{'group_by': 'company_id'}"
-                            groups="base.group_multi_company"/>
-                    <filter string="State" name="state_group" domain="[]"
-                            context="{'group_by': 'state'}"/>
-                </group>
             </search>
         </field>
     </record>

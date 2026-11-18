@@ -63,7 +63,7 @@ class ResConfigSettings(models.TransientModel):
         base_url = 'https://api.inexchange.com/v1/api'
         #####################################################################################################################################################
         
-        test_mode = self.env['ir.config_parameter'].sudo().get_param('inexchange.testmode')
+        test_mode = self.env['ir.config_parameter'].sudo().get_str('inexchange.testmode')
         if test_mode:
            base_url = 'https://testapi.inexchange.com/v1/api'
         
@@ -71,10 +71,10 @@ class ResConfigSettings(models.TransientModel):
 
     # ~ @api.multi
     def inexchange_request_client_token(self):
-        client_token = self.env['ir.config_parameter'].sudo().get_param(
+        client_token = self.env['ir.config_parameter'].sudo().get_str(
             'inexchange.client.token')
         if not client_token:
-            api_key = self.env['ir.config_parameter'].sudo().get_param(
+            api_key = self.env['ir.config_parameter'].sudo().get_str(
                 'inexchange.apikey')
             if not api_key:
                 raise UserError("You have to set up API Key for Inexchange"
@@ -88,7 +88,7 @@ class ResConfigSettings(models.TransientModel):
                         "validTo": None},)
                 r = json.loads(r)
                 client_token = r["token"]
-                self.env['ir.config_parameter'].sudo().set_param(
+                self.env['ir.config_parameter'].sudo().set_str(
                     'inexchange.client.token', client_token)
             except requests.exceptions.RequestException as e:
                 raise UserError('HTTP Request failed %s' % e)
@@ -96,7 +96,7 @@ class ResConfigSettings(models.TransientModel):
 
     def inexchange_request_api(self,request_type,url,data=None):
         # Company (POST /v1/api/companies/register/ HTTP/1.1)
-        api_key = self.env['ir.config_parameter'].sudo().get_param(
+        api_key = self.env['ir.config_parameter'].sudo().get_str(
             'inexchange.apikey')
         headers = {
                     "APIKey": api_key,
