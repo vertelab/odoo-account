@@ -20,7 +20,11 @@
     "application": False,
     "auto_install": False,
     "data": [
+        # #if VERSION >= "20.0"
+        "security/ir.access.csv",
+        # #else
         "security/ir.model.access.csv",
+        # #endif
         "data/custom_account_classes.xml",
         "wizard/cash_flow_forecast_wizard.xml",
         "views/mis_cash_flow_forecast.xml",
