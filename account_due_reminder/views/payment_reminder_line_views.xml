@@ -99,6 +99,6 @@
       </field>
     </record>
 
-    <menuitem action="action_account_payment_reminder_line" id="account_payment_reminder_menu" parent="account.account_invoicing_menu" name="Payment Reminder" groups="account.group_account_manager" sequence="2"/>
+    <menuitem action="action_account_payment_reminder_line" id="menu_payment_reminder_line" parent="account.menu_finance_receivables" name="Follow-up Reminder" groups="account.group_account_manager" sequence="3"/>
 
 </odoo>

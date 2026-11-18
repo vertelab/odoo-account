@@ -11,7 +11,7 @@
     <menuitem
         id="menu_dynamic_reports"
         name="Dynamic Reports"
-        parent="account.menu_finance"
+        parent="account.menu_finance_reports"
         action="action_dynamic_reports"
         sequence="40"/>
 </odoo>
