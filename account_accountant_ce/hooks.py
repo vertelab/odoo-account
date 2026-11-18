@@ -64,18 +64,40 @@ def check_hidden_root_menus(env):
         params.append(tuple(allowed_ids))
     cr.execute(query, params)
     stray_ids = [row[0] for row in cr.fetchall()]
-    strays = env["ir.ui.menu"].browse(stray_ids)
-    for menu in strays:
-        xmlid = menu.get_external_id().get(menu.id) or "ir.ui.menu,%s" % menu.id
+    if not stray_ids:
+        return []
+
+    # Rå SQL även för xmlid och namn. `menu.get_external_id()` går via
+    # ir.model.data.model, och det fältet är inte registrerat ännu när
+    # post_load körs:
+    #   ValueError: Invalid field ir.model.data.model in leaf
+    # Följden var att hela kontrollen kastade och fångades av
+    # `except Exception` i post_load_hook — varningen uteblev alltså helt,
+    # vilket är värre än att inte ha någon kontroll.
+    cr.execute(
+        "SELECT res_id, module, name FROM ir_model_data "
+        "WHERE model = %s AND res_id IN %s",
+        ("ir.ui.menu", tuple(stray_ids)),
+    )
+    xmlids = {row[0]: "%s.%s" % (row[1], row[2]) for row in cr.fetchall()}
+
+    # Menynamnet är jsonb i Odoo 18 — läs det som text, inte via ORM.
+    cr.execute(
+        "SELECT id, name->>'en_US' FROM ir_ui_menu WHERE id IN %s",
+        (tuple(stray_ids),),
+    )
+    names = dict(cr.fetchall())
+
+    for menu_id in stray_ids:
         _logger.warning(
             "account_accountant_ce: menu %s ('%s') hangs under the hidden "
             "account.menu_finance and will not be visible. Parent it under "
             "account.menu_finance_reports (reports) or "
             "account.menu_finance_receivables (customer follow-up) instead.",
-            xmlid,
-            menu.name,
+            xmlids.get(menu_id) or "ir.ui.menu,%s" % menu_id,
+            names.get(menu_id),
         )
-    return strays.ids
+    return stray_ids
 
 
 def post_load_hook():
