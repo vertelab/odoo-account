@@ -41,7 +41,7 @@ Analytic Default rules aren't applied on line ids on a account move, so typicall
 Have also changed it so that analytic tags aren't removed when calulating analaytic default rules. So it just keeps adding.
 
     """,
-    'depends': ['analytic', 'account', 'account_analytic_default'],
+    'depends': ['analytic', 'account'],
     'data': [
         # ~ 'views/account_move_views.xml'
     ],

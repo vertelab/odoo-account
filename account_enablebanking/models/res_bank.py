@@ -5,6 +5,7 @@ from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
+# res.bank togs bort i Odoo 20 — modellen finns inte i base.
 class ResBank(models.Model):
     _inherit = "res.bank"
 
@@ -52,4 +53,3 @@ class ResPartnerBank(models.Model):
                 'bank_account_id': self.id,
                 'currency_id': self.currency_id.id
             })
-

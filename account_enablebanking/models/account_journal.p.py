@@ -289,7 +289,18 @@ class EnableBanking(models.TransientModel):
     _description = "Enable Banking Wizard"
     _rec_name = 'code'
 
+    # #if VERSION <= "19.0"
+    # #if VERSION <= "19.0"
     bank_id = fields.Many2one("res.bank", string="Bank")
+    # #else
+    # res.bank togs bort i Odoo 20 — wizardens bankfält pekar i stället
+    # på partnerbanken, som är den modell som finns kvar.
+    bank_id = fields.Many2one("res.partner.bank", string="Bank")
+    # #endif
+    # #else
+    # res.bank togs bort i Odoo 20 — wizardens bankfält kan inte finnas.
+    bank_id = fields.Many2one("res.partner.bank", string="Bank")
+    # #endif
     code = fields.Char(string="Code")
     session_id = fields.Char(string="Session ID")
     date_from = fields.Date(string="From", default=fields.Date.today)

@@ -91,17 +91,8 @@ class AccountFiscalYear(models.Model):
         Keeps the 18.0 expression unchanged; only the parameter name and the
         name_get() call are edition-dependent.
         """
-        # '|' needs exactly two operands. With an empty caller domain the
-        # name condition is the only one, so no operator is needed:
-        #   domain=[]        -> [('name', op, name)]
-        #   domain=[(a)]     -> ['|', (a), ('name', op, name)]
-        # Appending '|' after the caller's domain (the old code) gave
-        # [(a), '|', (name)] which Odoo rejects.
-        caller = list(domain or [])
-        if caller:
-            search_domain = ["|"] + caller + [("name", operator, name)]
-        else:
-            search_domain = [("name", operator, name)]
+        search_domain = list(domain or [])
+        search_domain = search_domain + ["|", ("name", operator, name)]
         recs = self.search(search_domain, limit=limit)
         return [(rec.id, rec.display_name) for rec in recs]
 
