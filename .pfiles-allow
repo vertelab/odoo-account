@@ -171,9 +171,9 @@ account_customer_filter/models/res_partner.py
 account_customer_filter/static/description/index.html
 account_customer_filter/static/description/xx_index.html
 account_customer_filter/views/res_partner.xml
-account_deferred_revenue_expenses/hooks.py
 account_deferred_revenue_expenses/data/deferred_migration_data.xml
 account_deferred_revenue_expenses/data/ir_cron_deferred_auto_post.xml
+account_deferred_revenue_expenses/hooks.py
 account_deferred_revenue_expenses/migrations/18.0.2.2.0/post-migrate.py
 account_deferred_revenue_expenses/migrations/18.0.2.2.0/pre-migrate.py
 account_deferred_revenue_expenses/migrations/18.0.2.3.0/post-migrate.py
@@ -258,6 +258,8 @@ account_exchange_difference_analytic_tag/views/res_config.xml
 account_exchange_difference_draft/models/res_config.py
 account_exchange_difference_draft/static/description/index.html
 account_exchange_difference_draft/views/res_config.xml
+account_export_import_invoice/security/ir.access.csv
+account_export_import_invoice/security/ir.model.access.csv
 account_financial_report_sorted/report/aged_partner_balance.py
 account_financial_report_sorted/report/aged_partner_balance_xlsx.py
 account_financial_report_sorted/report/templates/aged_partner_balance.xml
@@ -272,10 +274,10 @@ account_fiscal_year_mis/security/ir.access.csv
 account_fiscal_year_mis/security/ir.model.access.csv
 account_fiscal_year_mis/views/account_balance_views.xml
 account_fiscal_year_mis/views/account_fiscalyear_views.xml
-account_fiscal_year_vrtl/hooks.py
 account_fiscal_year_vrtl/data/cron_task.xml
 account_fiscal_year_vrtl/data/date_range_type_data.xml
 account_fiscal_year_vrtl/data/ir_server_action.xml
+account_fiscal_year_vrtl/hooks.py
 account_fiscal_year_vrtl/migrations/18.0.1.2.0/pre-adopt-types.py
 account_fiscal_year_vrtl/models/account_account.py
 account_fiscal_year_vrtl/models/account_journal.py
