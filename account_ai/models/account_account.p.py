@@ -115,5 +115,11 @@ class AccountAccount(models.Model):
         res = super()._register_hook()
         okf = self.env['ai.okf.mixin']
         okf._okf_register_indexable('account.account')
+        # #if VERSION <= "19.0"
         okf._okf_register_priority_indexable('account.account')
+        # #endif
+        # DOCUMENTED FUNCTION LOSS in 20.0: ai_agent_core's 20.0 port does not
+        # carry _okf_register_priority_indexable (nor OKF_PRIORITY_PARAM), so
+        # account.account cannot request a guaranteed share per indexing round.
+        # The ordinary _okf_register_indexable above still applies.
         return res

@@ -5,7 +5,16 @@
 			<field name="model">account.move</field>
 			<field name="inherit_id" ref="account.view_invoice_tree" />
 			<field name="arch" type="xml">    
-				<field name="name" position="replace" >
+				<!-- 20.0's own child view account.view_duplicated_moves_tree_js
+				     inherits //field[@name='name'] from view_invoice_tree. Replacing
+				     the field removes it and every later inheritor fails with
+				     "cannot be located in parent view". The Fortnox number is added
+				     beside it instead, and the plain name is hidden the way 20.0
+				     hides columns. -->
+				<field name="name" position="attributes">
+					<attribute name="column_invisible">True</attribute>
+				</field>
+				<field name="name" position="after">
 					<field name="display_name_fortnox" decoration-bf="1" string="Number"/>
 				</field>
 			</field>

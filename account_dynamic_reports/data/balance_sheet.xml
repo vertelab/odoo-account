@@ -68,7 +68,7 @@
         <field name="parent_id" ref="bs_current_assets"/>
         <field name="sequence">30</field>
         <field name="code">BS_OTHER_CURRENT</field>
-        <field name="account_codes_formula">16,17,18</field>
+        <field name="account_codes_formula">16+17+18</field>
         <field name="hierarchy_level">6</field>
     </record>
 
@@ -108,7 +108,7 @@
         <field name="parent_id" ref="bs_fixed_assets"/>
         <field name="sequence">10</field>
         <field name="code">BS_TANGIBLE</field>
-        <field name="account_codes_formula">10,11,12</field>
+        <field name="account_codes_formula">10+11+12</field>
         <field name="hierarchy_level">6</field>
     </record>
 
