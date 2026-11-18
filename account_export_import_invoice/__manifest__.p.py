@@ -11,7 +11,11 @@
     "description": "Adds an \"Export Account Move\" action on journal entries that writes the entry and its lines to an XML attachment, and an \"Import Account Move\" wizard that recreates the entry from such a file.\n\nThe export covers the invoice header (name, partner, invoice date, journal) and the invoice lines (product, label, account, quantity, price, taxes, subtotal). It is meant for moving individual entries between databases, not for statutory reporting \u2014 use SIE for that.\n\nPorted from 16.0. Odoo 18 already has `account_import_excel` (an Excel import for journal entries); this module adds the XML round trip on top.",
     "depends": ["account"],
     "data": [
+        # #if VERSION >= "20.0"
+        "security/ir.access.csv",
+        # #else
         "security/ir.model.access.csv",
+        # #endif
         "data/data.xml",
         "wizard/import_account_move_view.xml",
     ],

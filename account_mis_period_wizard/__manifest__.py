@@ -17,7 +17,7 @@
     "application": False,
     "auto_install": False,
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "wizard/account_mis_period_wizard.xml"
     ]
 }
