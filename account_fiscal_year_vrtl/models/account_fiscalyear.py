@@ -84,17 +84,8 @@ class AccountFiscalYear(models.Model):
         Keeps the 18.0 expression unchanged; only the parameter name and the
         name_get() call are edition-dependent.
         """
-        # '|' needs exactly two operands. With an empty caller domain the
-        # name condition is the only one, so no operator is needed:
-        #   domain=[]        -> [('name', op, name)]
-        #   domain=[(a)]     -> ['|', (a), ('name', op, name)]
-        # Appending '|' after the caller's domain (the old code) gave
-        # [(a), '|', (name)] which Odoo rejects.
-        caller = list(domain or [])
-        if caller:
-            search_domain = ["|"] + caller + [("name", operator, name)]
-        else:
-            search_domain = [("name", operator, name)]
+        search_domain = list(domain or [])
+        search_domain = search_domain + ["|", ("name", operator, name)]
         recs = self.search(search_domain, limit=limit)
         return [(rec.id, rec.display_name) for rec in recs]
 
@@ -219,41 +210,6 @@ class AccountFiscalYear(models.Model):
     def create_period1(self):
         """Create monthly periods (convenience method)."""
         return self.create_period(interval=1)
-
-    def create_opening_period(self):
-        """Create the opening period for this fiscal year.
-
-        The opening period sits on the first day of the fiscal year, start and
-        stop on the same date, and is flagged ``special`` so it may overlap the
-        first monthly period. It carries the opening balance entry, which then
-        has its own date instead of being folded into January.
-
-        Not created by ``create_period`` — the caller asks for it explicitly.
-        Idempotent: returns the existing opening period if there is one.
-        """
-        self.ensure_one()
-        existing = self.period_ids.filtered(lambda p: p.special)
-        if existing:
-            return existing[0]
-
-        opening_type = self._get_date_range_type("date_range_type_opening")
-        date_range = self.env["date.range"].create({
-            "name": _("Opening Period %(year)s", year=self.date_from.year),
-            "date_start": self.date_from,
-            "date_end": self.date_from,
-            "company_id": self.company_id.id,
-            "type_id": opening_type.id if opening_type else False,
-        })
-        period = self.env["account.period"].create({
-            "date_range_id": date_range.id,
-            "fiscalyear_id": self.id,
-            "special": True,
-        })
-        _logger.info(
-            "Created opening period for fiscal year '%s' on %s",
-            self.name, self.date_from,
-        )
-        return period
 
     def compute_fiscalyear_dates(self, current_date):
         """Get fiscal year dates for a given date.

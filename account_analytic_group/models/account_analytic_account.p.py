@@ -7,12 +7,8 @@ class AccountAnalyticAccount(models.Model):
     group_id = fields.Many2one('res.groups', string="Group")
 
     @api.model
-    # #if VERSION >= "19.0"
     def name_search(self, name='', domain=None, operator='ilike', limit=100):
         args = domain
-    # #else
-    def name_search(self, name='', args=None, operator='ilike', limit=100):
-    # #endif
         # Add domain to filter by user's groups
         # #if VERSION >= "19.0"
         user_group_ids = self.env.user.group_ids.ids

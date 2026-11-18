@@ -2,6 +2,7 @@
 <!-- Copyright 2017-2018 ACSONE SA/NV
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
+    <!-- #if VERSION <= "19.0" -->
     <record model="ir.model.access" id="mis_budget_by_analytic_account_item_access_base_user">
         <field name="name">mis.budget.by.analytic.account.item access base user</field>
         <field name="model_id" ref="model_mis_budget_by_analytic_account_item" />
@@ -30,4 +31,5 @@
         </field>
     </record>
 
+    <!-- #endif -->
 </odoo>

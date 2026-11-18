@@ -1,0 +1,358 @@
+# Copyright 2026 Vertel Sverige AB
+# SPDX-License-Identifier: AGPL-3
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError, ValidationError
+
+BILL_MOVE_TYPES = ("in_invoice", "in_refund")
+
+MOVE_TYPE_LABELS = {
+    "entry": "Journal Entry",
+    "out_invoice": "Customer Invoice",
+    "out_refund": "Customer Credit Note",
+    "in_invoice": "Vendor Bill",
+    "in_refund": "Vendor Credit Note",
+    "out_receipt": "Sales Receipt",
+    "in_receipt": "Purchase Receipt",
+}
+
+
+class AccountMove(models.Model):
+    _inherit = "account.move"
+
+    approving_user_ids = fields.One2many(
+        comodel_name="bill.approval.user.line",
+        inverse_name="move_id",
+        string="Approvers",
+        copy=True,
+    )
+    bill_approval_state = fields.Selection(
+        selection=[
+            ("none", "No Approvers"),
+            ("pending", "Pending"),
+            ("approved", "Approved"),
+            ("rejected", "Rejected"),
+        ],
+        string="Approval Status",
+        compute="_compute_bill_approval_state",
+        store=True,
+        tracking=True,
+    )
+    to_approve = fields.Boolean(
+        string="Waiting For My Approval",
+        compute="_compute_to_approve",
+        search="_search_to_approve",
+        help="True when the current user still has to approve this bill.",
+    )
+    approver_check_ok = fields.Boolean(
+        string="Has Approvers",
+        compute="_compute_bill_approval_state",
+        store=True,
+    )
+    invoice_approved_check = fields.Boolean(
+        string="Bill Approved",
+        compute="_compute_bill_approval_state",
+        store=True,
+        tracking=True,
+    )
+    bill_approval_manager_user_ids = fields.Many2many(
+        comodel_name="res.users",
+        string="Bill Approval Managers",
+        compute="_compute_bill_approval_manager_user_ids",
+        help="Technical field: users allowed to configure approvers.",
+    )
+
+    @api.depends_context("uid")
+    def _compute_bill_approval_manager_user_ids(self):
+        managers = self.env.user.bill_approval_manager_user_ids
+        for move in self:
+            move.bill_approval_manager_user_ids = managers
+
+    # ------------------------------------------------------------------
+    # Computes
+    # ------------------------------------------------------------------
+    @api.depends(
+        "approving_user_ids",
+        "approving_user_ids.state",
+        "move_type",
+    )
+    def _compute_bill_approval_state(self):
+        for move in self:
+            lines = move.approving_user_ids
+            move.approver_check_ok = bool(lines)
+            if not lines:
+                move.bill_approval_state = "none"
+                move.invoice_approved_check = False
+                continue
+            states = set(lines.mapped("state"))
+            if "rejected" in states:
+                move.bill_approval_state = "rejected"
+                move.invoice_approved_check = False
+            elif states <= {"done"}:
+                move.bill_approval_state = "approved"
+                move.invoice_approved_check = True
+            else:
+                move.bill_approval_state = "pending"
+                move.invoice_approved_check = False
+
+    @api.depends("approving_user_ids", "approving_user_ids.state", "approving_user_ids.user_id")
+    def _compute_to_approve(self):
+        for move in self:
+            move.to_approve = bool(move.approving_user_ids.filtered(
+                lambda line: line.state == "request"
+                and line.user_id == self.env.user
+            ))
+
+    def _search_to_approve(self, operator, value):
+        """Make ``to_approve`` searchable.
+
+        The field depends on the current user, so it cannot be stored.
+        Instead we translate the domain into a search on the approval
+        lines and return the matching bill ids.
+        """
+        if operator not in ("=", "!="):
+            raise UserError(_(
+                "Unsupported operator %(op)s for 'Waiting For My Approval'.",
+                op=operator,
+            ))
+        if isinstance(value, str):
+            value = value.lower() in ("true", "1")
+        positive = (operator == "=") == bool(value)
+
+        lines = self.env["bill.approval.user.line"].search([
+            ("user_id", "=", self.env.user.id),
+            ("state", "=", "request"),
+        ])
+        move_ids = lines.mapped("move_id").ids
+        return [("id", "in" if positive else "not in", move_ids)]
+
+    # ------------------------------------------------------------------
+    # Vendor-derived approvers (T/11311)
+    # ------------------------------------------------------------------
+    def _bill_approval_sync_partner_approvers(self):
+        """Make the vendor-derived approvers match the current vendor.
+
+        The vendor is the source of truth for *its* approvers, so every
+        line tagged ``source='partner'`` is dropped and re-created from
+        ``partner_id.bill_approving_user_ids``. Lines added by hand
+        (``source='manual'``) are never touched.
+
+        Dropping is unconditional: a line whose request was already sent
+        (``state='request'``) or already approved (``state='done'``) is
+        removed as well, so the approval state is recalculated for the new
+        vendor. That is intentional — switching vendor replaces the
+        approval flow, it does not merge the two.
+
+        This also covers the A -> B -> A case where the same user is an
+        approver on both vendors: the line is dropped and re-created, so
+        the list looks unchanged but always reflects the current vendor.
+
+        Two separate writes are used on purpose. ``_check_unique_approver``
+        rejects a duplicate (move_id, user_id) pair, and a single write
+        carrying both the unlink and the create could be validated with
+        both rows present.
+        """
+        for move in self:
+            if move.move_type not in BILL_MOVE_TYPES:
+                continue
+            derived = move.approving_user_ids.filtered(
+                lambda line: line.source == "partner"
+            )
+            if derived:
+                move.approving_user_ids = [(3, line.id) for line in derived]
+            # Re-read: the unlink above changed the recordset.
+            existing = move.approving_user_ids.mapped("user_id")
+            new_lines = [
+                (0, 0, {
+                    "user_id": user.id,
+                    "state": "new",
+                    "source": "partner",
+                })
+                for user in move.partner_id.bill_approving_user_ids
+                if user not in existing
+            ]
+            if new_lines:
+                move.approving_user_ids = new_lines
+
+    @api.onchange("partner_id")
+    def onchange_partner_set_approvers(self):
+        """Pre-fill approvers from the vendor, but never lock the field.
+
+        The vendor's ``bill_approving_user_ids`` is only a *suggestion*:
+        the user may add or remove approvers on the bill itself.
+        """
+        self._bill_approval_sync_partner_approvers()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Fill in the vendor's default approvers on creation.
+
+        The onchange above only runs in the form view. Bills created by
+        import, RPC or a copy would otherwise start with an empty approver
+        list, and the 'Request Approval' button would stay hidden.
+        """
+        moves = super().create(vals_list)
+        moves.filtered(
+            lambda m: m.move_type in BILL_MOVE_TYPES
+        )._bill_approval_sync_partner_approvers()
+        return moves
+
+    def write(self, vals):
+        """Re-sync the vendor approvers when the vendor changes."""
+        res = super().write(vals)
+        if "partner_id" in vals:
+            self.filtered(
+                lambda m: m.move_type in BILL_MOVE_TYPES
+            )._bill_approval_sync_partner_approvers()
+        return res
+
+    # ------------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------------
+    def _bill_approval_label(self):
+        self.ensure_one()
+        return MOVE_TYPE_LABELS.get(self.move_type, self.move_type)
+
+    def _bill_approval_log(self, body):
+        """Post a chatter message without requiring a sender address.
+
+        ``message_post`` raises when it cannot determine the author's
+        e-mail address. An approval must not fail for that reason, so a
+        fallback address is passed explicitly.
+        """
+        self.ensure_one()
+        email_from = (
+            self.env.user.email
+            or self.env.user.partner_id.email
+            or self.env.company.email
+            or "odoo@localhost"
+        )
+        self.message_post(body=body, email_from=email_from)
+
+    def _bill_approval_notify(self, line):
+        """Send the approval request mail to one approver."""
+        self.ensure_one()
+        # #if VERSION >= "20.0"
+        base_url = self.env["ir.config_parameter"].sudo().get_str(
+        # #else
+        base_url = self.env["ir.config_parameter"].sudo().get_param(
+        # #endif
+            "web.base.url", ""
+        )
+        body = _(
+            "Hello %(name)s,<br/><br/>"
+            "Please approve the <a href='%(url)s'>vendor bill</a>.<br/><br/>",
+            name=line.user_id.name,
+            url=self._bill_approval_access_url(base_url),
+        )
+        mail = self.env["mail.mail"].sudo().create({
+            "recipient_ids": [(4, line.user_id.partner_id.id)],
+            "subject": _("%s - Vendor Bill Approval Request") % self.env.company.name,
+            "body_html": body,
+        })
+        mail.send()
+        self._bill_approval_log(_(
+            "%(bill)s approval request has been sent to %(user)s.",
+            bill=self._bill_approval_label(),
+            user=line.user_id.name,
+        ))
+
+    def _bill_approval_access_url(self, base_url=None):
+        self.ensure_one()
+        if base_url is None:
+            # #if VERSION >= "20.0"
+            base_url = self.env["ir.config_parameter"].sudo().get_str(
+            # #else
+            base_url = self.env["ir.config_parameter"].sudo().get_param(
+            # #endif
+                "web.base.url", ""
+            )
+        return "%s/odoo/action-account.action_move_in_invoice_type/%s" % (
+            base_url.rstrip("/"), self.id,
+        )
+
+    # ------------------------------------------------------------------
+    # Actions
+    # ------------------------------------------------------------------
+    def action_request_bill_approval(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "vendor.bill.approval.user",
+            "name": _("Send Vendor Bill Approval Request"),
+            "view_mode": "form",
+            "target": "new",
+            "context": {"default_move_id": self.id},
+        }
+
+    def action_user_approve_bill(self):
+        for move in self:
+            line = move.approving_user_ids.filtered(
+                lambda rec: rec.user_id == self.env.user
+                and rec.state == "request"
+            )
+            if not line:
+                raise ValidationError(_(
+                    "You have no pending approval on this bill."
+                ))
+            line.action_approve()
+        # Return a reload action: ``bill_approval_state`` is a stored computed
+        # field, and returning True leaves the form showing its stale value
+        # even though the database is already up to date.
+        return {
+            "type": "ir.actions.client",
+            "tag": "reload",
+        }
+
+    def action_user_reject_bill(self):
+        self.ensure_one()
+        line = self.approving_user_ids.filtered(
+            lambda rec: rec.user_id == self.env.user
+            and rec.state == "request"
+        )
+        if not line:
+            raise ValidationError(_(
+                "You have no pending approval on this bill."
+            ))
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "vendor.bill.approval.reject",
+            "name": _("Reject Vendor Bill"),
+            "view_mode": "form",
+            "target": "new",
+            "context": {"default_move_id": self.id, "default_line_id": line.id},
+        }
+
+    def _bill_approval_check_pending(self):
+        """Raise when the bill still has outstanding approvals.
+
+        Kept as a separate helper so the guard can be invoked from every
+        posting entry point.
+        """
+        for move in self.filtered(lambda mv: mv.move_type in BILL_MOVE_TYPES):
+            pending = move.approving_user_ids.filtered(
+                lambda line: line.state in ("new", "request", "rejected")
+            )
+            if pending:
+                raise ValidationError(_(
+                    "All approvers must approve the bill before it can be "
+                    "confirmed. Outstanding: %s",
+                    ", ".join(pending.mapped("user_id.display_name")),
+                ))
+
+    def action_post(self):
+        """Block posting while approvals are outstanding."""
+        self._bill_approval_check_pending()
+        return super().action_post()
+
+    def _post(self, soft=True):
+        """Block posting while approvals are outstanding.
+
+        ``action_post`` is not the only way to post a move. The
+        ``validate.account.move`` wizard used by ``supplier_reference_trigger``
+        (and by Odoo's own abnormal-amount/date checks) calls
+        ``move_ids._post()`` directly, which bypasses the whole
+        ``action_post`` chain. Guarding ``_post`` as well closes that hole,
+        so an approval can no longer be skipped by confirming a wizard.
+        """
+        self._bill_approval_check_pending()
+        return super()._post(soft=soft)
