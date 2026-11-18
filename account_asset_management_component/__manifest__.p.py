@@ -17,7 +17,11 @@
     "application": False,
     "auto_install": False,
     "data": [
+        # #if VERSION >= "20.0"
+        "security/ir.access.csv",
+        # #else
         "security/ir.model.access.csv",
+        # #endif
         "views/asset_parent_view.xml",
         "views/account_asset_view.xml"
     ]

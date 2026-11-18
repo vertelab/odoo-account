@@ -17,7 +17,11 @@
     "application": False,
     "auto_install": False,
     "data": [
+        # #if VERSION >= "20.0"
+        "security/ir.access.csv",
+        # #else
         "security/ir.model.access.csv",
+        # #endif
         "wizard/account_mis_period_wizard.xml"
     ]
 }
