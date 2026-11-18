@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+            Permission groups for in-bound and out-bound journal entries.
+
+            Ported from 16.0. Two things changed in 18.0:
+
+            1. `account.journal.group_id` does not exist. The 16.0 module
+               defined it itself, but Odoo 18 owns `account.journal.group`
+               (the multi-ledger filter) and `account.journal` has
+               `journal_group_ids` pointing at it. This module therefore uses
+               its own field name, `move_type_group_id`.
+            2. `account_period_vrtl` is deprecated. The dependency was only
+               for the period model, which this module never touches.
+
+            20.0 merged ir.rule into ir.access.domain — conditioned below.
+        -->
+
+        <record id="group_account_move_type_out" model="res.groups">
+            <field name="name">Out-Type Invoices</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_account_move_type_in" model="res.groups">
+            <field name="name">In-Type Invoices</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record model="ir.model.access" id="access_account_move_type_in_users">
+            <field name="name">access_account_move_type_in_users</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="group_id" ref="group_account_move_type_in"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <record model="ir.model.access" id="access_account_move_type_out_users">
+            <field name="name">access_account_move_type_out_users</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="group_id" ref="group_account_move_type_out"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <record id="account_move_rule_type_out" model="ir.access">
+            <field name="name">Account move rule for out-bound types</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="group_id" ref="group_account_move_type_out"/>
+            <field name="operation">read</field>
+            <field name="domain">['|', ('journal_id.move_type_group_id.users', 'in', user.ids), ('journal_id.move_type_group_id', '=', False)]</field>
+        </record>
+
+        <record id="account_move_rule_type_in" model="ir.access">
+            <field name="name">Account move rule for in-bound types</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="group_id" ref="group_account_move_type_in"/>
+            <field name="operation">read</field>
+            <field name="domain">['|', ('journal_id.move_type_group_id.users', 'in', user.ids), ('journal_id.move_type_group_id', '=', False)]</field>
+        </record>
+    </data>
+</odoo>
