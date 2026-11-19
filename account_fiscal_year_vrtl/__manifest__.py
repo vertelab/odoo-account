@@ -1,5 +1,14 @@
 {
     "name": "Account: Fiscal Year",
+    # Version ledger: 18.0 = Odoo version. 1 = Major. 2 = Minor. 0 = Patch.
+    #
+    # Do NOT flatten this to '1.0'. Odoo expands '1.0' to 18.0.1.0, and a
+    # database already on 18.0.1.1.0 then never sees a version increase --
+    # so migrations/18.0.1.2.0/pre-adopt-types.py never runs, the data file
+    # tries to create the date range types a second time, and the registry
+    # dies on date_range_type_date_range_type_uniq.
+    #
+    # The version must stay ahead of the highest migrations/ directory.
     "version": '1.2.0',
     "category": "Accounting/Accounting",
     "summary": "Fiscal years with monthly periods, period closing, and hash-locking",
