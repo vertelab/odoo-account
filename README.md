@@ -46,86 +46,86 @@ Genererad av `scripts/porting-status.py` — handredigera inte.
 | Modul | Funktionsbeskrivning | Porteringsstatus |
 |---|---|---|
 | `account_3way_match_ai` | AI-driven 3-way matching of vendor bills against purchase orders. | ✓ `1.0` install · 2 p-filer |
-| `account_3way_match_ce` | Adds 3-way matching on vendor bills for Community Edition. | ✓ `1.0` install · 2 p-filer |
+| `account_3way_match_ce` | Adds 3-way matching on vendor bills for Community Edition. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `purchase` (finns inte i något addons-repo) |
 | `account_accountant_ce` | Community accounting UI adjustments: "Accounting" naming and two form fields. | ✓ `1.0` install · 2 p-filer |
-| `account_accountant_fleet_ce` | Adds fleet management to Community Edition accounting. | ✓ `1.0` install · 1 p-fil |
-| `account_admin_rights` | Grants accounting access rights to the administrator user. | ✓ `1.0` install · 2 p-filer |
-| `account_ai` | OKF-kontraktet på account.move och account.account | ✓ `1.0` install · 3 p-filer |
-| `account_analytic_default_all_move_lines` | Account Analytic Move Default Rules. | ✓ `1.0` install · 1 p-fil |
-| `account_analytic_group` | Adds a group field to analytic accounts. | ✓ `1.0` install · 2 p-filer |
-| `account_analytic_line_project` | Adds a project field to analytic lines. | ✓ `1.0` install · 2 p-filer |
-| `account_analytic_move_ids` | Account Analytic Move Ids. | ✓ `1.0` install · 1 p-fil |
-| `account_analytic_name` | Account Analytic Name. Change display_name. | ✓ `1.0` install · 1 p-fil |
-| `account_analytic_replace` | Replaces analytic plans and accounts with automatic search redirection. | ✓ `1.0` install · 2 p-filer |
+| `account_accountant_fleet_ce` | Adds fleet management to Community Edition accounting. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_fleet` (finns inte i något addons-repo) |
+| `account_admin_rights` | Grants accounting access rights to the administrator user. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_ai` | OKF-kontraktet på account.move och account.account | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_analytic_default_all_move_lines` | Account Analytic Move Default Rules. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo) |
+| `account_analytic_group` | Adds a group field to analytic accounts. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo) |
+| `account_analytic_line_project` | Adds a project field to analytic lines. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo)<br>`project` (finns inte i något addons-repo) |
+| `account_analytic_move_ids` | Account Analytic Move Ids. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo) |
+| `account_analytic_name` | Account Analytic Name. Change display_name. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `analytic` (finns inte i något addons-repo) |
+| `account_analytic_replace` | Replaces analytic plans and accounts with automatic search redirection. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo)<br>`analytic` (finns inte i något addons-repo) |
 | `account_analytic_tag_responsability_project_no` | Adds types on a analytic account tag, so that we can set two new fields on a journal line. | ✓ `1.0` avstängd · 3 p-filer |
-| `account_analytic_tier_validation` | Derive the invoice's reviewers from the analytic distribution (cost center) | ✓ `1.0` install · 1 p-fil |
-| `account_analytics_extra_criteria` | Adds extra analytic criteria fields to journal items. | ✓ `1.0` install · 2 p-filer |
+| `account_analytic_tier_validation` | Derive the invoice's reviewers from the analytic distribution (cost center) | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo) |
+| `account_analytics_extra_criteria` | Adds extra analytic criteria fields to journal items. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo)<br>`hr` (finns inte i något addons-repo) |
 | `account_asset_change` | Implement Asset changes . | ✓ `1.0` install · 15 p-filer |
-| `account_asset_lot_stock` | Create an asset connected to a Lot number. | ✓ `1.0` install · 3 p-filer |
+| `account_asset_lot_stock` | Create an asset connected to a Lot number. | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `account` (finns inte i något addons-repo)<br>`stock` (finns inte i något addons-repo)<br>`sale` (finns inte i något addons-repo)<br>`purchase` (finns inte i något addons-repo) |
 | `account_asset_lot_stock_personal_equipment` | Connect Created Asset to equipment. | ✓ `1.0` install · 4 p-filer |
-| `account_asset_management_component` | Manage assets as components of a parent asset | ✓ `1.0` install · 1 p-fil |
+| `account_asset_management_component` | Manage assets as components of a parent asset | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `project` (finns inte i något addons-repo) |
 | `account_asset_management_grant` | Adds asset grants with their own depreciation handling. | ✓ `1.0` install · 1 p-fil |
-| `account_asset_management_report` | Depreciation board — pivot on asset lines, with department | ✓ `1.0` install · 1 p-fil |
-| `account_attachment_directory` | Loads attachments from a directory and stores them on journal entries. | ✓ `1.0` install · 1 p-fil |
-| `account_auto_reverse_vrtl` | Automatically reverse accounting entries on a specified date | ✓ `1.0` install · 4 p-filer |
-| `account_bill_approval` | Approve vendor bills with freely selectable approvers | ✓ `1.0` install · 5 p-filer |
+| `account_asset_management_report` | Depreciation board — pivot on asset lines, with department | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `hr` (finns inte i något addons-repo) |
+| `account_attachment_directory` | Loads attachments from a directory and stores them on journal entries. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_auto_reverse_vrtl` | Automatically reverse accounting entries on a specified date | ✓ `1.0` ✗ · 4 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_bill_approval` | Approve vendor bills with freely selectable approvers | ✓ `1.0` ✗ · 5 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
 | `account_bill_approval_migration` | One-shot migration from purchase_vendor_bill_approval | ✓ `1.0` install · 1 p-fil |
-| `account_budget_analytic_account` | MIS Builder for Analytic Account. | ✓ `1.0` install · 12 p-filer |
-| `account_bulk_invoices` | Creates invoices in bulk through a wizard. | ✓ `1.0` install · 3 p-filer |
+| `account_budget_analytic_account` | MIS Builder for Analytic Account. | ✓ `1.0` ✗ · 12 p-filer<br>⚠ `account` (finns inte i något addons-repo)<br>`analytic` (finns inte i något addons-repo)<br>`base` (finns inte i något addons-repo)<br>`hr` (finns inte i något addons-repo) |
+| `account_bulk_invoices` | Creates invoices in bulk through a wizard. | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
 | `account_chart_per_fiscalyear` | Chart of accounts versioned per fiscal year | ✓ `1.0` install · 1 p-fil |
-| `account_closed` | Blocks posting into a closed accounting period. | ✓ `1.0` install · 1 p-fil |
-| `account_commodity_demo` | Demo data for gold and silver commodity purchasing with 3-way matching. | ✓ `1.0` install · 1 p-fil |
-| `account_commodity_price` | Manages commodity prices, inventory revaluation and BOM integration. | ✓ `1.0` install · 3 p-filer |
-| `account_contact_selection` | Remove Account Selection Limitation On Contacts. | ✓ `1.0` install · 2 p-filer |
-| `account_customer_filter` | Adds a filter that only shows contacts with confirmed customer invoices. | ✓ `1.0` install · 1 p-fil |
-| `account_deferred_revenue_expenses` | Handles deferred revenue and expenses with dedicated models. | ✓ `1.0` install · 5 p-filer |
-| `account_deferred_revenue_expenses_lms` | Swedish periodization training via website_slides | ✓ `1.0` install · 1 p-fil |
-| `account_due_reminder` | Sends automatic payment reminders for overdue invoices. | ✓ `1.0` install · 1 p-fil |
-| `account_dynamic_reports` | Dynamic accounting reports for Odoo CE — balance sheet, P&L, general ledger, and more | ✓ `1.0` install · 3 p-filer |
-| `account_enablebanking` | Imports bank transactions through the Enable Banking API. | ✓ `1.0` install · 6 p-filer |
+| `account_closed` | Blocks posting into a closed accounting period. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_commodity_demo` | Demo data for gold and silver commodity purchasing with 3-way matching. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `purchase` (finns inte i något addons-repo)<br>`stock` (finns inte i något addons-repo) |
+| `account_commodity_price` | Manages commodity prices, inventory revaluation and BOM integration. | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `account` (finns inte i något addons-repo)<br>`stock` (finns inte i något addons-repo)<br>`stock_account` (finns inte i något addons-repo)<br>`mrp` (finns inte i något addons-repo) |
+| `account_contact_selection` | Remove Account Selection Limitation On Contacts. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `contacts` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo) |
+| `account_customer_filter` | Adds a filter that only shows contacts with confirmed customer invoices. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_deferred_revenue_expenses` | Handles deferred revenue and expenses with dedicated models. | ✓ `1.0` ✗ · 5 p-filer<br>⚠ `account` (finns inte i något addons-repo)<br>`analytic` (finns inte i något addons-repo) |
+| `account_deferred_revenue_expenses_lms` | Swedish periodization training via website_slides | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `website_slides` (finns inte i något addons-repo) |
+| `account_due_reminder` | Sends automatic payment reminders for overdue invoices. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo)<br>`sms` (finns inte i något addons-repo) |
+| `account_dynamic_reports` | Dynamic accounting reports for Odoo CE — balance sheet, P&L, general ledger, and more | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_enablebanking` | Imports bank transactions through the Enable Banking API. | ✓ `1.0` ✗ · 6 p-filer<br>⚠ `account` (finns inte i något addons-repo)<br>`contacts` (finns inte i något addons-repo)<br>`base` (finns inte i något addons-repo)<br>`product` (finns inte i något addons-repo)<br>`mail` (finns inte i något addons-repo) |
 | `account_exchange_difference_analytic_tag` | Adds the analytic tags from the orignal invoice on the currency differance invoice | ✓ `1.0` avstängd · 2 p-filer |
-| `account_exchange_difference_draft` | Adds an option in settings to have the enchange differance invoice be set to draft | ✓ `1.0` install · 2 p-filer |
-| `account_export_import_invoice` | Export a journal entry to XML and import it back | ✓ `1.0` install · 1 p-fil |
+| `account_exchange_difference_draft` | Adds an option in settings to have the enchange differance invoice be set to draft | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_export_import_invoice` | Export a journal entry to XML and import it back | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
 | `account_financial_report_sorted` | Fixes sorting and UX for the Aged Partner Balance report. | ✓ `1.0` install · 1 p-fil |
 | `account_fiscal_year_mis` | MIS Builder integration for fiscal year balance reporting | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_fiscal_year_closing` (finns inte i något addons-repo) |
-| `account_fiscal_year_vrtl` | Fiscal years with monthly periods, period closing, and hash-locking | ✓ `1.0` install · 4 p-filer |
-| `account_fortnox` | Syncs invoices and payments with Fortnox. | ✓ `1.0` install · 4 p-filer |
-| `account_fortnox_delivery` | Glue module — sends the delivery method and delivery date to Fortnox | ✓ `1.0` install · 1 p-fil |
+| `account_fiscal_year_vrtl` | Fiscal years with monthly periods, period closing, and hash-locking | ✓ `1.0` ✗ · 4 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_fortnox` | Syncs invoices and payments with Fortnox. | ✓ `1.0` ✗ · 4 p-filer<br>⚠ `crm` (finns inte i något addons-repo)<br>`l10n_se` (finns inte i något addons-repo)<br>`sale_management` (finns inte i något addons-repo) |
+| `account_fortnox_delivery` | Glue module — sends the delivery method and delivery date to Fortnox | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `delivery` (finns inte i något addons-repo) |
 | `account_fortnox_display_name` | Shows the Fortnox reference in the invoice display name. | ✓ `1.0` install · 2 p-filer |
-| `account_import_excel` | Imports journal entries from Excel spreadsheets. | ✓ `1.0` install · 1 p-fil |
+| `account_import_excel` | Imports journal entries from Excel spreadsheets. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
 | `account_inexchange` | Fields for invoicing through Inexchange. | ✓ `1.0` avstängd · 2 p-filer |
-| `account_inter_company_rules_ce` | Adds intercompany sale, purchase and invoice rules for Community Edition. | ✓ `1.0` install · 2 p-filer |
-| `account_invoice_ai` | Adds a mailbox for AI-assisted invoice handling. | ✓ `1.0` install · 5 p-filer |
+| `account_inter_company_rules_ce` | Adds intercompany sale, purchase and invoice rules for Community Edition. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_invoice_ai` | Adds a mailbox for AI-assisted invoice handling. | ✓ `1.0` ✗ · 5 p-filer<br>⚠ `account` (finns inte i något addons-repo)<br>`purchase` (finns inte i något addons-repo) |
 | `account_invoice_ai_3way_match` | Bridge between AI invoice scanning and 3-way purchase matching | ✓ `1.0` install · 1 p-fil |
-| `account_invoice_multi_currency` | Show the invoice totals in additional currencies | ✓ `1.0` install · 1 p-fil |
+| `account_invoice_multi_currency` | Show the invoice totals in additional currencies | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
 | `account_invoice_scan_llm` | Scans invoices with an LLM and creates vendor bills. | ✓ `1.0` install · 1 p-fil |
-| `account_journal_card_type` | Adds card types and card transactions to journals. | ✓ `1.0` install · 7 p-filer |
-| `account_journal_entry_mail_alias` | Show Mail Alias on Miscallenous | ✓ `1.0` install · 2 p-filer |
-| `account_journal_select_payable_receivable_account` | Adds dedicated payable and receivable account fields on journals. | ✓ `1.0` install · 2 p-filer |
-| `account_journal_selection` | Removes the account selection limitation on contacts. | ✓ `1.0` install · 3 p-filer |
+| `account_journal_card_type` | Adds card types and card transactions to journals. | ✓ `1.0` ✗ · 7 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_journal_entry_mail_alias` | Show Mail Alias on Miscallenous | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo)<br>`mail` (finns inte i något addons-repo) |
+| `account_journal_select_payable_receivable_account` | Adds dedicated payable and receivable account fields on journals. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_journal_selection` | Removes the account selection limitation on contacts. | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
 | `account_journal_upload` | Added Journal Upload Button. | ✓ `1.0` avstängd · 1 p-fil |
 | `account_loan_template` | Create loan templates that generate loan entries automatically. | ✓ `1.0` install · 1 p-fil |
-| `account_mass_invoice_generation` | Generates invoices in bulk for multiple partners. | ✓ `1.0` install · 2 p-filer |
-| `account_mis_budget` | Lets us generate budget based on the previous year. | ✓ `1.0` install · 22 p-filer |
-| `account_mis_budget_forecast` | Replaces budgets with actuals and adds hierarchical budget forecasts. | ✓ `1.0` install · 1 p-fil |
-| `account_mis_cash_flow_extended` | Cash flow forecast wizard — builds a forecast from the last three months of actuals | ✓ `1.0` install · 1 p-fil |
+| `account_mass_invoice_generation` | Generates invoices in bulk for multiple partners. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_mis_budget` | Lets us generate budget based on the previous year. | ✓ `1.0` ✗ · 22 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_mis_budget_forecast` | Replaces budgets with actuals and adds hierarchical budget forecasts. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_mis_cash_flow_extended` | Cash flow forecast wizard — builds a forecast from the last three months of actuals | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
 | `account_mis_period_wizard` | Create the comparison periods (opening balance, period, closing balance) for a MIS report | ✓ `1.0` install · 1 p-fil |
 | `account_mis_report_filter` | Adds filter options to MIS Builder reports. | ✓ `1.0` install · 2 p-filer |
-| `account_move_contact` | Adds a contact field on invoices. | ✓ `1.0` install · 1 p-fil |
-| `account_move_directory` | Loads journal entries from a directory into Odoo. | ✓ `1.0` install · 2 p-filer |
-| `account_move_disable_create` | Disable Creates on Account Move (Line) | ✓ `1.0` install · 1 p-fil |
+| `account_move_contact` | Adds a contact field on invoices. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo)<br>`sale` (finns inte i något addons-repo) |
+| `account_move_directory` | Loads journal entries from a directory into Odoo. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_move_disable_create` | Disable Creates on Account Move (Line) | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo)<br>`sale` (finns inte i något addons-repo) |
 | `account_move_line_communication_payment_order` | Sets payment. Lines communication field to the name of the account. Move as a last resort. | ✓ `1.0` install · 2 p-filer |
 | `account_move_line_group_by` | Adds new options to groups journal lines by. | ✓ `1.0` avstängd · 1 p-fil |
-| `account_move_red_narration` | Adds a second more visable narration field on the pdf. | ✓ `1.0` install · 2 p-filer |
-| `account_move_report` | Print Account Moves | ✓ `1.0` install · 1 p-fil |
-| `account_move_report_vat` | Adds Vat Number To the Invoice Report | ✓ `1.0` install · 1 p-fil |
+| `account_move_red_narration` | Adds a second more visable narration field on the pdf. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_move_report` | Print Account Moves | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_move_report_vat` | Adds Vat Number To the Invoice Report | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo)<br>`sale` (finns inte i något addons-repo) |
 | `account_move_tier_validation_control` | Adds two new fields on a user. | ✓ `1.0` avstängd · 1 p-fil |
 | `account_move_tier_validation_implement` | Adds a field on a account move to select validator. | ✓ `1.0` avstängd · 1 p-fil |
 | `account_move_tier_validation_report` | Shows the bottlenecks in validation flow | ✓ `1.0` avstängd · 1 p-fil |
-| `account_move_type_group` | Restrict journal entries per direction (in-bound vs out-bound) | ✓ `1.0` install · 2 p-filer |
-| `account_notice_period` | Notice period text on payment terms, shown in the invoice footer | ✓ `1.0` install · 1 p-fil |
+| `account_move_type_group` | Restrict journal entries per direction (in-bound vs out-bound) | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_notice_period` | Notice period text on payment terms, shown in the invoice footer | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
 | `account_payment_order_autogiro` | Handles Autogiro direct debit for vendor bills with a pending state. | ✓ `1.0` install · 2 p-filer |
-| `account_payment_order_autogiro_lms` | Swedish training on the four vendor-bill payment paths in Odoo 18. | ✓ `1.0` install · 1 p-fil |
+| `account_payment_order_autogiro_lms` | Swedish training on the four vendor-bill payment paths in Odoo 18. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `website_slides` (finns inte i något addons-repo) |
 | `account_payment_order_date` | Adds a new date preference that allows to set the date per row | ✓ `1.0` install · 2 p-filer |
 | `account_payment_order_filter` | Override prepare_payment_line_vals method so that the communication field gets set with something | ✓ `1.0` install · 2 p-filer |
 | `account_payment_order_filter_currency` | Adds the capability to filter payment order lines based on currency | ✓ `1.0` install · 2 p-filer |
@@ -133,26 +133,26 @@ Genererad av `scripts/porting-status.py` — handredigera inte.
 | `account_payment_order_pending` | Keeps bills in an in-payment state until the bank reconciliation is done. | ✓ `1.0` install · 2 p-filer |
 | `account_payment_order_regulatory_reporting` | Adds Account Regulatory Reporting for Sweden | ✓ `1.0` install · 4 p-filer |
 | `account_payment_order_sepa_seb` | Fixes SEPA payment file errors for SEB. | ✓ `1.0` install · 2 p-filer |
-| `account_payment_register_date` | Defaults the payment date to the invoice due date. | ✓ `1.0` install · 1 p-fil |
-| `account_period_contract` | Manage Period based on Contract. | ✓ `1.0` install · 2 p-filer |
+| `account_payment_register_date` | Defaults the payment date to the invoice due date. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_period_contract` | Manage Period based on Contract. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
 | `account_period_vrtl` | Divides the fiscal year into 12 months or 4 quarters. | ✓ `1.0` avstängd · 8 p-filer |
 | `account_period_vrtl_minimal` | Divides the fiscal year into 12 months or 4 quarters (minimal version). | ✓ `1.0` avstängd · 9 p-filer |
 | `account_reconcile_currency_fix` | Fixes currency formatting in the OCA reconciliation widget. | ✓ `1.0` install · 1 p-fil |
 | `account_reconcile_enhanced` | Adds enhanced reconciliation tools to the OCA reconcile widget. | ✓ `1.0` install · 1 p-fil |
 | `account_reconcile_oca_ux_fix` | Keeps the search filter in the reconcile tab after manual operation. | ✓ `1.0` install · 1 p-fil |
 | `account_reconciliation_override` | Override OCA reconciliation module to allow reconcilation while in draft status | ✓ `1.0` avstängd · 1 p-fil |
-| `account_reconciliation_widget_journal` | Limit which journals and dates the reconcile widget may match against | ✓ `1.0` install · 1 p-fil |
-| `account_remove_unique_bank_account_constraint` | Remove unique bank account constraint on partner. | ✓ `1.0` install · 1 p-fil |
-| `account_remove_unique_bank_number` | Relax Constraints on Unique Bank Number | ✓ `1.0` install · 1 p-fil |
+| `account_reconciliation_widget_journal` | Limit which journals and dates the reconcile widget may match against | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_remove_unique_bank_account_constraint` | Remove unique bank account constraint on partner. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `base` (finns inte i något addons-repo) |
+| `account_remove_unique_bank_number` | Relax Constraints on Unique Bank Number | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `base` (finns inte i något addons-repo) |
 | `account_report_mis_import` | Convert MIS Builder reports to account.report (migration tool) | ✓ `1.0` avstängd · 1 p-fil |
-| `accountant_hr_expense_ce` | Bridges accounting and expenses for Community Edition. | ✓ `1.0` install · 1 p-fil |
+| `accountant_hr_expense_ce` | Bridges accounting and expenses for Community Edition. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `hr_expense` (finns inte i något addons-repo) |
 | `bank_payment_order_customization` | Bank Payment Order Customization | ✓ `1.0` install · 1 p-fil |
-| `currency_exchange_rate` | Currency Exchange Rate | ✓ `1.0` install · 1 p-fil |
+| `currency_exchange_rate` | Currency Exchange Rate | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
 | `odoo_invoice_analysis` | Show product price in pivot invoice report | ✓ `1.0` avstängd · 1 p-fil |
 | `partner_statement_vrtl` | Consistent sign convention and remaining amount for partner statements | ✓ `1.0` install · 1 p-fil |
 | `payment_order_file_name` | Override OCA reconciliation module to allow reconcilation while in draft status | ✓ `1.0` install · 2 p-filer |
-| `project_tags_company` | Add company_id to project.tags | ✓ `1.0` install · 2 p-filer |
-| `res_config_quests` | Add a quests field to res.config.settings | ✓ `1.0` install · 1 p-fil |
-| `split_invoice_by_attachments` | Split an invoice with many attachments into copies with single files | ✓ `1.0` install · 1 p-fil |
+| `project_tags_company` | Add company_id to project.tags | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `project` (finns inte i något addons-repo) |
+| `res_config_quests` | Add a quests field to res.config.settings | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `base_setup` (finns inte i något addons-repo) |
+| `split_invoice_by_attachments` | Split an invoice with many attachments into copies with single files | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo)<br>`mail` (finns inte i något addons-repo) |
 | `tier_all_validations_required` | (ingen beskrivning i manifestet) | ✓ `1.0` avstängd · 1 p-fil |
 | `tier_validation_reminder` | Sends reminder to the next person pending a tier review. | ✓ `1.0` avstängd · 2 p-filer |
