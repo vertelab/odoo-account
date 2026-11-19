@@ -1,0 +1,1 @@
+from . import test_fix_view_contains_supplierinfo_id
