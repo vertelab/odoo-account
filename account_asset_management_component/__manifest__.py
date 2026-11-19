@@ -17,7 +17,7 @@
     "application": False,
     "auto_install": False,
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/asset_parent_view.xml",
         "views/account_asset_view.xml"
     ]

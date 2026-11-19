@@ -20,7 +20,7 @@
     "application": False,
     "auto_install": False,
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/custom_account_classes.xml",
         "wizard/cash_flow_forecast_wizard.xml",
         "views/mis_cash_flow_forecast.xml",
