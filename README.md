@@ -46,31 +46,31 @@ Genererad av `scripts/porting-status.py` — handredigera inte.
 | Modul | Funktionsbeskrivning | Porteringsstatus |
 |---|---|---|
 | `account_3way_match_ai` | AI-driven 3-way matching of vendor bills against purchase orders. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `ai_agent_core` (odoo-ai; saknas i 19.0) |
-| `account_3way_match_ce` | Adds 3-way matching on vendor bills for Community Edition. | ✓ `1.0` install · 2 p-filer |
+| `account_3way_match_ce` | Adds 3-way matching on vendor bills for Community Edition. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `purchase` (finns inte i något addons-repo) |
 | `account_accountant_ce` | Community accounting UI adjustments: "Accounting" naming and two form fields. | ✓ `1.0` install · 2 p-filer |
-| `account_accountant_fleet_ce` | Adds fleet management to Community Edition accounting. | ✓ `1.0` install · 1 p-fil |
-| `account_admin_rights` | Grants accounting access rights to the administrator user. | ✓ `1.0` install · 2 p-filer |
-| `account_ai` | OKF-kontraktet på account.move och account.account | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `ai_agent_core` (odoo-ai; saknas i 19.0) |
-| `account_analytic_default_all_move_lines` | Account Analytic Move Default Rules. | ✓ `1.0` install · 1 p-fil |
-| `account_analytic_group` | Adds a group field to analytic accounts. | ✓ `1.0` install · 2 p-filer |
-| `account_analytic_line_project` | Adds a project field to analytic lines. | ✓ `1.0` install · 2 p-filer |
-| `account_analytic_move_ids` | Account Analytic Move Ids. | ✓ `1.0` install · 1 p-fil |
-| `account_analytic_name` | Account Analytic Name. Change display_name. | ✓ `1.0` install · 1 p-fil |
-| `account_analytic_replace` | Replaces analytic plans and accounts with automatic search redirection. | ✓ `1.0` install · 2 p-filer |
+| `account_accountant_fleet_ce` | Adds fleet management to Community Edition accounting. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_fleet` (finns inte i något addons-repo) |
+| `account_admin_rights` | Grants accounting access rights to the administrator user. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_ai` | OKF-kontraktet på account.move och account.account | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `ai_agent_core` (odoo-ai; saknas i 19.0)<br>`account` (finns inte i något addons-repo) |
+| `account_analytic_default_all_move_lines` | Account Analytic Move Default Rules. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo) |
+| `account_analytic_group` | Adds a group field to analytic accounts. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo) |
+| `account_analytic_line_project` | Adds a project field to analytic lines. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo)<br>`project` (finns inte i något addons-repo) |
+| `account_analytic_move_ids` | Account Analytic Move Ids. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo) |
+| `account_analytic_name` | Account Analytic Name. Change display_name. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `analytic` (finns inte i något addons-repo) |
+| `account_analytic_replace` | Replaces analytic plans and accounts with automatic search redirection. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account` (finns inte i något addons-repo)<br>`analytic` (finns inte i något addons-repo) |
 | `account_analytic_tag_responsability_project_no` | Adds types on a analytic account tag, so that we can set two new fields on a journal line. | ✓ `1.0` avstängd · 3 p-filer |
-| `account_analytic_tier_validation` | Derive the invoice's reviewers from the analytic distribution (cost center) | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `base_tier_validation` (odooext-OCA-server-ux; 19.0-grenen är tom) |
-| `account_analytics_extra_criteria` | Adds extra analytic criteria fields to journal items. | ✓ `1.0` install · 2 p-filer |
+| `account_analytic_tier_validation` | Derive the invoice's reviewers from the analytic distribution (cost center) | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo)<br>`base_tier_validation` (odooext-OCA-server-ux; 19.0-grenen är tom) |
+| `account_analytics_extra_criteria` | Adds extra analytic criteria fields to journal items. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `analytic` (finns inte i något addons-repo)<br>`account` (finns inte i något addons-repo)<br>`hr` (finns inte i något addons-repo) |
 | `account_asset_change` | Implement Asset changes . | ✓ `1.0` install · 15 p-filer |
-| `account_asset_lot_stock` | Create an asset connected to a Lot number. | ✓ `1.0` install · 3 p-filer |
+| `account_asset_lot_stock` | Create an asset connected to a Lot number. | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `account` (finns inte i något addons-repo)<br>`stock` (finns inte i något addons-repo)<br>`sale` (finns inte i något addons-repo)<br>`purchase` (finns inte i något addons-repo) |
 | `account_asset_lot_stock_personal_equipment` | Connect Created Asset to equipment. | ✓ `1.0` ✗ · 4 p-filer<br>⚠ `hr_personal_equipment_stock` (odoo-oca-hr; saknas i 19.0) |
-| `account_asset_management_component` | Manage assets as components of a parent asset | ✓ `1.0` install · 1 p-fil |
+| `account_asset_management_component` | Manage assets as components of a parent asset | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `project` (finns inte i något addons-repo) |
 | `account_asset_management_grant` | Adds asset grants with their own depreciation handling. | ✓ `1.0` install · 1 p-fil |
-| `account_asset_management_report` | Depreciation board — pivot on asset lines, with department | ✓ `1.0` install · 1 p-fil |
-| `account_attachment_directory` | Loads attachments from a directory and stores them on journal entries. | ✓ `1.0` install · 1 p-fil |
-| `account_auto_reverse_vrtl` | Automatically reverse accounting entries on a specified date | ✓ `1.0` install · 4 p-filer |
-| `account_bill_approval` | Approve vendor bills with freely selectable approvers | ✓ `1.0` install · 5 p-filer |
+| `account_asset_management_report` | Depreciation board — pivot on asset lines, with department | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `hr` (finns inte i något addons-repo) |
+| `account_attachment_directory` | Loads attachments from a directory and stores them on journal entries. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_auto_reverse_vrtl` | Automatically reverse accounting entries on a specified date | ✓ `1.0` ✗ · 4 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
+| `account_bill_approval` | Approve vendor bills with freely selectable approvers | ✓ `1.0` ✗ · 5 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
 | `account_bill_approval_migration` | One-shot migration from purchase_vendor_bill_approval | ✓ `1.0` install · 1 p-fil |
-| `account_budget_analytic_account` | MIS Builder for Analytic Account. | ✓ `1.0` ✗ · 12 p-filer<br>⚠ `analytic` (finns inte i något addons-repo)<br>`base` (finns inte i något addons-repo)<br>`hr` (finns inte i något addons-repo) |
+| `account_budget_analytic_account` | MIS Builder for Analytic Account. | ✓ `1.0` ✗ · 12 p-filer<br>⚠ `account` (finns inte i något addons-repo)<br>`analytic` (finns inte i något addons-repo)<br>`base` (finns inte i något addons-repo)<br>`hr` (finns inte i något addons-repo) |
 | `account_bulk_invoices` | Creates invoices in bulk through a wizard. | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `account` (finns inte i något addons-repo) |
 | `account_chart_per_fiscalyear` | Chart of accounts versioned per fiscal year | ✓ `1.0` install · 1 p-fil |
 | `account_closed` | Blocks posting into a closed accounting period. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account` (finns inte i något addons-repo) |
