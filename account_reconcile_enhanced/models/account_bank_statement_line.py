@@ -181,7 +181,21 @@ class AccountBankStatementLine(models.Model):
         Turning the payload into ordinary ``other`` rows before the balance is
         computed makes the sum zero and leaves the discount on its own real
         accounts (gain/loss and the tax account).
+
+        The payload rows may already be part of ``data`` as regular rows,
+        depending on how the widget rebuilt it. Adding them again doubles the
+        discount and leaves the entry unbalanced, so each payload row is only
+        added when an equivalent row is not already present -- the same guard
+        ``_reconcile_bank_line_edit`` uses.
         """
+        present = Counter(
+            (
+                tuple(v.get("account_id") or ()),
+                round(v.get("debit") or 0.0, 6),
+                round(v.get("credit") or 0.0, 6),
+            )
+            for v in data
+        )
         expanded = []
         for line_vals in data:
             if line_vals.get("kind") == "suspense":
@@ -191,6 +205,15 @@ class AccountBankStatementLine(models.Model):
             epd_lines = line_vals.pop("epd_lines", None) or []
             expanded.append(line_vals)
             for epd_line in epd_lines:
+                key = (
+                    tuple(epd_line.get("account_id") or ()),
+                    round(epd_line.get("debit") or 0.0, 6),
+                    round(epd_line.get("credit") or 0.0, 6),
+                )
+                if present[key] > 0:
+                    # Already sent as a regular row; adding it would double it.
+                    present[key] -= 1
+                    continue
                 epd_line = dict(epd_line)
                 epd_line["kind"] = "other"
                 epd_line["counterpart_line_ids"] = None
