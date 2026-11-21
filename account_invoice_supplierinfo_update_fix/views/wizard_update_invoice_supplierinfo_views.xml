@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        Restore the hidden supplierinfo_id field in the wizard's line list.
+
+        Without it the web client does not keep the field in the line record,
+        so it is not written back on save and every line takes the create
+        branch of update_supplierinfo() — duplicating the vendor pricelist
+        line instead of updating it.
+
+        This is what 17.0 had; the 18.0 migration dropped it.
+    -->
+    <record id="view_wizard_update_invoice_supplierinfo_form_fix" model="ir.ui.view">
+        <field name="name">wizard.update.invoice.supplierinfo.form.fix</field>
+        <field name="model">wizard.update.invoice.supplierinfo</field>
+        <field
+            name="inherit_id"
+            ref="account_invoice_supplierinfo_update.view_wizard_update_invoice_supplierinfo_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']/list/field[@name='product_id']" position="after">
+                <field name="supplierinfo_id" column_invisible="1" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
