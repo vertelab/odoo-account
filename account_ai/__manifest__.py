@@ -34,6 +34,6 @@
         'wizard/account_okf_backfill_views.xml',
     ],
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
     'application': False,
 }
