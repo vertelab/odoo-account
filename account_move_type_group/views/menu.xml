@@ -1,0 +1,6 @@
+<odoo>
+    <menuitem
+        id="account.menu_finance"
+        groups="account.group_account_readonly,account.group_account_invoice,account_move_type_group.group_account_move_type_out,account_move_type_group.group_account_move_type_in"/>
+
+</odoo>

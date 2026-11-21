@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!-- Settings on the journal -->
+    <record id="account_journal_view_override" model="ir.ui.view">
+        <field name="name">account.journal.inherit.view.form - reconcile filters</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='advanced_settings']/group/group[1]" position="after">
+                <group string="Reconciliation Filters">
+                    <field name="allowed_reconcile_journal_ids" widget="many2many_tags"/>
+                    <field name="after_allowed_reconcile_date"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend the candidate domain in the OCA reconcile widget -->
+    <record id="account_bank_statement_line_reconcile_filter" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.form - reconcile filter</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="inherit_id" ref="account_reconcile_oca.bank_statement_line_form_reconcile_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='add_account_move_line_id']" position="before">
+                <field name="reconcile_filter_after_date" invisible="1"/>
+                <field name="reconcile_filter_journal_ids" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='add_account_move_line_id']" position="attributes">
+                <attribute name="domain">[
+                    ('parent_state', '=', 'posted'),
+                    ('amount_residual', '!=', 0),
+                    ('account_id.reconcile', '=', True),
+                    ('company_id', '=', company_id),
+                    ('statement_line_id', '!=', id),
+                ] + ([('date', '&gt;=', reconcile_filter_after_date)] if reconcile_filter_after_date else []) + ([('journal_id', 'in', reconcile_filter_journal_ids.ids)] if reconcile_filter_journal_ids else [])</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!--
+            Show the invoice totals in extra currencies.
+
+            Odoo 18 computes the totals through `account.document_tax_totals`
+            (the tax_totals dict), not through `amount_by_group`. Replacing the
+            whole `//div[@class='clearfix']` — the 14.0 approach — would drop
+            that template. This version ADDS a block after the ordinary totals
+            instead, so the standard total block is left untouched.
+        -->
+        <template id="report_invoice_document_with_payment_multi_currency"
+                  inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@id='right-elements']" position="inside">
+                <t t-if="o.invoice_multi_currency_ids">
+                    <t t-set="base_currency" t-value="o.currency_id"/>
+                    <t t-set="conv_date" t-value="o.invoice_date or o.date"/>
+                    <t t-foreach="o.invoice_multi_currency_ids" t-as="active_currency">
+                        <t t-if="active_currency != base_currency">
+                            <div class="mt-3 avoid-page-break-inside multi-currency-totals"
+                                 t-attf-id="multi_currency_total_#{active_currency.id}">
+                                <table class="o_total_table table table-borderless mb-0">
+                                    <p class="text-end mb-1">
+                                        <strong t-out="active_currency.name"/>
+                                    </p>
+                                    <t t-if="o.tax_totals">
+                                        <t t-foreach="o.tax_totals['subtotals']" t-as="subtotal">
+                                            <tr class="o_subtotal">
+                                                <td>
+                                                    <span t-out="subtotal['name']">Untaxed Amount</span>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-out="base_currency._convert(subtotal['base_amount_currency'], active_currency, o.company_id, conv_date)"
+                                                          t-options='{"widget": "monetary", "display_currency": active_currency}'/>
+                                                </td>
+                                            </tr>
+                                            <t t-foreach="subtotal['tax_groups']" t-as="tax_group">
+                                                <tr class="o_taxes">
+                                                    <td>
+                                                        <span t-out="tax_group['group_name']">Tax 15%</span>
+                                                    </td>
+                                                    <td class="text-end o_price_total">
+                                                        <span class="text-nowrap"
+                                                              t-out="base_currency._convert(tax_group['tax_amount_currency'], active_currency, o.company_id, conv_date)"
+                                                              t-options='{"widget": "monetary", "display_currency": active_currency}'/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                        <tr class="o_total">
+                                            <td><strong>Total</strong></td>
+                                            <td class="text-end">
+                                                <strong t-out="base_currency._convert(o.tax_totals['total_amount_currency'], active_currency, o.company_id, conv_date)"
+                                                        t-options='{"widget": "monetary", "display_currency": active_currency}'/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-else="">
+                                        <!-- No tax totals computed (e.g. a draft): fall back to the move's own fields. -->
+                                        <tr class="o_subtotal">
+                                            <td>Subtotal</td>
+                                            <td class="text-end">
+                                                <span t-out="base_currency._convert(o.amount_untaxed, active_currency, o.company_id, conv_date)"
+                                                      t-options='{"widget": "monetary", "display_currency": active_currency}'/>
+                                            </td>
+                                        </tr>
+                                        <tr class="o_total">
+                                            <td><strong>Total</strong></td>
+                                            <td class="text-end">
+                                                <strong t-out="base_currency._convert(o.amount_total, active_currency, o.company_id, conv_date)"
+                                                        t-options='{"widget": "monetary", "display_currency": active_currency}'/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="o.amount_residual and o.payment_state in ('partial', 'paid')">
+                                        <tr class="o_total">
+                                            <td><strong>Amount Due</strong></td>
+                                            <td class="text-end">
+                                                <strong t-out="base_currency._convert(o.amount_residual, active_currency, o.company_id, conv_date)"
+                                                        t-options='{"widget": "monetary", "display_currency": active_currency}'/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</odoo>
