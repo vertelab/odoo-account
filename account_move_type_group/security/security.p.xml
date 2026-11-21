@@ -58,7 +58,11 @@
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
+            <!-- #if VERSION >= "19.0" -->
+            <field name="domain_force">['|', ('journal_id.move_type_group_id.user_ids', 'in', user.ids), ('journal_id.move_type_group_id', '=', False)]</field>
+            <!-- #else -->
             <field name="domain_force">['|', ('journal_id.move_type_group_id.users', 'in', user.ids), ('journal_id.move_type_group_id', '=', False)]</field>
+            <!-- #endif -->
         </record>
 
         <record id="account_move_rule_type_in" model="ir.rule">
@@ -69,7 +73,11 @@
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
+            <!-- #if VERSION >= "19.0" -->
+            <field name="domain_force">['|', ('journal_id.move_type_group_id.user_ids', 'in', user.ids), ('journal_id.move_type_group_id', '=', False)]</field>
+            <!-- #else -->
             <field name="domain_force">['|', ('journal_id.move_type_group_id.users', 'in', user.ids), ('journal_id.move_type_group_id', '=', False)]</field>
+            <!-- #endif -->
         </record>
 
         <!-- Narrow the stock rules that grant read on all moves. -->
