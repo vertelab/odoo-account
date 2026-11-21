@@ -27,6 +27,7 @@
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
+        <!-- #if VERSION <= "19.0" -->
         <record model="ir.model.access" id="access_account_move_type_in_users">
             <field name="name">access_account_move_type_in_users</field>
             <field name="model_id" ref="account.model_account_move"/>
@@ -46,6 +47,7 @@
             <field name="perm_create">0</field>
             <field name="perm_unlink">0</field>
         </record>
+        <!-- #endif -->
 
         <!-- #if VERSION <= "19.0" -->
         <record id="account_move_rule_type_out" model="ir.rule">
@@ -89,16 +91,16 @@
             <field name="name">Account move rule for out-bound types</field>
             <field name="model_id" ref="account.model_account_move"/>
             <field name="group_id" ref="group_account_move_type_out"/>
-            <field name="operation">read</field>
-            <field name="domain">['|', ('journal_id.move_type_group_id.users', 'in', user.ids), ('journal_id.move_type_group_id', '=', False)]</field>
+            <field name="operation">r</field>
+            <field name="domain">['|', ('journal_id.move_type_group_id.user_ids', 'in', user.ids), ('journal_id.move_type_group_id', '=', False)]</field>
         </record>
 
         <record id="account_move_rule_type_in" model="ir.access">
             <field name="name">Account move rule for in-bound types</field>
             <field name="model_id" ref="account.model_account_move"/>
             <field name="group_id" ref="group_account_move_type_in"/>
-            <field name="operation">read</field>
-            <field name="domain">['|', ('journal_id.move_type_group_id.users', 'in', user.ids), ('journal_id.move_type_group_id', '=', False)]</field>
+            <field name="operation">r</field>
+            <field name="domain">['|', ('journal_id.move_type_group_id.user_ids', 'in', user.ids), ('journal_id.move_type_group_id', '=', False)]</field>
         </record>
         <!-- #endif -->
     </data>
