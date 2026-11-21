@@ -5,8 +5,12 @@
         `o_standard_footer` + `ul.list-inline.mb4` structure. The footer is a
         flex container with `div.o_footer_content`. Insert our lines there.
     -->
-    <template id="external_layout_standard_inherit" inherit_id="web.external_layout_standard">
-        <xpath expr="//div[hasclass('o_footer_content')]" position="inside">
+    <!-- 20.0: the footer was extracted from external_layout_standard into its
+         own template, web.external_layout_footer_content, and the div carries
+         o_footer_content via t-attf-class (hasclass() matches static class
+         only). Inherit that template and match on t-attf-class. -->
+    <template id="external_layout_standard_inherit" inherit_id="web.external_layout_footer_content">
+        <xpath expr="//div[contains(@t-attf-class, 'o_footer_content')]" position="inside">
             <div class="o_footer_notice_period text-muted small">
                 <!-- Add account.move narration -->
                 <t t-if="o and o._name == 'account.move' and o.narration">
