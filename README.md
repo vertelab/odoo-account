@@ -43,116 +43,117 @@ Den här grenen är Odoo 20.0. Tabellen beskriver bara 20.0.
 
 Genererad av `scripts/porting-status.py` — handredigera inte.
 
-| Modul | Funktionsbeskrivning | Porteringsstatus |
+| Modul | Beskrivning | Porteringsstatus |
 |---|---|---|
-| `account_3way_match_ai` | AI-driven 3-way matching of vendor bills against purchase orders. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `ai_agent_core` (odoo-ai; saknas i 20.0) |
-| `account_3way_match_ce` | Adds 3-way matching on vendor bills for Community Edition. | ✓ `1.0` install · 2 p-filer |
-| `account_accountant_ce` | Community accounting UI adjustments: "Accounting" naming and two form fields. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account_asset_management` (odooext-OCA-account-financial-tools; 20.0-grenen är tom) |
-| `account_accountant_fleet_ce` | Adds fleet management to Community Edition accounting. | ✓ `1.0` install · 1 p-fil |
-| `account_admin_rights` | Grants accounting access rights to the administrator user. | ✓ `1.0` install · 2 p-filer |
-| `account_ai` | OKF-kontraktet på account.move och account.account | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `ai_agent_core` (odoo-ai; saknas i 20.0) |
-| `account_analytic_default_all_move_lines` | Account Analytic Move Default Rules. | ✓ `1.0` install · 1 p-fil |
-| `account_analytic_group` | Adds a group field to analytic accounts. | ✓ `1.0` install · 2 p-filer |
-| `account_analytic_line_project` | Adds a project field to analytic lines. | ✓ `1.0` install · 2 p-filer |
-| `account_analytic_move_ids` | Account Analytic Move Ids. | ✓ `1.0` install · 1 p-fil |
-| `account_analytic_name` | Account Analytic Name. Change display_name. | ✓ `1.0` install · 1 p-fil |
-| `account_analytic_replace` | Replaces analytic plans and accounts with automatic search redirection. | ✓ `1.0` install · 2 p-filer |
-| `account_analytic_tag_responsability_project_no` | Adds types on a analytic account tag, so that we can set two new fields on a journal line. | ✓ `1.0` avstängd · 3 p-filer |
-| `account_analytic_tier_validation` | Derive the invoice's reviewers from the analytic distribution (cost center) | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `base_tier_validation` (odooext-OCA-server-ux; 20.0-grenen är tom) |
-| `account_analytics_extra_criteria` | Adds extra analytic criteria fields to journal items. | ✓ `1.0` install · 2 p-filer |
-| `account_asset_change` | Implement Asset changes . | ✓ `1.0` ✗ · 15 p-filer<br>⚠ `account_asset_management` (odooext-OCA-account-financial-tools; 20.0-grenen är tom) |
-| `account_asset_lot_stock` | Create an asset connected to a Lot number. | ✓ `1.0` ✗ · 3 p-filer<br>⚠ `account_asset_management` (odooext-OCA-account-financial-tools; 20.0-grenen är tom) |
-| `account_asset_lot_stock_personal_equipment` | Connect Created Asset to equipment. | ✓ `1.0` ✗ · 4 p-filer<br>⚠ `hr_personal_equipment_stock` (odoo-oca-hr; saknas i 20.0) |
-| `account_asset_management_component` | Manage assets as components of a parent asset | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_asset_management` (odooext-OCA-account-financial-tools; 20.0-grenen är tom) |
-| `account_asset_management_grant` | Adds asset grants with their own depreciation handling. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_asset_management` (odooext-OCA-account-financial-tools; 20.0-grenen är tom) |
-| `account_asset_management_report` | Depreciation board — pivot on asset lines, with department | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_asset_management` (odooext-OCA-account-financial-tools; 20.0-grenen är tom) |
-| `account_attachment_directory` | Loads attachments from a directory and stores them on journal entries. | ✓ `1.0` install · 1 p-fil |
-| `account_auto_reverse_vrtl` | Automatically reverse accounting entries on a specified date | ✓ `1.0` install · 4 p-filer |
-| `account_bill_approval` | Approve vendor bills with freely selectable approvers | ✓ `1.0` install · 5 p-filer |
-| `account_bill_approval_migration` | One-shot migration from purchase_vendor_bill_approval | ✓ `1.0` install · 1 p-fil |
-| `account_budget_analytic_account` | MIS Builder for Analytic Account. | ✓ `1.0` install · 12 p-filer |
-| `account_bulk_invoices` | Creates invoices in bulk through a wizard. | ✓ `1.0` install · 3 p-filer |
-| `account_chart_per_fiscalyear` | Chart of accounts versioned per fiscal year | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_chart_update` (odooext-OCA-account-financial-tools; 20.0-grenen är tom) |
-| `account_closed` | Blocks posting into a closed accounting period. | ✓ `1.0` install · 1 p-fil |
-| `account_commodity_demo` | Demo data for gold and silver commodity purchasing with 3-way matching. | ✓ `1.0` avstängd · 1 p-fil |
-| `account_commodity_price` | Manages commodity prices, inventory revaluation and BOM integration. | ✓ `1.0` install · 3 p-filer |
-| `account_contact_selection` | Remove Account Selection Limitation On Contacts. | ✓ `1.0` install · 2 p-filer |
-| `account_customer_filter` | Adds a filter that only shows contacts with confirmed customer invoices. | ✓ `1.0` install · 1 p-fil |
-| `account_deferred_revenue_expenses` | Handles deferred revenue and expenses with dedicated models. | ✓ `1.0` install · 5 p-filer |
-| `account_deferred_revenue_expenses_lms` | Swedish periodization training via website_slides | ✓ `1.0` install · 1 p-fil |
-| `account_due_reminder` | Sends automatic payment reminders for overdue invoices. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `contract_invoicingplan` (odoo-contract; saknas i 20.0) |
-| `account_dynamic_reports` | Dynamic accounting reports for Odoo CE — balance sheet, P&L, general ledger, and more | ✓ `1.0` install · 3 p-filer |
-| `account_enablebanking` | Imports bank transactions through the Enable Banking API. | ✓ `1.0` install · 6 p-filer |
-| `account_exchange_difference_analytic_tag` | Adds the analytic tags from the orignal invoice on the currency differance invoice | ✓ `1.0` avstängd · 2 p-filer |
-| `account_exchange_difference_draft` | Adds an option in settings to have the enchange differance invoice be set to draft | ✓ `1.0` install · 2 p-filer |
-| `account_export_import_invoice` | Export a journal entry to XML and import it back | ✓ `1.0` install · 5 p-filer |
-| `account_financial_report_sorted` | Fixes sorting and UX for the Aged Partner Balance report. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_financial_report` (odooext-OCA-account-financial-reporting; 20.0-grenen är tom) |
-| `account_fiscal_year_mis` | MIS Builder integration for fiscal year balance reporting | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_fiscal_year_closing` (finns inte i något addons-repo) |
-| `account_fiscal_year_vrtl` | Fiscal years with monthly periods, period closing, and hash-locking | ✓ `1.0` ✗ · 4 p-filer<br>⚠ `account_fiscal_year` (odooext-OCA-account-financial-tools; 20.0-grenen är tom)<br>`date_range` (odooext-OCA-server-ux; 20.0-grenen är tom) |
-| `account_fortnox` | Syncs invoices and payments with Fortnox. | ✓ `1.0` install · 4 p-filer |
-| `account_fortnox_delivery` | Glue module — sends the delivery method and delivery date to Fortnox | ✓ `1.0` install · 1 p-fil |
-| `account_fortnox_display_name` | Shows the Fortnox reference in the invoice display name. | ✓ `1.0` install · 2 p-filer |
-| `account_import_excel` | Imports journal entries from Excel spreadsheets. | ✓ `1.0` install · 1 p-fil |
-| `account_inexchange` | Fields for invoicing through Inexchange. | ✓ `1.0` avstängd · 2 p-filer |
-| `account_inter_company_rules_ce` | Adds intercompany sale, purchase and invoice rules for Community Edition. | ✓ `1.0` install · 2 p-filer |
-| `account_invoice_ai` | Adds a mailbox for AI-assisted invoice handling. | ✓ `1.0` ✗ · 5 p-filer<br>⚠ `ai_agent` (odoo-ai; saknas i 20.0)<br>`account_invoice_import` (odooext-OCA-edi; 20.0-grenen är tom) |
-| `account_invoice_ai_3way_match` | Bridge between AI invoice scanning and 3-way purchase matching | ✓ `1.0` install · 1 p-fil |
-| `account_invoice_multi_currency` | Show the invoice totals in additional currencies | ✓ `1.0` install · 1 p-fil |
-| `account_invoice_scan_llm` | Scans invoices with an LLM and creates vendor bills. | ✓ `1.0` install · 1 p-fil |
-| `account_journal_card_type` | Adds card types and card transactions to journals. | ✓ `1.0` install · 7 p-filer |
-| `account_journal_entry_mail_alias` | Show Mail Alias on Miscallenous | ✓ `1.0` install · 2 p-filer |
-| `account_journal_select_payable_receivable_account` | Adds dedicated payable and receivable account fields on journals. | ✓ `1.0` install · 2 p-filer |
-| `account_journal_selection` | Removes the account selection limitation on contacts. | ✓ `1.0` install · 3 p-filer |
-| `account_journal_upload` | Added Journal Upload Button. | ✓ `1.0` avstängd · 1 p-fil |
-| `account_loan_template` | Create loan templates that generate loan entries automatically. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_loan` (odooext-OCA-account-financial-tools; 20.0-grenen är tom)<br>`account_asset_management` (odooext-OCA-account-financial-tools; 20.0-grenen är tom) |
-| `account_mass_invoice_generation` | Generates invoices in bulk for multiple partners. | ✓ `1.0` install · 2 p-filer |
-| `account_mis_budget` | Lets us generate budget based on the previous year. | ✓ `1.0` ✗ · 22 p-filer<br>⚠ `date_range` (odooext-OCA-server-ux; 20.0-grenen är tom) |
-| `account_mis_budget_forecast` | Replaces budgets with actuals and adds hierarchical budget forecasts. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `date_range` (odooext-OCA-server-ux; 20.0-grenen är tom) |
-| `account_mis_cash_flow_extended` | Cash flow forecast wizard — builds a forecast from the last three months of actuals | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `mis_builder_cash_flow` (odooext-OCA-account-financial-reporting; 20.0-grenen är tom) |
-| `account_mis_period_wizard` | Create the comparison periods (opening balance, period, closing balance) for a MIS report | ✓ `1.0` install · 1 p-fil |
-| `account_mis_report_filter` | Adds filter options to MIS Builder reports. | ✓ `1.0` install · 2 p-filer |
-| `account_move_contact` | Adds a contact field on invoices. | ✓ `1.0` install · 1 p-fil |
-| `account_move_directory` | Loads journal entries from a directory into Odoo. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `edi_base` (odoo-edi; saknas i 20.0) |
-| `account_move_disable_create` | Disable Creates on Account Move (Line) | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_payment_partner` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `account_move_line_communication_payment_order` | Sets payment. Lines communication field to the name of the account. Move as a last resort. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `account_move_line_group_by` | Adds new options to groups journal lines by. | ✓ `1.0` avstängd · 1 p-fil |
-| `account_move_red_narration` | Adds a second more visable narration field on the pdf. | ✓ `1.0` install · 2 p-filer |
-| `account_move_report` | Print Account Moves | ✓ `1.0` install · 1 p-fil |
-| `account_move_report_vat` | Adds Vat Number To the Invoice Report | ✓ `1.0` install · 1 p-fil |
-| `account_move_tier_validation_control` | Adds two new fields on a user. | ✓ `1.0` avstängd · 1 p-fil |
-| `account_move_tier_validation_implement` | Adds a field on a account move to select validator. | ✓ `1.0` avstängd · 1 p-fil |
-| `account_move_tier_validation_report` | Shows the bottlenecks in validation flow | ✓ `1.0` avstängd · 1 p-fil |
-| `account_move_type_group` | Restrict journal entries per direction (in-bound vs out-bound) | ✓ `1.0` install · 2 p-filer |
-| `account_notice_period` | Notice period text on payment terms, shown in the invoice footer | ✓ `1.0` install · 1 p-fil |
-| `account_payment_order_autogiro` | Handles Autogiro direct debit for vendor bills with a pending state. | ✓ `1.0` install · 2 p-filer |
-| `account_payment_order_autogiro_lms` | Swedish training on the four vendor-bill payment paths in Odoo 18. | ✓ `1.0` install · 1 p-fil |
-| `account_payment_order_date` | Adds a new date preference that allows to set the date per row | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `account_payment_order_filter` | Override prepare_payment_line_vals method so that the communication field gets set with something | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `account_payment_order_filter_currency` | Adds the capability to filter payment order lines based on currency | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `account_payment_order_hr` | Adds responsible user and manager to payment orders. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_payment_order_tier_validation` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `account_payment_order_pending` | Keeps bills in an in-payment state until the bank reconciliation is done. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `account_payment_order_regulatory_reporting` | Adds Account Regulatory Reporting for Sweden | ✓ `1.0` ✗ · 4 p-filer<br>⚠ `account_banking_pain_base` (odooext-OCA-bank-payment; 20.0-grenen är tom)<br>`account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom)<br>`account_banking_sepa_credit_transfer` (odooext-OCA-bank-payment; 20.0-grenen är tom)<br>`account_banking_sepa_direct_debit` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `account_payment_order_sepa_seb` | Fixes SEPA payment file errors for SEB. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account_banking_pain_base` (odooext-OCA-bank-payment; 20.0-grenen är tom)<br>`account_banking_sepa_direct_debit` (odooext-OCA-bank-payment; 20.0-grenen är tom)<br>`account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `account_payment_register_date` | Defaults the payment date to the invoice due date. | ✓ `1.0` install · 1 p-fil |
-| `account_period_contract` | Manage Period based on Contract. | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `contract` (odooext-OCA-contract; 20.0-grenen är tom) |
-| `account_period_vrtl` | Divides the fiscal year into 12 months or 4 quarters. | ✓ `1.0` avstängd · 8 p-filer |
-| `account_period_vrtl_minimal` | Divides the fiscal year into 12 months or 4 quarters (minimal version). | ✓ `1.0` avstängd · 9 p-filer |
-| `account_reconcile_currency_fix` | Fixes currency formatting in the OCA reconciliation widget. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_reconcile_oca` (odooext-OCA-account-reconcile; 20.0-grenen är tom) |
-| `account_reconcile_enhanced` | Adds enhanced reconciliation tools to the OCA reconcile widget. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_reconcile_oca` (odooext-OCA-account-reconcile; 20.0-grenen är tom)<br>`account_reconcile_model_oca` (odooext-OCA-account-reconcile; 20.0-grenen är tom)<br>`account_reconcile_wizard` (odooext-OCA-account-reconcile; 20.0-grenen är tom) |
-| `account_reconcile_oca_ux_fix` | Keeps the search filter in the reconcile tab after manual operation. | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_reconcile_oca` (odooext-OCA-account-reconcile; 20.0-grenen är tom) |
-| `account_reconciliation_override` | Override OCA reconciliation module to allow reconcilation while in draft status | ✓ `1.0` avstängd · 1 p-fil |
-| `account_reconciliation_widget_journal` | Limit which journals and dates the reconcile widget may match against | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_reconcile_oca` (odooext-OCA-account-reconcile; 20.0-grenen är tom) |
-| `account_remove_unique_bank_account_constraint` | Remove unique bank account constraint on partner. | ✓ `1.0` install · 1 p-fil |
-| `account_remove_unique_bank_number` | Relax Constraints on Unique Bank Number | ✓ `1.0` install · 1 p-fil |
-| `account_report_mis_import` | Convert MIS Builder reports to account.report (migration tool) | ✓ `1.0` avstängd · 1 p-fil |
-| `accountant_hr_expense_ce` | Bridges accounting and expenses for Community Edition. | ✓ `1.0` install · 1 p-fil |
-| `bank_payment_order_customization` | Bank Payment Order Customization | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `currency_exchange_rate` | Currency Exchange Rate | ✓ `1.0` install · 1 p-fil |
-| `odoo_invoice_analysis` | Show product price in pivot invoice report | ✓ `1.0` avstängd · 1 p-fil |
-| `partner_statement_vrtl` | Consistent sign convention and remaining amount for partner statements | ✓ `1.0` ✗ · 1 p-fil<br>⚠ `partner_statement` (odooext-OCA-account-financial-reporting; 20.0-grenen är tom)<br>`report_xlsx_helper` (odooext-OCA-reporting-engine; 20.0-grenen är tom) |
-| `payment_order_file_name` | Override OCA reconciliation module to allow reconcilation while in draft status | ✓ `1.0` ✗ · 2 p-filer<br>⚠ `account_payment_order` (odooext-OCA-bank-payment; 20.0-grenen är tom) |
-| `project_tags_company` | Add company_id to project.tags | ✓ `1.0` install · 2 p-filer |
-| `res_config_quests` | Add a quests field to res.config.settings | ✓ `1.0` install · 1 p-fil |
-| `split_invoice_by_attachments` | Split an invoice with many attachments into copies with single files | ✓ `1.0` install · 1 p-fil |
-| `tier_all_validations_required` | (ingen beskrivning i manifestet) | ✓ `1.0` avstängd · 1 p-fil |
-| `tier_validation_reminder` | Sends reminder to the next person pending a tier review. | ✓ `1.0` avstängd · 2 p-filer |
+| `account_3way_match_ai` | AI-driven 3-way matching of vendor bills against purchase orders. | blocked by ai_agent_core (Vertel) |
+| `account_3way_match_ce` | Adds 3-way matching on vendor bills for Community Edition. | ok |
+| `account_accountant_ce` | Community accounting UI adjustments: "Accounting" naming and two form fields. | blocked by account_asset_management (OCA) |
+| `account_accountant_fleet_ce` | Adds fleet management to Community Edition accounting. | ok |
+| `account_admin_rights` | Grants accounting access rights to the administrator user. | ok |
+| `account_ai` | OKF-kontraktet på account.move och account.account | blocked by ai_agent_core (Vertel) |
+| `account_analytic_default_all_move_lines` | Account Analytic Move Default Rules. | ok |
+| `account_analytic_group` | Adds a group field to analytic accounts. | ok |
+| `account_analytic_line_project` | Adds a project field to analytic lines. | ok |
+| `account_analytic_move_ids` | Account Analytic Move Ids. | ok |
+| `account_analytic_name` | Account Analytic Name. Change display_name. | ok |
+| `account_analytic_replace` | Replaces analytic plans and accounts with automatic search redirection. | ok |
+| `account_analytic_tag_responsability_project_no` | Adds types on a analytic account tag, so that we can set two new fields on a … | blocked by unported: modulen bygger på account.move.line.analytic_tag_ids … |
+| `account_analytic_tier_validation` | Derive the invoice's reviewers from the analytic distribution (cost center) | blocked by base_tier_validation (OCA) |
+| `account_analytics_extra_criteria` | Adds extra analytic criteria fields to journal items. | ok |
+| `account_asset_change` | Implement Asset changes . | blocked by account_asset_management (OCA) |
+| `account_asset_lot_stock` | Create an asset connected to a Lot number. | blocked by account_asset_management (OCA) |
+| `account_asset_lot_stock_personal_equipment` | Connect Created Asset to equipment. | blocked by hr_personal_equipment_stock (OCA) |
+| `account_asset_management_component` | Manage assets as components of a parent asset | blocked by account_asset_management (OCA) |
+| `account_asset_management_grant` | Adds asset grants with their own depreciation handling. | blocked by account_asset_management (OCA) |
+| `account_asset_management_report` | Depreciation board — pivot on asset lines, with department | blocked by account_asset_management (OCA) |
+| `account_attachment_directory` | Loads attachments from a directory and stores them on journal entries. | ok |
+| `account_auto_reverse_vrtl` | Automatically reverse accounting entries on a specified date | ok |
+| `account_bill_approval` | Approve vendor bills with freely selectable approvers | ok |
+| `account_bill_approval_migration` | One-shot migration from purchase_vendor_bill_approval | ok |
+| `account_budget_analytic_account` | MIS Builder for Analytic Account. | ok |
+| `account_bulk_invoices` | Creates invoices in bulk through a wizard. | ok |
+| `account_chart_per_fiscalyear` | Chart of accounts versioned per fiscal year | blocked by account_chart_update (OCA) |
+| `account_closed` | Blocks posting into a closed accounting period. | ok |
+| `account_commodity_demo` | Demo data for gold and silver commodity purchasing with 3-way matching. | blocked by disabled: account_commodity_price is an 18.0-only module (not … |
+| `account_commodity_price` | Manages commodity prices, inventory revaluation and BOM integration. | ok |
+| `account_contact_selection` | Remove Account Selection Limitation On Contacts. | ok |
+| `account_customer_filter` | Adds a filter that only shows contacts with confirmed customer invoices. | ok |
+| `account_deferred_revenue_expenses` | Handles deferred revenue and expenses with dedicated models. | ok |
+| `account_deferred_revenue_expenses_lms` | Swedish periodization training via website_slides | ok |
+| `account_due_reminder` | Sends automatic payment reminders for overdue invoices. | ok |
+| `account_dynamic_reports` | Dynamic accounting reports for Odoo CE — balance sheet, P&L, general ledger … | ok |
+| `account_enablebanking` | Imports bank transactions through the Enable Banking API. | ok |
+| `account_exchange_difference_analytic_tag` | Adds the analytic tags from the orignal invoice on the currency differance … | blocked by disabled: beror på … |
+| `account_exchange_difference_draft` | Adds an option in settings to have the enchange differance invoice be set to … | ok |
+| `account_export_import_invoice` | Export a journal entry to XML and import it back | ok |
+| `account_financial_report_sorted` | Fixes sorting and UX for the Aged Partner Balance report. | blocked by account_financial_report (OCA) |
+| `account_fiscal_year_mis` | MIS Builder integration for fiscal year balance reporting | blocked by account_fiscal_year_closing (core) |
+| `account_fiscal_year_vrtl` | Fiscal years with monthly periods, period closing, and hash-locking | blocked by account_fiscal_year (OCA) |
+| `account_fortnox` | Syncs invoices and payments with Fortnox. | ok |
+| `account_fortnox_delivery` | Glue module — sends the delivery method and delivery date to Fortnox | ok |
+| `account_fortnox_display_name` | Shows the Fortnox reference in the invoice display name. | ok |
+| `account_import_excel` | Imports journal entries from Excel spreadsheets. | ok |
+| `account_inexchange` | Fields for invoicing through Inexchange. | blocked by broken: beror på account_invoice_ubl -> base_ubl -> … |
+| `account_inter_company_rules_ce` | Adds intercompany sale, purchase and invoice rules for Community Edition. | ok |
+| `account_invoice_ai` | Adds a mailbox for AI-assisted invoice handling. | blocked by ai_agent (Vertel); account_invoice_import (OCA) |
+| `account_invoice_ai_3way_match` | Bridge between AI invoice scanning and 3-way purchase matching | ok |
+| `account_invoice_multi_currency` | Show the invoice totals in additional currencies | ok |
+| `account_invoice_scan_llm` | Scans invoices with an LLM and creates vendor bills. | ok |
+| `account_invoice_supplierinfo_update_fix` | Update the matched vendor pricelist line instead of creating a duplicate. | blocked by account_invoice_supplierinfo_update (OCA) |
+| `account_journal_card_type` | Adds card types and card transactions to journals. | ok |
+| `account_journal_entry_mail_alias` | Show Mail Alias on Miscallenous | ok |
+| `account_journal_select_payable_receivable_account` | Adds dedicated payable and receivable account fields on journals. | ok |
+| `account_journal_selection` | Removes the account selection limitation on contacts. | ok |
+| `account_journal_upload` | Added Journal Upload Button. | blocked by disabled: den enda vyn satte js_class="account_tree" på … |
+| `account_loan_template` | Create loan templates that generate loan entries automatically. | blocked by account_loan (OCA); account_asset_management (OCA) |
+| `account_mass_invoice_generation` | Generates invoices in bulk for multiple partners. | ok |
+| `account_mis_budget` | Lets us generate budget based on the previous year. | ok |
+| `account_mis_budget_forecast` | Replaces budgets with actuals and adds hierarchical budget forecasts. | ok |
+| `account_mis_cash_flow_extended` | Cash flow forecast wizard — builds a forecast from the last three months of … | blocked by mis_builder_cash_flow (OCA) |
+| `account_mis_period_wizard` | Create the comparison periods (opening balance, period, closing balance) for a … | ok |
+| `account_mis_report_filter` | Adds filter options to MIS Builder reports. | ok |
+| `account_move_contact` | Adds a contact field on invoices. | ok |
+| `account_move_directory` | Loads journal entries from a directory into Odoo. | blocked by edi_base (Vertel) |
+| `account_move_disable_create` | Disable Creates on Account Move (Line) | blocked by account_payment_partner (OCA) |
+| `account_move_line_communication_payment_order` | Sets payment. Lines communication field to the name of the account. Move as a … | blocked by account_payment_order (OCA) |
+| `account_move_line_group_by` | Adds new options to groups journal lines by. | blocked by unported: modulen bygger på … |
+| `account_move_red_narration` | Adds a second more visable narration field on the pdf. | ok |
+| `account_move_report` | Print Account Moves | ok |
+| `account_move_report_vat` | Adds Vat Number To the Invoice Report | ok |
+| `account_move_tier_validation_control` | Adds two new fields on a user. | blocked by broken: depends på account_move_tier_validation_implement … |
+| `account_move_tier_validation_implement` | Adds a field on a account move to select validator. | blocked by disabled: depends på base_tier_validation_report (saknas på … |
+| `account_move_tier_validation_report` | Shows the bottlenecks in validation flow | blocked by disabled: depends på base_tier_validation_report (saknas på … |
+| `account_move_type_group` | Restrict journal entries per direction (in-bound vs out-bound) | ok |
+| `account_notice_period` | Notice period text on payment terms, shown in the invoice footer | ok |
+| `account_payment_order_autogiro` | Handles Autogiro direct debit for vendor bills with a pending state. | ok |
+| `account_payment_order_autogiro_lms` | Swedish training on the four vendor-bill payment paths in Odoo 18. | ok |
+| `account_payment_order_date` | Adds a new date preference that allows to set the date per row | blocked by account_payment_order (OCA) |
+| `account_payment_order_filter` | Override prepare_payment_line_vals method so that the communication field gets … | blocked by account_payment_order (OCA) |
+| `account_payment_order_filter_currency` | Adds the capability to filter payment order lines based on currency | blocked by account_payment_order (OCA) |
+| `account_payment_order_hr` | Adds responsible user and manager to payment orders. | blocked by account_payment_order_tier_validation (OCA) |
+| `account_payment_order_pending` | Keeps bills in an in-payment state until the bank reconciliation is done. | blocked by account_payment_order (OCA) |
+| `account_payment_order_regulatory_reporting` | Adds Account Regulatory Reporting for Sweden | blocked by account_banking_pain_base (OCA); account_payment_order (OCA); +2 more |
+| `account_payment_order_sepa_seb` | Fixes SEPA payment file errors for SEB. | blocked by account_banking_pain_base (OCA); account_banking_sepa_direct_debit (OCA); +1 more |
+| `account_payment_register_date` | Defaults the payment date to the invoice due date. | ok |
+| `account_period_contract` | Manage Period based on Contract. | blocked by contract (OCA) |
+| `account_period_vrtl` | Divides the fiscal year into 12 months or 4 quarters. | blocked by deprecated: replaced by account_fiscal_year_vrtl. |
+| `account_period_vrtl_minimal` | Divides the fiscal year into 12 months or 4 quarters (minimal version). | blocked by disabled: no reason in manifest |
+| `account_reconcile_currency_fix` | Fixes currency formatting in the OCA reconciliation widget. | blocked by account_reconcile_oca (OCA) |
+| `account_reconcile_enhanced` | Adds enhanced reconciliation tools to the OCA reconcile widget. | blocked by account_reconcile_oca (OCA); account_reconcile_model_oca (OCA); +1 more |
+| `account_reconcile_oca_ux_fix` | Keeps the search filter in the reconcile tab after manual operation. | blocked by account_reconcile_oca (OCA) |
+| `account_reconciliation_override` | Override OCA reconciliation module to allow reconcilation while in draft status | blocked by unported: vyn ärver account.view_bank_statement_form och knappen … |
+| `account_reconciliation_widget_journal` | Limit which journals and dates the reconcile widget may match against | blocked by account_reconcile_oca (OCA) |
+| `account_remove_unique_bank_account_constraint` | Remove unique bank account constraint on partner. | ok |
+| `account_remove_unique_bank_number` | Relax Constraints on Unique Bank Number | ok |
+| `account_report_mis_import` | Convert MIS Builder reports to account.report (migration tool) | blocked by disabled: the Swedish modules no longer depend on mis_builder … |
+| `accountant_hr_expense_ce` | Bridges accounting and expenses for Community Edition. | ok |
+| `bank_payment_order_customization` | Bank Payment Order Customization | blocked by account_payment_order (OCA) |
+| `currency_exchange_rate` | Currency Exchange Rate | ok |
+| `odoo_invoice_analysis` | Show product price in pivot invoice report | blocked by unported: product_buy_price är related+store mot … |
+| `partner_statement_vrtl` | Consistent sign convention and remaining amount for partner statements | blocked by partner_statement (OCA) |
+| `payment_order_file_name` | Override OCA reconciliation module to allow reconcilation while in draft status | blocked by account_payment_order (OCA) |
+| `project_tags_company` | Add company_id to project.tags | ok |
+| `res_config_quests` | Add a quests field to res.config.settings | ok |
+| `split_invoice_by_attachments` | Split an invoice with many attachments into copies with single files | ok |
+| `tier_all_validations_required` | (no description in manifest) | blocked by broken: depends på account_move_tier_validation_implement … |
+| `tier_validation_reminder` | Sends reminder to the next person pending a tier review. | blocked by disabled: data/ir_cron.xml refererar … |
