@@ -30,5 +30,5 @@
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
 }
