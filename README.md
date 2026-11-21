@@ -99,6 +99,7 @@ Genererad av `scripts/porting-status.py` — handredigera inte.
 | `account_invoice_ai_3way_match` | Bridge between AI invoice scanning and 3-way purchase matching | ok |
 | `account_invoice_multi_currency` | Show the invoice totals in additional currencies | ok |
 | `account_invoice_scan_llm` | Scans invoices with an LLM and creates vendor bills. | ok |
+| `account_invoice_supplierinfo_update_fix` | Update the matched vendor pricelist line instead of creating a duplicate. | ok |
 | `account_journal_card_type` | Adds card types and card transactions to journals. | ok |
 | `account_journal_entry_mail_alias` | Show Mail Alias on Miscallenous | ok |
 | `account_journal_select_payable_receivable_account` | Adds dedicated payable and receivable account fields on journals. | ok |
