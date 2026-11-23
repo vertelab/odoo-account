@@ -45,7 +45,8 @@ Enable Banking API
     'contributor': '',
     'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-account',
-    'depends': ['account', 'contacts', 'base', 'product', 'mail'],
+    'depends': ['account', 'contacts', 'base', 'product', 'mail',
+                'account_payment_order'],
     'data': [
         # #if VERSION >= "20.0"
         'security/ir.access.csv',
