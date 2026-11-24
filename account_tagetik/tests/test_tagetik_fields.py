@@ -41,6 +41,38 @@ class TestTagetikFields(AccountTestInvoicingCommon):
 
     @classmethod
     def setUpClass(cls):
+        # sfa_core makes product.category.category_type_id required (NOT NULL
+        # at the database level). ProductCommon.setUpClass() creates
+        # 'Test Category' without it, which raises NotNullViolation. The
+        # constraint is an SFA business rule, not something this module's tests
+        # exercise, so a default type is injected into every product.category
+        # create for the duration of the test class.
+        from odoo import SUPERUSER_ID, api
+        from odoo import registry as registry_module
+        from odoo.tests.common import get_db_name
+
+        categ_type_id = False
+        with registry_module(get_db_name()).cursor() as cr:
+            env = api.Environment(cr, SUPERUSER_ID, {})
+            # sfa_core is a customer module and is not present in every
+            # database. Without it the model does not exist at all, so the
+            # lookup must be guarded — otherwise setUpClass fails with
+            # KeyError before any test runs.
+            if "product.category.type" in env:
+                categ_type_id = env["product.category.type"].search([], limit=1).id
+
+        if categ_type_id:
+            ProductCategory = registry_module(get_db_name())["product.category"]
+            orig_create = ProductCategory.create
+
+            @api.model_create_multi
+            def create(self, vals_list):
+                for vals in vals_list:
+                    vals.setdefault("category_type_id", categ_type_id)
+                return orig_create(self, vals_list)
+
+            cls.classPatch(ProductCategory, "create", create)
+
         super().setUpClass()
         cls.account = cls.company_data["default_account_revenue"]
         cls.account.write({

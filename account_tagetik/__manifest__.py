@@ -3,7 +3,7 @@
 
 {
     'name': 'Account: Tagetik Fields',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.1',
     'summary': 'Adds Tagetik Code and Tagetik Text to accounts and journal items.',
     'category': 'Accounting/Accounting',
     'author': 'Vertel Sverige AB',
