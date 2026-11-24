@@ -10,20 +10,41 @@
 
         .o_date_filter {
             display: flex;
-            gap: 8px;
-            align-items: center;
+            gap: 24px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
 
-            label {
-                margin: 0 4px;
-                font-weight: 500;
-                white-space: nowrap;
-            }
+        // One labelled date. The label sits above the input and the help text
+        // below it, so both stay readable when the explanation wraps.
+        .o_dynamic_report_date_field {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 220px;
+            max-width: 340px;
+        }
 
-            input[type="date"] {
-                border: 1px solid #ced4da;
-                border-radius: 4px;
-                padding: 4px 8px;
-            }
+        .o_dynamic_report_date_label {
+            font-weight: 500;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .o_dynamic_report_date_optional {
+            font-weight: 400;
+            color: #6c757d;
+            margin-left: 4px;
+        }
+
+        .o_dynamic_report_date_help {
+            display: block;
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+
+        .o_datetime_input {
+            width: 100%;
         }
     }
 

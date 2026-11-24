@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="account_dynamic_reports.DateField">
+        <div class="o_dynamic_report_date_field">
+            <label t-att-for="inputId" class="o_dynamic_report_date_label">
+                <t t-esc="props.label"/>
+                <span t-if="!props.required" class="o_dynamic_report_date_optional" t-esc="optionalLabel"/>
+            </label>
+            <DateTimeInput
+                id="inputId"
+                type="'date'"
+                value="dateValue"
+                onApply.bind="onApply"
+            />
+            <small t-if="props.help" t-att-id="helpId" class="o_dynamic_report_date_help text-muted">
+                <t t-esc="props.help"/>
+            </small>
+        </div>
+    </t>
+
+</templates>

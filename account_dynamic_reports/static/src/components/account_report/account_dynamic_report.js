@@ -4,10 +4,21 @@ import { registry } from "@web/core/registry";
 import { Component, useState, onWillStart } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { rpc } from "@web/core/network/rpc";
+import { _t } from "@web/core/l10n/translation";
+import { DateField } from "./date_field";
 
 class AccountDynamicReport extends Component {
     static template = "account_dynamic_reports.AccountDynamicReport";
-    static props = { action: { type: Object, optional: true }, context: { type: Object, optional: true }, actionId: { type: Number, optional: true }, updateActionState: { type: Function, optional: true } };
+    static components = { DateField };
+    static props = {
+        // Odoo always passes className to a client action; without it here the
+        // prop validation throws before the report is ever rendered.
+        className: { type: String, optional: true },
+        action: { type: Object, optional: true },
+        context: { type: Object, optional: true },
+        actionId: { type: Number, optional: true },
+        updateActionState: { type: Function, optional: true },
+    };
 
     setup() {
         this.orm = useService("orm");
@@ -46,7 +57,7 @@ class AccountDynamicReport extends Component {
         this.state.options.date.date_to = this.state.dateTo;
 
         if (!reportId) {
-            this.state.error = "No report ID in context";
+            this.state.error = this.labels.noReportId;
             this.state.isLoading = false;
             return;
         }
@@ -143,6 +154,36 @@ class AccountDynamicReport extends Component {
     async onDateChange() {
         this.state.isLoading = true;
         await this.loadReport();
+    }
+
+    /** Called by DateField with the serialized (YYYY-MM-DD) value or null. */
+    onFromChange(value) {
+        this.state.dateFrom = value;
+        this.onDateChange();
+    }
+
+    onToChange(value) {
+        this.state.dateTo = value;
+        this.onDateChange();
+    }
+
+    get labels() {
+        return {
+            from: _t("From"),
+            to: _t("To"),
+            loading: _t("Loading report..."),
+            noData: _t("No data available for this period"),
+            noReportId: _t("No report ID in context"),
+            fromHelp: _t(
+                "Start of the period. Transactions before this date are left out. "
+                + "Leave empty to include everything from the beginning."
+            ),
+            toHelp: _t(
+                "The date the report is cut off at, and the date whose exchange rate "
+                + "is used for currency revaluation. Set this to the balance sheet "
+                + "date for a year-end report."
+            ),
+        };
     }
 }
 

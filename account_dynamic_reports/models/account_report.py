@@ -36,11 +36,24 @@ class AccountReportLine(models.Model):
         inside the selected period and never balances.
 
         Called from data/balance_sheet.xml via <function>. Idempotent.
+
+        Only the engines that actually read ``date_scope`` are touched:
+        ``account_codes`` and ``tax_tags``. ``aggregation`` expressions sum
+        other lines, and ``custom`` handlers receive the raw ``options`` --
+        neither consults ``date_scope``, so writing it there would be noise.
         """
         report = self.env.ref('account_dynamic_reports.balance_sheet',
                               raise_if_not_found=False)
         if not report:
             return True
+
+        expressions = report.line_ids.expression_ids.filtered(
+            lambda e: e.engine in ('account_codes', 'tax_tags')
+        )
+        expressions.filtered(
+            lambda e: e.date_scope != 'from_beginning'
+        ).write({'date_scope': 'from_beginning'})
+        return True
 
     def _get_drilldown_action(self, move_lines):
         """An act_window listing the given move lines.
@@ -529,7 +542,7 @@ class AccountReport(models.Model):
                 "Balance map failed (report %s, window %s..%s, scope %s)",
                 self.name, date_from, date_to, scope)
             raise UserError(_(
-                "Kunde inte hämta kontosaldon för rapporten '%(report)s' "
+                "Could not fetch account balances for report '%(report)s' "
                 "(%(from)s..%(to)s): %(error)s",
                 report=self.name, **{'from': date_from or '-', 'to': date_to or '-'},
                 error=exc,

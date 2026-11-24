@@ -1,0 +1,385 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_dynamic_reports
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20261124\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-24 15:53+0000\n"
+"PO-Revision-Date: 2026-11-24 15:53+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_dynamic_reports
+#: model:ir.actions.report,print_report_name:account_dynamic_reports.action_report_account_dynamic
+msgid "'%s' % (object.name)"
+msgstr "'%s' % (object.name)"
+
+#. module: account_dynamic_reports
+#. odoo-javascript
+#: code:addons/account_dynamic_reports/static/src/components/account_report/date_field.js:0
+msgid "(optional)"
+msgstr "(valfritt)"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_assets
+msgid "ASSETS"
+msgstr "TILLGÅNGAR"
+
+#. module: account_dynamic_reports
+#: model_terms:ir.ui.view,arch_db:account_dynamic_reports.report_dynamic_report
+msgid "Account"
+msgstr "Konto"
+
+#. module: account_dynamic_reports
+#: model:ir.model,name:account_dynamic_reports.model_account_report
+msgid "Accounting Report"
+msgstr "Redovisningsrapport"
+
+#. module: account_dynamic_reports
+#: model:ir.model,name:account_dynamic_reports.model_account_report_column
+msgid "Accounting Report Column"
+msgstr "Kolumn i redovisningsrapport"
+
+#. module: account_dynamic_reports
+#: model:ir.model,name:account_dynamic_reports.model_account_report_line
+msgid "Accounting Report Line"
+msgstr "Rad i redovisningsrapport"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_payables
+msgid "Accounts Payable"
+msgstr "Leverantörsskulder"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_receivables
+msgid "Accounts Receivable"
+msgstr "Kundfordringar"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.curr_reval_to_adjust
+msgid "Accounts To Adjust"
+msgstr "Konton att justera"
+
+#. module: account_dynamic_reports
+#: model:account.report.column,name:account_dynamic_reports.currency_revaluation_report_adjustment
+msgid "Adjustment"
+msgstr "Justering"
+
+#. module: account_dynamic_reports
+#. odoo-python
+#: code:addons/account_dynamic_reports/models/account_report.py:0
+msgid "Balance"
+msgstr "Saldo"
+
+#. module: account_dynamic_reports
+#: model:account.report,name:account_dynamic_reports.balance_sheet
+msgid "Balance Sheet"
+msgstr "Balansräkning"
+
+#. module: account_dynamic_reports
+#: model:account.report.column,name:account_dynamic_reports.currency_revaluation_report_balance_current
+msgid "Balance at Current Rate"
+msgstr "Saldo till dagens kurs"
+
+#. module: account_dynamic_reports
+#: model:account.report.column,name:account_dynamic_reports.currency_revaluation_report_balance_operation
+msgid "Balance at Operation Rate"
+msgstr "Saldo till transaktionskurs"
+
+#. module: account_dynamic_reports
+#: model:account.report.column,name:account_dynamic_reports.currency_revaluation_report_balance_currency
+msgid "Balance in Foreign Currency"
+msgstr "Saldo i utländsk valuta"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_cash_bank
+msgid "Cash and Bank"
+msgstr "Kassa och bank"
+
+#. module: account_dynamic_reports
+#. odoo-python
+#: code:addons/account_dynamic_reports/models/account_report.py:0
+msgid ""
+"Could not fetch account balances for report '%(report)s' (%(from)s..%(to)s):"
+" %(error)s"
+msgstr "Kunde inte hämta kontosaldon för rapporten '%(report)s' (%(from)s..%(to)s): %(error)s"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_current_assets
+msgid "Current Assets"
+msgstr "Omsättningstillgångar"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_current_liab
+msgid "Current Liabilities"
+msgstr "Kortfristiga skulder"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_current_year_result
+msgid "Current Year Result"
+msgstr "Årets resultat"
+
+#. module: account_dynamic_reports
+#: model:ir.model.fields,field_description:account_dynamic_reports.field_account_report__custom_handler_model_id
+msgid "Custom Handler"
+msgstr "Anpassad hanterare"
+
+#. module: account_dynamic_reports
+#: model:ir.model.fields,field_description:account_dynamic_reports.field_account_report_column__date_from
+msgid "Date From"
+msgstr "Från-datum"
+
+#. module: account_dynamic_reports
+#: model:ir.model.fields,field_description:account_dynamic_reports.field_account_report_column__date_scope
+msgid "Date Scope"
+msgstr "Datumomfång"
+
+#. module: account_dynamic_reports
+#: model:ir.model.fields,field_description:account_dynamic_reports.field_account_report_column__date_to
+msgid "Date To"
+msgstr "Till-datum"
+
+#. module: account_dynamic_reports
+#: model:ir.actions.report,name:account_dynamic_reports.action_report_account_dynamic
+msgid "Dynamic Report"
+msgstr "Dynamisk rapport"
+
+#. module: account_dynamic_reports
+#: model:ir.actions.act_window,name:account_dynamic_reports.action_dynamic_reports
+#: model:ir.ui.menu,name:account_dynamic_reports.menu_dynamic_reports
+msgid "Dynamic Reports"
+msgstr "Dynamiska rapporter"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_equity_liabilities
+msgid "EQUITY & LIABILITIES"
+msgstr "EGET KAPITAL OCH SKULDER"
+
+#. module: account_dynamic_reports
+#: model:ir.model.fields,help:account_dynamic_reports.field_account_report_column__date_to
+msgid "End of the period this column shows. Empty means \"until today\"."
+msgstr "Periodens slut som kolumnen visar. Tomt innebär \\."
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_equity
+msgid "Equity"
+msgstr "Eget kapital"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.curr_reval_excluded
+msgid "Excluded Accounts"
+msgstr "Undantagna konton"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_financial
+msgid "Financial Fixed Assets"
+msgstr "Finansiella anläggningstillgångar"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_fixed_assets
+msgid "Fixed Assets"
+msgstr "Anläggningstillgångar"
+
+#. module: account_dynamic_reports
+#. odoo-javascript
+#: code:addons/account_dynamic_reports/static/src/components/account_report/account_dynamic_report.js:0
+msgid "From"
+msgstr "Från"
+
+#. module: account_dynamic_reports
+#: model:ir.model.fields.selection,name:account_dynamic_reports.selection__account_report_column__date_scope__from_beginning
+msgid "From the beginning"
+msgstr "Från början"
+
+#. module: account_dynamic_reports
+#: model:ir.model.fields.selection,name:account_dynamic_reports.selection__account_report_column__date_scope__from_fiscalyear
+msgid "From the start of the fiscal year"
+msgstr "Från räkenskapsårets början"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_inventory
+msgid "Inventories"
+msgstr "Varulager"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_liabilities
+msgid "Liabilities"
+msgstr "Skulder"
+
+#. module: account_dynamic_reports
+#. odoo-python
+#: code:addons/account_dynamic_reports/models/account_report.py:0
+msgid ""
+"Line '%(child)s' is configured to appear before its parent '%(parent)s'. The"
+" parent must always come first."
+msgstr "Raden '%(child)s' är konfigurerad att visas före sin förälder '%(parent)s'. Föräldern måste alltid komma först."
+
+#. module: account_dynamic_reports
+#. odoo-javascript
+#: code:addons/account_dynamic_reports/static/src/components/account_report/account_dynamic_report.js:0
+msgid "Loading report..."
+msgstr "Laddar rapport..."
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_longterm_liab
+msgid "Long-term Liabilities"
+msgstr "Långfristiga skulder"
+
+#. module: account_dynamic_reports
+#: model:ir.model.fields,help:account_dynamic_reports.field_account_report__custom_handler_model_id
+msgid ""
+"Model implementing _custom_expression_eval(expr, options), used by "
+"expressions whose engine is \"custom\"."
+msgstr "Modell som implementerar _custom_expression_eval(expr, options), används av uttryck med motorn \\."
+
+#. module: account_dynamic_reports
+#. odoo-javascript
+#: code:addons/account_dynamic_reports/static/src/components/account_report/account_dynamic_report.js:0
+msgid "No data available for this period"
+msgstr "Inga data för denna period"
+
+#. module: account_dynamic_reports
+#. odoo-javascript
+#: code:addons/account_dynamic_reports/static/src/components/account_report/account_dynamic_report.js:0
+msgid "No report ID in context"
+msgstr "Inget rapport-ID i kontexten"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_other_current
+msgid "Other Current Assets"
+msgstr "Övriga omsättningstillgångar"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_other_current_liab
+msgid "Other Current Liabilities"
+msgstr "Övriga kortfristiga skulder"
+
+#. module: account_dynamic_reports
+#: model:ir.model.fields.selection,name:account_dynamic_reports.selection__account_report_column__date_scope__strict_range
+msgid "Period only"
+msgstr "Endast perioden"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_provisions
+msgid "Provisions"
+msgstr "Avsättningar"
+
+#. module: account_dynamic_reports
+#: model_terms:ir.ui.view,arch_db:account_dynamic_reports.view_account_report_form_dynamic
+msgid "Report Lines"
+msgstr "Rapportrader"
+
+#. module: account_dynamic_reports
+#: model:ir.model.fields,help:account_dynamic_reports.field_account_report_column__date_from
+msgid ""
+"Start of the period this column shows. Empty means \"from the beginning of "
+"time\", which is what an opening-balance column needs."
+msgstr "Periodens början som kolumnen visar. Tomt innebär \\, vilket är vad en ingående balans-kolumn behöver."
+
+#. module: account_dynamic_reports
+#. odoo-javascript
+#: code:addons/account_dynamic_reports/static/src/components/account_report/account_dynamic_report.js:0
+msgid ""
+"Start of the period. Transactions before this date are left out. Leave empty"
+" to include everything from the beginning."
+msgstr "Periodens början. Transaktioner före detta datum utesluts. Lämna tomt för att inkludera allt från början."
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_total_assets
+msgid "TOTAL ASSETS"
+msgstr "SUMMA TILLGÅNGAR"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_total_equity_liab
+msgid "TOTAL EQUITY & LIABILITIES"
+msgstr "SUMMA EGET KAPITAL OCH SKULDER"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_tangible
+msgid "Tangible and Intangible Fixed Assets"
+msgstr "Materiella och immateriella anläggningstillgångar"
+
+#. module: account_dynamic_reports
+#. odoo-python
+#: code:addons/account_dynamic_reports/models/account_report.py:0
+msgid ""
+"Tax tag '%(tag)s' is missing for line '%(line)s' (code %(code)s) in report "
+"'%(report)s'; the value is shown as 0."
+msgstr "Skattekoden '%(tag)s' saknas för raden '%(line)s' (kod %(code)s) i rapporten '%(report)s'; värdet visas som 0."
+
+#. module: account_dynamic_reports
+#. odoo-javascript
+#: code:addons/account_dynamic_reports/static/src/components/account_report/account_dynamic_report.js:0
+msgid ""
+"The date the report is cut off at, and the date whose exchange rate is used "
+"for currency revaluation. Set this to the balance sheet date for a year-end "
+"report."
+msgstr "Det datum rapporten skärs av vid, och det datum vars valutakurs används för omvärderingen. Sätt detta till balansdagen vid ett bokslut."
+
+#. module: account_dynamic_reports
+#. odoo-python
+#: code:addons/account_dynamic_reports/models/account_report.py:0
+msgid "There are %d unposted journal entries up to %s."
+msgstr "Det finns %d ej bokförda verifikationer fram till %s."
+
+#. module: account_dynamic_reports
+#. odoo-javascript
+#: code:addons/account_dynamic_reports/static/src/components/account_report/account_dynamic_report.js:0
+msgid "To"
+msgstr "Till"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_total_current_assets
+msgid "Total Current Assets"
+msgstr "Summa omsättningstillgångar"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_total_current_liab
+msgid "Total Current Liabilities"
+msgstr "Summa kortfristiga skulder"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_total_equity
+msgid "Total Equity"
+msgstr "Summa eget kapital"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_total_fixed_assets
+msgid "Total Fixed Assets"
+msgstr "Summa anläggningstillgångar"
+
+#. module: account_dynamic_reports
+#: model:account.report.line,name:account_dynamic_reports.bs_total_liabilities
+msgid "Total Liabilities"
+msgstr "Summa skulder"
+
+#. module: account_dynamic_reports
+#: model:account.report,name:account_dynamic_reports.currency_revaluation_report
+#: model:ir.actions.client,name:account_dynamic_reports.action_currency_revaluation_report
+#: model:ir.ui.menu,name:account_dynamic_reports.menu_currency_revaluation_report
+msgid "Unrealized Currency Gains/Losses"
+msgstr "Orealiserade kursdifferenser"
+
+#. module: account_dynamic_reports
+#: model:ir.model,name:account_dynamic_reports.model_account_currency_revaluation_report_handler
+msgid "Unrealized Currency Gains/Losses Report Handler"
+msgstr "Hanterare för orealiserade kursdifferenser"
+
+#. module: account_dynamic_reports
+#: model_terms:ir.ui.view,arch_db:account_dynamic_reports.view_account_report_form_dynamic
+msgid "View Report"
+msgstr "Visa rapport"
+
+#. module: account_dynamic_reports
+#: model:ir.model.fields,help:account_dynamic_reports.field_account_report_column__date_scope
+msgid ""
+"Which entries the column counts. \"Period only\" is the default and what VAT"
+" boxes need. \"From the beginning\" includes the opening balance, which is "
+"what a balance-sheet column needs."
+msgstr "Vilka verifikationer kolumnen räknar. \\ är standard och vad momsrutor behöver. \\ inkluderar ingående balans, vilket en balansräkningskolumn behöver."

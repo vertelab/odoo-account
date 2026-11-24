@@ -8,17 +8,27 @@
                 <h2><t t-esc="state.reportName"/></h2>
                 <div class="o_account_dynamic_report_filters">
                     <div class="o_date_filter">
-                        <label>From</label>
-                        <input type="date" t-model="state.dateFrom" t-on-change="onDateChange"/>
-                        <label>To</label>
-                        <input type="date" t-model="state.dateTo" t-on-change="onDateChange"/>
+                        <DateField
+                            id="o_dynamic_report_date_from"
+                            label="this.labels.from"
+                            help="this.labels.fromHelp"
+                            value="state.dateFrom"
+                            onChange.bind="onFromChange"
+                        />
+                        <DateField
+                            id="o_dynamic_report_date_to"
+                            label="this.labels.to"
+                            help="this.labels.toHelp"
+                            value="state.dateTo"
+                            onChange.bind="onToChange"
+                        />
                     </div>
                 </div>
             </div>
 
             <!-- Loading -->
             <div t-if="state.isLoading" class="o_loading">
-                <span>Loading report...</span>
+                <span t-esc="labels.loading"/>
             </div>
 
             <!-- Error -->
@@ -60,7 +70,7 @@
                     </t>
                     <tr t-if="visibleLines.length === 0">
                         <td t-att-colspan="state.columns.length + 1" class="text-center text-muted">
-                            No data available for this period
+                            <t t-esc="labels.noData"/>
                         </td>
                     </tr>
                 </tbody>
