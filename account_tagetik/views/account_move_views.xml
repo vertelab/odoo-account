@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_move_form_inherit_tagetik" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.tagetik</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']/list/field[@name='account_id']" position="after">
+                <field name="tagetik_code" optional="show"/>
+                <field name="tagetik_text" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_move_line_tree_inherit_tagetik" model="ir.ui.view">
+        <field name="name">account.move.line.list.inherit.tagetik</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="account_id" position="after">
+                <field name="tagetik_code" optional="show"/>
+                <field name="tagetik_text" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_filter_inherit_tagetik" model="ir.ui.view">
+        <field name="name">account.move.filter.inherit.tagetik</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <field name="line_ids" position="before">
+                <field name="tagetik_code"/>
+                <field name="tagetik_text"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_move_line_filter_inherit_tagetik" model="ir.ui.view">
+        <field name="name">account.move.line.search.inherit.tagetik</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+        <field name="arch" type="xml">
+            <field name="account_id" position="after">
+                <field name="tagetik_code"/>
+                <field name="tagetik_text"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

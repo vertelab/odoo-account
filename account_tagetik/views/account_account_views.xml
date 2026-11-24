@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_account_form_inherit_tagetik" model="ir.ui.view">
+        <field name="name">account.account.form.inherit.tagetik</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='name']/.." position="after">
+                <div class="col col-md-auto">
+                    <label for="tagetik_code" string="Tagetik Code"/>
+                    <div>
+                        <field name="tagetik_code"
+                               placeholder="e.g. 101000"
+                               class="oe_inline"/>
+                    </div>
+                </div>
+                <div class="col col-md-auto">
+                    <label for="tagetik_text" string="Tagetik Text"/>
+                    <div>
+                        <field name="tagetik_text"
+                               class="oe_inline"/>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_list_inherit_tagetik" model="ir.ui.view">
+        <field name="name">account.account.list.inherit.tagetik</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_list"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="tagetik_code" optional="show"/>
+                <field name="tagetik_text" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_search_inherit_tagetik" model="ir.ui.view">
+        <field name="name">account.account.search.inherit.tagetik</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_search"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="tagetik_code"/>
+                <field name="tagetik_text"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

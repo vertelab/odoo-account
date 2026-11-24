@@ -1,0 +1,35 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_tagetik
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-01 00:00+0000\n"
+"PO-Revision-Date: 2026-01-01 00:00+0000\n"
+"Last-Translator: Vertel Sverige AB\n"
+"Language-Team: \n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_tagetik
+#: model:ir.model.fields,field_description:account_tagetik.field_account_account__tagetik_code
+#: model:ir.model.fields,field_description:account_tagetik.field_account_bank_statement_line__tagetik_code
+#: model:ir.model.fields,field_description:account_tagetik.field_account_move__tagetik_code
+#: model:ir.model.fields,field_description:account_tagetik.field_account_move_line__tagetik_code
+#: model_terms:ir.ui.view,arch_db:account_tagetik.view_account_form_inherit_tagetik
+msgid "Tagetik Code"
+msgstr "Tagetik-kod"
+
+#. module: account_tagetik
+#: model:ir.model.fields,field_description:account_tagetik.field_account_account__tagetik_text
+#: model:ir.model.fields,field_description:account_tagetik.field_account_bank_statement_line__tagetik_text
+#: model:ir.model.fields,field_description:account_tagetik.field_account_move__tagetik_text
+#: model:ir.model.fields,field_description:account_tagetik.field_account_move_line__tagetik_text
+#: model_terms:ir.ui.view,arch_db:account_tagetik.view_account_form_inherit_tagetik
+msgid "Tagetik Text"
+msgstr "Tagetik-text"
