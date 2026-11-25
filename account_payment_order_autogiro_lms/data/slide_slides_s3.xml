@@ -61,6 +61,18 @@
         </div>
     </div>
 </section>
+<section class="s_image_gallery o_not_editable pt32 pb32" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/13-betalorder-bekraftad.png"
+                 alt="Betalordern efter bekräftelse — raderna är låsta och filen kan genereras."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Betalordern efter bekräftelse — raderna är låsta och filen kan genereras.</figcaption>
+        </figure>
+    </div>
+</section>
+
 
 <section class="s_text_block pt32 pb48">
     <div class="container s_allow_columns">
@@ -152,6 +164,18 @@
         </div>
     </div>
 </section>
+<section class="s_image_gallery o_not_editable pt32 pb32" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/18-autogiro-pending-until-reconciliation.png"
+                 alt="Autogiro: fältet Pending Until Reconciliation styr om fakturan väntar på banken."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Autogiro: fältet Pending Until Reconciliation styr om fakturan väntar på banken.</figcaption>
+        </figure>
+    </div>
+</section>
+
 
 <section class="s_text_block pt32 pb48">
     <div class="container s_allow_columns">

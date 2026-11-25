@@ -84,6 +84,18 @@
         </div>
     </div>
 </section>
+<section class="s_image_gallery o_not_editable pt32 pb32" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/04-betalorder-lista.png"
+                 alt="Betalorder-listan: fakturorna ligger på en order med rätt betalmetod."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Betalorder-listan: fakturorna ligger på en order med rätt betalmetod.</figcaption>
+        </figure>
+    </div>
+</section>
+
 
 <section class="s_text_block pt32 pb64">
     <div class="container s_allow_columns">
@@ -157,6 +169,18 @@
         </div>
     </div>
 </section>
+<section class="s_image_gallery o_not_editable pt32 pb32" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/16-pagaende-vs-betald.png"
+                 alt="Efter uppladdning står fakturorna som Pågående — utestående belopp är kvar."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Efter uppladdning står fakturorna som Pågående — utestående belopp är kvar.</figcaption>
+        </figure>
+    </div>
+</section>
+
 
 <section class="s_text_block pt32 pb64">
     <div class="container s_allow_columns">
@@ -237,6 +261,18 @@
         </div>
     </div>
 </section>
+<section class="s_image_gallery o_not_editable pt32 pb32" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/16-pagaende-vs-betald.png"
+                 alt="Statuskolumnen visar Pågående i stället för Betald."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Statuskolumnen visar Pågående i stället för Betald.</figcaption>
+        </figure>
+    </div>
+</section>
+
 
 <section class="s_call_to_action o_cc o_cc5 pt48 pb48">
     <div class="container">

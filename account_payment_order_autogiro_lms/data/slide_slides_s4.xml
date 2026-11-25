@@ -40,6 +40,18 @@
         <p>En <strong>Pågående</strong> faktura har <strong>fortfarande ett utestående belopp</strong>. Banken har inte dragit pengarna än, så skulden finns kvar hos leverantören. Vid bokslut betyder det att du har en avstämning kvar att göra.</p>
     </div>
 </section>
+<section class="s_image_gallery o_not_editable pt32 pb32" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/16-pagaende-vs-betald.png"
+                 alt="Betald och Pågående sida vid sida — bara den ena har noll utestående."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Betald och Pågående sida vid sida — bara den ena har noll utestående.</figcaption>
+        </figure>
+    </div>
+</section>
+
 
 <section class="s_text_block pt32 pb48">
     <div class="container">
@@ -107,6 +119,18 @@
         <p>En Pågående faktura är oftast helt normal — men ibland betyder den att något fastnat. Här är orsakerna i den ordning de brukar förekomma, och vad du gör i varje fall.</p>
     </div>
 </section>
+<section class="s_image_gallery o_not_editable pt32 pb32" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/18b-autogiro-hel.png"
+                 alt="Autogiro-inställningen på betalmetoden — här syns hela fältet."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Autogiro-inställningen på betalmetoden — här syns hela fältet.</figcaption>
+        </figure>
+    </div>
+</section>
+
 
 <section class="s_features pt32 pb48">
     <div class="container">
