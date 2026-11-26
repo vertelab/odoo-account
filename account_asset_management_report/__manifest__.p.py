@@ -1,6 +1,6 @@
 {
     "name": "Account: Asset Management Report",
-    "version": "1.0",
+    "version": "1.0.1",
     "summary": "Depreciation board — pivot on asset lines, with department",
     "category": "Accounting",
     "author": "Vertel AB",
