@@ -60,7 +60,18 @@
             </div>
         </div>
     </div>
+</section><section class="s_image_gallery o_not_editable pt24 pb24" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/11-wizard-med-rader.png"
+                 alt="Wizarden med ifyllda rader — betalningsdatum ligger under memo-fältet."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Wizarden med ifyllda rader — betalningsdatum ligger under memo-fältet.</figcaption>
+        </figure>
+    </div>
 </section>
+
 <section class="s_image_gallery o_not_editable pt32 pb32" data-columns="1">
     <div class="container">
         <figure class="figure text-center">

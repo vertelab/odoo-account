@@ -84,7 +84,72 @@
         </div>
     </div>
 </section>
-<section class="s_image_gallery o_not_editable pt32 pb32" data-columns="1">
+<section class="s_text_block pt24 pb16">
+    <div class="container s_allow_columns">
+        <h3 class="h4-fs">Steg 1 — välj fakturorna</h3>
+        <p>Öppna betalordern och lägg till rader. Wizarden filtrerar fram de fakturor som är klara att betala.</p>
+    </div>
+</section>
+<section class="s_image_gallery o_not_editable pt24 pb24" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/11-wizard-skapa-betalrader.png"
+                 alt="Wizarden där du väljer vilka fakturor som ska läggas på ordern."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Wizarden där du väljer vilka fakturor som ska läggas på ordern.</figcaption>
+        </figure>
+    </div>
+</section>
+<section class="s_text_block pt24 pb16">
+    <div class="container s_allow_columns">
+        <h3 class="h4-fs">Steg 2 — ordern är i utkast</h3>
+        <p>Rader och belopp ligger på plats, men ingen fil finns än.</p>
+    </div>
+</section>
+<section class="s_image_gallery o_not_editable pt24 pb24" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/12-betalorder-utkast.png"
+                 alt="Betalordern i utkast — raderna är på plats men filen är inte genererad."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Betalordern i utkast — raderna är på plats men filen är inte genererad.</figcaption>
+        </figure>
+    </div>
+</section>
+<section class="s_text_block pt24 pb16">
+    <div class="container s_allow_columns">
+        <h3 class="h4-fs">Steg 3 — generera filen</h3>
+        <p>Nu skapas betalfilen. Ordern går från utkast till genererad.</p>
+    </div>
+</section>
+<section class="s_image_gallery o_not_editable pt24 pb24" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/14-betalorder-genererad.png"
+                 alt="Filen är genererad. Nu återstår att ladda upp den i banken."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Filen är genererad. Nu återstår att ladda upp den i banken.</figcaption>
+        </figure>
+    </div>
+</section>
+<section class="s_text_block pt24 pb16">
+    <div class="container s_allow_columns">
+        <h3 class="h4-fs">Steg 4 — ladda upp</h3>
+        <p>Filen skickas till banken. <strong>Här bokförs betalningen</strong> och fakturorna blir Betalda.</p>
+    </div>
+</section>
+
+
+<section class="s_text_block pt32 pb64">
+    <div class="container s_allow_columns">
+        <h2>Vad du ser efter uppladdningen</h2>
+        <p>Fakturorna blir <strong>Betald</strong> direkt, utestående belopp går till noll, och du är klar. Ingen bankavstämning återstår för dessa fakturor.</p>
+        <p>Det här är den enda av de fyra vägarna där du blir klar i ett enda steg — utan att behöva komma tillbaka och stämma av.</p>
+    </div>
+</section><section class="s_image_gallery o_not_editable pt24 pb24" data-columns="1">
     <div class="container">
         <figure class="figure text-center">
             <img src="/account_payment_order_autogiro_lms/static/src/img/04-betalorder-lista.png"
@@ -96,14 +161,6 @@
     </div>
 </section>
 
-
-<section class="s_text_block pt32 pb64">
-    <div class="container s_allow_columns">
-        <h2>Vad du ser efter uppladdningen</h2>
-        <p>Fakturorna blir <strong>Betald</strong> direkt, utestående belopp går till noll, och du är klar. Ingen bankavstämning återstår för dessa fakturor.</p>
-        <p>Det här är den enda av de fyra vägarna där du blir klar i ett enda steg — utan att behöva komma tillbaka och stämma av.</p>
-    </div>
-</section>
 
 <section class="s_call_to_action o_cc o_cc5 pt48 pb48">
     <div class="container">
@@ -260,7 +317,18 @@
             </div>
         </div>
     </div>
+</section><section class="s_image_gallery o_not_editable pt24 pb24" data-columns="1">
+    <div class="container">
+        <figure class="figure text-center">
+            <img src="/account_payment_order_autogiro_lms/static/src/img/05-fakturalista-status.png"
+                 alt="Statuskolumnen visar Pågående i stället för Betald."
+                 class="img img-fluid o_we_custom_image rounded"
+                 data-mimetype="image/png"/>
+            <figcaption class="figure-caption mt-2">Statuskolumnen visar Pågående i stället för Betald.</figcaption>
+        </figure>
+    </div>
 </section>
+
 <section class="s_image_gallery o_not_editable pt32 pb32" data-columns="1">
     <div class="container">
         <figure class="figure text-center">
