@@ -83,4 +83,19 @@
         <field name="parent_id" ref="menu_accounting"/>
     </record>
 
+
+    <!--
+        OCA account_credit_control declares Credit Control under
+        account.menu_finance. Without this it stays under the hidden root
+        and disappears from the UI.
+    -->
+    <record id="account_credit_control.base_credit_control_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="menu_accounting"/>
+    </record>
+
+    <!-- account_enablebanking declares its payment menu under account.menu_finance. -->
+    <record id="account_enablebanking.menu_enable_banking_payment" model="ir.ui.menu">
+        <field name="parent_id" ref="menu_accounting"/>
+    </record>
+
 </odoo>
