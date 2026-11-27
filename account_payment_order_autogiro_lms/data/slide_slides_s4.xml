@@ -12,13 +12,13 @@
         <field name="name">4. Bokslut och felsökning</field>
         <field name="is_category" eval="True"/>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
-        <field name="sequence">130</field>
+        <field name="sequence">180</field>
     </record>
 
     <!-- SLIDE 4.1: Pågående vs Betald i bokslutet -->
     <record id="slide_s4_01" model="slide.slide">
         <field name="name">Pågående vs Betald i bokslutet</field>
-        <field name="sequence">140</field>
+        <field name="sequence">190</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -106,7 +106,7 @@
     <!-- SLIDE 4.2: Felsökning — varför står fakturan kvar som Pågående? -->
     <record id="slide_s4_02" model="slide.slide">
         <field name="name">Felsökning — varför står fakturan kvar som Pågående?</field>
-        <field name="sequence">150</field>
+        <field name="sequence">200</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -185,7 +185,7 @@
     <!-- SLIDE 4.3: Fyra vägar — en översikt (Infographic) -->
     <record id="slide_s4_03" model="slide.slide">
         <field name="name">Hela flödet — de fyra vägarna i en bild</field>
-        <field name="sequence">160</field>
+        <field name="sequence">210</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -197,8 +197,8 @@
 
     <!-- SLIDE 4.4: Quiz — bokslut och felsökning -->
     <record id="slide_s4_04" model="slide.slide">
-        <field name="name">🧪 Testa dina kunskaper — bokslut och felsökning</field>
-        <field name="sequence">170</field>
+        <field name="name">🧪 Frågor — bokslut</field>
+        <field name="sequence">220</field>
         <field name="slide_category">quiz</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>

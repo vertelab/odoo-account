@@ -12,13 +12,13 @@
         <field name="name">3. Manuell betalning — datum och Autogiro</field>
         <field name="is_category" eval="True"/>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
-        <field name="sequence">90</field>
+        <field name="sequence">120</field>
     </record>
 
     <!-- SLIDE 3.1: Väg c — Manuell betalning med datum -->
     <record id="slide_s3_01" model="slide.slide">
         <field name="name">Väg c — Manuell betalning med datum</field>
-        <field name="sequence">100</field>
+        <field name="sequence">130</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -113,7 +113,7 @@
     <!-- SLIDE 3.2: Väg d — Manuell betalning med Pågående-metod -->
     <record id="slide_s3_02" model="slide.slide">
         <field name="name">Väg d — Manuell betalning med Pågående-metod (undantag)</field>
-        <field name="sequence">110</field>
+        <field name="sequence">140</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -203,7 +203,7 @@
     <!-- SLIDE 3.3: Pay-knappen — datum vs Autogiro (Infographic) -->
     <record id="slide_s3_03" model="slide.slide">
         <field name="name">Pay-knappen — datum vs Autogiro</field>
-        <field name="sequence">120</field>
+        <field name="sequence">150</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -216,7 +216,7 @@
     <!-- SLIDE 3.4: Tillståndsdiagram -->
     <record id="slide_s3_04" model="slide.slide">
         <field name="name">Följ fakturan från obetald till betald</field>
-        <field name="sequence">125</field>
+        <field name="sequence">160</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -228,8 +228,8 @@
 
     <!-- SLIDE 3.5: Quiz — manuell betalning -->
     <record id="slide_s3_05" model="slide.slide">
-        <field name="name">🧪 Testa dina kunskaper — manuell betalning</field>
-        <field name="sequence">130</field>
+        <field name="name">🧪 Frågor — manuell betalning</field>
+        <field name="sequence">170</field>
         <field name="slide_category">quiz</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>

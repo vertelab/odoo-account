@@ -12,13 +12,13 @@
         <field name="name">2. Betalorder — vanlig och Autogiro</field>
         <field name="is_category" eval="True"/>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
-        <field name="sequence">50</field>
+        <field name="sequence">60</field>
     </record>
 
     <!-- SLIDE 2.1: Väg a — Betalorder som bokför direkt -->
     <record id="slide_s2_01" model="slide.slide">
         <field name="name">Väg a — Betalorder som bokför direkt</field>
-        <field name="sequence">60</field>
+        <field name="sequence">70</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -122,7 +122,7 @@
     <!-- SLIDE 2.2: Väg b — Betalorder med Autogiro -->
     <record id="slide_s2_02" model="slide.slide">
         <field name="name">Väg b — Betalorder som väntar på banken</field>
-        <field name="sequence">70</field>
+        <field name="sequence">80</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -207,7 +207,7 @@
     <!-- SLIDE 2.3: Samma order, olika utfall (Infographic) -->
     <record id="slide_s2_03" model="slide.slide">
         <field name="name">Samma betalorder — olika utfall</field>
-        <field name="sequence">80</field>
+        <field name="sequence">90</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -220,7 +220,7 @@
     <!-- SLIDE 2.4: Så känner du igen en Pågående faktura -->
     <record id="slide_s2_04" model="slide.slide">
         <field name="name">Så känner du igen en Pågående faktura</field>
-        <field name="sequence">85</field>
+        <field name="sequence">100</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -290,8 +290,8 @@
 
     <!-- SLIDE 2.5: Quiz — betalorder -->
     <record id="slide_s2_05" model="slide.slide">
-        <field name="name">🧪 Testa dina kunskaper — betalorder</field>
-        <field name="sequence">90</field>
+        <field name="name">🧪 Frågor — betalorder</field>
+        <field name="sequence">110</field>
         <field name="slide_category">quiz</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>

@@ -18,15 +18,15 @@
     <!-- SLIDE 1.0: Innan du börjar — förkunskaper -->
     <record id="slide_s1_00" model="slide.slide">
         <field name="name">Innan du börjar — förkunskaper</field>
-        <field name="sequence">5</field>
+        <field name="sequence">10</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
         <field name="is_preview" eval="True"/>
         <field name="completion_time">0.25</field>
         <field name="html_content" type="html">
-<section class="s_cover parallax o_cc o_cc5 pt160 pb160" data-scroll-background-ratio="1">
-    <span class="s_parallax_bg oe_img_bg" style="background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 60%, #3b6ea5 100%);"/>
+<section class="s_cover parallax o_cc o_cc1 pt160 pb160" data-scroll-background-ratio="1">
+    <span class="s_parallax_bg oe_img_bg" style="background-color: #2c5282;"/>
     <div class="container">
         <h1 class="display-4-fs" style="text-align: center;">Innan du börjar</h1>
         <p class="lead" style="text-align: center;">Vem kursen är för, vad du behöver kunna sedan tidigare, och hur du använder den.</p>
@@ -101,7 +101,7 @@
     <!-- SLIDE 1.1: Fyra vägar — fyra olika utfall -->
     <record id="slide_s1_01" model="slide.slide">
         <field name="name">Fyra vägar — fyra olika utfall</field>
-        <field name="sequence">10</field>
+        <field name="sequence">20</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -163,7 +163,7 @@
     <!-- SLIDE 1.2: De fyra vägarna i korthet -->
     <record id="slide_s1_02" model="slide.slide">
         <field name="name">De fyra vägarna i korthet</field>
-        <field name="sequence">20</field>
+        <field name="sequence">30</field>
         <field name="slide_category">article</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -242,7 +242,7 @@
     <!-- SLIDE 1.3: Beslutsguide (Infographic) -->
     <record id="slide_s1_03" model="slide.slide">
         <field name="name">Beslutsguide — vilken väg ska jag välja?</field>
-        <field name="sequence">30</field>
+        <field name="sequence">40</field>
         <field name="slide_category">infographic</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
@@ -254,8 +254,8 @@
 
     <!-- SLIDE 1.4: Quiz — översikt -->
     <record id="slide_s1_04" model="slide.slide">
-        <field name="name">🧪 Testa dina kunskaper — översikt</field>
-        <field name="sequence">40</field>
+        <field name="name">🧪 Frågor — översikt</field>
+        <field name="sequence">50</field>
         <field name="slide_category">quiz</field>
         <field name="channel_id" ref="account_payment_order_autogiro_lms.slide_channel_payment"/>
         <field name="is_published" eval="True"/>
